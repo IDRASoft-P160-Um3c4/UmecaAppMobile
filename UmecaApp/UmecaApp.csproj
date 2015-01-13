@@ -64,6 +64,9 @@
     <Compile Include="com\umeca\entities\reviewer\School.cs" />
     <Compile Include="com\umeca\entities\reviewer\SocialEnvironment.cs" />
     <Compile Include="com\umeca\entities\reviewer\SocialNetwork.cs" />
+    <Compile Include="com\umeca\entities\shared\Case.cs" />
+    <Compile Include="com\umeca\entities\shared\Contact.cs" />
+    <Compile Include="com\umeca\entities\shared\Person.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -81,5 +84,6 @@
     <Folder Include="com\umeca\" />
     <Folder Include="com\umeca\entities\" />
     <Folder Include="com\umeca\entities\reviewer\" />
+    <Folder Include="com\umeca\entities\shared\" />
   </ItemGroup>
 </Project>
