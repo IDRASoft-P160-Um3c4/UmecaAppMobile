@@ -7,7 +7,6 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.IO;
-using Mono.Data.Sqlite;
 using SQLite;
 
 using System.Linq;
