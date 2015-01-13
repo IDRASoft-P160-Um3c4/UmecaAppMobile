@@ -1,0 +1,57 @@
+﻿using System;
+using SQLite;
+
+namespace UmecaApp
+{
+	[Table("perosn_social_netwok")]
+	public class PersonSocialNetwork
+	{
+		public PersonSocialNetwork ()
+		{
+		}
+
+		[PrimaryKey, AutoIncrement, Column("id")]
+		public long Id{ get; set; }
+
+		[Column("name"),MaxLength(150)]
+		public String Name{ get; set; }
+
+		[Column("id_relationship")]
+		public long RelationshipId{ get; set; }
+
+		[Column("age")]
+		public int Age{ get; set; }
+
+		[Column("phone"),MaxLength(200)]
+		public String Phone{ get; set; }
+
+		[Column("address"),MaxLength(500)]
+		public String Address{ get; set; }
+
+		[Column("documentTypeId")]
+		public long DocumentType{ get; set; }
+
+		[Column("specification_document_type"),MaxLength(250)]
+		public String SpecificationDocumentType{ get; set; }
+
+		[Column("id_dependent")]
+		public long DependentId{ get; set; }
+
+		[Column("id_living_with")]
+		public long LivingWithIde{ get; set; }
+
+		[Column("id_social_network")]
+		public long SocialNetworkId{ get; set; }
+	
+		[Column("is_accompaniment")]
+		public Boolean isAccompaniment{ get; set; }
+
+		[Column("specification_relationship"),MaxLength(255)]
+		public String specificationRelationship{ get; set; }
+
+		[Column("block")]
+		public Boolean block{ get; set; }
+
+	}
+}
+

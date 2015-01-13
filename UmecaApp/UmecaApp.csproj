@@ -14,7 +14,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>UmecaApp</AssemblyName>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,11 +42,28 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="SQLite">
+      <HintPath>..\..\..\..\sqlite-net-1.0.8.3\sqlite-net-1.0.8.3\lib\android\SQLite.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Drug.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Imputed.cs" />
+    <Compile Include="com\umeca\entities\reviewer\ImputedHome.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Job.cs" />
+    <Compile Include="com\umeca\entities\reviewer\LeaveCountry.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Meeting.cs" />
+    <Compile Include="com\umeca\entities\reviewer\PersonSocialNetwork.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Reference.cs" />
+    <Compile Include="com\umeca\entities\reviewer\RelActivity.cs" />
+    <Compile Include="com\umeca\entities\reviewer\RelSchedule.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Schedule.cs" />
+    <Compile Include="com\umeca\entities\reviewer\School.cs" />
+    <Compile Include="com\umeca\entities\reviewer\SocialEnvironment.cs" />
+    <Compile Include="com\umeca\entities\reviewer\SocialNetwork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -59,4 +76,10 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="com\" />
+    <Folder Include="com\umeca\" />
+    <Folder Include="com\umeca\entities\" />
+    <Folder Include="com\umeca\entities\reviewer\" />
+  </ItemGroup>
 </Project>
