@@ -11,7 +11,7 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("imputed_home_id"),MaxLength(50)]
 		public String Day{ get; set; }

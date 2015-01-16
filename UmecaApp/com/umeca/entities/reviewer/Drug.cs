@@ -11,13 +11,13 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("name")]
-		public long DrugTypeId{ get; set; }
+		public int DrugTypeId{ get; set; }
 
 		[Column("id_periodicity")]
-		public long PeriodicityId{ get; set; }
+		public int PeriodicityId{ get; set; }
 
 		[Column("quantity"),MaxLength(25)]
 		public String Quantity{ get; set; }
@@ -38,7 +38,7 @@ namespace UmecaApp
 		public String OnsetAge{ get; set; }
 
 		[Column("id_meeting")]
-		public long MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 
 	}
 }

@@ -10,7 +10,7 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("physical_condition"),MaxLength(500)]
 		public String physicalCondition{ get; set; }
@@ -19,7 +19,7 @@ namespace UmecaApp
 		public String comment{ get; set; }
 
 		[Column("id_meeting")]
-		public long MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 	}
 }
 

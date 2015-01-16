@@ -10,13 +10,13 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("activity_id")]
-		public long ActivityId{ get; set; }
+		public int ActivityId{ get; set; }
 
 		[Column("social_environment_id")]
-		public long SocialEnvironmentId{ get; set; }
+		public int SocialEnvironmentId{ get; set; }
 
 		[Column("specification"),MaxLength(255)]
 		public String specification{ get; set; }

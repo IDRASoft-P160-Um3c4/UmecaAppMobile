@@ -12,7 +12,7 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("post"),MaxLength(50)]
 		public String Post{ get; set; }
@@ -45,10 +45,10 @@ namespace UmecaApp
 		public String Address{ get; set; }
 
 		[Column("id_register_type")]
-		public long RegisterTypeId{ get; set; }
+		public int RegisterTypeId{ get; set; }
 
 		[Column("id_meeting")]
-		public long MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 
 		[Column("blcok")]
 		public Boolean block{ get; set; }

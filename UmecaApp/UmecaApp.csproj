@@ -67,6 +67,31 @@
     <Compile Include="com\umeca\entities\shared\Case.cs" />
     <Compile Include="com\umeca\entities\shared\Contact.cs" />
     <Compile Include="com\umeca\entities\shared\Person.cs" />
+    <Compile Include="com\umeca\entities\catalog\AcademicLevel.cs" />
+    <Compile Include="com\umeca\entities\catalog\ActivityCatalog.cs" />
+    <Compile Include="com\umeca\entities\catalog\CrimeCatalog.cs" />
+    <Compile Include="com\umeca\entities\catalog\Degree.cs" />
+    <Compile Include="com\umeca\entities\catalog\DocumentType.cs" />
+    <Compile Include="com\umeca\entities\catalog\DrugType.cs" />
+    <Compile Include="com\umeca\entities\catalog\Election.cs" />
+    <Compile Include="com\umeca\entities\catalog\FieldVerfication.cs" />
+    <Compile Include="com\umeca\entities\catalog\GroupCrime.cs" />
+    <Compile Include="com\umeca\entities\catalog\HearingType.cs" />
+    <Compile Include="com\umeca\entities\catalog\HomeType.cs" />
+    <Compile Include="com\umeca\entities\catalog\ImmigrationDocument.cs" />
+    <Compile Include="com\umeca\entities\catalog\InsertCatalogs.cs" />
+    <Compile Include="com\umeca\entities\catalog\MaritalStatus.cs" />
+    <Compile Include="com\umeca\entities\catalog\Periodicity.cs" />
+    <Compile Include="com\umeca\entities\catalog\RegisterType.cs" />
+    <Compile Include="com\umeca\entities\catalog\Relationship.cs" />
+    <Compile Include="com\umeca\entities\catalog\StatusCase.cs" />
+    <Compile Include="com\umeca\entities\catalog\StatusFieldVerification.cs" />
+    <Compile Include="com\umeca\entities\catalog\StatusMeeting.cs" />
+    <Compile Include="com\umeca\entities\catalog\StatusVerification.cs" />
+    <Compile Include="com\umeca\entities\catalog\address\Country.cs" />
+    <Compile Include="com\umeca\entities\catalog\address\Location.cs" />
+    <Compile Include="com\umeca\entities\catalog\address\State.cs" />
+    <Compile Include="com\umeca\constants\ConstantsDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -85,5 +110,8 @@
     <Folder Include="com\umeca\entities\" />
     <Folder Include="com\umeca\entities\reviewer\" />
     <Folder Include="com\umeca\entities\shared\" />
+    <Folder Include="com\umeca\entities\catalog\" />
+    <Folder Include="com\umeca\entities\catalog\address\" />
+    <Folder Include="com\umeca\constants\" />
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace UmecaApp
 		{
 		}
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("name"),MaxLength(50)]
 		public String Name{ get; set; }
@@ -37,7 +37,7 @@ namespace UmecaApp
 		public int YearsMaritalStatus{ get; set; }
 
 		[Column("id_marital_status")]
-		public long MaritalStatus{ get; set; }
+		public int MaritalStatus{ get; set; }
 
 		[Column("boys")]
 		public int Boys{ get; set; }
@@ -46,7 +46,7 @@ namespace UmecaApp
 		public int DependentBoys{ get; set; }
 
 		[Column("country_id")]
-		public long BirthCountryId{ get; set; }
+		public int BirthCountryId{ get; set; }
 
 		[Column("birth_municipality"),MaxLength(500)]
 		public String BirthMunicipality{ get; set; }
@@ -61,10 +61,10 @@ namespace UmecaApp
 		public String Nickname{ get; set; }
 
 		[Column("location_id")]
-		public long LocationId{ get; set; }
+		public int LocationId{ get; set; }
 
 		[Column("meeting_id")]
-		public long MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 	}
 }
 

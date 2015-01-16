@@ -10,13 +10,13 @@ namespace UmecaApp
 		{
 		}
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("comment"),MaxLength(50)]
 		public String Comment{ get; set; }
 
 		[Column("meeting_id")]
-		public long MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 
 
 	}

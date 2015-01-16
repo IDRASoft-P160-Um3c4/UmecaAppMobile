@@ -12,16 +12,16 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		private long Id{ get; set; }
+		private int Id{ get; set; }
 
 		[Column("reviewer_id")]
-		private long ReviewerId{ get; set; }
+		private int ReviewerId{ get; set; }
 
 		[Column("case_id")]
-		private long CaseId{ get; set; }
+		private int CaseId{ get; set; }
 
 		[Column("status_id")]
-		private long StatusId{ get; set; }
+		private int StatusId{ get; set; }
 
 		[Column("comment_refernce"),MaxLength(500)]
 		private String CommentReference{ get; set; }

@@ -11,13 +11,13 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("name"),MaxLength(150)]
 		public String Name{ get; set; }
 
 		[Column("id_relationship")]
-		public long RelationshipId{ get; set; }
+		public int RelationshipId{ get; set; }
 
 		[Column("age")]
 		public int Age{ get; set; }
@@ -29,19 +29,19 @@ namespace UmecaApp
 		public String Address{ get; set; }
 
 		[Column("documentTypeId")]
-		public long DocumentType{ get; set; }
+		public int DocumentType{ get; set; }
 
 		[Column("specification_document_type"),MaxLength(250)]
 		public String SpecificationDocumentType{ get; set; }
 
 		[Column("id_dependent")]
-		public long DependentId{ get; set; }
+		public int DependentId{ get; set; }
 
 		[Column("id_living_with")]
-		public long LivingWithIde{ get; set; }
+		public int LivingWithIde{ get; set; }
 
 		[Column("id_social_network")]
-		public long SocialNetworkId{ get; set; }
+		public int SocialNetworkId{ get; set; }
 	
 		[Column("is_accompaniment")]
 		public Boolean isAccompaniment{ get; set; }

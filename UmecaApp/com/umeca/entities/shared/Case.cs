@@ -12,7 +12,7 @@ namespace UmecaApp
 		{
 		}
 		[PrimaryKey, AutoIncrement]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("id_folder"),MaxLength(25)]
 		public String IdFolder{ get; set; }
@@ -21,7 +21,7 @@ namespace UmecaApp
 		public String IdMP{ get; set; }
 
 		[Column("status_id")]
-		public long StatusId{ get; set; }
+		public int StatusId{ get; set; }
 
 		[Column("date_create")]
 		public DateTime DateCreate{ get; set; }

@@ -12,7 +12,7 @@ namespace UmecaApp
 
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("name"),MaxLength(150)]
 		private String FullName{ get; set; }
@@ -21,7 +21,7 @@ namespace UmecaApp
 		private int Age{ get; set; }
 
 		[Column("id_relationship")]
-		private long RelationshipId{ get; set; }
+		private int RelationshipId{ get; set; }
 
 		[Column("address"),MaxLength(250)]
 		private String Address{ get; set; }
@@ -33,10 +33,10 @@ namespace UmecaApp
 		private String SpecificationDocumentType{ get; set; }
 
 		[Column("id_document_type")]
-		private long DocumentTypeId{ get; set; }
+		private int DocumentTypeId{ get; set; }
 
 		[Column("meeting_id")]
-		private long MeetingId{ get; set; }
+		private int MeetingId{ get; set; }
 
 		[Column("is_accompaniment")]
 		private Boolean IsAccompaniment{ get; set; }

@@ -11,7 +11,7 @@ namespace UmecaApp
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id")]
-		public long Id{ get; set; }
+		public int Id{ get; set; }
 
 		[Column("name"),MaxLength(200)]
 		public String Name{ get; set; }
@@ -23,7 +23,7 @@ namespace UmecaApp
 		public String Address{ get; set; }
 
 		[Column("id_grade")]
-		public long DegreeId{ get; set; }
+		public int DegreeId{ get; set; }
 
 		[Column("specification"),MaxLength(300)]
 		public String Specification{ get; set; }
@@ -32,7 +32,7 @@ namespace UmecaApp
 		public Boolean block{ get; set; }
 
 		[Column("id_meeting")]
-		public long MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 
 	}
 }
