@@ -1,0 +1,44 @@
+﻿@model UmecaApp.Models.PageModel
+@inherits PortableRazor.ViewBase
+<!DOCTYPE html>
+<html>
+<head>
+   <title>UMECA</title>
+</head>
+<body>
+
+
+                <div class="header">
+                    <h2 class="modal-title element-center">@Model.Title</h2>
+                </div>
+                <div class="modal-body">
+                    <h4 class="element-center">Ingrese los datos para acceder al portal</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-3">&nbsp;</div>
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input name="j_password" class="form-control ng-valid ng-dirty" id="j_password" type="password" placeholder="Contraseña" ng-model="m.password" data-val-required="No ha ingresado la contraseña" data-val="true">
+                            </div>
+                            <div class="input-group error-font">
+                                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Password"></span>
+                            </div>
+                        </div>
+					<div class="col-xs-3">&nbsp;</div>
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                <a href="@Url.Action("Index","Meeting")">
+                    <button class="btn btn-default btn-primary btn-sm" >Ingresar</button>
+                </a>
+                </div>
+<br />
+<a href="@Url.Action("Index","Meeting")">Meetings</a>
+<br />
+<a href="@Url.Action("MeetingEditNew","Meeting")">New Meeting</a>
+<br />
+<a href="@Url.Action("MeetingDatosPersonales","Meeting")?idCase=1">Datos Personales</a>
+</body>
+</html>

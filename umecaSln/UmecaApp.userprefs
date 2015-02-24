@@ -1,0 +1,22 @@
+﻿<Properties StartupItem="UmecaApp\Umeca.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.7_WSVGA_Tablet" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Axel\UmecaApp\UmecaApp\Models\RouteHandler.cs">
+    <Files>
+      <File FileName="UmecaApp\Views\NewMeeting.cshtml" Line="1" Column="1" />
+      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="29" Column="29" />
+      <File FileName="UmecaApp\Views\MeetingList.cshtml" Line="14" Column="14" />
+      <File FileName="UmecaApp\Views\Shared\headUmGrid.cshtml" Line="8" Column="8" />
+      <File FileName="UmecaApp\Views\Shared\headUm.cshtml" Line="8" Column="8" />
+      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="50" Column="50" />
+      <File FileName="UmecaApp\Models\reviewer\MeetingDatosPersonalesDto.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\com\umeca\entities\shared\Case.cs" Line="29" Column="29" />
+      <File FileName="UmecaApp\com\umeca\entities\reviewer\Imputed.cs" Line="19" Column="19" />
+      <File FileName="c:\Axel\UmecaApp\UmecaApp\Models\RouteHandler.cs" Line="4" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Umeca MonoForAntroid.PreferredDevice="Android TV (720p)" AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredTheme="Theme" />
+</Properties>
