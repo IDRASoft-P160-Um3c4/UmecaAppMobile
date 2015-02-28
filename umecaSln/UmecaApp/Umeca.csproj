@@ -144,6 +144,8 @@
       <DependentUpon>MeetingDatosPersonales.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Models\reviewer\MeetingDatosPersonalesDto.cs" />
+    <Compile Include="Models\Shared\CountryDto.cs" />
+    <Compile Include="Controllers\CatalogServiceController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

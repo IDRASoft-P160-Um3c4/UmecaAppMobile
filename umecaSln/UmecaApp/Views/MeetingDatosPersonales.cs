@@ -35,57 +35,32 @@ public override void Execute()
 
 #line 3 "MeetingDatosPersonales.cshtml"
   
-	Layout = "UmecaApp.headUm";
+Layout = "UmecaApp.headUm";
 
 
 #line default
 #line hidden
-WriteLiteral(@"
-      <script>
-    		
-    	app.controller('MeettingDatosPersonalesController', function($scope, $http){
-			$scope.m = {};
-			$scope.readOnly = true;
-			$scope.listMsgError = [];
-			$scope.listMsgError['personalData'] = false;
-			$scope.listMsgError['imputedHome'] = true;
-			$scope.listMsgError['socialNetwork'] = false;
-			$scope.listMsgError['reference'] = false;
-			$scope.listMsgError['job'] = false;
-			$scope.listMsgError['school'] = false;
-			$scope.listMsgError['drug'] = false;
-			$scope.listMsgError['leavingCountry'] = false;
-
-			$scope.gen = {};
-
-			$scope.m.imputed = {};
-
-			$scope.save = function(){
-				$scope.Wait = true;
-				//todos los key del json deben ser igual al modelo cs
-				if($(""#frmSubmitValuesMeeting"").valid()==false){
-					$scope.Wait = false;
-					return false;
-				}
-				var jsonData = JSON.stringify($scope.m);
-				window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
-				$scope.Wait = false;
-			};
-
-			$scope.cancel = function(){
-				$scope.saving = false;
-				//todos los key del json deben ser igual al modelo cs
-				window.location.replace('hybrid:Meeting/Index');
-			};
-
-			$scope.showMessageError = function(indicator){
-				alert(indicator);
-			};
-
-		});
-
-    </script>
-<div");
+WriteLiteral("\r\n<script>\r\n\r\n    app.controller(\'MeettingDatosPersonalesController\', function($s" +
+"cope, $http, $timeout){\r\n        $scope.m = {};\r\n        $scope.readOnly = true;" +
+"\r\n        $scope.listMsgError = [];\r\n        $scope.listMsgError[\'personalData\']" +
+" = false;\r\n        $scope.listMsgError[\'imputedHome\'] = true;\r\n        $scope.li" +
+"stMsgError[\'socialNetwork\'] = false;\r\n        $scope.listMsgError[\'reference\'] =" +
+" false;\r\n        $scope.listMsgError[\'job\'] = false;\r\n        $scope.listMsgErro" +
+"r[\'school\'] = false;\r\n        $scope.listMsgError[\'drug\'] = false;\r\n        $sco" +
+"pe.listMsgError[\'leavingCountry\'] = false;\r\n\r\n        $scope.gen = {};\r\n\r\n      " +
+"  $scope.listCountry = [];\r\n\r\n        $scope.save = function(){\r\n            $sc" +
+"ope.Wait = true;\r\n//todos los key del json deben ser igual al modelo cs\r\nif($(\"#" +
+"frmSubmitValuesMeeting\").valid()==false){\r\n    $scope.Wait = false;\r\n    return " +
+"false;\r\n}\r\nvar jsonData = JSON.stringify($scope.m);\r\nwindow.location.replace(\'hy" +
+"brid:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n$scope.Wait = " +
+"false;\r\n};\r\n\r\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//todos l" +
+"os key del json deben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Me" +
+"eting/Index\');\r\n};\r\n\r\n$scope.showMessageError = function(indicator){\r\n    alert(" +
+"indicator);\r\n};\r\n\r\n$scope.tuFunk = function(){\r\n    var js = JSON.parse($(\"#hdnJ" +
+"sonMtng\").val());\r\n    $scope.m = js;\r\n    alert(\"m valu>>\"+JSON.stringify($scop" +
+"e.m));\r\n};\r\n\r\n$scope.showState = function(){\r\n    alert(\"m valu>>\"+JSON.stringif" +
+"y($scope.m));\r\n    alert(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\r\n};\r\n\r\n" +
+"$timeout(function () {\r\n    $scope.tuFunk();\r\n}, 0);\r\n\r\n});\r\n\r\n</script>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -93,7 +68,36 @@ WriteLiteral(" ng-app=\"umecaMobile\"");
 
 WriteLiteral(" ng-controller=\"MeettingDatosPersonalesController\"");
 
-WriteLiteral(">\r\n\r\n    <!-- EVAQLUATION HEADER  -->\r\n\r\n    <div");
+WriteLiteral(">\r\n\r\n    <input");
+
+WriteLiteral(" id=\"hdnJsonMtng\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 68 "MeetingDatosPersonales.cshtml"
+          , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(" name=\"jsonString\"");
+
+WriteLiteral(" >\r\n<!--<div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" ng-show=\"working\"");
+
+WriteLiteral(">\r\n    <div>\r\n        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"\"");
+
+WriteLiteral(" />\r\n    </div>\r\n</div>-->\r\n    <!-- EVAQLUATION HEADER  -->\r\n\r\n    <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -106,211 +110,291 @@ WriteLiteral("><i");
 WriteLiteral(" class=\"icon-comments-alt \"");
 
 WriteLiteral("></i>&nbsp;&nbsp;Entrevista de evaluaci&oacute;n\r\n            de riesgos\r\n       " +
-"     procesales</h2>\r\n    </div>\r\n    <br/>\r\n\r\n    <div");
+"     procesales</h2>\r\n        </div>\r\n        <br/>\r\n\r\n        <div");
 
 WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-3\"");
-
-WriteLiteral(">\r\n            <h3");
-
-WriteLiteral(" class=\"header smaller lighter blue\"");
-
-WriteLiteral(">\r\n                <small>Carpeta de investigaci&oacute;n:</small>\r\n             " +
-"   <!--&nbsp;${m.caseDetention.idFolder}-->\r\n                carpet\r\n           " +
-" </h3>\r\n        </div>\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-8\"");
-
-WriteLiteral(">\r\n             <!--ng-init=\"i.name=\'${m.imputed.name}\'; i.lastNameP=\'${m.imputed" +
-".lastNameP}\'; i.lastNameM =\'${m.imputed.lastNameM}\';\"-->\r\n            <h3");
-
-WriteLiteral(" class=\"header smaller lighter blue\"");
-
-WriteLiteral(">\r\n                <small>Nombre del imputado:</small>\r\n                <!--&nbsp" +
-";&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->\r\n            " +
-"    fulname\r\n            </h3>\r\n        </div>\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-1\"");
-
-WriteLiteral(">\r\n            <h3");
-
-WriteLiteral(" class=\"header smaller lighter blue\"");
-
-WriteLiteral(">\r\n                <small>Edad:</small>\r\n                <!--&nbsp;${age}-->\r\n   " +
-"             legal age\r\n            </h3>\r\n        </div>\r\n    </div>\r\n    <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-4\"");
-
-WriteLiteral(">\r\n            <h3");
-
-WriteLiteral(" class=\"header smaller lighter blue\"");
-
-WriteLiteral(">\r\n                <small>Inicio:</small>\r\n                <!--&nbsp;${tStart}-->" +
-"\r\n                fhInicio\r\n            </h3>\r\n        </div>\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-4\"");
-
-WriteLiteral(">\r\n            <h3");
-
-WriteLiteral(" class=\"header smaller lighter blue\"");
-
-WriteLiteral(">\r\n                <small>Fin:</small>\r\n                <!--&nbsp;${tEnd}-->\r\n   " +
-"             fchFin\r\n            </h3>\r\n        </div>\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-4\"");
-
-WriteLiteral(">\r\n            <h3");
-
-WriteLiteral(" class=\"header smaller lighter blue\"");
-
-WriteLiteral(">\r\n                <small>Evaluador:</small>\r\n                <!--&nbsp;${reviewe" +
-"rFullname}-->\r\n                reviewer name\r\n            </h3>\r\n        </div>\r" +
-"\n    </div>\r\n    <!-- END OF EVAQLUATION HEADER  -->\r\n\r\n\r\n\r\n    <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"col-sm-12\"");
 
 WriteLiteral(">\r\n            <div");
 
+WriteLiteral(" class=\"col-sm-3\"");
+
+WriteLiteral(">\r\n                <h3");
+
+WriteLiteral(" class=\"header smaller lighter blue\"");
+
+WriteLiteral(">\r\n                    <small>Carpeta de investigaci&oacute;n:</small>\r\n         " +
+"           <!--&nbsp;${m.caseDetention.idFolder}-->\r\n");
+
+WriteLiteral("                    ");
+
+
+#line 90 "MeetingDatosPersonales.cshtml"
+               Write(Model.idFolder);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                </h3>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-sm-8\"");
+
+WriteLiteral(">\r\n                <!--ng-init=\"i.name=\'${m.imputed.name}\'; i.lastNameP=\'${m.impu" +
+"ted.lastNameP}\'; i.lastNameM =\'${m.imputed.lastNameM}\';\"-->\r\n                <h3" +
+"");
+
+WriteLiteral(" class=\"header smaller lighter blue\"");
+
+WriteLiteral(">\r\n                    <small>Nombre del imputado:</small>\r\n                    <" +
+"!--&nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->\r\n    " +
+"                &nbsp;&nbsp;");
+
+
+#line 98 "MeetingDatosPersonales.cshtml"
+                           Write(Model.Name);
+
+
+#line default
+#line hidden
+WriteLiteral("  &nbsp; ");
+
+
+#line 98 "MeetingDatosPersonales.cshtml"
+                                               Write(Model.LastNameP);
+
+
+#line default
+#line hidden
+WriteLiteral(" &nbsp; ");
+
+
+#line 98 "MeetingDatosPersonales.cshtml"
+                                                                       Write(Model.LastNameM);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                </h3>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-sm-1\"");
+
+WriteLiteral(">\r\n                <h3");
+
+WriteLiteral(" class=\"header smaller lighter blue\"");
+
+WriteLiteral(">\r\n                    <small>Edad:</small>\r\n                    <!--&nbsp;${age}" +
+"-->\r\n");
+
+WriteLiteral("                    ");
+
+
+#line 105 "MeetingDatosPersonales.cshtml"
+               Write(Model.ageString);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                </h3>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-sm-4\"");
+
+WriteLiteral(">\r\n                <h3");
+
+WriteLiteral(" class=\"header smaller lighter blue\"");
+
+WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n                    <!--&nbsp;${tS" +
+"tart}-->\r\n");
+
+WriteLiteral("                    ");
+
+
+#line 114 "MeetingDatosPersonales.cshtml"
+               Write(Model.DateCreate);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                </h3>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-sm-4\"");
+
+WriteLiteral(">\r\n                <h3");
+
+WriteLiteral(" class=\"header smaller lighter blue\"");
+
+WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                    <!--&nbsp;${tEnd}" +
+"-->\r\n");
+
+WriteLiteral("                    ");
+
+
+#line 121 "MeetingDatosPersonales.cshtml"
+               Write(Model.DateTerminate);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                </h3>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-sm-4\"");
+
+WriteLiteral(">\r\n                <h3");
+
+WriteLiteral(" class=\"header smaller lighter blue\"");
+
+WriteLiteral(@">
+                    <small>Evaluador:</small>
+                    <!--&nbsp;${reviewerFullname}-->
+                    Loged user full name
+                </h3>
+            </div>
+        </div>
+        <!-- END OF EVAQLUATION HEADER  -->
+
+
+        <!-- LATERAL PAGER MENU -->
+        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-sm-12\"");
+
+WriteLiteral(">\r\n                <div");
+
 WriteLiteral(" class=\"tabbable tabs-left\"");
 
-WriteLiteral(">\r\n                <ul");
+WriteLiteral(">\r\n                    <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
 
 WriteLiteral(" id=\"tabMeeting\"");
 
-WriteLiteral(">\r\n                    <li");
+WriteLiteral(">\r\n                        <li");
 
 WriteLiteral(" class=\"active\"");
 
 WriteLiteral(" id=\"liPersonalData\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
 WriteLiteral(" href=\"#personalData\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"purple glyphicon glyphicon-user bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Datos personales\r\n                    " +
-"                <br/>\r\n\r\n                                    <div");
+WriteLiteral("></i>\r\n                                        Datos personales\r\n                " +
+"                        <br/>\r\n\r\n                                        <div");
 
 WriteLiteral(" class=\"col-xs-offset-3\"");
 
-WriteLiteral(">y entorno social</div>\r\n                                </div>\r\n                " +
-"                <div");
+WriteLiteral(">y entorno social</div>\r\n                                    </div>\r\n            " +
+"                        <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'personalData\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'pers" +
-"onalData\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'per" +
+"sonalData\');\"");
 
 WriteLiteral(@"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
 
-                    <li");
+                        <li");
 
 WriteLiteral(" id=\"liImputedHome\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
 WriteLiteral(" href=\"#address\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"green  icon-home  bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Domicilios <br/>\r\n                    " +
-"                <label");
+WriteLiteral("></i>\r\n                                        Domicilios <br/>\r\n                " +
+"                        <label");
 
 WriteLiteral(" class=\"info-example\"");
 
-WriteLiteral(">De los &uacute;ltimos 5 a&ntilde;os</label>\r\n                                </d" +
-"iv>\r\n                                <div");
+WriteLiteral(">De los &uacute;ltimos 5 a&ntilde;os</label>\r\n                                   " +
+" </div>\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'imputedHome\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'impu" +
-"tedHome\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'imp" +
+"utedHome\');\"");
 
 WriteLiteral(@"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
 
-                    <li");
+                        <li");
 
 WriteLiteral(" id=\"liSocialNetwork\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
@@ -318,53 +402,57 @@ WriteLiteral(" href=\"#socialNetwork\"");
 
 WriteLiteral(" style=\"z-index: 0;\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"blue icon-group bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Red social <br/>\r\n                    " +
-"                <label");
+WriteLiteral("></i>\r\n                                        Red social <br/>\r\n                " +
+"                        <label");
 
 WriteLiteral(" class=\"info-example\"");
 
-WriteLiteral(">Personas con las que vive</label>\r\n                                </div>\r\n     " +
-"                           <div");
+WriteLiteral(">Personas con las que vive</label>\r\n                                    </div>\r\n " +
+"                                   <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'socialNetwork\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'soci" +
-"alNetwork\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'soc" +
+"ialNetwork\');\"");
 
-WriteLiteral("></i>\r\n                                        </div>\r\n                          " +
-"          </div>\r\n                                </div>\r\n                      " +
-"      </div>\r\n                        </a>\r\n                    </li>\r\n         " +
-"           <li");
+WriteLiteral(@"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li");
 
 WriteLiteral(" id=\"liReference\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
@@ -372,53 +460,57 @@ WriteLiteral(" href=\"#personalReferences\"");
 
 WriteLiteral(" style=\"z-index: 1;\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"red icon-list bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Referencias personales <br/>\r\n        " +
-"                            <label");
+WriteLiteral("></i>\r\n                                        Referencias personales <br/>\r\n    " +
+"                                    <label");
 
 WriteLiteral(" class=\"info-example\"");
 
-WriteLiteral(">Personas con las que no vive</label>\r\n                                </div>\r\n  " +
-"                              <div");
+WriteLiteral(">Personas con las que no vive</label>\r\n                                    </div>" +
+"\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'reference\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'refe" +
-"rence\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'ref" +
+"erence\');\"");
 
-WriteLiteral("></i>\r\n                                        </div>\r\n                          " +
-"          </div>\r\n                                </div>\r\n                      " +
-"      </div>\r\n                        </a>\r\n                    </li>\r\n         " +
-"           <li");
+WriteLiteral(@"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li");
 
 WriteLiteral(" id=\"liJob\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
@@ -426,53 +518,57 @@ WriteLiteral(" href=\"#jobHistory\"");
 
 WriteLiteral(" style=\"z-index: 0;\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"pink icon-briefcase  bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Historia laboral<br/>\r\n               " +
-"                     <label");
+WriteLiteral("></i>\r\n                                        Historia laboral<br/>\r\n           " +
+"                             <label");
 
 WriteLiteral(" class=\"info-example\"");
 
-WriteLiteral(">&Uacute;ltimos 3-5 empleos</label>\r\n                                </div>\r\n    " +
-"                            <div");
+WriteLiteral(">&Uacute;ltimos 3-5 empleos</label>\r\n                                    </div>\r\n" +
+"                                    <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'job\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'job\'" +
-");\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'job" +
+"\');\"");
 
-WriteLiteral("></i>\r\n                                        </div>\r\n                          " +
-"          </div>\r\n                                </div>\r\n                      " +
-"      </div>\r\n                        </a>\r\n                    </li>\r\n         " +
-"           <li");
+WriteLiteral(@"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li");
 
 WriteLiteral(" id=\"liSchool\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
@@ -480,48 +576,52 @@ WriteLiteral(" href=\"#school\"");
 
 WriteLiteral(" style=\"z-index: 1;\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"orange icon-book  bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Historia escolar\r\n                    " +
-"            </div>\r\n                                <div");
+WriteLiteral("></i>\r\n                                        Historia escolar\r\n                " +
+"                    </div>\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'school\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'scho" +
-"ol\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'sch" +
+"ool\');\"");
 
-WriteLiteral("></i>\r\n                                        </div>\r\n                          " +
-"          </div>\r\n                                </div>\r\n                      " +
-"      </div>\r\n                        </a>\r\n                    </li>\r\n         " +
-"           <li");
+WriteLiteral(@"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li");
 
 WriteLiteral(" id=\"liDrug\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
@@ -529,48 +629,52 @@ WriteLiteral(" href=\"#drugsSection\"");
 
 WriteLiteral(" style=\"z-index: 0;\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"green icon-warning-sign  bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Consumo de sustancias\r\n               " +
-"                 </div>\r\n                                <div");
+WriteLiteral("></i>\r\n                                        Consumo de sustancias\r\n           " +
+"                         </div>\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'drug\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'drug" +
-"\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'dru" +
+"g\');\"");
 
-WriteLiteral("></i>\r\n                                        </div>\r\n                          " +
-"          </div>\r\n                                </div>\r\n                      " +
-"      </div>\r\n                        </a>\r\n                    </li>\r\n         " +
-"           <li");
+WriteLiteral(@"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li");
 
 WriteLiteral(" id=\"liLeaveCountry\"");
 
-WriteLiteral(">\r\n                        <a");
+WriteLiteral(">\r\n                            <a");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
@@ -578,84 +682,88 @@ WriteLiteral(" href=\"#leaveCountry\"");
 
 WriteLiteral(" style=\"z-index: 0;\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-10\"");
 
-WriteLiteral(">\r\n                                    <i");
+WriteLiteral(">\r\n                                        <i");
 
 WriteLiteral(" class=\"blue icon-globe  bigger-200\"");
 
-WriteLiteral("></i>\r\n                                    Facilidad de\r\n                        " +
-"            <br/>\r\n\r\n                                    <div");
+WriteLiteral("></i>\r\n                                        Facilidad de\r\n                    " +
+"                    <br/>\r\n\r\n                                        <div");
 
 WriteLiteral(" class=\"col-xs-offset-3\"");
 
-WriteLiteral(">abandonar el pa&iacute;s</div>\r\n                                </div>\r\n        " +
-"                        <div");
+WriteLiteral(">abandonar el pa&iacute;s</div>\r\n                                    </div>\r\n    " +
+"                                <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"listMsgError[\'leavingCountry\']\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"tools\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"inline position-relative\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\" icon-exclamation-sign red  icon-only bigger-120\"");
 
-WriteLiteral("\r\n                                               ng-click=\"showMessageError(\'leav" +
-"ingCountry\');\"");
+WriteLiteral("\r\n                                                ng-click=\"showMessageError(\'lea" +
+"vingCountry\');\"");
 
 WriteLiteral(@"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                            </a>
+                        </li>
+                    </ul>
 
-                <div");
+                    <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
-WriteLiteral(">\r\n\r\n\r\n\r\n\r\n\r\n<div");
+WriteLiteral(">\r\n\r\n                        <!-- END LATERAL PAGER MENU -->\r\n\r\n\r\n               " +
+"         <!-- CONTENT PAGE 1 Lateral pager -->\r\n                        <div");
 
 WriteLiteral(" id=\"personalData\"");
 
 WriteLiteral(" class=\"tab-pane in active\"");
 
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/perso" +
-"nal/index.jsp\" -->\r\n\r\n\r\n    <div");
+WriteLiteral("><!--Begin of Datos Personales-->\r\n                            <!-- include file=" +
+"\"/WEB-INF/jsp/reviewer/meeting/personal/index.jsp\" -->\r\n\r\n                      " +
+"      <div");
 
 WriteLiteral(" class=\"col-xs-10 element-center col-xs-offset-1\"");
 
-WriteLiteral(">\r\n        <h2><i");
+WriteLiteral(">\r\n                                <h2><i");
 
 WriteLiteral(" class=\"purple glyphicon glyphicon-user bigger-100\"");
 
-WriteLiteral("></i> &nbsp;Datos personales y entorno social</h2>\r\n        <div");
+WriteLiteral("></i> &nbsp;Datos personales y entorno social</h2>\r\n                             " +
+"   <div");
 
 WriteLiteral(" ng-show=\"msgExito\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n          <span");
+WriteLiteral(">\r\n                                    <span");
 
 WriteLiteral(" ng-bind-html=\"msgExito\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n        <form");
+WriteLiteral("></span>\r\n                                </div>\r\n                               " +
+" <form");
 
 WriteLiteral(" id=\"FormPersonalData\"");
 
@@ -663,96 +771,114 @@ WriteLiteral(" name=\"FormPersonalData\"");
 
 WriteLiteral(" ng-submit=\"submit(\'#FormPersonalData\')\"");
 
-WriteLiteral("\r\n              class=\"form-horizontal\"");
+WriteLiteral("\r\n                                class=\"form-horizontal\"");
 
-WriteLiteral("\r\n              role=\"form\"");
+WriteLiteral("\r\n                                role=\"form\"");
 
-WriteLiteral(">\r\n        <input");
+WriteLiteral(">\r\n                                <input");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(" value=\"${m.caseDetention.id}\"");
+WriteAttribute ("value", " value=\"", "\""
 
+#line 315 "MeetingDatosPersonales.cshtml"
+                     , Tuple.Create<string,object,bool> ("", Model.idFolder
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(" name=\"caseDetention.id\"");
 
-WriteLiteral(">\r\n\r\n           <div");
+WriteLiteral(">\r\n\r\n                                <div");
 
 WriteLiteral(" class=\"row element-left\"");
 
 WriteLiteral("  ng-show=\"readOnly == false\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n\r\n        &nbsp;&nbsp;&nbsp;&nbsp;\r\n        <b>  Establecer toda la informaci&" +
-"oacute;n de Datos personales y entorno social\r\n            con:</b>\r\n    </div>\r" +
-"\n    <div");
+WriteLiteral(@">
+
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <b>  Establecer toda la informaci&oacute;n de Datos personales y entorno social
+                                            con:</b>
+                                        </div>
+                                        <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1 text-info\"");
 
 WriteLiteral("  style=\"padding-top: 8px;\"");
 
-WriteLiteral(">\r\n        <i");
+WriteLiteral(">\r\n                                            <i");
 
 WriteLiteral(" class=\"purple glyphicon glyphicon-user bigger-160\"");
 
-WriteLiteral("\r\n           ng-click=\"showChoicesSection(1,undefined,1,\'Datos personales<br/>  y" +
-" entorno social\')\"");
+WriteLiteral("\r\n                                            ng-click=\"showChoicesSection(1,unde" +
+"fined,1,\'Datos personales<br/>  y entorno social\')\"");
 
 WriteLiteral("  style=\"cursor: pointer;\"");
 
-WriteLiteral("></i>\r\n        &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imp" +
-"utado.\r\n    </div>\r\n    <div");
+WriteLiteral("></i>\r\n                                            &nbsp;&nbsp;&nbsp;Informaci&oa" +
+"cute;n que proporcion&oacute; el imputado.\r\n                                    " +
+"    </div>\r\n                                        <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1 text-info\"");
 
 WriteLiteral(" style=\"padding-top: 8px;\"");
 
-WriteLiteral(">\r\n        <i");
+WriteLiteral(">\r\n                                            <i");
 
 WriteLiteral(" class=\"blue icon-question-sign  icon-only bigger-160\"");
 
 WriteLiteral(" style=\"cursor: pointer;\"");
 
-WriteLiteral("\r\n           ng-click=\"showChoicesSection(1,undefined,-1,\'Datos personales<br/> y" +
-" entorno social\')\"");
+WriteLiteral("\r\n                                            ng-click=\"showChoicesSection(1,unde" +
+"fined,-1,\'Datos personales<br/> y entorno social\')\"");
 
-WriteLiteral("></i>\r\n        &nbsp;&nbsp;&nbsp;No se pudo verificar\r\n    </div>\r\n</div>\r\n<div");
+WriteLiteral("></i>\r\n                                            &nbsp;&nbsp;&nbsp;No se pudo v" +
+"erificar\r\n                                        </div>\r\n                      " +
+"              </div>\r\n                                    <div");
 
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral("  ng-show=\"readOnly == false\"");
 
-WriteLiteral(">\r\n    <div col-xs-12>\r\n        <div");
+WriteLiteral(">\r\n                                        <div col-xs-12>\r\n                     " +
+"                       <div");
 
 WriteLiteral(" class=\"hr hr-8\"");
 
-WriteLiteral("></div>\r\n    </div>\r\n</div>\r\n<div");
+WriteLiteral("></div>\r\n                                        </div>\r\n                        " +
+"            </div>\r\n                                    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n<br/>\r\n<div");
+WriteLiteral(">\r\n                                        <br/>\r\n                               " +
+"         <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"col-xs-4\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-5  element-left\"");
 
-WriteLiteral(">\r\n            <i");
+WriteLiteral(">\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifEqual(\'imputed.name\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.name\')\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -760,77 +886,81 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n               ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.name\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifNotKnow(\'imputed.name\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.name\')\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
-WriteLiteral("\r\n               ng-click=\"showChoices(\'imputed.name\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"showChoices(\'impu" +
+"ted.name\')\"");
 
-WriteLiteral("\r\n               ng-show=\"selectSource\"");
+WriteLiteral("\r\n                                                    ng-show=\"selectSource\"");
 
-WriteLiteral("></i>\r\n            Nombre:\r\n        </div>\r\n        <div");
+WriteLiteral("></i>\r\n                                                    Nombre:\r\n             " +
+"                                   </div>\r\n                                     " +
+"           <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <input");
+WriteLiteral(">\r\n                                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" ng-model=\"i.name\"");
+WriteLiteral(" ng-model=\"m.Name\"");
 
-WriteLiteral(" value=\"{{i.name}}\"");
-
-WriteLiteral("\r\n                   name=\"imputed.name\"");
+WriteLiteral(" \r\n                                                    name=\"imputed.name\"");
 
 WriteLiteral(" data-val-required=\"El nombre es un campo requerido\"");
 
-WriteLiteral("\r\n                   data-val-length=\"Debe tener m&iacute;nimo 2 y m&aacute;ximo " +
-"50 caracteres\"");
+WriteLiteral("\r\n                                                    data-val-length=\"Debe tener" +
+" m&iacute;nimo 2 y m&aacute;ximo 50 caracteres\"");
 
-WriteLiteral("\r\n                   data-val-length-max=\"50\"");
+WriteLiteral("\r\n                                                    data-val-length-max=\"50\"");
 
 WriteLiteral(" data-val-length-min=\"2\"");
 
-WriteLiteral("/>\r\n                                                 <span");
+WriteLiteral("/>\r\n                                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.name\"");
 
-WriteLiteral("\r\n                                                       data-valmsg-replace=\"tru" +
-"e\"");
+WriteLiteral("\r\n                                                    data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral("></span>\r\n                                                </div>\r\n               " +
+"                             </div>\r\n                                           " +
+" <div");
 
 WriteLiteral(" class=\"col-xs-4\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-5  element-left\"");
 
-WriteLiteral(">\r\n            <i");
+WriteLiteral(">\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifEqual(\'imputed.lastNameP\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.lastNameP\')\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -838,83 +968,88 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n               ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.lastNameP\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifNotKnow(\'imputed.lastNameP\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.lastNameP\')\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
-WriteLiteral("\r\n               ng-click=\"showChoices(\'imputed.lastNameP\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"showChoices(\'impu" +
+"ted.lastNameP\')\"");
 
-WriteLiteral("\r\n               ng-show=\"selectSource\"");
+WriteLiteral("\r\n                                                    ng-show=\"selectSource\"");
 
-WriteLiteral("></i>\r\n            Apellido<br/><div");
+WriteLiteral("></i>\r\n                                                    Apellido<br/><div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"verification==true\"");
 
-WriteLiteral("></div>Paterno:\r\n        </div>\r\n        <div");
+WriteLiteral("></div>Paterno:\r\n                                                </div>\r\n        " +
+"                                        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <input");
+WriteLiteral(">\r\n                                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" ng-model=\"i.lastNameP\"");
+WriteLiteral(" ng-model=\"m.LastNameP\"");
 
 WriteLiteral(" value=\"{{i.lastNameP}}\"");
 
-WriteLiteral("\r\n                   name=\"imputed.lastNameP\"");
+WriteLiteral("\r\n                                                    name=\"imputed.lastNameP\"");
 
 WriteLiteral(" data-val-required=\"El nombre es un campo requerido\"");
 
-WriteLiteral("\r\n                   data-val-length=\"Debe tener m&iacute;nimo 2 y m&aacute;ximo " +
-"50 caracteres\"");
+WriteLiteral("\r\n                                                    data-val-length=\"Debe tener" +
+" m&iacute;nimo 2 y m&aacute;ximo 50 caracteres\"");
 
-WriteLiteral("\r\n                   data-val-length-max=\"50\"");
+WriteLiteral("\r\n                                                    data-val-length-max=\"50\"");
 
 WriteLiteral(" data-val-length-min=\"2\"");
 
-WriteLiteral("/>\r\n                                                 <span");
+WriteLiteral("/>\r\n                                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.lastNameP\"");
 
-WriteLiteral("\r\n                                                       data-valmsg-replace=\"tru" +
-"e\"");
+WriteLiteral("\r\n                                                    data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral("></span>\r\n                                                </div>\r\n               " +
+"                             </div>\r\n                                           " +
+" <div");
 
 WriteLiteral(" class=\"col-xs-4\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-5  element-left\"");
 
-WriteLiteral(">\r\n            <i");
+WriteLiteral(">\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifEqual(\'imputed.lastNameM\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.lastNameM\')\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -922,87 +1057,95 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n               ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.lastNameM\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifNotKnow(\'imputed.lastNameM\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.lastNameM\')\"");
 
-WriteLiteral("></i>\r\n            <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
-WriteLiteral("\r\n               ng-click=\"showChoices(\'imputed.lastNameM\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"showChoices(\'impu" +
+"ted.lastNameM\')\"");
 
-WriteLiteral("\r\n               ng-show=\"selectSource\"");
+WriteLiteral("\r\n                                                    ng-show=\"selectSource\"");
 
-WriteLiteral("></i>\r\n            Apellido<br/><div");
+WriteLiteral("></i>\r\n                                                    Apellido<br/><div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
 WriteLiteral(" ng-show=\"verification==true\"");
 
-WriteLiteral("></div>Materno:\r\n        </div>\r\n        <div");
+WriteLiteral("></div>Materno:\r\n                                                </div>\r\n        " +
+"                                        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <input");
+WriteLiteral(">\r\n                                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" ng-model=\"i.lastNameM\"");
+WriteLiteral(" ng-model=\"m.LastNameM\"");
 
 WriteLiteral(" value=\"{{i.lastNameM}}\"");
 
-WriteLiteral("\r\n                   name=\"imputed.lastNameM\"");
+WriteLiteral("\r\n                                                    name=\"imputed.lastNameM\"");
 
 WriteLiteral(" data-val-required=\"El nombre es un campo requerido\"");
 
-WriteLiteral("\r\n                   data-val-length=\"Debe tener m&iacute;nimo 2 y m&aacute;ximo " +
-"50 caracteres\"");
+WriteLiteral("\r\n                                                    data-val-length=\"Debe tener" +
+" m&iacute;nimo 2 y m&aacute;ximo 50 caracteres\"");
 
-WriteLiteral("\r\n                   data-val-length-max=\"50\"");
+WriteLiteral("\r\n                                                    data-val-length-max=\"50\"");
 
 WriteLiteral(" data-val-length-min=\"2\"");
 
-WriteLiteral("/>\r\n                                                 <span");
+WriteLiteral("/>\r\n                                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.lastNameM\"");
 
-WriteLiteral("\r\n                                                       data-valmsg-replace=\"tru" +
-"e\"");
+WriteLiteral("\r\n                                                    data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n</div>\r\n<br/>\r\n    <div");
+WriteLiteral(@"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
-WriteLiteral(">\r\n                <br/> <i");
+WriteLiteral(">\r\n                                                    <br/> <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                         ng-click=\"doConfirmVerifEqual(\'imputed.gender\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.gender\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1010,19 +1153,20 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n                   ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.gender\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifNotKnow(\'imputed.gender\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.gender\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
@@ -1030,24 +1174,28 @@ WriteLiteral("   ng-show=\"selectSource\"");
 
 WriteLiteral("  ng-click=\"showChoices(\'imputed.gender\')\"");
 
-WriteLiteral("></i>\r\n                G&eacute;nero:\r\n            </div>\r\n            <div");
+WriteLiteral("></i>\r\n                                                    G&eacute;nero:\r\n      " +
+"                                          </div>\r\n                              " +
+"                  <div");
 
 WriteLiteral(" class=\"col-xs-9\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                <!-- ng-init=\"gen=${(m.imputed.gender == null) ? false: m.impu" +
-"ted.gender}\"-->\r\n                    <div");
+WriteLiteral(">\r\n                                                        <!-- ng-init=\"gen=${(m" +
+".Gender == null) ? false: m.Gender}\"-->\r\n                                       " +
+"                 <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n                        <div");
+WriteLiteral(">\r\n                                                            <div");
 
 WriteLiteral(" class=\"radio\"");
 
-WriteLiteral(">\r\n                            <label>\r\n                                <input");
+WriteLiteral(">\r\n                                                                <label>\r\n     " +
+"                                                               <input");
 
 WriteLiteral(" class=\"ace\"");
 
@@ -1057,29 +1205,34 @@ WriteLiteral(" ng-checked=\"gen==true\"");
 
 WriteLiteral(" name=\"imputed.gender\"");
 
-WriteLiteral("\r\n                                       data-val-required=\"El g?nero es un campo" +
-" requerido\"");
+WriteLiteral("\r\n                                                                    data-val-re" +
+"quired=\"El g?nero es un campo requerido\"");
 
 WriteLiteral(" id=\"genero\"");
 
 WriteLiteral(" value=\"true\"");
 
-WriteLiteral("\r\n                                       ng-model=\"gen\"");
+WriteLiteral("\r\n                                                                    ng-model=\"g" +
+"en\"");
 
-WriteLiteral(">\r\n                                <span");
+WriteLiteral(">\r\n                                                                    <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Femenino</span>\r\n                            </label>\r\n                        <" +
-"/div>\r\n                    </div>\r\n                    <div");
+WriteLiteral(@">Femenino</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n                        <div");
+WriteLiteral(">\r\n                                                            <div");
 
 WriteLiteral(" class=\"radio\"");
 
-WriteLiteral(">\r\n                            <label>\r\n                                <input");
+WriteLiteral(">\r\n                                                                <label>\r\n     " +
+"                                                               <input");
 
 WriteLiteral(" class=\"ace\"");
 
@@ -1091,32 +1244,40 @@ WriteLiteral(" ng-model=\"gen\"");
 
 WriteLiteral(" ng-checked=\"gen==false\"");
 
-WriteLiteral("\r\n                                                                      name=\"imp" +
-"uted.gender\"");
+WriteLiteral("\r\n                                                                    name=\"imput" +
+"ed.gender\"");
 
-WriteLiteral(">\r\n                                <span");
+WriteLiteral(">\r\n                                                                    <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Masculino</span>\r\n                            </label>\r\n                        " +
-"</div>\r\n\r\n                    </div>\r\n                </div>\r\n            </div>" +
-"\r\n        </div>\r\n        <br/>\r\n        <div");
+WriteLiteral(@">Masculino</span>
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
-WriteLiteral(">\r\n                <br/> <i");
+WriteLiteral(">\r\n                                                    <br/> <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                         ng-click=\"doConfirmVerifEqual(\'imputed.nickname\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.nickname\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1124,19 +1285,20 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n                   ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.nickname\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifNotKnow(\'imputed.nickname\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.nickname\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
@@ -1144,57 +1306,60 @@ WriteLiteral("   ng-show=\"selectSource\"");
 
 WriteLiteral("  ng-click=\"showChoices(\'imputed.nickname\')\"");
 
-WriteLiteral("></i>\r\n                Apodo:\r\n            </div>\r\n            <div");
+WriteLiteral("></i>\r\n                                                    Apodo:\r\n              " +
+"                                  </div>\r\n                                      " +
+"          <div");
 
 WriteLiteral(" class=\"col-xs-7 col-xs-offset-2\"");
 
-WriteLiteral(">\r\n                <input");
+WriteLiteral(">\r\n                                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-val-required=\"El apodo es un campo requerido\"");
 
-WriteLiteral("\r\n                       data-val-length=\"Debe tener m&iacute;nimo 1 y m&aacute;x" +
-"imo 100 caracteres\"");
+WriteLiteral("\r\n                                                    data-val-length=\"Debe tener" +
+" m&iacute;nimo 1 y m&aacute;ximo 100 caracteres\"");
 
-WriteLiteral("\r\n                       data-val-length-max=\"100\"");
+WriteLiteral("\r\n                                                    data-val-length-max=\"100\"");
 
 WriteLiteral(" data-val-length-min=\"1\"");
 
-WriteLiteral("\r\n                       type=\"text\"");
+WriteLiteral("\r\n                                                    type=\"text\"");
 
-WriteLiteral(" ng-model=\"nickname\"");
+WriteLiteral(" ng-model=\"m.Nickname\"");
 
 WriteLiteral(" id=\"nickname\"");
 
-WriteLiteral("\r\n                       ng-init=\"nickname= \'${(m.imputed.nickname == null) ? \'\':" +
-" m.imputed.nickname}\'\"");
+WriteLiteral("\r\n\r\n                                                    name=\"imputed.nickname\"");
 
-WriteLiteral("\r\n                       name=\"imputed.nickname\"");
-
-WriteLiteral(">\r\n                    <span");
+WriteLiteral(">\r\n                                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.nickname\"");
 
-WriteLiteral("\r\n                          data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                    data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n        <br/>\r\n        <div");
+WriteLiteral("></span>\r\n                                                </div>\r\n               " +
+"                             </div>\r\n                                           " +
+" <br/>\r\n                                            <div");
 
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" ng-show=\"verification==false\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n                Fecha de nacimiento:\r\n            </div>\r\n            <div");
+WriteLiteral(">\r\n                                                    Fecha de nacimiento:\r\n    " +
+"                                            </div>\r\n                            " +
+"                    <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n                <input");
+WriteLiteral(">\r\n                                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -1202,29 +1367,31 @@ WriteLiteral(" id=\"birthDate\"");
 
 WriteLiteral(" readonly=\"readonly\"");
 
-WriteLiteral(" value=\"${m.imputed.birthDate}\"");
+WriteLiteral(" value=\"${m.BirthDate}\"");
 
 WriteLiteral(" disabled=\"disabled\"");
 
-WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n                                                </div>\r\n                      " +
+"                      </div>\r\n                                            <div");
 
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" ng-show=\"verification == true || selectSource==true\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifEqual(\'imputed.birthDate\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.birthDate\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1232,36 +1399,38 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n                   ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.birthDate\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifNotKnow(\'imputed.birthDate\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.birthDate\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
 WriteLiteral(" onclick=\"window.showChoices(\'imputed.birthDate\')\"");
 
-WriteLiteral("\r\n                        ng-show=\"selectSource\"");
+WriteLiteral("\r\n                                                    ng-show=\"selectSource\"");
 
-WriteLiteral("></i>\r\n                Fecha de nacimiento:\r\n            </div>\r\n            <div" +
-"");
+WriteLiteral("></i>\r\n                                                    Fecha de nacimiento:\r\n" +
+"                                                </div>\r\n                        " +
+"                        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"input-group\"");
 
-WriteLiteral(">\r\n                    <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" class=\"form-control date-picker\"");
 
@@ -1271,49 +1440,56 @@ WriteLiteral("  type=\"text\"");
 
 WriteLiteral("  disabled=\"disabled\"");
 
-WriteLiteral("\r\n                           data-date-format=\"yyyy/mm/dd\"");
+WriteLiteral("\r\n                                                        data-date-format=\"yyyy/" +
+"mm/dd\"");
 
-WriteLiteral(" value=\"${m.imputed.birthDate}\"");
+WriteLiteral(" value=\"${m.BirthDate}\"");
 
 WriteLiteral(" readonly=\"readonly\"");
 
-WriteLiteral("\r\n                           name=\"imputed.birthDate\"");
+WriteLiteral("\r\n                                                        name=\"imputed.birthDate" +
+"\"");
 
 WriteLiteral(" data-val-required=\"La fecha de nacimiento es un campo requerido\"");
 
-WriteLiteral("/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span");
+WriteLiteral("/>\r\n                                                        <span");
 
 WriteLiteral(" class=\"input-group-addon\"");
 
-WriteLiteral(">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i");
+WriteLiteral(">\r\n                                                            <i");
 
 WriteLiteral(" class=\"icon-calendar bigger-110\"");
 
-WriteLiteral("></i>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\r\n                </div>\r\n                 <span");
+WriteLiteral("></i>\r\n                                                        </span>\r\n         " +
+"                                           </div>\r\n                             " +
+"                       <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.birthDate\"");
 
-WriteLiteral("\r\n                       data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                    data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n        <br/>\r\n\r\n        <div");
+WriteLiteral("></span>\r\n                                                </div>\r\n               " +
+"                             </div>\r\n                                           " +
+" <br/>\r\n\r\n                                            <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifEqual(\'imputed.celPhone\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.celPhone\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1321,91 +1497,95 @@ WriteLiteral(" verif-comp");
 
 WriteLiteral(" level-child=\"2\"");
 
-WriteLiteral("\r\n                   ng-show=\"verification\"");
+WriteLiteral("\r\n                                                    ng-show=\"verification\"");
 
 WriteLiteral(" code=\"imputed.celPhone\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifNotKnow(\'imputed.celPhone\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.celPhone\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
 WriteLiteral(" ng-click=\"showChoices(\'imputed.celPhone\')\"");
 
-WriteLiteral("\r\n                   ng-show=\"selectSource\"");
+WriteLiteral("\r\n                                                    ng-show=\"selectSource\"");
 
-WriteLiteral("></i>\r\n                Celular:\r\n            </div>\r\n            <div");
+WriteLiteral("></i>\r\n                                                    Celular:\r\n            " +
+"                                    </div>\r\n                                    " +
+"            <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n                <input");
+WriteLiteral(">\r\n                                                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-val-required=\"El celular es un campo requerido\"");
 
-WriteLiteral("\r\n                       data-val-length=\"Debe tener m&iacute;nimo 8 y m&aacute;x" +
-"imo 20 caracteres\"");
+WriteLiteral("\r\n                                                    data-val-length=\"Debe tener" +
+" m&iacute;nimo 8 y m&aacute;ximo 20 caracteres\"");
 
-WriteLiteral("\r\n                       data-val-length-max=\"20\"");
+WriteLiteral("\r\n                                                    data-val-length-max=\"20\"");
 
 WriteLiteral(" data-val-length-min=\"8\"");
 
-WriteLiteral("\r\n                       type=\"text\"");
+WriteLiteral("\r\n                                                    type=\"text\"");
 
-WriteLiteral(" ng-model=\"celPhone\"");
+WriteLiteral(" ng-model=\"m.CelPhone\"");
 
 WriteLiteral(" id=\"celPhone\"");
 
-WriteLiteral("\r\n                       ng-init=\"celPhone= \'${(m.imputed.celPhone == null) ? \'\':" +
-" m.imputed.celPhone}\'\"");
+WriteLiteral("\r\n                                                    ng-init=\"\"");
 
-WriteLiteral("\r\n                       name=\"imputed.celPhone\"");
+WriteLiteral("\r\n                                                    name=\"imputed.celPhone\"");
 
-WriteLiteral(">\r\n                    <span");
+WriteLiteral(">\r\n                                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.celPhone\"");
 
-WriteLiteral("\r\n                          data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                    data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral("></span>\r\n                                                </div>\r\n               " +
+"                             </div>\r\n                                        </d" +
+"iv>\r\n                                        <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"widget-box\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"widget-header\"");
 
-WriteLiteral("\r\n                 ng-init=\"maritalStatus = ${m.imputed.maritalStatus.id == null " +
-"? 1: m.imputed.maritalStatus.id}\"");
+WriteLiteral("\r\n                                                ng-init=\"maritalStatus = (m.imp" +
+"uted.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id)\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
-WriteLiteral(">\r\n                    <i");
+WriteLiteral(">\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral("  ng-show=\"verification\"");
 
-WriteLiteral("\r\n                       ng-click=\"doConfirmVerifEqual(\'imputed.maritalStatus.id\'" +
-")\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.maritalStatus.id\')\"");
 
-WriteLiteral("></i>\r\n                    <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1415,18 +1595,19 @@ WriteLiteral(" level-child=\"4\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                       code=\"imputed.maritalStatus.id\"");
+WriteLiteral("\r\n                                                    code=\"imputed.maritalStatus" +
+".id\"");
 
-WriteLiteral("></i>\r\n                    <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle inverse icon-only bigger-1 20\"");
 
 WriteLiteral("  ng-show=\"verification\"");
 
-WriteLiteral("\r\n                       ng-click=\"doConfirmVerifNotKnow(\'imputed.maritalStatus.i" +
-"d\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.maritalStatus.id\')\"");
 
-WriteLiteral("></i>\r\n                    <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
@@ -1434,33 +1615,35 @@ WriteLiteral("   ng-show=\"selectSource\"");
 
 WriteLiteral(" onclick=\"window.showChoices(\'imputed.maritalStatus.id\')\"");
 
-WriteLiteral("></i>\r\n                </div>\r\n\r\n                <div");
+WriteLiteral("></i>\r\n                                                </div>\r\n\r\n                " +
+"                                <div");
 
 WriteLiteral(" class=\"col-xs-9 element-left\"");
 
-WriteLiteral(">\r\n                    <h5>Estado civil</h5>\r\n                </div>\r\n\r\n         " +
-"   </div>\r\n            <div");
+WriteLiteral(">\r\n                                                    <h5>Estado civil</h5>\r\n   " +
+"                                             </div>\r\n\r\n                         " +
+"                   </div>\r\n                                            <div");
 
 WriteLiteral(" class=\"widget-body\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n                        <div");
+WriteLiteral(">\r\n                                                        <div");
 
 WriteLiteral(" class=\"control-group\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n                                                            <div");
 
 WriteLiteral(" class=\"radio element-left\"");
 
-WriteLiteral(">\r\n                                <label>\r\n                                    <" +
-"input");
+WriteLiteral(">\r\n                                                                <label>\r\n     " +
+"                                                               <input");
 
 WriteLiteral(" name=\"imputed.maritalStatus.id\"");
 
@@ -1470,19 +1653,21 @@ WriteLiteral(" class=\"ace\"");
 
 WriteLiteral(" value=\"1\"");
 
-WriteLiteral("\r\n                                           ng-model=\"maritalStatus\"");
+WriteLiteral("\r\n                                                                    ng-model=\"m" +
+".MaritalStatusId\"");
 
-WriteLiteral("/>\r\n                                    <span");
+WriteLiteral("/>\r\n                                                                    <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Soltero</span>\r\n                                </label>\r\n                      " +
-"      </div>\r\n\r\n                            <div");
+WriteLiteral(">Soltero</span>\r\n                                                                " +
+"</label>\r\n                                                            </div>\r\n\r\n" +
+"                                                            <div");
 
 WriteLiteral(" class=\"radio element-left\"");
 
-WriteLiteral(">\r\n                                <label>\r\n                                    <" +
-"input");
+WriteLiteral(">\r\n                                                                <label>\r\n     " +
+"                                                               <input");
 
 WriteLiteral(" name=\"imputed.maritalStatus.id\"");
 
@@ -1490,20 +1675,27 @@ WriteLiteral(" type=\"radio\"");
 
 WriteLiteral(" class=\"ace\"");
 
-WriteLiteral("\r\n                                           ng-model=\"maritalStatus\"");
+WriteLiteral("\r\n                                                                    ng-model=\"m" +
+".MaritalStatusId\"");
 
-WriteLiteral("\r\n                                           value=\"2\"");
+WriteLiteral("\r\n                                                                    value=\"2\"");
 
-WriteLiteral("/>\r\n                                    <span");
+WriteLiteral("/>\r\n                                                                    <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Casado</span>\r\n\r\n                                </label>\r\n                     " +
-"       </div>\r\n                        </div>\r\n\r\n                        <div");
+WriteLiteral(@">Casado</span>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div");
 
 WriteLiteral(" class=\"radio element-left\"");
 
-WriteLiteral(">\r\n                            <label>\r\n                                <input");
+WriteLiteral(">\r\n                                                            <label>\r\n         " +
+"                                                       <input");
 
 WriteLiteral(" name=\"imputed.maritalStatus.id\"");
 
@@ -1513,18 +1705,21 @@ WriteLiteral(" class=\"ace\"");
 
 WriteLiteral(" value=\"3\"");
 
-WriteLiteral("\r\n                                       ng-model=\"maritalStatus\"");
+WriteLiteral("\r\n                                                                ng-model=\"m.Mar" +
+"italStatusId\"");
 
-WriteLiteral("/>\r\n                                <span");
+WriteLiteral("/>\r\n                                                                <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Divorciado</span>\r\n                            </label>\r\n                       " +
-" </div>\r\n\r\n                        <div");
+WriteLiteral(">Divorciado</span>\r\n                                                            <" +
+"/label>\r\n                                                        </div>\r\n\r\n     " +
+"                                                   <div");
 
 WriteLiteral(" class=\"radio element-left\"");
 
-WriteLiteral(">\r\n                            <label>\r\n                                <input");
+WriteLiteral(">\r\n                                                            <label>\r\n         " +
+"                                                       <input");
 
 WriteLiteral(" name=\"imputed.maritalStatus.id\"");
 
@@ -1532,20 +1727,23 @@ WriteLiteral(" type=\"radio\"");
 
 WriteLiteral(" class=\"ace\"");
 
-WriteLiteral(" ng-model=\"maritalStatus\"");
+WriteLiteral(" value=\"4\"");
 
-WriteLiteral("\r\n                                       value=\"4\"");
+WriteLiteral("\r\n                                                                ng-model=\"m.Mar" +
+"italStatusId\"");
 
-WriteLiteral("/>\r\n                                <span");
+WriteLiteral(" />\r\n                                                                <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Uni&oacute;n libre</span>\r\n                            </label>\r\n               " +
-"         </div>\r\n\r\n                        <div");
+WriteLiteral(">Uni&oacute;n libre</span>\r\n                                                     " +
+"       </label>\r\n                                                        </div>\r" +
+"\n\r\n                                                        <div");
 
 WriteLiteral(" class=\"radio element-left\"");
 
-WriteLiteral(">\r\n                            <label>\r\n                                <input");
+WriteLiteral(">\r\n                                                            <label>\r\n         " +
+"                                                       <input");
 
 WriteLiteral(" name=\"imputed.maritalStatus.id\"");
 
@@ -1553,32 +1751,36 @@ WriteLiteral(" type=\"radio\"");
 
 WriteLiteral(" class=\"ace\"");
 
-WriteLiteral(" ng-model=\"maritalStatus\"");
+WriteLiteral(" value=\"5\"");
 
-WriteLiteral("\r\n                                       value=\"5\"");
+WriteLiteral("\r\n                                                                ng-model=\"m.Mar" +
+"italStatusId\"");
 
-WriteLiteral("/>\r\n                                <span");
+WriteLiteral(" />\r\n                                                                <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Viudo</span>\r\n                            </label>\r\n                        </di" +
-"v>\r\n                    </div>\r\n                    <div");
+WriteLiteral(@">Viudo</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div");
 
 WriteLiteral(" class=\"col-xs-5\"");
 
-WriteLiteral(" ng-show=\"maritalStatus ==2 || maritalStatus == 4\"");
+WriteLiteral(" ng-show=\"m.MaritalStatusId ==2 || m.MaritalStatusId == 4\"");
 
 WriteLiteral(" ng-model=\"verifElem\"");
 
-WriteLiteral(">\r\n                        <div");
+WriteLiteral(">\r\n                                                        <div");
 
 WriteLiteral(" class=\"space-10\"");
 
-WriteLiteral("></div>\r\n                        <div");
+WriteLiteral("></div>\r\n                                                        <div");
 
 WriteLiteral(" class=\"widget-main\"");
 
-WriteLiteral(">\r\n                            <input");
+WriteLiteral(">\r\n                                                            <input");
 
 WriteLiteral(" type=\"text\"");
 
@@ -1586,68 +1788,82 @@ WriteLiteral(" class=\"input-mini\"");
 
 WriteLiteral(" id=\"spinnder1\"");
 
-WriteLiteral("\r\n                                   value=\"${m.imputed.yearsMaritalStatus ==null" +
-" ? \'\': m.imputed.yearsMaritalStatus}\"");
+WriteLiteral("\r\n                                                            value=\"${m.YearsMar" +
+"italStatus ==null ? \'\': m.YearsMaritalStatus}\"");
 
-WriteLiteral("\r\n                                   name=\"imputed.yearsMaritalStatus\"");
+WriteLiteral("\r\n                                                            name=\"imputed.years" +
+"MaritalStatus\"");
 
 WriteLiteral(" id=\"imputed.yearsMaritalStatus\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral("\r\n                                   data-val-regex-pattern=\"([0-9]+)\"");
+WriteLiteral("\r\n                                                            data-val-regex-patt" +
+"ern=\"([0-9]+)\"");
 
-WriteLiteral(" ng-model=\"m.imputed.yearsMaritalStatus\"");
+WriteLiteral(" ng-model=\"m.YearsMaritalStatus\"");
 
-WriteLiteral("\r\n                                   data-val-length=\"Debe tener m&iacute;nimo 1 " +
-"y m&aacute;ximo 3 caracteres\"");
+WriteLiteral("\r\n                                                            data-val-length=\"De" +
+"be tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres\"");
 
-WriteLiteral("\r\n                                   data-val-length-max=\"3\"");
+WriteLiteral("\r\n                                                            data-val-length-max" +
+"=\"3\"");
 
 WriteLiteral(" data-val-length-min=\"1\"");
 
-WriteLiteral("\r\n                                   data-val-required=\"El n&uacute;mero de a&nti" +
-"lde;os es un campo requerido\"");
+WriteLiteral("\r\n                                                            data-val-required=\"" +
+"El n&uacute;mero de a&ntilde;os es un campo requerido\"");
 
-WriteLiteral("\r\n                                   data-val-regex=\"La cantidad de a&ntilde;os s" +
-"&oacute;lo pueden ser n&uacute;meros\"");
+WriteLiteral("\r\n                                                            data-val-regex=\"La " +
+"cantidad de a&ntilde;os s&oacute;lo pueden ser n&uacute;meros\"");
 
-WriteLiteral("/> A&ntilde;os\r\n                            <br/>\r\n                            <s" +
-"pan");
+WriteLiteral("/> A&ntilde;os\r\n                                                            <br/>" +
+"\r\n                                                            <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.yearsMaritalStatus\"");
 
-WriteLiteral("\r\n                                  data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                            data-valmsg-replace" +
+"=\"true\"");
 
-WriteLiteral("></span>\r\n                        </div>\r\n                    </div>\r\n           " +
-"     </div>\r\n                <br/>\r\n            </div>\r\n        </div>\r\n    </di" +
-"v>\r\n</div>\r\n<br/>\r\n\r\n<div");
+WriteLiteral(@"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"widget-box\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"widget-header\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"col-xs-1\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\r\n                                                <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifEqual(\'imputed.boys\')\"");
+WriteLiteral("\r\n                                                ng-click=\"doConfirmVerifEqual(\'" +
+"imputed.boys\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1657,17 +1873,18 @@ WriteLiteral(" level-child=\"3\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   code=\"imputed.boys\"");
+WriteLiteral("\r\n                                                code=\"imputed.boys\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                   ng-click=\"doConfirmVerifNotKnow(\'imputed.boys\')\"");
+WriteLiteral("\r\n                                                ng-click=\"doConfirmVerifNotKnow" +
+"(\'imputed.boys\')\"");
 
-WriteLiteral("></i>\r\n                <i");
+WriteLiteral("></i>\r\n                                                <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
@@ -1675,33 +1892,37 @@ WriteLiteral("   ng-show=\"selectSource\"");
 
 WriteLiteral(" onclick=\"window.showChoices(\'imputed.boys\')\"");
 
-WriteLiteral("></i>\r\n            </div>\r\n\r\n            <div");
+WriteLiteral("></i>\r\n                                            </div>\r\n\r\n                    " +
+"                        <div");
 
 WriteLiteral(" class=\"col-xs-11 element-left\"");
 
-WriteLiteral(">\r\n                <h5>Hijos</h5>\r\n            </div>\r\n        </div>\r\n        <d" +
-"iv");
+WriteLiteral(">\r\n                                                <h5>Hijos</h5>\r\n              " +
+"                              </div>\r\n                                        </" +
+"div>\r\n                                        <div");
 
 WriteLiteral(" class=\"widget-body\"");
 
-WriteLiteral(">\r\n            <br/>\r\n\r\n            <div");
+WriteLiteral(">\r\n                                            <br/>\r\n\r\n                         " +
+"                   <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-1 align-left\"");
 
-WriteLiteral(">\r\n                        Total:\r\n                    </div>\r\n                  " +
-"  <div");
+WriteLiteral(">\r\n                                                        Total:\r\n              " +
+"                                      </div>\r\n                                  " +
+"                  <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"text\"");
 
@@ -1709,45 +1930,52 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" name=\"imputed.boys\"");
 
-WriteLiteral(" value=\"${m.imputed.boys}\"");
+WriteLiteral(" \r\n                                                        ng-model=\"m.Boys\"");
 
-WriteLiteral("\r\n                               data-val-regex-pattern=\"([0-9]+)\"");
+WriteLiteral(" value=\"${m.Boys == null ? \'\': m.Boys}\"");
 
-WriteLiteral("\r\n                               data-val-required=\"El total de hijos es un campo" +
-" requerido\"");
+WriteLiteral("\r\n                                                        data-val-regex-pattern=" +
+"\"([0-9]+)\"");
 
-WriteLiteral("\r\n                               data-val-length=\"Debe tener m&iacute;nimo 1 y m&" +
-"aacute;ximo 3 caracteres\"");
+WriteLiteral("\r\n                                                        data-val-required=\"El t" +
+"otal de hijos es un campo requerido\"");
 
-WriteLiteral("\r\n                               data-val-length-max=\"3\"");
+WriteLiteral("\r\n                                                        data-val-length=\"Debe t" +
+"ener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres\"");
+
+WriteLiteral("\r\n                                                        data-val-length-max=\"3\"" +
+"");
 
 WriteLiteral(" data-val-length-min=\"1\"");
 
-WriteLiteral("\r\n                               data-val-regex=\"S&oacute;lo puede guardar n&uacu" +
-"te;meros\"");
+WriteLiteral("\r\n                                                        data-val-regex=\"S&oacut" +
+"e;lo puede guardar n&uacute;meros\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral("\r\n                               id=\"imputed.boys\"");
+WriteLiteral("\r\n                                                        id=\"imputed.boys\"");
 
-WriteLiteral("/>\r\n                        <span");
+WriteLiteral("/>\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.boys\"");
 
-WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
+"ue\"");
 
-WriteLiteral("></span>\r\n                    </div>\r\n                    <div");
+WriteLiteral("></span>\r\n                                                    </div>\r\n           " +
+"                                         <div");
 
 WriteLiteral(" class=\"col-xs-3 align-right\"");
 
-WriteLiteral(">\r\n                        Menores de 18 a&ntilde;os:\r\n                    </div>" +
-"\r\n                    <div");
+WriteLiteral(">\r\n                                                        Menores de 18 a&ntilde" +
+";os:\r\n                                                    </div>\r\n              " +
+"                                      <div");
 
 WriteLiteral(" class=\"col-xs-5\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"text\"");
 
@@ -1755,71 +1983,88 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" name=\"imputed.dependentBoys\"");
 
-WriteLiteral("\r\n                               data-val-regex-pattern=\"([0-9]+)\"");
+WriteLiteral("\r\n                                                        data-val-regex-pattern=" +
+"\"([0-9]+)\"");
 
-WriteLiteral("\r\n                               data-val-required=\"El n&uacute;mero de menores d" +
-"e 18 a&ntilde;os es un campo requerido\"");
+WriteLiteral("\r\n                                                        data-val-required=\"El n" +
+"&uacute;mero de menores de 18 a&ntilde;os es un campo requerido\"");
 
-WriteLiteral("\r\n                               data-val-regex=\"S&oacute;lo puede guardar n&uacu" +
-"te;meros\"");
+WriteLiteral("\r\n                                                        data-val-regex=\"S&oacut" +
+"e;lo puede guardar n&uacute;meros\"");
 
 WriteLiteral(" id=\"imputed.dependentBoys\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral("\r\n                               data-val-length=\"Debe tener m&iacute;nimo 1 y m&" +
-"aacute;ximo 3 caracteres\"");
+WriteLiteral("\r\n                                                        data-val-length=\"Debe t" +
+"ener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres\"");
 
-WriteLiteral("\r\n                               data-val-length-max=\"3\"");
+WriteLiteral("\r\n                                                        data-val-length-max=\"3\"" +
+"");
 
 WriteLiteral(" data-val-length-min=\"1\"");
 
-WriteLiteral("\r\n                               value=\"${m.imputed.dependentBoys == null ? \'\': m" +
-".imputed.dependentBoys}\"");
+WriteLiteral("\r\n                                                        value=\"${m.DependentBoy" +
+"s == null ? \'\': m.DependentBoys}\"");
 
-WriteLiteral("/>\r\n                        <span");
+WriteLiteral("\r\n                                                        ng-model=\"m.DependentBo" +
+"ys\"");
+
+WriteLiteral("/>\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.dependentBoys\"");
 
-WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
+"ue\"");
 
-WriteLiteral("></span>\r\n                    </div>\r\n                </div>\r\n            </div>\r" +
-"\n            <br/>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<br/>\r\n\r\n<div");
+WriteLiteral(@"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br/>
+
+                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n\r\n</div>\r\n<br/>\r\n\r\n<div");
+WriteLiteral(">\r\n\r\n                                </div>\r\n                                <br/" +
+">\r\n\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n                                        <div");
 
 WriteLiteral(" class=\"widget-box\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n                                            <div");
 
 WriteLiteral(" class=\"widget-header\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-1\"");
 
-WriteLiteral(" >\r\n                    <i");
+WriteLiteral(" >\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral("ng-show=\"verification\"");
 
-WriteLiteral("\r\n                       ng-click=\"doConfirmVerifEqual(\'imputed.birthCountry.id\')" +
-"\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifEqu" +
+"al(\'imputed.birthCountry.id\')\"");
 
-WriteLiteral("></i>\r\n                    <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -1829,18 +2074,19 @@ WriteLiteral(" level-child=\"5\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                       code=\"imputed.birthCountry.id\"");
+WriteLiteral("\r\n                                                    code=\"imputed.birthCountry." +
+"id\"");
 
-WriteLiteral("></i>\r\n                    <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral("ng-show=\"verification\"");
 
-WriteLiteral("\r\n                       ng-click=\"doConfirmVerifNotKnow(\'imputed.birthCountry.id" +
-"\')\"");
+WriteLiteral("\r\n                                                    ng-click=\"doConfirmVerifNot" +
+"Know(\'imputed.birthCountry.id\')\"");
 
-WriteLiteral("></i>\r\n                    <i");
+WriteLiteral("></i>\r\n                                                    <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
@@ -1848,79 +2094,94 @@ WriteLiteral("   ng-show=\"selectSource\"");
 
 WriteLiteral(" ng-click=\"showChoices(\'imputed.birthCountry.id\')\"");
 
-WriteLiteral("></i>\r\n                </div>\r\n                <div");
+WriteLiteral("></i>\r\n                                                </div>\r\n                  " +
+"                              <div");
 
 WriteLiteral(" class=\"col-xs-10 element-left\"");
 
-WriteLiteral(">\r\n                    <h4>Lugar de nacimiento</h4>\r\n                </div>\r\n    " +
-"        </div>\r\n\r\n            <div");
+WriteLiteral(">\r\n                                                    <h4>Lugar de nacimiento</h" +
+"4>\r\n                                                </div>\r\n                    " +
+"                        </div>\r\n\r\n                                            <d" +
+"iv");
 
 WriteLiteral(" class=\"widget-body\"");
 
-WriteLiteral(">\r\n                <br/>\r\n\r\n                <div");
+WriteLiteral(">\r\n                                                <br/>\r\n\r\n                     " +
+"                           <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
-WriteLiteral(">\r\n                        Pa&iacute;s:\r\n                    </div>\r\n            " +
-"        <div");
+WriteLiteral(">\r\n                                                        Pa&iacute;s:\r\n        " +
+"                                            </div>\r\n                            " +
+"                        <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(" ng-update-hidden");
+WriteLiteral(" ng-update-hiddenname=\"imputed.birthCountry.id\"");
 
-WriteLiteral(" ng-model=\"m.countryId\"");
+WriteLiteral("\r\n                                                        id=\"country\"");
 
-WriteLiteral(" name=\"imputed.birthCountry.id\"");
+WriteLiteral("\r\n                                                        value=\"${m.BirthCountry" +
+" == null ? \'\': m.BirthCountry}\"");
 
-WriteLiteral("\r\n                               id=\"country\"");
+WriteLiteral("\r\n                                                        ng-model=\"m.BirthCountr" +
+"y\"");
 
-WriteLiteral("\r\n                               ng-init=\'m.countryId = ${(m.imputed.birthCountry" +
-".id == null)? \'");
-
-WriteLiteral("undefined\':m.imputed.birthCountry.id}\'>\r\n                        <select");
+WriteLiteral(" />\r\n\r\n                                                        <!--revisar el css" +
+" y que se escape correctamente el json, values incorrectos -->\r\n                " +
+"                                        <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
-WriteLiteral(" ng-model=\"m.country\"");
+WriteLiteral(" ng-model=\"Country\"");
 
-WriteLiteral("\r\n                                ng-options=\"e.name for e in listCountry\"");
+WriteLiteral(" \r\n                                                        ng-options=\"e.Name for" +
+" e in listCountry\"");
 
-WriteLiteral(" value=\"{{m.country.id}}\"");
+WriteLiteral(" value=\"\"");
 
-WriteLiteral("\r\n                                url-request=\"/catalogs/getStatesByCountry.json\"" +
-"");
+WriteLiteral("\r\n                                                        ng-change=\"m.BirthCount" +
+"ry = m.Country[\'Id\']; showState();\"");
 
-WriteLiteral("\r\n                                ng-change=\"m.countryId = m.country.id; setState" +
-"();\"");
+WriteAttribute ("ng-init", " ng-init=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "listCountry", true)
+, Tuple.Create<string,object,bool> (" ", "=", true)
 
-WriteLiteral(" ng-init=\'listCountry = ${lstCountry};\'");
+#line 722 "MeetingDatosPersonales.cshtml"
+                                                                                                  , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
-WriteLiteral("></select>\r\n                    </div>\r\n                    <div");
+#line default
+#line hidden
+, false)
+);
+WriteLiteral("></select>\r\n                                                    </div>\r\n         " +
+"                                           <div");
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral(" ng-show=\"m.countryId != 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry != 1\"");
 
-WriteLiteral(">\r\n                        Estado:\r\n                    </div>\r\n                 " +
-"   <div");
+WriteLiteral(">\r\n                                                        Estado:\r\n             " +
+"                                       </div>\r\n                                 " +
+"                   <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(" ng-show=\"m.countryId != 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry != 1\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("\r\n                               type=\"text\"");
+WriteLiteral("\r\n                                                        type=\"text\"");
 
 WriteLiteral(" ng-model=\"stateString\"");
 
@@ -1928,37 +2189,40 @@ WriteLiteral(" id=\"imputed.birthState\"");
 
 WriteLiteral("   data-val=\"true\"");
 
-WriteLiteral("\r\n                               name=\"imputed.birthState\"");
+WriteLiteral("\r\n                                                        name=\"imputed.birthStat" +
+"e\"");
 
 WriteLiteral(" data-val-required=\"El estado es un campo requerido\"");
 
 WriteLiteral(" value=\"{{stateString}}\"");
 
-WriteLiteral("\r\n                               ng-init=\'stateString = \"${(m.imputed.birthState " +
-"==  null) ? \"\" : m.imputed.birthState}\";\'");
+WriteLiteral("\r\n                                                        ng-init=\'\'");
 
-WriteLiteral(">\r\n                         <span");
+WriteLiteral(">\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.birthState\"");
 
-WriteLiteral("\r\n                               data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
+"ue\"");
 
-WriteLiteral("></span>\r\n                    </div>\r\n                    <div");
+WriteLiteral("></span>\r\n                                                    </div>\r\n           " +
+"                                         <div");
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral(" ng-show=\"m.countryId == 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry == 1\"");
 
-WriteLiteral(">\r\n                        Estado:\r\n                    </div>\r\n                 " +
-"   <div");
+WriteLiteral(">\r\n                                                        Estado:\r\n             " +
+"                                       </div>\r\n                                 " +
+"                   <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral(" ng-show=\"m.countryId == 1\"");
 
-WriteLiteral(">\r\n                        <select");
+WriteLiteral(">\r\n                                                        <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
@@ -1968,38 +2232,40 @@ WriteLiteral(" find-municipality");
 
 WriteLiteral(" value=\"{{state.id}}\"");
 
-WriteLiteral("\r\n                                url-request=\'<c:url value=\"/catalogs/address/mu" +
-"nicipalityByStId.json\"/>\'");
+WriteLiteral("\r\n                                                        ng-options=\"e.name for " +
+"e in listState\"");
 
-WriteLiteral("\r\n                                ng-options=\"e.name for e in listState\"");
+WriteLiteral(" ng-init=\'\'");
 
-WriteLiteral(" ng-init=\'listState = ${listState}\'");
+WriteLiteral("\r\n                                                        ng-change=\"stateId = st" +
+"ate.id;\"");
 
-WriteLiteral("\r\n                                ng-change=\"stateId = state.id;\"");
-
-WriteLiteral("></select><br/>\r\n\r\n                    </div>\r\n                </div>\r\n          " +
-"      <br/>\r\n\r\n                <div");
+WriteLiteral("></select><br/>\r\n\r\n                                                    </div>\r\n  " +
+"                                              </div>\r\n                          " +
+"                      <br/>\r\n\r\n                                                <" +
+"div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
 WriteLiteral("  ng-show=\"m.countryId != 1\"");
 
-WriteLiteral(">\r\n                        Municipio:\r\n                    </div>\r\n              " +
-"      <div");
+WriteLiteral(">\r\n                                                        Municipio:\r\n          " +
+"                                          </div>\r\n                              " +
+"                      <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral("  ng-show=\"m.countryId != 1\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("\r\n                               type=\"text\"");
+WriteLiteral("\r\n                                                        type=\"text\"");
 
 WriteLiteral(" ng-model=\"birthMunicipality\"");
 
@@ -2007,44 +2273,46 @@ WriteLiteral(" id=\"imputed.birthMunicipality\"");
 
 WriteLiteral("    data-val=\"true\"");
 
-WriteLiteral("\r\n                               name=\"imputed.birthMunicipality\"");
+WriteLiteral("\r\n                                                        name=\"imputed.birthMuni" +
+"cipality\"");
 
 WriteLiteral(" data-val-required=\"El municipio es un campo requerido\"");
 
-WriteLiteral("\r\n                               ng-init=\'birthMunicipality = \"${(m.imputed.birth" +
-"Municipality ==  null) ? \"\" : m.imputed.birthMunicipality}\";\'");
+WriteLiteral("\r\n                                                        ng-init=\'\'");
 
-WriteLiteral(">\r\n                         <span");
+WriteLiteral(">\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.birthMunicipality\"");
 
-WriteLiteral("\r\n                               data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
+"ue\"");
 
-WriteLiteral("></span>\r\n                    </div>\r\n                    <div");
+WriteLiteral("></span>\r\n                                                    </div>\r\n           " +
+"                                         <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
 WriteLiteral("  ng-show=\"m.countryId == 1\"");
 
-WriteLiteral(">\r\n                        Municipio:\r\n                        </div>\r\n          " +
-"          <div");
+WriteLiteral(">\r\n                                                        Municipio:\r\n          " +
+"                                          </div>\r\n                              " +
+"                      <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral("  ng-show=\"m.countryId == 1\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" ng-model=\"urlMunicipality\"");
 
-WriteLiteral("\r\n                               ng-init=\'urlMunicipality = \"<c:url value=\"/catal" +
-"ogs/address/municipalityByStId.json\"/>\"\'");
+WriteLiteral("\r\n                                                        ng-init=\'\'");
 
-WriteLiteral(">\r\n                        <select");
+WriteLiteral(">\r\n                                                        <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
@@ -2052,79 +2320,81 @@ WriteLiteral(" ng-model=\"municipality\"");
 
 WriteLiteral(" find-location");
 
-WriteLiteral("\r\n                                url-request=\'<c:url value=\"/catalogs/address/lo" +
-"cationByMunId.json\"/>\'");
-
-WriteLiteral("\r\n                                ng-options=\"e.name for e in listMunicipality\"");
+WriteLiteral("\r\n                                                        ng-options=\"e.name for " +
+"e in listMunicipality\"");
 
 WriteLiteral(" ng-init=\'listMunicipaliti = \"\"\'");
 
-WriteLiteral("\r\n                                ng-change=\"municipalityId = municipality.id;\"");
+WriteLiteral("\r\n                                                        ng-change=\"municipality" +
+"Id = municipality.id;\"");
 
-WriteLiteral("></select><br/>\r\n\r\n                    </div>\r\n                    <div");
+WriteLiteral("></select><br/>\r\n\r\n                                                    </div>\r\n  " +
+"                                                  <div");
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
 WriteLiteral("  ng-show=\"m.countryId != 1\"");
 
-WriteLiteral(">\r\n                        Localidad/Colonia:\r\n                    </div>\r\n      " +
-"              <div");
+WriteLiteral(">\r\n                                                        Localidad/Colonia:\r\n  " +
+"                                                  </div>\r\n                      " +
+"                              <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral("  ng-show=\"m.countryId != 1\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("\r\n                               type=\"text\"");
+WriteLiteral("\r\n                                                        type=\"text\"");
 
 WriteLiteral(" ng-model=\"locationstr\"");
 
 WriteLiteral(" id=\"imputed.birthLocation\"");
 
-WriteLiteral("\r\n                               name=\"imputed.birthLocation\"");
+WriteLiteral("\r\n                                                        name=\"imputed.birthLoca" +
+"tion\"");
 
 WriteLiteral(" data-val-required=\"La localidad es un campo requerido\"");
 
 WriteLiteral("   data-val=\"true\"");
 
-WriteLiteral("\r\n                               ng-init=\'locationstr = \"${(m.imputed.birthLocati" +
-"on ==  null) ? \"\" : m.imputed.birthLocation}\";\'");
+WriteLiteral("\r\n                                                        ng-init=\'\'");
 
-WriteLiteral(">\r\n                         <span");
+WriteLiteral(">\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"imputed.birthLocation\"");
 
-WriteLiteral("\r\n                               data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
+"ue\"");
 
-WriteLiteral("></span>\r\n                    </div>\r\n                    <div");
+WriteLiteral("></span>\r\n                                                    </div>\r\n           " +
+"                                         <div");
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
 WriteLiteral("  ng-show=\"m.countryId == 1\"");
 
-WriteLiteral(">\r\n                        Localidad/Colonia:\r\n                     </div>\r\n     " +
-"               <div");
+WriteLiteral(">\r\n                                                        Localidad/Colonia:\r\n  " +
+"                                                  </div>\r\n                      " +
+"                              <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral("  ng-show=\"m.countryId == 1\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" ng-model=\"urlLocation\"");
 
-WriteLiteral(@"
-                               ng-init='urlLocation = ""<c:url value=""/catalogs/address/locationByMunId.json""/>""; locationId = ${m.imputed.location.id == null? ""undefined"" : m.imputed.location.id};
-                               urlFindIds = ""<c:url value='");
+WriteLiteral("\r\n                                                        ng-init=\'\'");
 
-WriteLiteral("/catalogs/address/idsLocationById.json\'/>\";\'>\r\n                        <select");
+WriteLiteral(" />\r\n                                                        <select");
 
 WriteLiteral(" class=\"form-control\"");
 
@@ -2134,19 +2404,22 @@ WriteLiteral(" change-cp");
 
 WriteLiteral("  value=\"{{location.id}}\"");
 
-WriteLiteral("\r\n                                ng-options=\"e.name for e in listLocation\"");
+WriteLiteral("\r\n                                                        ng-options=\"e.name for " +
+"e in listLocation\"");
 
 WriteLiteral(" ng-init=\'listLocation = \"\"\'");
 
-WriteLiteral("\r\n                                ng-change=\"locationId = location.id;\"");
+WriteLiteral("\r\n                                                        ng-change=\"locationId =" +
+" location.id;\"");
 
-WriteLiteral("></select>\r\n\r\n\r\n                    </div>\r\n                    <div");
+WriteLiteral("></select>\r\n\r\n\r\n                                                    </div>\r\n     " +
+"                                               <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(" ng-show=\"m.countryId == 1\"");
 
-WriteLiteral(">\r\n                        <input");
+WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
@@ -2156,21 +2429,2848 @@ WriteLiteral(" ng-update-hidden");
 
 WriteLiteral(" name=\"imputed.location.id\"");
 
-WriteLiteral("\r\n                               data-val-required=\"La localidad es un campo requ" +
-"erido. Elija Estado y Municipio para desplegar la lista de localidades.\"");
+WriteLiteral("\r\n                                                        data-val-required=\"La l" +
+"ocalidad es un campo requerido. Elija Estado y Municipio para desplegar la lista" +
+" de localidades.\"");
 
-WriteLiteral(">\r\n                          <span");
+WriteLiteral(">\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"locationId\"");
 
-WriteLiteral("\r\n                                data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
+"ue\"");
 
-WriteLiteral("></span>\r\n                    </div>\r\n                </div>\r\n                <br" +
-"/>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<br/>\r\n\r\n<div");
+WriteLiteral(@"></span>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div");
 
 WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                                    <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">\r\n                                        <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                                        ng-click=\"doConfirmVerifEqual(\'socialEn" +
+"vironment.physicalCondition\')\"");
+
+WriteLiteral("></i>\r\n                                        <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"2\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                                        code=\"socialEnvironment.physicalConditi" +
+"on\"");
+
+WriteLiteral("></i>\r\n                                        <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                                        ng-click=\"doConfirmVerifNotKnow(\'social" +
+"Environment.physicalCondition\')\"");
+
+WriteLiteral("></i>\r\n                                        <i");
+
+WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
+
+WriteLiteral("   ng-show=\"selectSource\"");
+
+WriteLiteral(" ng-click=\"showChoices(\'socialEnvironment.physicalCondition\')\"");
+
+WriteLiteral("></i>\r\n                                        &iquest;Padece alguna enfermedad o" +
+" condici&oacute;n f&iacute;sica?:             <br/>\r\n                           " +
+"             <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(tuberculosis, hepatitis, alergias, embarazo, tiempo de gestaci&oacute;n, lactan" +
+"cia, etc.)</label>\r\n                                    </div>\r\n                " +
+"                    <div");
+
+WriteLiteral(" class=\"col-xs-9\"");
+
+WriteLiteral(">\r\n                                        <textarea");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("\r\n                                        data-val-required=\"Si padece alguna enf" +
+"ermedad o condici&oacute;n f&iacute;sica es un campo requerido\"");
+
+WriteLiteral("\r\n                                        name=\"socialEnvironment.physicalConditi" +
+"on\"");
+
+WriteLiteral(">${m.socialEnvironment.physicalCondition}</textarea>\r\n                           " +
+"             <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"socialEnvironment.physicalCondition\"");
+
+WriteLiteral("\r\n                                        data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                                    </div>\r\n                           " +
+"     </div>\r\n                                <br/>\r\n\r\n                          " +
+"      <div>\r\n                                    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                                        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">\r\n                                            <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                                            ng-click=\"doConfirmVerifEqual(\'soci" +
+"alEnvironment.activities\')\"");
+
+WriteLiteral("></i>\r\n                                            <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" onclick=\"window.verificationActivities();\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                                            code=\"socialEnvironment.activities\"" +
+"");
+
+WriteLiteral("></i>\r\n                                            <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                                            ng-click=\"doConfirmVerifNotKnow(\'so" +
+"cialEnvironment.acitivies\')\"");
+
+WriteLiteral("></i>\r\n                                            <i");
+
+WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
+
+WriteLiteral("   ng-show=\"selectSource\"");
+
+WriteLiteral(" ng-click=\"showChoices(\'socialEnvironment.activities\')\"");
+
+WriteLiteral("></i>\r\n                                            &iquest;Qu&eacute; actividades" +
+" realiza?:  <br/>\r\n                                            <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(deportivas, educativas, voluntariado, etc.)</label>\r\n                          " +
+"              </div>\r\n                                        <div");
+
+WriteLiteral(" class=\"col-xs-9 element-left\"");
+
+WriteLiteral(">\r\n                                            <input");
+
+WriteLiteral(" name=\"activities\"");
+
+WriteLiteral(" ng-model=\"activities\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(">\r\n                                            <select");
+
+WriteLiteral(" multiple=\"\"");
+
+WriteLiteral(" class=\"form-control chosen-select\"");
+
+WriteLiteral(" ng-model=\"activityModel\"");
+
+WriteLiteral(" data-placeholder=\"...\"");
+
+WriteLiteral("\r\n                                            ng-init=\'\'");
+
+WriteLiteral("\r\n                                            id=\"slctActivity\"");
+
+WriteLiteral(" ng-change=\"matchActivities()\"");
+
+WriteLiteral("\r\n                                            ng-options=\"ac as ac.name for ac in" +
+" lstActivity\"");
+
+WriteLiteral(">\r\n                                        </select>\r\n                           " +
+"         </div>\r\n                                </div>\r\n                       " +
+"         <br/>\r\n\r\n                                <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                                    <div");
+
+WriteLiteral(" ng-repeat=\"activity in activityModel\"");
+
+WriteLiteral(">\r\n                                        <div");
+
+WriteLiteral(" ng-show=\"activity.specification==true\"");
+
+WriteLiteral(">\r\n                                            <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                                                Especif&iacute;que actividades" +
+" {{activity.name}}:\r\n                                            </div>\r\n       " +
+"                                     <div");
+
+WriteLiteral(" class=\"col-xs-9\"");
+
+WriteLiteral(">\r\n                                                <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral("\r\n                                                data-val-length=\"Debe tener al " +
+"menos 3 y m&aacute;ximo 255 caracteres\"");
+
+WriteLiteral("\r\n                                                data-val-length-max=\"255\"");
+
+WriteLiteral(" data-val-length-min=\"3\"");
+
+WriteLiteral("\r\n                                                data-val-required=\"La especific" +
+"aci&oacute;n de actividades {{activity.name}} es un campo requerido\"");
+
+WriteLiteral("\r\n                                                type=\"text\"");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral(" ng-model=\"specification[activity.name]\"");
+
+WriteLiteral("\r\n                                                id=\"specification{{activity.nam" +
+"e}}\"");
+
+WriteLiteral(" name=\"specification{{activity.name}}\"");
+
+WriteLiteral("\r\n                                                ng-change=\"matchActivities()\"");
+
+WriteLiteral("><br/>\r\n                                                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"specification{{activity.name}}\"");
+
+WriteLiteral("\r\n                                                data-valmsg-replace=\"true\"");
+
+WriteLiteral(@"></span>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <script>
+                                $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+                                    $(this).prev().focus();
+                                });
+                            </script>
+                            <script");
+
+WriteLiteral(" src=\"${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePicker" +
+"Cursor.js\"");
+
+WriteLiteral("></script>\r\n\r\n                        </form>\r\n                        <br/>\r\n   " +
+"                     <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n                            <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n                        </div>\r\n                    </div>\r\n           " +
+"         <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                        <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                            <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral("\r\n                            ng-click=\"submit(\'#FormPersonalData\');\"");
+
+WriteLiteral(">\r\n                            <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                            Guardar\r\n                        </span>\r\n " +
+"                   </div>\r\n                </div>\r\n\r\n\r\n\r\n            </div><!--E" +
+"nd of Datos Personales-->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+
+WriteLiteral(" id=\"address\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Domicilios -->\r\n                <!-- include file=\"/WEB-INF/jsp/re" +
+"viewer/meeting/address/index.jsp\" -->2\r\n<div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <h2> <i");
+
+WriteLiteral(" class=\"green  icon-home  bigger-100\"");
+
+WriteLiteral("></i>&nbsp;Domicilios</h2>\r\n        <br/>\r\n        <div");
+
+WriteLiteral(" id=\"angJsjqGridIdAddress\"");
+
+WriteLiteral(" >\r\n            <table");
+
+WriteLiteral(" id=\"GridIdAddress\"");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(" style=\"margin: auto\"");
+
+WriteLiteral("></table>\r\n            <div");
+
+WriteLiteral(" id=\"GridPagerAddress\"");
+
+WriteLiteral("></div>\r\n           \r\n        </div>\r\n\r\n        <!-- Aqui va el bootstrap table d" +
+"e domicilio -->\r\n    </div>\r\n</div>\r\n<br/><br/>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgSuccess\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgSuccess\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <form");
+
+WriteLiteral(" id=\"FormCommentHomeId\"");
+
+WriteLiteral(" name=\"FormCommentHomeId\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n            <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(Este campo no es verificable)</label></div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral(">\r\n                <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(@" ng-model = ""m.CommentHome"" ng-init=''
+                data-val-required=""Las obsgervaciones es un campo requerido""
+                data-val=""true""
+                data-val-required=""Las observaciones es un campo requerido""
+                data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
+                data-val-length-max=""500""
+                data-val-length-min=""1""
+                name=""commentHome""></textarea>
+                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"comment\"");
+
+WriteLiteral("\r\n                data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n            </div>\r\n        </form>\r\n        <br/>\r\n        <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n                <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n            </div>\r\n        </div>-->\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral(">\r\n                <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                Guardar\r\n            </span>\r\n        </div>\r\n    </div" +
+">\r\n            </div><!--End of Domicilios -->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n          " +
+"  <div");
+
+WriteLiteral(" id=\"socialNetwork\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Red Social -->\r\n                <!-- include file=\"/WEB-INF/jsp/re" +
+"viewer/meeting/socialNetwork/index.jsp\" -->3\r\n<div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(">\r\n        <h2> <i");
+
+WriteLiteral(" class=\"blue icon-group bigger-100\"");
+
+WriteLiteral("></i> &nbsp;Red social</h2>\r\n        <br/>\r\n        <div");
+
+WriteLiteral(" id=\"angJsjqGridIdSocialNetwork\"");
+
+WriteLiteral(" >\r\n            <table");
+
+WriteLiteral(" id=\"GridIdSocialNetwork\"");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(" style=\"margin: auto\"");
+
+WriteLiteral("></table>\r\n            <div");
+
+WriteLiteral(" id=\"GridPagerSocialNetwork\"");
+
+WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n        <br/>\r\n<br/>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" ng-show=\"msgSuccess\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n        <span");
+
+WriteLiteral(" ng-bind-html=\"msgSuccess\"");
+
+WriteLiteral("></span>\r\n    </div>\r\n    </div>-->\r\n    <form");
+
+WriteLiteral(" id=\"FormSocialNetworkIndexId\"");
+
+WriteLiteral(" name=\"FormSocialNetworkIndexId\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n                    <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(no tiene donde vivir, existe violencia, etc.)</label></div>\r\n                <d" +
+"iv");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral(">\r\n                    <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(@"     ng-model = ""comment"" ng-init=''
+                              data-val-required=""Las observaciones es un campo requerido""
+                              data-val=""true""
+                              data-val-required=""Las observaciones es un campo requerido""
+                              data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
+                              data-val-length-max=""500""
+                              data-val-length-min=""1""
+                              name=""socialNetwork.comment""></textarea>
+                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"comment\"");
+
+WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                </div>\r\n    </form>\r\n    <br/>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n    <!--<div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n        <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n    </div>-->\r\n        </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                          Guardar\r\n                    </span>\r\n       " +
+" </div>\r\n    </div>\r\n</div>\r\n            </div><!--End of Red Social -->\r\n\r\n\r\n\r\n" +
+"\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+
+WriteLiteral(" id=\"personalReferences\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Referencias -->\r\n                <!-- include file=\"/WEB-INF/jsp/r" +
+"eviewer/meeting/reference/index.jsp\" -->4\r\n<div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <h2><i");
+
+WriteLiteral(" class=\"red icon-list bigger-100\"");
+
+WriteLiteral("></i> &nbsp;Referencias personales</h2>\r\n        <br/>\r\n        <div");
+
+WriteLiteral(" id=\"angJsjqGridIdReference\"");
+
+WriteLiteral(" >\r\n            <table");
+
+WriteLiteral(" id=\"GridIdReference\"");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(" style=\"margin: auto\"");
+
+WriteLiteral("></table>\r\n            <div");
+
+WriteLiteral(" id=\"GridPagerReference\"");
+
+WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n    <br/><br/>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" >\r\n\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgSuccess\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgSuccess\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <form");
+
+WriteLiteral(" id=\"FormCommentReferenceId\"");
+
+WriteLiteral(" name=\"FormCommentReferenceId\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n            <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(no tiene donde vivir, existe violencia, etc.)</label></div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral(">\r\n            <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(@"
+                      ng-model = ""comment"" ng-init=''
+                      data-val-required=""Las observaciones es un campo requerido""
+                      data-val=""true""
+                      data-val-required=""Las observaciones es un campo requerido""
+                      data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
+                      data-val-length-max=""500""
+                      data-val-length-min=""1""
+                      name=""commentReference"">${m.socialNetwork.comment}</textarea>
+                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"comment\"");
+
+WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral("\r\n                          ng-click=\"\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                          Guardar\r\n                    </span>\r\n       " +
+" </div>\r\n    </div>\r\n</div>\r\n            </div><!--End of Referencias -->\r\n\r\n\r\n\r" +
+"\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+
+WriteLiteral(" id=\"jobHistory\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Historial laboral -->\r\n                <!-- include file=\"/WEB-INF" +
+"/jsp/reviewer/meeting/job/index.jsp\" -->5\r\n<div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <h2><i");
+
+WriteLiteral(" class=\"pink icon-briefcase  bigger-100\"");
+
+WriteLiteral(">&nbsp;</i>Historia Laboral</h2>\r\n        <br/>\r\n\r\n        <div");
+
+WriteLiteral(" id=\"angJsjqGridIdJob\"");
+
+WriteLiteral(" >\r\n            <table");
+
+WriteLiteral(" id=\"GridIdJob\"");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(" style=\"margin: auto\"");
+
+WriteLiteral("></table>\r\n            <div");
+
+WriteLiteral(" id=\"GridPagerJob\"");
+
+WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n<br/>\r\n<br/>\r\n\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" >\r\n\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgSuccess\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgSuccess\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <form");
+
+WriteLiteral(" id=\"FormCommentJobId\"");
+
+WriteLiteral(" name=\"FormCommentJobId\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n            <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(Este campo no es verificable)</label></div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral(">\r\n            <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral("\r\n                      data-val=\"true\"");
+
+WriteLiteral(" ng-model=\"comment\"");
+
+WriteLiteral("\r\n                      ng-init=\'\'");
+
+WriteLiteral("\r\n                      data-val-required=\"Las observaciones es un campo requerid" +
+"o\"");
+
+WriteLiteral("\r\n                      data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 50" +
+"0 caracteres\"");
+
+WriteLiteral("\r\n                      data-val-length-max=\"500\"");
+
+WriteLiteral("\r\n                      data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                      name=\"commentJob\"");
+
+WriteLiteral("></textarea>\r\n                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"commentJob\"");
+
+WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral("\r\n                          ng-click=\"\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                          Guardar\r\n                    </span>\r\n       " +
+" </div>\r\n    </div>\r\n</div>\r\n            </div><!--End of Historial laboral -->\r" +
+"\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+
+WriteLiteral(" id=\"school\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Red Historia escolar -->\r\n                <!-- include file=\"/WEB-" +
+"INF/jsp/reviewer/meeting/school/index.jsp\" -->6\r\n<div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <h2> <i");
+
+WriteLiteral(" class=\"orange icon-book  bigger-100\"");
+
+WriteLiteral(">&nbsp;</i>Historia Escolar</h2>\r\n        <br/>\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" >\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                <!--<div");
+
+WriteLiteral(" ng-show=\"msgExito\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" ng-bind-html=\"msgExito\"");
+
+WriteLiteral("></span>\r\n                </div>-->\r\n                <form");
+
+WriteLiteral(" id=\"FormSchool\"");
+
+WriteLiteral(" name=\"FormSchool\"");
+
+WriteLiteral(" ng-submit=\"submit(\'#FormSchool\')\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral("\r\n                      role=\"form\"");
+
+WriteLiteral(">\r\n                    <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" value=\"${m.caseDetention.id}\"");
+
+WriteLiteral(" name=\"caseDetention.id\"");
+
+WriteLiteral(">\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12 element-center\"");
+
+WriteLiteral(" ng-init=\"\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-6 element-right\"");
+
+WriteLiteral(">\r\n                &iquest;El imputado estudia actualmente?\r\n            </div>\r\n" +
+"            <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" type=\"radio\"");
+
+WriteLiteral(" name=\"school.block\"");
+
+WriteLiteral("\r\n                id=\"blockYes\"");
+
+WriteLiteral(" ng-value=\"true\"");
+
+WriteLiteral(" ng-model=\"block\"");
+
+WriteLiteral(" ng-change=\"fillModel()\"");
+
+WriteLiteral(">\r\n                <label");
+
+WriteLiteral(" for=\"blockYes\"");
+
+WriteLiteral(">Si</label> &nbsp;&nbsp;&nbsp;\r\n                <input");
+
+WriteLiteral(" type=\"radio\"");
+
+WriteLiteral(" ng-checked=\"block==false\"");
+
+WriteLiteral(" name=\"school.block\"");
+
+WriteLiteral("\r\n                id=\"blockNo\"");
+
+WriteLiteral(" ng-value=\"false\"");
+
+WriteLiteral(" ng-model=\"block\"");
+
+WriteLiteral(" ng-change=\"fillModel()\"");
+
+WriteLiteral(">\r\n                <label");
+
+WriteLiteral(" for=\"blockNo\"");
+
+WriteLiteral(">No</label>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n\r\n    <di" +
+"v");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-2 element-left\"");
+
+WriteLiteral(">\r\n            <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n            ng-click=\"doConfirmVerifEqual(\'school.name\')\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"2\"");
+
+WriteLiteral("\r\n            ng-show=\"verification\"");
+
+WriteLiteral(" code=\"school.name\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n            ng-click=\"doConfirmVerifNotKnow(\'school.name\')\"");
+
+WriteLiteral("></i>\r\n            Escuela:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-10\"");
+
+WriteLiteral("><input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral(" ng-readonly=\"!block\"");
+
+WriteLiteral("\r\n          data-val-length=\"Debe tener al menos 5 y m?ximo 200 caracteres\"");
+
+WriteLiteral("\r\n          data-val-length-max=\"200\"");
+
+WriteLiteral(" data-val-length-min=\"5\"");
+
+WriteLiteral("\r\n          data-val-required=\"La escuela es un campo requerido\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral("\r\n          ng-init=\'\'");
+
+WriteLiteral("\r\n          ng-model=\"school.name\"");
+
+WriteLiteral(" id=\"school.name\"");
+
+WriteLiteral(" name=\"school.name\"");
+
+WriteLiteral("></div>\r\n          <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-9 col-xs-offset-2 element-left\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral("\r\n             data-valmsg-for=\"school.name\"");
+
+WriteLiteral("\r\n             data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span></div>\r\n         </div>\r\n     </div>\r\n     <br/>\r\n\r\n     <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-2 element-left\"");
+
+WriteLiteral(">\r\n            <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n            ng-click=\"doConfirmVerifEqual(\'school.phone\')\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"3\"");
+
+WriteLiteral("\r\n            ng-show=\"verification\"");
+
+WriteLiteral(" code=\"school.phone\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n            ng-click=\"doConfirmVerifNotKnow(\'school.phone\')\"");
+
+WriteLiteral("></i>\r\n            Tel&eacute;fono:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-4\"");
+
+WriteLiteral("><input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral("\r\n         data-val-length=\"Debe tener al menos 5 y m&aacute;ximo 30 caracteres\"");
+
+WriteLiteral("\r\n         data-val-length-max=\"30\"");
+
+WriteLiteral(" data-val-length-min=\"5\"");
+
+WriteLiteral(" ng-readonly=\"!block\"");
+
+WriteLiteral("\r\n         data-val-required=\"El tel&eacute;fono es un campo requerido\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral("\r\n         value=\"\"");
+
+WriteLiteral("\r\n         ng-model=\"school.phone\"");
+
+WriteLiteral(" id=\"school.phone\"");
+
+WriteLiteral(" name=\"school.phone\"");
+
+WriteLiteral("\r\n         ng-init=\'\'");
+
+WriteLiteral(">\r\n         <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"school.phone\"");
+
+WriteLiteral("\r\n         data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n     </div>\r\n\r\n\r\n </div>\r\n <br/>\r\n\r\n <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-2 element-left\"");
+
+WriteLiteral(">\r\n        <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n        ng-click=\"doConfirmVerifEqual(\'school.address\')\"");
+
+WriteLiteral("></i>\r\n        <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"3\"");
+
+WriteLiteral("\r\n        ng-show=\"verification\"");
+
+WriteLiteral(" code=\"school.address\"");
+
+WriteLiteral("></i>\r\n        <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n        ng-click=\"doConfirmVerifNotKnow(\'school.address\')\"");
+
+WriteLiteral("></i>\r\n        Direcci&oacute;n:\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-10\"");
+
+WriteLiteral("><textarea");
+
+WriteLiteral(" id=\"school.address\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" name=\"school.address\"");
+
+WriteLiteral("\r\n     ng-model=\"school.address\"");
+
+WriteLiteral(" ng-readonly=\"!block\"");
+
+WriteLiteral("\r\n     ng-init=\'\'");
+
+WriteLiteral("\r\n     data-val=\"true\"");
+
+WriteLiteral("\r\n     data-val-required=\"La direcci&oacute;n es un campo requerido\"");
+
+WriteLiteral("\r\n     data-val-length=\"Debe tener al menos 6 y m&aacute;ximo 500 caracteres\"");
+
+WriteLiteral("\r\n     data-val-length-max=\"500\"");
+
+WriteLiteral("\r\n     data-val-length-min=\"6\"");
+
+WriteLiteral(">m.school.address</textarea>\r\n\r\n     <div");
+
+WriteLiteral(" class=\"col-xs-9 col-xs-offset-2 element-left\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral("\r\n         data-valmsg-for=\"school.address\"");
+
+WriteLiteral("\r\n         data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n     </div>\r\n </div>\r\n</div>\r\n<br/>\r\n\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"widget-box\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"widget-header\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-10 element-left\"");
+
+WriteLiteral(">\r\n                <h4>Actual/&Uacute;ltimo nivel de estudios</h4>\r\n            <" +
+"/div>\r\n        </div>\r\n\r\n        <div");
+
+WriteLiteral(" class=\"widget-body\"");
+
+WriteLiteral(">\r\n            <br/>\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-2  element-left col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                    Nivel:\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-4\"");
+
+WriteLiteral(">\r\n                    <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"school.level\"");
+
+WriteLiteral("\r\n                    ng-options=\"e.name for e in lstLevel\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("\r\n                    ng-change=\"school.levelId = school.level.id; lstDegree = sc" +
+"hool.level.degrees; school.degree=lstDegree[0]\"");
+
+WriteLiteral("></select>\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-1\"");
+
+WriteLiteral(">\r\n                    Grado:\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n\r\n                    <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"school.degree\"");
+
+WriteLiteral("\r\n                    ng-options=\"e.name for e in lstDegree\"");
+
+WriteLiteral("\r\n                    ng-change=\"school.degreeId = school.degree.id\"");
+
+WriteLiteral("\r\n                    ng-init=\'lstDegree = school.level.degrees;\'");
+
+WriteLiteral("></select>\r\n                    <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\" school.degree.id\"");
+
+WriteLiteral(" name=\"school.degree.id\"");
+
+WriteLiteral("\r\n                    id=\"degreeId\"");
+
+WriteLiteral("\r\n                    ng-init=\"\"");
+
+WriteLiteral(">\r\n                </div>\r\n\r\n                <br/>\r\n            </div>\r\n         " +
+"   <br/>\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"school.levelId == 7\"");
+
+WriteLiteral(">\r\n                <br/>\r\n\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-2  element-left col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                    ng-click=\"doConfirmVerifEqual(\'school.degree\')\"");
+
+WriteLiteral("></i>\r\n                    <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"3\"");
+
+WriteLiteral("\r\n                    ng-show=\"verification\"");
+
+WriteLiteral(" code=\"school.degree\"");
+
+WriteLiteral("></i>\r\n                    <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                    ng-click=\"doConfirmVerifNotKnow(\'school.degree\')\"");
+
+WriteLiteral("></i>\r\n                    Especif&iacute;que:\r\n                </div>\r\n         " +
+"       <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral(">\r\n                    <input");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral("\r\n                    data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 300 " +
+"caracteres\"");
+
+WriteLiteral("\r\n                    data-val-length-max=\"300\"");
+
+WriteLiteral(" data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                    data-val-required=\"La especificaci&oacute;n  es un campo re" +
+"querido\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral("\r\n                    ng-model=\"school.specification\"");
+
+WriteLiteral(" id=\"school.specification\"");
+
+WriteLiteral(" name=\"school.specification\"");
+
+WriteLiteral("\r\n                    ng-init=\'\'");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"school.specification\"");
+
+WriteLiteral("\r\n                    data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                </div>\r\n            </div>\r\n            <br/>\r\n        " +
+"</div>\r\n    </div>\r\n</div>\r\n\r\n\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" id=\"divSchedule\"");
+
+WriteLiteral(" ng-show=\"block\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"widget-header header-color-blue\"");
+
+WriteLiteral(">\r\n                <h5");
+
+WriteLiteral(" class=\"bigger lighter\"");
+
+WriteLiteral(">\r\n                    <h6><i");
+
+WriteLiteral(" class=\"glyphicon-calendar \"");
+
+WriteLiteral("></i>Disponibilidad</h6>\r\n                </h5>\r\n            </div>\r\n\r\n          " +
+"  <div");
+
+WriteLiteral(" class=\"widget-body\"");
+
+WriteLiteral(">\r\n                <br/>\r\n<div");
+
+WriteLiteral(" id=\"divScheduleComponent\"");
+
+WriteLiteral(">\r\n\r\n    <link");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" href=\"content/themes/umeca/bootstrap-timepicker.css\"");
+
+WriteLiteral(" />\r\n    <script");
+
+WriteLiteral(" src=\"scripts/umeca/date-time/bootstrap-datepicker.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/umeca/date-time/moment.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/app/shared/dateTimePickerCursor.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/app/reviewer/scheduleCtrl.js\"");
+
+WriteLiteral("></script>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(" ng-controller=\"scheduleController\"");
+
+WriteLiteral(" id=\"divComponentSchedule\"");
+
+WriteLiteral(">\r\n        <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"schString\"");
+
+WriteLiteral(" name=\'sch\'");
+
+WriteLiteral(">\r\n        <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-init=\'listSchedule = \"\"\'");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-4 element-center\"");
+
+WriteLiteral(">\r\n                 D&iacute;a(s)<br/>\r\n                 <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral("\r\n                 ng-model=\"s.day\"");
+
+WriteLiteral(" ng-init=\'s.day= \"\"\'");
+
+WriteLiteral(">\r\n             </div>\r\n             <div");
+
+WriteLiteral(" class=\"col-xs-3 element-center\"");
+
+WriteLiteral(">\r\n                Inicio<br/>\r\n                <div");
+
+WriteLiteral(" class=\"input-group bootstrap-timepicker\"");
+
+WriteLiteral(">\r\n                    <input");
+
+WriteLiteral(" id=\"timepickerStart{{content}}\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" class=\"form-control umeca-time-picker tp\"");
+
+WriteLiteral(" ng-model=\"s.start\"");
+
+WriteLiteral("/>\r\n                    <span");
+
+WriteLiteral(" class=\"input-group-addon\"");
+
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"icon-time bigger-60\"");
+
+WriteLiteral("></i>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n " +
+"           <div");
+
+WriteLiteral(" class=\"col-xs-3 element-center\"");
+
+WriteLiteral(">\r\n                Fin <br/>\r\n                <div");
+
+WriteLiteral(" class=\"input-group bootstrap-timepicker\"");
+
+WriteLiteral(">\r\n                    <input");
+
+WriteLiteral(" id=\"timepickerEnd{{content}}\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" class=\"form-control umeca-time-picker tp\"");
+
+WriteLiteral(" ng-model=\"s.end\"");
+
+WriteLiteral("/>\r\n                    <span");
+
+WriteLiteral(" class=\"input-group-addon\"");
+
+WriteLiteral(">\r\n                        <i");
+
+WriteLiteral(" class=\"icon-time  bigger-40\"");
+
+WriteLiteral("></i>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n " +
+"           <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                Acciones<br/><div");
+
+WriteLiteral(" class=\"space-5\"");
+
+WriteLiteral("></div>\r\n                <i");
+
+WriteLiteral(" class=\"icon-plus-sign orange\"");
+
+WriteLiteral(" style=\"cursor:pointer;\"");
+
+WriteLiteral(" ng-click=\"addSchedule()\"");
+
+WriteLiteral("></i>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"hr hr-6\"");
+
+WriteLiteral("></div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert-danger element-center\"");
+
+WriteLiteral(">\r\n            {{msgError}}\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(" ng-show=\"listSchedule.length==0\"");
+
+WriteLiteral(">\r\n            <br/>\r\n            <br/>\r\n            <br/>\r\n        </div>\r\n     " +
+"   <div");
+
+WriteLiteral(" class=\"col-xs-9 col-xs-offset-1\"");
+
+WriteLiteral(" ng-show =\"listSchedule.length > 0\">\r\n           <div");
+
+WriteLiteral(" class=\"row center\"");
+
+WriteLiteral(">\r\n               <div");
+
+WriteLiteral(" class=\"col-xs-5\"");
+
+WriteLiteral(">\r\n                   <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">D&iacute;a</h5>\r\n                   <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n               </div>\r\n               <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                   <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Inicio</h5>\r\n                   <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n               </div>\r\n               <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                   <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Fin</h5>\r\n                   <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n               </div>\r\n               <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                   <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Acciones</h5>\r\n                   <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n               </div>\r\n           </div>\r\n           <div");
+
+WriteLiteral(" class=\"row center\"");
+
+WriteLiteral(" ng-repeat =\"sch in listSchedule\">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-5\"");
+
+WriteLiteral(">\r\n                {{sch.day}}\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n               {{sch.start}}\r\n           </div>\r\n           <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n            {{sch.end}}\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n            <i");
+
+WriteLiteral(" class=\"icon-trash red\"");
+
+WriteLiteral(" style=\"cursor:pointer;\"");
+
+WriteLiteral(" ng-click=\"deleteSchedule($index)\"");
+
+WriteLiteral("></i>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n</div>\r\n</div>\r\n<br/>\r\n</div>\r\n</di" +
+"v>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n<br/><br/>\r\n\r\n<div" +
+"");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n        <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(Este campo no es verificable)</label>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-9\"");
+
+WriteLiteral(">\r\n        <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(" ng-model=\"m.CommentSchool\"");
+
+WriteLiteral("\r\n        data-val=\"true\"");
+
+WriteLiteral("\r\n        data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 500 caracteres\"");
+
+WriteLiteral("\r\n        data-val-length-max=\"500\"");
+
+WriteLiteral("\r\n        data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n        name=\"school.commentSchool\"");
+
+WriteLiteral("></textarea>\r\n        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"comment\"");
+
+WriteLiteral("\r\n        data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n                </form>\r\n                <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n        <" +
+"div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral("\r\n                          ng-click=\"submit(\'#FormSchool\', \'\');\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                           Guardar\r\n                    </span>\r\n      " +
+"      </div>\r\n        </div>\r\n    </div>\r\n            </div><!--End of Red Histo" +
+"ria escolar -->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+
+WriteLiteral(" id=\"drugsSection\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Consumo de sustancias -->\r\n                <!-- include file=\"/WEB" +
+"-INF/jsp/reviewer/meeting/drug/index.jsp\" -->7\r\n<div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <h2> <i");
+
+WriteLiteral(" class=\"green icon-warning-sign  bigger-100\"");
+
+WriteLiteral(">&nbsp;</i>Consumo de sustancias</h2>\r\n        <br/>\r\n        <div");
+
+WriteLiteral(" id=\"angJsjqGridIdDrug\"");
+
+WriteLiteral(" >\r\n            <table");
+
+WriteLiteral(" id=\"GridIdDrug\"");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(" style=\"margin: auto\"");
+
+WriteLiteral("></table>\r\n            <div");
+
+WriteLiteral(" id=\"GridPagerDrug\"");
+
+WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<br/><br/>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" >\r\n\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgSuccess\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgSuccess\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <form");
+
+WriteLiteral(" id=\"FormCommentDrugId\"");
+
+WriteLiteral(" name=\"FormCommentDrugId\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n            <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(Este campo no es verificable)</label></div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral(">\r\n            <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(@"      ng-model = ""comment"" ng-init=''
+                      data-val-required=""Las observaciones es un campo requerido""
+                      data-val=""true""
+                      data-val-required=""Las observaciones es un campo requerido""
+                      data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
+                      data-val-length-max=""500""
+                      data-val-length-min=""1""
+                      name=""commentDrug""></textarea>
+                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"comment\"");
+
+WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n    <!--<div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" ng-show=\"msgError\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgError\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"WaitFor==true\"");
+
+WriteLiteral("\r\n                          ng-click=\"\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+
+WriteLiteral("></span>\r\n                          Guardar\r\n                    </span>\r\n       " +
+" </div>\r\n    </div>\r\n</div>\r\n            </div><!--End of Consumo de sustancias " +
+"-->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+
+WriteLiteral(" id=\"leaveCountry\"");
+
+WriteLiteral(" class=\"tab-pane\"");
+
+WriteLiteral("><!-- Begin of Facilidad abandonar el pais -->\r\n                <!-- include file" +
+"=\"/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp\" -->8\r\n <div");
+
+WriteLiteral(" class=\"col-xs-10 element-center col-xs-offset-1\"");
+
+WriteLiteral(">\r\n\r\n        <div");
+
+WriteLiteral(" class=\"center row\"");
+
+WriteLiteral(">\r\n            <h2><i");
+
+WriteLiteral(" class=\"blue icon-globe bigger-100\"");
+
+WriteLiteral("></i> &nbsp;Facilidad de abandonar el pa&iacute;s</h2>\r\n        </div>\r\n        <" +
+"br/>\r\n\r\n        <!--<div");
+
+WriteLiteral(" ng-show=\"msgExito\"");
+
+WriteLiteral(" class=\"alert alert-success element-center success-font\"");
+
+WriteLiteral(">\r\n            <span");
+
+WriteLiteral(" ng-bind-html=\"msgExito\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n        <br/>-->\r\n\r\n        <form");
+
+WriteLiteral(" id=\"FormLeaveCountry\"");
+
+WriteLiteral(" name=\"FormLeaveCountry\"");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" role=\"form\"");
+
+WriteLiteral(">\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"verification || selectSource\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1 element-left\"");
+
+WriteLiteral(">\r\n        <label");
+
+WriteLiteral(" class=\"text-primary\"");
+
+WriteLiteral(">Observaciones: <b>m.commentCountry</b></label>\r\n    </div>\r\n</div>\r\n<br/>\r\n\r\n<di" +
+"v");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n    <br/>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"readOnly == false\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n\r\n            &nbsp;&nbsp;&nbsp;&nbsp;\r\n            <b> Establecer toda la inf" +
+"ormaci&oacute;n de Facilidad de abandonar el pa&iacute;s\r\n                con:</" +
+"b>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1 text-info\"");
+
+WriteLiteral(" style=\"padding-top: 8px;\"");
+
+WriteLiteral(">\r\n            <i");
+
+WriteLiteral(" class=\"purple glyphicon glyphicon-user bigger-160\"");
+
+WriteLiteral("\r\n               ng-click=\"\"");
+
+WriteLiteral("\r\n               style=\"cursor: pointer;\"");
+
+WriteLiteral("></i>\r\n            &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el" +
+" imputado.\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1 text-info\"");
+
+WriteLiteral(" style=\"padding-top: 8px;\"");
+
+WriteLiteral(">\r\n            <i");
+
+WriteLiteral(" class=\"blue icon-question-sign  icon-only bigger-160\"");
+
+WriteLiteral(" style=\"cursor: pointer;\"");
+
+WriteLiteral("\r\n               ng-click=\"\"");
+
+WriteLiteral("></i>\r\n            &nbsp;&nbsp;&nbsp;No se pudo verificar\r\n        </div>\r\n    </" +
+"div>\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"readOnly == false\"");
+
+WriteLiteral(">\r\n        <div col-xs-12>\r\n            <div");
+
+WriteLiteral(" class=\"hr hr-8\"");
+
+WriteLiteral("></div>\r\n        </div>\r\n    </div>\r\n\r\n    <br/>\r\n\r\n    <div>\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-9 element-left\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                       ng-click=\"doConfirmVerifEqual(\'leaveCountry.officialDocu" +
+"mentation.id\')\"");
+
+WriteLiteral("></i>\r\n                    <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"4\"");
+
+WriteLiteral("\r\n                       ng-show=\"verification\"");
+
+WriteLiteral(" code=\"leaveCountry.officialDocumentation.id\"");
+
+WriteLiteral("></i>\r\n                    <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                       ng-click=\"doConfirmVerifNotKnow(\'leaveCountry.officialDo" +
+"cumentation.id\')\"");
+
+WriteLiteral("></i>\r\n                    <i");
+
+WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"selectSource\"");
+
+WriteLiteral("\r\n                       ng-click=\"showChoices(\'leaveCountry.officialDocumentatio" +
+"n.id\')\"");
+
+WriteLiteral("></i>\r\n                    &iquest;El imputado cuenta con documentaci&oacute;n of" +
+"icial que facilite que abandone el pa&iacute;s?:\r\n                </div>\r\n      " +
+"          <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                    <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.docId\"");
+
+WriteLiteral("\r\n                           name=\"leaveCountry.officialDocumentation.id\"");
+
+WriteLiteral("\r\n                           id=\"doc\"");
+
+WriteLiteral("\r\n                           ng-init=\'\'");
+
+WriteLiteral(">\r\n                    <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.doc\"");
+
+WriteLiteral("\r\n                            ng-options=\"e.name for e in listElection\"");
+
+WriteLiteral("\r\n                            ng-change=\"l.docId = l.doc.id;\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("></select>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <" +
+"br/>\r\n\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.doc.id==1\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                Documentaci&oacute;n:\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral("  >\r\n                <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.immigrationDocId\"");
+
+WriteLiteral("\r\n                       name=\"leaveCountry.immigrationDocument.id\"");
+
+WriteLiteral("\r\n                       id=\"immigrationDcc\"");
+
+WriteLiteral(" ng-show=\"l.doc.id==1\"");
+
+WriteLiteral("\r\n                       ng-init=\'\'");
+
+WriteLiteral(">\r\n                <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.immigrationDoc\"");
+
+WriteLiteral("\r\n                        ng-options=\"e.name for e in listImmigrationDoc\"");
+
+WriteLiteral(" value=\"{{l.immigrationDocId}}\"");
+
+WriteLiteral("\r\n                        ng-change=\"l.immigrationDocId = l.immigrationDoc.id;\"");
+
+WriteLiteral("\r\n                        ng-init=\'\'");
+
+WriteLiteral("></select>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(" ng-show=\"l.immigrationDoc.specification\"");
+
+WriteLiteral(">\r\n                Especifique documentaci&oacute;n:\r\n            </div>\r\n       " +
+"     <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(" ng-show=\"l.doc.id == 1 && l.immigrationDoc.specification\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("    ng-show=\"l.doc.id == 1 && l.immigrationDoc.specification\"");
+
+WriteLiteral("\r\n                       data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 5" +
+"0 caracteres\"");
+
+WriteLiteral("\r\n                       data-val-length-max=\"50\"");
+
+WriteLiteral(" data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                       data-val-required=\"La especificaci&oacute;n es un campo " +
+"requerido\"");
+
+WriteLiteral("\r\n                       type=\"text\"");
+
+WriteLiteral(" ng-model=\"l.specficationImmigranDoc\"");
+
+WriteLiteral(" id=\"leaveCountry.specficationImmigranDoc\"");
+
+WriteLiteral("\r\n                       name=\"leaveCountry.specficationImmigranDoc\"");
+
+WriteLiteral(" value=\"{{l.specficationImmigranDoc}}\"");
+
+WriteLiteral("\r\n                       ng-init=\'\'");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.specficationImmigranDoc\"");
+
+WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<br/>\r\n\r\n<div>\r" +
+"\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-9 element-left\"");
+
+WriteLiteral(">\r\n                <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                   ng-click=\"doConfirmVerifEqual(\'leaveCountry.livedCountry.id\'" +
+")\"");
+
+WriteLiteral("></i>\r\n                <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"4\"");
+
+WriteLiteral("\r\n                   ng-show=\"verification\"");
+
+WriteLiteral(" code=\"leaveCountry.livedCountry.id\"");
+
+WriteLiteral("></i>\r\n                <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n                   ng-click=\"doConfirmVerifNotKnow(\'leaveCountry.livedCountry.i" +
+"d\')\"");
+
+WriteLiteral("></i>\r\n                <i");
+
+WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"selectSource\"");
+
+WriteLiteral("\r\n                   ng-click=\"showChoices(\'leaveCountry.livedCountry.id\')\"");
+
+WriteLiteral("></i>\r\n                &iquest;El detenido ha vivido en otro pa&iacute;s?:\r\n     " +
+"       </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.ocId\"");
+
+WriteLiteral(" name=\"leaveCountry.livedCountry.id\"");
+
+WriteLiteral(" id=\"oc\"");
+
+WriteLiteral("\r\n                       ng-init=\'\'");
+
+WriteLiteral(">\r\n                <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.oc\"");
+
+WriteLiteral("\r\n                        ng-options=\"e.name for e in listElection\"");
+
+WriteLiteral(" value=\"{{l.oc.id}}\"");
+
+WriteLiteral("\r\n                        ng-change=\"l.ocId = l.oc.id;\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("></select>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n        <br/>\r\n\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                Pa&iacute;s:\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.countryId\"");
+
+WriteLiteral(" name=\"leaveCountry.country.id\"");
+
+WriteLiteral("\r\n                       id=\"country\"");
+
+WriteLiteral(" ng-show=\"l.ocId ==1\"");
+
+WriteLiteral("\r\n                       ng-init=\'\'");
+
+WriteLiteral(">\r\n                <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.country\"");
+
+WriteLiteral("\r\n                        ng-options=\"e.name for e in listCountry\"");
+
+WriteLiteral(" value=\"{{l.country.id}}\"");
+
+WriteLiteral("\r\n                        url-request=\"/catalogs/getStatesByCountry.json\"");
+
+WriteLiteral("\r\n                        ng-change=\"l.countryId = l.country.id;\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("></select>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-2 element-right\"");
+
+WriteLiteral(">\r\n                Estado:\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("   ng-show=\"l.ocId ==1\"");
+
+WriteLiteral("\r\n                       data-val-length=\"Debe tener al menos 3 y m&aacute;ximo 1" +
+"00 caracteres\"");
+
+WriteLiteral("\r\n                       data-val-length-max=\"100\"");
+
+WriteLiteral(" data-val-length-min=\"3\"");
+
+WriteLiteral("\r\n                       data-val-required=\"El estado es un campo requerido\"");
+
+WriteLiteral("\r\n                       type=\"text\"");
+
+WriteLiteral(" ng-model=\"l.state\"");
+
+WriteLiteral(" id=\"leaveCountry.state\"");
+
+WriteLiteral("\r\n                       name=\"leaveCountry.state\"");
+
+WriteLiteral(" value=\"{{l.state}}\"");
+
+WriteLiteral("\r\n                       ng-init=\'\'");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.state\"");
+
+WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n\r\n        <br/>\r\n    </div>\r\n    <d" +
+"iv");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">\r\n            &iquest;Hace cu&aacute;nto tiempo?:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral("  ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("\r\n                   data-val-length=\"Debe tener al menos 3 y m&aacute;ximo 250 c" +
+"aracteres\"");
+
+WriteLiteral("\r\n                   data-val-length-max=\"250\"");
+
+WriteLiteral(" data-val-length-min=\"3\"");
+
+WriteLiteral(" ng-show=\"l.ocId ==1\"");
+
+WriteLiteral("\r\n                   data-val-required=\"El tiempo es un campo requerido\"");
+
+WriteLiteral("\r\n                   type=\"text\"");
+
+WriteLiteral(" ng-model=\"l.timeAgo\"");
+
+WriteLiteral(" id=\"leaveCountry.timeAgo\"");
+
+WriteLiteral("\r\n                   name=\"leaveCountry.timeAgo\"");
+
+WriteLiteral(" value=\"{{l.timeAgo}}\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.timeAgo\"");
+
+WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-2 element-right\"");
+
+WriteLiteral(">\r\n            A&ntilde;os que vivi&oacute; en el extranjero:\r\n        </div>\r\n  " +
+"      <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral("  ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("   ng-show=\"l.ocId ==1\"");
+
+WriteLiteral("\r\n                   data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 50 ca" +
+"racteres\"");
+
+WriteLiteral("\r\n                   data-val-length-max=\"50\"");
+
+WriteLiteral(" data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                   data-val-required=\"A&ntilde;os que vivi&oacute; en el extran" +
+"jero es un campo requerido\"");
+
+WriteLiteral("\r\n                   type=\"text\"");
+
+WriteLiteral(" ng-model=\"l.timeResidence\"");
+
+WriteLiteral(" id=\"leaveCountry.timeResidence\"");
+
+WriteLiteral("\r\n                   name=\"leaveCountry.timeResidence\"");
+
+WriteLiteral(" value=\"{{l.timeResidence}}\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.timeResidence\"");
+
+WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">\r\n            Motivo por el que ahora vive en M&eacute;xico:\r\n        </div>\r\n  " +
+"      <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral("  ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n            <textarea");
+
+WriteLiteral(" id=\"leaveCountry.reason\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("  ng-show=\"l.ocId ==1\"");
+
+WriteLiteral("\r\n                      data-val-length=\"Debe tener al menos 3 y m&aacute;ximo 50" +
+"0 caracteres\"");
+
+WriteLiteral("\r\n                      data-val-length-max=\"500\"");
+
+WriteLiteral(" data-val-length-min=\"3\"");
+
+WriteLiteral("\r\n                      data-val-required=\"La raz&oacute;n es un campo requerido\"" +
+"");
+
+WriteLiteral(" ng-model=\"l.reason\"");
+
+WriteLiteral("\r\n                      name=\"leaveCountry.reason\"");
+
+WriteLiteral(" value=\"{{l.reason}}\"");
+
+WriteLiteral("\r\n                      ng-init=\'\'");
+
+WriteLiteral("></textarea>\r\n                    <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.reason\"");
+
+WriteLiteral("\r\n                          data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-right\"");
+
+WriteLiteral(">\r\n            Direcci&oacute;n:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-8\"");
+
+WriteLiteral("  ng-show=\"l.ocId ==1\"");
+
+WriteLiteral(">\r\n            <textarea");
+
+WriteLiteral(" ng-model=\"l.address\"");
+
+WriteLiteral("    ng-show=\"l.ocId ==1\"");
+
+WriteLiteral("\r\n                      ng-init=\'\'");
+
+WriteLiteral("\r\n                      data-val-required=\"La direcci&oacute;n es un campo requer" +
+"ido\"");
+
+WriteLiteral("\r\n                      class=\"form-control\"");
+
+WriteLiteral(" value=\"{{l.address}}\"");
+
+WriteLiteral("\r\n                      data-val-length=\"Debe tener al menos 6 y m&aacute;ximo 50" +
+"0 caracteres\"");
+
+WriteLiteral("\r\n                      name=\"leaveCountry.address\"");
+
+WriteLiteral(" id=\"leaveCountry.address\"");
+
+WriteLiteral("\r\n                      data-val-length-max=\"500\"");
+
+WriteLiteral(" data-val-length-min=\"6\"");
+
+WriteLiteral("></textarea>\r\n\r\n                        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.address\"");
+
+WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n</div>\r\n</div>\r\n<br/>\r\n\r\n<div>\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <br/>\r\n\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-9 element-left\"");
+
+WriteLiteral(">\r\n            <i");
+
+WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n               ng-click=\"doConfirmVerifEqual(\'leaveCountry.familyAnotherCountry" +
+".id\')\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
+
+WriteLiteral(" verif-comp");
+
+WriteLiteral(" level-child=\"3\"");
+
+WriteLiteral("\r\n               ng-show=\"verification\"");
+
+WriteLiteral(" code=\"leaveCountry.familyAnotherCountry.id\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"verification\"");
+
+WriteLiteral("\r\n               ng-click=\"doConfirmVerifNotKnow(\'leaveCountry.familyAnotherCount" +
+"ry.id\')\"");
+
+WriteLiteral("></i>\r\n            <i");
+
+WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
+
+WriteLiteral(" ng-show=\"selectSource\"");
+
+WriteLiteral("\r\n               ng-click=\"showChoices(\'leaveCountry.familyAnotherCountry.id\')\"");
+
+WriteLiteral("></i>\r\n            &iquest;El detenido cuenta con familiares y/o amigos cercanos " +
+"en otro pa&iacute;s?:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.facId\"");
+
+WriteLiteral(" name=\"leaveCountry.familyAnotherCountry.id\"");
+
+WriteLiteral("\r\n                   id=\"fac\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n            <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.fac\"");
+
+WriteLiteral("\r\n                    ng-options=\"e.name for e in listElection\"");
+
+WriteLiteral(" value=\"{{l.fac.id}}\"");
+
+WriteLiteral("\r\n                    ng-change=\"l.facId = l.fac.id;\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("></select>\r\n        </div>\r\n\r\n    </div>\r\n    <br/>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.facId == 1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">\r\n            &iquest;Mantiene comunicaci&oacute;n con ellos?:\r\n        </div>\r\n" +
+"        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(" ng-show=\"l.facId == 1\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.cfId\"");
+
+WriteLiteral(" name=\"leaveCountry.communicationFamily.id\"");
+
+WriteLiteral(" id=\"cf\"");
+
+WriteLiteral("     ng-show=\"l.facId == 1\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n            <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.cf\"");
+
+WriteLiteral("\r\n                    ng-options=\"e.name for e in listElection\"");
+
+WriteLiteral(" value=\"{{l.cf.id}}\"");
+
+WriteLiteral("\r\n                    ng-change=\"l.cfId = l.cf.id;\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("></select>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">\r\n            &iquest;Por qu&eacute; medio?:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(" ng-show=\"l.facId == 1\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("   ng-show=\"l.facId == 1\"");
+
+WriteLiteral("\r\n                   data-val-length=\"Debe tener al menos 2 y m&aacute;ximo 50 ca" +
+"racteres\"");
+
+WriteLiteral("\r\n                   data-val-length-max=\"50\"");
+
+WriteLiteral(" data-val-length-min=\"2\"");
+
+WriteLiteral("\r\n                   data-val-required=\"El medio es un campo requerido\"");
+
+WriteLiteral("\r\n                   type=\"text\"");
+
+WriteLiteral(" value=\"{{l.media}}\"");
+
+WriteLiteral(" id=\"leaveCountry.media\"");
+
+WriteLiteral(" name=\"leaveCountry.media\"");
+
+WriteLiteral(" ng-model=\"l.media\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n                     <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.media\"");
+
+WriteLiteral("\r\n                           data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"l.facId ==1\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">\r\n            Relaci&oacute;n:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(" ng-show=\"l.facId == 1\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"l.relId\"");
+
+WriteLiteral(" name=\"leaveCountry.relationship.id\"");
+
+WriteLiteral(" id=\"rel\"");
+
+WriteLiteral("  ng-show=\"l.facId == 1\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n            <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"l.rel\"");
+
+WriteLiteral("\r\n                    ng-options=\"e.name for e in listRel\"");
+
+WriteLiteral(" value=\"{{l.rel.id}}\"");
+
+WriteLiteral("\r\n                    ng-change=\"l.relId = l.rel.id;\"");
+
+WriteLiteral(" ng-init=\'\'");
+
+WriteLiteral("></select>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral("  ng-show=\"l.rel.specification\"");
+
+WriteLiteral(">\r\n            Especifique relaci&oacute;n:\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(" ng-show=\"l.facId == 1 && l.rel.specification\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral("     ng-show=\"l.facId == 1  && l.rel.specification\"");
+
+WriteLiteral("\r\n                   data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 255 c" +
+"aracteres\"");
+
+WriteLiteral("\r\n                   data-val-length-max=\"255\"");
+
+WriteLiteral(" data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                   data-val-required=\"La especifici&oacute;n es un campo requer" +
+"ido\"");
+
+WriteLiteral("\r\n                   type=\"text\"");
+
+WriteLiteral(" value=\"{{l.specificationRelationship}}\"");
+
+WriteLiteral(" id=\"leaveCountry.specificationRelationship\"");
+
+WriteLiteral(" name=\"leaveCountry.specificationRelationship\"");
+
+WriteLiteral(" ng-model=\"l.specificationRelationship\"");
+
+WriteLiteral("\r\n                   ng-init=\'\'");
+
+WriteLiteral(">\r\n                     <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.specificationRelationship\"");
+
+WriteLiteral("\r\n                           data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n</div>\r\n<br/>\r\n\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"!verification && !selectSource\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">Observaciones:<br/>\r\n        <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(Este campo no es verificable)</label></div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-9\"");
+
+WriteLiteral(">\r\n        <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(" ng-model=\"commentCountry\"");
+
+WriteLiteral("\r\n                  ng-init=\'\'");
+
+WriteLiteral("\r\n\r\n                  data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 500 " +
+"caracteres\"");
+
+WriteLiteral("\r\n                  data-val-length-max=\"500\"");
+
+WriteLiteral("\r\n                  data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                  name=\"leaveCountry.commentCountry\"");
+
+WriteLiteral("></textarea>\r\n                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.commentCountry\"");
+
+WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n<br/>\r\n\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"!verification && !selectSource\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-3 element-left\"");
+
+WriteLiteral(">\r\n        Comentarios: <br/>\r\n        <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>\r\n    </div>\r\n    <d" +
+"iv");
+
+WriteLiteral(" class=\"col-xs-9\"");
+
+WriteLiteral(">\r\n        <textarea");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" name=\"leaveCountry.commentSocialEnvironment\"");
+
+WriteLiteral(" ng-show=\"!verification\"");
+
+WriteLiteral("\r\n                  data-val-required=\"Los comentarios es un campo requerido\"");
+
+WriteLiteral(">m.socialEnvironment.comment</textarea>\r\n         <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"leaveCountry.commentSocialEnvironment\"");
+
+WriteLiteral("\r\n               data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"verification || selectSource\"");
 
 WriteLiteral(">\r\n    <div");
 
@@ -2182,8 +5282,7 @@ WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n           ng-click=\"doConfirmVerifEqual(\'socialEnvironment.physicalCondition\')" +
-"\"");
+WriteLiteral("\r\n           ng-click=\"doConfirmVerifEqual(\'socialEnvironment.comment\')\"");
 
 WriteLiteral("></i>\r\n        <i");
 
@@ -2195,7 +5294,7 @@ WriteLiteral(" level-child=\"2\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n           code=\"socialEnvironment.physicalCondition\"");
+WriteLiteral("\r\n           code=\"socialEnvironment.comment\"");
 
 WriteLiteral("></i>\r\n        <i");
 
@@ -2203,24 +5302,22 @@ WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n           ng-click=\"doConfirmVerifNotKnow(\'socialEnvironment.physicalCondition" +
-"\')\"");
+WriteLiteral("\r\n           ng-click=\"doConfirmVerifNotKnow(\'socialEnvironment.comment\')\"");
 
 WriteLiteral("></i>\r\n        <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
-WriteLiteral("   ng-show=\"selectSource\"");
+WriteLiteral(" ng-show=\"selectSource\"");
 
-WriteLiteral(" ng-click=\"showChoices(\'socialEnvironment.physicalCondition\')\"");
+WriteLiteral("\r\n           ng-click=\"showChoices(\'socialEnvironment.comment\')\"");
 
-WriteLiteral("></i>\r\n        &iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?" +
-":             <br/>\r\n        <label");
+WriteLiteral("></i>\r\n        Comentarios: <br/>\r\n        <label");
 
 WriteLiteral(" class=\"info-example\"");
 
-WriteLiteral(">(tuberculosis, hepatitis, alergias, embarazo, tiempo de gestaci&oacute;n, lactan" +
-"cia, etc.)</label>\r\n    </div>\r\n    <div");
+WriteLiteral(">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>\r\n    </div>\r\n    <d" +
+"iv");
 
 WriteLiteral(" class=\"col-xs-9\"");
 
@@ -2228,178 +5325,19 @@ WriteLiteral(">\r\n        <textarea");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("\r\n                  data-val-required=\"Si padece alguna enfermedad o condici&oacu" +
-"te;n f&iacute;sica es un campo requerido\"");
+WriteLiteral(" name=\"socialEnvironment.comment\"");
 
-WriteLiteral("\r\n                  name=\"socialEnvironment.physicalCondition\"");
+WriteLiteral("\r\n                  data-val-required=\"Los comentarios es un campo requerido\"");
 
-WriteLiteral(">${m.socialEnvironment.physicalCondition}</textarea>\r\n                <span");
+WriteLiteral(">m.socialEnvironment.comment</textarea>\r\n        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"socialEnvironment.physicalCondition\"");
+WriteLiteral(" data-valmsg-for=\"socialEnvironment.comment\"");
 
 WriteLiteral("\r\n              data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n<br/>\r\n\r\n<div>\r\n    <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"col-xs-3 element-left\"");
-
-WriteLiteral(">\r\n            <i");
-
-WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
-
-WriteLiteral(" ng-show=\"verification\"");
-
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifEqual(\'socialEnvironment.activities\')\"");
-
-WriteLiteral("></i>\r\n            <i");
-
-WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
-
-WriteLiteral(" onclick=\"window.verificationActivities();\"");
-
-WriteLiteral(" ng-show=\"verification\"");
-
-WriteLiteral("\r\n               code=\"socialEnvironment.activities\"");
-
-WriteLiteral("></i>\r\n            <i");
-
-WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
-
-WriteLiteral(" ng-show=\"verification\"");
-
-WriteLiteral("\r\n               ng-click=\"doConfirmVerifNotKnow(\'socialEnvironment.acitivies\')\"");
-
-WriteLiteral("></i>\r\n            <i");
-
-WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
-
-WriteLiteral("   ng-show=\"selectSource\"");
-
-WriteLiteral(" ng-click=\"showChoices(\'socialEnvironment.activities\')\"");
-
-WriteLiteral("></i>\r\n            &iquest;Qu&eacute; actividades realiza?:  <br/>\r\n            <" +
-"label");
-
-WriteLiteral(" class=\"info-example\"");
-
-WriteLiteral(">(deportivas, educativas, voluntariado, etc.)</label>\r\n        </div>\r\n        <d" +
-"iv");
-
-WriteLiteral(" class=\"col-xs-9 element-left\"");
-
-WriteLiteral(">\r\n            <input");
-
-WriteLiteral(" name=\"activities\"");
-
-WriteLiteral(" ng-model=\"activities\"");
-
-WriteLiteral(" ng-update-hidden");
-
-WriteLiteral(" type=\"hidden\"");
-
-WriteLiteral(">\r\n            <select");
-
-WriteLiteral(" multiple=\"\"");
-
-WriteLiteral(" class=\"form-control chosen-select\"");
-
-WriteLiteral(" ng-model=\"activityModel\"");
-
-WriteLiteral(" data-placeholder=\"...\"");
-
-WriteLiteral("\r\n                    ng-init=\'lstActivity = ${lstActivity}; lstActivitySelec = $" +
-"{(activity == null) ? \'");
-
-WriteLiteral(@"[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
-                    id=""slctActivity"" ng-change=""matchActivities()""
-                    ng-options=""ac as ac.name for ac in lstActivity"">
-            </select>
-        </div>
-    </div>
-    <br/>
-
-    <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-repeat=\"activity in activityModel\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" ng-show=\"activity.specification==true\"");
-
-WriteLiteral(">\r\n                <div");
-
-WriteLiteral(" class=\"col-xs-3\"");
-
-WriteLiteral(">\r\n                    Especif&iacute;que actividades {{activity.name}}:\r\n       " +
-"         </div>\r\n                <div");
-
-WriteLiteral(" class=\"col-xs-9\"");
-
-WriteLiteral(">\r\n                    <input");
-
-WriteLiteral(" class=\"form-control\"");
-
-WriteLiteral(" data-val=\"true\"");
-
-WriteLiteral("\r\n                           data-val-length=\"Debe tener al menos 3 y m&aacute;xi" +
-"mo 255 caracteres\"");
-
-WriteLiteral("\r\n                           data-val-length-max=\"255\"");
-
-WriteLiteral(" data-val-length-min=\"3\"");
-
-WriteLiteral("\r\n                           data-val-required=\"La especificaci&oacute;n de activ" +
-"idades {{activity.name}} es un campo requerido\"");
-
-WriteLiteral("\r\n                           type=\"text\"");
-
-WriteLiteral(" value=\"\"");
-
-WriteLiteral(" ng-model=\"specification[activity.name]\"");
-
-WriteLiteral("\r\n                           id=\"specification{{activity.name}}\"");
-
-WriteLiteral(" name=\"specification{{activity.name}}\"");
-
-WriteLiteral("\r\n                           ng-change=\"matchActivities()\"");
-
-WriteLiteral("><br/>\r\n                <span");
-
-WriteLiteral(" class=\"field-validation-valid\"");
-
-WriteLiteral(" data-valmsg-for=\"specification{{activity.name}}\"");
-
-WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
-
-WriteLiteral(@"></span>
-                    <br/>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<br/>
-<script>
-    $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
-</script>
-<script");
-
-WriteLiteral(" src=\"${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePicker" +
-"Cursor.js\"");
-
-WriteLiteral("></script>\r\n\r\n        </form>\r\n        <br/>\r\n        <div");
+WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n        </form>\r\n        <br/>\r\n\r\n        <!--<div");
 
 WriteLiteral(" ng-show=\"msgError\"");
 
@@ -2409,7 +5347,7 @@ WriteLiteral(">\r\n            <span");
 
 WriteLiteral(" ng-bind-html=\"msgError\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral("></span>\r\n        </div>-->\r\n    </div>\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -2423,72 +5361,24 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                          ng-click=\"submit(\'#FormPersonalData\');\"");
+WriteLiteral("\r\n                          ng-click=\"\"");
 
 WriteLiteral(">\r\n                        <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
 
 WriteLiteral("></span>\r\n                          Guardar\r\n                    </span>\r\n       " +
-" </div>\r\n\t</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n                    <div");
-
-WriteLiteral(" id=\"address\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/addre" +
-"ss/index.jsp\" -->2\r\n                    </div>\r\n                    <div");
-
-WriteLiteral(" id=\"socialNetwork\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/socia" +
-"lNetwork/index.jsp\" -->3\r\n                    </div>\r\n                    <div");
-
-WriteLiteral(" id=\"personalReferences\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/refer" +
-"ence/index.jsp\" -->4\r\n                    </div>\r\n                    <div");
-
-WriteLiteral(" id=\"jobHistory\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/job/i" +
-"ndex.jsp\" -->5\r\n                    </div>\r\n                    <div");
-
-WriteLiteral(" id=\"school\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/schoo" +
-"l/index.jsp\" -->6\r\n                    </div>\r\n                    <div");
-
-WriteLiteral(" id=\"drugsSection\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/drug/" +
-"index.jsp\" -->7\r\n                    </div>\r\n                    <div");
-
-WriteLiteral(" id=\"leaveCountry\"");
-
-WriteLiteral(" class=\"tab-pane\"");
-
-WriteLiteral(">\r\n                        <!-- include file=\"/WEB-INF/jsp/reviewer/meeting/leavi" +
-"ngCountry/index.jsp\" -->8\r\n                    </div>\r\n\r\n                </div>\r" +
-"\n            </div>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n\r\n    <div");
+" </div>\r\n    </div>\r\n            </div><!--End of Facilidad abandonar el pais --" +
+">\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n</div>\r\n<br/>\r\n" +
+"\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" ng-show=\"listMsgError[\'general\']\"");
 
@@ -2498,22 +5388,21 @@ WriteLiteral(">\r\n            <span");
 
 WriteLiteral(" ng-bind-html=\"listMsgError[\'general\']\"");
 
-WriteLiteral(">\r\n            </span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral(">\r\n            </span>\r\n        </div>\r\n    </div>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
-WriteLiteral(">\r\n                    <span");
+WriteLiteral(">\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
 WriteLiteral(" onclick=\"window.cancelMeeting()\"");
 
-WriteLiteral(">\r\n                        Regresar\r\n                    </span>\r\n               " +
-"     <span");
+WriteLiteral(">\r\n            Regresar\r\n        </span>\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
@@ -2522,16 +5411,15 @@ WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 WriteLiteral(" ng-confirm-actionconfirm-message=\"&iquest;Est&aacute; seguro que desea terminar " +
 "la entrevista de riesgos procesales?\"");
 
-WriteLiteral("\r\n                          confirm-title=\"Terminar entrevista\"");
+WriteLiteral("\r\n        confirm-title=\"Terminar entrevista\"");
 
 WriteLiteral(" confirm-type=\"info\"");
 
-WriteLiteral("\r\n                          confirmed-click-action=\"submitMeeting(\'#FormSchool , " +
-"#FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceI" +
-"d, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId\');\"");
+WriteLiteral("\r\n        confirmed-click-action=\"submitMeeting(\'#FormSchool , #FormPersonalData," +
+" #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJob" +
+"Id, #FormSocialNetworkIndexId, #FormCommentDrugId\');\"");
 
-WriteLiteral(">\r\n                          Terminar\r\n                    </span>\r\n\r\n        </d" +
-"iv>\r\n    </div>\r\n</div>");
+WriteLiteral(">\r\n        Terminar\r\n    </span>\r\n\r\n</div>\r\n</div>\r\n</div>");
 
 }
 }

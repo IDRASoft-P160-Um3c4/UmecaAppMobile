@@ -12,6 +12,16 @@ namespace UmecaApp
 		{
 		}
 
+		public Country (int id, String name, String alpha2, String alpha3, Double lat, Double lon)
+		{
+			this.Id = id;
+			this.Name = name;
+			this.Alpha2 = alpha2;
+			this.Alpha3 = alpha3;
+			this.Latitude = lat;
+			this.Longitude = lon;
+		}
+
 		[PrimaryKey, AutoIncrement]
 		public int Id{get;set;}
 
@@ -25,10 +35,10 @@ namespace UmecaApp
 		public String Alpha3{get;set;}
 
 		[Column("latitude")]
-		public long Latitude{get;set;}
+		public Double Latitude{get;set;}
 
 		[Column("longitude")]
-		public long Longitude{get;set;}
+		public Double Longitude{get;set;}
 
 
 	}

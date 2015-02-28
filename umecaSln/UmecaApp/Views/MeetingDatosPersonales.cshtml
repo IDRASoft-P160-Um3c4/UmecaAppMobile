@@ -1,54 +1,76 @@
 ﻿@model UmecaApp.MeetingDatosPersonalesDto
 @inherits WebViewTemplate
 @{
-	Layout = "UmecaApp.headUm";
+Layout = "UmecaApp.headUm";
 }
-      <script>
-    		
-    	app.controller('MeettingDatosPersonalesController', function($scope, $http){
-			$scope.m = {};
-			$scope.readOnly = true;
-			$scope.listMsgError = [];
-			$scope.listMsgError['personalData'] = false;
-			$scope.listMsgError['imputedHome'] = true;
-			$scope.listMsgError['socialNetwork'] = false;
-			$scope.listMsgError['reference'] = false;
-			$scope.listMsgError['job'] = false;
-			$scope.listMsgError['school'] = false;
-			$scope.listMsgError['drug'] = false;
-			$scope.listMsgError['leavingCountry'] = false;
+<script>
 
-			$scope.gen = {};
+    app.controller('MeettingDatosPersonalesController', function($scope, $http, $timeout){
+        $scope.m = {};
+        $scope.readOnly = true;
+        $scope.listMsgError = [];
+        $scope.listMsgError['personalData'] = false;
+        $scope.listMsgError['imputedHome'] = true;
+        $scope.listMsgError['socialNetwork'] = false;
+        $scope.listMsgError['reference'] = false;
+        $scope.listMsgError['job'] = false;
+        $scope.listMsgError['school'] = false;
+        $scope.listMsgError['drug'] = false;
+        $scope.listMsgError['leavingCountry'] = false;
 
-			$scope.m.imputed = {};
+        $scope.gen = {};
 
-			$scope.save = function(){
-				$scope.Wait = true;
-				//todos los key del json deben ser igual al modelo cs
-				if($("#frmSubmitValuesMeeting").valid()==false){
-					$scope.Wait = false;
-					return false;
-				}
-				var jsonData = JSON.stringify($scope.m);
-				window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
-				$scope.Wait = false;
-			};
+        $scope.listCountry = [];
 
-			$scope.cancel = function(){
-				$scope.saving = false;
-				//todos los key del json deben ser igual al modelo cs
-				window.location.replace('hybrid:Meeting/Index');
-			};
+        $scope.save = function(){
+            $scope.Wait = true;
+//todos los key del json deben ser igual al modelo cs
+if($("#frmSubmitValuesMeeting").valid()==false){
+    $scope.Wait = false;
+    return false;
+}
+var jsonData = JSON.stringify($scope.m);
+window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
+$scope.Wait = false;
+};
 
-			$scope.showMessageError = function(indicator){
-				alert(indicator);
-			};
+$scope.cancel = function(){
+    $scope.saving = false;
+//todos los key del json deben ser igual al modelo cs
+window.location.replace('hybrid:Meeting/Index');
+};
 
-		});
+$scope.showMessageError = function(indicator){
+    alert(indicator);
+};
 
-    </script>
+$scope.tuFunk = function(){
+    var js = JSON.parse($("#hdnJsonMtng").val());
+    $scope.m = js;
+    alert("m valu>>"+JSON.stringify($scope.m));
+};
+
+$scope.showState = function(){
+    alert("m valu>>"+JSON.stringify($scope.m));
+    alert("   m.BirthCountry_>"+$scope.m.BirthCountry);
+
+};
+
+$timeout(function () {
+    $scope.tuFunk();
+}, 0);
+
+});
+
+</script>
 <div id="generalDivForAngular" ng-app="umecaMobile" ng-controller="MeettingDatosPersonalesController">
 
+    <input id="hdnJsonMtng" type="hidden" value="@Model.JsonMeeting" name="jsonString" >
+<!--<div class="blocker" ng-show="working">
+    <div>
+        Cargando...<img src="content/images/ajax_loader.gif" alt="" />
+    </div>
+</div>-->
     <!-- EVAQLUATION HEADER  -->
 
     <div class="row">
@@ -57,597 +79,1269 @@
         <h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Entrevista de evaluaci&oacute;n
             de riesgos
             procesales</h2>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <h3 class="header smaller lighter blue">
+                    <small>Carpeta de investigaci&oacute;n:</small>
+                    <!--&nbsp;${m.caseDetention.idFolder}-->
+                    @Model.idFolder
+                </h3>
+            </div>
+            <div class="col-sm-8">
+                <!--ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';"-->
+                <h3 class="header smaller lighter blue">
+                    <small>Nombre del imputado:</small>
+                    <!--&nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->
+                    &nbsp;&nbsp;@Model.Name  &nbsp; @Model.LastNameP &nbsp; @Model.LastNameM
+                </h3>
+            </div>
+            <div class="col-sm-1">
+                <h3 class="header smaller lighter blue">
+                    <small>Edad:</small>
+                    <!--&nbsp;${age}-->
+                    @Model.ageString
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h3 class="header smaller lighter blue">
+                    <small>Inicio:</small>
+                    <!--&nbsp;${tStart}-->
+                    @Model.DateCreate
+                </h3>
+            </div>
+            <div class="col-sm-4">
+                <h3 class="header smaller lighter blue">
+                    <small>Fin:</small>
+                    <!--&nbsp;${tEnd}-->
+                    @Model.DateTerminate
+                </h3>
+            </div>
+            <div class="col-sm-4">
+                <h3 class="header smaller lighter blue">
+                    <small>Evaluador:</small>
+                    <!--&nbsp;${reviewerFullname}-->
+                    Loged user full name
+                </h3>
+            </div>
+        </div>
+        <!-- END OF EVAQLUATION HEADER  -->
+
+
+        <!-- LATERAL PAGER MENU -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="tabbable tabs-left">
+                    <ul class="nav nav-tabs" id="tabMeeting">
+                        <li class="active" id="liPersonalData">
+                            <a data-toggle="tab" href="#personalData">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="purple glyphicon glyphicon-user bigger-200"></i>
+                                        Datos personales
+                                        <br/>
+
+                                        <div class="col-xs-offset-3">y entorno social</div>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['personalData']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                                ng-click="showMessageError('personalData');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li id="liImputedHome">
+                            <a data-toggle="tab" href="#address">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="green  icon-home  bigger-200"></i>
+                                        Domicilios <br/>
+                                        <label class="info-example">De los &uacute;ltimos 5 a&ntilde;os</label>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('imputedHome');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li id="liSocialNetwork">
+                            <a data-toggle="tab" href="#socialNetwork" style="z-index: 0;">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="blue icon-group bigger-200"></i>
+                                        Red social <br/>
+                                        <label class="info-example">Personas con las que vive</label>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('socialNetwork');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="liReference">
+                            <a data-toggle="tab" href="#personalReferences" style="z-index: 1;">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="red icon-list bigger-200"></i>
+                                        Referencias personales <br/>
+                                        <label class="info-example">Personas con las que no vive</label>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['reference']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('reference');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="liJob">
+                            <a data-toggle="tab" href="#jobHistory" style="z-index: 0;">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="pink icon-briefcase  bigger-200"></i>
+                                        Historia laboral<br/>
+                                        <label class="info-example">&Uacute;ltimos 3-5 empleos</label>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['job']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('job');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="liSchool">
+                            <a data-toggle="tab" href="#school" style="z-index: 1;">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="orange icon-book  bigger-200"></i>
+                                        Historia escolar
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['school']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('school');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="liDrug">
+                            <a data-toggle="tab" href="#drugsSection" style="z-index: 0;">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="green icon-warning-sign  bigger-200"></i>
+                                        Consumo de sustancias
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['drug']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('drug');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="liLeaveCountry">
+                            <a data-toggle="tab" href="#leaveCountry" style="z-index: 0;">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <i class="blue icon-globe  bigger-200"></i>
+                                        Facilidad de
+                                        <br/>
+
+                                        <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
+                                    </div>
+                                    <div class="col-xs-2" ng-show="listMsgError['leavingCountry']">
+                                        <div class="tools">
+                                            <div class="inline position-relative">
+                                                <i class=" icon-exclamation-sign red  icon-only bigger-120"
+                                                ng-click="showMessageError('leavingCountry');"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- END LATERAL PAGER MENU -->
+
+
+                        <!-- CONTENT PAGE 1 Lateral pager -->
+                        <div id="personalData" class="tab-pane in active"><!--Begin of Datos Personales-->
+                            <!-- include file="/WEB-INF/jsp/reviewer/meeting/personal/index.jsp" -->
+
+                            <div class="col-xs-10 element-center col-xs-offset-1">
+                                <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
+                                <div ng-show="msgExito" class="alert alert-success element-center success-font">
+                                    <span ng-bind-html="msgExito"></span>
+                                </div>
+                                <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
+                                class="form-horizontal"
+                                role="form">
+                                <input type="hidden" value="@Model.idFolder" name="caseDetention.id">
+
+                                <div class="row element-left"  ng-show="readOnly == false">
+                                    <div class="col-xs-12">
+
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <b>  Establecer toda la informaci&oacute;n de Datos personales y entorno social
+                                            con:</b>
+                                        </div>
+                                        <div class="col-xs-10 col-xs-offset-1 text-info"  style="padding-top: 8px;">
+                                            <i class="purple glyphicon glyphicon-user bigger-160"
+                                            ng-click="showChoicesSection(1,undefined,1,'Datos personales<br/>  y entorno social')"  style="cursor: pointer;"></i>
+                                            &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imputado.
+                                        </div>
+                                        <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
+                                            <i class="blue icon-question-sign  icon-only bigger-160" style="cursor: pointer;"
+                                            ng-click="showChoicesSection(1,undefined,-1,'Datos personales<br/> y entorno social')"></i>
+                                            &nbsp;&nbsp;&nbsp;No se pudo verificar
+                                        </div>
+                                    </div>
+                                    <div class="row"  ng-show="readOnly == false">
+                                        <div col-xs-12>
+                                            <div class="hr hr-8"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <div class="col-xs-5  element-left">
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.name')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.name"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.name')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"
+                                                    ng-click="showChoices('imputed.name')"
+                                                    ng-show="selectSource"></i>
+                                                    Nombre:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <input class="form-control" type="text" ng-model="m.Name" 
+                                                    name="imputed.name" data-val-required="El nombre es un campo requerido"
+                                                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
+                                                    data-val-length-max="50" data-val-length-min="2"/>
+                                                    <span class="field-validation-valid" data-valmsg-for="imputed.name"
+                                                    data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="col-xs-5  element-left">
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.lastNameP')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.lastNameP"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"
+                                                    ng-click="showChoices('imputed.lastNameP')"
+                                                    ng-show="selectSource"></i>
+                                                    Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <input class="form-control" type="text" ng-model="m.LastNameP" value="{{i.lastNameP}}"
+                                                    name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
+                                                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
+                                                    data-val-length-max="50" data-val-length-min="2"/>
+                                                    <span class="field-validation-valid" data-valmsg-for="imputed.lastNameP"
+                                                    data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="col-xs-5  element-left">
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.lastNameM')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.lastNameM"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"
+                                                    ng-click="showChoices('imputed.lastNameM')"
+                                                    ng-show="selectSource"></i>
+                                                    Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <input class="form-control" type="text" ng-model="m.LastNameM" value="{{i.lastNameM}}"
+                                                    name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
+                                                    data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
+                                                    data-val-length-max="50" data-val-length-min="2"/>
+                                                    <span class="field-validation-valid" data-valmsg-for="imputed.lastNameM"
+                                                    data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="col-xs-3 element-left">
+                                                    <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.gender')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.gender"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.gender')"></i>
+                                                    G&eacute;nero:
+                                                </div>
+                                                <div class="col-xs-9">
+                                                    <div class="row">
+                                                        <!-- ng-init="gen=${(m.Gender == null) ? false: m.Gender}"-->
+                                                        <div class="col-xs-6">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input class="ace" type="radio" ng-checked="gen==true" name="imputed.gender"
+                                                                    data-val-required="El g?nero es un campo requerido" id="genero" value="true"
+                                                                    ng-model="gen">
+                                                                    <span class="lbl">Femenino</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input class="ace" type="radio" value="false" ng-model="gen" ng-checked="gen==false"
+                                                                    name="imputed.gender">
+                                                                    <span class="lbl">Masculino</span>
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-xs-3 element-left">
+                                                    <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.nickname')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.nickname"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.nickname')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.nickname')"></i>
+                                                    Apodo:
+                                                </div>
+                                                <div class="col-xs-7 col-xs-offset-2">
+                                                    <input class="form-control" data-val-required="El apodo es un campo requerido"
+                                                    data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 100 caracteres"
+                                                    data-val-length-max="100" data-val-length-min="1"
+                                                    type="text" ng-model="m.Nickname" id="nickname"
+
+                                                    name="imputed.nickname">
+                                                    <span class="field-validation-valid" data-valmsg-for="imputed.nickname"
+                                                    data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row" ng-show="verification==false">
+                                                <div class="col-xs-5 element-left">
+                                                    Fecha de nacimiento:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <input class="form-control" id="birthDate" readonly="readonly" value="${m.BirthDate}" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-show="verification == true || selectSource==true">
+                                                <div class="col-xs-5 element-left">
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.birthDate')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.birthDate"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.birthDate')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120" onclick="window.showChoices('imputed.birthDate')"
+                                                    ng-show="selectSource"></i>
+                                                    Fecha de nacimiento:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="dateBirthV"  type="text"  disabled="disabled"
+                                                        data-date-format="yyyy/mm/dd" value="${m.BirthDate}" readonly="readonly"
+                                                        name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="field-validation-valid" data-valmsg-for="imputed.birthDate"
+                                                    data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                            <br/>
+
+                                            <div class="row">
+                                                <div class="col-xs-5 element-left">
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.celPhone')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+                                                    ng-show="verification" code="imputed.celPhone"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.celPhone')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120" ng-click="showChoices('imputed.celPhone')"
+                                                    ng-show="selectSource"></i>
+                                                    Celular:
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <input class="form-control" data-val-required="El celular es un campo requerido"
+                                                    data-val-length="Debe tener m&iacute;nimo 8 y m&aacute;ximo 20 caracteres"
+                                                    data-val-length-max="20" data-val-length-min="8"
+                                                    type="text" ng-model="m.CelPhone" id="celPhone"
+                                                    ng-init=""
+                                                    name="imputed.celPhone">
+                                                    <span class="field-validation-valid" data-valmsg-for="imputed.celPhone"
+                                                    data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="widget-box">
+                                                <div class="widget-header"
+                                                ng-init="maritalStatus = (m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id)">
+                                                <div class="col-xs-2">
+                                                    <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.maritalStatus.id')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
+                                                    code="imputed.maritalStatus.id"></i>
+                                                    <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
+                                                </div>
+
+                                                <div class="col-xs-9 element-left">
+                                                    <h5>Estado civil</h5>
+                                                </div>
+
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <div class="control-group">
+                                                            <div class="radio element-left">
+                                                                <label>
+                                                                    <input name="imputed.maritalStatus.id" type="radio" class="ace" value="1"
+                                                                    ng-model="m.MaritalStatusId"/>
+                                                                    <span class="lbl">Soltero</span>
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio element-left">
+                                                                <label>
+                                                                    <input name="imputed.maritalStatus.id" type="radio" class="ace"
+                                                                    ng-model="m.MaritalStatusId"
+                                                                    value="2"/>
+                                                                    <span class="lbl">Casado</span>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="radio element-left">
+                                                            <label>
+                                                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="3"
+                                                                ng-model="m.MaritalStatusId"/>
+                                                                <span class="lbl">Divorciado</span>
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="radio element-left">
+                                                            <label>
+                                                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="4"
+                                                                ng-model="m.MaritalStatusId" />
+                                                                <span class="lbl">Uni&oacute;n libre</span>
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="radio element-left">
+                                                            <label>
+                                                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="5"
+                                                                ng-model="m.MaritalStatusId" />
+                                                                <span class="lbl">Viudo</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-5" ng-show="m.MaritalStatusId ==2 || m.MaritalStatusId == 4" ng-model="verifElem">
+                                                        <div class="space-10"></div>
+                                                        <div class="widget-main">
+                                                            <input type="text" class="input-mini" id="spinnder1"
+                                                            value="${m.YearsMaritalStatus ==null ? '': m.YearsMaritalStatus}"
+                                                            name="imputed.yearsMaritalStatus" id="imputed.yearsMaritalStatus" data-val="true"
+                                                            data-val-regex-pattern="([0-9]+)" ng-model="m.YearsMaritalStatus"
+                                                            data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
+                                                            data-val-length-max="3" data-val-length-min="1"
+                                                            data-val-required="El n&uacute;mero de a&ntilde;os es un campo requerido"
+                                                            data-val-regex="La cantidad de a&ntilde;os s&oacute;lo pueden ser n&uacute;meros"/> A&ntilde;os
+                                                            <br/>
+                                                            <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
+                                                            data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div class="col-xs-12">
+                                    <div class="widget-box">
+                                        <div class="widget-header">
+                                            <div class="col-xs-1">
+                                                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                                ng-click="doConfirmVerifEqual('imputed.boys')"></i>
+                                                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
+                                                code="imputed.boys"></i>
+                                                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                                ng-click="doConfirmVerifNotKnow('imputed.boys')"></i>
+                                                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.boys')"></i>
+                                            </div>
+
+                                            <div class="col-xs-11 element-left">
+                                                <h5>Hijos</h5>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <br/>
+
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-1 align-left">
+                                                        Total:
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <input type="text" class="form-control" name="imputed.boys" 
+                                                        ng-model="m.Boys" value="${m.Boys == null ? '': m.Boys}"
+                                                        data-val-regex-pattern="([0-9]+)"
+                                                        data-val-required="El total de hijos es un campo requerido"
+                                                        data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
+                                                        data-val-length-max="3" data-val-length-min="1"
+                                                        data-val-regex="S&oacute;lo puede guardar n&uacute;meros" data-val="true"
+                                                        id="imputed.boys"/>
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.boys"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-3 align-right">
+                                                        Menores de 18 a&ntilde;os:
+                                                    </div>
+                                                    <div class="col-xs-5">
+                                                        <input type="text" class="form-control" name="imputed.dependentBoys"
+                                                        data-val-regex-pattern="([0-9]+)"
+                                                        data-val-required="El n&uacute;mero de menores de 18 a&ntilde;os es un campo requerido"
+                                                        data-val-regex="S&oacute;lo puede guardar n&uacute;meros" id="imputed.dependentBoys" data-val="true"
+                                                        data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
+                                                        data-val-length-max="3" data-val-length-min="1"
+                                                        value="${m.DependentBoys == null ? '': m.DependentBoys}"
+                                                        ng-model="m.DependentBoys"/>
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.dependentBoys"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br/>
+
+                                <div class="row">
+
+                                </div>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="widget-box">
+                                            <div class="widget-header">
+                                                <div class="col-xs-1" >
+                                                    <i class="icon-ok-circle green  icon-only bigger-120"ng-show="verification"
+                                                    ng-click="doConfirmVerifEqual('imputed.birthCountry.id')"></i>
+                                                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5" ng-show="verification"
+                                                    code="imputed.birthCountry.id"></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120"ng-show="verification"
+                                                    ng-click="doConfirmVerifNotKnow('imputed.birthCountry.id')"></i>
+                                                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
+                                                </div>
+                                                <div class="col-xs-10 element-left">
+                                                    <h4>Lugar de nacimiento</h4>
+                                                </div>
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <br/>
+
+                                                <div class="row">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1">
+                                                        Pa&iacute;s:
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <input type="hidden" ng-update-hiddenname="imputed.birthCountry.id"
+                                                        id="country"
+                                                        value="${m.BirthCountry == null ? '': m.BirthCountry}"
+                                                        ng-model="m.BirthCountry" />
+
+                                                        <!--revisar el css y que se escape correctamente el json, values incorrectos -->
+                                                        <select class="form-control element-center" ng-model="Country" 
+                                                        ng-options="e.Name for e in listCountry" value=""
+                                                        ng-change="m.BirthCountry = m.Country['Id']; showState();" ng-init='listCountry = @Model.JsonCountrys'></select>
+                                                    </div>
+                                                    <div class="col-xs-2 element-right" ng-show="m.BirthCountry != 1">
+                                                        Estado:
+                                                    </div>
+                                                    <div class="col-xs-3" ng-show="m.BirthCountry != 1">
+                                                        <input class="form-control"
+                                                        type="text" ng-model="stateString" id="imputed.birthState"   data-val="true"
+                                                        name="imputed.birthState" data-val-required="El estado es un campo requerido" value="{{stateString}}"
+                                                        ng-init=''>
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 element-right" ng-show="m.BirthCountry == 1">
+                                                        Estado:
+                                                    </div>
+                                                    <div class="col-xs-3" ng-show="m.countryId == 1">
+                                                        <select class="form-control element-center" ng-model="state" find-municipality value="{{state.id}}"
+                                                        ng-options="e.name for e in listState" ng-init=''
+                                                        ng-change="stateId = state.id;"></select><br/>
+
+                                                    </div>
+                                                </div>
+                                                <br/>
+
+                                                <div class="row">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.countryId != 1">
+                                                        Municipio:
+                                                    </div>
+                                                    <div class="col-xs-3"  ng-show="m.countryId != 1">
+                                                        <input class="form-control"
+                                                        type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"    data-val="true"
+                                                        name="imputed.birthMunicipality" data-val-required="El municipio es un campo requerido"
+                                                        ng-init=''>
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.countryId == 1">
+                                                        Municipio:
+                                                    </div>
+                                                    <div class="col-xs-3"  ng-show="m.countryId == 1">
+                                                        <input type="hidden" ng-model="urlMunicipality"
+                                                        ng-init=''>
+                                                        <select class="form-control element-center" ng-model="municipality" find-location
+                                                        ng-options="e.name for e in listMunicipality" ng-init='listMunicipaliti = ""'
+                                                        ng-change="municipalityId = municipality.id;"></select><br/>
+
+                                                    </div>
+                                                    <div class="col-xs-2 element-right"  ng-show="m.countryId != 1">
+                                                        Localidad/Colonia:
+                                                    </div>
+                                                    <div class="col-xs-3"  ng-show="m.countryId != 1">
+                                                        <input class="form-control"
+                                                        type="text" ng-model="locationstr" id="imputed.birthLocation"
+                                                        name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"   data-val="true"
+                                                        ng-init=''>
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 element-right"  ng-show="m.countryId == 1">
+                                                        Localidad/Colonia:
+                                                    </div>
+                                                    <div class="col-xs-3"  ng-show="m.countryId == 1">
+                                                        <input type="hidden" ng-model="urlLocation"
+                                                        ng-init='' />
+                                                        <select class="form-control" ng-model="location" change-cp  value="{{location.id}}"
+                                                        ng-options="e.name for e in listLocation" ng-init='listLocation = ""'
+                                                        ng-change="locationId = location.id;"></select>
+
+
+                                                    </div>
+                                                    <div class="col-xs-10 col-xs-offset-1" ng-show="m.countryId == 1">
+                                                        <input type="hidden" ng-model="locationId" ng-update-hidden name="imputed.location.id"
+                                                        data-val-required="La localidad es un campo requerido. Elija Estado y Municipio para desplegar la lista de localidades.">
+                                                        <span class="field-validation-valid" data-valmsg-for="locationId"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-xs-3 element-left">
+                                        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                        ng-click="doConfirmVerifEqual('socialEnvironment.physicalCondition')"></i>
+                                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+                                        code="socialEnvironment.physicalCondition"></i>
+                                        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                        ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
+                                        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.physicalCondition')"></i>
+                                        &iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?:             <br/>
+                                        <label class="info-example">(tuberculosis, hepatitis, alergias, embarazo, tiempo de gestaci&oacute;n, lactancia, etc.)</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <textarea class="form-control"
+                                        data-val-required="Si padece alguna enfermedad o condici&oacute;n f&iacute;sica es un campo requerido"
+                                        name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
+                                        <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
+                                        data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div>
+                                    <div class="row">
+                                        <div class="col-xs-3 element-left">
+                                            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                            ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
+                                            <i class="icon-remove-circle red  icon-only bigger-120" onclick="window.verificationActivities();" ng-show="verification"
+                                            code="socialEnvironment.activities"></i>
+                                            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                            ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
+                                            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
+                                            &iquest;Qu&eacute; actividades realiza?:  <br/>
+                                            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
+                                        </div>
+                                        <div class="col-xs-9 element-left">
+                                            <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
+                                            <select multiple="" class="form-control chosen-select" ng-model="activityModel" data-placeholder="..."
+                                            ng-init=''
+                                            id="slctActivity" ng-change="matchActivities()"
+                                            ng-options="ac as ac.name for ac in lstActivity">
+                                        </select>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div class="row">
+                                    <div ng-repeat="activity in activityModel">
+                                        <div ng-show="activity.specification==true">
+                                            <div class="col-xs-3">
+                                                Especif&iacute;que actividades {{activity.name}}:
+                                            </div>
+                                            <div class="col-xs-9">
+                                                <input class="form-control" data-val="true"
+                                                data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
+                                                data-val-length-max="255" data-val-length-min="3"
+                                                data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
+                                                type="text" value="" ng-model="specification[activity.name]"
+                                                id="specification{{activity.name}}" name="specification{{activity.name}}"
+                                                ng-change="matchActivities()"><br/>
+                                                <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
+                                                data-valmsg-replace="true"></span>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <script>
+                                $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+                                    $(this).prev().focus();
+                                });
+                            </script>
+                            <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
+
+                        </form>
+                        <br/>
+                        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+                            <span ng-bind-html="msgError"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="modal-footer">
+                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                            ng-click="submit('#FormPersonalData');">
+                            <span class="glyphicon glyphicon-cloud-upload"></span>
+                            Guardar
+                        </span>
+                    </div>
+                </div>
+
+
+
+            </div><!--End of Datos Personales-->
+
+
+
+
+
+
+
+
+
+            <div id="address" class="tab-pane"><!-- Begin of Domicilios -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp" -->2
+<div class="row element-center">
+    <div class="col-xs-12">
+        <h2> <i class="green  icon-home  bigger-100"></i>&nbsp;Domicilios</h2>
+        <br/>
+        <div id="angJsjqGridIdAddress" >
+            <table id="GridIdAddress" class="element-center" style="margin: auto"></table>
+            <div id="GridPagerAddress"></div>
+           
+        </div>
+
+        <!-- Aqui va el bootstrap table de domicilio -->
+    </div>
+</div>
+<br/><br/>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgSuccess"></span>
+        </div>
+    </div>
+    <form id="FormCommentHomeId" name="FormCommentHomeId" class="form-horizontal" role="form">
+        <div class="col-xs-3 element-right">Observaciones:<br/>
+            <label class="info-example">(Este campo no es verificable)</label></div>
+            <div class="col-xs-8">
+                <textarea class="width-100" ng-model = "m.CommentHome" ng-init=''
+                data-val-required="Las obsgervaciones es un campo requerido"
+                data-val="true"
+                data-val-required="Las observaciones es un campo requerido"
+                data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                data-val-length-max="500"
+                data-val-length-min="1"
+                name="commentHome"></textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                data-valmsg-replace="true"></span>
+            </div>
+        </form>
+        <br/>
+        <!--<div class="col-xs-10 col-xs-offset-1">
+            <div ng-show="msgError" class="alert alert-danger element-center error-font">
+                <span ng-bind-html="msgError"></span>
+            </div>
+        </div>-->
+        <div class="col-xs-12">
+            <div class="modal-footer">
+                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                Guardar
+            </span>
+        </div>
+    </div>
+            </div><!--End of Domicilios -->
+
+
+
+
+
+
+
+
+
+
+
+            <div id="socialNetwork" class="tab-pane"><!-- Begin of Red Social -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/socialNetwork/index.jsp" -->3
+<div class="row element-center">
+        <h2> <i class="blue icon-group bigger-100"></i> &nbsp;Red social</h2>
+        <br/>
+        <div id="angJsjqGridIdSocialNetwork" >
+            <table id="GridIdSocialNetwork" class="element-center" style="margin: auto"></table>
+            <div id="GridPagerSocialNetwork"></div>
+
+        </div>
+    </div>
+        <br/>
+<br/>
+<div class="row">
+    <!--<div class="col-xs-10 col-xs-offset-1">
+    <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+        <span ng-bind-html="msgSuccess"></span>
+    </div>
+    </div>-->
+    <form id="FormSocialNetworkIndexId" name="FormSocialNetworkIndexId" class="form-horizontal" role="form">
+                <div class="col-xs-3 element-right">Observaciones:<br/>
+                    <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
+                <div class="col-xs-8">
+                    <textarea class="width-100"     ng-model = "comment" ng-init=''
+                              data-val-required="Las observaciones es un campo requerido"
+                              data-val="true"
+                              data-val-required="Las observaciones es un campo requerido"
+                              data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                              data-val-length-max="500"
+                              data-val-length-min="1"
+                              name="socialNetwork.comment"></textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                      data-valmsg-replace="true"></span>
+                </div>
+    </form>
+    <br/>
+    <div class="col-xs-10 col-xs-offset-1">
+    <!--<div ng-show="msgError" class="alert alert-danger element-center error-font">
+        <span ng-bind-html="msgError"></span>
+    </div>-->
+        </div>
+    <div class="col-xs-12">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
+        </div>
+    </div>
+</div>
+            </div><!--End of Red Social -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div id="personalReferences" class="tab-pane"><!-- Begin of Referencias -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/reference/index.jsp" -->4
+<div class="row element-center">
+    <div class="col-xs-12">
+        <h2><i class="red icon-list bigger-100"></i> &nbsp;Referencias personales</h2>
+        <br/>
+        <div id="angJsjqGridIdReference" >
+            <table id="GridIdReference" class="element-center" style="margin: auto"></table>
+            <div id="GridPagerReference"></div>
+
+        </div>
+    </div>
+</div>
+    <br/><br/>
+<div class="row" >
+
+    <!--<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgSuccess"></span>
+        </div>
+    </div>-->
+    <form id="FormCommentReferenceId" name="FormCommentReferenceId" class="form-horizontal" role="form">
+        <div class="col-xs-3 element-right">Observaciones:<br/>
+            <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
+        <div class="col-xs-8">
+            <textarea class="width-100"
+                      ng-model = "comment" ng-init=''
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val="true"
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                      data-val-length-max="500"
+                      data-val-length-min="1"
+                      name="commentReference">${m.socialNetwork.comment}</textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                      data-valmsg-replace="true"></span>
+        </div>
+    </form>
+    <br/>
+    <!--<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="msgError"></span>
+        </div>
+    </div>-->
+    <div class="col-xs-12">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
+        </div>
+    </div>
+</div>
+            </div><!--End of Referencias -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div id="jobHistory" class="tab-pane"><!-- Begin of Historial laboral -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/job/index.jsp" -->5
+<div class="row element-center">
+    <div class="col-xs-12">
+        <h2><i class="pink icon-briefcase  bigger-100">&nbsp;</i>Historia Laboral</h2>
+        <br/>
+
+        <div id="angJsjqGridIdJob" >
+            <table id="GridIdJob" class="element-center" style="margin: auto"></table>
+            <div id="GridPagerJob"></div>
+
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+
+<div class="row" >
+
+    <!--<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgSuccess"></span>
+        </div>
+    </div>-->
+    <form id="FormCommentJobId" name="FormCommentJobId" class="form-horizontal" role="form">
+        <div class="col-xs-3 element-right">Observaciones:<br/>
+            <label class="info-example">(Este campo no es verificable)</label></div>
+        <div class="col-xs-8">
+            <textarea class="width-100"
+                      data-val="true" ng-model="comment"
+                      ng-init=''
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                      data-val-length-max="500"
+                      data-val-length-min="1"
+                      name="commentJob"></textarea>
+                <span class="field-validation-valid" data-valmsg-for="commentJob"
+                      data-valmsg-replace="true"></span>
+        </div>
+    </form>
+    <br/>
+
+    <!--<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="msgError"></span>
+        </div>
+    </div>-->
+    <div class="col-xs-12">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
+        </div>
+    </div>
+</div>
+            </div><!--End of Historial laboral -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div id="school" class="tab-pane"><!-- Begin of Red Historia escolar -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/school/index.jsp" -->6
+<div class="col-xs-12">
+        <h2> <i class="orange icon-book  bigger-100">&nbsp;</i>Historia Escolar</h2>
+        <br/>
+        <div class="row" >
+            <div class="col-xs-10 col-xs-offset-1">
+                <!--<div ng-show="msgExito" class="alert alert-success element-center success-font">
+                    <span ng-bind-html="msgExito"></span>
+                </div>-->
+                <form id="FormSchool" name="FormSchool" ng-submit="submit('#FormSchool')" class="form-horizontal"
+                      role="form">
+                    <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
+
+    <div class="row">
+        <div class="col-xs-12 element-center" ng-init="">
+            <div class="col-xs-6 element-right">
+                &iquest;El imputado estudia actualmente?
+            </div>
+            <div class="col-xs-2">
+                <input type="radio" name="school.block"
+                id="blockYes" ng-value="true" ng-model="block" ng-change="fillModel()">
+                <label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;
+                <input type="radio" ng-checked="block==false" name="school.block"
+                id="blockNo" ng-value="false" ng-model="block" ng-change="fillModel()">
+                <label for="blockNo">No</label>
+            </div>
+        </div>
     </div>
     <br/>
 
     <div class="row">
-        <div class="col-sm-3">
-            <h3 class="header smaller lighter blue">
-                <small>Carpeta de investigaci&oacute;n:</small>
-                <!--&nbsp;${m.caseDetention.idFolder}-->
-                carpet
-            </h3>
+        <div class="col-xs-2 element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+            ng-click="doConfirmVerifEqual('school.name')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+            ng-show="verification" code="school.name"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+            ng-click="doConfirmVerifNotKnow('school.name')"></i>
+            Escuela:
         </div>
-        <div class="col-sm-8">
-             <!--ng-init="i.name='${m.imputed.name}'; i.lastNameP='${m.imputed.lastNameP}'; i.lastNameM ='${m.imputed.lastNameM}';"-->
-            <h3 class="header smaller lighter blue">
-                <small>Nombre del imputado:</small>
-                <!--&nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->
-                fulname
-            </h3>
+        <div class="col-xs-10"><input class="form-control" data-val="true" ng-readonly="!block"
+          data-val-length="Debe tener al menos 5 y m?ximo 200 caracteres"
+          data-val-length-max="200" data-val-length-min="5"
+          data-val-required="La escuela es un campo requerido" type="text" value=""
+          ng-init=''
+          ng-model="school.name" id="school.name" name="school.name"></div>
+          <div class="row">
+            <div class="col-xs-9 col-xs-offset-2 element-left"><span class="field-validation-valid"
+             data-valmsg-for="school.name"
+             data-valmsg-replace="true"></span></div>
+         </div>
+     </div>
+     <br/>
+
+     <div class="row">
+        <div class="col-xs-2 element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+            ng-click="doConfirmVerifEqual('school.phone')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+            ng-show="verification" code="school.phone"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+            ng-click="doConfirmVerifNotKnow('school.phone')"></i>
+            Tel&eacute;fono:
         </div>
-        <div class="col-sm-1">
-            <h3 class="header smaller lighter blue">
-                <small>Edad:</small>
-                <!--&nbsp;${age}-->
-                legal age
-            </h3>
-        </div>
+        <div class="col-xs-4"><input class="form-control" data-val="true"
+         data-val-length="Debe tener al menos 5 y m&aacute;ximo 30 caracteres"
+         data-val-length-max="30" data-val-length-min="5" ng-readonly="!block"
+         data-val-required="El tel&eacute;fono es un campo requerido" type="text"
+         value=""
+         ng-model="school.phone" id="school.phone" name="school.phone"
+         ng-init=''>
+         <span class="field-validation-valid" data-valmsg-for="school.phone"
+         data-valmsg-replace="true"></span>
+     </div>
+
+
+ </div>
+ <br/>
+
+ <div class="row">
+    <div class="col-xs-2 element-left">
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+        ng-click="doConfirmVerifEqual('school.address')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+        ng-show="verification" code="school.address"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+        ng-click="doConfirmVerifNotKnow('school.address')"></i>
+        Direcci&oacute;n:
     </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <h3 class="header smaller lighter blue">
-                <small>Inicio:</small>
-                <!--&nbsp;${tStart}-->
-                fhInicio
-            </h3>
-        </div>
-        <div class="col-sm-4">
-            <h3 class="header smaller lighter blue">
-                <small>Fin:</small>
-                <!--&nbsp;${tEnd}-->
-                fchFin
-            </h3>
-        </div>
-        <div class="col-sm-4">
-            <h3 class="header smaller lighter blue">
-                <small>Evaluador:</small>
-                <!--&nbsp;${reviewerFullname}-->
-                reviewer name
-            </h3>
-        </div>
-    </div>
-    <!-- END OF EVAQLUATION HEADER  -->
+    <div class="col-xs-10"><textarea id="school.address" class="form-control" name="school.address"
+     ng-model="school.address" ng-readonly="!block"
+     ng-init=''
+     data-val="true"
+     data-val-required="La direcci&oacute;n es un campo requerido"
+     data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+     data-val-length-max="500"
+     data-val-length-min="6">m.school.address</textarea>
 
-
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs" id="tabMeeting">
-                    <li class="active" id="liPersonalData">
-                        <a data-toggle="tab" href="#personalData">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="purple glyphicon glyphicon-user bigger-200"></i>
-                                    Datos personales
-                                    <br/>
-
-                                    <div class="col-xs-offset-3">y entorno social</div>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['personalData']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                               ng-click="showMessageError('personalData');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li id="liImputedHome">
-                        <a data-toggle="tab" href="#address">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="green  icon-home  bigger-200"></i>
-                                    Domicilios <br/>
-                                    <label class="info-example">De los &uacute;ltimos 5 a&ntilde;os</label>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['imputedHome']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('imputedHome');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li id="liSocialNetwork">
-                        <a data-toggle="tab" href="#socialNetwork" style="z-index: 0;">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="blue icon-group bigger-200"></i>
-                                    Red social <br/>
-                                    <label class="info-example">Personas con las que vive</label>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['socialNetwork']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('socialNetwork');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li id="liReference">
-                        <a data-toggle="tab" href="#personalReferences" style="z-index: 1;">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="red icon-list bigger-200"></i>
-                                    Referencias personales <br/>
-                                    <label class="info-example">Personas con las que no vive</label>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['reference']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('reference');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li id="liJob">
-                        <a data-toggle="tab" href="#jobHistory" style="z-index: 0;">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="pink icon-briefcase  bigger-200"></i>
-                                    Historia laboral<br/>
-                                    <label class="info-example">&Uacute;ltimos 3-5 empleos</label>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['job']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('job');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li id="liSchool">
-                        <a data-toggle="tab" href="#school" style="z-index: 1;">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="orange icon-book  bigger-200"></i>
-                                    Historia escolar
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['school']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('school');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li id="liDrug">
-                        <a data-toggle="tab" href="#drugsSection" style="z-index: 0;">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="green icon-warning-sign  bigger-200"></i>
-                                    Consumo de sustancias
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['drug']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('drug');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li id="liLeaveCountry">
-                        <a data-toggle="tab" href="#leaveCountry" style="z-index: 0;">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <i class="blue icon-globe  bigger-200"></i>
-                                    Facilidad de
-                                    <br/>
-
-                                    <div class="col-xs-offset-3">abandonar el pa&iacute;s</div>
-                                </div>
-                                <div class="col-xs-2" ng-show="listMsgError['leavingCountry']">
-                                    <div class="tools">
-                                        <div class="inline position-relative">
-                                            <i class=" icon-exclamation-sign red  icon-only bigger-120"
-                                               ng-click="showMessageError('leavingCountry');"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-
-
-
-
-
-<div id="personalData" class="tab-pane in active">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/personal/index.jsp" -->
-
-
-    <div class="col-xs-10 element-center col-xs-offset-1">
-        <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
-        <div ng-show="msgExito" class="alert alert-success element-center success-font">
-          <span ng-bind-html="msgExito"></span>
-        </div>
-        <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
-              class="form-horizontal"
-              role="form">
-        <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
-
-           <div class="row element-left"  ng-show="readOnly == false">
-    <div class="col-xs-12">
-
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <b>  Establecer toda la informaci&oacute;n de Datos personales y entorno social
-            con:</b>
-    </div>
-    <div class="col-xs-10 col-xs-offset-1 text-info"  style="padding-top: 8px;">
-        <i class="purple glyphicon glyphicon-user bigger-160"
-           ng-click="showChoicesSection(1,undefined,1,'Datos personales<br/>  y entorno social')"  style="cursor: pointer;"></i>
-        &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imputado.
-    </div>
-    <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
-        <i class="blue icon-question-sign  icon-only bigger-160" style="cursor: pointer;"
-           ng-click="showChoicesSection(1,undefined,-1,'Datos personales<br/> y entorno social')"></i>
-        &nbsp;&nbsp;&nbsp;No se pudo verificar
-    </div>
+     <div class="col-xs-9 col-xs-offset-2 element-left"><span class="field-validation-valid"
+         data-valmsg-for="school.address"
+         data-valmsg-replace="true"></span>
+     </div>
+ </div>
 </div>
-<div class="row"  ng-show="readOnly == false">
-    <div col-xs-12>
-        <div class="hr hr-8"></div>
-    </div>
-</div>
+<br/>
+
 <div class="row">
-<br/>
-<div class="row">
-    <div class="col-xs-4">
-        <div class="col-xs-5  element-left">
-            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifEqual('imputed.name')"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-               ng-show="verification" code="imputed.name"></i>
-            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('imputed.name')"></i>
-            <i class="purple icon-list icon-only bigger-120"
-               ng-click="showChoices('imputed.name')"
-               ng-show="selectSource"></i>
-            Nombre:
-        </div>
-        <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.name" value="{{i.name}}"
-                   name="imputed.name" data-val-required="El nombre es un campo requerido"
-                   data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
-                   data-val-length-max="50" data-val-length-min="2"/>
-                                                 <span class="field-validation-valid" data-valmsg-for="imputed.name"
-                                                       data-valmsg-replace="true"></span>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div class="col-xs-5  element-left">
-            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifEqual('imputed.lastNameP')"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-               ng-show="verification" code="imputed.lastNameP"></i>
-            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>
-            <i class="purple icon-list icon-only bigger-120"
-               ng-click="showChoices('imputed.lastNameP')"
-               ng-show="selectSource"></i>
-            Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Paterno:
-        </div>
-        <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.lastNameP" value="{{i.lastNameP}}"
-                   name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
-                   data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
-                   data-val-length-max="50" data-val-length-min="2"/>
-                                                 <span class="field-validation-valid" data-valmsg-for="imputed.lastNameP"
-                                                       data-valmsg-replace="true"></span>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div class="col-xs-5  element-left">
-            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifEqual('imputed.lastNameM')"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-               ng-show="verification" code="imputed.lastNameM"></i>
-            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>
-            <i class="purple icon-list icon-only bigger-120"
-               ng-click="showChoices('imputed.lastNameM')"
-               ng-show="selectSource"></i>
-            Apellido<br/><div class="col-xs-2" ng-show="verification==true"></div>Materno:
-        </div>
-        <div class="col-xs-7">
-            <input class="form-control" type="text" ng-model="i.lastNameM" value="{{i.lastNameM}}"
-                   name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
-                   data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
-                   data-val-length-max="50" data-val-length-min="2"/>
-                                                 <span class="field-validation-valid" data-valmsg-for="imputed.lastNameM"
-                                                       data-valmsg-replace="true"></span>
-        </div>
-    </div>
-</div>
-<br/>
-    <div class="col-xs-6">
-        <div class="row">
-            <div class="col-xs-3 element-left">
-                <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                         ng-click="doConfirmVerifEqual('imputed.gender')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                   ng-show="verification" code="imputed.gender"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
-                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.gender')"></i>
-                G&eacute;nero:
-            </div>
-            <div class="col-xs-9">
-                <div class="row">
-                <!-- ng-init="gen=${(m.imputed.gender == null) ? false: m.imputed.gender}"-->
-                    <div class="col-xs-6">
-                        <div class="radio">
-                            <label>
-                                <input class="ace" type="radio" ng-checked="gen==true" name="imputed.gender"
-                                       data-val-required="El g?nero es un campo requerido" id="genero" value="true"
-                                       ng-model="gen">
-                                <span class="lbl">Femenino</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="radio">
-                            <label>
-                                <input class="ace" type="radio" value="false" ng-model="gen" ng-checked="gen==false"
-                                                                      name="imputed.gender">
-                                <span class="lbl">Masculino</span>
-                            </label>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-xs-3 element-left">
-                <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                         ng-click="doConfirmVerifEqual('imputed.nickname')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                   ng-show="verification" code="imputed.nickname"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifNotKnow('imputed.nickname')"></i>
-                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.nickname')"></i>
-                Apodo:
-            </div>
-            <div class="col-xs-7 col-xs-offset-2">
-                <input class="form-control" data-val-required="El apodo es un campo requerido"
-                       data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 100 caracteres"
-                       data-val-length-max="100" data-val-length-min="1"
-                       type="text" ng-model="nickname" id="nickname"
-                       ng-init="nickname= '${(m.imputed.nickname == null) ? '': m.imputed.nickname}'"
-                       name="imputed.nickname">
-                    <span class="field-validation-valid" data-valmsg-for="imputed.nickname"
-                          data-valmsg-replace="true"></span>
-            </div>
-        </div>
-        <br/>
-        <div class="row" ng-show="verification==false">
-            <div class="col-xs-5 element-left">
-                Fecha de nacimiento:
-            </div>
-            <div class="col-xs-7">
-                <input class="form-control" id="birthDate" readonly="readonly" value="${m.imputed.birthDate}" disabled="disabled">
-            </div>
-        </div>
-        <div class="row" ng-show="verification == true || selectSource==true">
-            <div class="col-xs-5 element-left">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifEqual('imputed.birthDate')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                   ng-show="verification" code="imputed.birthDate"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifNotKnow('imputed.birthDate')"></i>
-                <i class="purple icon-list icon-only bigger-120" onclick="window.showChoices('imputed.birthDate')"
-                        ng-show="selectSource"></i>
-                Fecha de nacimiento:
-            </div>
-            <div class="col-xs-7">
-                <div class="input-group">
-                    <input class="form-control date-picker" id="dateBirthV"  type="text"  disabled="disabled"
-                           data-date-format="yyyy/mm/dd" value="${m.imputed.birthDate}" readonly="readonly"
-                           name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
-																	<span class="input-group-addon">
-																		<i class="icon-calendar bigger-110"></i>
-																	</span>
-                </div>
-                 <span class="field-validation-valid" data-valmsg-for="imputed.birthDate"
-                       data-valmsg-replace="true"></span>
-            </div>
-        </div>
-        <br/>
-
-        <div class="row">
-            <div class="col-xs-5 element-left">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifEqual('imputed.celPhone')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                   ng-show="verification" code="imputed.celPhone"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifNotKnow('imputed.celPhone')"></i>
-                <i class="purple icon-list icon-only bigger-120" ng-click="showChoices('imputed.celPhone')"
-                   ng-show="selectSource"></i>
-                Celular:
-            </div>
-            <div class="col-xs-7">
-                <input class="form-control" data-val-required="El celular es un campo requerido"
-                       data-val-length="Debe tener m&iacute;nimo 8 y m&aacute;ximo 20 caracteres"
-                       data-val-length-max="20" data-val-length-min="8"
-                       type="text" ng-model="celPhone" id="celPhone"
-                       ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'"
-                       name="imputed.celPhone">
-                    <span class="field-validation-valid" data-valmsg-for="imputed.celPhone"
-                          data-valmsg-replace="true"></span>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="widget-box">
-            <div class="widget-header"
-                 ng-init="maritalStatus = ${m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id}">
-                <div class="col-xs-2">
-                    <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
-                       ng-click="doConfirmVerifEqual('imputed.maritalStatus.id')"></i>
-                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
-                       code="imputed.maritalStatus.id"></i>
-                    <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
-                       ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
-                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
-                </div>
-
-                <div class="col-xs-9 element-left">
-                    <h5>Estado civil</h5>
-                </div>
-
-            </div>
-            <div class="widget-body">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="control-group">
-                            <div class="radio element-left">
-                                <label>
-                                    <input name="imputed.maritalStatus.id" type="radio" class="ace" value="1"
-                                           ng-model="maritalStatus"/>
-                                    <span class="lbl">Soltero</span>
-                                </label>
-                            </div>
-
-                            <div class="radio element-left">
-                                <label>
-                                    <input name="imputed.maritalStatus.id" type="radio" class="ace"
-                                           ng-model="maritalStatus"
-                                           value="2"/>
-                                    <span class="lbl">Casado</span>
-
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="radio element-left">
-                            <label>
-                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="3"
-                                       ng-model="maritalStatus"/>
-                                <span class="lbl">Divorciado</span>
-                            </label>
-                        </div>
-
-                        <div class="radio element-left">
-                            <label>
-                                <input name="imputed.maritalStatus.id" type="radio" class="ace" ng-model="maritalStatus"
-                                       value="4"/>
-                                <span class="lbl">Uni&oacute;n libre</span>
-                            </label>
-                        </div>
-
-                        <div class="radio element-left">
-                            <label>
-                                <input name="imputed.maritalStatus.id" type="radio" class="ace" ng-model="maritalStatus"
-                                       value="5"/>
-                                <span class="lbl">Viudo</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-xs-5" ng-show="maritalStatus ==2 || maritalStatus == 4" ng-model="verifElem">
-                        <div class="space-10"></div>
-                        <div class="widget-main">
-                            <input type="text" class="input-mini" id="spinnder1"
-                                   value="${m.imputed.yearsMaritalStatus ==null ? '': m.imputed.yearsMaritalStatus}"
-                                   name="imputed.yearsMaritalStatus" id="imputed.yearsMaritalStatus" data-val="true"
-                                   data-val-regex-pattern="([0-9]+)" ng-model="m.imputed.yearsMaritalStatus"
-                                   data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
-                                   data-val-length-max="3" data-val-length-min="1"
-                                   data-val-required="El n&uacute;mero de a&ntilde;os es un campo requerido"
-                                   data-val-regex="La cantidad de a&ntilde;os s&oacute;lo pueden ser n&uacute;meros"/> A&ntilde;os
-                            <br/>
-                            <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
-                                  data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-            </div>
-        </div>
-    </div>
-</div>
-<br/>
-
-<div class="col-xs-12">
     <div class="widget-box">
         <div class="widget-header">
-            <div class="col-xs-1">
-                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifEqual('imputed.boys')"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
-                   code="imputed.boys"></i>
-                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                   ng-click="doConfirmVerifNotKnow('imputed.boys')"></i>
-                <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.boys')"></i>
-            </div>
-
-            <div class="col-xs-11 element-left">
-                <h5>Hijos</h5>
+            <div class="col-xs-10 element-left">
+                <h4>Actual/&Uacute;ltimo nivel de estudios</h4>
             </div>
         </div>
+
         <div class="widget-body">
             <br/>
-
             <div class="row">
-                <div class="col-xs-12">
-                    <div class="col-xs-1 align-left">
-                        Total:
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="text" class="form-control" name="imputed.boys" value="${m.imputed.boys}"
-                               data-val-regex-pattern="([0-9]+)"
-                               data-val-required="El total de hijos es un campo requerido"
-                               data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
-                               data-val-length-max="3" data-val-length-min="1"
-                               data-val-regex="S&oacute;lo puede guardar n&uacute;meros" data-val="true"
-                               id="imputed.boys"/>
-                        <span class="field-validation-valid" data-valmsg-for="imputed.boys"
-                              data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="col-xs-3 align-right">
-                        Menores de 18 a&ntilde;os:
-                    </div>
-                    <div class="col-xs-5">
-                        <input type="text" class="form-control" name="imputed.dependentBoys"
-                               data-val-regex-pattern="([0-9]+)"
-                               data-val-required="El n&uacute;mero de menores de 18 a&ntilde;os es un campo requerido"
-                               data-val-regex="S&oacute;lo puede guardar n&uacute;meros" id="imputed.dependentBoys" data-val="true"
-                               data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
-                               data-val-length-max="3" data-val-length-min="1"
-                               value="${m.imputed.dependentBoys == null ? '': m.imputed.dependentBoys}"/>
-                        <span class="field-validation-valid" data-valmsg-for="imputed.dependentBoys"
-                              data-valmsg-replace="true"></span>
-                    </div>
+                <div class="col-xs-2  element-left col-xs-offset-1">
+                    Nivel:
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control element-center" ng-model="school.level"
+                    ng-options="e.name for e in lstLevel" ng-init=''
+                    ng-change="school.levelId = school.level.id; lstDegree = school.level.degrees; school.degree=lstDegree[0]"></select>
+                </div>
+                <div class="col-xs-1">
+                    Grado:
+                </div>
+                <div class="col-xs-3">
+
+                    <select class="form-control element-center" ng-model="school.degree"
+                    ng-options="e.name for e in lstDegree"
+                    ng-change="school.degreeId = school.degree.id"
+                    ng-init='lstDegree = school.level.degrees;'></select>
+                    <input type="hidden" ng-update-hidden ng-model=" school.degree.id" name="school.degree.id"
+                    id="degreeId"
+                    ng-init="">
+                </div>
+
+                <br/>
+            </div>
+            <br/>
+            <div class="row" ng-show="school.levelId == 7">
+                <br/>
+
+                <div class="col-xs-2  element-left col-xs-offset-1">
+                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                    ng-click="doConfirmVerifEqual('school.degree')"></i>
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                    ng-show="verification" code="school.degree"></i>
+                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                    ng-click="doConfirmVerifNotKnow('school.degree')"></i>
+                    Especif&iacute;que:
+                </div>
+                <div class="col-xs-8">
+                    <input class="width-100" data-val="true"
+                    data-val-length="Debe tener al menos 1 y m&aacute;ximo 300 caracteres"
+                    data-val-length-max="300" data-val-length-min="1"
+                    data-val-required="La especificaci&oacute;n  es un campo requerido" type="text" value=""
+                    ng-model="school.specification" id="school.specification" name="school.specification"
+                    ng-init=''>
+                    <span class="field-validation-valid" data-valmsg-for="school.specification"
+                    data-valmsg-replace="true"></span>
                 </div>
             </div>
             <br/>
@@ -655,277 +1349,663 @@
     </div>
 </div>
 
-<br/>
 
-<div class="row">
-
-</div>
-<br/>
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="widget-box">
-            <div class="widget-header">
-                <div class="col-xs-1" >
-                    <i class="icon-ok-circle green  icon-only bigger-120"ng-show="verification"
-                       ng-click="doConfirmVerifEqual('imputed.birthCountry.id')"></i>
-                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5" ng-show="verification"
-                       code="imputed.birthCountry.id"></i>
-                    <i class="icon-ban-circle gray icon-only bigger-120"ng-show="verification"
-                       ng-click="doConfirmVerifNotKnow('imputed.birthCountry.id')"></i>
-                    <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
-                </div>
-                <div class="col-xs-10 element-left">
-                    <h4>Lugar de nacimiento</h4>
-                </div>
+<div class="row" id="divSchedule" ng-show="block">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="widget-header header-color-blue">
+                <h5 class="bigger lighter">
+                    <h6><i class="glyphicon-calendar "></i>Disponibilidad</h6>
+                </h5>
             </div>
 
             <div class="widget-body">
                 <br/>
+<div id="divScheduleComponent">
 
-                <div class="row">
-                    <div class="col-xs-2 element-left col-xs-offset-1">
-                        Pa&iacute;s:
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="hidden" ng-update-hidden ng-model="m.countryId" name="imputed.birthCountry.id"
-                               id="country"
-                               ng-init='m.countryId = ${(m.imputed.birthCountry.id == null)? 'undefined':m.imputed.birthCountry.id}'>
-                        <select class="form-control element-center" ng-model="m.country"
-                                ng-options="e.name for e in listCountry" value="{{m.country.id}}"
-                                url-request="/catalogs/getStatesByCountry.json"
-                                ng-change="m.countryId = m.country.id; setState();" ng-init='listCountry = ${lstCountry};'></select>
-                    </div>
-                    <div class="col-xs-2 element-right" ng-show="m.countryId != 1">
-                        Estado:
-                    </div>
-                    <div class="col-xs-3" ng-show="m.countryId != 1">
-                        <input class="form-control"
-                               type="text" ng-model="stateString" id="imputed.birthState"   data-val="true"
-                               name="imputed.birthState" data-val-required="El estado es un campo requerido" value="{{stateString}}"
-                               ng-init='stateString = "${(m.imputed.birthState ==  null) ? "" : m.imputed.birthState}";'>
-                         <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
-                               data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="col-xs-2 element-right" ng-show="m.countryId == 1">
-                        Estado:
-                    </div>
-                    <div class="col-xs-3" ng-show="m.countryId == 1">
-                        <select class="form-control element-center" ng-model="state" find-municipality value="{{state.id}}"
-                                url-request='<c:url value="/catalogs/address/municipalityByStId.json"/>'
-                                ng-options="e.name for e in listState" ng-init='listState = ${listState}'
-                                ng-change="stateId = state.id;"></select><br/>
+    <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css" />
+    <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="scripts/umeca/date-time/moment.min.js"></script>
+    <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
+    <script src="scripts/app/reviewer/scheduleCtrl.js"></script>
 
-                    </div>
+    <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
+        <input type="hidden" ng-update-hidden ng-model="schString" name='sch'>
+        <input type="hidden" ng-update-hidden ng-init='listSchedule = ""'>
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="row">
+                <div class="col-xs-4 element-center">
+                 D&iacute;a(s)<br/>
+                 <input class="form-control" type="text" value=""
+                 ng-model="s.day" ng-init='s.day= ""'>
+             </div>
+             <div class="col-xs-3 element-center">
+                Inicio<br/>
+                <div class="input-group bootstrap-timepicker">
+                    <input id="timepickerStart{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.start"/>
+                    <span class="input-group-addon">
+                        <i class="icon-time bigger-60"></i>
+                    </span>
                 </div>
-                <br/>
-
-                <div class="row">
-                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.countryId != 1">
-                        Municipio:
-                    </div>
-                    <div class="col-xs-3"  ng-show="m.countryId != 1">
-                        <input class="form-control"
-                               type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"    data-val="true"
-                               name="imputed.birthMunicipality" data-val-required="El municipio es un campo requerido"
-                               ng-init='birthMunicipality = "${(m.imputed.birthMunicipality ==  null) ? "" : m.imputed.birthMunicipality}";'>
-                         <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
-                               data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.countryId == 1">
-                        Municipio:
-                        </div>
-                    <div class="col-xs-3"  ng-show="m.countryId == 1">
-                        <input type="hidden" ng-model="urlMunicipality"
-                               ng-init='urlMunicipality = "<c:url value="/catalogs/address/municipalityByStId.json"/>"'>
-                        <select class="form-control element-center" ng-model="municipality" find-location
-                                url-request='<c:url value="/catalogs/address/locationByMunId.json"/>'
-                                ng-options="e.name for e in listMunicipality" ng-init='listMunicipaliti = ""'
-                                ng-change="municipalityId = municipality.id;"></select><br/>
-
-                    </div>
-                    <div class="col-xs-2 element-right"  ng-show="m.countryId != 1">
-                        Localidad/Colonia:
-                    </div>
-                    <div class="col-xs-3"  ng-show="m.countryId != 1">
-                        <input class="form-control"
-                               type="text" ng-model="locationstr" id="imputed.birthLocation"
-                               name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"   data-val="true"
-                               ng-init='locationstr = "${(m.imputed.birthLocation ==  null) ? "" : m.imputed.birthLocation}";'>
-                         <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
-                               data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="col-xs-2 element-right"  ng-show="m.countryId == 1">
-                        Localidad/Colonia:
-                     </div>
-                    <div class="col-xs-3"  ng-show="m.countryId == 1">
-                        <input type="hidden" ng-model="urlLocation"
-                               ng-init='urlLocation = "<c:url value="/catalogs/address/locationByMunId.json"/>"; locationId = ${m.imputed.location.id == null? "undefined" : m.imputed.location.id};
-                               urlFindIds = "<c:url value='/catalogs/address/idsLocationById.json'/>";'>
-                        <select class="form-control" ng-model="location" change-cp  value="{{location.id}}"
-                                ng-options="e.name for e in listLocation" ng-init='listLocation = ""'
-                                ng-change="locationId = location.id;"></select>
-
-
-                    </div>
-                    <div class="col-xs-10 col-xs-offset-1" ng-show="m.countryId == 1">
-                        <input type="hidden" ng-model="locationId" ng-update-hidden name="imputed.location.id"
-                               data-val-required="La localidad es un campo requerido. Elija Estado y Municipio para desplegar la lista de localidades.">
-                          <span class="field-validation-valid" data-valmsg-for="locationId"
-                                data-valmsg-replace="true"></span>
-                    </div>
+            </div>
+            <div class="col-xs-3 element-center">
+                Fin <br/>
+                <div class="input-group bootstrap-timepicker">
+                    <input id="timepickerEnd{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.end"/>
+                    <span class="input-group-addon">
+                        <i class="icon-time  bigger-40"></i>
+                    </span>
                 </div>
-                <br/>
+            </div>
+            <div class="col-xs-2">
+                Acciones<br/><div class="space-5"></div>
+                <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()"></i>
             </div>
         </div>
+        <div class="row">
+            <div class="hr hr-6"></div>
+        </div>
+        <div ng-show="msgError" class="alert-danger element-center">
+            {{msgError}}
+        </div>
+        <div class="col-xs-12" ng-show="listSchedule.length==0">
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        <div class="col-xs-9 col-xs-offset-1" ng-show ="listSchedule.length > 0">
+           <div class="row center">
+               <div class="col-xs-5">
+                   <h5 class="smaller lighter blue">D&iacute;a</h5>
+                   <div class="hr hr-2"></div>
+               </div>
+               <div class="col-xs-2">
+                   <h5 class="smaller lighter blue">Inicio</h5>
+                   <div class="hr hr-2"></div>
+               </div>
+               <div class="col-xs-2">
+                   <h5 class="smaller lighter blue">Fin</h5>
+                   <div class="hr hr-2"></div>
+               </div>
+               <div class="col-xs-2">
+                   <h5 class="smaller lighter blue">Acciones</h5>
+                   <div class="hr hr-2"></div>
+               </div>
+           </div>
+           <div class="row center" ng-repeat ="sch in listSchedule">
+            <div class="col-xs-5">
+                {{sch.day}}
+            </div>
+            <div class="col-xs-2">
+               {{sch.start}}
+           </div>
+           <div class="col-xs-2">
+            {{sch.end}}
+        </div>
+        <div class="col-xs-2">
+            <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteSchedule($index)"></i>
+        </div>
+    </div>
+    <br/>
+</div>
+</div>
+<br/>
+</div>
+</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<br/><br/>
+
+<div class="row">
+    <div class="col-xs-3 element-left">Observaciones:<br/>
+        <label class="info-example">(Este campo no es verificable)</label>
+    </div>
+    <div class="col-xs-9">
+        <textarea class="width-100" ng-model="m.CommentSchool"
+        data-val="true"
+        data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+        data-val-length-max="500"
+        data-val-length-min="1"
+        name="school.commentSchool"></textarea>
+        <span class="field-validation-valid" data-valmsg-for="comment"
+        data-valmsg-replace="true"></span>
+    </div>
+</div>
+                </form>
+                <div ng-show="msgError" class="alert alert-danger element-center error-font">
+                    <span ng-bind-html="msgError"></span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submit('#FormSchool', '');">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                           Guardar
+                    </span>
+            </div>
+        </div>
+    </div>
+            </div><!--End of Red Historia escolar -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div id="drugsSection" class="tab-pane"><!-- Begin of Consumo de sustancias -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/drug/index.jsp" -->7
+<div class="row element-center">
+    <div class="col-xs-12">
+        <h2> <i class="green icon-warning-sign  bigger-100">&nbsp;</i>Consumo de sustancias</h2>
+        <br/>
+        <div id="angJsjqGridIdDrug" >
+            <table id="GridIdDrug" class="element-center" style="margin: auto"></table>
+            <div id="GridPagerDrug"></div>
+
+        </div>
+    </div>
+</div>
+
+<br/><br/>
+<div class="row" >
+
+    <!--<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgSuccess"></span>
+        </div>
+    </div>-->
+    <form id="FormCommentDrugId" name="FormCommentDrugId" class="form-horizontal" role="form">
+        <div class="col-xs-3 element-right">Observaciones:<br/>
+            <label class="info-example">(Este campo no es verificable)</label></div>
+        <div class="col-xs-8">
+            <textarea class="width-100"      ng-model = "comment" ng-init=''
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val="true"
+                      data-val-required="Las observaciones es un campo requerido"
+                      data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                      data-val-length-max="500"
+                      data-val-length-min="1"
+                      name="commentDrug"></textarea>
+                <span class="field-validation-valid" data-valmsg-for="comment"
+                      data-valmsg-replace="true"></span>
+        </div>
+    </form>
+    <br/>
+    <!--<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+            <span ng-bind-html="msgError"></span>
+        </div>
+    </div>-->
+    <div class="col-xs-12">
+        <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                          Guardar
+                    </span>
+        </div>
+    </div>
+</div>
+            </div><!--End of Consumo de sustancias -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div id="leaveCountry" class="tab-pane"><!-- Begin of Facilidad abandonar el pais -->
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp" -->8
+ <div class="col-xs-10 element-center col-xs-offset-1">
+
+        <div class="center row">
+            <h2><i class="blue icon-globe bigger-100"></i> &nbsp;Facilidad de abandonar el pa&iacute;s</h2>
+        </div>
+        <br/>
+
+        <!--<div ng-show="msgExito" class="alert alert-success element-center success-font">
+            <span ng-bind-html="msgExito"></span>
+        </div>
+        <br/>-->
+
+        <form id="FormLeaveCountry" name="FormLeaveCountry" class="form-horizontal" role="form">
+<div class="row">
+<div class="row" ng-show="verification || selectSource">
+    <div class="col-xs-10 col-xs-offset-1 element-left">
+        <label class="text-primary">Observaciones: <b>m.commentCountry</b></label>
     </div>
 </div>
 <br/>
 
 <div class="row">
-    <div class="col-xs-3 element-left">
-        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-           ng-click="doConfirmVerifEqual('socialEnvironment.physicalCondition')"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
-           code="socialEnvironment.physicalCondition"></i>
-        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-           ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.physicalCondition')"></i>
-        &iquest;Padece alguna enfermedad o condici&oacute;n f&iacute;sica?:             <br/>
-        <label class="info-example">(tuberculosis, hepatitis, alergias, embarazo, tiempo de gestaci&oacute;n, lactancia, etc.)</label>
+    <br/>
+
+    <div class="row" ng-show="readOnly == false">
+        <div class="col-xs-12">
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b> Establecer toda la informaci&oacute;n de Facilidad de abandonar el pa&iacute;s
+                con:</b>
+        </div>
+        <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
+            <i class="purple glyphicon glyphicon-user bigger-160"
+               ng-click=""
+               style="cursor: pointer;"></i>
+            &nbsp;&nbsp;&nbsp;Informaci&oacute;n que proporcion&oacute; el imputado.
+        </div>
+        <div class="col-xs-10 col-xs-offset-1 text-info" style="padding-top: 8px;">
+            <i class="blue icon-question-sign  icon-only bigger-160" style="cursor: pointer;"
+               ng-click=""></i>
+            &nbsp;&nbsp;&nbsp;No se pudo verificar
+        </div>
     </div>
-    <div class="col-xs-9">
-        <textarea class="form-control"
-                  data-val-required="Si padece alguna enfermedad o condici&oacute;n f&iacute;sica es un campo requerido"
-                  name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
-                <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
-              data-valmsg-replace="true"></span>
+    <div class="row" ng-show="readOnly == false">
+        <div col-xs-12>
+            <div class="hr hr-8"></div>
+        </div>
+    </div>
+
+    <br/>
+
+    <div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-9 element-left">
+                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                       ng-click="doConfirmVerifEqual('leaveCountry.officialDocumentation.id')"></i>
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                       ng-show="verification" code="leaveCountry.officialDocumentation.id"></i>
+                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                       ng-click="doConfirmVerifNotKnow('leaveCountry.officialDocumentation.id')"></i>
+                    <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                       ng-click="showChoices('leaveCountry.officialDocumentation.id')"></i>
+                    &iquest;El imputado cuenta con documentaci&oacute;n oficial que facilite que abandone el pa&iacute;s?:
+                </div>
+                <div class="col-xs-3">
+                    <input type="hidden" ng-update-hidden ng-model="l.docId"
+                           name="leaveCountry.officialDocumentation.id"
+                           id="doc"
+                           ng-init=''>
+                    <select class="form-control element-center" ng-model="l.doc"
+                            ng-options="e.name for e in listElection"
+                            ng-change="l.docId = l.doc.id;" ng-init=''></select>
+                </div>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row" ng-show="l.doc.id==1">
+            <div class="col-xs-3">
+                Documentaci&oacute;n:
+            </div>
+            <div class="col-xs-3"  >
+                <input type="hidden" ng-update-hidden ng-model="l.immigrationDocId"
+                       name="leaveCountry.immigrationDocument.id"
+                       id="immigrationDcc" ng-show="l.doc.id==1"
+                       ng-init=''>
+                <select class="form-control element-center" ng-model="l.immigrationDoc"
+                        ng-options="e.name for e in listImmigrationDoc" value="{{l.immigrationDocId}}"
+                        ng-change="l.immigrationDocId = l.immigrationDoc.id;"
+                        ng-init=''></select>
+            </div>
+            <div class="col-xs-2" ng-show="l.immigrationDoc.specification">
+                Especifique documentaci&oacute;n:
+            </div>
+            <div class="col-xs-3" ng-show="l.doc.id == 1 && l.immigrationDoc.specification">
+                <input class="form-control"    ng-show="l.doc.id == 1 && l.immigrationDoc.specification"
+                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
+                       data-val-length-max="50" data-val-length-min="1"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="l.specficationImmigranDoc" id="leaveCountry.specficationImmigranDoc"
+                       name="leaveCountry.specficationImmigranDoc" value="{{l.specficationImmigranDoc}}"
+                       ng-init=''>
+                        <span class="field-validation-valid" data-valmsg-for="leaveCountry.specficationImmigranDoc"
+                              data-valmsg-replace="true"></span>
+            </div>
+        </div>
     </div>
 </div>
 <br/>
 
 <div>
     <div class="row">
-        <div class="col-xs-3 element-left">
-            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" onclick="window.verificationActivities();" ng-show="verification"
-               code="socialEnvironment.activities"></i>
-            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-               ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
-            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
-            &iquest;Qu&eacute; actividades realiza?:  <br/>
-            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
+        <div class="col-xs-12">
+            <div class="col-xs-9 element-left">
+                <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifEqual('leaveCountry.livedCountry.id')"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                   ng-show="verification" code="leaveCountry.livedCountry.id"></i>
+                <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                   ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry.id')"></i>
+                <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                   ng-click="showChoices('leaveCountry.livedCountry.id')"></i>
+                &iquest;El detenido ha vivido en otro pa&iacute;s?:
+            </div>
+            <div class="col-xs-3">
+                <input type="hidden" ng-update-hidden ng-model="l.ocId" name="leaveCountry.livedCountry.id" id="oc"
+                       ng-init=''>
+                <select class="form-control element-center" ng-model="l.oc"
+                        ng-options="e.name for e in listElection" value="{{l.oc.id}}"
+                        ng-change="l.ocId = l.oc.id;" ng-init=''></select>
+            </div>
         </div>
-        <div class="col-xs-9 element-left">
-            <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
-            <select multiple="" class="form-control chosen-select" ng-model="activityModel" data-placeholder="..."
-                    ng-init='lstActivity = ${lstActivity}; lstActivitySelec = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
-                    id="slctActivity" ng-change="matchActivities()"
-                    ng-options="ac as ac.name for ac in lstActivity">
-            </select>
+    </div>
+    <div class="row" ng-show="l.ocId ==1">
+        <br/>
+
+        <div class="row">
+            <div class="col-xs-2 element-left col-xs-offset-1">
+                Pa&iacute;s:
+            </div>
+            <div class="col-xs-3">
+                <input type="hidden" ng-update-hidden ng-model="l.countryId" name="leaveCountry.country.id"
+                       id="country" ng-show="l.ocId ==1"
+                       ng-init=''>
+                <select class="form-control element-center" ng-model="l.country"
+                        ng-options="e.name for e in listCountry" value="{{l.country.id}}"
+                        url-request="/catalogs/getStatesByCountry.json"
+                        ng-change="l.countryId = l.country.id;" ng-init=''></select>
+            </div>
+            <div class="col-xs-2 element-right">
+                Estado:
+            </div>
+            <div class="col-xs-3">
+                <input class="form-control"   ng-show="l.ocId ==1"
+                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"
+                       data-val-length-max="100" data-val-length-min="3"
+                       data-val-required="El estado es un campo requerido"
+                       type="text" ng-model="l.state" id="leaveCountry.state"
+                       name="leaveCountry.state" value="{{l.state}}"
+                       ng-init=''>
+                        <span class="field-validation-valid" data-valmsg-for="leaveCountry.state"
+                              data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <br/>
+    </div>
+    <div class="row" ng-show="l.ocId ==1">
+        <div class="col-xs-3 element-right">
+            &iquest;Hace cu&aacute;nto tiempo?:
+        </div>
+        <div class="col-xs-3"  ng-show="l.ocId ==1">
+            <input class="form-control"
+                   data-val-length="Debe tener al menos 3 y m&aacute;ximo 250 caracteres"
+                   data-val-length-max="250" data-val-length-min="3" ng-show="l.ocId ==1"
+                   data-val-required="El tiempo es un campo requerido"
+                   type="text" ng-model="l.timeAgo" id="leaveCountry.timeAgo"
+                   name="leaveCountry.timeAgo" value="{{l.timeAgo}}"
+                   ng-init=''>
+                        <span class="field-validation-valid" data-valmsg-for="leaveCountry.timeAgo"
+                              data-valmsg-replace="true"></span>
+        </div>
+        <div class="col-xs-2 element-right">
+            A&ntilde;os que vivi&oacute; en el extranjero:
+        </div>
+        <div class="col-xs-3"  ng-show="l.ocId ==1">
+            <input class="form-control"   ng-show="l.ocId ==1"
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="1"
+                   data-val-required="A&ntilde;os que vivi&oacute; en el extranjero es un campo requerido"
+                   type="text" ng-model="l.timeResidence" id="leaveCountry.timeResidence"
+                   name="leaveCountry.timeResidence" value="{{l.timeResidence}}"
+                   ng-init=''>
+                        <span class="field-validation-valid" data-valmsg-for="leaveCountry.timeResidence"
+                              data-valmsg-replace="true"></span>
         </div>
     </div>
     <br/>
 
+    <div class="row" ng-show="l.ocId ==1">
+        <div class="col-xs-3 element-right">
+            Motivo por el que ahora vive en M&eacute;xico:
+        </div>
+        <div class="col-xs-8"  ng-show="l.ocId ==1">
+            <textarea id="leaveCountry.reason" class="form-control"  ng-show="l.ocId ==1"
+                      data-val-length="Debe tener al menos 3 y m&aacute;ximo 500 caracteres"
+                      data-val-length-max="500" data-val-length-min="3"
+                      data-val-required="La raz&oacute;n es un campo requerido" ng-model="l.reason"
+                      name="leaveCountry.reason" value="{{l.reason}}"
+                      ng-init=''></textarea>
+                    <span class="field-validation-valid" data-valmsg-for="leaveCountry.reason"
+                          data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row" ng-show="l.ocId ==1">
+        <div class="col-xs-3 element-right">
+            Direcci&oacute;n:
+        </div>
+        <div class="col-xs-8"  ng-show="l.ocId ==1">
+            <textarea ng-model="l.address"    ng-show="l.ocId ==1"
+                      ng-init=''
+                      data-val-required="La direcci&oacute;n es un campo requerido"
+                      class="form-control" value="{{l.address}}"
+                      data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                      name="leaveCountry.address" id="leaveCountry.address"
+                      data-val-length-max="500" data-val-length-min="6"></textarea>
+
+                        <span class="field-validation-valid" data-valmsg-for="leaveCountry.address"
+                              data-valmsg-replace="true"></span>
+        </div>
+    </div>
+</div>
+</div>
+<br/>
+
+<div>
     <div class="row">
-        <div ng-repeat="activity in activityModel">
-            <div ng-show="activity.specification==true">
-                <div class="col-xs-3">
-                    Especif&iacute;que actividades {{activity.name}}:
-                </div>
-                <div class="col-xs-9">
-                    <input class="form-control" data-val="true"
-                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
-                           data-val-length-max="255" data-val-length-min="3"
-                           data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
-                           type="text" value="" ng-model="specification[activity.name]"
-                           id="specification{{activity.name}}" name="specification{{activity.name}}"
-                           ng-change="matchActivities()"><br/>
-                <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
-                      data-valmsg-replace="true"></span>
-                    <br/>
-                </div>
-            </div>
+        <br/>
+
+        <div class="col-xs-9 element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry.id')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+               ng-show="verification" code="leaveCountry.familyAnotherCountry.id"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry.id')"></i>
+            <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+               ng-click="showChoices('leaveCountry.familyAnotherCountry.id')"></i>
+            &iquest;El detenido cuenta con familiares y/o amigos cercanos en otro pa&iacute;s?:
+        </div>
+        <div class="col-xs-3">
+            <input type="hidden" ng-update-hidden ng-model="l.facId" name="leaveCountry.familyAnotherCountry.id"
+                   id="fac"
+                   ng-init=''>
+            <select class="form-control element-center" ng-model="l.fac"
+                    ng-options="e.name for e in listElection" value="{{l.fac.id}}"
+                    ng-change="l.facId = l.fac.id;" ng-init=''></select>
+        </div>
+
+    </div>
+    <br/>
+
+    <div class="row" ng-show="l.facId == 1">
+        <div class="col-xs-3 element-left">
+            &iquest;Mantiene comunicaci&oacute;n con ellos?:
+        </div>
+        <div class="col-xs-3" ng-show="l.facId == 1">
+            <input type="hidden" ng-update-hidden ng-model="l.cfId" name="leaveCountry.communicationFamily.id" id="cf"     ng-show="l.facId == 1"
+                   ng-init=''>
+            <select class="form-control element-center" ng-model="l.cf"
+                    ng-options="e.name for e in listElection" value="{{l.cf.id}}"
+                    ng-change="l.cfId = l.cf.id;" ng-init=''></select>
+        </div>
+        <div class="col-xs-3 element-left">
+            &iquest;Por qu&eacute; medio?:
+        </div>
+        <div class="col-xs-3" ng-show="l.facId == 1">
+            <input class="form-control"   ng-show="l.facId == 1"
+                   data-val-length="Debe tener al menos 2 y m&aacute;ximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="2"
+                   data-val-required="El medio es un campo requerido"
+                   type="text" value="{{l.media}}" id="leaveCountry.media" name="leaveCountry.media" ng-model="l.media"
+                   ng-init=''>
+                     <span class="field-validation-valid" data-valmsg-for="leaveCountry.media"
+                           data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <br/>
+    <div class="row" ng-show="l.facId ==1">
+        <div class="col-xs-3 element-left">
+            Relaci&oacute;n:
+        </div>
+        <div class="col-xs-3" ng-show="l.facId == 1">
+            <input type="hidden" ng-update-hidden ng-model="l.relId" name="leaveCountry.relationship.id" id="rel"  ng-show="l.facId == 1"
+                   ng-init=''>
+            <select class="form-control element-center" ng-model="l.rel"
+                    ng-options="e.name for e in listRel" value="{{l.rel.id}}"
+                    ng-change="l.relId = l.rel.id;" ng-init=''></select>
+        </div>
+        <div class="col-xs-3 element-left"  ng-show="l.rel.specification">
+            Especifique relaci&oacute;n:
+        </div>
+        <div class="col-xs-3" ng-show="l.facId == 1 && l.rel.specification">
+            <input class="form-control"     ng-show="l.facId == 1  && l.rel.specification"
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
+                   data-val-length-max="255" data-val-length-min="1"
+                   data-val-required="La especifici&oacute;n es un campo requerido"
+                   type="text" value="{{l.specificationRelationship}}" id="leaveCountry.specificationRelationship" name="leaveCountry.specificationRelationship" ng-model="l.specificationRelationship"
+                   ng-init=''>
+                     <span class="field-validation-valid" data-valmsg-for="leaveCountry.specificationRelationship"
+                           data-valmsg-replace="true"></span>
         </div>
     </div>
 </div>
 <br/>
-<script>
-    $('.date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
-</script>
-<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 
+<div class="row" ng-show="!verification && !selectSource">
+    <div class="col-xs-3 element-left">Observaciones:<br/>
+        <label class="info-example">(Este campo no es verificable)</label></div>
+    <div class="col-xs-9">
+        <textarea class="width-100" ng-model="commentCountry"
+                  ng-init=''
+
+                  data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                  data-val-length-max="500"
+                  data-val-length-min="1"
+                  name="leaveCountry.commentCountry"></textarea>
+                <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentCountry"
+                      data-valmsg-replace="true"></span>
+    </div>
+</div>
+<br/>
+
+<div class="row" ng-show="!verification && !selectSource">
+    <div class="col-xs-3 element-left">
+        Comentarios: <br/>
+        <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
+    </div>
+    <div class="col-xs-9">
+        <textarea class="form-control" name="leaveCountry.commentSocialEnvironment" ng-show="!verification"
+                  data-val-required="Los comentarios es un campo requerido">m.socialEnvironment.comment</textarea>
+         <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentSocialEnvironment"
+               data-valmsg-replace="true"></span>
+    </div>
+</div>
+<div class="row" ng-show="verification || selectSource">
+    <div class="col-xs-3 element-left">
+        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+           ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+           code="socialEnvironment.comment"></i>
+        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+           ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
+        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+           ng-click="showChoices('socialEnvironment.comment')"></i>
+        Comentarios: <br/>
+        <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
+    </div>
+    <div class="col-xs-9">
+        <textarea class="form-control" name="socialEnvironment.comment"
+                  data-val-required="Los comentarios es un campo requerido">m.socialEnvironment.comment</textarea>
+        <span class="field-validation-valid" data-valmsg-for="socialEnvironment.comment"
+              data-valmsg-replace="true"></span>
+    </div>
+</div>
         </form>
         <br/>
-        <div ng-show="msgError" class="alert alert-danger element-center error-font">
+
+        <!--<div ng-show="msgError" class="alert alert-danger element-center error-font">
             <span ng-bind-html="msgError"></span>
-        </div>
+        </div>-->
     </div>
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormPersonalData');">
+                          ng-click="">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
         </div>
-	</div>
-</div>
+    </div>
+            </div><!--End of Facilidad abandonar el pais -->
 
 
 
 
 
-                    <div id="address" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp" -->2
-                    </div>
-                    <div id="socialNetwork" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/socialNetwork/index.jsp" -->3
-                    </div>
-                    <div id="personalReferences" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/reference/index.jsp" -->4
-                    </div>
-                    <div id="jobHistory" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/job/index.jsp" -->5
-                    </div>
-                    <div id="school" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/school/index.jsp" -->6
-                    </div>
-                    <div id="drugsSection" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/drug/index.jsp" -->7
-                    </div>
-                    <div id="leaveCountry" class="tab-pane">
-                        <!-- include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp" -->8
-                    </div>
 
-                </div>
-            </div>
+
+
+
+
+
+
+
         </div>
     </div>
-    <br/>
+</div>
+</div>
+<br/>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
+<div class="row">
+    <div class="col-xs-12">
+        <div ng-show="listMsgError['general']" class="alert alert-danger element-center error-font">
             <span ng-bind-html="listMsgError['general']">
             </span>
-            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
-                        Regresar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-actionconfirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
-                          confirm-title="Terminar entrevista" confirm-type="info"
-                          confirmed-click-action="submitMeeting('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId');">
-                          Terminar
-                    </span>
+</div>
+<div class="row">
+    <div class="modal-footer">
+        <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
+            Regresar
+        </span>
+        <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-actionconfirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
+        confirm-title="Terminar entrevista" confirm-type="info"
+        confirmed-click-action="submitMeeting('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId');">
+        Terminar
+    </span>
 
-        </div>
-    </div>
+</div>
+</div>
 </div>

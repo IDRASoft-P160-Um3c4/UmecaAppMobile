@@ -19,7 +19,9 @@ namespace UmecaApp
 		}
 
 		public static void RegisterController(string controllerName, object controller) {
-			Controllers.Add (controllerName, controller);
+			if (!Controllers.ContainsKey (controllerName)) {
+				Controllers.Add (controllerName, controller);
+			}
 			if (defaultControllerName == String.Empty) 
 				defaultControllerName = controllerName;
 		}
@@ -94,4 +96,3 @@ namespace UmecaApp
 		}
 	}
 }
-

@@ -59,10 +59,10 @@ namespace UmecaApp
 		public String CommentDrug{ get; set; }
 
 		[Column("date_create")]
-		public DateTime DateCreate{ get; set; }
+		public DateTime? DateCreate{ get; set; }
 
 		[Column("date_terminate")]
-		public DateTime DateTerminate{ get; set; }
+		public DateTime? DateTerminate{ get; set; }
 	}
 }
 
