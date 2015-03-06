@@ -46,7 +46,7 @@ app.controller('scheduleController', function($scope, $timeout) {
           a.day = $scope.s.day;
           a.start = $scope.s.start;
           a.end = $scope.s.end;
-          $scope.listSchedule.push(a);
+          $scope.listSchedule.add(a);
           $scope.s.day = "";
           $scope.s.start = "12:00";
           $scope.s.end = "12:00";

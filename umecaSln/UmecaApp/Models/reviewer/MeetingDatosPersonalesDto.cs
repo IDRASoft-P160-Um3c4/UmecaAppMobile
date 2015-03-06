@@ -9,11 +9,12 @@ namespace UmecaApp
 		public MeetingDatosPersonalesDto ()
 		{
 		}
-		public int caseId { get; set; }
+		public int CaseId { get; set; }
 
-		public String idFolder { get; set; }
+		public String IdFolder { get; set; }
 
-		public int imputedId { get; set; }
+		//imputed begin
+		public int ImputedId { get; set; }
 
 		public String Name{ get; set; }
 
@@ -58,7 +59,19 @@ namespace UmecaApp
 		public int? MeetingId { get; set; }
 
 		public Meeting Meeting { get; set; }
+		//End of Imputed
 
+		//SocialEnvironment get by id_meeting
+		public int SocialEnvironmentId{ get; set; }
+
+		public String PhysicalCondition{ get; set; }
+
+		public String comment{ get; set; }
+		//EndSocialEnvironment
+
+		//listActivity
+		public String Activities{ get; set; }
+		//EndlistActivity
 
 		public int? ReviewerId{ get; set; }
 
@@ -101,8 +114,15 @@ namespace UmecaApp
 		public String JsonMeeting { get; set; }
 
 		public String JsonCountrys { get; set; }
+		public String JsonStates { get; set; }
+		public String JsonMunycipality { get; set; }
 
 		public String JsonActivities { get; set; }
+
+		public List<ImputedHome> JsonDomicilios { get; set; }
+
+
+		public String JsonElection { get; set; }
 	}
 }
 

@@ -40,27 +40,64 @@ Layout = "UmecaApp.headUm";
 
 #line default
 #line hidden
-WriteLiteral("\r\n<script>\r\n\r\n    app.controller(\'MeettingDatosPersonalesController\', function($s" +
-"cope, $http, $timeout){\r\n        $scope.m = {};\r\n        $scope.readOnly = true;" +
-"\r\n        $scope.listMsgError = [];\r\n        $scope.listMsgError[\'personalData\']" +
-" = false;\r\n        $scope.listMsgError[\'imputedHome\'] = true;\r\n        $scope.li" +
-"stMsgError[\'socialNetwork\'] = false;\r\n        $scope.listMsgError[\'reference\'] =" +
-" false;\r\n        $scope.listMsgError[\'job\'] = false;\r\n        $scope.listMsgErro" +
-"r[\'school\'] = false;\r\n        $scope.listMsgError[\'drug\'] = false;\r\n        $sco" +
-"pe.listMsgError[\'leavingCountry\'] = false;\r\n\r\n        $scope.gen = {};\r\n\r\n      " +
-"  $scope.listCountry = [];\r\n\r\n        $scope.save = function(){\r\n            $sc" +
-"ope.Wait = true;\r\n//todos los key del json deben ser igual al modelo cs\r\nif($(\"#" +
-"frmSubmitValuesMeeting\").valid()==false){\r\n    $scope.Wait = false;\r\n    return " +
-"false;\r\n}\r\nvar jsonData = JSON.stringify($scope.m);\r\nwindow.location.replace(\'hy" +
-"brid:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n$scope.Wait = " +
-"false;\r\n};\r\n\r\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//todos l" +
-"os key del json deben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Me" +
-"eting/Index\');\r\n};\r\n\r\n$scope.showMessageError = function(indicator){\r\n    alert(" +
-"indicator);\r\n};\r\n\r\n$scope.tuFunk = function(){\r\n    var js = JSON.parse($(\"#hdnJ" +
-"sonMtng\").val());\r\n    $scope.m = js;\r\n    alert(\"m valu>>\"+JSON.stringify($scop" +
-"e.m));\r\n};\r\n\r\n$scope.showState = function(){\r\n    alert(\"m valu>>\"+JSON.stringif" +
-"y($scope.m));\r\n    alert(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\r\n};\r\n\r\n" +
-"$timeout(function () {\r\n    $scope.tuFunk();\r\n}, 0);\r\n\r\n});\r\n\r\n</script>\r\n<div");
+WriteLiteral("\r\n<script>\r\nfunction shw(){\r\nalert($(\"#showId\").html());\r\n}\r\n\r\n\r\n    app.controll" +
+"er(\'MeettingDatosPersonalesController\', function($scope, $http, $timeout){\r\n//GE" +
+"NERAL CONTROLLER STATE OF MEETING\r\n        $scope.m = {};\r\n        $scope.readOn" +
+"ly = true;\r\n        $scope.listMsgError = [];\r\n        $scope.listMsgError[\'pers" +
+"onalData\'] = false;\r\n        $scope.listMsgError[\'imputedHome\'] = false;\r\n      " +
+"  $scope.listMsgError[\'socialNetwork\'] = false;\r\n        $scope.listMsgError[\'re" +
+"ference\'] = false;\r\n        $scope.listMsgError[\'job\'] = false;\r\n        $scope." +
+"listMsgError[\'school\'] = false;\r\n        $scope.listMsgError[\'drug\'] = false;\r\n " +
+"       $scope.listMsgError[\'leavingCountry\'] = false;\r\n\r\n        $scope.putasHar" +
+"ry=function(){\r\n        $timeout(function(){\r\n        \t$(\"#axelMulti\").chosen();" +
+"\r\n        \t},0);\r\n        };\r\n\r\n//DATOS PERSONALES CONTROLLER\r\n\r\n    $scope.spec" +
+"ification = {};\r\n    $scope.lstActivity = [];\r\n    $scope.activityModel = [];\r\n " +
+"   $scope.activityList = [];\r\n    $scope.selectedActivities = function (lstActiv" +
+"ity, lstActivitySelect) {\r\n\r\n        for (var i = 0; i < lstActivitySelect.lengt" +
+"h; i++) {\r\n            for (var j = 0; j < lstActivity.length; j++) {\r\n         " +
+"       if (lstActivity[j].id === lstActivitySelect[i].id) {\r\n                   " +
+" $scope.activityModel.push(lstActivity[j]);\r\n                    if (lstActivity" +
+"[j].specification) {\r\n                        $scope.specification[lstActivity[j" +
+"].name] = lstActivitySelect[i].specification;\r\n                    }\r\n          " +
+"      }\r\n            }\r\n        }\r\n        $scope.matchActivities();\r\n    };\r\n\r\n" +
+"    $scope.matchActivities = function () {\r\n        $scope.relActivities = [];\r\n" +
+"        for (var i = 0; i < $scope.activityModel.length; i++) {\r\n            var" +
+" model = {};\r\n            model.activity = {};\r\n            model.activity.id = " +
+"$scope.activityModel[i].id;\r\n            if ($scope.specification[$scope.activit" +
+"yModel[i].name] != undefined) {\r\n                model.specification = $scope.sp" +
+"ecification[$scope.activityModel[i].name];\r\n            } else {\r\n              " +
+"  model.specification = \"\";\r\n            }\r\n            $scope.relActivities.pus" +
+"h(model);\r\n        }\r\n        $scope.activities = JSON.stringify($scope.relActiv" +
+"ities);\r\n        return true;\r\n    };\r\n    \t//genero\r\n        $scope.gen = {};\r\n" +
+"\r\n        //pais nacimiento\r\n        $scope.listCountry = [];\r\n        $scope.li" +
+"stState = [];\r\n        $scope.listMuni = [];\r\n        listMunByEdo = [];\r\n      " +
+"  $scope.SeceltedCountry = {};\r\n        $scope.SeceltedEstate = {};\r\n        $sc" +
+"ope.SeceltedMuni = {};\r\n\r\n         $scope.savePersonalData = function () {\r\n\t   " +
+"     var jsonData = JSON.stringify($scope.m);\r\n\t        alert(\"m value>>\"+JSON.s" +
+"tringify($scope.m));\r\n\t\t\t\twindow.location.replace(\'hybrid:Meeting/SaveMeetingDat" +
+"osPersonales?model=\' + encodeURIComponent(jsonData));\r\n\t    };\r\n        //END DA" +
+"TOS PERSONALES\r\n\r\n        //para historia escolar\r\n        $scope.block = true;\r" +
+"\n\r\n        //para Leave country \r\n        $scope.Edocumento = {};\r\n        $scop" +
+"e.EdocumentoId = {};\r\n\r\n\r\n\r\n        $scope.save = function(){\r\n            $scop" +
+"e.Wait = true;\r\n//todos los key del json deben ser igual al modelo cs\r\nif($(\"#fr" +
+"mSubmitValuesMeeting\").valid()==false){\r\n    $scope.Wait = false;\r\n    return fa" +
+"lse;\r\n}\r\nvar jsonData = JSON.stringify($scope.m);\r\nwindow.location.replace(\'hybr" +
+"id:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n$scope.Wait = fa" +
+"lse;\r\n};\r\n\r\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//todos los" +
+" key del json deben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Meet" +
+"ing/Index\');\r\n};\r\n\r\n$scope.showMessageError = function(indicator){\r\n    alert(in" +
+"dicator);\r\n};\r\n\r\n$scope.tuFunk = function(){\r\n    try{\r\n    alert(\"asshole html>" +
+">\"+$(\"#asshole\").html());\r\n    var js = JSON.parse($(\"#hdnJsonMtng\").val());\r\n  " +
+"  $scope.m = js;\r\n    alert(\"m valu>>\"+JSON.stringify($scope.m));\r\n    }\r\n    ca" +
+"tch(err){\r\n    alert(\"error catched tu funk function:::\"+err.message);\r\n    }\r\n}" +
+";\r\n\r\n$scope.showState = function(){\r\n    alert(\"m valu>>\"+JSON.stringify($scope." +
+"m));\r\n    alert(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\r\n};\r\n\r\n$scope.Mu" +
+"nByEdo = function(){\r\n    $scope.listMunByEdo = [];\r\n    var em=0;\r\n    alert(\"s" +
+"tring de selected__>\"+JSON.stringify($scope.SeceltedEstate));\r\n    for(x in $sco" +
+"pe.listMuni){\r\n    \tif($scope.listMuni[x].Reference==$scope.SeceltedEstate[\'Id\']" +
+"){\r\n    \t\t$scope.listMunByEdo.push($scope.listMuni[x]);\r\n    \t\tem++;\r\n    \t}\r\n  " +
+"  }\r\n};\r\n\r\n\r\n$timeout(function () {\r\n    $scope.tuFunk();\r\n}, 0);\r\n\r\n});\r\n\r\n</sc" +
+"ript>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -68,7 +105,11 @@ WriteLiteral(" ng-app=\"umecaMobile\"");
 
 WriteLiteral(" ng-controller=\"MeettingDatosPersonalesController\"");
 
-WriteLiteral(">\r\n\r\n    <input");
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" id=\"asshole\"");
+
+WriteLiteral(">\r\n    <input");
 
 WriteLiteral(" id=\"hdnJsonMtng\"");
 
@@ -76,7 +117,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 68 "MeetingDatosPersonales.cshtml"
+#line 159 "MeetingDatosPersonales.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -85,19 +126,17 @@ WriteAttribute ("value", " value=\"", "\""
 );
 WriteLiteral(" name=\"jsonString\"");
 
-WriteLiteral(" >\r\n<!--<div");
+WriteLiteral(" />\r\n    </div>\r\n<div");
 
 WriteLiteral(" class=\"blocker\"");
 
-WriteLiteral(" ng-show=\"working\"");
-
-WriteLiteral(">\r\n    <div>\r\n        Cargando...<img");
+WriteLiteral(" >\r\n    <div>\r\n        Cargando...<img");
 
 WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
 
-WriteLiteral(" alt=\"\"");
+WriteLiteral(" alt=\"no content detected\"");
 
-WriteLiteral(" />\r\n    </div>\r\n</div>-->\r\n    <!-- EVAQLUATION HEADER  -->\r\n\r\n    <div");
+WriteLiteral(" />\r\n    </div>\r\n</div>\r\n    <!-- EVAQLUATION HEADER  -->\r\n\r\n    <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -123,18 +162,8 @@ WriteLiteral(">\r\n                <h3");
 WriteLiteral(" class=\"header smaller lighter blue\"");
 
 WriteLiteral(">\r\n                    <small>Carpeta de investigaci&oacute;n:</small>\r\n         " +
-"           <!--&nbsp;${m.caseDetention.idFolder}-->\r\n");
-
-WriteLiteral("                    ");
-
-
-#line 90 "MeetingDatosPersonales.cshtml"
-               Write(Model.idFolder);
-
-
-#line default
-#line hidden
-WriteLiteral("\r\n                </h3>\r\n            </div>\r\n            <div");
+"           <!--&nbsp;${m.caseDetention.idFolder}-->\r\n                    {{m.IdF" +
+"older}}\r\n                </h3>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"col-sm-8\"");
 
@@ -144,36 +173,13 @@ WriteLiteral(">\r\n                <!--ng-init=\"i.name=\'${m.imputed.name}\'; i
 
 WriteLiteral(" class=\"header smaller lighter blue\"");
 
-WriteLiteral(">\r\n                    <small>Nombre del imputado:</small>\r\n                    <" +
-"!--&nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->\r\n    " +
-"                &nbsp;&nbsp;");
-
-
-#line 98 "MeetingDatosPersonales.cshtml"
-                           Write(Model.Name);
-
-
-#line default
-#line hidden
-WriteLiteral("  &nbsp; ");
-
-
-#line 98 "MeetingDatosPersonales.cshtml"
-                                               Write(Model.LastNameP);
-
-
-#line default
-#line hidden
-WriteLiteral(" &nbsp; ");
-
-
-#line 98 "MeetingDatosPersonales.cshtml"
-                                                                       Write(Model.LastNameM);
-
-
-#line default
-#line hidden
-WriteLiteral("\r\n                </h3>\r\n            </div>\r\n            <div");
+WriteLiteral(@">
+                    <small>Nombre del imputado:</small>
+                    <!--&nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->
+                    &nbsp;&nbsp;{{m.Name}}  &nbsp; {{m.LastNameP}} &nbsp; {{m.LastNameM}}
+                </h3>
+            </div>
+            <div");
 
 WriteLiteral(" class=\"col-sm-1\"");
 
@@ -182,18 +188,8 @@ WriteLiteral(">\r\n                <h3");
 WriteLiteral(" class=\"header smaller lighter blue\"");
 
 WriteLiteral(">\r\n                    <small>Edad:</small>\r\n                    <!--&nbsp;${age}" +
-"-->\r\n");
-
-WriteLiteral("                    ");
-
-
-#line 105 "MeetingDatosPersonales.cshtml"
-               Write(Model.ageString);
-
-
-#line default
-#line hidden
-WriteLiteral("\r\n                </h3>\r\n            </div>\r\n        </div>\r\n        <div");
+"-->\r\n                    {{m.ageString}}\r\n                </h3>\r\n            </d" +
+"iv>\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -211,7 +207,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 114 "MeetingDatosPersonales.cshtml"
+#line 206 "MeetingDatosPersonales.cshtml"
                Write(Model.DateCreate);
 
 
@@ -231,7 +227,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 121 "MeetingDatosPersonales.cshtml"
+#line 213 "MeetingDatosPersonales.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -734,8 +730,9 @@ WriteLiteral(@"></i>
 
 WriteLiteral(" class=\"tab-content\"");
 
-WriteLiteral(">\r\n\r\n                        <!-- END LATERAL PAGER MENU -->\r\n\r\n\r\n               " +
-"         <!-- CONTENT PAGE 1 Lateral pager -->\r\n                        <div");
+WriteLiteral(">\r\n\r\n                        <!-- END LATERAL PAGER MENU -->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r" +
+"\n\r\n\r\n                        <!-- CONTENT PAGE 1 Lateral pager  datos pers-->\r\n " +
+"                       <div");
 
 WriteLiteral(" id=\"personalData\"");
 
@@ -781,8 +778,8 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 315 "MeetingDatosPersonales.cshtml"
-                     , Tuple.Create<string,object,bool> ("", Model.idFolder
+#line 417 "MeetingDatosPersonales.cshtml"
+                     , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
 #line hidden
@@ -1184,9 +1181,10 @@ WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                                        <!-- ng-init=\"gen=${(m" +
-".Gender == null) ? false: m.Gender}\"-->\r\n                                       " +
-"                 <div");
+WriteLiteral(" ng-init=\"m.Gender=m.Gender == null ? false: m.Gender\"");
+
+WriteLiteral(">\r\n                                                        <!-- -->\r\n            " +
+"                                            <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
@@ -1201,7 +1199,7 @@ WriteLiteral(" class=\"ace\"");
 
 WriteLiteral(" type=\"radio\"");
 
-WriteLiteral(" ng-checked=\"gen==true\"");
+WriteLiteral(" ng-checked=\"m.Gender==true\"");
 
 WriteLiteral(" name=\"imputed.gender\"");
 
@@ -1212,8 +1210,8 @@ WriteLiteral(" id=\"genero\"");
 
 WriteLiteral(" value=\"true\"");
 
-WriteLiteral("\r\n                                                                    ng-model=\"g" +
-"en\"");
+WriteLiteral("\r\n                                                                    ng-model=\"m" +
+".Gender\"");
 
 WriteLiteral(">\r\n                                                                    <span");
 
@@ -1240,9 +1238,9 @@ WriteLiteral(" type=\"radio\"");
 
 WriteLiteral(" value=\"false\"");
 
-WriteLiteral(" ng-model=\"gen\"");
+WriteLiteral(" ng-model=\"m.Gender\"");
 
-WriteLiteral(" ng-checked=\"gen==false\"");
+WriteLiteral(" ng-checked=\"m.Gender==false\"");
 
 WriteLiteral("\r\n                                                                    name=\"imput" +
 "ed.gender\"");
@@ -1254,7 +1252,6 @@ WriteLiteral(" class=\"lbl\"");
 WriteLiteral(@">Masculino</span>
                                                                 </label>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2141,7 +2138,7 @@ WriteLiteral(" />\r\n\r\n                                                       
 
 WriteLiteral(" class=\"form-control element-center\"");
 
-WriteLiteral(" ng-model=\"Country\"");
+WriteLiteral(" ng-model=\"SeceltedCountry\"");
 
 WriteLiteral(" \r\n                                                        ng-options=\"e.Name for" +
 " e in listCountry\"");
@@ -2149,21 +2146,21 @@ WriteLiteral(" \r\n                                                        ng-op
 WriteLiteral(" value=\"\"");
 
 WriteLiteral("\r\n                                                        ng-change=\"m.BirthCount" +
-"ry = m.Country[\'Id\']; showState();\"");
+"ry = SeceltedCountry[\'Id\'];showState();\"");
 
 WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 722 "MeetingDatosPersonales.cshtml"
-                                                                                                  , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
+#line 823 "MeetingDatosPersonales.cshtml"
+                                                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("></select>\r\n                                                    </div>\r\n         " +
-"                                           <div");
+WriteLiteral("></select>\r\n                                                   </div>\r\n          " +
+"                                          <div");
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
@@ -2220,30 +2217,40 @@ WriteLiteral(">\r\n                                                        Estad
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(" ng-show=\"m.countryId == 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry == 1\"");
 
 WriteLiteral(">\r\n                                                        <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
-WriteLiteral(" ng-model=\"state\"");
+WriteLiteral(" ng-model=\"SeceltedEstate\"");
 
-WriteLiteral(" find-municipality");
+WriteLiteral(" value=\"\"");
 
-WriteLiteral(" value=\"{{state.id}}\"");
-
-WriteLiteral("\r\n                                                        ng-options=\"e.name for " +
+WriteLiteral("\r\n                                                        ng-options=\"e.Name for " +
 "e in listState\"");
 
-WriteLiteral(" ng-init=\'\'");
+WriteAttribute ("ng-init", " ng-init=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "listState", true)
+, Tuple.Create<string,object,bool> (" ", "=", true)
 
-WriteLiteral("\r\n                                                        ng-change=\"stateId = st" +
-"ate.id;\"");
+#line 841 "MeetingDatosPersonales.cshtml"
+                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
-WriteLiteral("></select><br/>\r\n\r\n                                                    </div>\r\n  " +
-"                                              </div>\r\n                          " +
-"                      <br/>\r\n\r\n                                                <" +
-"div");
+#line default
+#line hidden
+, false)
+);
+WriteLiteral("\r\n                                                        ng-change=\"m.BirthState" +
+" = SeceltedEstate[\'Name\'];MunByEdo();\"");
+
+WriteLiteral(@"></select><br/>
+                                                        <!--ng-options=""e.name for e in listState"" ng-init=''-->
+                                                    </div>
+                                                </div>
+                                                <br/>
+
+                                                <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -2251,7 +2258,7 @@ WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
-WriteLiteral("  ng-show=\"m.countryId != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
 
 WriteLiteral(">\r\n                                                        Municipio:\r\n          " +
 "                                          </div>\r\n                              " +
@@ -2259,7 +2266,7 @@ WriteLiteral(">\r\n                                                        Munic
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.countryId != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2273,8 +2280,8 @@ WriteLiteral(" id=\"imputed.birthMunicipality\"");
 
 WriteLiteral("    data-val=\"true\"");
 
-WriteLiteral("\r\n                                                        name=\"imputed.birthMuni" +
-"cipality\"");
+WriteLiteral("\r\n                                                        name=\"m.BirthMunicipali" +
+"ty\"");
 
 WriteLiteral(" data-val-required=\"El municipio es un campo requerido\"");
 
@@ -2294,7 +2301,7 @@ WriteLiteral("></span>\r\n                                                    </
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
-WriteLiteral("  ng-show=\"m.countryId == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
 
 WriteLiteral(">\r\n                                                        Municipio:\r\n          " +
 "                                          </div>\r\n                              " +
@@ -2302,7 +2309,7 @@ WriteLiteral(">\r\n                                                        Munic
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.countryId == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2316,24 +2323,33 @@ WriteLiteral(">\r\n                                                        <sele
 
 WriteLiteral(" class=\"form-control element-center\"");
 
-WriteLiteral(" ng-model=\"municipality\"");
+WriteLiteral(" ng-model=\"SeceltedMuni\"");
 
-WriteLiteral(" find-location");
+WriteLiteral(" \r\n                                                        ng-options=\"e.Name for" +
+" e in listMunByEdo\"");
 
-WriteLiteral("\r\n                                                        ng-options=\"e.name for " +
-"e in listMunicipality\"");
+WriteAttribute ("ng-init", " ng-init=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "listMuni", true)
+, Tuple.Create<string,object,bool> (" ", "=", true)
 
-WriteLiteral(" ng-init=\'listMunicipaliti = \"\"\'");
+#line 867 "MeetingDatosPersonales.cshtml"
+                                                                              , Tuple.Create<string,object,bool> (" ", Model.JsonMunycipality
 
-WriteLiteral("\r\n                                                        ng-change=\"municipality" +
-"Id = municipality.id;\"");
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ";", true)
+, Tuple.Create<string,object,bool> (" ", "listMunByEdo=[];", true)
+);
+WriteLiteral("\r\n                                                        ng-change=\"m.BirthMunic" +
+"ipality = SeceltedMuni[\'Name\'];\"");
 
 WriteLiteral("></select><br/>\r\n\r\n                                                    </div>\r\n  " +
 "                                                  <div");
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral("  ng-show=\"m.countryId != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
 
 WriteLiteral(">\r\n                                                        Localidad/Colonia:\r\n  " +
 "                                                  </div>\r\n                      " +
@@ -2341,7 +2357,7 @@ WriteLiteral(">\r\n                                                        Local
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.countryId != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2376,7 +2392,7 @@ WriteLiteral("></span>\r\n                                                    </
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral("  ng-show=\"m.countryId == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
 
 WriteLiteral(">\r\n                                                        Localidad/Colonia:\r\n  " +
 "                                                  </div>\r\n                      " +
@@ -2384,7 +2400,7 @@ WriteLiteral(">\r\n                                                        Local
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.countryId == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2417,7 +2433,7 @@ WriteLiteral("></select>\r\n\r\n\r\n                                            
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
-WriteLiteral(" ng-show=\"m.countryId == 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2521,8 +2537,16 @@ WriteLiteral("\r\n                                        data-val-required=\"Si
 WriteLiteral("\r\n                                        name=\"socialEnvironment.physicalConditi" +
 "on\"");
 
-WriteLiteral(">${m.socialEnvironment.physicalCondition}</textarea>\r\n                           " +
-"             <span");
+WriteLiteral(">");
+
+
+#line 923 "MeetingDatosPersonales.cshtml"
+                                                                              Write(Model.PhysicalCondition);
+
+
+#line default
+#line hidden
+WriteLiteral("</textarea>\r\n                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -2532,24 +2556,28 @@ WriteLiteral("\r\n                                        data-valmsg-replace=\"
 
 WriteLiteral("></span>\r\n                                    </div>\r\n                           " +
 "     </div>\r\n                                <br/>\r\n\r\n                          " +
-"      <div>\r\n                                    <div");
+"      <div");
+
+WriteLiteral(" id=\"showId\"");
+
+WriteLiteral(">\r\n                                    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t\t        <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
-WriteLiteral(">\r\n                                            <i");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t\t            <i");
 
 WriteLiteral(" class=\"icon-ok-circle green  icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                                            ng-click=\"doConfirmVerifEqual(\'soci" +
-"alEnvironment.activities\')\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t               ng-click=\"doConfirmVerifEqual(\'socialEnvironment.activit" +
+"ies\')\"");
 
-WriteLiteral("></i>\r\n                                            <i");
+WriteLiteral("></i>\r\n\t\t\t\t\t\t\t\t            <i");
 
 WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-120\"");
 
@@ -2557,19 +2585,18 @@ WriteLiteral(" onclick=\"window.verificationActivities();\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                                            code=\"socialEnvironment.activities\"" +
-"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t               code=\"socialEnvironment.activities\"");
 
-WriteLiteral("></i>\r\n                                            <i");
+WriteLiteral("></i>\r\n\t\t\t\t\t\t\t\t            <i");
 
 WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n                                            ng-click=\"doConfirmVerifNotKnow(\'so" +
-"cialEnvironment.acitivies\')\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t               ng-click=\"doConfirmVerifNotKnow(\'socialEnvironment.aciti" +
+"vies\')\"");
 
-WriteLiteral("></i>\r\n                                            <i");
+WriteLiteral("></i>\r\n\t\t\t\t\t\t\t\t            <i");
 
 WriteLiteral(" class=\"purple icon-list icon-only bigger-120\"");
 
@@ -2577,17 +2604,17 @@ WriteLiteral("   ng-show=\"selectSource\"");
 
 WriteLiteral(" ng-click=\"showChoices(\'socialEnvironment.activities\')\"");
 
-WriteLiteral("></i>\r\n                                            &iquest;Qu&eacute; actividades" +
-" realiza?:  <br/>\r\n                                            <label");
+WriteLiteral("></i>\r\n\t\t\t\t\t\t\t\t            &iquest;Qu&eacute; actividades realiza?:  <br/>\r\n\t\t\t\t\t" +
+"\t\t\t            <label");
 
 WriteLiteral(" class=\"info-example\"");
 
-WriteLiteral(">(deportivas, educativas, voluntariado, etc.)</label>\r\n                          " +
-"              </div>\r\n                                        <div");
+WriteLiteral(">(deportivas, educativas, voluntariado, etc.)</label>\r\n\t\t\t\t\t\t\t\t        </div>\r\n\t\t" +
+"\t\t\t\t\t\t        <div");
 
 WriteLiteral(" class=\"col-xs-9 element-left\"");
 
-WriteLiteral(">\r\n                                            <input");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t\t            <input");
 
 WriteLiteral(" name=\"activities\"");
 
@@ -2597,92 +2624,94 @@ WriteLiteral(" ng-update-hidden");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(">\r\n                                            <select");
-
-WriteLiteral(" multiple=\"\"");
-
-WriteLiteral(" class=\"form-control chosen-select\"");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t\t            <select multiple");
 
 WriteLiteral(" ng-model=\"activityModel\"");
 
 WriteLiteral(" data-placeholder=\"...\"");
 
-WriteLiteral("\r\n                                            ng-init=\'\'");
+WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "lstActivity", true)
+, Tuple.Create<string,object,bool> (" ", "=", true)
 
-WriteLiteral("\r\n                                            id=\"slctActivity\"");
+#line 946 "MeetingDatosPersonales.cshtml"
+           , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
-WriteLiteral(" ng-change=\"matchActivities()\"");
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ";", true)
+);
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    id=\"slctActivity\"");
 
-WriteLiteral("\r\n                                            ng-options=\"ac as ac.name for ac in" +
-" lstActivity\"");
+WriteLiteral(" style=\"width:650px;\"");
 
-WriteLiteral(">\r\n                                        </select>\r\n                           " +
-"         </div>\r\n                                </div>\r\n                       " +
-"         <br/>\r\n\r\n                                <div");
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    ng-options=\"ac.name for ac in lstActivity\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t\t\t\t            </select>\r\n\t\t\t\t\t\t\t\t        </div>\r\n\t\t\t\t\t\t\t\t    </div>\r\n   " +
+"                             <br/>\r\n\r\n                                <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                    <div");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t        <div");
 
 WriteLiteral(" ng-repeat=\"activity in activityModel\"");
 
-WriteLiteral(">\r\n                                        <div");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t            <div");
 
 WriteLiteral(" ng-show=\"activity.specification==true\"");
 
-WriteLiteral(">\r\n                                            <div");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t                <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(">\r\n                                                Especif&iacute;que actividades" +
-" {{activity.name}}:\r\n                                            </div>\r\n       " +
-"                                     <div");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t                    Especif&iacute;que actividades {{activity.name}}:\r\n" +
+"\t\t\t\t\t\t\t                </div>\r\n\t\t\t\t\t\t\t                <div");
 
 WriteLiteral(" class=\"col-xs-9\"");
 
-WriteLiteral(">\r\n                                                <input");
+WriteLiteral(">\r\n\t\t\t\t\t\t\t                    <input");
 
 WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral("\r\n                                                data-val-length=\"Debe tener al " +
-"menos 3 y m&aacute;ximo 255 caracteres\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           data-val-length=\"Debe tener al menos 3 y m&aa" +
+"cute;ximo 255 caracteres\"");
 
-WriteLiteral("\r\n                                                data-val-length-max=\"255\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           data-val-length-max=\"255\"");
 
 WriteLiteral(" data-val-length-min=\"3\"");
 
-WriteLiteral("\r\n                                                data-val-required=\"La especific" +
-"aci&oacute;n de actividades {{activity.name}} es un campo requerido\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           data-val-required=\"La especificaci&oacute;n d" +
+"e actividades {{activity.name}} es un campo requerido\"");
 
-WriteLiteral("\r\n                                                type=\"text\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           type=\"text\"");
 
 WriteLiteral(" value=\"\"");
 
 WriteLiteral(" ng-model=\"specification[activity.name]\"");
 
-WriteLiteral("\r\n                                                id=\"specification{{activity.nam" +
-"e}}\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           id=\"specification{{activity.name}}\"");
 
 WriteLiteral(" name=\"specification{{activity.name}}\"");
 
-WriteLiteral("\r\n                                                ng-change=\"matchActivities()\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           ng-change=\"matchAc   tivities()\"");
 
-WriteLiteral("><br/>\r\n                                                <span");
+WriteLiteral("><br/>\r\n\t\t\t\t\t\t\t                <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
 WriteLiteral(" data-valmsg-for=\"specification{{activity.name}}\"");
 
-WriteLiteral("\r\n                                                data-valmsg-replace=\"true\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                      data-valmsg-replace=\"true\"");
 
 WriteLiteral(@"></span>
-                                                <br/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+							                    <br/>
+							                </div>
+							            </div>
+							        </div>
+							    </div>
                             </div>
                             <br/>
                             <script>
@@ -2721,22 +2750,69 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                            ng-click=\"submit(\'#FormPersonalData\');\"");
+WriteLiteral("\r\n                            ng-click=\"savePersonalData()\"");
 
 WriteLiteral(">\r\n                            <span");
 
-WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
+WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\t\"");
 
 WriteLiteral("></span>\r\n                            Guardar\r\n                        </span>\r\n " +
-"                   </div>\r\n                </div>\r\n\r\n\r\n\r\n            </div><!--E" +
-"nd of Datos Personales-->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div");
+"                   </div>\r\n                </div>\r\n                <input");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" onclick=\"shw();\"");
+
+WriteLiteral(" value=\"ertyuiopfghj\"");
+
+WriteLiteral("/>\r\n\r\n\r\n<div");
+
+WriteLiteral(" class=\"space-2\"");
+
+WriteLiteral("></div>\r\n                MIERDAAA:\r\n<select");
+
+WriteLiteral(" multiple=\"\"");
+
+WriteLiteral(" class=\"form-control chosen-select\"");
+
+WriteLiteral(" data-placeholder=\"...\"");
+
+WriteLiteral(" ng-change=\"putasHarry();\"");
+
+WriteLiteral(" ng-model=\"ac\"");
+
+WriteLiteral("\r\n                    id=\"axelMulti\"");
+
+WriteLiteral(" ng-options=\"ac.name for ac in lstActivity track by ac.id\"");
+
+WriteLiteral(">\r\n</select>\r\n\r\n            </div><!--End of Datos Personales-->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n " +
+"           \t\r\n\r\n            <div");
 
 WriteLiteral(" id=\"address\"");
 
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Domicilios -->\r\n                <!-- include file=\"/WEB-INF/jsp/re" +
-"viewer/meeting/address/index.jsp\" -->2\r\n<div");
+"viewer/meeting/address/index.jsp\" -->\r\n\r\n<select");
+
+WriteLiteral(" class=\"form-control element-center ng-pristine ng-valid valid\"");
+
+WriteLiteral(" ng-options=\"e.name for e in listElection\"");
+
+WriteLiteral("  ng-init=\"listElection = [{&quot;id&quot;:1,&quot;name&quot;:&quot;Si&quot;},{&q" +
+"uot;id&quot;:2,&quot;name&quot;:&quot;No&quot;}];\"");
+
+WriteLiteral("><option");
+
+WriteLiteral(" value=\"0\"");
+
+WriteLiteral(" selected=\"selected\"");
+
+WriteLiteral(">Si</option><option");
+
+WriteLiteral(" value=\"1\"");
+
+WriteLiteral(">No</option></select>\r\n                <br />\r\n<div");
 
 WriteLiteral(" class=\"row element-center\"");
 
@@ -2748,24 +2824,199 @@ WriteLiteral(">\r\n        <h2> <i");
 
 WriteLiteral(" class=\"green  icon-home  bigger-100\"");
 
-WriteLiteral("></i>&nbsp;Domicilios</h2>\r\n        <br/>\r\n        <div");
+WriteLiteral("></i>&nbsp;Domicilios</h2>\r\n        <br/>\r\n<div");
 
-WriteLiteral(" id=\"angJsjqGridIdAddress\"");
+WriteLiteral(" id=\"toolbarDomicilios\"");
 
-WriteLiteral(" >\r\n            <table");
+WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(" id=\"GridIdAddress\"");
+WriteLiteral(">\r\n\t    <!--<a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 1028 "MeetingDatosPersonales.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(">-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAddDomicilio\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnRereshDomicilio\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
+
+WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteDomicilio (){\r\n\t al" +
+"ert(\"cliked btnAddDomicilio\");\r\n\t}\r\n\tfunction btnEditDomicilio (){\r\n\t alert(\"cli" +
+"ked btnRereshDomicilio\");\r\n\t}\r\n\t</script>\r\n<table");
+
+WriteLiteral(" data-toggle=\"table\"");
+
+WriteLiteral(" data-page-size=\"10\"");
+
+WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
+
+WriteLiteral("\r\n     data-pagination=\"true\"");
+
+WriteLiteral(" data-height=\"450\"");
+
+WriteLiteral("\r\n     data-striped=\"true\"");
+
+WriteLiteral(" data-search=\"true\"");
+
+WriteLiteral(" \r\n     data-search-align=\"right\"");
+
+WriteLiteral(" data-toolbar=\"#toolbarDomicilios\"");
 
 WriteLiteral(" class=\"element-center\"");
 
 WriteLiteral(" style=\"margin: auto\"");
 
-WriteLiteral("></table>\r\n            <div");
+WriteLiteral(@">
+    <thead>
+    <tr>
+        <!--<th>ID</th>-->
+        <th>Direcci&oacute;n</th>
+        <th>Tel&eacute;fono</th>
+        <th>Tipo de domicilio</th>
+        <th>Tipo de propiedad</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+");
 
-WriteLiteral(" id=\"GridPagerAddress\"");
 
-WriteLiteral("></div>\r\n           \r\n        </div>\r\n\r\n        <!-- Aqui va el bootstrap table d" +
-"e domicilio -->\r\n    </div>\r\n</div>\r\n<br/><br/>\r\n    <div");
+#line 1059 "MeetingDatosPersonales.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 1059 "MeetingDatosPersonales.cshtml"
+     if(Model.JsonDomicilios==null){
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
+
+WriteLiteral(" id=\"tr-id-1\"");
+
+WriteLiteral(" class=\"tr-class-1\"");
+
+WriteLiteral(">\r\n        <td");
+
+WriteLiteral(" id=\"td-id-1\"");
+
+WriteLiteral(" class=\"td-class-1\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+
+#line 1065 "MeetingDatosPersonales.cshtml"
+       Write(Dmcl.Description);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1068 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.Phone);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1071 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.HomeTypeId);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1074 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.RegisterType);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnDeleteDomicilio();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
+
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnEditDomicilio();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
+
+
+#line 1081 "MeetingDatosPersonales.cshtml"
+	}
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\t\r\n\r\n        <!-- Aqui arriba va el bootstrap table de domi" +
+"cilio -->\r\n    </div>\r\n</div>\r\n<br/><br/>\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -2779,7 +3030,7 @@ WriteLiteral(">\r\n            <span");
 
 WriteLiteral(" ng-bind-html=\"msgSuccess\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <form");
+WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n\r\n    <form");
 
 WriteLiteral(" id=\"FormCommentHomeId\"");
 
@@ -2862,7 +3113,7 @@ WriteLiteral(" id=\"socialNetwork\"");
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Red Social -->\r\n                <!-- include file=\"/WEB-INF/jsp/re" +
-"viewer/meeting/socialNetwork/index.jsp\" -->3\r\n<div");
+"viewer/meeting/socialNetwork/index.jsp\" -->\r\n<div");
 
 WriteLiteral(" class=\"row element-center\"");
 
@@ -2872,21 +3123,192 @@ WriteLiteral(" class=\"blue icon-group bigger-100\"");
 
 WriteLiteral("></i> &nbsp;Red social</h2>\r\n        <br/>\r\n        <div");
 
-WriteLiteral(" id=\"angJsjqGridIdSocialNetwork\"");
+WriteLiteral(" id=\"toolbarRedSocial\"");
 
-WriteLiteral(" >\r\n            <table");
+WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(" id=\"GridIdSocialNetwork\"");
+WriteLiteral(">\r\n\t    <!--<a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 1144 "MeetingDatosPersonales.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(">-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAddsocialNetwork\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnRereshsocialNetwork\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
+
+WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeletesocialNetwork (){\r\n" +
+"\t alert(\"cliked btnAddsocialNetwork\");\r\n\t}\r\n\tfunction btnEditsocialNetwork (){\r\n" +
+"\t alert(\"cliked btnRereshsocialNetwork\");\r\n\t}\r\n\t</script>\r\n<table");
+
+WriteLiteral(" data-toggle=\"table\"");
+
+WriteLiteral(" data-page-size=\"10\"");
+
+WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
+
+WriteLiteral("\r\n     data-pagination=\"true\"");
+
+WriteLiteral(" data-height=\"450\"");
+
+WriteLiteral("\r\n     data-striped=\"true\"");
+
+WriteLiteral(" data-search=\"true\"");
+
+WriteLiteral(" \r\n     data-search-align=\"right\"");
+
+WriteLiteral(" data-toolbar=\"#toolbarRedSocial\"");
 
 WriteLiteral(" class=\"element-center\"");
 
 WriteLiteral(" style=\"margin: auto\"");
 
-WriteLiteral("></table>\r\n            <div");
+WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Nombre</th>\r\n        <th>Relaci&oacute;n</t" +
+"h>\r\n        <th>Edad</th>\r\n        <th>Tel&eacute;fono</th>\r\n        <th");
 
-WriteLiteral(" id=\"GridPagerSocialNetwork\"");
+WriteLiteral(" style=\"width: 30px;\"");
 
-WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n        <br/>\r\n<br/>\r\n<div");
+WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Dependiente econ&oacut" +
+"e;mico</th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody" +
+">\r\n");
+
+
+#line 1176 "MeetingDatosPersonales.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 1176 "MeetingDatosPersonales.cshtml"
+     if(Model.JsonDomicilios==null){
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
+
+WriteLiteral(" id=\"tr-id-1\"");
+
+WriteLiteral(" class=\"tr-class-1\"");
+
+WriteLiteral(">\r\n        <td");
+
+WriteLiteral(" id=\"td-id-1\"");
+
+WriteLiteral(" class=\"td-class-1\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+
+#line 1182 "MeetingDatosPersonales.cshtml"
+       Write(Dmcl.Description);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1185 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.Phone);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1188 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.HomeTypeId);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1191 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.RegisterType);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        </td>\r\n        <td>\r\n        </td>\r\n      " +
+"  <td>\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnDeletesocialNetwork();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
+
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnEditsocialNetwork();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
+
+
+#line 1202 "MeetingDatosPersonales.cshtml"
+	}
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\t\r\n    </div>\r\n        <br/>\r\n<br/>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -2988,7 +3410,7 @@ WriteLiteral(" id=\"personalReferences\"");
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Referencias -->\r\n                <!-- include file=\"/WEB-INF/jsp/r" +
-"eviewer/meeting/reference/index.jsp\" -->4\r\n<div");
+"eviewer/meeting/reference/index.jsp\" -->\r\n<div");
 
 WriteLiteral(" class=\"row element-center\"");
 
@@ -3000,23 +3422,195 @@ WriteLiteral(">\r\n        <h2><i");
 
 WriteLiteral(" class=\"red icon-list bigger-100\"");
 
-WriteLiteral("></i> &nbsp;Referencias personales</h2>\r\n        <br/>\r\n        <div");
+WriteLiteral("></i> &nbsp;Referencias personales</h2>\r\n        <br/>\r\n<div");
 
-WriteLiteral(" id=\"angJsjqGridIdReference\"");
+WriteLiteral(" id=\"toolbarReferencias\"");
 
-WriteLiteral(" >\r\n            <table");
+WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(" id=\"GridIdReference\"");
+WriteLiteral(">\r\n\t    <!--<a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 1267 "MeetingDatosPersonales.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(">-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAddpersonalReferences\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnRereshpersonalReferences\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
+
+WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeletepersonalReferences " +
+"(){\r\n\t alert(\"cliked btnAddpersonalReferences\");\r\n\t}\r\n\tfunction btnEditpersonalR" +
+"eferences (){\r\n\t alert(\"cliked btnRereshpersonalReferences\");\r\n\t}\r\n\t</script>\r\n<" +
+"table");
+
+WriteLiteral(" data-toggle=\"table\"");
+
+WriteLiteral(" data-page-size=\"10\"");
+
+WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
+
+WriteLiteral("\r\n     data-pagination=\"true\"");
+
+WriteLiteral(" data-height=\"450\"");
+
+WriteLiteral("\r\n     data-striped=\"true\"");
+
+WriteLiteral(" data-search=\"true\"");
+
+WriteLiteral(" \r\n     data-search-align=\"right\"");
+
+WriteLiteral(" data-toolbar=\"#toolbarReferencias\"");
 
 WriteLiteral(" class=\"element-center\"");
 
 WriteLiteral(" style=\"margin: auto\"");
 
-WriteLiteral("></table>\r\n            <div");
+WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Nombre</th>\r\n        <th>Relaci&oacute;n</t" +
+"h>\r\n        <th>Edad</th>\r\n        <th>Tel&eacute;fono</th>\r\n        <th");
 
-WriteLiteral(" id=\"GridPagerReference\"");
+WriteLiteral(" style=\"width: 30px;\"");
 
-WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n    <br/><br/>\r\n<div");
+WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Dependiente econ&oacut" +
+"e;mico</th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody" +
+">\r\n");
+
+
+#line 1299 "MeetingDatosPersonales.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 1299 "MeetingDatosPersonales.cshtml"
+     if(Model.JsonDomicilios==null){	
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
+
+WriteLiteral(" id=\"tr-id-1\"");
+
+WriteLiteral(" class=\"tr-class-1\"");
+
+WriteLiteral(">\r\n        <td");
+
+WriteLiteral(" id=\"td-id-1\"");
+
+WriteLiteral(" class=\"td-class-1\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+
+#line 1305 "MeetingDatosPersonales.cshtml"
+       Write(Dmcl.Description);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1308 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.Phone);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1311 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.HomeTypeId);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1314 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.RegisterType);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        </td>\r\n        <td>\r\n        </td>\r\n      " +
+"  <td>\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnDeletepersonalReferences();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
+
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnEditpersonalReferences();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
+
+
+#line 1325 "MeetingDatosPersonales.cshtml"
+	}
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n    <br/><br/>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -3120,7 +3714,7 @@ WriteLiteral(" id=\"jobHistory\"");
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Historial laboral -->\r\n                <!-- include file=\"/WEB-INF" +
-"/jsp/reviewer/meeting/job/index.jsp\" -->5\r\n<div");
+"/jsp/reviewer/meeting/job/index.jsp\" -->\r\n<div");
 
 WriteLiteral(" class=\"row element-center\"");
 
@@ -3132,23 +3726,188 @@ WriteLiteral(">\r\n        <h2><i");
 
 WriteLiteral(" class=\"pink icon-briefcase  bigger-100\"");
 
-WriteLiteral(">&nbsp;</i>Historia Laboral</h2>\r\n        <br/>\r\n\r\n        <div");
+WriteLiteral(">&nbsp;</i>Historia Laboral</h2>\r\n        <br/>\r\n<div");
 
-WriteLiteral(" id=\"angJsjqGridIdJob\"");
+WriteLiteral(" id=\"toolbarHistorialLaboral\"");
 
-WriteLiteral(" >\r\n            <table");
+WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(" id=\"GridIdJob\"");
+WriteLiteral(">\r\n\t    <!--<a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 1395 "MeetingDatosPersonales.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(">-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAddHistorialLaboral\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnRereshHistorialLaboral\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
+
+WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteHistorialLaboral ()" +
+"{\r\n\t alert(\"cliked btnAddHistorialLaboral\");\r\n\t}\r\n\tfunction btnEditHistorialLabo" +
+"ral (){\r\n\t alert(\"cliked btnRereshHistorialLaboral\");\r\n\t}\r\n\t</script>\r\n<table");
+
+WriteLiteral(" data-toggle=\"table\"");
+
+WriteLiteral(" data-page-size=\"10\"");
+
+WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
+
+WriteLiteral("\r\n     data-pagination=\"true\"");
+
+WriteLiteral(" data-height=\"450\"");
+
+WriteLiteral("\r\n     data-striped=\"true\"");
+
+WriteLiteral(" data-search=\"true\"");
+
+WriteLiteral(" \r\n     data-search-align=\"right\"");
+
+WriteLiteral(" data-toolbar=\"#toolbarHistorialLaboral\"");
 
 WriteLiteral(" class=\"element-center\"");
 
 WriteLiteral(" style=\"margin: auto\"");
 
-WriteLiteral("></table>\r\n            <div");
+WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Empresa</th>\r\n        <th>Puesto</th>\r\n    " +
+"    <th>Patr&oacute;n</th>\r\n        <th>Tel&eacute;fono</th>\r\n        <th>Tipo</" +
+"th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
-WriteLiteral(" id=\"GridPagerJob\"");
 
-WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n<br/>\r\n<br/>\r\n\r\n<div");
+#line 1426 "MeetingDatosPersonales.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 1426 "MeetingDatosPersonales.cshtml"
+     if(Model.JsonDomicilios==null){	
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
+
+WriteLiteral(" id=\"tr-id-1\"");
+
+WriteLiteral(" class=\"tr-class-1\"");
+
+WriteLiteral(">\r\n        <td");
+
+WriteLiteral(" id=\"td-id-1\"");
+
+WriteLiteral(" class=\"td-class-1\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+
+#line 1432 "MeetingDatosPersonales.cshtml"
+       Write(Dmcl.Description);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1435 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.Phone);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1438 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.HomeTypeId);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1441 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.RegisterType);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        </td>\r\n        <td>\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnDeleteHistorialLaboral();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
+
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnEditHistorialLaboral();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
+
+
+#line 1450 "MeetingDatosPersonales.cshtml"
+	}
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n<br/>\r\n<br/>\r\n\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -3261,7 +4020,7 @@ WriteLiteral(" id=\"school\"");
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Red Historia escolar -->\r\n                <!-- include file=\"/WEB-" +
-"INF/jsp/reviewer/meeting/school/index.jsp\" -->6\r\n<div");
+"INF/jsp/reviewer/meeting/school/index.jsp\" -->\r\n<div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -4128,7 +4887,7 @@ WriteLiteral(" id=\"drugsSection\"");
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Consumo de sustancias -->\r\n                <!-- include file=\"/WEB" +
-"-INF/jsp/reviewer/meeting/drug/index.jsp\" -->7\r\n<div");
+"-INF/jsp/reviewer/meeting/drug/index.jsp\" -->\r\n<div");
 
 WriteLiteral(" class=\"row element-center\"");
 
@@ -4140,23 +4899,188 @@ WriteLiteral(">\r\n        <h2> <i");
 
 WriteLiteral(" class=\"green icon-warning-sign  bigger-100\"");
 
-WriteLiteral(">&nbsp;</i>Consumo de sustancias</h2>\r\n        <br/>\r\n        <div");
+WriteLiteral(">&nbsp;</i>Consumo de sustancias</h2>\r\n        <br/>\r\n<div");
 
-WriteLiteral(" id=\"angJsjqGridIdDrug\"");
+WriteLiteral(" id=\"toolbarDrug\"");
 
-WriteLiteral(" >\r\n            <table");
+WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(" id=\"GridIdDrug\"");
+WriteLiteral(">\r\n\t    <!--<a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 1852 "MeetingDatosPersonales.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(">-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAddDrug\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnRereshDrug\"");
+
+WriteLiteral(">\r\n\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
+
+WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteDrug (){\r\n\t alert(\"" +
+"cliked btnAddDrug\");\r\n\t}\r\n\tfunction btnEditDrug (){\r\n\t alert(\"cliked btnRereshDr" +
+"ug\");\r\n\t}\r\n\t</script>\r\n<table");
+
+WriteLiteral(" data-toggle=\"table\"");
+
+WriteLiteral(" data-page-size=\"10\"");
+
+WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
+
+WriteLiteral("\r\n     data-pagination=\"true\"");
+
+WriteLiteral(" data-height=\"450\"");
+
+WriteLiteral("\r\n     data-striped=\"true\"");
+
+WriteLiteral(" data-search=\"true\"");
+
+WriteLiteral(" \r\n     data-search-align=\"right\"");
+
+WriteLiteral(" data-toolbar=\"#toolbarDrug\"");
 
 WriteLiteral(" class=\"element-center\"");
 
 WriteLiteral(" style=\"margin: auto\"");
 
-WriteLiteral("></table>\r\n            <div");
+WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Sustancia</th>\r\n        <th>Periodicidad</t" +
+"h>\r\n        <th>Cantidad</th>\r\n        <th>&Uacute;ltimo consumo</th>\r\n        <" +
+"th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
-WriteLiteral(" id=\"GridPagerDrug\"");
 
-WriteLiteral("></div>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<br/><br/>\r\n<div");
+#line 1882 "MeetingDatosPersonales.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 1882 "MeetingDatosPersonales.cshtml"
+     if(Model.JsonDomicilios==null){	
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
+
+WriteLiteral(" id=\"tr-id-1\"");
+
+WriteLiteral(" class=\"tr-class-1\"");
+
+WriteLiteral(">\r\n        <td");
+
+WriteLiteral(" id=\"td-id-1\"");
+
+WriteLiteral(" class=\"td-class-1\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+
+#line 1888 "MeetingDatosPersonales.cshtml"
+       Write(Dmcl.Description);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1891 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.Phone);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1894 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.HomeTypeId);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 1897 "MeetingDatosPersonales.cshtml"
+    Write(Dmcl.RegisterType);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnDeleteDrug();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
+
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Continuar entrevista\"");
+
+WriteLiteral(" onclick=\"btnEditDrug();\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
+
+WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
+
+
+#line 1904 "MeetingDatosPersonales.cshtml"
+	}
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n\r\n<br/><br/>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -4259,7 +5183,7 @@ WriteLiteral(" id=\"leaveCountry\"");
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Facilidad abandonar el pais -->\r\n                <!-- include file" +
-"=\"/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp\" -->8\r\n <div");
+"=\"/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp\" -->\r\n <div");
 
 WriteLiteral(" class=\"col-xs-10 element-center col-xs-offset-1\"");
 
@@ -4438,18 +5362,52 @@ WriteLiteral("\r\n                           id=\"doc\"");
 
 WriteLiteral("\r\n                           ng-init=\'\'");
 
-WriteLiteral(">\r\n                    <select");
+WriteLiteral(">\r\n                    <!--<select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"l.doc\"");
 
-WriteLiteral("\r\n                            ng-options=\"e.name for e in listElection\"");
+WriteAttribute ("ng-options", "\r\n                            ng-options=\"", "\""
+, Tuple.Create<string,object,bool> ("", "e.Name", true)
+, Tuple.Create<string,object,bool> (" ", "for", true)
+, Tuple.Create<string,object,bool> (" ", "e", true)
+, Tuple.Create<string,object,bool> (" ", "in", true)
 
+#line 2043 "MeetingDatosPersonales.cshtml"
+                , Tuple.Create<string,object,bool> (" ", Model.JsonElection
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral("\r\n                            ng-change=\"l.docId = l.doc.id;\"");
 
 WriteLiteral(" ng-init=\'\'");
 
+WriteLiteral("></select>-->\r\n                            <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"Edocumento\"");
+
+WriteLiteral(" \r\n                            ng-options=\"e.Name for e in listElection\"");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral("\r\n                            ng-change=\"EdocumentoId = Edocumento[\'Id\'];\"");
+
+WriteAttribute ("ng-init", " ng-init=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "listElection", true)
+, Tuple.Create<string,object,bool> (" ", "=", true)
+
+#line 2047 "MeetingDatosPersonales.cshtml"
+                                                         , Tuple.Create<string,object,bool> (" ", Model.JsonElection
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral("></select>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <" +
 "br/>\r\n\r\n        <div");
 
@@ -5396,13 +6354,24 @@ WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
+WriteLiteral(">\r\n    <a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 2389 "MeetingDatosPersonales.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(">\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
 WriteLiteral(" onclick=\"window.cancelMeeting()\"");
 
-WriteLiteral(">\r\n            Regresar\r\n        </span>\r\n        <span");
+WriteLiteral(">\r\n            Regresar\r\n        </span>\r\n</a>\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
@@ -5419,7 +6388,8 @@ WriteLiteral("\r\n        confirmed-click-action=\"submitMeeting(\'#FormSchool ,
 " #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJob" +
 "Id, #FormSocialNetworkIndexId, #FormCommentDrugId\');\"");
 
-WriteLiteral(">\r\n        Terminar\r\n    </span>\r\n\r\n</div>\r\n</div>\r\n</div>");
+WriteLiteral(">\r\n        Terminar\r\n    \t</span>\r\n\r\n</div>\r\n</div>\r\n</div>\r\n    \t<script>\r\n    \t" +
+"$(\".blocker\").remove();\r\n\r\n    \t$(\".chosen-select\").chosen();\r\n\r\n    \t</script>");
 
 }
 }

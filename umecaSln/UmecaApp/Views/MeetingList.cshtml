@@ -1,88 +1,32 @@
-﻿@model UmecaApp.MeetingTblDto
+﻿@model System.Collections.Generic.List<UmecaApp.MeetingTblDto>
 @inherits WebViewTemplate
 @{
 	Layout = "UmecaApp.headUmGrid";
 }
     <script type="text/javascript">
-    function tblAfterLoadIcons(){
-        var tblData = $('#table2').bootstrapTable('getData',null);
-        console.log("typeof tblData_>"+typeof tblData+"  printed tblData-->"+tblData);
-        if(tblData.length!=undefined&&tblData.length>=1){
-            if(tblData[0].statusCode==undefined||tblData[0].statusCode==null){
-                 
-            }
-            else{
-                for(var i=0;i<tblData.length;i++){
-                    var be="";
-                    if ( tblData[i].statusCode == 'INCOMPLETE_LEGAL') {
-                        be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Procesos legales usuario\" onclick=\"window.legal('" + i + "');\"><i class=\"icon-legal\"></i></a>";
-                    }else if(tblData[i
-                    ].statusCode == 'INCOMPLETE'){
-                        be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista\" onclick=\"window.upsert('" + i + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                    }
-                    tblData[i].Action=be;
-                }
-                    $('#table2').bootstrapTable('load',tblData);
-            }
-        }
-    }
-    function afterDrawTbl(){
-    setTimeout(tblAfterLoadIcons(), 100);
-    }
     function legal(err){
-    	alert("cosa>>"+err);
+    	alert("legal>>"+err);
     }
-    function editMeeting(err){
-    	alert("cosa2>>"+err);
+    function editMeeting(idMeet){
+    	window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idMeet);
     }
     function cancelari(){
 		window.location.replace('hybrid:Login/Index');
     }
     </script>
-<script type="text/javascript">
-/*$( document ).ready(function() {
-    console.log( "ready!" );
-     
-        //tabla dos todo mendiante javascript 
-
-        //didnt find ""sorttype: 'string', searchoptions: { sopt: ['bw'] } }""
-      $('#table2').bootstrapTable({
-        pageSize: 10,
-        pageList: [10, 20, 30],    //si pagination es true muestra el selector de numero de registros por pagina justo al lado de el texto de mostrando
-        pagination: true,   //numero de registros, numero de registros por pagina, paginador
-        height: 450,
-        //NOT AVAIBLE:>shrinkToFit: false,
-        //NOT AVAIBLE:>caption: "&nbsp;",
-        striped: true,   //altRows: true,
-        search: true,       //campo de buscar, busca en todas las columnas excepto las marcadas con "searchable: false"
-        searchAlign: 'right',    //de que lado aparecera el input de busqueda "left|rigth"
-        toolbar: '#toolbar2',            //selector de jquery para indicarle cual es la toolbar
-        onLoadSuccess: afterDrawTbl()
-		});
-});*/
-</script>
 <h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluaci&oacute;n de riesgos procesales</h2>
 <br />
-<table id="table2">
-
-		</table>
-
-		<br /><br /><br />
-
-
 <div id="toolbar2" class="btn-group">
     <a href="@Url.Action("MeetingEditNew","Meeting")">
     <button type="button" class="btn btn-default" id="btnAdd">
         <i class="glyphicon glyphicon-plus"></i>
     </button></a>
-    <button type="button" class="btn btn-default" id="btnRefresh">
+    <!--<button type="button" class="btn btn-default" id="btnRefresh">
         <i class="glyphicon glyphicon-refresh"></i>
-    </button>
+    </button>-->
 </div>
-
-
     <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
-     data-pagination="true" data-height="450"
+     data-pagination="true" data-height="250"
      data-striped="true" data-search="true" 
      data-search-align="right" data-toolbar="#toolbar2">
     <thead>
@@ -99,22 +43,23 @@
     </tr>
     </thead>
     <tbody>
+    @foreach(var Meeting in Model) {
     <tr id="tr-id-1" class="tr-class-1">
         <td id="td-id-1" class="td-class-1">
-            @Model.CaseId
+            @Meeting.CaseId
         </td>
         <td>
-        	@Model.IdFolder
+        	@Meeting.IdFolder
         </td>
         <td>
-        	@(Model.Name+" "+Model.LastNameP+" "+Model.LastNameM)
+        	@(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM)
         </td>
         <td>
-        	@(((DateTime) Model.DateBirth).ToString("yyyy/MM/dd"))
+        	@(((DateTime) Meeting.DateBirth).ToString("yyyy/MM/dd"))
         </td>
         <td id="td-id-1" class="td-class-1">
-            @if (Model.Gender != null) {
-                        if (Model.Gender.Equals(true)){//true is female
+            @if (Meeting.Gender != null) {
+                        if (Meeting.Gender.Equals(true)){//true is female
                         	<label>Femenino</label>
                         }else{
                             <label>Masculino</label>
@@ -124,47 +69,26 @@
                     }
         </td>
         <td>
-        	@Model.Description
+        	@Meeting.Description
         </td>
         <!--<td>
-       		@Model.StatusCode
+       		@Meeting.StatusCode
         </td>
         <td>
-        	@Model.ReviewerId
+        	@Meeting.ReviewerId
         </td>-->
         <td>
-         @if(Model.StatusCode=="INCOMPLETE_LEGAL") {
-         	<a href="javascript:;" style="display:inline-block;" title="Procesos legales usuario" onclick="legal(@Model.Action);"><i class="icon-legal"></i></a>
+         @if(Meeting.StatusCode=="INCOMPLETE_LEGAL") {
+         	<a href="javascript:;" style="display:inline-block;" title="Procesos legales usuario" onclick="legal(@Meeting.CaseId);"><i class="icon-legal"></i></a>
          }
-         else if(Model.StatusCode=="INCOMPLETE") {
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="editMeeting(@Model.Action);"><span class="glyphicon glyphicon-pencil"></span></a>
+         else if(Meeting.StatusCode=="INCOMPLETE") {
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="editMeeting(@Meeting.CaseId);"><span class="glyphicon glyphicon-pencil"></span></a>
          }
         </td>
     </tr>
+}
     </tbody>
 </table>
-
-    <span class="btn btn-default btn-sm" onclick="cancelari();">
-                        Cancelar
-                    </span>
-
-<script>
-    var $table = $('#table2');
-       //onload
-    $(function () {
-         $button = $('#btnAdd');
-          $button2 = $('#btnRefresh');
-           $button3 = $('#btnExport');
-        $button.click(function () {
-            console.log("cliked agregar");
-            tblAfterLoadIcons();
-        });
-        $button2.click(function () {
-            console.log("cliked recargar");
-        });
-        $button3.click(function () {
-            console.log("cliked exportar");
-        });
-    }); 
-
-</script>
+	<!--<span class="btn btn-default btn-sm" onclick="cancelari();">
+        Cancelar
+    </span>-->

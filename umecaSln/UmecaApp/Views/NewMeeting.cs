@@ -47,6 +47,7 @@ WriteLiteral(@"
 			$scope.m = {};
 			$scope.Wait = false;
 			$scope.isAccepted = {};
+
 			$scope.save = function(){
 				$scope.Wait = true;
 				//todos los key del json deben ser igual al modelo cs
@@ -124,7 +125,7 @@ WriteLiteral(">-->\r\n");
 WriteLiteral("            ");
 
 
-#line 46 "NewMeeting.cshtml"
+#line 47 "NewMeeting.cshtml"
        Write(Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"}));
 
 
@@ -179,7 +180,7 @@ WriteLiteral(">-->\r\n");
 WriteLiteral("            ");
 
 
-#line 59 "NewMeeting.cshtml"
+#line 60 "NewMeeting.cshtml"
        Write(Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"}));
 
 
@@ -234,7 +235,7 @@ WriteLiteral(">-->\r\n");
 WriteLiteral("            ");
 
 
-#line 73 "NewMeeting.cshtml"
+#line 74 "NewMeeting.cshtml"
        Write(Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"}));
 
 
@@ -304,7 +305,7 @@ WriteLiteral(" ></i>\r\n                                            </span>-->\r
 WriteLiteral("                                    ");
 
 
-#line 92 "NewMeeting.cshtml"
+#line 93 "NewMeeting.cshtml"
                                Write(Html.TextBox("DateBirth", @Model.DateBirth,
                                      new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
                                       @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
@@ -386,7 +387,7 @@ WriteLiteral(">-->\r\n");
 WriteLiteral("                            ");
 
 
-#line 118 "NewMeeting.cshtml"
+#line 119 "NewMeeting.cshtml"
                        Write(Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"}));
 
 
@@ -426,7 +427,7 @@ WriteLiteral(">-->\r\n");
 WriteLiteral("                            ");
 
 
-#line 127 "NewMeeting.cshtml"
+#line 128 "NewMeeting.cshtml"
                        Write(Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"}));
 
 
@@ -479,7 +480,7 @@ WriteLiteral(">-->\r\n");
 WriteLiteral("                ");
 
 
-#line 142 "NewMeeting.cshtml"
+#line 143 "NewMeeting.cshtml"
            Write(Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 15 caracteres", @data_val_length_max="15", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
 
 

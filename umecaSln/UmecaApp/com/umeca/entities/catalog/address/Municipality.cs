@@ -1,30 +1,29 @@
 ﻿using System;
-
 using SQLite.Net.Attributes;
 
 namespace UmecaApp
 {
-	[Table("cat_state")]
-	public class State
+	[Table("cat_municipality")]
+	public class Municipality
 	{
-		public State ()
+		public Municipality ()
 		{
 		}
 
-		public State (int id, long countryId,  String name,String abreviacion,String descripcion)
+		public Municipality (int id, int state, String name,String abreviacion,String descripcion)
 		{
 			this.Abbreviation = abreviacion;
 			this.Description = descripcion;
 			this.Id = id;
 			this.Name = name;
-			this.CountryId = countryId;
+			this.StateId = state;
 		}
 
 		[PrimaryKey]
 		public int Id{ get; set;}
 
-		[Column("id_country")]
-		public long CountryId{get;set;}
+		[Column("id_state")]
+		public int StateId{get;set;}
 
 		[Column("name"), MaxLength(50)]
 		public String Name{ get; set;}

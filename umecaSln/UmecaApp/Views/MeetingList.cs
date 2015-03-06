@@ -24,7 +24,7 @@ public partial class MeetingList : WebViewTemplate
 #line hidden
 
 #line 1 "MeetingList.cshtml"
-public UmecaApp.MeetingTblDto Model { get; set; }
+public System.Collections.Generic.List<UmecaApp.MeetingTblDto> Model { get; set; }
 
 #line default
 #line hidden
@@ -44,51 +44,17 @@ WriteLiteral("\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteLiteral(">\r\n    function tblAfterLoadIcons(){\r\n        var tblData = $(\'#table2\').bootstra" +
-"pTable(\'getData\',null);\r\n        console.log(\"typeof tblData_>\"+typeof tblData+\"" +
-"  printed tblData-->\"+tblData);\r\n        if(tblData.length!=undefined&&tblData.l" +
-"ength>=1){\r\n            if(tblData[0].statusCode==undefined||tblData[0].statusCo" +
-"de==null){\r\n                 \r\n            }\r\n            else{\r\n               " +
-" for(var i=0;i<tblData.length;i++){\r\n                    var be=\"\";\r\n           " +
-"         if ( tblData[i].statusCode == \'INCOMPLETE_LEGAL\') {\r\n                  " +
-"      be = \"<a href=\\\"javascript:;\\\" style=\\\"display:inline-block;\\\" title=\\\"Pro" +
-"cesos legales usuario\\\" onclick=\\\"window.legal(\'\" + i + \"\');\\\"><i class=\\\"icon-l" +
-"egal\\\"></i></a>\";\r\n                    }else if(tblData[i\r\n                    ]" +
-".statusCode == \'INCOMPLETE\'){\r\n                        be = \"<a href=\\\"javascrip" +
-"t:;\\\" style=\\\"display:inline-block;\\\" title=\\\"Continuar entrevista\\\" onclick=\\\"w" +
-"indow.upsert(\'\" + i + \"\');\\\"><span class=\\\"glyphicon glyphicon-pencil\\\"></span><" +
-"/a>\";\r\n                    }\r\n                    tblData[i].Action=be;\r\n       " +
-"         }\r\n                    $(\'#table2\').bootstrapTable(\'load\',tblData);\r\n  " +
-"          }\r\n        }\r\n    }\r\n    function afterDrawTbl(){\r\n    setTimeout(tblA" +
-"fterLoadIcons(), 100);\r\n    }\r\n    function legal(err){\r\n    \talert(\"cosa>>\"+err" +
-");\r\n    }\r\n    function editMeeting(err){\r\n    \talert(\"cosa2>>\"+err);\r\n    }\r\n  " +
-"  function cancelari(){\r\n\t\twindow.location.replace(\'hybrid:Login/Index\');\r\n    }" +
-"\r\n    </script>\r\n<script");
-
-WriteLiteral(" type=\"text/javascript\"");
-
 WriteLiteral(@">
-/*$( document ).ready(function() {
-    console.log( ""ready!"" );
-     
-        //tabla dos todo mendiante javascript 
-
-        //didnt find """"sorttype: 'string', searchoptions: { sopt: ['bw'] } }""""
-      $('#table2').bootstrapTable({
-        pageSize: 10,
-        pageList: [10, 20, 30],    //si pagination es true muestra el selector de numero de registros por pagina justo al lado de el texto de mostrando
-        pagination: true,   //numero de registros, numero de registros por pagina, paginador
-        height: 450,
-        //NOT AVAIBLE:>shrinkToFit: false,
-        //NOT AVAIBLE:>caption: ""&nbsp;"",
-        striped: true,   //altRows: true,
-        search: true,       //campo de buscar, busca en todas las columnas excepto las marcadas con ""searchable: false""
-        searchAlign: 'right',    //de que lado aparecera el input de busqueda ""left|rigth""
-        toolbar: '#toolbar2',            //selector de jquery para indicarle cual es la toolbar
-        onLoadSuccess: afterDrawTbl()
-		});
-});*/
-</script>
+    function legal(err){
+    	alert(""legal>>""+err);
+    }
+    function editMeeting(idMeet){
+    	window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idMeet);
+    }
+    function cancelari(){
+		window.location.replace('hybrid:Login/Index');
+    }
+    </script>
 <h2");
 
 WriteLiteral(" class=\"element-center\"");
@@ -98,11 +64,7 @@ WriteLiteral("><i");
 WriteLiteral(" class=\"icon-comments-alt \"");
 
 WriteLiteral("></i>&nbsp;&nbsp;Entrevistas de evaluaci&oacute;n de riesgos procesales</h2>\r\n<br" +
-" />\r\n<table");
-
-WriteLiteral(" id=\"table2\"");
-
-WriteLiteral(">\r\n\r\n\t\t</table>\r\n\r\n\t\t<br /><br /><br />\r\n\r\n\r\n<div");
+" />\r\n<div");
 
 WriteLiteral(" id=\"toolbar2\"");
 
@@ -112,7 +74,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 74 "MeetingList.cshtml"
+#line 20 "MeetingList.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -131,7 +93,7 @@ WriteLiteral(">\r\n        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n    </button></a>\r\n    <button");
+WriteLiteral("></i>\r\n    </button></a>\r\n    <!--<button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -143,7 +105,7 @@ WriteLiteral(">\r\n        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
 
-WriteLiteral("></i>\r\n    </button>\r\n</div>\r\n\r\n\r\n    <table");
+WriteLiteral("></i>\r\n    </button>-->\r\n</div>\r\n    <table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -153,7 +115,7 @@ WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
 
 WriteLiteral("\r\n     data-pagination=\"true\"");
 
-WriteLiteral(" data-height=\"450\"");
+WriteLiteral(" data-height=\"250\"");
 
 WriteLiteral("\r\n     data-striped=\"true\"");
 
@@ -178,7 +140,22 @@ WriteLiteral(@">Carpeta de Investigaci&oacute;n</th>
     </tr>
     </thead>
     <tbody>
-    <tr");
+");
+
+
+#line 46 "MeetingList.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 46 "MeetingList.cshtml"
+     foreach(var Meeting in Model) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
 
 WriteLiteral(" id=\"tr-id-1\"");
 
@@ -195,8 +172,8 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 104 "MeetingList.cshtml"
-       Write(Model.CaseId);
+#line 49 "MeetingList.cshtml"
+       Write(Meeting.CaseId);
 
 
 #line default
@@ -206,8 +183,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 107 "MeetingList.cshtml"
-    Write(Model.IdFolder);
+#line 52 "MeetingList.cshtml"
+    Write(Meeting.IdFolder);
 
 
 #line default
@@ -217,8 +194,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 110 "MeetingList.cshtml"
-     Write(Model.Name+" "+Model.LastNameP+" "+Model.LastNameM);
+#line 55 "MeetingList.cshtml"
+     Write(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM);
 
 
 #line default
@@ -228,8 +205,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 113 "MeetingList.cshtml"
-     Write(((DateTime) Model.DateBirth).ToString("yyyy/MM/dd"));
+#line 58 "MeetingList.cshtml"
+     Write(((DateTime) Meeting.DateBirth).ToString("yyyy/MM/dd"));
 
 
 #line default
@@ -243,15 +220,15 @@ WriteLiteral(" class=\"td-class-1\"");
 WriteLiteral(">\r\n");
 
 
-#line 116 "MeetingList.cshtml"
+#line 61 "MeetingList.cshtml"
             
 
 #line default
 #line hidden
 
-#line 116 "MeetingList.cshtml"
-             if (Model.Gender != null) {
-                        if (Model.Gender.Equals(true)){//true is female
+#line 61 "MeetingList.cshtml"
+             if (Meeting.Gender != null) {
+                        if (Meeting.Gender.Equals(true)){//true is female
 
 
 #line default
@@ -259,7 +236,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        \t<label>Femenino</label>\r\n");
 
 
-#line 119 "MeetingList.cshtml"
+#line 64 "MeetingList.cshtml"
                         }else{
 
 
@@ -268,7 +245,7 @@ WriteLiteral("                        \t<label>Femenino</label>\r\n");
 WriteLiteral("                            <label>Masculino</label>\r\n");
 
 
-#line 121 "MeetingList.cshtml"
+#line 66 "MeetingList.cshtml"
                         }
                     } else {
 
@@ -278,7 +255,7 @@ WriteLiteral("                            <label>Masculino</label>\r\n");
 WriteLiteral("                        <label>Sin proporcionar</label>\r\n");
 
 
-#line 124 "MeetingList.cshtml"
+#line 69 "MeetingList.cshtml"
                     }
 
 
@@ -289,8 +266,8 @@ WriteLiteral("        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 127 "MeetingList.cshtml"
-    Write(Model.Description);
+#line 72 "MeetingList.cshtml"
+    Write(Meeting.Description);
 
 
 #line default
@@ -300,8 +277,8 @@ WriteLiteral("\r\n        </td>\r\n        <!--<td>\r\n");
 WriteLiteral("       \t\t");
 
 
-#line 130 "MeetingList.cshtml"
-    Write(Model.StatusCode);
+#line 75 "MeetingList.cshtml"
+    Write(Meeting.StatusCode);
 
 
 #line default
@@ -311,8 +288,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 133 "MeetingList.cshtml"
-    Write(Model.ReviewerId);
+#line 78 "MeetingList.cshtml"
+    Write(Meeting.ReviewerId);
 
 
 #line default
@@ -320,14 +297,14 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>-->\r\n        <td>\r\n");
 
 
-#line 136 "MeetingList.cshtml"
+#line 81 "MeetingList.cshtml"
          
 
 #line default
 #line hidden
 
-#line 136 "MeetingList.cshtml"
-          if(Model.StatusCode=="INCOMPLETE_LEGAL") {
+#line 81 "MeetingList.cshtml"
+          if(Meeting.StatusCode=="INCOMPLETE_LEGAL") {
 
 
 #line default
@@ -343,8 +320,8 @@ WriteLiteral(" title=\"Procesos legales usuario\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "legal(", true)
 
-#line 137 "MeetingList.cshtml"
-                                                                        , Tuple.Create<string,object,bool> ("", Model.Action
+#line 82 "MeetingList.cshtml"
+                                                                        , Tuple.Create<string,object,bool> ("", Meeting.CaseId
 
 #line default
 #line hidden
@@ -358,9 +335,9 @@ WriteLiteral(" class=\"icon-legal\"");
 WriteLiteral("></i></a>\r\n");
 
 
-#line 138 "MeetingList.cshtml"
+#line 83 "MeetingList.cshtml"
          }
-         else if(Model.StatusCode=="INCOMPLETE") {
+         else if(Meeting.StatusCode=="INCOMPLETE") {
 
 
 #line default
@@ -376,8 +353,8 @@ WriteLiteral(" title=\"Continuar entrevista\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "editMeeting(", true)
 
-#line 140 "MeetingList.cshtml"
-                                                                          , Tuple.Create<string,object,bool> ("", Model.Action
+#line 85 "MeetingList.cshtml"
+                                                                          , Tuple.Create<string,object,bool> ("", Meeting.CaseId
 
 #line default
 #line hidden
@@ -391,42 +368,28 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n");
 
 
-#line 141 "MeetingList.cshtml"
+#line 86 "MeetingList.cshtml"
          }
 
 
 #line default
 #line hidden
-WriteLiteral("        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>\r\n\r\n    <span");
+WriteLiteral("        </td>\r\n    </tr>\r\n");
+
+
+#line 89 "MeetingList.cshtml"
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\r\n\t<!--<span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
 WriteLiteral(" onclick=\"cancelari();\"");
 
-WriteLiteral(@">
-                        Cancelar
-                    </span>
-
-<script>
-    var $table = $('#table2');
-       //onload
-    $(function () {
-         $button = $('#btnAdd');
-          $button2 = $('#btnRefresh');
-           $button3 = $('#btnExport');
-        $button.click(function () {
-            console.log(""cliked agregar"");
-            tblAfterLoadIcons();
-        });
-        $button2.click(function () {
-            console.log(""cliked recargar"");
-        });
-        $button3.click(function () {
-            console.log(""cliked exportar"");
-        });
-    }); 
-
-</script>");
+WriteLiteral(">\r\n        Cancelar\r\n    </span>-->");
 
 }
 }

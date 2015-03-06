@@ -2,59 +2,62 @@
 using PortableRazor;
 using System.IO;
 using SQLite.Net;
-//query toList
+//query toList()
 using System.Linq;
 using SQLiteNetExtensions.Extensions;
 using Newtonsoft.Json;
 //listas
 using System.Collections.Generic;
 
+
+
 //TODO DONE StatusMeeting, Imputed, Case
 
 namespace UmecaApp
 {
-	public class MeetingController //: ControllerBase
+	public class MeetingController : Java.Lang.Object//: ControllerBase
 	{
 
 		IHybridWebView webView;
 		readonly SQLiteConnection db;
 		CatalogServiceController services;
 
+		String JsonCountrys;
+		String JsonStates;
+		String JsonMunycipality;
+		String JsonElection;
+		String JsonActivities;
+
 		public MeetingController(IHybridWebView webView, SQLiteConnection dbConection)
 		{
 			this.webView = webView;
 			this.db = dbConection;
 			services = new CatalogServiceController (db);
+
+			services.CreateStatusCaseCatalog ();
+			services.CreateStatusMeetingCatalog ();
+			services.CreateElection ();
+
+			services.CreateCountryCatalog ();
+			services.CreateStateCatalog ();
+			services.CreateMunicipalityCatalog ();
+			db.Commit ();
+
+			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
+			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
+			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
+			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
+			this.JsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
+
 		}
 
 		public void Index()
 		{
-			//			Console.WriteLine ("Creating database, if it doesn't already exist");
-			//			string dbPath = Path.Combine (
-			//				                Environment.GetFolderPath (Environment.SpecialFolder.Personal),
-			//				                "umeca.sqlite");
-			//
-			//			var db = new SQLiteConnection (dbPath);
-
-			services.CreateStatusCaseCatalog ();
-
-			services.CreateStatusMeetingCatalog ();
 
 			services.createMeetingTest();
-
-			services.CreateCountryCatalog ();
-
 			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
-
-//			var result = db.Query<Meeting> (
-//				"SELECT me.* FROM meeting as me"
-//				+"left JOIN case_detention ON me.id_case = case_detention.id_case "
-//				+"left JOIN imputed ON imputed.id_meeting = meeting.id_meeting"
-//				+ "WHERE me.id_status in (?,?) "
-//				//+"and me.id_reviewer = 2"
-//				+" AND case_detention.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
 
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
@@ -68,8 +71,8 @@ namespace UmecaApp
 				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
 
 			Console.WriteLine ("carga de casos "+result.Count);
-			var temp = new MeetingList{Model = result[0]};
 
+			var temp = new MeetingList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
@@ -84,49 +87,8 @@ namespace UmecaApp
 			webView.LoadHtmlString (pagestring);
 		}
 
-
-		public void  MeetingDatosPersonales(int idCase)
-		{
-			var result = db.Query<MeetingDatosPersonalesDto> (
-				"SELECT cs.id_folder as 'idFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
-				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
-				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
-				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
-				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
-				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
-				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
-				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
-				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
-				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
-				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
-				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
-				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
-//				+", csm.status as 'StatusCode', csm.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-//				+" and me.id_reviewer = 2 "
-				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
-
-
-			result.ageString = services.calculateAge (result.BirthDate);
-			string output = JsonConvert.SerializeObject(result);
-			result.JsonMeeting = output;
-
-			var countrys = JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
-			result.JsonCountrys = countrys;
-
-			var temp = new MeetingDatosPersonales{Model = result };
-			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
-			var pagestring = "nada que ver";
-			pagestring = temp.GenerateString ();
-			webView.LoadHtmlString (pagestring);
-		}
-
 		public void AddMeeting([Bind]NewMeetingDto model) {
 			Console.WriteLine ("AddMeeting");
-			Console.WriteLine ("EntrevistaTabla....."+model.ResponseMessage);
 			String validateCreateMsg = validateCreateMeeting(model);
 			if (validateCreateMsg != null) {
 				model.ResponseMessage = validateCreateMsg;
@@ -136,16 +98,11 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			} else {
 				int? idCase = createMeeting(model);
-				model.ResponseMessage = "Se ha guardado exitosamente";
-				var temp = new NewMeeting{ Model = model };
-//				var temp = new MeetingEdit {Model = new NewMeetingDto{ResponseMessage="Se ha guardado exitosamente"} };
-				var pagestring = "nada que ver";
-				pagestring = temp.GenerateString ();
-				webView.LoadHtmlString (pagestring);
+				int az = idCase.GetValueOrDefault ();
+				//String Response = "Se ha guardado exitosamente";
+				MeetingDatosPersonales (az);
 			}
 		}
-
-
 
 		public String validateCreateMeeting(NewMeetingDto model) {
 			if (model.DateBirth.HasValue) {
@@ -202,22 +159,105 @@ namespace UmecaApp
 				StatusMeeting statusMeeting = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 				meeting.StatusMeetingId=statusMeeting.Id;
 				meeting.StatusMeeting=statusMeeting;
-//				meeting.ReviewerId=LoggedUserId(); TODO agrega al usuario asociado al dispositivo
+				//				meeting.ReviewerId=LoggedUserId(); TODO agrega al usuario asociado al dispositivo
 				meeting.DateCreate=DateTime.Today;
-//				meeting = meetingRepository.save(meeting);
+				//				meeting = meetingRepository.save(meeting);
 				db.InsertWithChildren (meeting);
 				newImputed.MeetingId=meeting.Id;
 				newImputed.Meeting = meeting;
 				db.InsertWithChildren (newImputed);
 				db.UpdateWithChildren (meeting);
 				db.UpdateWithChildren (caseDetention);
-//				imputedRepository.save(imputed);
+				//				imputedRepository.save(imputed);
 				result = caseDetention.Id;
 			} catch (Exception e) {
 				Console.WriteLine("e.Message>"+e.Message+"<< createMeeting");
 			} 
-				return result;
+			return result;
 		}
+
+		public void  MeetingDatosPersonales(int idCase)
+		{
+			if(idCase==0){
+				idCase = db.Table<Case> ().FirstOrDefault().Id;
+			}
+			var result = db.Query<MeetingDatosPersonalesDto> (
+				"SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
+				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
+				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
+				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
+				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
+				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
+				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
+				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
+				+" ,me.id_meeting as 'MeetingId'"
+				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
+				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
+				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
+				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
+				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
+//				+", csm.status as 'StatusCode', csm.description as 'Description'"
+				+" FROM meeting as me "
+				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
+				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+//				+" and me.id_reviewer = 2 "
+				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
+			result.CaseId = idCase;
+
+			result.ageString = services.calculateAge (result.BirthDate);
+			string output = JsonConvert.SerializeObject(result);
+			result.JsonMeeting = output;
+
+
+			result.JsonCountrys = this.JsonCountrys;
+			result.JsonStates = this.JsonStates;
+			result.JsonMunycipality = this.JsonMunycipality;
+			result.JsonElection = this.JsonElection;
+			result.JsonActivities = this.JsonActivities;
+
+			var temp = new MeetingDatosPersonales{Model = result };
+			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
+		public void SaveMeetingDatosPersonales([Bind]MeetingDatosPersonalesDto model) {
+			var imputado = db.Get<Imputed>(model.ImputedId); 
+			imputado.Name = model.Name;
+			imputado.LastNameP = model.LastNameP;
+			imputado.LastNameM = model.LastNameM;
+			imputado.FoneticString = services.getFoneticByName(model.Name,model.LastNameP,model.LastNameM);
+			imputado.Gender = model.Gender;
+			imputado.CelPhone = model.CelPhone;
+			imputado.YearsMaritalStatus = model.YearsMaritalStatus;
+			imputado.MaritalStatusId = model.MaritalStatusId;
+//			imputado.MaritalStatus = db.Get<MaritalStatus>(model.MaritalStatusId);
+			imputado.Boys = model.Boys;
+			imputado.DependentBoys = model.DependentBoys;
+			imputado.BirthCountry = model.BirthCountry;
+			imputado.BirthMunicipality = model.BirthMunicipality;
+			imputado.BirthState = model.BirthState;
+			imputado.BirthLocation = model.BirthLocation;
+			imputado.Nickname = model.Nickname;
+			imputado.LocationId = model.LocationId;
+
+			db.Update(imputado);
+			string output = JsonConvert.SerializeObject(model);
+			model.JsonMeeting = output;
+			model.JsonCountrys = this.JsonCountrys;
+			model.JsonStates = this.JsonStates;
+			model.JsonMunycipality = this.JsonMunycipality;
+			model.JsonElection = this.JsonElection;
+			model.JsonActivities = this.JsonActivities;
+
+			var temp = new MeetingDatosPersonales{Model = model };
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
 
 
 

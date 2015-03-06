@@ -12,7 +12,7 @@ namespace UmecaApp
 		{
 		}
 
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]//was also AutoIncrement
 		public int Id{ get; set;}
 
 		[Column("id_municipality")]
@@ -31,4 +31,3 @@ namespace UmecaApp
 		public String ZipCode{ get; set;}
 	}
 }
-

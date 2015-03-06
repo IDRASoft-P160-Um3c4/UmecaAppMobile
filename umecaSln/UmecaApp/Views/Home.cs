@@ -18,7 +18,7 @@ using System.Text;
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorTemplatePreprocessor", "2.6.0.0")]
-public partial class Home : PortableRazor.ViewBase
+public partial class Home : WebViewTemplate
 {
 
 #line hidden
@@ -32,8 +32,66 @@ public UmecaApp.Models.PageModel Model { get; set; }
 
 public override void Execute()
 {
-WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n</head>\r\n<body>\r\n\r\n\r\n  " +
-"              <div");
+WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n\r\n    <script");
+
+WriteLiteral(" src=\"scripts/jquery-1.10.2.min.js\"");
+
+WriteLiteral("></script>\r\n</head>\r\n<body>\r\n\r\n\r\n\r\n    <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(@">
+	$(function() {
+
+		try{
+			$(""#cboA"").on(""change"", function() {
+
+				var result = login.example($(this).val());
+
+				$(""#console"").append(result + ""<br />"");
+
+
+				var data = JSON.parse(result);
+				$(""#cboB"").empty();
+				$.each(data, function(idx, item) {
+					$(""#cboB"").append(""<option>"" + item + ""</option>"");
+				});
+			});
+		}
+		catch(ex)
+		{
+			$(""#console"").append(ex.message + ""<br />"");
+
+		}
+	});
+
+</script>
+<div>
+");
+
+
+#line 41 "Home.cshtml"
+Write(Model.Title);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n</div>\r\n\r\n\t<select");
+
+WriteLiteral(" id=\"cboA\"");
+
+WriteLiteral(">\r\n\t\t<option>0</option>\r\n\t\t<option>1</option>\r\n\t\t<option>2</option>\r\n\t\t<option>3<" +
+"/option>\r\n\t\t<option>4</option>\r\n\t\t<option>5</option>\r\n\t\t<option>6</option>\r\n\t\t<o" +
+"ption>7</option>\r\n\t\t<option>8</option>\r\n\t\t<option>9</option>\r\n\t</select>\r\n\r\n\t<se" +
+"lect");
+
+WriteLiteral(" id=\"cboB\"");
+
+WriteLiteral("></select>\r\n\r\n\r\n<div");
+
+WriteLiteral(" id=\"console\"");
+
+WriteLiteral("></div>\r\n\r\n\r\n\r\n                <div");
 
 WriteLiteral(" class=\"header\"");
 
@@ -44,7 +102,7 @@ WriteLiteral(" class=\"modal-title element-center\"");
 WriteLiteral(">");
 
 
-#line 12 "Home.cshtml"
+#line 65 "Home.cshtml"
                                                       Write(Model.Title);
 
 
@@ -58,8 +116,8 @@ WriteLiteral(">\r\n                    <h4");
 
 WriteLiteral(" class=\"element-center\"");
 
-WriteLiteral(">Ingrese los datos para acceder al portal</h4>\r\n                    <hr>\r\n       " +
-"             <div");
+WriteLiteral(">Ingrese su contraseña en el sistema en l&iacute;nea</h4>\r\n                    <h" +
+"r>\r\n                    <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -127,7 +185,7 @@ WriteLiteral(">\r\n                <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 33 "Home.cshtml"
+#line 86 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -138,11 +196,12 @@ WriteLiteral(">\r\n                    <button");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
-WriteLiteral(" >Ingresar</button>\r\n                </a>\r\n                </div>\r\n<br />\r\n<a");
+WriteLiteral(" >Finalizar</button>\r\n                </a>\r\n                </div>\r\n<br />\r\n<!--<" +
+"a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 38 "Home.cshtml"
+#line 91 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -153,7 +212,7 @@ WriteLiteral(">Meetings</a>\r\n<br />\r\n<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 40 "Home.cshtml"
+#line 93 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -164,7 +223,7 @@ WriteLiteral(">New Meeting</a>\r\n<br />\r\n<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 42 "Home.cshtml"
+#line 95 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingDatosPersonales","Meeting")
 
 #line default
@@ -172,7 +231,15 @@ WriteAttribute ("href", " href=\"", "\""
 , false)
 , Tuple.Create<string,object,bool> ("", "?idCase=1", true)
 );
-WriteLiteral(">Datos Personales</a>\r\n</body>\r\n</html>");
+WriteLiteral(">Datos Personales</a>\r\n<br />\r\n                 <button");
+
+WriteLiteral(" type=\"\"");
+
+WriteLiteral("button\"\"");
+
+WriteLiteral(" onClick=\"\"");
+
+WriteLiteral("JS2CS.Run()\"\">Call C#</button>-->\r\n</body>\r\n</html>");
 
 }
 }

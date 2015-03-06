@@ -1,18 +1,71 @@
 ﻿@model UmecaApp.Models.PageModel
-@inherits PortableRazor.ViewBase
+@inherits WebViewTemplate
 <!DOCTYPE html>
 <html>
 <head>
    <title>UMECA</title>
+
+    <script src="scripts/jquery-1.10.2.min.js"></script>
 </head>
 <body>
+
+
+
+    <script type="text/javascript">
+	$(function() {
+
+		try{
+			$("#cboA").on("change", function() {
+
+				var result = login.example($(this).val());
+
+				$("#console").append(result + "<br />");
+
+
+				var data = JSON.parse(result);
+				$("#cboB").empty();
+				$.each(data, function(idx, item) {
+					$("#cboB").append("<option>" + item + "</option>");
+				});
+			});
+		}
+		catch(ex)
+		{
+			$("#console").append(ex.message + "<br />");
+
+		}
+	});
+
+</script>
+<div>
+@Model.Title
+</div>
+
+	<select id="cboA">
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
+	</select>
+
+	<select id="cboB"></select>
+
+
+<div id="console"></div>
+
 
 
                 <div class="header">
                     <h2 class="modal-title element-center">@Model.Title</h2>
                 </div>
                 <div class="modal-body">
-                    <h4 class="element-center">Ingrese los datos para acceder al portal</h4>
+                    <h4 class="element-center">Ingrese su contraseña en el sistema en l&iacute;nea</h4>
                     <hr>
                     <div class="row">
                         <div class="col-xs-3">&nbsp;</div>
@@ -31,14 +84,16 @@
                 </div>
                 <div class="modal-footer">
                 <a href="@Url.Action("Index","Meeting")">
-                    <button class="btn btn-default btn-primary btn-sm" >Ingresar</button>
+                    <button class="btn btn-default btn-primary btn-sm" >Finalizar</button>
                 </a>
                 </div>
 <br />
-<a href="@Url.Action("Index","Meeting")">Meetings</a>
+<!--<a href="@Url.Action("Index","Meeting")">Meetings</a>
 <br />
 <a href="@Url.Action("MeetingEditNew","Meeting")">New Meeting</a>
 <br />
 <a href="@Url.Action("MeetingDatosPersonales","Meeting")?idCase=1">Datos Personales</a>
+<br />
+                 <button type=""button"" onClick=""JS2CS.Run()"">Call C#</button>-->
 </body>
 </html>

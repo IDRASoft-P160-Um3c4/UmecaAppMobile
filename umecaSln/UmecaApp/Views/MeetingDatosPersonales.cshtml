@@ -4,13 +4,18 @@
 Layout = "UmecaApp.headUm";
 }
 <script>
+function shw(){
+alert($("#showId").html());
+}
+
 
     app.controller('MeettingDatosPersonalesController', function($scope, $http, $timeout){
+//GENERAL CONTROLLER STATE OF MEETING
         $scope.m = {};
         $scope.readOnly = true;
         $scope.listMsgError = [];
         $scope.listMsgError['personalData'] = false;
-        $scope.listMsgError['imputedHome'] = true;
+        $scope.listMsgError['imputedHome'] = false;
         $scope.listMsgError['socialNetwork'] = false;
         $scope.listMsgError['reference'] = false;
         $scope.listMsgError['job'] = false;
@@ -18,9 +23,76 @@ Layout = "UmecaApp.headUm";
         $scope.listMsgError['drug'] = false;
         $scope.listMsgError['leavingCountry'] = false;
 
+        $scope.putasHarry=function(){
+        $timeout(function(){
+        	$("#axelMulti").chosen();
+        	},0);
+        };
+
+//DATOS PERSONALES CONTROLLER
+
+    $scope.specification = {};
+    $scope.lstActivity = [];
+    $scope.activityModel = [];
+    $scope.activityList = [];
+    $scope.selectedActivities = function (lstActivity, lstActivitySelect) {
+
+        for (var i = 0; i < lstActivitySelect.length; i++) {
+            for (var j = 0; j < lstActivity.length; j++) {
+                if (lstActivity[j].id === lstActivitySelect[i].id) {
+                    $scope.activityModel.push(lstActivity[j]);
+                    if (lstActivity[j].specification) {
+                        $scope.specification[lstActivity[j].name] = lstActivitySelect[i].specification;
+                    }
+                }
+            }
+        }
+        $scope.matchActivities();
+    };
+
+    $scope.matchActivities = function () {
+        $scope.relActivities = [];
+        for (var i = 0; i < $scope.activityModel.length; i++) {
+            var model = {};
+            model.activity = {};
+            model.activity.id = $scope.activityModel[i].id;
+            if ($scope.specification[$scope.activityModel[i].name] != undefined) {
+                model.specification = $scope.specification[$scope.activityModel[i].name];
+            } else {
+                model.specification = "";
+            }
+            $scope.relActivities.push(model);
+        }
+        $scope.activities = JSON.stringify($scope.relActivities);
+        return true;
+    };
+    	//genero
         $scope.gen = {};
 
+        //pais nacimiento
         $scope.listCountry = [];
+        $scope.listState = [];
+        $scope.listMuni = [];
+        listMunByEdo = [];
+        $scope.SeceltedCountry = {};
+        $scope.SeceltedEstate = {};
+        $scope.SeceltedMuni = {};
+
+         $scope.savePersonalData = function () {
+	        var jsonData = JSON.stringify($scope.m);
+	        alert("m value>>"+JSON.stringify($scope.m));
+				window.location.replace('hybrid:Meeting/SaveMeetingDatosPersonales?model=' + encodeURIComponent(jsonData));
+	    };
+        //END DATOS PERSONALES
+
+        //para historia escolar
+        $scope.block = true;
+
+        //para Leave country 
+        $scope.Edocumento = {};
+        $scope.EdocumentoId = {};
+
+
 
         $scope.save = function(){
             $scope.Wait = true;
@@ -45,9 +117,15 @@ $scope.showMessageError = function(indicator){
 };
 
 $scope.tuFunk = function(){
+    try{
+    alert("asshole html>>"+$("#asshole").html());
     var js = JSON.parse($("#hdnJsonMtng").val());
     $scope.m = js;
     alert("m valu>>"+JSON.stringify($scope.m));
+    }
+    catch(err){
+    alert("error catched tu funk function:::"+err.message);
+    }
 };
 
 $scope.showState = function(){
@@ -55,6 +133,19 @@ $scope.showState = function(){
     alert("   m.BirthCountry_>"+$scope.m.BirthCountry);
 
 };
+
+$scope.MunByEdo = function(){
+    $scope.listMunByEdo = [];
+    var em=0;
+    alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate));
+    for(x in $scope.listMuni){
+    	if($scope.listMuni[x].Reference==$scope.SeceltedEstate['Id']){
+    		$scope.listMunByEdo.push($scope.listMuni[x]);
+    		em++;
+    	}
+    }
+};
+
 
 $timeout(function () {
     $scope.tuFunk();
@@ -64,13 +155,14 @@ $timeout(function () {
 
 </script>
 <div id="generalDivForAngular" ng-app="umecaMobile" ng-controller="MeettingDatosPersonalesController">
-
-    <input id="hdnJsonMtng" type="hidden" value="@Model.JsonMeeting" name="jsonString" >
-<!--<div class="blocker" ng-show="working">
-    <div>
-        Cargando...<img src="content/images/ajax_loader.gif" alt="" />
+    <div id="asshole">
+    <input id="hdnJsonMtng" type="hidden" value="@Model.JsonMeeting" name="jsonString" />
     </div>
-</div>-->
+<div class="blocker" >
+    <div>
+        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+    </div>
+</div>
     <!-- EVAQLUATION HEADER  -->
 
     <div class="row">
@@ -87,7 +179,7 @@ $timeout(function () {
                 <h3 class="header smaller lighter blue">
                     <small>Carpeta de investigaci&oacute;n:</small>
                     <!--&nbsp;${m.caseDetention.idFolder}-->
-                    @Model.idFolder
+                    {{m.IdFolder}}
                 </h3>
             </div>
             <div class="col-sm-8">
@@ -95,14 +187,14 @@ $timeout(function () {
                 <h3 class="header smaller lighter blue">
                     <small>Nombre del imputado:</small>
                     <!--&nbsp;&nbsp;{{i.name}} &nbsp; {{i.lastNameP}} &nbsp; {{i.lastNameM}}-->
-                    &nbsp;&nbsp;@Model.Name  &nbsp; @Model.LastNameP &nbsp; @Model.LastNameM
+                    &nbsp;&nbsp;{{m.Name}}  &nbsp; {{m.LastNameP}} &nbsp; {{m.LastNameM}}
                 </h3>
             </div>
             <div class="col-sm-1">
                 <h3 class="header smaller lighter blue">
                     <small>Edad:</small>
                     <!--&nbsp;${age}-->
-                    @Model.ageString
+                    {{m.ageString}}
                 </h3>
             </div>
         </div>
@@ -300,7 +392,17 @@ $timeout(function () {
                         <!-- END LATERAL PAGER MENU -->
 
 
-                        <!-- CONTENT PAGE 1 Lateral pager -->
+
+
+
+
+
+
+
+
+
+
+                        <!-- CONTENT PAGE 1 Lateral pager  datos pers-->
                         <div id="personalData" class="tab-pane in active"><!--Begin of Datos Personales-->
                             <!-- include file="/WEB-INF/jsp/reviewer/meeting/personal/index.jsp" -->
 
@@ -312,7 +414,7 @@ $timeout(function () {
                                 <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
                                 class="form-horizontal"
                                 role="form">
-                                <input type="hidden" value="@Model.idFolder" name="caseDetention.id">
+                                <input type="hidden" value="@Model.IdFolder" name="caseDetention.id">
 
                                 <div class="row element-left"  ng-show="readOnly == false">
                                     <div class="col-xs-12">
@@ -421,14 +523,14 @@ $timeout(function () {
                                                     G&eacute;nero:
                                                 </div>
                                                 <div class="col-xs-9">
-                                                    <div class="row">
-                                                        <!-- ng-init="gen=${(m.Gender == null) ? false: m.Gender}"-->
+                                                    <div class="row" ng-init="m.Gender=m.Gender == null ? false: m.Gender">
+                                                        <!-- -->
                                                         <div class="col-xs-6">
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input class="ace" type="radio" ng-checked="gen==true" name="imputed.gender"
+                                                                    <input class="ace" type="radio" ng-checked="m.Gender==true" name="imputed.gender"
                                                                     data-val-required="El g?nero es un campo requerido" id="genero" value="true"
-                                                                    ng-model="gen">
+                                                                    ng-model="m.Gender">
                                                                     <span class="lbl">Femenino</span>
                                                                 </label>
                                                             </div>
@@ -436,12 +538,11 @@ $timeout(function () {
                                                         <div class="col-xs-6">
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input class="ace" type="radio" value="false" ng-model="gen" ng-checked="gen==false"
+                                                                    <input class="ace" type="radio" value="false" ng-model="m.Gender" ng-checked="m.Gender==false"
                                                                     name="imputed.gender">
                                                                     <span class="lbl">Masculino</span>
                                                                 </label>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -717,10 +818,10 @@ $timeout(function () {
                                                         ng-model="m.BirthCountry" />
 
                                                         <!--revisar el css y que se escape correctamente el json, values incorrectos -->
-                                                        <select class="form-control element-center" ng-model="Country" 
+                                                        <select class="form-control element-center" ng-model="SeceltedCountry" 
                                                         ng-options="e.Name for e in listCountry" value=""
-                                                        ng-change="m.BirthCountry = m.Country['Id']; showState();" ng-init='listCountry = @Model.JsonCountrys'></select>
-                                                    </div>
+                                                        ng-change="m.BirthCountry = SeceltedCountry['Id'];showState();" ng-init='listCountry = @Model.JsonCountrys'></select>
+                                                   </div>
                                                     <div class="col-xs-2 element-right" ng-show="m.BirthCountry != 1">
                                                         Estado:
                                                     </div>
@@ -735,42 +836,42 @@ $timeout(function () {
                                                     <div class="col-xs-2 element-right" ng-show="m.BirthCountry == 1">
                                                         Estado:
                                                     </div>
-                                                    <div class="col-xs-3" ng-show="m.countryId == 1">
-                                                        <select class="form-control element-center" ng-model="state" find-municipality value="{{state.id}}"
-                                                        ng-options="e.name for e in listState" ng-init=''
-                                                        ng-change="stateId = state.id;"></select><br/>
-
+                                                    <div class="col-xs-3" ng-show="m.BirthCountry == 1">
+                                                        <select class="form-control element-center" ng-model="SeceltedEstate" value=""
+                                                        ng-options="e.Name for e in listState" ng-init='listState = @Model.JsonStates'
+                                                        ng-change="m.BirthState = SeceltedEstate['Name'];MunByEdo();"></select><br/>
+                                                        <!--ng-options="e.name for e in listState" ng-init=''-->
                                                     </div>
                                                 </div>
                                                 <br/>
 
                                                 <div class="row">
-                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.countryId != 1">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry != 1">
                                                         Municipio:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.countryId != 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"    data-val="true"
-                                                        name="imputed.birthMunicipality" data-val-required="El municipio es un campo requerido"
+                                                        name="m.BirthMunicipality" data-val-required="El municipio es un campo requerido"
                                                         ng-init=''>
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.countryId == 1">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry == 1">
                                                         Municipio:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.countryId == 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry == 1">
                                                         <input type="hidden" ng-model="urlMunicipality"
                                                         ng-init=''>
-                                                        <select class="form-control element-center" ng-model="municipality" find-location
-                                                        ng-options="e.name for e in listMunicipality" ng-init='listMunicipaliti = ""'
-                                                        ng-change="municipalityId = municipality.id;"></select><br/>
+                                                        <select class="form-control element-center" ng-model="SeceltedMuni" 
+                                                        ng-options="e.Name for e in listMunByEdo" ng-init='listMuni = @Model.JsonMunycipality; listMunByEdo=[];'
+                                                        ng-change="m.BirthMunicipality = SeceltedMuni['Name'];"></select><br/>
 
                                                     </div>
-                                                    <div class="col-xs-2 element-right"  ng-show="m.countryId != 1">
+                                                    <div class="col-xs-2 element-right"  ng-show="m.BirthCountry != 1">
                                                         Localidad/Colonia:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.countryId != 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="locationstr" id="imputed.birthLocation"
                                                         name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"   data-val="true"
@@ -778,10 +879,10 @@ $timeout(function () {
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="col-xs-2 element-right"  ng-show="m.countryId == 1">
+                                                    <div class="col-xs-2 element-right"  ng-show="m.BirthCountry == 1">
                                                         Localidad/Colonia:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.countryId == 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry == 1">
                                                         <input type="hidden" ng-model="urlLocation"
                                                         ng-init='' />
                                                         <select class="form-control" ng-model="location" change-cp  value="{{location.id}}"
@@ -790,7 +891,7 @@ $timeout(function () {
 
 
                                                     </div>
-                                                    <div class="col-xs-10 col-xs-offset-1" ng-show="m.countryId == 1">
+                                                    <div class="col-xs-10 col-xs-offset-1" ng-show="m.BirthCountry == 1">
                                                         <input type="hidden" ng-model="locationId" ng-update-hidden name="imputed.location.id"
                                                         data-val-required="La localidad es un campo requerido. Elija Estado y Municipio para desplegar la lista de localidades.">
                                                         <span class="field-validation-valid" data-valmsg-for="locationId"
@@ -819,58 +920,58 @@ $timeout(function () {
                                     <div class="col-xs-9">
                                         <textarea class="form-control"
                                         data-val-required="Si padece alguna enfermedad o condici&oacute;n f&iacute;sica es un campo requerido"
-                                        name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
+                                        name="socialEnvironment.physicalCondition">@Model.PhysicalCondition</textarea>
                                         <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
                                         data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
                                 <br/>
 
-                                <div>
+                                <div id="showId">
                                     <div class="row">
-                                        <div class="col-xs-3 element-left">
-                                            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
-                                            ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
-                                            <i class="icon-remove-circle red  icon-only bigger-120" onclick="window.verificationActivities();" ng-show="verification"
-                                            code="socialEnvironment.activities"></i>
-                                            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                                            ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
-                                            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
-                                            &iquest;Qu&eacute; actividades realiza?:  <br/>
-                                            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
-                                        </div>
-                                        <div class="col-xs-9 element-left">
-                                            <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
-                                            <select multiple="" class="form-control chosen-select" ng-model="activityModel" data-placeholder="..."
-                                            ng-init=''
-                                            id="slctActivity" ng-change="matchActivities()"
-                                            ng-options="ac as ac.name for ac in lstActivity">
-                                        </select>
-                                    </div>
-                                </div>
+								        <div class="col-xs-3 element-left">
+								            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+								               ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
+								            <i class="icon-remove-circle red  icon-only bigger-120" onclick="window.verificationActivities();" ng-show="verification"
+								               code="socialEnvironment.activities"></i>
+								            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+								               ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
+								            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
+								            &iquest;Qu&eacute; actividades realiza?:  <br/>
+								            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
+								        </div>
+								        <div class="col-xs-9 element-left">
+								            <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
+								            <select multiple ng-model="activityModel" data-placeholder="..."
+								                    ng-init='lstActivity = @Model.JsonActivities;'
+								                    id="slctActivity" style="width:650px;"
+								                    ng-options="ac.name for ac in lstActivity">
+								            </select>
+								        </div>
+								    </div>
                                 <br/>
 
                                 <div class="row">
-                                    <div ng-repeat="activity in activityModel">
-                                        <div ng-show="activity.specification==true">
-                                            <div class="col-xs-3">
-                                                Especif&iacute;que actividades {{activity.name}}:
-                                            </div>
-                                            <div class="col-xs-9">
-                                                <input class="form-control" data-val="true"
-                                                data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
-                                                data-val-length-max="255" data-val-length-min="3"
-                                                data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
-                                                type="text" value="" ng-model="specification[activity.name]"
-                                                id="specification{{activity.name}}" name="specification{{activity.name}}"
-                                                ng-change="matchActivities()"><br/>
-                                                <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
-                                                data-valmsg-replace="true"></span>
-                                                <br/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+							        <div ng-repeat="activity in activityModel">
+							            <div ng-show="activity.specification==true">
+							                <div class="col-xs-3">
+							                    Especif&iacute;que actividades {{activity.name}}:
+							                </div>
+							                <div class="col-xs-9">
+							                    <input class="form-control" data-val="true"
+							                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
+							                           data-val-length-max="255" data-val-length-min="3"
+							                           data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
+							                           type="text" value="" ng-model="specification[activity.name]"
+							                           id="specification{{activity.name}}" name="specification{{activity.name}}"
+							                           ng-change="matchAc   tivities()"><br/>
+							                <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
+							                      data-valmsg-replace="true"></span>
+							                    <br/>
+							                </div>
+							            </div>
+							        </div>
+							    </div>
                             </div>
                             <br/>
                             <script>
@@ -889,14 +990,20 @@ $timeout(function () {
                     <div class="col-xs-12">
                         <div class="modal-footer">
                             <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                            ng-click="submit('#FormPersonalData');">
-                            <span class="glyphicon glyphicon-cloud-upload"></span>
+                            ng-click="savePersonalData()">
+                            <span class="glyphicon glyphicon-cloud-upload	"></span>
                             Guardar
                         </span>
                     </div>
                 </div>
+                <input type="button" onclick="shw();" value="ertyuiopfghj"/>
 
 
+<div class="space-2"></div>
+                MIERDAAA:
+<select multiple="" class="form-control chosen-select" data-placeholder="..." ng-change="putasHarry();" ng-model="ac"
+                    id="axelMulti" ng-options="ac.name for ac in lstActivity track by ac.id">
+</select>
 
             </div><!--End of Datos Personales-->
 
@@ -906,21 +1013,77 @@ $timeout(function () {
 
 
 
-
+            	
 
             <div id="address" class="tab-pane"><!-- Begin of Domicilios -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp" -->2
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp" -->
+
+<select class="form-control element-center ng-pristine ng-valid valid" ng-options="e.name for e in listElection"  ng-init="listElection = [{&quot;id&quot;:1,&quot;name&quot;:&quot;Si&quot;},{&quot;id&quot;:2,&quot;name&quot;:&quot;No&quot;}];"><option value="0" selected="selected">Si</option><option value="1">No</option></select>
+                <br />
 <div class="row element-center">
     <div class="col-xs-12">
         <h2> <i class="green  icon-home  bigger-100"></i>&nbsp;Domicilios</h2>
         <br/>
-        <div id="angJsjqGridIdAddress" >
-            <table id="GridIdAddress" class="element-center" style="margin: auto"></table>
-            <div id="GridPagerAddress"></div>
-           
-        </div>
+<div id="toolbarDomicilios" class="btn-group">
+	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
+	    <button type="button" class="btn btn-default" id="btnAddDomicilio">
+	        <i class="glyphicon glyphicon-plus"></i>
+	    </button><!--</a>-->
+	    <button type="button" class="btn btn-default" id="btnRereshDomicilio">
+	        <i class="glyphicon glyphicon-refresh"></i>
+	    </button>
+	</div>
+	<script>
+	function btnDeleteDomicilio (){
+	 alert("cliked btnAddDomicilio");
+	}
+	function btnEditDomicilio (){
+	 alert("cliked btnRereshDomicilio");
+	}
+	</script>
+<table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="450"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbarDomicilios" class="element-center" style="margin: auto">
+    <thead>
+    <tr>
+        <!--<th>ID</th>-->
+        <th>Direcci&oacute;n</th>
+        <th>Tel&eacute;fono</th>
+        <th>Tipo de domicilio</th>
+        <th>Tipo de propiedad</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if(Model.JsonDomicilios==null){
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td id="td-id-1" class="td-class-1">
+            @Dmcl.Description
+        </td>
+        <td>
+        	@Dmcl.Phone
+        </td>
+        <td>
+        	@Dmcl.HomeTypeId
+        </td>
+        <td>
+        	@Dmcl.RegisterType
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeleteDomicilio();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditDomicilio();"><span class="glyphicon glyphicon-pencil"></span></a>
+        </td>
+    </tr>
+	}
+}
+    </tbody>
+</table>	
 
-        <!-- Aqui va el bootstrap table de domicilio -->
+        <!-- Aqui arriba va el bootstrap table de domicilio -->
     </div>
 </div>
 <br/><br/>
@@ -929,6 +1092,7 @@ $timeout(function () {
             <span ng-bind-html="msgSuccess"></span>
         </div>
     </div>
+
     <form id="FormCommentHomeId" name="FormCommentHomeId" class="form-horizontal" role="form">
         <div class="col-xs-3 element-right">Observaciones:<br/>
             <label class="info-example">(Este campo no es verificable)</label></div>
@@ -972,15 +1136,73 @@ $timeout(function () {
 
 
             <div id="socialNetwork" class="tab-pane"><!-- Begin of Red Social -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/socialNetwork/index.jsp" -->3
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/socialNetwork/index.jsp" -->
 <div class="row element-center">
         <h2> <i class="blue icon-group bigger-100"></i> &nbsp;Red social</h2>
         <br/>
-        <div id="angJsjqGridIdSocialNetwork" >
-            <table id="GridIdSocialNetwork" class="element-center" style="margin: auto"></table>
-            <div id="GridPagerSocialNetwork"></div>
-
-        </div>
+        <div id="toolbarRedSocial" class="btn-group">
+	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
+	    <button type="button" class="btn btn-default" id="btnAddsocialNetwork">
+	        <i class="glyphicon glyphicon-plus"></i>
+	    </button><!--</a>-->
+	    <button type="button" class="btn btn-default" id="btnRereshsocialNetwork">
+	        <i class="glyphicon glyphicon-refresh"></i>
+	    </button>
+	</div>
+	<script>
+	function btnDeletesocialNetwork (){
+	 alert("cliked btnAddsocialNetwork");
+	}
+	function btnEditsocialNetwork (){
+	 alert("cliked btnRereshsocialNetwork");
+	}
+	</script>
+<table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="450"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbarRedSocial" class="element-center" style="margin: auto">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Relaci&oacute;n</th>
+        <th>Edad</th>
+        <th>Tel&eacute;fono</th>
+        <th style="width: 30px;">Acompaña al imputado durante el proceso</th>
+        <th>Dependiente econ&oacute;mico</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if(Model.JsonDomicilios==null){
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td id="td-id-1" class="td-class-1">
+            @Dmcl.Description
+        </td>
+        <td>
+        	@Dmcl.Phone
+        </td>
+        <td>
+        	@Dmcl.HomeTypeId
+        </td>
+        <td>
+        	@Dmcl.RegisterType
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeletesocialNetwork();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditsocialNetwork();"><span class="glyphicon glyphicon-pencil"></span></a>
+        </td>
+    </tr>
+	}
+}
+    </tbody>
+</table>	
     </div>
         <br/>
 <br/>
@@ -1036,16 +1258,74 @@ $timeout(function () {
 
 
             <div id="personalReferences" class="tab-pane"><!-- Begin of Referencias -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/reference/index.jsp" -->4
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/reference/index.jsp" -->
 <div class="row element-center">
     <div class="col-xs-12">
         <h2><i class="red icon-list bigger-100"></i> &nbsp;Referencias personales</h2>
         <br/>
-        <div id="angJsjqGridIdReference" >
-            <table id="GridIdReference" class="element-center" style="margin: auto"></table>
-            <div id="GridPagerReference"></div>
-
-        </div>
+<div id="toolbarReferencias" class="btn-group">
+	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
+	    <button type="button" class="btn btn-default" id="btnAddpersonalReferences">
+	        <i class="glyphicon glyphicon-plus"></i>
+	    </button><!--</a>-->
+	    <button type="button" class="btn btn-default" id="btnRereshpersonalReferences">
+	        <i class="glyphicon glyphicon-refresh"></i>
+	    </button>
+	</div>
+	<script>
+	function btnDeletepersonalReferences (){
+	 alert("cliked btnAddpersonalReferences");
+	}
+	function btnEditpersonalReferences (){
+	 alert("cliked btnRereshpersonalReferences");
+	}
+	</script>
+<table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="450"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbarReferencias" class="element-center" style="margin: auto">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Relaci&oacute;n</th>
+        <th>Edad</th>
+        <th>Tel&eacute;fono</th>
+        <th style="width: 30px;">Acompaña al imputado durante el proceso</th>
+        <th>Dependiente econ&oacute;mico</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if(Model.JsonDomicilios==null){	
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td id="td-id-1" class="td-class-1">
+            @Dmcl.Description
+        </td>
+        <td>
+        	@Dmcl.Phone
+        </td>
+        <td>
+        	@Dmcl.HomeTypeId
+        </td>
+        <td>
+        	@Dmcl.RegisterType
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeletepersonalReferences();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditpersonalReferences();"><span class="glyphicon glyphicon-pencil"></span></a>
+        </td>
+    </tr>
+	}
+}
+    </tbody>
+</table>
     </div>
 </div>
     <br/><br/>
@@ -1106,17 +1386,71 @@ $timeout(function () {
 
 
             <div id="jobHistory" class="tab-pane"><!-- Begin of Historial laboral -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/job/index.jsp" -->5
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/job/index.jsp" -->
 <div class="row element-center">
     <div class="col-xs-12">
         <h2><i class="pink icon-briefcase  bigger-100">&nbsp;</i>Historia Laboral</h2>
         <br/>
-
-        <div id="angJsjqGridIdJob" >
-            <table id="GridIdJob" class="element-center" style="margin: auto"></table>
-            <div id="GridPagerJob"></div>
-
-        </div>
+<div id="toolbarHistorialLaboral" class="btn-group">
+	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
+	    <button type="button" class="btn btn-default" id="btnAddHistorialLaboral">
+	        <i class="glyphicon glyphicon-plus"></i>
+	    </button><!--</a>-->
+	    <button type="button" class="btn btn-default" id="btnRereshHistorialLaboral">
+	        <i class="glyphicon glyphicon-refresh"></i>
+	    </button>
+	</div>
+	<script>
+	function btnDeleteHistorialLaboral (){
+	 alert("cliked btnAddHistorialLaboral");
+	}
+	function btnEditHistorialLaboral (){
+	 alert("cliked btnRereshHistorialLaboral");
+	}
+	</script>
+<table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="450"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbarHistorialLaboral" class="element-center" style="margin: auto">
+    <thead>
+    <tr>
+        <th>Empresa</th>
+        <th>Puesto</th>
+        <th>Patr&oacute;n</th>
+        <th>Tel&eacute;fono</th>
+        <th>Tipo</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if(Model.JsonDomicilios==null){	
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td id="td-id-1" class="td-class-1">
+            @Dmcl.Description
+        </td>
+        <td>
+        	@Dmcl.Phone
+        </td>
+        <td>
+        	@Dmcl.HomeTypeId
+        </td>
+        <td>
+        	@Dmcl.RegisterType
+        </td>
+        <td>
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeleteHistorialLaboral();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditHistorialLaboral();"><span class="glyphicon glyphicon-pencil"></span></a>
+        </td>
+    </tr>
+	}
+}
+    </tbody>
+</table>
     </div>
 </div>
 <br/>
@@ -1179,7 +1513,7 @@ $timeout(function () {
 
 
             <div id="school" class="tab-pane"><!-- Begin of Red Historia escolar -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/school/index.jsp" -->6
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/school/index.jsp" -->
 <div class="col-xs-12">
         <h2> <i class="orange icon-book  bigger-100">&nbsp;</i>Historia Escolar</h2>
         <br/>
@@ -1509,16 +1843,68 @@ $timeout(function () {
 
 
             <div id="drugsSection" class="tab-pane"><!-- Begin of Consumo de sustancias -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/drug/index.jsp" -->7
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/drug/index.jsp" -->
 <div class="row element-center">
     <div class="col-xs-12">
         <h2> <i class="green icon-warning-sign  bigger-100">&nbsp;</i>Consumo de sustancias</h2>
         <br/>
-        <div id="angJsjqGridIdDrug" >
-            <table id="GridIdDrug" class="element-center" style="margin: auto"></table>
-            <div id="GridPagerDrug"></div>
-
-        </div>
+<div id="toolbarDrug" class="btn-group">
+	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
+	    <button type="button" class="btn btn-default" id="btnAddDrug">
+	        <i class="glyphicon glyphicon-plus"></i>
+	    </button><!--</a>-->
+	    <button type="button" class="btn btn-default" id="btnRereshDrug">
+	        <i class="glyphicon glyphicon-refresh"></i>
+	    </button>
+	</div>
+	<script>
+	function btnDeleteDrug (){
+	 alert("cliked btnAddDrug");
+	}
+	function btnEditDrug (){
+	 alert("cliked btnRereshDrug");
+	}
+	</script>
+<table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="450"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbarDrug" class="element-center" style="margin: auto">
+    <thead>
+    <tr>
+        <th>Sustancia</th>
+        <th>Periodicidad</th>
+        <th>Cantidad</th>
+        <th>&Uacute;ltimo consumo</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if(Model.JsonDomicilios==null){	
+    }
+    else{
+    foreach(var Dmcl in Model.JsonDomicilios) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td id="td-id-1" class="td-class-1">
+            @Dmcl.Description
+        </td>
+        <td>
+        	@Dmcl.Phone
+        </td>
+        <td>
+        	@Dmcl.HomeTypeId
+        </td>
+        <td>
+        	@Dmcl.RegisterType
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeleteDrug();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditDrug();"><span class="glyphicon glyphicon-pencil"></span></a>
+        </td>
+    </tr>
+	}
+}
+    </tbody>
+</table>
     </div>
 </div>
 
@@ -1582,7 +1968,7 @@ $timeout(function () {
 
 
             <div id="leaveCountry" class="tab-pane"><!-- Begin of Facilidad abandonar el pais -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp" -->8
+                <!-- include file="/WEB-INF/jsp/reviewer/meeting/leavingCountry/index.jsp" -->
  <div class="col-xs-10 element-center col-xs-offset-1">
 
         <div class="center row">
@@ -1653,9 +2039,12 @@ $timeout(function () {
                            name="leaveCountry.officialDocumentation.id"
                            id="doc"
                            ng-init=''>
-                    <select class="form-control element-center" ng-model="l.doc"
-                            ng-options="e.name for e in listElection"
-                            ng-change="l.docId = l.doc.id;" ng-init=''></select>
+                    <!--<select class="form-control element-center" ng-model="l.doc"
+                            ng-options="e.Name for e in @Model.JsonElection"
+                            ng-change="l.docId = l.doc.id;" ng-init=''></select>-->
+                            <select class="form-control element-center" ng-model="Edocumento" 
+                            ng-options="e.Name for e in listElection" value=""
+                            ng-change="EdocumentoId = Edocumento['Id'];" ng-init='listElection = @Model.JsonElection'></select>
                 </div>
             </div>
         </div>
@@ -1997,15 +2386,23 @@ $timeout(function () {
 </div>
 <div class="row">
     <div class="modal-footer">
+    <a href="@Url.Action("Index","Meeting")">
         <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
             Regresar
         </span>
+</a>
         <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-actionconfirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
         confirm-title="Terminar entrevista" confirm-type="info"
         confirmed-click-action="submitMeeting('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId');">
         Terminar
-    </span>
+    	</span>
 
 </div>
 </div>
 </div>
+    	<script>
+    	$(".blocker").remove();
+
+    	$(".chosen-select").chosen();
+
+    	</script>

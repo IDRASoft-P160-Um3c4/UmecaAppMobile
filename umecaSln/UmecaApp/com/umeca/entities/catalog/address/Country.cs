@@ -22,7 +22,7 @@ namespace UmecaApp
 			this.Longitude = lon;
 		}
 
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]
 		public int Id{get;set;}
 
 		[Column("name"),MaxLength(50)]

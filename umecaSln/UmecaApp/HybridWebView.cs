@@ -11,7 +11,7 @@ namespace UmecaApp
 		private const string url = "file:///android_asset/";
 		WebView webView;
 
-		public HybridWebView(WebView uiWebView) {
+		public HybridWebView(WebView uiWebView, Context context) {
 			webView = uiWebView;
 
 			// Use subclassed WebViewClient to intercept hybrid native calls
@@ -20,6 +20,7 @@ namespace UmecaApp
 			webView.SetWebViewClient (webViewClient);
 			webView.Settings.CacheMode = CacheModes.CacheElseNetwork;
 			webView.Settings.JavaScriptEnabled = true;
+			webView.AddJavascriptInterface (new LoginAction(context), "login");
 			webView.SetWebChromeClient (new HybridWebChromeClient (webView.Context));
 		}
 

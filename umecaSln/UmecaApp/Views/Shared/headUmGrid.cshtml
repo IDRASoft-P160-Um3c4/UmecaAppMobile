@@ -3,21 +3,19 @@
 <html>
 	<head>
 		<title>Umeca</title>
-		//CSS content/themes/umeca
-    <link rel="stylesheet" href="content/themes/umeca/ace-fonts.css"/>
-    <link rel="stylesheet" href="content/themes/umeca/ace-rtl.min.css"/>
-    <link rel="stylesheet" href="content/themes/umeca/ace-skins.min.css"/>
-    <link rel="stylesheet" href="content/themes/umeca/ace.min.css"/>
+		<!--LAOYUT para meeting index solo muestra el bostrap table -->
     <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css"/>
     <link rel="stylesheet" href="content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet" href="content/themes/umeca/font-awesome.min.css"/>
     <link rel="stylesheet" href="content/themes/umeca/jquery-ui-1.10.3.full.min.css"/>
-       
-    //CSS Content Root directory
+    <link rel="stylesheet" href="content/themes/umeca/ace-fonts.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/ace-skins.min.css"/>
+
     <link rel="stylesheet" href="content/bootstrap.css"/>
     <link rel="stylesheet" href="content/Site.css"/>
-
-    //Scripts from scripts root directory
+    <link rel="stylesheet" href="content/themes/umeca/ace.min.css"/>
+   
     <script src="scripts/jquery-1.10.2.min.js"></script>
     <script src="scripts/umeca/bootstrap.min.js"></script>
     <script src="scripts/common.js"></script>
@@ -51,14 +49,132 @@
         }
     </style>
 
-    //umeca root scripts
     <script src="scripts/umeca/ace-elements.min.js"></script>
-    	<script src="scripts/umeca/ace-extra.min.js"></script>
+    	<script src="scripts/umeca/ace-extra.js"></script>
     <script src="scripts/umeca/ace.min.js"></script>
     <script src="scripts/umeca/typeahead-bs2.min.js"></script>
-    	//layout
 	</head>
 	<body>
+
+
+<script src="scripts/app/shared/menuCtrl.js"></script>
+<div ng-controller="menuController">
+
+<div class="navbar navbar-default navbar-static-top">
+<style>
+    .navbar > .container {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+    }
+</style>
+<script type="text/javascript">
+    try {
+        ace.settings.check('navbar', 'fixed')
+    } catch (e) {
+    }
+</script>
+
+<div class="container" id="navbar-container">
+<div class="navbar-header pull-left">
+    <a href="@Url.Action("Index","Login")" class="navbar-brand">
+        <i class="glyphicon glyphicon-cloud"></i>&nbsp;&nbsp;Inicio</a>
+</div>
+<!-- /.navbar-header -->
+
+<div class="navbar-header pull-right" role="navigation">
+    <ul class="nav ace-nav">
+        <li class="nav-li-blue"></li>
+        <!--<sec:authorize access="hasRole('ROLE_REVIEWER')">-->
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Meeting")"><i
+                    class="icon-comments-alt"></i>&nbsp;&nbsp;Entrevista</a></li>
+            <li class="nav-li-blue"><a href="javascript;"><i
+                    class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
+            </li>
+            <li class="nav-li-blue"><a href="javascript;"><i
+                    class="icon-cloud-download"></i>&nbsp;&nbsp;Descargar Informaci&oacute;n</a>
+            </li>
+            <li class="nav-li-blue"><a href="javascript;"><i
+                    class="icon-exchange"></i>&nbsp;&nbsp;Sincronizar</a></li>
+            <li class="dropdown nav-li-blue">
+        <!--</sec:authorize>-->
+        <!--<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i
+                    class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a>
+            </li>
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/scheduleHearings/index.html'/>">
+                <i class="icon icon-calendar"></i>&nbsp;&nbsp;Agenda de audiencias</a>
+            </li>
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
+                    class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
+            <li class="dropdown nav-li-blue">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de supervisi&oacute;n
+                    <i class="icon-caret-down"></i> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
+                            class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
+                    </li>
+                    <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
+                            class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
+                    <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
+                            class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a></li>
+                </ul>
+            </li>
+            <li class="dropdown nav-li-blue">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="glyphicon glyphicon-folder-close"></i>
+                        <%--&nbsp;&nbsp;Bit&aacute;coras--%>
+                        <%--<i class="icon-caret-down"></i>--%>
+                    &nbsp;&nbsp;Historiales
+                    <i class="icon-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                        <%--<li><a href="<c:url value='/supervisor/log/index.html'/>"><i--%>
+                        <%--class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de--%>
+                        <%--supervisi&oacute;n y cumplimiento</a></li>--%>
+                    <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
+                            class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
+                        supervisi&oacute;n y cumplimiento</a></li>
+                    <li><a
+                            href="<c:url value='/shared/messageHistory/index.html' />"><i
+                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
+                <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
+                supervisi&oacute;n</a>
+            </li>
+            <li class="nav-li-blue"><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
+                <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
+            </li>
+
+        </sec:authorize>-->
+    </ul>
+    <!-- /.ace-nav -->
+</div>
+<!-- /.navbar-header -->
+</div>
+<!-- /.container -->
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 		@RenderBody()
 	</body>
 </html>

@@ -9,7 +9,7 @@ namespace UmecaApp
 		public Election ()
 		{
 		}
-		[AutoIncrement,PrimaryKey]
+		[AutoIncrement,PrimaryKey, Column("id_election")]
 		public int Id{get;set;}
 
 		[Column("election"), MaxLength(255)]
