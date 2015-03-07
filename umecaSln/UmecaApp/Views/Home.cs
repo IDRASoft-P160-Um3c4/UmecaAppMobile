@@ -32,11 +32,12 @@ public UmecaApp.Models.PageModel Model { get; set; }
 
 public override void Execute()
 {
-WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n\r\n    <script");
+WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n</head>\r\n<body>\r\n    <s" +
+"cript");
 
 WriteLiteral(" src=\"scripts/jquery-1.10.2.min.js\"");
 
-WriteLiteral("></script>\r\n</head>\r\n<body>\r\n\r\n\r\n\r\n    <script");
+WriteLiteral("></script>\r\n   <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -70,7 +71,7 @@ WriteLiteral(@">
 ");
 
 
-#line 41 "Home.cshtml"
+#line 37 "Home.cshtml"
 Write(Model.Title);
 
 
@@ -102,7 +103,7 @@ WriteLiteral(" class=\"modal-title element-center\"");
 WriteLiteral(">");
 
 
-#line 65 "Home.cshtml"
+#line 61 "Home.cshtml"
                                                       Write(Model.Title);
 
 
@@ -116,8 +117,8 @@ WriteLiteral(">\r\n                    <h4");
 
 WriteLiteral(" class=\"element-center\"");
 
-WriteLiteral(">Ingrese su contraseña en el sistema en l&iacute;nea</h4>\r\n                    <h" +
-"r>\r\n                    <div");
+WriteLiteral(">Ingrese los datos para acceder al portal</h4>\r\n                    <hr>\r\n       " +
+"             <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -185,7 +186,7 @@ WriteLiteral(">\r\n                <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 86 "Home.cshtml"
+#line 82 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -196,12 +197,12 @@ WriteLiteral(">\r\n                    <button");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
-WriteLiteral(" >Finalizar</button>\r\n                </a>\r\n                </div>\r\n<br />\r\n<!--<" +
-"a");
+WriteLiteral(" >Ingresar</button>\r\n                </a>\r\n                </div>\r\n              " +
+"  <!--\r\n<br />\r\n<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 91 "Home.cshtml"
+#line 88 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -212,7 +213,7 @@ WriteLiteral(">Meetings</a>\r\n<br />\r\n<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 93 "Home.cshtml"
+#line 90 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -223,7 +224,7 @@ WriteLiteral(">New Meeting</a>\r\n<br />\r\n<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 95 "Home.cshtml"
+#line 92 "Home.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingDatosPersonales","Meeting")
 
 #line default
@@ -231,15 +232,7 @@ WriteAttribute ("href", " href=\"", "\""
 , false)
 , Tuple.Create<string,object,bool> ("", "?idCase=1", true)
 );
-WriteLiteral(">Datos Personales</a>\r\n<br />\r\n                 <button");
-
-WriteLiteral(" type=\"\"");
-
-WriteLiteral("button\"\"");
-
-WriteLiteral(" onClick=\"\"");
-
-WriteLiteral("JS2CS.Run()\"\">Call C#</button>-->\r\n</body>\r\n</html>");
+WriteLiteral(">Datos Personales</a>-->\r\n</body>\r\n</html>");
 
 }
 }

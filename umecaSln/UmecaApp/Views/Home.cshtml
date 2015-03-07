@@ -4,14 +4,10 @@
 <html>
 <head>
    <title>UMECA</title>
-
-    <script src="scripts/jquery-1.10.2.min.js"></script>
 </head>
 <body>
-
-
-
-    <script type="text/javascript">
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+   <script type="text/javascript">
 	$(function() {
 
 		try{
@@ -65,7 +61,7 @@
                     <h2 class="modal-title element-center">@Model.Title</h2>
                 </div>
                 <div class="modal-body">
-                    <h4 class="element-center">Ingrese su contraseña en el sistema en l&iacute;nea</h4>
+                    <h4 class="element-center">Ingrese los datos para acceder al portal</h4>
                     <hr>
                     <div class="row">
                         <div class="col-xs-3">&nbsp;</div>
@@ -84,16 +80,15 @@
                 </div>
                 <div class="modal-footer">
                 <a href="@Url.Action("Index","Meeting")">
-                    <button class="btn btn-default btn-primary btn-sm" >Finalizar</button>
+                    <button class="btn btn-default btn-primary btn-sm" >Ingresar</button>
                 </a>
                 </div>
+                <!--
 <br />
-<!--<a href="@Url.Action("Index","Meeting")">Meetings</a>
+<a href="@Url.Action("Index","Meeting")">Meetings</a>
 <br />
 <a href="@Url.Action("MeetingEditNew","Meeting")">New Meeting</a>
 <br />
-<a href="@Url.Action("MeetingDatosPersonales","Meeting")?idCase=1">Datos Personales</a>
-<br />
-                 <button type=""button"" onClick=""JS2CS.Run()"">Call C#</button>-->
+<a href="@Url.Action("MeetingDatosPersonales","Meeting")?idCase=1">Datos Personales</a>-->
 </body>
 </html>

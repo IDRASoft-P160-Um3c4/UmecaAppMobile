@@ -1,30 +1,17 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Controllers\MeetingController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Controllers\CatalogServiceController.cs">
     <Files>
-      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="4" Column="4" />
-      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="24" Column="24" />
-      <File FileName="UmecaApp\com\umeca\entities\catalog\address\Municipality.cs" Line="29" Column="29" />
-      <File FileName="UmecaApp\com\umeca\entities\catalog\address\State.cs" Line="4" Column="4" />
-      <File FileName="UmecaApp\com\umeca\entities\catalog\address\Country.cs" Line="14" Column="14" />
-      <File FileName="UmecaApp\Controllers\CatalogServiceController.cs" Line="35" Column="35" />
-      <File FileName="UmecaApp\Models\Shared\IdNameDto.cs" Line="26" Column="26" />
-      <File FileName="UmecaApp\Views\NewMeeting.cshtml" Line="5" Column="5" />
-      <File FileName="UmecaApp\com\umeca\entities\reviewer\Meeting.cs" Line="49" Column="49" />
-      <File FileName="UmecaApp\Views\MeetingList.cshtml" Line="16" Column="16" />
-      <File FileName="UmecaApp\Models\reviewer\MeetingDatosPersonalesDto.cs" Line="23" Column="23" NotebookId="1" />
+      <File FileName="UmecaApp\Views\Home.cshtml" Line="1" Column="1" />
+      <File FileName="UmecaApp\Controllers\LoginController.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\HybridWebView.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\MainActivity.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Controllers\CatalogServiceController.cs" Line="20" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Axel\Xamarin umeca\UmecaApp\Controllers\MeetingController.cs" line="252" column="51" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="UmecaApp\Controllers\MeetingController.cs" line="206" offsetX="529" offsetY="3280" expression="temp.Model.JsonActivities" liveUpdate="False" />
-    <Watch file="UmecaApp\Controllers\MeetingController.cs" line="206" offsetX="529" offsetY="3280" expression="temp.Model.JsonMeeting" liveUpdate="False" />
-    <Watch file="UmecaApp\Controllers\MeetingController.cs" line="206" offsetX="529" offsetY="3280" expression="temp.Model.JsonStates" liveUpdate="False" />
-    <Watch file="UmecaApp\Controllers\MeetingController.cs" line="206" offsetX="529" offsetY="3280" expression="temp.Model.JsonMunycipality" liveUpdate="False" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.Umeca MonoForAntroid.PreferredDevice="Android TV (720p)" AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredTheme="Theme" />
 </Properties>

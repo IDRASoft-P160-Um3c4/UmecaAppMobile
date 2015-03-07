@@ -14,7 +14,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Umeca</AssemblyName>
-    <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.1</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,7 +35,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -148,8 +147,8 @@
     <Compile Include="Models\reviewer\MeetingDatosPersonalesDto.cs" />
     <Compile Include="Models\Shared\CountryDto.cs" />
     <Compile Include="Controllers\CatalogServiceController.cs" />
-    <Compile Include="com\umeca\entities\catalog\address\Municipality.cs" />
     <Compile Include="Models\Shared\IdNameDto.cs" />
+    <Compile Include="com\umeca\entities\catalog\address\Municipality.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -1134,7 +1133,6 @@
     <AndroidAsset Include="Assets\scripts\upload\cors\jquery.postmessage-transport.js" />
     <AndroidAsset Include="Assets\scripts\upload\cors\jquery.xdr-transport.js" />
     <AndroidAsset Include="Assets\scripts\upload\vendor\jquery.ui.widget.js" />
-    <AndroidAsset Include="Assets\scripts\umeca\ace-extra.js" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
