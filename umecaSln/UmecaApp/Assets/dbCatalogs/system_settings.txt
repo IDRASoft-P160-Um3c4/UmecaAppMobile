@@ -1,0 +1,13 @@
+﻿id_system_setting|group|key|value|description
+1|ARCHIVE|MaxNumberFiles|5|Máximo número de archivos por caso
+2|ARCHIVE|MaxSizeFiles|50000000|Máximo espacio para los archivos por caso (en bytes)
+3|ARCHIVE|PathToSave|files|Ruta para almacenar los archivos a subir por caso
+4|MONPLAN|HoursToAuthorize|72|Horas antes de poner el plan de seguimiento en suspensión
+5|SCHEDULE_HEARING|LstIdsArrangement|1|Lista de identificadores de las obligaciones procesales a añadir al agendar la audiencia
+6|SCHEDULE_HEARING|SupervisionActivityId|4|Identificador de la actividad de supervisión por defecto
+7|SCHEDULE_HEARING|GoalActivityId|3|Identificador del objetivo de la actividad
+8|SCHEDULE_HEARING|LstIdsArrangementReminder|1|Lista de identificadores de las obligaciones procesales a añadir, al agendar el recordatorio
+9|SCHEDULE_HEARING|SupervisionActivityIdReminder|4|Identificador de la actividad de supervisión por defecto para el recordatorio
+10|SCHEDULE_HEARING|GoalActivityIdReminder|2|Identificador del objetivo de la actividad para el recordatorio
+11|SCHEDULE_HEARING|DaysBeforeForReminder|2|Número de día(s) anterior(es) para añadir el recordatorio de la audiencia
+12|FINGER_VAL|ValidateFingerPrint|false|Validar el enrolamiento en la entrevista de encuadre

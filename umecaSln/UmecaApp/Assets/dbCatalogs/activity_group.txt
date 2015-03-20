@@ -1,0 +1,3 @@
+id|code|description
+1|MONITORING_PLAN|Actividades del plan de monitoreo
+2|SPONTANEOUS|Actividades espontaneas

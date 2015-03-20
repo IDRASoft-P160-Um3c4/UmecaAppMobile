@@ -1,0 +1,6 @@
+id_aid_source|name|description|is_obsolete
+1|Imputado|Imputado|0
+2|Supervisor|Supervisor|0
+3|Organización de la sociedad civil|Organización de la sociedad civil|0
+4|Madre|Madre|0
+5|Padre|Padre|0

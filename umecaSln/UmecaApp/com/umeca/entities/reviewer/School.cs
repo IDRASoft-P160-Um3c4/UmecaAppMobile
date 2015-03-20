@@ -24,7 +24,7 @@ namespace UmecaApp
 		public String Address{ get; set; }
 
 		[Column("id_grade")]
-		public int DegreeId{ get; set; }
+		public int? DegreeId{ get; set; }
 
 		[Column("specification"),MaxLength(300)]
 		public String Specification{ get; set; }

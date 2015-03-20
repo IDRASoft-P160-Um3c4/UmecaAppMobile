@@ -1,0 +1,67 @@
+id_arrangement|description|type|arrangement_index|is_obsolete|is_national|is_default|is_exclusive
+1|Riesgo procesal de incomparecencia;|1|1|0|1|1|0
+2|Riesgo procesal para víctimas y testigos;|1|2|0|1|1|0
+3|Riesgo procesal para la investigación;|1|3|0|1|1|0
+4|La prisión preventiva.|1|4|0|1|0|1
+5|La presentación periódica ante el juez o ante autoridad distinta que aquél designe;  |1|5|0|1|0|0
+6|La exhibición de una garantía económica;  |1|6|0|1|0|0
+7|El embargo de bienes;  |1|7|0|1|0|0
+8|La inmovilización de cuentas y demás valores que se encuentren dentro del sistema financiero;  |1|8|0|1|0|0
+9|La prohibición de salir sin autorización del país, de la localidad en la cual reside o del ámbito territorial que fije el juez;  |1|9|0|1|0|0
+10|El sometimiento al cuidado o vigilancia de una persona o institución determinada o internamiento a institución determinada;  |1|10|0|1|0|0
+11|La prohibición de concurrir a determinadas reuniones o acercarse o ciertos lugares;  |1|11|0|1|0|0
+12|La prohibición de convivir, acercarse o comunicarse con determinadas personas, con las víctimas u ofendidos o testigos, siempre que no se afecte el derecho de defensa;  |1|12|0|1|0|0
+13|La separación inmediata del domicilio;  |1|13|0|1|0|0
+14|La suspensión temporal en el ejercicio del cargo cuando se le atribuye un delito cometido por servidores públicos;  |1|14|0|1|0|0
+15|La suspensión temporal en el ejercicio de una determinada actividad profesional o laboral;  |1|15|0|1|0|0
+16|La colocación de localizadores electrónicos;  |1|16|0|1|0|0
+17|El resguardo en su propio domicilio con las modalidades que el juez disponga, o  |1|17|0|1|0|0
+18|Residir en un lugar determinado;  |2|1|0|1|0|0
+19|Frecuentar o dejar de frecuentar determinados lugares o personas;  |2|2|0|1|0|0
+20|Abstenerse de consumir drogas o estupefacientes o de abusar de las bebidas alcohólicas;  |2|3|0|1|0|0
+21|Participar en programas especiales para la prevención y el tratamiento de adicciones;  |2|4|0|1|0|0
+22|Aprender una profesión u oficio o seguir cursos de capacitación en el lugar o la institución que determine el Juez de control;  |2|5|0|1|0|0
+23|Prestar servicio social a favor del Estado o de instituciones de beneficencia pública;  |2|6|0|1|0|0
+24|Someterse a tratamiento médico o psicológico, de preferencia en instituciones públicas;  |2|7|0|1|0|0
+25|Tener un trabajo o empleo, o adquirir, en el plazo que el Juez de control determine, un oficio, arte, industria o profesión, si no tiene medios propios de subsistencia;  |2|8|0|1|0|0
+26|Someterse a la vigilancia que determine el Juez de control;  |2|9|0|1|0|0
+27|No poseer ni portar armas;  |2|10|0|1|0|0
+28|No conducir vehículos;  |2|11|0|1|0|0
+29|Abstenerse de viajar al extranjero;|2|12|0|1|0|0
+30|Cumplir con los deberes de deudor alimentario, o  |2|13|0|1|0|0
+31|Cualquier otra condición que, a juicio del Juez de control, logre una efectiva tutela de los derechos de la víctima.|2|14|0|1|0|0
+32|Art. 194. Plan de reparación.|2|15|0|1|0|0
+33|Riesgo procesal de incomparecencia;|1|1|0|0|1|0
+34|Riesgo procesal para víctimas y testigos;|1|2|0|0|1|0
+35|Riesgo procesal para la investigación;|1|3|0|0|1|0
+36|La prisión preventiva;|1|4|0|0|0|1
+37|Promesa del imputado|1|5|0|0|0|1
+38|La prohibición de salir del país, de la localidad en la cual reside o del ámbito territorial que fije el juez;|1|6|0|0|0|0
+39|La obligación de someterse al cuidado o vigilancia de una persona o institución determinada, que informe regularmente al juez;|1|7|0|0|0|0
+40|La obligación de presentarse periódicamente ante el juez o ante la autoridad que él designe;|1|8|0|0|0|0
+41|La colocación de localizadores electrónicos, sin que pueda mediar violencia o lesión a la dignidad o integridad física del imputado;|1|9|0|0|0|0
+42|El arraigo, en su propio domicilio o en el de otra persona, sin vigilancia alguna o con las modalidades que el juez disponga;|1|10|0|0|0|0
+43|La prohibición de concurrir a determinadas reuniones o de visitar ciertos lugares;|1|11|0|0|0|0
+44|La prohibición de convivir, acercarse o comunicarse con personas determinadas, siempre que no se afecte el derecho de defensa;|1|12|0|0|0|0
+45|La separación inmediata del domicilio cuando se trate de agresiones a mujeres y niños o delitos sexuales y cuando la víctima conviva con el imputado; y|1|13|0|0|0|0
+46|Internamiento en centro de salud u hospital psiquiátrico, en los casos en que el estado de salud del imputado así lo amerite.|1|14|0|0|0|0
+47|La presentación de una garantía económica suficiente en los términos del Artículo 183;|1|15|0|0|0|0
+48|Residir en un lugar determinado;|2|1|0|0|0|0
+49|Frecuentar o dejar de frecuentar determinados lugares o personas, así como abstenerse de concurrir a determinadas reuniones o de visitar ciertos lugares, o comunidades afectadas o sensibles al delito que se le imputa, o que socialmente le reprueben o reprochen, incluso hasta atentar contra su vida;|2|2|0|0|0|0
+50|Abstenerse de consumir drogas o estupefacientes o de abusar de las bebidas alcohólicas;|2|3|0|0|0|0
+51|Participar y concluir los programas especiales para la prevención y tratamiento de adicciones;|2|4|0|0|0|0
+52|Comenzar o finalizar la escolaridad básica si no la ha cumplido; aprender una profesión u oficio o seguir cursos de capacitación en el lugar o la institución que determine el juez;|2|5|0|0|0|0
+53|Prestar servicio social a favor del Estado o de instituciones de beneficencia pública o privada;|2|6|0|0|0|0
+54|Someterse a tratamiento médico o psicológico, de preferencia en instituciones públicas, si es necesario;|2|7|0|0|0|0
+55|Permanecer en un trabajo o empleo, o adquirir, en el plazo que el juez determine, un oficio, arte, industria o profesión, si no tiene medios propios de subsistencia;|2|8|0|0|0|0
+56|Someterse a la vigilancia que determine el juez;|2|9|0|0|0|0
+57|No poseer o portar armas;|2|10|0|0|0|0
+58|No conducir vehículos;|2|11|0|0|0|0
+59|Abstenerse de viajar al extranjero, o de salir o trasladarse a lugar distinto de donde se encuentre radicado el proceso sin autorización judicial;|2|12|0|0|0|0
+60|Cumplir con los deberes de deudor alimentario;|2|13|0|0|0|0
+61|No comunicarse o tener contacto, por cualquier medio, con la víctima u ofendido, los testigos o los familiares o dependientes de éstos, así como dejar de frecuentar determinados lugares o personas;|2|14|0|0|0|0
+62|Portar durante el tiempo que el juez determine mecanismos de localización electrónica;|2|15|0|0|0|0
+63|Observar buena conducta individual, familiar y social, con especificación de la misma y su relación con el hecho;|2|16|0|0|0|0
+64|La prohibición de salir de un lugar determinado en los horarios que fije el juez, y|2|17|0|0|0|0
+65|Las demás que el juez determine procedentes de conformidad con las características particulares del caso.|2|18|0|0|0|0
+66|Art. 211 Reparación del daño.|2|19|0|0|0|0

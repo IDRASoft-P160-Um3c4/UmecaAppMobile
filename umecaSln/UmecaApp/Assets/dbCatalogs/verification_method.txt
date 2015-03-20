@@ -1,0 +1,4 @@
+﻿id_supervision_activity|name|is_obsolete
+1|Llamada telefónica|0
+2|Visita domiciliar|0
+3|Entrevista personal|0

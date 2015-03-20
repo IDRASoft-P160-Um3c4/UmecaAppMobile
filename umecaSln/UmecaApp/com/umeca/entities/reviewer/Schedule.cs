@@ -11,17 +11,32 @@ namespace UmecaApp
 		{
 		}
 
-		[PrimaryKey, AutoIncrement, Column("id")]
+		[PrimaryKey, AutoIncrement, Column("id_schedule")]
 		public int Id{ get; set; }
 
-		[Column("imputed_home_id"),MaxLength(50)]
+		[Column("day"),MaxLength(50)]
 		public String Day{ get; set; }
 
-		[Column("imputed_home_id"),MaxLength(5)]
+		[Column("start"),MaxLength(5)]
 		public String Start{ get; set; }
 
-		[Column("imputed_home_id"),MaxLength(5)]
+		[Column("end"),MaxLength(5)]
 		public String End{ get; set; }
+
+		[Column("id_imputed_home")]
+		public int? ImputedHomeId{ get; set; }
+
+		[Column("id_job")]
+		public int? JobId{ get; set; }
+
+		[Column("id_school")]
+		public int? SchoolId{ get; set; }
+
+		[Column("id_framing_activity")]
+		public int? FramingActivityId{ get; set; }
+
+		[Column("id_framing_address")]
+		public int? FramingAddressId{ get; set; }
 	}
 }
 

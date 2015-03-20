@@ -1,0 +1,3 @@
+id|description|is_obsolete|name
+1|checkbox|false|checkbox
+2|radio|false|radio

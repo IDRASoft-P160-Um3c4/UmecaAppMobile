@@ -164,7 +164,7 @@ WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" src=\"scripts/umeca/typeahead-bs2.min.js\"");
 
-WriteLiteral("></script>\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<script");
+WriteLiteral("></script>\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<!--<script");
 
 WriteLiteral(" src=\"scripts/app/shared/menuCtrl.js\"");
 
@@ -172,7 +172,7 @@ WriteLiteral("></script>\r\n<div");
 
 WriteLiteral(" ng-controller=\"menuController\"");
 
-WriteLiteral(">\r\n\r\n<div");
+WriteLiteral(">-->\r\n<div>\r\n<div");
 
 WriteLiteral(" class=\"navbar navbar-default navbar-static-top\"");
 

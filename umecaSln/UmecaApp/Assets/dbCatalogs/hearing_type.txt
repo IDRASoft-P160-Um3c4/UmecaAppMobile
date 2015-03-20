@@ -1,0 +1,11 @@
+id|description|isObsolete|lock|specification
+1|Intermedia|0|1|0
+2|Juicio oral|0|1|0
+3|Lectura de sentencia|0|1|0
+4|Audiencia incidental|0|1|0
+5|Revisión de MC|0|0|0
+6|MC|0|0|0
+7|Revisión de SCP|0|0|0
+8|SCP|0|0|0
+9|Acuerdo preparatorio|0|1|0
+10|Otra|0|1|1

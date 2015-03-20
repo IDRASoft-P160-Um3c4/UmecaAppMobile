@@ -1,0 +1,4 @@
+﻿id|code|name|obsolete
+1|TOTAL_NON_FULFILLMENT|Incumplimiento total|0
+2|PARTIAL_NON_FULFILLMENT|Incumplimiento parcial|0
+3|FULFILLMENT|Cumplimiento|0

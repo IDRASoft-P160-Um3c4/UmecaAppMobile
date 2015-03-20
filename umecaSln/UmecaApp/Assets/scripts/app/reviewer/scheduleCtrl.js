@@ -1,9 +1,11 @@
-app.controller('scheduleController', function($scope, $timeout) {
+	app.controller('scheduleController', function($scope, $timeout) {
     $scope.s = {};
     $scope.listSchedule = [];
+    $scope.content = "School";
 
 
     $scope.init = function(){
+    $scope.listSchedule = [];
         $('#timepickerEnd'+$scope.content).timepicker({
             minuteStep: 1,
             showSeconds: false,
@@ -22,10 +24,15 @@ app.controller('scheduleController', function($scope, $timeout) {
             $scope.listSchedule = [];
         }else{
             try{
-            if($scope.listSchedule[0].day== undefined){
-                $scope.listSchedule = JSON.parse($scope.listSchedule);
+            console.log("1 init schedule");
+            if($scope.schString==undefined){$scope.schString=$("#hdnJsonScheduleSchool").val();}
+//            console.log("$scope.schString-"+$scope.schString);
+//            console.log("hdnJsonScheduleSchool-"+$("#hdnJsonScheduleSchool").val());
+            if($scope.schString != undefined){
+                $scope.listSchedule = JSON.parse($scope.schString);
+                console.log("2 init schedule");
             }
-            }catch(e){}finally{
+            }catch(e){console.log("error init schedule err---->"+e.message);}finally{
                 $scope.matchSchedule();
             }
 
@@ -46,7 +53,11 @@ app.controller('scheduleController', function($scope, $timeout) {
           a.day = $scope.s.day;
           a.start = $scope.s.start;
           a.end = $scope.s.end;
-          $scope.listSchedule.add(a);
+          if($scope.listSchedule == undefined){
+            $scope.listSchedule = [];
+        	}
+console.log("typeof listSchedule >>"+typeof $scope.listSchedule+"    ...and string==>"+JSON.stringify($scope.listSchedule) );
+          $scope.listSchedule.push(a);
           $scope.s.day = "";
           $scope.s.start = "12:00";
           $scope.s.end = "12:00";

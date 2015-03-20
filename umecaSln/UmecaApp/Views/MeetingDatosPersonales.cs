@@ -50,54 +50,168 @@ WriteLiteral("\r\n<script>\r\nfunction shw(){\r\nalert($(\"#showId\").html());\r
 "listMsgError[\'school\'] = false;\r\n        $scope.listMsgError[\'drug\'] = false;\r\n " +
 "       $scope.listMsgError[\'leavingCountry\'] = false;\r\n\r\n        $scope.putasHar" +
 "ry=function(){\r\n        $timeout(function(){\r\n        \t$(\"#axelMulti\").chosen();" +
-"\r\n        \t},0);\r\n        };\r\n\r\n//DATOS PERSONALES CONTROLLER\r\n\r\n    $scope.spec" +
-"ification = {};\r\n    $scope.lstActivity = [];\r\n    $scope.activityModel = [];\r\n " +
-"   $scope.activityList = [];\r\n    $scope.selectedActivities = function (lstActiv" +
-"ity, lstActivitySelect) {\r\n\r\n        for (var i = 0; i < lstActivitySelect.lengt" +
-"h; i++) {\r\n            for (var j = 0; j < lstActivity.length; j++) {\r\n         " +
-"       if (lstActivity[j].id === lstActivitySelect[i].id) {\r\n                   " +
-" $scope.activityModel.push(lstActivity[j]);\r\n                    if (lstActivity" +
-"[j].specification) {\r\n                        $scope.specification[lstActivity[j" +
-"].name] = lstActivitySelect[i].specification;\r\n                    }\r\n          " +
-"      }\r\n            }\r\n        }\r\n        $scope.matchActivities();\r\n    };\r\n\r\n" +
-"    $scope.matchActivities = function () {\r\n        $scope.relActivities = [];\r\n" +
-"        for (var i = 0; i < $scope.activityModel.length; i++) {\r\n            var" +
-" model = {};\r\n            model.activity = {};\r\n            model.activity.id = " +
-"$scope.activityModel[i].id;\r\n            if ($scope.specification[$scope.activit" +
-"yModel[i].name] != undefined) {\r\n                model.specification = $scope.sp" +
-"ecification[$scope.activityModel[i].name];\r\n            } else {\r\n              " +
-"  model.specification = \"\";\r\n            }\r\n            $scope.relActivities.pus" +
-"h(model);\r\n        }\r\n        $scope.activities = JSON.stringify($scope.relActiv" +
-"ities);\r\n        return true;\r\n    };\r\n    \t//genero\r\n        $scope.gen = {};\r\n" +
-"\r\n        //pais nacimiento\r\n        $scope.listCountry = [];\r\n        $scope.li" +
-"stState = [];\r\n        $scope.listMuni = [];\r\n        listMunByEdo = [];\r\n      " +
-"  $scope.SeceltedCountry = {};\r\n        $scope.SeceltedEstate = {};\r\n        $sc" +
-"ope.SeceltedMuni = {};\r\n\r\n         $scope.savePersonalData = function () {\r\n\t   " +
-"     var jsonData = JSON.stringify($scope.m);\r\n\t        alert(\"m value>>\"+JSON.s" +
-"tringify($scope.m));\r\n\t\t\t\twindow.location.replace(\'hybrid:Meeting/SaveMeetingDat" +
-"osPersonales?model=\' + encodeURIComponent(jsonData));\r\n\t    };\r\n        //END DA" +
-"TOS PERSONALES\r\n\r\n        //para historia escolar\r\n        $scope.block = true;\r" +
-"\n\r\n        //para Leave country \r\n        $scope.Edocumento = {};\r\n        $scop" +
-"e.EdocumentoId = {};\r\n\r\n\r\n\r\n        $scope.save = function(){\r\n            $scop" +
-"e.Wait = true;\r\n//todos los key del json deben ser igual al modelo cs\r\nif($(\"#fr" +
-"mSubmitValuesMeeting\").valid()==false){\r\n    $scope.Wait = false;\r\n    return fa" +
-"lse;\r\n}\r\nvar jsonData = JSON.stringify($scope.m);\r\nwindow.location.replace(\'hybr" +
-"id:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n$scope.Wait = fa" +
-"lse;\r\n};\r\n\r\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//todos los" +
-" key del json deben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Meet" +
-"ing/Index\');\r\n};\r\n\r\n$scope.showMessageError = function(indicator){\r\n    alert(in" +
-"dicator);\r\n};\r\n\r\n$scope.tuFunk = function(){\r\n    try{\r\n    alert(\"asshole html>" +
-">\"+$(\"#asshole\").html());\r\n    var js = JSON.parse($(\"#hdnJsonMtng\").val());\r\n  " +
-"  $scope.m = js;\r\n    alert(\"m valu>>\"+JSON.stringify($scope.m));\r\n    }\r\n    ca" +
-"tch(err){\r\n    alert(\"error catched tu funk function:::\"+err.message);\r\n    }\r\n}" +
-";\r\n\r\n$scope.showState = function(){\r\n    alert(\"m valu>>\"+JSON.stringify($scope." +
-"m));\r\n    alert(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\r\n};\r\n\r\n$scope.Mu" +
-"nByEdo = function(){\r\n    $scope.listMunByEdo = [];\r\n    var em=0;\r\n    alert(\"s" +
-"tring de selected__>\"+JSON.stringify($scope.SeceltedEstate));\r\n    for(x in $sco" +
-"pe.listMuni){\r\n    \tif($scope.listMuni[x].Reference==$scope.SeceltedEstate[\'Id\']" +
-"){\r\n    \t\t$scope.listMunByEdo.push($scope.listMuni[x]);\r\n    \t\tem++;\r\n    \t}\r\n  " +
-"  }\r\n};\r\n\r\n\r\n$timeout(function () {\r\n    $scope.tuFunk();\r\n}, 0);\r\n\r\n});\r\n\r\n</sc" +
-"ript>\r\n<div");
+"\r\n        \t},0);\r\n        };\r\n\r\n//DATOS PERSONALES CONTROLLER\r\n\r\n        ///////" +
+"/////////VARIABLES///////////////\r\n    \t//genero\r\n        $scope.gen = {};\r\n\r\n  " +
+"      //pais nacimiento\r\n        $scope.listCountry = [];\r\n        $scope.listSt" +
+"ate = [];\r\n        $scope.listMuni = [];\r\n        $scope.listLocalidades = [];\r\n" +
+"        $scope.listMunByEdo = [];\r\n        $scope.SeceltedCountry = {};\r\n       " +
+" $scope.SeceltedEstate = {};\r\n        $scope.SeceltedMuni = {};\r\n        $scope." +
+"SeceltedLocation = {};\r\n\r\n        //actividades que realiza\r\n\t$scope.specificati" +
+"on = {};\r\n    $scope.lstActivity = [];\r\n    $scope.activityModel = [];\r\n    $sco" +
+"pe.activityList = [];\r\n\r\n    ///////////////////METHODS//////////////////\r\n    /" +
+"/Init de country \r\n    $scope.InitCountryPD = function(){\r\n\t\t    if($scope.m.Bir" +
+"thCountry!=undefined&&$scope.m.BirthCountry!=null){\r\n\t\t\t    for(x=0;x<$scope.lis" +
+"tCountry.length;x++){\r\n\t\t\t    \tif($scope.listCountry[x].Id==$scope.m.BirthCountr" +
+"y){\r\n\t\t\t    \t\t$scope.SeceltedCountry = $scope.listCountry[x];\r\n\t\t\t    \t\t//alert(" +
+"\"$scope.listCountry[x]\"+JSON.stringify($scope.listCountry[x]));\r\n\t\t\t    \t\t//aler" +
+"t(\"$scope.SeceltedCountry\"+JSON.stringify($scope.SeceltedCountry));\r\n\t\t\t    \t\t$s" +
+"cope.InitMunicipalityDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t};\r\n\r\n" +
+"    $scope.InitMunicipalityDP = function(){\r\n    //alert(\"InitMunicipalityDP -> " +
+"$scope.m.LocationId>>\"+$scope.m.LocationId);\r\n\t    if($scope.m.LocationId!=undef" +
+"ined&&$scope.m.LocationId!=null){\r\n\t    \tvar data = JSON.parse(MeetingService.fi" +
+"ndAllByLocation($scope.m.LocationId));\r\n\t    \t//alert(\"InitMunicipalityDP -> dat" +
+"a>>\"+JSON.stringify(data));\r\n\t    \t//alert(\"InitMunicipalityDP -> data.StateId=\"" +
+"+data.StateId+\"    data.MunicipalityId=\"+data.MunicipalityId);\r\n\t\t    for(x=0;x<" +
+"$scope.listState.length;x++){\r\n\t\t    \tif($scope.listState[x].Id==data.StateId){\r" +
+"\n\t\t    \t\t$scope.SeceltedEstate = $scope.listState[x];\r\n\t\t    \t\t//alert(\"$scope.S" +
+"eceltedEstate[x]\"+JSON.stringify($scope.SeceltedEstate));\r\n\t\t    \t\t$scope.MunByE" +
+"do();\r\n\t\t    \t\t\tfor(y=0;y<$scope.listMunByEdo.length;y++){\r\n\t\t\t    \t\t\tif($scope." +
+"listMunByEdo[y].Id==data.MunicipalityId){\r\n\t\t\t    \t\t\t\t$scope.SeceltedMuni = $sco" +
+"pe.listMunByEdo[y];\r\n\t\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t    \t\t\t\tfor(z=0;z<$scope" +
+".listLocalidades.length;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.listLocalidades[z].Id==$sc" +
+"ope.m.LocationId){\r\n\t\t\t\t    \t\t\t\t\t\t$scope.SeceltedLocation = $scope.listLocalidad" +
+"es[z];\r\n\t\t\t\t    \t\t\t\t\t\tbreak;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t}\r\n\t\t\t\t    \t\t\tbreak;\r\n" +
+"\t\t\t    \t\t\t}\r\n\t\t    \t\t\t}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t};\r\n\r\n\t\t//cuan" +
+"do se elije un estado se filtran los municipios\r\n\t\t$scope.MunByEdo = function(){" +
+"\r\n\t\t\t$scope.listMunByEdo = [];\r\n\t        $scope.SeceltedMuni = {};\r\n\t        $sc" +
+"ope.SeceltedLocation = {};\r\n\t        $scope.listLocalidades = [];\r\n\t\t\t    var em" +
+"=0;\r\n\t\t\t    var municipios = MeetingService.findMunicipalityByState($scope.Secel" +
+"tedEstate[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope." +
+"SeceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=u" +
+"ndefined&&municipios!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.list" +
+"MunByEdo = JSON.parse(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"" +
+"exception caugth at MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunBy" +
+"Edo = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\t\t//cuando se elije un municipio se filtra" +
+"n las localidades\r\n\t\t$scope.LocByMun = function(){\r\n        $scope.SeceltedLocat" +
+"ion = {};\r\n\t\t\t    $scope.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var loc" +
+"ations = MeetingService.findLocationByMunicipality($scope.SeceltedMuni[\'Id\']);\r\n" +
+"\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\" " +
+"  and \\n municipios _>\"+municipios);\r\n\t\t\t    if(locations!=undefined&&locations!" +
+"=null&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listLocalidades = JSON.par" +
+"se(locations);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at " +
+"LocByMun Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listLocalidades = [];\r\n\t\t\t\t\t\t" +
+"}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t//cuando se elije un estado se filtran los municipios \r" +
+"\n\t\t//TODO: se cambiara a una peticion a methodo\r\n\t\t$scope.InitActivities = funct" +
+"ion(){\r\n\t\t\tif($scope.m.Activities!=undefined&&$scope.m.Activities!=null){\r\n\t\t\t  " +
+"  var actividades = JSON.parse($scope.m.Activities);\r\n\t\t\t    var ids = [];\r\n\t\t\t " +
+"   //alert(\"string de actividades>\"+JSON.stringify(actividades));\r\n\t\t\t    //iter" +
+"ates activities\r\n\t\t\t    for(a in actividades){\r\n\t\t\t\t    for(e in $scope.lstActiv" +
+"ity){\r\n\t\t\t\t\t    if($scope.lstActivity[e].id==actividades[a].ActivityId){\r\n\t\t\t   " +
+" \t\t\tconsole.log(\"coincidence >>>\"+actividades[a].ActivityId);\r\n\t\t\t    \t\t\tids.pus" +
+"h(e);\r\n\t\t\t\t\t    \t$scope.activityModel.push($scope.lstActivity[e]);\r\n\t\t          " +
+"          if ($scope.lstActivity[e].specification) {\r\n\t\t                        " +
+"$scope.specification[$scope.lstActivity[e].name] = actividades[a].specification;" +
+" \r\n\t\t                    } \r\n\t\t\t\t\t    }\r\n\t\t\t\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').mu" +
+"ltipleSelect(\"setSelects\",ids);\r\n\t\t\t}\r\n\t\t};\r\n\r\n\t\t$scope.locationDp = function(){" +
+"\r\n\t\t\t$scope.m.LocationId = $scope.SeceltedLocation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda l" +
+"os cambios realizados a la seccion de datos personales\r\n         $scope.savePers" +
+"onalData = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t  " +
+"      //alert(\"m value>>\"+JSON.stringify($scope.m));\r\n\t\t\t$scope.msgExito = Meeti" +
+"ngService.upsertPersonalData(JSON.stringify($scope.m));\r\n\t\t\t//alert(\"result =\"+r" +
+"esultado);\r\n\t    };\r\n        //END DATOS PERSONALES\r\n\r\n\r\n        ////////////Dom" +
+"icilios///////////\r\n \t\t$scope.saveDomicilios = function () {\r\n\t        var jsonD" +
+"ata = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessDom = MeetingService.upsert" +
+"DomicilioComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end dom" +
+"icilios///////////\r\n\r\n        ////////////SocialNetwork///////////\r\n \t\t$scope.sa" +
+"veSocialNetwork = function () {\r\n\t        var jsonData = JSON.stringify($scope.m" +
+");\r\n\t\t\t$scope.msgSuccessSocNet = MeetingService.upsertRedSocialComment(JSON.stri" +
+"ngify($scope.m));\r\n\t    };\r\n        ///////////end SocialNetwork///////////\r\n\r\n " +
+"       ////////////Referencias///////////\r\n \t\t$scope.saveReferences = function (" +
+") {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessRefe" +
+"rences = MeetingService.upsertReferenciasComment(JSON.stringify($scope.m));\r\n\t  " +
+"  };\r\n        ///////////end Referencias///////////\r\n\r\n        ////////////Labor" +
+"al///////////\r\n \t\t$scope.saveLaboral = function () {\r\n\t        var jsonData = JS" +
+"ON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessLaboral = MeetingService.upsertLabo" +
+"ralComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Laboral//" +
+"/////////\r\n\r\n        ////////////Drugs///////////\r\n \t\t$scope.saveDrugs = functio" +
+"n () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessD" +
+"rugs = MeetingService.upsertDrugComment(JSON.stringify($scope.m));\r\n\t    };\r\n   " +
+"     ///////////end Drugs///////////\r\n\r\n/////////////para historia escolar\r\n    " +
+"    $scope.block = true;\r\n        $scope.school = {};\r\n        $scope.school.lev" +
+"el={};\r\n        $scope.school.degree={};\r\n\r\n\t   \t$scope.gradeByNivel = function(" +
+"){\r\n\t   \talert(\"$scope.school.level==\"+JSON.stringify($scope.school.level));\r\n  " +
+"      $scope.lstDegree=JSON.parse(MeetingService.gradeByNivel( $scope.school.lev" +
+"el[\'Id\']));\r\n\t   \t}\r\n\r\n        $scope.fillModel = function(){\r\n\t       var templ" +
+"ate =\"NO ESTUDIA\";\r\n\t       if($scope.m.SchoolBlock == false){\r\n\t            $sc" +
+"ope.m.SchoolName=template;\r\n\t           $scope.m.SchoolPhone = template;\r\n\t     " +
+"      $scope.m.SchoolAddress = template;\r\n\t       }else{\r\n\t            $scope.m." +
+"SchoolName=\"\";\r\n\t           $scope.m.SchoolPhone = \"\";\r\n\t           $scope.m.Sch" +
+"oolAddress = \"\";\r\n\t       }\r\n\t   };\r\n\r\n\t   $scope.saveEscolarship = function(){\r" +
+"\n\t   \t\t$scope.m.ScheduleSchool = $(\"#hdnJsonScheduleSchool\").val();\r\n\t   \t\tvar j" +
+"sonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessEscolar = MeetingServic" +
+"e.upsertSchoolarship(JSON.stringify($scope.m));\r\n\t   }\r\n\r\n\t   $scope.InitSchool " +
+"= function(){\r\n\t   if($scope.m.ScheduleSchool!=undefined&&$scope.m.ScheduleSchoo" +
+"l!=null){\r\n\t   $(\"#hdnJsonScheduleSchool\").val($scope.m.ScheduleSchool);\r\n\t   \tc" +
+"onsole.log(\"hdnJsonScheduleSchool-->\"+$(\"#hdnJsonScheduleSchool\").val());\r\n\t   }" +
+"\r\n\r\n\t   \t\t//$scope.fillModel();\r\n\t   \t\t$scope.lstLevel=JSON.parse(MeetingService" +
+".allAcademicLevels());\r\n\t   \t\tif($scope.m.SchoolDegreeId!=undefined&&$scope.m.Sc" +
+"hoolDegreeId!=null){\r\n\t   \t\t\t$scope.lstDegree=JSON.parse(MeetingService.gradesBy" +
+"SelectedDegree($scope.m.SchoolDegreeId));\r\n\t   \t\t\tfor(a in $scope.lstDegree){\r\n\t" +
+"   \t\t\t\tif($scope.lstDegree[a].Id==$scope.m.SchoolDegreeId){\r\n\t   \t\t\t\t\t$scope.sch" +
+"ool.degree = $scope.lstDegree[a];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t\t" +
+"for(b in $scope.lstLevel){\r\n\t   \t\t\t\tif($scope.lstLevel[b].Id==$scope.school.degr" +
+"ee.AcademicLevelId){\r\n\t   \t\t\t\t\t$scope.school.level=$scope.lstLevel[b];\r\n\t   \t\t\t\t" +
+"\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t}\r\n\t   \t\talert(\"model \"+ JSON.stringify($sco" +
+"pe.m));\r\n\t   };\r\n////////////////END historia escolar\r\n\r\n////////para Leave coun" +
+"try \r\n        $scope.Edocumento = {};\r\n        $scope.EdocumentoId = {};\r\n      " +
+"  $scope.ImmigrationDoc = {};\r\n        $scope.ImmigrationDocId = {};\r\n\r\n        " +
+"$scope.specficationImmigranDoc = \"\";\r\n\r\n        $scope.listImmigrationDoc = [];\r" +
+"\n        $scope.documentosMigratoriosFill = function(){\r\n\t   \t//alert(\"$scope.sc" +
+"hool.level==\"+JSON.stringify($scope.school.level));\r\n        $scope.listImmigrat" +
+"ionDoc=JSON.parse(MeetingService.documentosMigratorios());\r\n\t   \t}\r\n\r\n\t   \t$scop" +
+"e.l={};\r\n\t   \t$scope.l.oc={};\r\n\t   \t$scope.l.ocId={};\r\n\r\n\t   \t$scope.l.fac={};\r\n" +
+"\t   \t$scope.l.facId={};\r\n\r\n\t   \t$scope.l.rel={};\r\n\t   \t$scope.l.relId={};\r\n\r\n\t  " +
+" \t$scope.l.specificationRelationship={};\r\n\r\n\t   \t$scope.relacionPersonalAll = fu" +
+"nction(){\r\n        $scope.listRel=JSON.parse(MeetingService.relacionPersonal());" +
+"\r\n\t   \t}\r\n\r\n///////////end Leave country\r\n\r\n        $timeout(function () {\r\n    " +
+"\t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n\r\n\t\t$scope.Iniciate = function(){\r\n\t\t    try{\r" +
+"\n\t\t\t    //alert(\"asshole html>>\"+$(\"#asshole\").html());\r\n\t\t\t    var js = JSON.pa" +
+"rse($(\"#hdnJsonMtng\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    //alert(\"m valu>>\"+" +
+"JSON.stringify($scope.m));\r\n\t\t\t    //Birthplace iniciation\r\n\t\t\t    $scope.InitCo" +
+"untryPD();\r\n\t\t\t    //activities iniciation\r\n\t\t\t    $scope.InitActivities();\r\n\t\t\t" +
+"    $scope.InitSchool();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error catche" +
+"d Iniciate angular function erro==>\"+err.message);\r\n\t\t    }\r\n\t\t    $(\".blocker\")" +
+".remove();\r\n\t\t};\r\n\r\n    $scope.selectedActivities = function (lstActivity, lstAc" +
+"tivitySelect) {\r\n        for (var i = 0; i < lstActivitySelect.length; i++) {\r\n " +
+"           for (var j = 0; j < lstActivity.length; j++) {\r\n                if (l" +
+"stActivity[j].id === lstActivitySelect[i].id) {\r\n                    $scope.acti" +
+"vityModel.push(lstActivity[j]);\r\n                    if (lstActivity[j].specific" +
+"ation) {\r\n                        $scope.specification[lstActivity[j].name] = ls" +
+"tActivitySelect[i].specification;\r\n                    }\r\n                }\r\n   " +
+"         }\r\n        }\r\n        $scope.matchActivities();\r\n    };\r\n\r\n    $scope.m" +
+"atchActivities = function () {\r\n        $scope.relActivities = [];\r\n        for " +
+"(var i = 0; i < $scope.activityModel.length; i++) {\r\n            var model = {};" +
+"\r\n            model.ActivityId = $scope.activityModel[i].id;\r\n            if ($s" +
+"cope.specification[$scope.activityModel[i].name] != undefined) {\r\n              " +
+"  model.specification = $scope.specification[$scope.activityModel[i].name];\r\n   " +
+"         } else {\r\n                model.specification = \"\";\r\n            }\r\n   " +
+"         $scope.relActivities.push(model);\r\n        }\r\n        $scope.m.Activiti" +
+"es = JSON.stringify($scope.relActivities);\r\n        return true;\r\n    };\r\n    \t\r" +
+"\n        $scope.save = function(){\r\n\t\t            $scope.Wait = true;\r\n\t\t//todos" +
+" los key del json deben ser igual al modelo cs\r\n\t\tif($(\"#frmSubmitValuesMeeting\"" +
+").valid()==false){\r\n\t\t    $scope.Wait = false;\r\n\t\t    return false;\r\n\t\t}\r\n\t\tvar " +
+"jsonData = JSON.stringify($scope.m);\r\n\t\twindow.location.replace(\'hybrid:Meeting/" +
+"AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n\t\t$scope.Wait = false;\r\n\t\t}" +
+";\r\n\r\n\r\n\r\n$scope.showMessageError = function(indicator){\r\n    alert(indicator);\r\n" +
+"};\r\n\r\n\r\n\r\n$scope.showState = function(){\r\n    //alert(\"html >>\"+$(\"#AdresBirth\")" +
+".html());\r\n    //alert(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\talert(\"$s" +
+"cope.specification=>\"+JSON.stringify($scope.specification));\r\n    alert(\"$scope." +
+"lstActivity=>\"+JSON.stringify($scope.lstActivity));\r\n    alert(\"$scope.activityM" +
+"odel=>\"+JSON.stringify($scope.activityModel));\r\n    alert(\"$scope.activityList=>" +
+"\"+JSON.stringify($scope.activityList));\r\n};\r\n\r\n\r\n\r\n//regresa la pantalla de sele" +
+"ccion de meeting\r\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//tod" +
+"os los key del json deben ser igual al modelo cs\r\nwindow.location.replace(\'hybri" +
+"d:Meeting/Index\');\r\n};\r\n\r\n});\r\n\r\n\r\n</script>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -117,7 +231,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 159 "MeetingDatosPersonales.cshtml"
+#line 398 "MeetingDatosPersonales.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -207,7 +321,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 206 "MeetingDatosPersonales.cshtml"
+#line 445 "MeetingDatosPersonales.cshtml"
                Write(Model.DateCreate);
 
 
@@ -227,7 +341,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 213 "MeetingDatosPersonales.cshtml"
+#line 452 "MeetingDatosPersonales.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -264,7 +378,11 @@ WriteLiteral(">\r\n                <div");
 
 WriteLiteral(" class=\"tabbable tabs-left\"");
 
-WriteLiteral(">\r\n                    <ul");
+WriteLiteral("  id=\"sidebar\"");
+
+WriteLiteral(" class=\"sidebar\"");
+
+WriteLiteral(" >\r\n                    <ul");
 
 WriteLiteral(" class=\"nav nav-tabs\"");
 
@@ -724,9 +842,23 @@ WriteLiteral(@"></i>
                                 </div>
                             </a>
                         </li>
-                    </ul>
+                        <!--<li");
 
-                    <div");
+WriteLiteral(" id=\"collapser\"");
+
+WriteLiteral(" class=\"sidebar-collapse\"");
+
+WriteLiteral(">\r\n                        \t<i");
+
+WriteLiteral(" class=\"icon-double-angle-left\"");
+
+WriteLiteral("></i>\r\n                        </li>-->\r\n                    </ul>\r\n\t\t\t\t\t<!--<scr" +
+"ipt");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t\t$(function(){ $(\"#collapser\").on(\"click\",function(){$(\"#sidebar\").toggle" +
+"();})});\r\n\t\t\t\t\t</script>-->\r\n                    <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
@@ -755,12 +887,8 @@ WriteLiteral(" ng-show=\"msgExito\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n                                    <span");
-
-WriteLiteral(" ng-bind-html=\"msgExito\"");
-
-WriteLiteral("></span>\r\n                                </div>\r\n                               " +
-" <form");
+WriteLiteral(">\r\n                                    <span>{{msgExito}}</span>\r\n               " +
+"                 </div>\r\n                                <form");
 
 WriteLiteral(" id=\"FormPersonalData\"");
 
@@ -778,7 +906,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 417 "MeetingDatosPersonales.cshtml"
+#line 661 "MeetingDatosPersonales.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -2108,7 +2236,7 @@ WriteLiteral(">\r\n                                                <br/>\r\n\r\n
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                                                    <div");
+WriteLiteral(" >\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
@@ -2132,32 +2260,33 @@ WriteLiteral("\r\n                                                        value=
 WriteLiteral("\r\n                                                        ng-model=\"m.BirthCountr" +
 "y\"");
 
-WriteLiteral(" />\r\n\r\n                                                        <!--revisar el css" +
-" y que se escape correctamente el json, values incorrectos -->\r\n                " +
-"                                        <select");
+WriteLiteral(" />\r\n                                                        <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"SeceltedCountry\"");
 
-WriteLiteral(" \r\n                                                        ng-options=\"e.Name for" +
-" e in listCountry\"");
+WriteLiteral("  id=\"AdresBirth\"");
 
-WriteLiteral(" value=\"\"");
+WriteLiteral("\r\n                                                        ng-options=\"e.Name for " +
+"e in listCountry\"");
+
+WriteLiteral(" value=\"{{SeceltedCountry[\'ID\']}}\"");
 
 WriteLiteral("\r\n                                                        ng-change=\"m.BirthCount" +
-"ry = SeceltedCountry[\'Id\'];showState();\"");
+"ry = SeceltedCountry[\'Id\'];\"");
 
 WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 823 "MeetingDatosPersonales.cshtml"
-                                                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
+#line 1065 "MeetingDatosPersonales.cshtml"
+                                                                                           , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
 #line hidden
 , false)
+, Tuple.Create<string,object,bool> ("", ";", true)
 );
 WriteLiteral("></select>\r\n                                                   </div>\r\n          " +
 "                                          <div");
@@ -2180,7 +2309,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral("\r\n                                                        type=\"text\"");
 
-WriteLiteral(" ng-model=\"stateString\"");
+WriteLiteral(" ng-model=\"m.BirthState\"");
 
 WriteLiteral(" id=\"imputed.birthState\"");
 
@@ -2191,11 +2320,11 @@ WriteLiteral("\r\n                                                        name=\
 
 WriteLiteral(" data-val-required=\"El estado es un campo requerido\"");
 
-WriteLiteral(" value=\"{{stateString}}\"");
+WriteLiteral(" value=\"{{m.BirthState}}\"");
 
 WriteLiteral("\r\n                                                        ng-init=\'\'");
 
-WriteLiteral(">\r\n                                                        <span");
+WriteLiteral(" />\r\n                                                        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -2234,15 +2363,15 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 841 "MeetingDatosPersonales.cshtml"
+#line 1083 "MeetingDatosPersonales.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("\r\n                                                        ng-change=\"m.BirthState" +
-" = SeceltedEstate[\'Name\'];MunByEdo();\"");
+WriteLiteral("\r\n                                                        ng-change=\"MunByEdo();\"" +
+"");
 
 WriteLiteral(@"></select><br/>
                                                         <!--ng-options=""e.name for e in listState"" ng-init=''-->
@@ -2274,7 +2403,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral("\r\n                                                        type=\"text\"");
 
-WriteLiteral(" ng-model=\"birthMunicipality\"");
+WriteLiteral(" ng-model=\"m.BirthMunicipality\"");
 
 WriteLiteral(" id=\"imputed.birthMunicipality\"");
 
@@ -2328,21 +2457,8 @@ WriteLiteral(" ng-model=\"SeceltedMuni\"");
 WriteLiteral(" \r\n                                                        ng-options=\"e.Name for" +
 " e in listMunByEdo\"");
 
-WriteAttribute ("ng-init", " ng-init=\'", "\'"
-, Tuple.Create<string,object,bool> ("", "listMuni", true)
-, Tuple.Create<string,object,bool> (" ", "=", true)
-
-#line 867 "MeetingDatosPersonales.cshtml"
-                                                                              , Tuple.Create<string,object,bool> (" ", Model.JsonMunycipality
-
-#line default
-#line hidden
-, false)
-, Tuple.Create<string,object,bool> ("", ";", true)
-, Tuple.Create<string,object,bool> (" ", "listMunByEdo=[];", true)
-);
-WriteLiteral("\r\n                                                        ng-change=\"m.BirthMunic" +
-"ipality = SeceltedMuni[\'Name\'];\"");
+WriteLiteral(" \r\n                                                        ng-change=\"LocByMun();" +
+"\"");
 
 WriteLiteral("></select><br/>\r\n\r\n                                                    </div>\r\n  " +
 "                                                  <div");
@@ -2365,7 +2481,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral("\r\n                                                        type=\"text\"");
 
-WriteLiteral(" ng-model=\"locationstr\"");
+WriteLiteral(" ng-model=\"m.BirthLocation\"");
 
 WriteLiteral(" id=\"imputed.birthLocation\"");
 
@@ -2402,34 +2518,24 @@ WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
 
-WriteLiteral(">\r\n                                                        <input");
-
-WriteLiteral(" type=\"hidden\"");
-
-WriteLiteral(" ng-model=\"urlLocation\"");
-
-WriteLiteral("\r\n                                                        ng-init=\'\'");
-
-WriteLiteral(" />\r\n                                                        <select");
+WriteLiteral(">\r\n                                                        <select");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" ng-model=\"location\"");
+WriteLiteral(" ng-model=\"SeceltedLocation\"");
 
 WriteLiteral(" change-cp");
 
-WriteLiteral("  value=\"{{location.id}}\"");
+WriteLiteral(" \r\n                                                        ng-options=\"e.Name for" +
+" e in listLocalidades\"");
 
-WriteLiteral("\r\n                                                        ng-options=\"e.name for " +
-"e in listLocation\"");
+WriteLiteral(" ng-init=\"listLocalidades = [];\"");
 
-WriteLiteral(" ng-init=\'listLocation = \"\"\'");
+WriteLiteral("\r\n                                                        ng-change=\"locationDp()" +
+";\"");
 
-WriteLiteral("\r\n                                                        ng-change=\"locationId =" +
-" location.id;\"");
-
-WriteLiteral("></select>\r\n\r\n\r\n                                                    </div>\r\n     " +
-"                                               <div");
+WriteLiteral("></select>\r\n                                                    </div>\r\n         " +
+"                                           <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -2439,7 +2545,7 @@ WriteLiteral(">\r\n                                                        <inpu
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(" ng-model=\"locationId\"");
+WriteLiteral(" ng-model=\"m.LocationId\"");
 
 WriteLiteral(" ng-update-hidden");
 
@@ -2453,7 +2559,7 @@ WriteLiteral(">\r\n                                                        <span
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"locationId\"");
+WriteLiteral(" data-valmsg-for=\"mputed.location.id\"");
 
 WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
 "ue\"");
@@ -2537,16 +2643,10 @@ WriteLiteral("\r\n                                        data-val-required=\"Si
 WriteLiteral("\r\n                                        name=\"socialEnvironment.physicalConditi" +
 "on\"");
 
-WriteLiteral(">");
+WriteLiteral(" ng-model=\"m.PhysicalCondition\"");
 
-
-#line 923 "MeetingDatosPersonales.cshtml"
-                                                                              Write(Model.PhysicalCondition);
-
-
-#line default
-#line hidden
-WriteLiteral("</textarea>\r\n                                        <span");
+WriteLiteral(">{{m.PhysicalCondition}}</textarea>\r\n                                        <spa" +
+"n");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -2620,21 +2720,21 @@ WriteLiteral(" name=\"activities\"");
 
 WriteLiteral(" ng-model=\"activities\"");
 
-WriteLiteral(" ng-update-hidden");
-
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(">\r\n\t\t\t\t\t\t\t\t            <select multiple");
+WriteLiteral(" ng-update-hidden >\r\n\t\t\t\t\t\t\t\t            <select");
 
 WriteLiteral(" ng-model=\"activityModel\"");
 
 WriteLiteral(" data-placeholder=\"...\"");
 
+WriteLiteral(" id=\"ms\"");
+
 WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 946 "MeetingDatosPersonales.cshtml"
+#line 1184 "MeetingDatosPersonales.cshtml"
            , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
@@ -2642,14 +2742,17 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , false)
 , Tuple.Create<string,object,bool> ("", ";", true)
 );
+WriteLiteral(" ng-change=\"matchActivities();\"");
+
 WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    id=\"slctActivity\"");
 
-WriteLiteral(" style=\"width:650px;\"");
+WriteLiteral(" style=\"width:450px;heigth: 100%;\"");
 
 WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    ng-options=\"ac.name for ac in lstActivity\"");
 
-WriteLiteral(">\r\n\t\t\t\t\t\t\t\t            </select>\r\n\t\t\t\t\t\t\t\t        </div>\r\n\t\t\t\t\t\t\t\t    </div>\r\n   " +
-"                             <br/>\r\n\r\n                                <div");
+WriteLiteral(" multiple >\r\n\t\t\t\t\t\t\t\t            </select>\r\n\t\t\t\t\t\t\t\t        </div>\r\n\t\t\t\t\t\t\t\t    <" +
+"/div>\r\n                                <br/>\r\n\r\n                                " +
+"<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -2696,7 +2799,7 @@ WriteLiteral("\r\n\t\t\t\t\t\t\t                           id=\"specification{{a
 
 WriteLiteral(" name=\"specification{{activity.name}}\"");
 
-WriteLiteral("\r\n\t\t\t\t\t\t\t                           ng-change=\"matchAc   tivities()\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           ng-change=\"matchActivities()\"");
 
 WriteLiteral("><br/>\r\n\t\t\t\t\t\t\t                <span");
 
@@ -2757,62 +2860,27 @@ WriteLiteral(">\r\n                            <span");
 WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\t\"");
 
 WriteLiteral("></span>\r\n                            Guardar\r\n                        </span>\r\n " +
-"                   </div>\r\n                </div>\r\n                <input");
+"                   </div>\r\n                </div>\r\n                <!--<input");
 
 WriteLiteral(" type=\"button\"");
 
-WriteLiteral(" onclick=\"shw();\"");
+WriteLiteral(" ng-click=\"showState();\"");
 
 WriteLiteral(" value=\"ertyuiopfghj\"");
 
-WriteLiteral("/>\r\n\r\n\r\n<div");
+WriteLiteral("/>-->\r\n\r\n\r\n<div");
 
 WriteLiteral(" class=\"space-2\"");
 
-WriteLiteral("></div>\r\n                MIERDAAA:\r\n<select");
-
-WriteLiteral(" multiple=\"\"");
-
-WriteLiteral(" class=\"form-control chosen-select\"");
-
-WriteLiteral(" data-placeholder=\"...\"");
-
-WriteLiteral(" ng-change=\"putasHarry();\"");
-
-WriteLiteral(" ng-model=\"ac\"");
-
-WriteLiteral("\r\n                    id=\"axelMulti\"");
-
-WriteLiteral(" ng-options=\"ac.name for ac in lstActivity track by ac.id\"");
-
-WriteLiteral(">\r\n</select>\r\n\r\n            </div><!--End of Datos Personales-->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n " +
-"           \t\r\n\r\n            <div");
+WriteLiteral("></div>\r\n            </div><!--End of Datos Personales-->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n        " +
+"    \t\r\n\r\n            <div");
 
 WriteLiteral(" id=\"address\"");
 
 WriteLiteral(" class=\"tab-pane\"");
 
 WriteLiteral("><!-- Begin of Domicilios -->\r\n                <!-- include file=\"/WEB-INF/jsp/re" +
-"viewer/meeting/address/index.jsp\" -->\r\n\r\n<select");
-
-WriteLiteral(" class=\"form-control element-center ng-pristine ng-valid valid\"");
-
-WriteLiteral(" ng-options=\"e.name for e in listElection\"");
-
-WriteLiteral("  ng-init=\"listElection = [{&quot;id&quot;:1,&quot;name&quot;:&quot;Si&quot;},{&q" +
-"uot;id&quot;:2,&quot;name&quot;:&quot;No&quot;}];\"");
-
-WriteLiteral("><option");
-
-WriteLiteral(" value=\"0\"");
-
-WriteLiteral(" selected=\"selected\"");
-
-WriteLiteral(">Si</option><option");
-
-WriteLiteral(" value=\"1\"");
-
-WriteLiteral(">No</option></select>\r\n                <br />\r\n<div");
+"viewer/meeting/address/index.jsp\" -->\r\n\r\n                <br />\r\n<div");
 
 WriteLiteral(" class=\"row element-center\"");
 
@@ -2834,7 +2902,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1028 "MeetingDatosPersonales.cshtml"
+#line 1260 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -2906,13 +2974,13 @@ WriteLiteral(@">
 ");
 
 
-#line 1059 "MeetingDatosPersonales.cshtml"
+#line 1291 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1059 "MeetingDatosPersonales.cshtml"
+#line 1291 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -2938,7 +3006,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1065 "MeetingDatosPersonales.cshtml"
+#line 1297 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Description);
 
 
@@ -2949,7 +3017,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1068 "MeetingDatosPersonales.cshtml"
+#line 1300 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -2960,7 +3028,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1071 "MeetingDatosPersonales.cshtml"
+#line 1303 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -2971,7 +3039,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1074 "MeetingDatosPersonales.cshtml"
+#line 1306 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.RegisterType);
 
 
@@ -3008,7 +3076,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1081 "MeetingDatosPersonales.cshtml"
+#line 1313 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -3022,15 +3090,12 @@ WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(">\r\n        <div");
 
-WriteLiteral(" ng-show=\"msgSuccess\"");
+WriteLiteral(" ng-show=\"msgSuccessDom\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgSuccess\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n\r\n    <form");
+WriteLiteral(">\r\n            <span>{{msgSuccessDom}}</span>\r\n        </div>\r\n    </div>\r\n\r\n    " +
+"<form");
 
 WriteLiteral(" id=\"FormCommentHomeId\"");
 
@@ -3063,7 +3128,7 @@ WriteLiteral(@" ng-model = ""m.CommentHome"" ng-init=''
                 data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
                 data-val-length-max=""500""
                 data-val-length-min=""1""
-                name=""commentHome""></textarea>
+                name=""commentHome"">{{m.CommentHome}}</textarea>
                 <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
@@ -3100,6 +3165,8 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
+WriteLiteral(" ng-click=\"saveDomicilios()\"");
+
 WriteLiteral(">\r\n                <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
@@ -3131,7 +3198,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1144 "MeetingDatosPersonales.cshtml"
+#line 1376 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -3198,13 +3265,13 @@ WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Depe
 ">\r\n");
 
 
-#line 1176 "MeetingDatosPersonales.cshtml"
+#line 1408 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1176 "MeetingDatosPersonales.cshtml"
+#line 1408 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -3230,7 +3297,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1182 "MeetingDatosPersonales.cshtml"
+#line 1414 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3241,7 +3308,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1185 "MeetingDatosPersonales.cshtml"
+#line 1417 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3252,7 +3319,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1188 "MeetingDatosPersonales.cshtml"
+#line 1420 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3263,7 +3330,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1191 "MeetingDatosPersonales.cshtml"
+#line 1423 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.RegisterType);
 
 
@@ -3301,7 +3368,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1202 "MeetingDatosPersonales.cshtml"
+#line 1434 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -3312,21 +3379,17 @@ WriteLiteral("    </tbody>\r\n</table>\t\r\n    </div>\r\n        <br/>\r\n<br/>
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <!--<div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(">\r\n    <div");
 
-WriteLiteral(" ng-show=\"msgSuccess\"");
+WriteLiteral(" ng-show=\"msgSuccessSocNet\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n        <span");
-
-WriteLiteral(" ng-bind-html=\"msgSuccess\"");
-
-WriteLiteral("></span>\r\n    </div>\r\n    </div>-->\r\n    <form");
+WriteLiteral(">\r\n        <span>{{msgSuccessSocNet}}</span>\r\n    </div>\r\n    </div>\r\n    <form");
 
 WriteLiteral(" id=\"FormSocialNetworkIndexId\"");
 
@@ -3353,14 +3416,14 @@ WriteLiteral(">\r\n                    <textarea");
 
 WriteLiteral(" class=\"width-100\"");
 
-WriteLiteral(@"     ng-model = ""comment"" ng-init=''
+WriteLiteral(@"     ng-model = ""m.CommentSocialNetwork"" ng-init=''
                               data-val-required=""Las observaciones es un campo requerido""
                               data-val=""true""
                               data-val-required=""Las observaciones es un campo requerido""
                               data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
                               data-val-length-max=""500""
                               data-val-length-min=""1""
-                              name=""socialNetwork.comment""></textarea>
+                              name=""socialNetwork.comment"">{{m.CommentSocialNetwork}}</textarea>
                 <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
@@ -3397,6 +3460,8 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
+WriteLiteral(" ng-click=\"saveSocialNetwork();\"");
+
 WriteLiteral(">\r\n                        <span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
@@ -3432,7 +3497,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1267 "MeetingDatosPersonales.cshtml"
+#line 1499 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -3500,13 +3565,13 @@ WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Depe
 ">\r\n");
 
 
-#line 1299 "MeetingDatosPersonales.cshtml"
+#line 1531 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1299 "MeetingDatosPersonales.cshtml"
+#line 1531 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){	
     }
     else{
@@ -3532,7 +3597,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1305 "MeetingDatosPersonales.cshtml"
+#line 1537 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3543,7 +3608,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1308 "MeetingDatosPersonales.cshtml"
+#line 1540 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3554,7 +3619,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1311 "MeetingDatosPersonales.cshtml"
+#line 1543 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3565,7 +3630,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1314 "MeetingDatosPersonales.cshtml"
+#line 1546 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.RegisterType);
 
 
@@ -3603,7 +3668,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1325 "MeetingDatosPersonales.cshtml"
+#line 1557 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -3614,21 +3679,18 @@ WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n    <br/><br/>
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" >\r\n\r\n    <!--<div");
+WriteLiteral(" >\r\n\r\n    <<div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(">\r\n        <div");
 
-WriteLiteral(" ng-show=\"msgSuccess\"");
+WriteLiteral(" ng-show=\"msgSuccessReferences\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgSuccess\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <form");
+WriteLiteral(">\r\n            <span>{{msgSuccessReferences}}</span>\r\n        </div>\r\n    </div>\r" +
+"\n    <form");
 
 WriteLiteral(" id=\"FormCommentReferenceId\"");
 
@@ -3655,14 +3717,14 @@ WriteLiteral(">\r\n            <textarea");
 WriteLiteral(" class=\"width-100\"");
 
 WriteLiteral(@"
-                      ng-model = ""comment"" ng-init=''
+                      ng-model = ""m.CommentReference"" ng-init=''
                       data-val-required=""Las observaciones es un campo requerido""
                       data-val=""true""
                       data-val-required=""Las observaciones es un campo requerido""
                       data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
                       data-val-length-max=""500""
                       data-val-length-min=""1""
-                      name=""commentReference"">${m.socialNetwork.comment}</textarea>
+                      name=""commentReference"">${m.CommentReference}</textarea>
                 <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
@@ -3699,7 +3761,7 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                          ng-click=\"\"");
+WriteLiteral("\r\n                          ng-click=\"saveReferences();\"");
 
 WriteLiteral(">\r\n                        <span");
 
@@ -3736,7 +3798,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1395 "MeetingDatosPersonales.cshtml"
+#line 1627 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -3769,7 +3831,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
 
 WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteHistorialLaboral ()" +
 "{\r\n\t alert(\"cliked btnAddHistorialLaboral\");\r\n\t}\r\n\tfunction btnEditHistorialLabo" +
-"ral (){\r\n\t alert(\"cliked btnRereshHistorialLaboral\");\r\n\t}\r\n\t</script>\r\n<table");
+"ral (){\r\n\t alert(\"cliked btnRereshHistorialLaboral\");\r\n\t}\t\t\r\n\t</script>\r\n<table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -3798,13 +3860,13 @@ WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Empresa</th>\r\n      
 "th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
 
-#line 1426 "MeetingDatosPersonales.cshtml"
+#line 1658 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1426 "MeetingDatosPersonales.cshtml"
+#line 1658 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){	
     }
     else{
@@ -3830,7 +3892,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1432 "MeetingDatosPersonales.cshtml"
+#line 1664 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3841,7 +3903,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1435 "MeetingDatosPersonales.cshtml"
+#line 1667 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3852,7 +3914,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1438 "MeetingDatosPersonales.cshtml"
+#line 1670 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3863,7 +3925,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1441 "MeetingDatosPersonales.cshtml"
+#line 1673 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.RegisterType);
 
 
@@ -3900,7 +3962,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1450 "MeetingDatosPersonales.cshtml"
+#line 1682 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -3911,21 +3973,18 @@ WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n<br/>\r\n<br/>
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" >\r\n\r\n    <!--<div");
+WriteLiteral(" >\r\n\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(">\r\n        <div");
 
-WriteLiteral(" ng-show=\"msgSuccess\"");
+WriteLiteral(" ng-show=\"msgSuccessLaboral\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgSuccess\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <form");
+WriteLiteral(">\r\n            <span>{{msgSuccessLaboral}}</span>\r\n        </div>\r\n    </div>\r\n  " +
+"  <form");
 
 WriteLiteral(" id=\"FormCommentJobId\"");
 
@@ -3953,7 +4012,7 @@ WriteLiteral(" class=\"width-100\"");
 
 WriteLiteral("\r\n                      data-val=\"true\"");
 
-WriteLiteral(" ng-model=\"comment\"");
+WriteLiteral(" ng-model=\"m.CommentJob\"");
 
 WriteLiteral("\r\n                      ng-init=\'\'");
 
@@ -3969,7 +4028,7 @@ WriteLiteral("\r\n                      data-val-length-min=\"1\"");
 
 WriteLiteral("\r\n                      name=\"commentJob\"");
 
-WriteLiteral("></textarea>\r\n                <span");
+WriteLiteral(">{{m.CommentJob}}</textarea>\r\n                <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -4005,7 +4064,7 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                          ng-click=\"\"");
+WriteLiteral("\r\n                          ng-click=\"saveLaboral();\"");
 
 WriteLiteral(">\r\n                        <span");
 
@@ -4036,17 +4095,14 @@ WriteLiteral(" >\r\n            <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
-WriteLiteral(">\r\n                <!--<div");
+WriteLiteral(">\r\n                <div");
 
-WriteLiteral(" ng-show=\"msgExito\"");
+WriteLiteral(" ng-show=\"msgSuccessEscolar\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n                    <span");
-
-WriteLiteral(" ng-bind-html=\"msgExito\"");
-
-WriteLiteral("></span>\r\n                </div>-->\r\n                <form");
+WriteLiteral(">\r\n                    <span>{{msgSuccessEscolar}}</span>\r\n                </div>" +
+"\r\n                <form");
 
 WriteLiteral(" id=\"FormSchool\"");
 
@@ -4095,7 +4151,7 @@ WriteLiteral("\r\n                id=\"blockYes\"");
 
 WriteLiteral(" ng-value=\"true\"");
 
-WriteLiteral(" ng-model=\"block\"");
+WriteLiteral(" ng-model=\"m.SchoolBlock\"");
 
 WriteLiteral(" ng-change=\"fillModel()\"");
 
@@ -4107,7 +4163,7 @@ WriteLiteral(">Si</label> &nbsp;&nbsp;&nbsp;\r\n                <input");
 
 WriteLiteral(" type=\"radio\"");
 
-WriteLiteral(" ng-checked=\"block==false\"");
+WriteLiteral(" ng-checked=\"m.SchoolBlock==false\"");
 
 WriteLiteral(" name=\"school.block\"");
 
@@ -4115,7 +4171,7 @@ WriteLiteral("\r\n                id=\"blockNo\"");
 
 WriteLiteral(" ng-value=\"false\"");
 
-WriteLiteral(" ng-model=\"block\"");
+WriteLiteral(" ng-model=\"m.SchoolBlock\"");
 
 WriteLiteral(" ng-change=\"fillModel()\"");
 
@@ -4123,8 +4179,7 @@ WriteLiteral(">\r\n                <label");
 
 WriteLiteral(" for=\"blockNo\"");
 
-WriteLiteral(">No</label>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n\r\n    <di" +
-"v");
+WriteLiteral(">No</label>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n    <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -4170,7 +4225,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral(" ng-readonly=\"!block\"");
+WriteLiteral(" ng-readonly=\"!m.SchoolBlock\"");
 
 WriteLiteral("\r\n          data-val-length=\"Debe tener al menos 5 y m?ximo 200 caracteres\"");
 
@@ -4186,7 +4241,7 @@ WriteLiteral(" value=\"\"");
 
 WriteLiteral("\r\n          ng-init=\'\'");
 
-WriteLiteral("\r\n          ng-model=\"school.name\"");
+WriteLiteral("\r\n          ng-model=\"m.SchoolName\"");
 
 WriteLiteral(" id=\"school.name\"");
 
@@ -4260,7 +4315,7 @@ WriteLiteral("\r\n         data-val-length-max=\"30\"");
 
 WriteLiteral(" data-val-length-min=\"5\"");
 
-WriteLiteral(" ng-readonly=\"!block\"");
+WriteLiteral(" ng-readonly=\"!m.SchoolBlock\"");
 
 WriteLiteral("\r\n         data-val-required=\"El tel&eacute;fono es un campo requerido\"");
 
@@ -4268,7 +4323,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral("\r\n         value=\"\"");
 
-WriteLiteral("\r\n         ng-model=\"school.phone\"");
+WriteLiteral("\r\n         ng-model=\"m.SchoolPhone\"");
 
 WriteLiteral(" id=\"school.phone\"");
 
@@ -4332,9 +4387,9 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" name=\"school.address\"");
 
-WriteLiteral("\r\n     ng-model=\"school.address\"");
+WriteLiteral("\r\n     ng-model=\"m.SchoolAddress\"");
 
-WriteLiteral(" ng-readonly=\"!block\"");
+WriteLiteral(" ng-readonly=\"!m.SchoolBlock\"");
 
 WriteLiteral("\r\n     ng-init=\'\'");
 
@@ -4348,7 +4403,7 @@ WriteLiteral("\r\n     data-val-length-max=\"500\"");
 
 WriteLiteral("\r\n     data-val-length-min=\"6\"");
 
-WriteLiteral(">m.school.address</textarea>\r\n\r\n     <div");
+WriteLiteral(">{{m.SchoolAddress}}</textarea>\r\n\r\n     <div");
 
 WriteLiteral(" class=\"col-xs-9 col-xs-offset-2 element-left\"");
 
@@ -4399,12 +4454,11 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"school.level\"");
 
-WriteLiteral("\r\n                    ng-options=\"e.name for e in lstLevel\"");
+WriteLiteral("\r\n                    ng-options=\"e.Name for e in lstLevel\"");
 
 WriteLiteral(" ng-init=\'\'");
 
-WriteLiteral("\r\n                    ng-change=\"school.levelId = school.level.id; lstDegree = sc" +
-"hool.level.degrees; school.degree=lstDegree[0]\"");
+WriteLiteral("\r\n                    ng-change=\"gradeByNivel();\"");
 
 WriteLiteral("></select>\r\n                </div>\r\n                <div");
 
@@ -4420,11 +4474,11 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"school.degree\"");
 
-WriteLiteral("\r\n                    ng-options=\"e.name for e in lstDegree\"");
+WriteLiteral("\r\n                    ng-options=\"e.Name for e in lstDegree\"");
 
-WriteLiteral("\r\n                    ng-change=\"school.degreeId = school.degree.id\"");
+WriteLiteral("\r\n                    ng-change=\" m.SchoolDegreeId = school.degree[\'Id\'] \"");
 
-WriteLiteral("\r\n                    ng-init=\'lstDegree = school.level.degrees;\'");
+WriteLiteral("\r\n                    ng-init=\'\'");
 
 WriteLiteral("></select>\r\n                    <input");
 
@@ -4445,7 +4499,7 @@ WriteLiteral(">\r\n                </div>\r\n\r\n                <br/>\r\n      
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"school.levelId == 7\"");
+WriteLiteral(" ng-show=\"school.level[\'Id\'] == 7\"");
 
 WriteLiteral(">\r\n                <br/>\r\n\r\n                <div");
 
@@ -4504,7 +4558,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" value=\"\"");
 
-WriteLiteral("\r\n                    ng-model=\"school.specification\"");
+WriteLiteral("\r\n                    ng-model=\"m.SchoolSpecification\"");
 
 WriteLiteral(" id=\"school.specification\"");
 
@@ -4598,15 +4652,13 @@ WriteLiteral(" ng-model=\"schString\"");
 
 WriteLiteral(" name=\'sch\'");
 
+WriteLiteral(" id=\"hdnJsonScheduleSchool\"");
+
 WriteLiteral(">\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(" ng-update-hidden");
-
-WriteLiteral(" ng-init=\'listSchedule = \"\"\'");
-
-WriteLiteral(">\r\n        <div");
+WriteLiteral(" ng-update-hidden >\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -4700,7 +4752,7 @@ WriteLiteral(" style=\"cursor:pointer;\"");
 
 WriteLiteral(" ng-click=\"addSchedule()\"");
 
-WriteLiteral("></i>\r\n            </div>\r\n        </div>\r\n        <div");
+WriteLiteral(">\t</i>\r\n            </div>\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -4839,7 +4891,7 @@ WriteLiteral("\r\n        data-val-length-min=\"1\"");
 
 WriteLiteral("\r\n        name=\"school.commentSchool\"");
 
-WriteLiteral("></textarea>\r\n        <span");
+WriteLiteral(">{{m.CommentSchool}}</textarea>\r\n        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -4872,7 +4924,7 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                          ng-click=\"submit(\'#FormSchool\', \'\');\"");
+WriteLiteral("\r\n                          ng-click=\"saveEscolarship();\"");
 
 WriteLiteral(">\r\n                        <span");
 
@@ -4909,7 +4961,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1852 "MeetingDatosPersonales.cshtml"
+#line 2083 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -4971,13 +5023,13 @@ WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Sustancia</th>\r\n    
 "th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
 
-#line 1882 "MeetingDatosPersonales.cshtml"
+#line 2113 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1882 "MeetingDatosPersonales.cshtml"
+#line 2113 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){	
     }
     else{
@@ -5003,7 +5055,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1888 "MeetingDatosPersonales.cshtml"
+#line 2119 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Description);
 
 
@@ -5014,7 +5066,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1891 "MeetingDatosPersonales.cshtml"
+#line 2122 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -5025,7 +5077,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1894 "MeetingDatosPersonales.cshtml"
+#line 2125 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -5036,7 +5088,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1897 "MeetingDatosPersonales.cshtml"
+#line 2128 "MeetingDatosPersonales.cshtml"
     Write(Dmcl.RegisterType);
 
 
@@ -5073,7 +5125,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1904 "MeetingDatosPersonales.cshtml"
+#line 2135 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -5084,21 +5136,18 @@ WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n\r\n<br/><br/>
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" >\r\n\r\n    <!--<div");
+WriteLiteral(" >\r\n\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(">\r\n        <div");
 
-WriteLiteral(" ng-show=\"msgSuccess\"");
+WriteLiteral(" ng-show=\"msgSuccessDrugs\"");
 
 WriteLiteral(" class=\"alert alert-success element-center success-font\"");
 
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgSuccess\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <form");
+WriteLiteral(">\r\n            <span>{{msgSuccessDrugs}}</span>\r\n        </div>\r\n    </div>\r\n    " +
+"<form");
 
 WriteLiteral(" id=\"FormCommentDrugId\"");
 
@@ -5124,14 +5173,14 @@ WriteLiteral(">\r\n            <textarea");
 
 WriteLiteral(" class=\"width-100\"");
 
-WriteLiteral(@"      ng-model = ""comment"" ng-init=''
+WriteLiteral(@"      ng-model = ""m.CommentDrug"" ng-init=''
                       data-val-required=""Las observaciones es un campo requerido""
                       data-val=""true""
                       data-val-required=""Las observaciones es un campo requerido""
                       data-val-length=""Debe tener al menos 1 y m&aacute;ximo 500 caracteres""
                       data-val-length-max=""500""
                       data-val-length-min=""1""
-                      name=""commentDrug""></textarea>
+                      name=""commentDrug"">{{m.CommentDrug}}</textarea>
                 <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
@@ -5168,7 +5217,7 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                          ng-click=\"\"");
+WriteLiteral("\r\n                          ng-click=\"saveDrugs();\"");
 
 WriteLiteral(">\r\n                        <span");
 
@@ -5362,30 +5411,7 @@ WriteLiteral("\r\n                           id=\"doc\"");
 
 WriteLiteral("\r\n                           ng-init=\'\'");
 
-WriteLiteral(">\r\n                    <!--<select");
-
-WriteLiteral(" class=\"form-control element-center\"");
-
-WriteLiteral(" ng-model=\"l.doc\"");
-
-WriteAttribute ("ng-options", "\r\n                            ng-options=\"", "\""
-, Tuple.Create<string,object,bool> ("", "e.Name", true)
-, Tuple.Create<string,object,bool> (" ", "for", true)
-, Tuple.Create<string,object,bool> (" ", "e", true)
-, Tuple.Create<string,object,bool> (" ", "in", true)
-
-#line 2043 "MeetingDatosPersonales.cshtml"
-                , Tuple.Create<string,object,bool> (" ", Model.JsonElection
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral("\r\n                            ng-change=\"l.docId = l.doc.id;\"");
-
-WriteLiteral(" ng-init=\'\'");
-
-WriteLiteral("></select>-->\r\n                            <select");
+WriteLiteral(">\r\n                            <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
@@ -5401,7 +5427,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2047 "MeetingDatosPersonales.cshtml"
+#line 2275 "MeetingDatosPersonales.cshtml"
                                                          , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -5413,7 +5439,7 @@ WriteLiteral("></select>\r\n                </div>\r\n            </div>\r\n    
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"l.doc.id==1\"");
+WriteLiteral(" ng-show=\"EdocumentoId==1\"");
 
 WriteLiteral(">\r\n            <div");
 
@@ -5435,7 +5461,7 @@ WriteLiteral("\r\n                       name=\"leaveCountry.immigrationDocument
 
 WriteLiteral("\r\n                       id=\"immigrationDcc\"");
 
-WriteLiteral(" ng-show=\"l.doc.id==1\"");
+WriteLiteral(" ng-show=\"EdocumentoId==1\"");
 
 WriteLiteral("\r\n                       ng-init=\'\'");
 
@@ -5443,34 +5469,34 @@ WriteLiteral(">\r\n                <select");
 
 WriteLiteral(" class=\"form-control element-center\"");
 
-WriteLiteral(" ng-model=\"l.immigrationDoc\"");
+WriteLiteral(" ng-model=\"ImmigrationDoc\"");
 
-WriteLiteral("\r\n                        ng-options=\"e.name for e in listImmigrationDoc\"");
+WriteLiteral("\r\n                        ng-options=\"e.Name for e in listImmigrationDoc\"");
 
-WriteLiteral(" value=\"{{l.immigrationDocId}}\"");
+WriteLiteral(" value=\"\"");
 
-WriteLiteral("\r\n                        ng-change=\"l.immigrationDocId = l.immigrationDoc.id;\"");
+WriteLiteral("\r\n                        ng-change=\"ImmigrationDocId = ImmigrationDoc[\'Id\'];\"");
 
-WriteLiteral("\r\n                        ng-init=\'\'");
+WriteLiteral("\r\n                        ng-init=\'documentosMigratoriosFill();\'");
 
 WriteLiteral("></select>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
-WriteLiteral(" ng-show=\"l.immigrationDoc.specification\"");
+WriteLiteral(" ng-show=\"ImmigrationDoc[\'Specification\']\"");
 
 WriteLiteral(">\r\n                Especifique documentaci&oacute;n:\r\n            </div>\r\n       " +
 "     <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(" ng-show=\"l.doc.id == 1 && l.immigrationDoc.specification\"");
+WriteLiteral(" ng-show=\"EdocumentoId == 1 && ImmigrationDoc[\'Specification\']\"");
 
 WriteLiteral(">\r\n                <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("    ng-show=\"l.doc.id == 1 && l.immigrationDoc.specification\"");
+WriteLiteral("    ng-show=\"EdocumentoId  == 1 && ImmigrationDoc[\'Specification\']\"");
 
 WriteLiteral("\r\n                       data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 5" +
 "0 caracteres\"");
@@ -5484,13 +5510,13 @@ WriteLiteral("\r\n                       data-val-required=\"La especificaci&oac
 
 WriteLiteral("\r\n                       type=\"text\"");
 
-WriteLiteral(" ng-model=\"l.specficationImmigranDoc\"");
+WriteLiteral(" ng-model=\"specficationImmigranDoc\"");
 
 WriteLiteral(" id=\"leaveCountry.specficationImmigranDoc\"");
 
 WriteLiteral("\r\n                       name=\"leaveCountry.specficationImmigranDoc\"");
 
-WriteLiteral(" value=\"{{l.specficationImmigranDoc}}\"");
+WriteLiteral(" value=\"\"");
 
 WriteLiteral("\r\n                       ng-init=\'\'");
 
@@ -5578,11 +5604,11 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"l.oc\"");
 
-WriteLiteral("\r\n                        ng-options=\"e.name for e in listElection\"");
+WriteLiteral("\r\n                         ng-options=\"e.Name for e in listElection\"");
 
-WriteLiteral(" value=\"{{l.oc.id}}\"");
+WriteLiteral(" value=\"\"");
 
-WriteLiteral("\r\n                        ng-change=\"l.ocId = l.oc.id;\"");
+WriteLiteral("\r\n                        ng-change=\"l.ocId = l.oc[\'Id\'];\"");
 
 WriteLiteral(" ng-init=\'\'");
 
@@ -5626,7 +5652,7 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"l.country\"");
 
-WriteLiteral("\r\n                        ng-options=\"e.name for e in listCountry\"");
+WriteLiteral("\r\n                        ng-options=\"e.Name for e in listCountry\"");
 
 WriteLiteral(" value=\"{{l.country.id}}\"");
 
@@ -5950,11 +5976,11 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"l.fac\"");
 
-WriteLiteral("\r\n                    ng-options=\"e.name for e in listElection\"");
+WriteLiteral("\r\n                    ng-options=\"e.Name for e in listElection\"");
 
-WriteLiteral(" value=\"{{l.fac.id}}\"");
+WriteLiteral(" value=\"\"");
 
-WriteLiteral("\r\n                    ng-change=\"l.facId = l.fac.id;\"");
+WriteLiteral("\r\n                    ng-change=\"l.facId = l.fac[\'Id\'];\"");
 
 WriteLiteral(" ng-init=\'\'");
 
@@ -5997,11 +6023,11 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"l.cf\"");
 
-WriteLiteral("\r\n                    ng-options=\"e.name for e in listElection\"");
+WriteLiteral("\r\n                    ng-options=\"e.Name for e in listElection\"");
 
-WriteLiteral(" value=\"{{l.cf.id}}\"");
+WriteLiteral(" value=\"\"");
 
-WriteLiteral("\r\n                    ng-change=\"l.cfId = l.cf.id;\"");
+WriteLiteral("\r\n                    ng-change=\"l.cfId = l.cf[\'Id\'];\"");
 
 WriteLiteral(" ng-init=\'\'");
 
@@ -6088,31 +6114,31 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"l.rel\"");
 
-WriteLiteral("\r\n                    ng-options=\"e.name for e in listRel\"");
+WriteLiteral("\r\n                    ng-options=\"e.Name for e in listRel\"");
 
 WriteLiteral(" value=\"{{l.rel.id}}\"");
 
-WriteLiteral("\r\n                    ng-change=\"l.relId = l.rel.id;\"");
+WriteLiteral("\r\n                    ng-change=\"l.relId = l.rel[\'Id\'];\"");
 
-WriteLiteral(" ng-init=\'\'");
+WriteLiteral(" ng-init=\'relacionPersonalAll();\'");
 
 WriteLiteral("></select>\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
-WriteLiteral("  ng-show=\"l.rel.specification\"");
+WriteLiteral("  ng-show=\"l.rel[\'Specification\']\"");
 
 WriteLiteral(">\r\n            Especifique relaci&oacute;n:\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(" ng-show=\"l.facId == 1 && l.rel.specification\"");
+WriteLiteral(" ng-show=\"l.facId == 1 && l.rel[\'Specification\']\"");
 
 WriteLiteral(">\r\n            <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("     ng-show=\"l.facId == 1  && l.rel.specification\"");
+WriteLiteral("     ng-show=\"l.facId == 1  && l.rel[\'Specification\']\"");
 
 WriteLiteral("\r\n                   data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 255 c" +
 "aracteres\"");
@@ -6216,7 +6242,7 @@ WriteLiteral(" ng-show=\"!verification\"");
 
 WriteLiteral("\r\n                  data-val-required=\"Los comentarios es un campo requerido\"");
 
-WriteLiteral(">m.socialEnvironment.comment</textarea>\r\n         <span");
+WriteLiteral("></textarea>\r\n         <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -6287,7 +6313,7 @@ WriteLiteral(" name=\"socialEnvironment.comment\"");
 
 WriteLiteral("\r\n                  data-val-required=\"Los comentarios es un campo requerido\"");
 
-WriteLiteral(">m.socialEnvironment.comment</textarea>\r\n        <span");
+WriteLiteral(">{{m.CommentCountry}}</textarea>\r\n        <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -6358,7 +6384,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 2389 "MeetingDatosPersonales.cshtml"
+#line 2617 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -6369,9 +6395,7 @@ WriteLiteral(">\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
-WriteLiteral(" onclick=\"window.cancelMeeting()\"");
-
-WriteLiteral(">\r\n            Regresar\r\n        </span>\r\n</a>\r\n        <span");
+WriteLiteral(" >\r\n            Regresar\r\n        </span>\r\n</a>\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
@@ -6388,8 +6412,29 @@ WriteLiteral("\r\n        confirmed-click-action=\"submitMeeting(\'#FormSchool ,
 " #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJob" +
 "Id, #FormSocialNetworkIndexId, #FormCommentDrugId\');\"");
 
-WriteLiteral(">\r\n        Terminar\r\n    \t</span>\r\n\r\n</div>\r\n</div>\r\n</div>\r\n    \t<script>\r\n    \t" +
-"$(\".blocker\").remove();\r\n\r\n    \t$(\".chosen-select\").chosen();\r\n\r\n    \t</script>");
+WriteLiteral(@">
+        Terminar
+    	</span>
+
+</div>
+</div>
+</div>
+    	<script>
+$(function() {
+        $(""#ms"").change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+            	width: '100%',
+    			filter:true,
+				selectAll : false,
+//				position : 'top',
+				allSelected : 'Todas las opciones',
+				minimumCountSelected : 7,
+				countSelected : '# de % seleccionados'
+        });
+});
+
+    	</script>");
 
 }
 }

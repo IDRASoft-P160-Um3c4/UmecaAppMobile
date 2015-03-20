@@ -1,0 +1,5 @@
+﻿id|name|description|
+1|PENDING|Respuesta pendiente
+2|ACCEPTED|Solicitud aceptada
+3|REJECTED|Solicitud rechazada
+4|DRESSED|Solicitud atendida

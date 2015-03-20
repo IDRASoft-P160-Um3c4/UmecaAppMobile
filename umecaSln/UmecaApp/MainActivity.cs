@@ -7,13 +7,14 @@ using SQLite.Net.Platform;
 
 namespace UmecaApp
 {
-	[Activity (Label = "Umeca", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "Umeca", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate(bundle);
-
+			InsertCatalogs CatalogInserter = new InsertCatalogs ();
+			CatalogInserter.insertAllCatalogs (this);
 
 //			var db = new SQLiteConnection(ConstantsDB.DB_PATH);
 			var db = new SQLiteConnection(

@@ -1,0 +1,9 @@
+id|name|specification|isObsolete
+1|Laborales|1|0
+2|Escolares|1|0
+3|Religiosas|1|0
+4|Deportivas|1|0
+5|Reuniones sociales|1|0
+6|Reuniones familiares|1|0
+7|Otras|1|0
+8|Ninguna|0|0

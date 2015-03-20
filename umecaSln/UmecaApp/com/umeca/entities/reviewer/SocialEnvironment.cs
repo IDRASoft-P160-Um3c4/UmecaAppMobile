@@ -23,4 +23,3 @@ namespace UmecaApp
 		public int MeetingId{ get; set; }
 	}
 }
-

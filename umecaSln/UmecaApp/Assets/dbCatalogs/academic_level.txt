@@ -1,0 +1,8 @@
+id|name|isObsolete
+1|Sin instrucción académica|0
+2|Primaria|0
+3|Secundaria|0
+4|Bachillerato|0
+5|Licenciatura|0
+6|Postgrado|0
+7|Otro|0

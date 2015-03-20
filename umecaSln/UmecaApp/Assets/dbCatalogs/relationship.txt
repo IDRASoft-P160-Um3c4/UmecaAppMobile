@@ -1,0 +1,21 @@
+id|name|obsolete|specification
+1|Hermano|0|0
+2|Madre|0|0
+3|Hijo(a)|0|0
+4|Primo(a)|0|0
+5|Tío(a)|0|0
+6|Amigo|0|0
+7|Vecino|0|0
+8|Ninguno|0|0
+9|Patrón|0|0
+10|Compañero de trabajo|0|0
+11|Padrino|0|0
+12|Empleado|0|0
+13|Pareja sentimental|0|0
+14|Esposa|0|0
+15|Suegra|0|0
+16|Familiar Político|0|0
+17|Padre|0|0
+18|Abuelo|0|0
+19|Otro|0|1
+20|Imputado|1|0

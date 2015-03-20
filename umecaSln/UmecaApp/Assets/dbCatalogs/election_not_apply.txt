@@ -1,0 +1,4 @@
+id|name
+1|Si
+2|No
+3|No aplica

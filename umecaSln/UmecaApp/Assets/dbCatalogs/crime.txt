@@ -1,0 +1,119 @@
+id|name|description|is_absolute|id_group
+1|Abigeato|Abigeato|0|1
+2|Aborto|Aborto|0|2
+3|Aborto con consentimiento de la mujer|Aborto con consentimiento de la mujer|0|3
+4|Abuso de autoridad|Abuso de autoridad|0|4
+5|Abuso de confianza|Abuso de confianza|0|5
+6|Abuso sexual|Abuso sexual|0|6
+7|Abuso sexual agravado|Abuso sexual agravado|0|7
+8|Acopio de armas|Acopio de armas|0|8
+9|Acusación o denuncias falsas|Acusación o denuncias falsas|0|9
+10|Administración fraudulenta|Administración fraudulenta|0|10
+11|Allanamiento de morada|Allanamiento de morada|0|11
+12|Alteración de la imagen urbana|Alteración de la imagen urbana|0|12
+13|Amenazas|Amenazas|0|13
+14|Asalto|Asalto|0|14
+15|Asociación delictuosa|Asociación delictuosa|0|15
+16|Asonada o motín|Asonada o motín|0|16
+17|Ataques a las vías de comunicación|Ataques a las vías de comunicación|0|17
+18|Auxilio al suicidio|Auxilio al suicidio|0|18
+19|Bigamia|Bigamia|0|19
+20|Coacción|Coacción|0|20
+21|Coalición|Coalición|0|21
+22|Cohecho|Cohecho|0|22
+23|Concusión|Concusión|0|23
+24|Daño|Daño|0|24
+25|Delitos cometidos contra los derechos electorales de los ciudadanos|Delitos cometidos contra los derechos electorales de los ciudadanos|0|25
+26|Delitos cometidos en el ejercicio de una actividad profesional, artística o técnica|Delitos cometidos en el ejercicio de una actividad profesional, artística o técnica|0|26
+27|Delitos cometidos por abogados, defensores y litigantes|Delitos cometidos por abogados, defensores y litigantes|0|27
+28|Delitos cometidos por fraccionadores|Delitos cometidos por fraccionadores|0|28
+29|Delitos cometidos por servidores públicos|Delitos cometidos por servidores públicos|0|29
+30|Delitos contra el equilibrio ecológico y la protección al ambiente|Delitos contra el equilibrio ecológico y la protección al ambiente|0|30
+31|Delitos contra el estado civil|Delitos contra el estado civil|0|31
+32|Delitos contra el respeto a los muertos, violación de las leyes sobre inhumación y exhumación de cadáveres|Delitos contra el respeto a los muertos, violación de las leyes sobre inhumación y exhumación de cadáveres|0|32
+33|Delitos contra la filiación|Delitos contra la filiación|0|33
+34|Delitos contra la seguridad del tránsito de vehículos|Delitos contra la seguridad del tránsito de vehículos|0|34
+35|Delitos contra menores de edad y de quienes no tienen la capacidad de comprender el significado del hecho|Delitos contra menores de edad y de quienes no tienen la capacidad de comprender el significado del hecho|0|35
+36|Delitos informáticos|Delitos informáticos|0|36
+37|Deltios políticos|Delitos políticos|0|37
+38|Despojo|Despojo|0|38
+39|Ejercicio abusivo de funciones|Ejercicio abusivo de funciones|0|39
+40|Ejercicio indebido de servicio público|Ejercicio indebido de servicio público|0|40
+41|Ejercicio indebido del propio derecho|Ejercicio indebido del propio derecho|0|41
+42|Encubrimiento por favorecimiento|Encubrimiento por enfavorecimiento|0|42
+43|Encubrimiento por receptación|Encubrimiento por receptación|0|43
+44|Enriquecimiento ilícito|Enriquecimiento ilícito|0|44
+45|Estorbo del aprovechamiento de bienes de uso común|Estorbo del aprovechamiento de bienes de uso común|0|45
+46|Estupro|Estupro|0|46
+47|Evasión de preso|Evasión de preso|0|47
+48|Exposición de incapaces|Exposición de incapaces|0|48
+49|Fabricación de armas|Fabricación de armas|0|49
+50|Falsedad ante autoridad|Falsedad ante autoridad|0|50
+51|Falsificación de documentos|Falsificación de documentos|0|51
+52|Falsificación de sellos, marcas, llaves, signos, contraseñas y obras|Falsificación de sellos, marcas, llaves, signos, contraseñas y obras|0|52
+53|Fraude|Fraude|0|53
+54|Fraude específico|Fraude específico|0|54
+55|Fraude genérico|Fraude genérico|0|55
+56|Fraude procesal|Faude procesal|0|56
+57|Homicidio a petición expresa|Homicidio a petición expresa|0|57
+58|Homicidio culposo|Homicidio culposo|0|58
+59|Homicidio en grado de tentativa|Homicidio en grado de tentativa|0|59
+60|Homicidio en riña|Homicidio en riña|0|60
+61|Hostigamiento sexual|Hostigamiento sexual|0|61
+62|Incesto|Incesto|0|62
+63|Incumplimiento de funciones públicas|Incumplimiento de funciones públicas|0|63
+64|Incumplimiento de las obligaciones de asistencia alimentariaIncumplimiento de las obligaciones de asistencia alimentaria|0|64|64
+65|Inducción al suicidio|Inducción al suicidio|0|65
+66|Insolvencia fraudulenta en perjuicio de acreedores|Insolvencia fraudulenta en perjuicio de acreedores|0|66
+67|Intimidación|Intimidación|0|67
+68|Lesiones|Lesiones|0|68
+69|Lesiones calificadas|Lesiones calificadas|0|69
+70|Lesiones culposas|Lesiones culposas|0|70
+71|Lesiones en riña|Lesiones en riña|0|71
+72|Motín, daño y obstrucción de medios de comunicación|Motín, daño y obstrucción de medios de comunicación|0|72
+73|Narcomenudeo, con fines de venta|Narcomenudeo, con fines de venta|0|73
+74|Narcomenudeo, posesión simple de cocaína|Narcomenudeo, posesión simple de cocaína|0|74
+75|Narcomenudeo, posesión simple de heroína|Narcomenudeo, posesión simple de heroína|0|75
+76|Narcomenudeo, posesión simple de marihuana|Narcomenudeo, posesión simple de marihuana|0|76
+77|Obstrucción de justicia|Obstrucción de justicia|0|77
+78|Obstrucción de la justicia|Obstrucción de la justicia|0|78
+79|Omisión de auxilio|Omisión de auxilio|0|79
+80|Omisión de auxilio a lesionados|Omisión de auxilio a lesionados|0|80
+81|Omisión de cuidado|Omisión de cuidado|0|81
+82|Peculado|Peculado|0|82
+83|Peligro de contagio|Peligro de contagio|0|83
+84|Peligro de devastación|Peligro de devastación|0|84
+85|Portación de arma blanca|Portación de arma|0|85
+86|Portación, fabricación, importación y acopio de armas|Portación, fabricación, importación y acopio de armas|0|86
+87|Posesión de vehículo robado|Posesión de vehículo robado|0|87
+88|Privación ilegal de la libertad|Privación ilegal de la libertad|0|88
+89|Procurar o consentir el aborto|Procurar o consentir el aborto|0|89
+90|Provocación a cometer un delito o apología de este|Provocación a cometer un delito o apología de este|0|90
+91|Quebrantamiento de sanciones|Quebrantamiento de sanciones|0|91
+92|Quebrantamiento de sellos|Quebrantamiento de sellos|0|92
+93|Rebelión|Rebelión|0|93
+94|Resistencia a particulares|Resistencia a particulares|0|94
+95|Resistencia de particulares y desobediencia|Resistencia de particulares y desobediencia|0|95
+96|Revelación o aprovechamiento de secreto|Revelación o aprovechamiento de secreto|0|96
+97|Robo|Robo|0|97
+98|Robo a casa habitación|Robo a casa habitación|0|98
+99|Robo calificado|Robo calificado|0|99
+100|Robo de autopartes|Robo de autopartes|0|100
+101|Robo de vehículo|Robo de vehículo|0|101
+102|Secuestro (Art. 12)|Secuestro (Art. 12)|0|102
+103||Secuestro (Art. 13)|0|103
+104|Secuestro con liberación espontanea|Secuestro con liberación espontanea|0|104
+105|Sedición|Sedición|0|105
+106|Sustracción o retención de menores|Sustracción o retención de menores|0|106
+107|Ultraje y uso indebido de insignias públicas|Ultraje y uso indebido de insignias públicas|0|107
+108|Ultrajes a la autoridad|Ultrajes a la autoridad|0|108
+109|Uso de documento falso|Uso de documento falso|0|109
+110|Uso indebido de medio de comunicación|Uso indebido de medio de comunicación|0|110
+111|Usura|Usura|0|111
+112|Usurupación de funciones públicas|Usurupación de funciones públicas|0|112
+113|Usuarpación de profesiones|Usuarpación de profesiones|0|113
+114|Variación de nombre, domicilio o ciudadanía|Variación de nombre, domicilio o ciudadanía|0|114
+115|Violación|Violación|0|115
+116|Violación de correspondencia|Violación de correspondencia|0|116
+117|Violación de la intimidad personal|Violación de la intimidad personal|0|117
+118|Violencia familiar|Violencia familiar|0|118

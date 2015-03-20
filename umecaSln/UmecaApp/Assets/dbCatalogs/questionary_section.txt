@@ -1,0 +1,16 @@
+id|code|description|is_obsolete|name|id_parent_section|id_questionary|extras_json
+1|OT_S1|desc|false|Arraigo en el estado|null|1|{"class":"icon-lock blue bigger-200"}
+2|OT_S2|desc|false|Proceso actual|null|1|{"class":"icon-folder-open blue bigger-200"}
+3|OT_S3|desc|false|Procesos pendientes/anteriores|null|1|{"class":"icon-folder-close bigger-200"}
+4|OT_S4|desc|false|Relación victima/testigos|null|1|{"class":"icon-male blue bigger-200"}
+5|OT_S5|desc|false|Consumo de substancias|null|1|{"class":"icon-beer blue bigger-200"}
+6|OT_S1_A|desc|false|Datos familiares|1|null|{}
+7|OT_S1_B|desc|false|Temporalidad del domicilio|1|null|{}
+8|OT_S1_C|desc|false|Residencia|1|null|{}
+9|OT_S1_D|desc|false|Historia laboral/escolar|1|null|{}
+10|OT_S1_E|desc|false|Comportamiento|1|null|{}
+11|OT_S2_A|desc|false|Cargo|2|null|{}
+12|OT_S2_B|desc|false|Comportamiento durante la detención|2|null|{}
+13|OT_S3_A|desc|false|Procesos pendientes/anteriores|3|null|{}
+14|OT_S4_A|desc|false|Relación victima/testigos|4|null|{}
+15|OT_S5_A|desc|false|Consumo de substancias|5|null|{}

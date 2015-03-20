@@ -1,0 +1,4 @@
+id|name
+1|Actual
+2|Secundario
+3|Anterior

@@ -211,6 +211,13 @@ namespace UmecaApp
 
 		public static String DESCRIPTION_ASSIGNED_ARRANGEMENT_BY_SYSTEM = "ASIGNADA POR SISTEMA";
 
+		/////////////////////////////////ConsMessage///////////////////////////////////////////
+
+		public static String MSG_SUCCESS_UPSERT = "Se ha guardado la información con éxito.";
+		public static String MSG_SUCCESS_DELETE = "Se ha eliminado la información con éxito.";
+		public static String MSG_ERROR_UPSERT = "Ha ocurrido un error al guardar la información. Intente más tarde.";
+		public static String MSG_ERROR_DELETE = "Ha ocurrido un error al eliminar la información. Intente más tarde.";
+
 
 	}
 }

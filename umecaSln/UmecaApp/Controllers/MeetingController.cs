@@ -41,6 +41,8 @@ namespace UmecaApp
 			services.CreateCountryCatalog ();
 			services.CreateStateCatalog ();
 			services.CreateMunicipalityCatalog ();
+			db.CreateTable<SocialEnvironment>();
+			db.CreateTable<RelActivity>();
 			db.Commit ();
 
 			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
@@ -206,6 +208,43 @@ namespace UmecaApp
 			result.CaseId = idCase;
 
 			result.ageString = services.calculateAge (result.BirthDate);
+
+			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
+			if(SE!=null){
+				result.PhysicalCondition = SE.physicalCondition;
+				var ActList = db.Table<RelActivity> ().Where(s=> s.SocialEnvironmentId==SE.Id).ToList();
+				if(ActList!=null&&ActList.Count>0){
+					result.Activities = JsonConvert.SerializeObject(ActList);
+				}
+			}
+			//socialNetworkComment
+			db.CreateTable<SocialNetwork> ();
+			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
+			if (socialNetComent != null) {
+				result.CommentSocialNetwork = socialNetComent.Comment;
+			}
+				
+			//school history
+			db.CreateTable<School> ();
+			var escuelaUtlActual = db.Table<School> ().Where (sc=>sc.MeetingId == result.MeetingId).FirstOrDefault ();
+			if (escuelaUtlActual != null) {
+				result.SchoolAddress = escuelaUtlActual.Address;
+				result.SchoolBlock = escuelaUtlActual.block;
+				result.SchoolDegreeId = escuelaUtlActual.DegreeId.GetValueOrDefault ();
+				result.SchoolName = escuelaUtlActual.Name;
+				result.SchoolPhone = escuelaUtlActual.Phone;
+				result.SchoolSpecification = escuelaUtlActual.Specification;
+			}
+
+
+			db.CreateTable<Schedule>();
+			if(escuelaUtlActual!=null){
+				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
+				if(schedule!=null){
+					result.ScheduleSchool = JsonConvert.SerializeObject (schedule);
+				}
+			}
+
 			string output = JsonConvert.SerializeObject(result);
 			result.JsonMeeting = output;
 

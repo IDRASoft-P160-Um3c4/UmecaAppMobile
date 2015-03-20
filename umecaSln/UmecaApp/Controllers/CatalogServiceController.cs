@@ -41,6 +41,134 @@ namespace UmecaApp
 //			return (cmd.ExecuteScalar<string>() != null);
 		}
 
+		public void createMeetingTest(){
+			db.CreateTable<Case> (); 
+			db.CreateTable<Meeting> ();
+			db.CreateTable<Imputed> ();
+			if (db.Table<Meeting> ().Count() > 0) {
+				Console.WriteLine ("Meeting existe!!!!");
+			}else {
+				db.DropTable<Case> ();
+				db.CreateTable<Case> ();
+				db.DropTable<Meeting> ();
+				db.CreateTable<Meeting> ();
+				db.DropTable<Imputed> ();
+				db.CreateTable<Imputed> ();
+
+				Case caseDetention = new Case ();
+				Imputed newImputed = new Imputed ();
+				newImputed.Name = "axl".Trim ();
+				newImputed.LastNameP = "sanz".Trim ();
+				newImputed.LastNameM = "perz".Trim ();
+				newImputed.FoneticString = getFoneticByName ("axl", "sanz", "perz");
+				newImputed.Gender = false;
+				newImputed.BirthDate = DateTime.Today.AddYears (-27);
+				caseDetention.Status = statusCasefindByCode (Constants.CASE_STATUS_MEETING);
+				caseDetention.StatusCaseId = statusCasefindByCode (Constants.CASE_STATUS_MEETING).Id;
+				caseDetention.IdFolder = "nuevo Folder example";
+				caseDetention.DateCreate = DateTime.Today;
+				db.InsertWithChildren (caseDetention);
+				Meeting meeting = new Meeting ();
+				meeting.MeetingType = Constants.MEETING_PROCEDURAL_RISK;
+				meeting.CaseDetentionId = caseDetention.Id;
+				meeting.CaseDetention = caseDetention;
+				StatusMeeting statusMeeting = statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE);
+				meeting.StatusMeetingId = statusMeeting.Id;
+				meeting.StatusMeeting = statusMeeting;
+				meeting.DateCreate = DateTime.Today;
+				db.InsertWithChildren (meeting);
+				newImputed.MeetingId = meeting.Id;
+				newImputed.Meeting = meeting;
+				db.InsertWithChildren (newImputed);
+				db.UpdateWithChildren (meeting);
+				db.UpdateWithChildren (caseDetention);
+				Console.WriteLine ("caseDetention.Id> {0}", caseDetention.Id);
+				var ese = db.GetWithChildren<Meeting> (meeting.Id);
+				Console.WriteLine ("done execution>");
+				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
+			}
+			//			db.CreateTable<Meeting> ();
+			//			if (db.Table<Meeting> ().Count () > 0) {
+			//				Console.WriteLine ("recreate de meeting NO borro a meeting");
+			//			} else {
+			//				Console.WriteLine ("recreate de meeting SI borro a meeting");
+			//			}
+		}
+
+		public void CreateElection(){
+			db.CreateTable<Election> ();
+			if (db.Table<Election> ().Count() > 0) {
+				Console.WriteLine ("Election existe!!!!");
+			}  else {
+				db.DropTable<Election> ();
+				db.CreateTable<Election> ();
+
+
+				Election Yay = new Election ();
+				Yay.Name = "Si";
+				db.Insert (Yay);
+
+				Election Nay = new Election ();
+				Nay.Name = "No";
+				db.Insert (Nay);
+
+
+				var tableElection = db.Table<Election> ().ToList<Election> ();
+				Console.WriteLine ("tableElection all query------------->");
+				foreach (var c in tableElection) {
+					Console.WriteLine ("id:" + c.Id + ", Name:" + c.Name );
+				}
+			}
+		}
+
+		public List<Election> ElectionFindAll(){
+			return db.Table<Election> ().ToList ();
+		}
+
+		public String getFoneticByName(String name, String lastNameP, String lastNameM) {
+			return name.Trim().ToLowerInvariant()+lastNameP.Trim().ToLowerInvariant()+lastNameM.Trim().ToLowerInvariant();
+		}
+
+		public int calculateAge(DateTime dateOfBirth)
+		{
+			DateTime now = DateTime.Today; 
+			int age = now.Year - dateOfBirth.Year;
+			if (now.DayOfYear<dateOfBirth.DayOfYear) 
+				age--;
+			return age; 
+		}
+
+		public StatusCase statusCasefindByCode(String code){
+			//var tableStatus = db.Query<StatusCase>("SELECT s from StatusCase s where s.name = "+code);
+			var tableStatus = db.Table<StatusCase> ().Where (s => s.Name == code).FirstOrDefault ();
+			return tableStatus;
+		}
+
+		public StatusMeeting statusMeetingfindByCode(String code){
+			var tableStatus = db.Table<StatusMeeting>().Where (s => s.Status == code).FirstOrDefault ();
+			return tableStatus;
+		}
+
+		public StatusMeeting userRepositoryfindOne(String code){
+			var tableStatus = db.Table<StatusMeeting>().Where (s => s.Status == code).FirstOrDefault ();
+			return tableStatus;
+		}
+
+		public List<IdNameDto> CountryFindAllOrderByName(){
+			var tableStatus = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name' from cat_country as c order by c.name");
+			return tableStatus;
+		}
+
+		public List<IdNameDto> StateFindAllOrderByName(){
+			var table = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name' from cat_state as c order by c.name");
+			return table;
+		}
+
+		public List<IdNameDto> MunicipalityFindAllOrderByName(){
+			var table = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name', c.id_state as 'Reference' from cat_municipality as c order by c.name");
+			return table;
+		}
+
 		public void CreateStatusCaseCatalog(){
 			db.CreateTable<StatusCase> ();
 			if (db.Table<StatusCase> ().Count() > 0) {
@@ -2961,134 +3089,6 @@ namespace UmecaApp
 				}
 				db.Commit ();
 			}
-		}
-
-		public void createMeetingTest(){
-			db.CreateTable<Case> (); 
-			db.CreateTable<Meeting> ();
-			db.CreateTable<Imputed> ();
-			if (db.Table<Meeting> ().Count() > 0) {
-				Console.WriteLine ("Meeting existe!!!!");
-			}else {
-				db.DropTable<Case> ();
-				db.CreateTable<Case> ();
-				db.DropTable<Meeting> ();
-				db.CreateTable<Meeting> ();
-				db.DropTable<Imputed> ();
-				db.CreateTable<Imputed> ();
-
-				Case caseDetention = new Case ();
-				Imputed newImputed = new Imputed ();
-				newImputed.Name = "axl".Trim ();
-				newImputed.LastNameP = "sanz".Trim ();
-				newImputed.LastNameM = "perz".Trim ();
-				newImputed.FoneticString = getFoneticByName ("axl", "sanz", "perz");
-				newImputed.Gender = true;
-				newImputed.BirthDate = DateTime.Today.AddYears (-27);
-				caseDetention.Status = statusCasefindByCode (Constants.CASE_STATUS_MEETING);
-				caseDetention.StatusCaseId = statusCasefindByCode (Constants.CASE_STATUS_MEETING).Id;
-				caseDetention.IdFolder = "nuevo Folder example";
-				caseDetention.DateCreate = DateTime.Today;
-				db.InsertWithChildren (caseDetention);
-				Meeting meeting = new Meeting ();
-				meeting.MeetingType = Constants.MEETING_PROCEDURAL_RISK;
-				meeting.CaseDetentionId = caseDetention.Id;
-				meeting.CaseDetention = caseDetention;
-				StatusMeeting statusMeeting = statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE);
-				meeting.StatusMeetingId = statusMeeting.Id;
-				meeting.StatusMeeting = statusMeeting;
-				meeting.DateCreate = DateTime.Today;
-				db.InsertWithChildren (meeting);
-				newImputed.MeetingId = meeting.Id;
-				newImputed.Meeting = meeting;
-				db.InsertWithChildren (newImputed);
-				db.UpdateWithChildren (meeting);
-				db.UpdateWithChildren (caseDetention);
-				Console.WriteLine ("caseDetention.Id> {0}", caseDetention.Id);
-				var ese = db.GetWithChildren<Meeting> (meeting.Id);
-				Console.WriteLine ("done execution>");
-				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
-			}
-//			db.CreateTable<Meeting> ();
-//			if (db.Table<Meeting> ().Count () > 0) {
-//				Console.WriteLine ("recreate de meeting NO borro a meeting");
-//			} else {
-//				Console.WriteLine ("recreate de meeting SI borro a meeting");
-//			}
-		}
-
-		public void CreateElection(){
-			db.CreateTable<Election> ();
-			if (db.Table<Election> ().Count() > 0) {
-				Console.WriteLine ("Election existe!!!!");
-			}  else {
-				db.DropTable<Election> ();
-				db.CreateTable<Election> ();
-
-
-				Election Yay = new Election ();
-				Yay.Name = "Si";
-				db.Insert (Yay);
-
-				Election Nay = new Election ();
-				Nay.Name = "No";
-				db.Insert (Nay);
-
-
-				var tableElection = db.Table<Election> ().ToList<Election> ();
-				Console.WriteLine ("tableElection all query------------->");
-				foreach (var c in tableElection) {
-					Console.WriteLine ("id:" + c.Id + ", Name:" + c.Name );
-				}
-			}
-		}
-
-		public List<Election> ElectionFindAll(){
-			return db.Table<Election> ().ToList ();
-		}
-
-		public String getFoneticByName(String name, String lastNameP, String lastNameM) {
-			return name.Trim().ToLowerInvariant()+lastNameP.Trim().ToLowerInvariant()+lastNameM.Trim().ToLowerInvariant();
-		}
-
-		public int calculateAge(DateTime dateOfBirth)
-		{
-			DateTime now = DateTime.Today; 
-			int age = now.Year - dateOfBirth.Year;
-			if (now.DayOfYear<dateOfBirth.DayOfYear) 
-				age--;
-			return age; 
-		}
-
-		public StatusCase statusCasefindByCode(String code){
-			//var tableStatus = db.Query<StatusCase>("SELECT s from StatusCase s where s.name = "+code);
-			var tableStatus = db.Table<StatusCase> ().Where (s => s.Name == code).FirstOrDefault ();
-			return tableStatus;
-		}
-
-		public StatusMeeting statusMeetingfindByCode(String code){
-			var tableStatus = db.Table<StatusMeeting>().Where (s => s.Status == code).FirstOrDefault ();
-			return tableStatus;
-		}
-
-		public StatusMeeting userRepositoryfindOne(String code){
-			var tableStatus = db.Table<StatusMeeting>().Where (s => s.Status == code).FirstOrDefault ();
-			return tableStatus;
-		}
-
-		public List<IdNameDto> CountryFindAllOrderByName(){
-			var tableStatus = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name' from cat_country as c order by c.name");
-			return tableStatus;
-		}
-
-		public List<IdNameDto> StateFindAllOrderByName(){
-			var table = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name' from cat_state as c order by c.name");
-			return table;
-		}
-
-		public List<IdNameDto> MunicipalityFindAllOrderByName(){
-			var table = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name', c.id_state as 'Reference' from cat_municipality as c order by c.name");
-			return table;
 		}
 
 	}

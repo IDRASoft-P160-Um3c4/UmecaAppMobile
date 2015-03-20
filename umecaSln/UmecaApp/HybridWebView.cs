@@ -21,6 +21,7 @@ namespace UmecaApp
 			webView.Settings.CacheMode = CacheModes.CacheElseNetwork;
 			webView.Settings.JavaScriptEnabled = true;
 			webView.AddJavascriptInterface (new LoginAction(context), "login");
+			webView.AddJavascriptInterface (new MeetingService(context), "MeetingService");
 			webView.SetWebChromeClient (new HybridWebChromeClient (webView.Context));
 		}
 

@@ -1,0 +1,16 @@
+﻿id|name|isObsolete|specification
+1|Alcohol|0|0
+2|Marihuana|0|0
+3|Cocacaína|0|0
+4|Heroína|0|0
+5|Opiáceos|0|0
+6|PBC(Pasta básica de cocaína)|0|0
+7|Solventes|0|1
+8|Cemento|0|0
+9|LSD|0|0
+10|Anfetaminas|0|0
+11|Metanfetaminas|0|0
+12|Extasis|0|0
+13|Hongos|0|0
+14|Otro|0|1
+15|No consume|0|0

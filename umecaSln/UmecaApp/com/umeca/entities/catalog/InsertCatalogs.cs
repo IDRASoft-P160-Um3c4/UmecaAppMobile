@@ -33,6 +33,7 @@ namespace UmecaApp
 			InsertStatusFieldVerfication (act);
 			InsertStatusMeeting (act);
 			InsertStatusVerification (act);
+			InsertLocationCat (act);
 		}
 
 		public void InsertDegree(Activity act){
@@ -55,7 +56,7 @@ namespace UmecaApp
 						model.IsObsolete = line [2].Equals ("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("AcademicLevel error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -70,9 +71,10 @@ namespace UmecaApp
 						model.AcademicLevelId = int.Parse(line[2]);
 						entitiesDegree.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("Degree error "+e.Message);
 					}
 				}
+				db.CreateTable<Degree> ();
 				db.InsertAll (entitiesDegree);
 				var content = db.Table<AcademicLevel> ().ToList();
 				Console.WriteLine ("Se inserto en tabla AcademicLevel:");
@@ -111,7 +113,7 @@ namespace UmecaApp
 						model.Specification = line [3].Equals ("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("ActivityCatalog error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -145,7 +147,7 @@ namespace UmecaApp
 						model.IsObsolete = line [2].Equals ("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("GroupCrime error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -161,9 +163,10 @@ namespace UmecaApp
 						model.GroupCrimeId = int.Parse(line[4]);
 						entitiesCrime.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("CrimeCatalog error "+e.Message);
 					}
 				}
+				db.CreateTable<CrimeCatalog> ();
 				db.InsertAll (entitiesCrime);
 
 				var content = db.Table<GroupCrime> ().ToList();
@@ -204,7 +207,7 @@ namespace UmecaApp
 						model.Specification = line [3].Equals ("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("DocumentType error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -238,7 +241,7 @@ namespace UmecaApp
 						model.Specification = line [3].Equals ("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("DrugType error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -270,7 +273,7 @@ namespace UmecaApp
 						model.Name = line [1];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("Election error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -309,7 +312,7 @@ namespace UmecaApp
 						model.Type = line[8];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("FieldVerfication error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -343,7 +346,7 @@ namespace UmecaApp
 						model.IsObsolete = line[3].Equals("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("HearingType error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -377,7 +380,7 @@ namespace UmecaApp
 						model.IsObsolete = line[3].Equals("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("HomeType error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -411,7 +414,7 @@ namespace UmecaApp
 						model.IsObsolete = line[3].Equals("1");
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("ImmigrationDocument error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -443,7 +446,7 @@ namespace UmecaApp
 						model.Name = line[1];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("MaritalStatus error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -510,7 +513,7 @@ namespace UmecaApp
 						model.Name = line[1];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("RegisterType error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -545,7 +548,7 @@ namespace UmecaApp
 						r.Specification = line [3].Equals ("1");
 						entities.Add(r);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("Relationship error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -611,7 +614,7 @@ namespace UmecaApp
 						model.Description = line[2];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("StatusFieldVerification error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -645,7 +648,7 @@ namespace UmecaApp
 						model.Description = line[2];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("StatusMeeting error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -669,7 +672,7 @@ namespace UmecaApp
 			);
 			db.CreateTable<StatusVerification> ();
 			if (db.Table<StatusVerification> ().Count () == 0) {
-				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/status_verfication.txt", act);
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/status_verification.txt", act);
 				List<StatusVerification> entities=new List<StatusVerification>(); 
 				foreach (String[] line in data) {
 					try{
@@ -679,7 +682,7 @@ namespace UmecaApp
 						model.Description = line[2];
 						entities.Add(model);
 					}catch(Exception e){
-						Console.WriteLine ("error "+e.Message);
+						Console.WriteLine ("StatusVerification error "+e.Message);
 					}
 				}
 				db.InsertAll (entities);
@@ -692,6 +695,45 @@ namespace UmecaApp
 			db.Close ();
 		}
 
+
+
+		public void InsertLocationCat(Activity act){
+			//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<Location> ();
+			if (db.Table<Location> ().Count () == 0) {
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/location.txt", act);
+				List<Location> entities=new List<Location>(); 
+				foreach (String[] line in data) {
+					try{
+						Location model = new Location ();
+						model.Id = int.Parse(line [0]);
+						model.MunicipalityId = long.Parse(line [1]);
+						model.Name = line[2];
+						model.Abbreviation = line[3];
+						model.Description = line[4];
+						model.ZipCode = line[5];
+						entities.Add(model);
+					}catch(Exception e){
+						Console.WriteLine ("Location error "+e.Message);
+					}
+				}
+				db.InsertAll (entities);
+//				var content = db.Table<Location> ();
+				Console.WriteLine ("Se inserto en tabla Location:"+entities.Count);
+//				foreach (StatusVerification m in content) {
+//					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
+//				}
+			}
+			db.Close ();
+		}
+
+		//file loader
 		private List<String[]> GetDataOfFile(string fileName, Activity act){
 			List<String[]> result = new List<String[]>();
 			using (StreamReader sr = new StreamReader (act.Assets.Open (fileName)))
@@ -705,8 +747,6 @@ namespace UmecaApp
 			}
 			return result;
 		}
-	}
+	}//class end
 
-
-}
-
+}//namespace delimiter

@@ -1,0 +1,109 @@
+insert into status_verification (id_status,status) values (1,'statuuuus');
+
+INSERT INTO question_type
+(description,is_obsolete,name) 
+VALUES
+("descripcion",false,"checkbox"),
+("descripcion",false,"radio");
+
+
+INSERT INTO role
+(description,role)
+VALUES
+("descrip","ROLE_REVIEWER"),
+("descrip","ROLE_SUPERVISOR");
+
+insert into status_meeting (id_status,status,description) values(1,'INCOMPLETE','Entrevista incompleta'),
+(2,'INCOMPLETE_LEGAL','Por agregar información legal'),
+(3,'COMPLETE','Finalizado');
+
+INSERT INTO questionary
+(code,description,is_obsolete,name)
+VALUES
+("OP_TEC","descripcion",false,"Opinión técnica");
+
+
+INSERT INTO questionary_section
+(code,description,is_obsolete,name,id_parent_section,id_questionary,extras_json) 
+VALUES
+("OT_S1","desc",false,"Arraigo en el estado",null,"1",'{"class":"icon-lock blue bigger-200"}'),
+("OT_S2","desc",false,"Proceso actual",null,"1",'{"class":"icon-folder-open blue bigger-200"}'),
+("OT_S3","desc",false,"Procesos pendientes/anteriores",null,"1",'{"class":"icon-folder-close bigger-200"}'),
+("OT_S4","desc",false,"Relación victima/testigos",null,"1",'{"class":"icon-male blue bigger-200"}'),
+("OT_S5","desc",false,"Consumo de substancias",null,"1",'{"class":"icon-beer blue bigger-200"}');
+
+*/*/*/*/*/*/
+
+INSERT INTO questionary_section
+(code,description,is_obsolete,name,id_parent_section,id_questionary) 
+VALUES
+("OT_S1_A","desc",false,"Datos familiares",1,null),
+("OT_S1_B","desc",false,"Temporalidad del domicilio",1,null),
+("OT_S1_C","desc",false,"Residencia",1,null),
+("OT_S1_D","desc",false,"Historia laboral/escolar",1,null),
+("OT_S1_E","desc",false,"Comportamiento",1,null),
+("OT_S2_A","desc",false,"Cargo",2,null),
+("OT_S2_B","desc",false,"Comportamiento durante la detención",2,null),
+("OT_S3_A","desc",false,"Procesos pendientes/anteriores",3,null),
+("OT_S4_A","desc",false,"Relación victima/testigos",4,null),
+("OT_S5_A","desc",false,"Consumo de substancias",5,null);
+
+*/**/*/*/*/*/
+
+INSERT INTO question (is_obsolete,question,value,id_question_type,id_questionary_section,quest_index)
+VALUES
+(false,'Tiene más de dos años viviendo con su familia (padres, pareja o hijos).',3,1,6,1),
+(false,'Tiene entre un año y dos viviendo con su familia (padres, pareja o hijos).',2,1,6,2),
+(false,'Tiene menos de un año viviendo con su familia (padres, pareja, hijos).',1,1,6,3),
+(false,'Vive sólo pero tiene una red familiar/social en la localidad que lo pueda apoyar.',-1,1,6,4),
+(false,'Vive sólo y no tiene una red familiar/social de apoyo.',-2,1,6,5),
+(false,'Tiene dependientes económicos en el estado.',1,1,6,6),
+
+(false,'Tiene más de 5 años viviendo el mismo domicilio en el Estado de Morelos.',4,2,7,1),
+(false,'Tiene entre 3 y 5 años viviendo en el mismo domicilio en el Estado.',3,2,7,2),
+(false,'Tiene entre 2-3 años viviendo en el mismo domicilio en el Estado.',2,2,7,3),
+(false,'Tiene más de un año viviendo en el mismo domicilio en el Estado o más de dos años viviendo en el Estado pero en diversos domicilios.',1,2,7,4),
+(false,'Tiene menos de 1 año viviendo en el Estado o menos de 1 año en el mismo domicilio.',-2,2,7,5),
+(false,'Tiene domicilio primario fuera del Estado.',-3,2,7,6),
+(false,'No tiene domicilio fijo.',-4,2,7,7),
+(false,'Proporcionó dirección falsa.',-4,2,7,8),
+
+(false,'Es propietario de la vivienda que habita.',2,2,8,1),
+(false,'Tiene más de 1 año rentando la vivienda que habita.',1,2,8,2),
+(false,'Tiene menos de 1 año rentando o en vivienda prestada',-1,2,8,3),
+(false,'Está de visita en el estado.',-2,2,8,4),
+
+(false,'Tiene más de 2 años con empleo o estudiando.',3,2,9,1),
+(false,'Tiene entre 1-2 años con empleo o estudiando.',2,2,9,2),
+(false,'Tiene más de 6 meses y menos de 12 meses con empleo o estudiando.',-1,2,9,3),
+(false,'Tiene menos de 6 meses con empleo o estudiando.',-2,2,9,4),
+(false,'Actualmente no tiene empleo ni estudia.',-4,2,9,5),
+
+(false,'Dentro de los últimos 2 años no lo han corrido del empleo o expulsado de la escuela.',2,2,10,1),
+(false,'Dentro de los últimos 2 años lo han corrido o expulsado de la escuela 1 o más veces.',-2,2,10,2),
+(false,'Actualmente no tiene empleo ni estudia.',0,2,10,3),
+
+(false,'Tiene más de un proceso abierto.',-1,1,11,1),
+(false,'Posible pena a imponer es superior a 6 años.',-2,1,11,2),
+(false,'Delito asociado con uno federal.',-2,1,11,3),
+
+(false,'Reporte policial indica que se resistió a la detención (huyó y etc.).',-2,2,12,1),
+(false,'Existe en la carpeta de investigación información de individualización falsa o existen inconsistencias con los datos proporcionados por familiares o referencias.',-2,2,12,2),
+
+(false,'Incumplió una vez con las condiciones de medidas cautelares.',-2,2,13,1),
+(false,'Incumplió una vez con las condiciones de la suspensión condicional del proceso a prueba.',-2,2,13,2),
+(false,'Incumplió más de una vez con condiciones judiciales (medidas cautelares, SCPP o acuerdos reparatorios).',-3,2,13,3),
+
+
+(false,'Conoce a la víctima.',-2,1,14,1),
+(false,'Conoce a los testigos.',-2,1,14,2),
+
+(false,'Consume alcohol más de 2 veces al mes al punto de llegar a estado de ebriedad.',-1,1,15,1),
+(false,'Consume alcohol 1 a 2 veces por semana a de llegar a estado de ebriedad.',-2,1,15,2),
+(false,'Consume marihuana, cocaína o solventes 1-2 veces por semana.',-3,1,15,3),
+(false,'Consume alcohol más de 3 veces por semana al punto de emborracharse y otra substancia.',-4,1,15,4),
+(false,'Consume todos los días cualquier substancia.',-5,1,15,5);
+
+
+
+

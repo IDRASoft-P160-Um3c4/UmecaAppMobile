@@ -1,0 +1,20 @@
+﻿id_framing_risk|description|risk_index|is_obsolete
+1|Falta de empleo|1|0
+2|Trabajo establecido|2|0
+3|Adicción|3|0
+4|Falta de estudios|4|0
+5|Convivencia con Coimputado|5|0
+6|Falta de vínculos|6|0
+7|Falta de apoyo familiar|7|0
+8|Falta de documentación oficial|8|0
+9|Desinterés o Negativa de sujetarse a la supervisión|9|0
+10|Cambio constante de domicilio|10|0
+11|Domicilio fuera del Estado|11|0
+12|Víctima o familia de esta|12|0
+13|Inasistencia a servicios canalizados|13|0
+14|Reinsidencia|14|0
+15|Dos familias|15|0
+16|Trabajo temporal en el Estado|16|0
+17|Amistades con adicciones|17|0
+18|Amistades|18|0
+19|Familia en el Extranjero|19|0

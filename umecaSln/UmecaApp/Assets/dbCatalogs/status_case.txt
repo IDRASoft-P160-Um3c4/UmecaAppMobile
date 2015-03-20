@@ -1,0 +1,22 @@
+﻿id_status|status|description
+1|ST_CASE_VERIFICATION_COMPLETE|Verificación finalizada
+2|ST_CASE_TECHNICAL_REVIEW_COMPLETE|Instrumento de evaluación finalizado
+3|ST_CASE_MEETING|Entrevista de riesgos procesales
+4|ST_CASE_HEARING_FORMAT_END|Formato de audiencia finalizado.
+5|ST_CASE_SOURCE_VALIDATION|Validación de fuentes
+6|ST_CASE_FRAMING_MEETING_INCOMPLETE|Entrevista de encuadre incompleta.
+7|ST_CASE_FRAMING_MEETING_COMPLETE|Entrevista de encuadre completa.
+8|ST_CASE_CONDITIONAL_REPRIEVE|Nuevo caso.
+9|ST_CASE_VERIFICATION|En verificación
+10|ST_CASE_PRE_CLOSED|Pre-cerrado por vinculación a proceso NO.
+11|ST_CASE_CLOSED|Cerrado.
+12|ST_CASE_REQUEST|En solicitud pendiente
+13|ST_CASE_EDIT_TEC_REV|Edición de instrumento de evaluación autorizada
+14|ST_CASE_OBSOLETE_EVALUATION|Caso eliminado en evaluación
+15|ST_CASE_HEARING_FORMAT_INCOMPLETE|Formato de audiencia incompleto.
+16|ST_CASE_TECHNICAL_REVIEW_INCOMPLETE|Instrumento de evaluación incompleto.
+17|ST_CASE_NOT_PROSECUTE|No judializado.
+18|ST_CASE_NOT_PROSECUTE_OPEN|No judicializado abierto.
+19|ST_CASE_PRISON_CLOSED|Cerrado por prisión preventiva / promesa del imputado.
+20|ST_CASE_OBSOLETE_SUPERVISION|Caso eliminado en supervisión
+21|ST_CASE_REQUEST_SUPERVISION|En solicitud pendiente

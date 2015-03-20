@@ -1,0 +1,96 @@
+id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
+1|imputed.name|Datos personales y entorno social|1|Nombre|1|0|1|String
+2|imputed.lastNameP|Datos personales y entorno social|1|Apellido Paterno|2|0|2|String
+3|imputed.lastNameM|Datos personales y entorno social|1|Apellido Materno|3|0|3|String
+4|imputed.birthDate|Datos personales y entorno social|1|Fecha de nacimiento|4|0|4|Date
+5|imputed.gender|Datos personales y entorno social|1|Género|5|0|5|BooleanG
+6|imputed.nickname|Datos personales y entorno social|1|Apodo|6|0|49|String
+7|imputed.celPhone|Datos personales y entorno social|1|Celular|7|0|6|String
+8|imputed.maritalStatus.id|Datos personales y entorno social|1|Estado civil|8|0|7|MaritalStatus
+9|imputed.yearsMaritalStatus|Datos personales y entorno social|1|Años de duración|9|0|7|Integer
+10|imputed.boys|Datos personales y entorno social|1|Total de hijos|10|0|8|Integer
+11|imputed.dependentBoys|Datos personales y entorno social|1|Menores de 18 años|11|0|8|Integer
+12|imputed.birthCountry.id|Datos personales y entorno social|1|País de nacimiento|12|0|9|Country
+13|imputed.birthState|Datos personales y entorno social|1|Estado de nacimiento|13|0|9|String
+14|imputed.birthMunicipality|Datos personales y entorno social|1|Municipio de nacimiento|14|0|9|String
+15|imputed.birthLocation|Datos personales y entorno social|1|Ciudad de nacimiento|15|0|9|String
+16|imputed.location.id|Datos personales y entorno social|1||16|0|9|Location
+17|socialEnvironment.physicalCondition|Datos personales y entorno social|1|Enfermedades o condiciones físicas|17|0|10|String
+18|socialEnvironment.comment|Datos personales y entorno social|8|Comentarios|18|0|11|String
+19|socialEnvironment.activities|Datos personales y entorno social|1|Actividades que realiza el imputado|19|0|46|Activity
+20|imputedHomes.address|Domicilios|2|Dirección|1|0|12|Address
+21|imputedHomes.homeType.id|Domicilios|2|Propiedad|2|0|13|HomeType
+22|imputedHomes.specification|Domicilios|2|Especificación de propiedad|3|0|13|String
+23|imputedHomes.registerType.id|Domicilios|2|Tipo de domicilio|4|0|14|RegisterType
+24|imputedHomes.timeLive|Domicilios|2|Tiempo de vivir en el domicilio/residencia|5|0|14|String
+25|imputedHomes.reasonChange|Domicilios|2|Razón de cambio|6|0|14|String
+26|imputedHomes.phone|Domicilios|2|Teléfono|7|0|47|String
+27|imputedHomes.reasonSecondary|Domicilios|2|Razón por la que tiene un domicilio secundario|8|0|14|String
+28|imputedHomes.description|Domicilios|2|Descripción de como llegar al domicilio|9|0|14|String
+29|imputedHomes.schedule|Domicilios|2|Disponibilidad|10|0|100|Schedule
+30|socialNetwork.block|Red social|3|Tiene personas en su red social|1|0|52|Boolean
+31|socialNetwork.name|Red social|3|Nombre|2|0|15|String
+32|socialNetwork.relationship.id|Red social|3|Parentesco|3|0|16|Relationship
+33|socialNetwork.specificationRelationship|Red social|3|Especificación de parentesco|4|0|16|String
+34|socialNetwork.phone|Red social|3|Teléfono|5|0|17|String
+35|socialNetwork.documentType.id|Red social|3|Identificación presentada|6|0|18|DocumentType
+36|socialNetwork.specification|Red social|3|Especificación de la identificación|7|0|18|String
+37|socialNetwork.age|Red social|3|Edad|8|0|19|Integer
+38|socialNetwork.dependent.id|Red social|3|Dependiente económico|9|0|20|Election
+39|socialNetwork.livingWith.id|Red social|3|Vive con el imputado|10|0|21|Election
+40|socialNetwork.address|Red social|3|Dirección|11|0|21|String
+41|socialNetwork.isAccompaniment|Red social|3|Acompañará al imputado durante el proceso|12|0|50|Boolean
+42|socialNetwork.comment|Red social|3|Observaciones|13|0|48|String
+43|references.block|Referencias personales|4|Tiene referencias|1|0|53|Boolean
+44|references.fullName|Referencias personales|4|Nombre|2|0|22|String
+45|references.relationship.id|Referencias personales|4|Parentesco|3|0|45|Relationship
+46|references.specificationRelationship|Referencias personales|4|Especificación de parentesco|4|0|45|String
+47|references.phone|Referencias personales|4|Teléfono|5|0|23|String
+48|references.documentType.id|Referencias personales|4|Identificación presentada|6|0|24|DocumentType
+49|references.specification|Referencias personales|4|Especificación de la identificación|7|0|24|String
+50|references.age|Referencias personales|4|Edad|8|0|25|Integer
+51|references.address|Referencias personales|4|Dirección|9|0|26|String
+52|references.isAccompaniment|Referencias personales|4|Acompañará al imputado durante el proceso|10|0|51|Boolean
+53|jobs.block|Historia laboral|5|Trabaja actualmente|1|0|54|Boolean
+54|jobs.company|Historia laboral|5|Empresa|2|0|27|String
+55|jobs.post|Historia laboral|5|Puesto|3|0|28|String
+56|jobs.nameHead|Historia laboral|5|Nombre del patrón|4|0|29|String
+57|jobs.phone|Historia laboral|5|Teléfono|5|0|30|String
+58|jobs.address|Historia laboral|5|Dirección|6|0|31|String
+59|jobs.registerType.id|Historia laboral|5|Tipo de empleo|7|0|32|RegisterType
+60|jobs.start|Historia laboral|5|Fecha de inicio|8|0|32|Date
+61|jobs.salaryWeek|Historia laboral|5|Salario semanal|9|0|32|Float
+62|jobs.schedule|Historia laboral|5|Disponibilidad|10|0|200|Schedule
+63|jobs.startPrev|Historia laboral|5|Fecha de inicio|11|0|32|Date
+64|jobs.end|Historia laboral|5|Fecha de fin|12|0|32|Date
+65|jobs.reasonChange|Historia laboral|5|Motivo de cambio|13|0|32|String
+66|school.block|Historia escolar|6|Estudia actualmente|1|0|55|Boolean
+67|school.name|Historia escolar|6|Escuela|2|0|33|String
+68|school.phone|Historia escolar|6|Teléfono|3|0|34|String
+69|school.address|Historia escolar|6|Dirección|4|0|35|String
+70|school.degree.id|Historia escolar|6|Nivel escolar|5|0|36|Degree
+71|school.specification|Historia escolar|6|Especificación|6|0|36|String
+72|school.schedule|Historia escolar|6|Disponibilidad|7|0|37|Schedule
+73|drugs.block|Sustancias|7|Consume sustancias acutalmente|1|0|56|Boolean
+74|drugs.drugType.id|Sustancias|7|Tipo de sustancia|2|0|38|DrugType
+75|drugs.specificationType|Sustancias|7|Especificación de la sustancia|3|0|38|String
+76|drugs.periodicity.id|Sustancias|7|Periodicidad|4|0|39|Periodicity
+77|drugs.specificationPeriodicity|Sustancias|7|Especificación de la periodicidad|5|0|39|String
+78|drugs.quantity|Sustancias|7|Cantidad|6|0|40|String
+79|drugs.lastUse|Sustancias|7|Último uso|7|0|41|Date
+80|drugs.onsetAge|Sustancias|7|Edad en que empezó el consumo|8|0|57|String
+81|leaveCountry.officialDocumentation.id|Facilidad de abandonar el país|8|El imputado cuenta con documentación oficial que facilita que abandone el país|1|0|42|Election
+82|leaveCountry.immigrationDocument.id|Facilidad de abandonar el país|8|Documentación para salir del país|2|0|42|ImmigrationDocument
+83|leaveCountry.specficationImmigranDoc|Facilidad de abandonar el país|8|Especificación de documento|3|0|42|String
+84|leaveCountry.livedCountry.id|Facilidad de abandonar el país|8|El imputado ha vivido en otro país|4|0|43|Election
+85|leaveCountry.country.id|Facilidad de abandonar el país|8|País|5|0|43|Country
+86|leaveCountry.state|Facilidad de abandonar el país|8|Estado|6|0|43|String
+87|leaveCountry.timeAgo|Facilidad de abandonar el país|8|Hace cuanto tiempo|7|0|43|String
+88|leaveCountry.timeResidence|Facilidad de abandonar el país|8|Tiempo que vivió en otro país|8|0|43|String
+89|leaveCountry.reason|Facilidad de abandonar el país|8|Motivo por el que ahora vive en México|9|0|43|String
+90|leaveCountry.address|Facilidad de abandonar el país|8|Dirección|10|0|43|String
+91|leaveCountry.familyAnotherCountry.id|Facilidad de abandonar el país|8|El imputado cuenta con familiares y/o amigos cercanos en otro país|11|0|44|Election
+92|leaveCountry.communicationFamily.id|Facilidad de abandonar el país|8|Mantiene comunicación con ellos|12|0|44|Election
+93|leaveCountry.relationship.id|Facilidad de abandonar el país|8|Relación|13|0|44|Relationship
+94|leaveCountry.specificationRelationship|Facilidad de abandonar el país|8|Especificación de relación|14|0|44|String
+95|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|15|0|44|String

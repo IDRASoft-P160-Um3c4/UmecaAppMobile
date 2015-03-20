@@ -1,0 +1,7 @@
+﻿id|role|description
+1|ROLE_ADMIN|Administrador
+2|ROLE_REVIEWER|Evaluador
+3|ROLE_EVALUATION_MANAGER|Coordinador de Evaluación
+4|ROLE_SUPERVISOR|Supervisor
+5|ROLE_SUPERVISOR_MANAGER|Coordinador de Supervisores
+6|ROLE_DIRECTOR|Director

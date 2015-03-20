@@ -1,0 +1,7 @@
+﻿id_status|status|description
+1|DONT_KNOW|La fuente no conoce la información
+2|EQUALS|La fuente coincide con el imputado
+3|NO_EQUALS|La fuente no coincide con el imputado
+4|UNABLE_VERIFICATION|No es posible verificar la información
+5|IS_IMPUTED|La fuente es el imputado
+

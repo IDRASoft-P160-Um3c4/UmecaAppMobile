@@ -1,0 +1,9 @@
+﻿id|name|specification|obsolete
+1|Diariamente|0|0
+2|Cada tercer día|1|0
+3|Cada fin de semana|0|0
+4|Cada quince días|1|0
+5|Una vez al mes|0|0
+6|Una vez al año|0|0
+7|En reuniones sociales|0|0
+8|No consume|0|0

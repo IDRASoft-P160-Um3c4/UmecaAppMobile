@@ -1,0 +1,5 @@
+﻿id|name|specification|obsolete
+1|Propia|0|0
+2|Rentada|0|0
+3|Prestada|0|0
+4|Otro|1|0

@@ -12,7 +12,17 @@ namespace UmecaApp
 		{
 		}
 
-		[PrimaryKey]//was also AutoIncrement
+		public Location (int id_location, long id_municipality, String name, String abbreviation, String description, String zip_code)
+		{
+			this.Id = id_location;
+			this.MunicipalityId = id_municipality;
+			this.Name = name;
+			this.Abbreviation = abbreviation;
+			this.Description = description;
+			this.ZipCode = zip_code;
+		}
+
+		[PrimaryKey, Column("id_location")]//was also AutoIncrement
 		public int Id{ get; set;}
 
 		[Column("id_municipality")]

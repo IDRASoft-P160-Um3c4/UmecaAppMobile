@@ -1,0 +1,5 @@
+id_status|status|description
+1|NEW_SOURCE|Fuentes por autorizar
+2|AUTHORIZED|Fuentes autorizadas
+3|MEETING_COMPLETE|Entrevistas terminadas
+4|VERIFICATION_COMPLETE|Finalizado

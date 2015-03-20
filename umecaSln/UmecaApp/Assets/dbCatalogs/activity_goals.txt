@@ -1,0 +1,10 @@
+﻿id_activity_goal|name|description|is_obsolete|specification|group
+1|Verificación|Verificación|0|0|1
+2|Recordatorio|Recordatorio|0|0|1
+3|Monitoreo|Monitoreo|0|0|1
+4|Incentivar|Incentivar|0|0|1
+5|Informar|Informar|0|0|1
+6|Para registro en bitácora|Para registro en bitácora|0|0|1
+7|Otro|Otro|0|1|1
+8|Actividad espontanea|Actividad espontanea|0|0|2
+

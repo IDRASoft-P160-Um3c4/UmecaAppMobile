@@ -1,0 +1,4 @@
+id|name|specification|obsolete
+1|Pasaporte|0|0
+2|Visa|0|0
+3|Otro|1|0

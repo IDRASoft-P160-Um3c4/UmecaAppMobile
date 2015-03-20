@@ -1,0 +1,39 @@
+﻿id_framing_threat|description|threat_index|is_obsolete
+1|Divorcio|1|0
+2|Medidas cautelares difíciles de cumplir|2|0
+3|Familia fuera del Estado|3|0
+4|Familia lo saca del domicilio|4|0
+5|Otra detención|5|0
+6|Mala orientación|6|0
+7|Domicilio inestable|7|0
+8|Movilidad en el país|8|0
+9|Desinterés o negativa de sujetarse a la supervisión|9|0
+10|Falta de recursos económicos|10|0
+11|Domicilio fuera del Estado|11|0
+12|Víctima o familia de ésta|12|0
+13|Inasistencia a servicios canalizados|13|0
+14|Reinsidencia|14|0
+15|Domicilio en zona delictiva|15|0
+16|Trabajo fuera del Estado|16|0
+17|Amistades con adicciones|17|0
+18|Amistades|18|0
+19|Familia en el Extranjero|19|0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

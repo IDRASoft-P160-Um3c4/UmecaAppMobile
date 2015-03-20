@@ -1,0 +1,51 @@
+﻿id|is_obsolete|question|value|id_question_type|id_questionary_section|quest_index
+1|false|Tiene más de dos años viviendo con su familia padres pareja o hijos).|3|1|6|1
+2|false|Tiene entre un año y dos viviendo con su familia padres pareja o hijos).|2|1|6|2
+3|false|Tiene menos de un año viviendo con su familia padres pareja hijos).|1|1|6|3
+4|false|Vive sólo pero tiene una red familiar/social en la localidad que lo pueda apoyar.|-1|1|6|4
+5|false|Vive sólo y no tiene una red familiar/social de apoyo.|-2|1|6|5
+6|false|Tiene dependientes económicos en el estado.|1|1|6|6
+7|false|No aplica.|0|1|6|7
+8|false|Tiene más de 5 años viviendo el mismo domicilio en el Estado de Morelos.|4|2|7|1
+9|false|Tiene entre 3 y 5 años viviendo en el mismo domicilio en el Estado.|3|2|7|2
+10|false|Tiene entre 2-3 años viviendo en el mismo domicilio en el Estado.|2|2|7|3
+11|false|Tiene más de un año viviendo en el mismo domicilio en el Estado o más de dos años viviendo en el Estado pero en diversos domicilios.|1|2|7|4
+12|false|Tiene menos de 1 año viviendo en el Estado o menos de 1 año en el mismo domicilio.|-2|2|7|5
+13|false|Tiene domicilio primario fuera del Estado.|-3|2|7|6
+14|false|No tiene domicilio fijo.|-4|2|7|7
+15|false|Proporcionó dirección falsa.|-4|2|7|8
+16|false|No aplica.|0|2|7|9
+17|false|Es propietario de la vivienda que habita.|2|2|8|1
+18|false|Tiene más de 1 año rentando la vivienda que habita.|1|2|8|2
+19|false|Tiene menos de 1 año rentando o en vivienda prestada|-1|2|8|3
+20|false|Está de visita en el estado.|-2|2|8|4
+21|false|No aplica.|0|2|8|5
+22|false|Tiene más de 2 años con empleo o estudiando.|3|2|9|1
+23|false|Tiene entre 1-2 años con empleo o estudiando.|2|2|9|2
+24|false|Tiene más de 6 meses y menos de 12 meses con empleo o estudiando.|-1|2|9|3
+25|false|Tiene menos de 6 meses con empleo o estudiando.|-2|2|9|4
+26|false|Actualmente no tiene empleo ni estudia.|-4|2|9|5
+27|false|No aplica.|0|2|9|6
+28|false|Dentro de los últimos 2 años no lo han corrido del empleo o expulsado de la escuela.|2|2|10|1
+29|false|Dentro de los últimos 2 años lo han corrido o expulsado de la escuela 1 o más veces.|-2|2|10|2
+30|false|No aplica.|0|2|10|3
+31|false|Tiene más de un proceso abierto.|-1|1|11|1
+32|false|Posible pena a imponer es superior a 6 años.|-2|1|11|2
+33|false|Delito asociado con uno federal.|-2|1|11|3
+34|false|No aplica.|0|1|11|4
+35|false|Reporte policial indica que se resistió a la detención huyó y etc.).|-2|2|12|1
+36|false|Existe en la carpeta de investigación información de individualización falsa o existen inconsistencias con los datos proporcionados por familiares o referencias.|-2|2|12|2
+37|false|No aplica.|0|2|12|3
+38|false|Incumplió una vez con las condiciones de medidas cautelares.|-2|2|13|1
+39|false|Incumplió una vez con las condiciones de la suspensión condicional del proceso a prueba.|-2|2|13|2
+40|false|Incumplió más de una vez con condiciones judiciales medidas cautelares SCPP o acuerdos reparatorios).|-3|2|13|3
+41|false|No aplica.|0|2|13|4
+42|false|Conoce a la víctima.|-2|1|14|1
+43|false|Conoce a los testigos.|-2|1|14|2
+44|false|No aplica.|0|1|14|3
+45|false|Consume alcohol más de 2 veces al mes al punto de llegar a estado de ebriedad.|-1|1|15|1
+46|false|Consume alcohol 1 a 2 veces por semana a de llegar a estado de ebriedad.|-2|1|15|2
+47|false|Consume marihuana cocaína o solventes 1-2 veces por semana.|-3|1|15|3
+48|false|Consume alcohol más de 3 veces por semana al punto de emborracharse y otra substancia.|-4|1|15|4
+49|false|Consume todos los días cualquier substancia.|-5|1|15|5
+50|false|No aplica.|0|1|15|6

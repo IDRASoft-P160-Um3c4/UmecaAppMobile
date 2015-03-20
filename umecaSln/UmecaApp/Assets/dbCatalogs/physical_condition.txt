@@ -1,0 +1,5 @@
+id_physical_condition|physical_condition
+1|Tuberculosis
+2|Hepatitis
+3|Alergia
+4|Embarazo

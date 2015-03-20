@@ -1,0 +1,11 @@
+﻿id|name|specification|obsolete
+1|Credencial de Elector|1|0
+2|Licencia de Manejo|1|0
+3|Pasaporte|1|0
+4|Credencial escolar|1|0
+5|INSEN|1|0
+6|INAPAM|1|0
+7|Certificado escolar|1|0
+8|Cédula profesional|1|0
+9|Otra|1|0
+10|Ninguno|0|0

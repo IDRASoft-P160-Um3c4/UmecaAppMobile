@@ -105,6 +105,28 @@ namespace UmecaApp
 //		[Column("comment_drug"),MaxLength(500)]
 		public String CommentDrug{ get; set; }
 
+
+		//social network
+		public String CommentSocialNetwork{ get; set; }
+
+		//historial escolar
+
+		public String SchoolName{ get; set; }
+
+		public String SchoolPhone{ get; set; }
+
+		public String SchoolAddress{ get; set; }
+
+		public int SchoolDegreeId{ get; set; }
+
+		public String SchoolSpecification{ get; set; }
+
+		public Boolean SchoolBlock{ get; set; }
+
+		public String ScheduleSchool{ get; set; }
+		//END historial escolar
+
+
 //		[Column("date_create")]
 		public DateTime? DateCreate{ get; set; }
 

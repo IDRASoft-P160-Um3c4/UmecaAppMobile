@@ -85,15 +85,17 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" href=\"content/themes/umeca/ace.min.css\"");
 
-WriteLiteral("/>\r\n    <link");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" href=\"content/themes/umeca/chosen.min.css\"");
-
-WriteLiteral("/>\r\n\r\n    <script");
+WriteLiteral("/>\r\n\r\n\r\n\r\n\r\n    <script");
 
 WriteLiteral(" src=\"scripts/jquery-1.10.2.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/jquery.multiple.select.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/selectize.js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
@@ -220,15 +222,24 @@ WriteLiteral(@">
             padding-top: 10px;
         }
     </style>
-	</head>
-	<body>
 
+    <link");
 
-<script");
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" href=\"content/multiple-select.css\"");
+
+WriteLiteral("/>\r\n    <link");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" href=\"content/selectize.bootstrap3.css\"");
+
+WriteLiteral("/>\r\n    //dasdsa\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<!--<script");
 
 WriteLiteral(" src=\"scripts/app/shared/menuCtrl.js\"");
 
-WriteLiteral("></script>\r\n<div");
+WriteLiteral("></script>-->\r\n<div");
 
 WriteLiteral(" ng-controller=\"menuController\"");
 
@@ -257,7 +268,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 106 "headUm.cshtml"
+#line 114 "headUm.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -296,7 +307,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 115 "headUm.cshtml"
+#line 123 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -536,7 +547,7 @@ WriteLiteral(">\r\n                          Continuar\r\n                    </
 WriteLiteral("\t\t");
 
 
-#line 227 "headUm.cshtml"
+#line 235 "headUm.cshtml"
 Write(RenderBody());
 
 

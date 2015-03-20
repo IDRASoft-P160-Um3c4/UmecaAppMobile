@@ -31,12 +31,297 @@ alert($("#showId").html());
 
 //DATOS PERSONALES CONTROLLER
 
-    $scope.specification = {};
+        ////////////////VARIABLES///////////////
+    	//genero
+        $scope.gen = {};
+
+        //pais nacimiento
+        $scope.listCountry = [];
+        $scope.listState = [];
+        $scope.listMuni = [];
+        $scope.listLocalidades = [];
+        $scope.listMunByEdo = [];
+        $scope.SeceltedCountry = {};
+        $scope.SeceltedEstate = {};
+        $scope.SeceltedMuni = {};
+        $scope.SeceltedLocation = {};
+
+        //actividades que realiza
+	$scope.specification = {};
     $scope.lstActivity = [];
     $scope.activityModel = [];
     $scope.activityList = [];
-    $scope.selectedActivities = function (lstActivity, lstActivitySelect) {
 
+    ///////////////////METHODS//////////////////
+    //Init de country 
+    $scope.InitCountryPD = function(){
+		    if($scope.m.BirthCountry!=undefined&&$scope.m.BirthCountry!=null){
+			    for(x=0;x<$scope.listCountry.length;x++){
+			    	if($scope.listCountry[x].Id==$scope.m.BirthCountry){
+			    		$scope.SeceltedCountry = $scope.listCountry[x];
+			    		//alert("$scope.listCountry[x]"+JSON.stringify($scope.listCountry[x]));
+			    		//alert("$scope.SeceltedCountry"+JSON.stringify($scope.SeceltedCountry));
+			    		$scope.InitMunicipalityDP();
+			    		break;
+			    	}
+			    }
+			}
+		};
+
+    $scope.InitMunicipalityDP = function(){
+    //alert("InitMunicipalityDP -> $scope.m.LocationId>>"+$scope.m.LocationId);
+	    if($scope.m.LocationId!=undefined&&$scope.m.LocationId!=null){
+	    	var data = JSON.parse(MeetingService.findAllByLocation($scope.m.LocationId));
+	    	//alert("InitMunicipalityDP -> data>>"+JSON.stringify(data));
+	    	//alert("InitMunicipalityDP -> data.StateId="+data.StateId+"    data.MunicipalityId="+data.MunicipalityId);
+		    for(x=0;x<$scope.listState.length;x++){
+		    	if($scope.listState[x].Id==data.StateId){
+		    		$scope.SeceltedEstate = $scope.listState[x];
+		    		//alert("$scope.SeceltedEstate[x]"+JSON.stringify($scope.SeceltedEstate));
+		    		$scope.MunByEdo();
+		    			for(y=0;y<$scope.listMunByEdo.length;y++){
+			    			if($scope.listMunByEdo[y].Id==data.MunicipalityId){
+			    				$scope.SeceltedMuni = $scope.listMunByEdo[y];
+			    				$scope.LocByMun();
+				    				for(z=0;z<$scope.listLocalidades.length;z++){
+				    					if($scope.listLocalidades[z].Id==$scope.m.LocationId){
+				    						$scope.SeceltedLocation = $scope.listLocalidades[z];
+				    						break;
+				    					}
+				    				}
+				    			break;
+			    			}
+		    			}
+		    		break;
+		    	}
+		    }
+		}
+	};
+
+		//cuando se elije un estado se filtran los municipios
+		$scope.MunByEdo = function(){
+			$scope.listMunByEdo = [];
+	        $scope.SeceltedMuni = {};
+	        $scope.SeceltedLocation = {};
+	        $scope.listLocalidades = [];
+			    var em=0;
+			    var municipios = MeetingService.findMunicipalityByState($scope.SeceltedEstate['Id']);
+			    //alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate) +"   and \n municipios _>"+municipios);
+			    if(municipios!=undefined&&municipios!=null&&municipios!=""){
+				    try{
+				    	$scope.listMunByEdo = JSON.parse(municipios);
+				    	}catch(e){
+			    			console.log("exception caugth at MunByEdo Message >>"+e.Message);
+			    			$scope.listMunByEdo = [];
+						}
+			    }
+		};
+
+		//cuando se elije un municipio se filtran las localidades
+		$scope.LocByMun = function(){
+        $scope.SeceltedLocation = {};
+			    $scope.listLocalidades = [];
+			    var em=0;
+			    var locations = MeetingService.findLocationByMunicipality($scope.SeceltedMuni['Id']);
+			    //alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate) +"   and \n municipios _>"+municipios);
+			    if(locations!=undefined&&locations!=null&&locations!=""){
+				    try{
+				    	$scope.listLocalidades = JSON.parse(locations);
+				    	}catch(e){
+			    			console.log("exception caugth at LocByMun Message >>"+e.Message);
+			    			$scope.listLocalidades = [];
+						}
+			    }
+		};
+
+
+		//cuando se elije un estado se filtran los municipios 
+		//TODO: se cambiara a una peticion a methodo
+		$scope.InitActivities = function(){
+			if($scope.m.Activities!=undefined&&$scope.m.Activities!=null){
+			    var actividades = JSON.parse($scope.m.Activities);
+			    var ids = [];
+			    //alert("string de actividades>"+JSON.stringify(actividades));
+			    //iterates activities
+			    for(a in actividades){
+				    for(e in $scope.lstActivity){
+					    if($scope.lstActivity[e].id==actividades[a].ActivityId){
+			    			console.log("coincidence >>>"+actividades[a].ActivityId);
+			    			ids.push(e);
+					    	$scope.activityModel.push($scope.lstActivity[e]);
+		                    if ($scope.lstActivity[e].specification) {
+		                        $scope.specification[$scope.lstActivity[e].name] = actividades[a].specification; 
+		                    } 
+					    }
+				    }
+			    }
+			    $('#ms').multipleSelect("setSelects",ids);
+			}
+		};
+
+		$scope.locationDp = function(){
+			$scope.m.LocationId = $scope.SeceltedLocation['Id'];
+		}
+
+
+		//guarda los cambios realizados a la seccion de datos personales
+         $scope.savePersonalData = function () {
+	        var jsonData = JSON.stringify($scope.m);
+	        //alert("m value>>"+JSON.stringify($scope.m));
+			$scope.msgExito = MeetingService.upsertPersonalData(JSON.stringify($scope.m));
+			//alert("result ="+resultado);
+	    };
+        //END DATOS PERSONALES
+
+
+        ////////////Domicilios///////////
+ 		$scope.saveDomicilios = function () {
+	        var jsonData = JSON.stringify($scope.m);
+			$scope.msgSuccessDom = MeetingService.upsertDomicilioComment(JSON.stringify($scope.m));
+	    };
+        ///////////end domicilios///////////
+
+        ////////////SocialNetwork///////////
+ 		$scope.saveSocialNetwork = function () {
+	        var jsonData = JSON.stringify($scope.m);
+			$scope.msgSuccessSocNet = MeetingService.upsertRedSocialComment(JSON.stringify($scope.m));
+	    };
+        ///////////end SocialNetwork///////////
+
+        ////////////Referencias///////////
+ 		$scope.saveReferences = function () {
+	        var jsonData = JSON.stringify($scope.m);
+			$scope.msgSuccessReferences = MeetingService.upsertReferenciasComment(JSON.stringify($scope.m));
+	    };
+        ///////////end Referencias///////////
+
+        ////////////Laboral///////////
+ 		$scope.saveLaboral = function () {
+	        var jsonData = JSON.stringify($scope.m);
+			$scope.msgSuccessLaboral = MeetingService.upsertLaboralComment(JSON.stringify($scope.m));
+	    };
+        ///////////end Laboral///////////
+
+        ////////////Drugs///////////
+ 		$scope.saveDrugs = function () {
+	        var jsonData = JSON.stringify($scope.m);
+			$scope.msgSuccessDrugs = MeetingService.upsertDrugComment(JSON.stringify($scope.m));
+	    };
+        ///////////end Drugs///////////
+
+/////////////para historia escolar
+        $scope.block = true;
+        $scope.school = {};
+        $scope.school.level={};
+        $scope.school.degree={};
+
+	   	$scope.gradeByNivel = function(){
+	   	alert("$scope.school.level=="+JSON.stringify($scope.school.level));
+        $scope.lstDegree=JSON.parse(MeetingService.gradeByNivel( $scope.school.level['Id']));
+	   	}
+
+        $scope.fillModel = function(){
+	       var template ="NO ESTUDIA";
+	       if($scope.m.SchoolBlock == false){
+	            $scope.m.SchoolName=template;
+	           $scope.m.SchoolPhone = template;
+	           $scope.m.SchoolAddress = template;
+	       }else{
+	            $scope.m.SchoolName="";
+	           $scope.m.SchoolPhone = "";
+	           $scope.m.SchoolAddress = "";
+	       }
+	   };
+
+	   $scope.saveEscolarship = function(){
+	   		$scope.m.ScheduleSchool = $("#hdnJsonScheduleSchool").val();
+	   		var jsonData = JSON.stringify($scope.m);
+			$scope.msgSuccessEscolar = MeetingService.upsertSchoolarship(JSON.stringify($scope.m));
+	   }
+
+	   $scope.InitSchool = function(){
+	   if($scope.m.ScheduleSchool!=undefined&&$scope.m.ScheduleSchool!=null){
+	   $("#hdnJsonScheduleSchool").val($scope.m.ScheduleSchool);
+	   	console.log("hdnJsonScheduleSchool-->"+$("#hdnJsonScheduleSchool").val());
+	   }
+
+	   		//$scope.fillModel();
+	   		$scope.lstLevel=JSON.parse(MeetingService.allAcademicLevels());
+	   		if($scope.m.SchoolDegreeId!=undefined&&$scope.m.SchoolDegreeId!=null){
+	   			$scope.lstDegree=JSON.parse(MeetingService.gradesBySelectedDegree($scope.m.SchoolDegreeId));
+	   			for(a in $scope.lstDegree){
+	   				if($scope.lstDegree[a].Id==$scope.m.SchoolDegreeId){
+	   					$scope.school.degree = $scope.lstDegree[a];
+	   					break;
+	   				}
+	   			}
+	   			for(b in $scope.lstLevel){
+	   				if($scope.lstLevel[b].Id==$scope.school.degree.AcademicLevelId){
+	   					$scope.school.level=$scope.lstLevel[b];
+	   					break;
+	   				}
+	   			}
+	   		}
+	   		alert("model "+ JSON.stringify($scope.m));
+	   };
+////////////////END historia escolar
+
+////////para Leave country 
+        $scope.Edocumento = {};
+        $scope.EdocumentoId = {};
+        $scope.ImmigrationDoc = {};
+        $scope.ImmigrationDocId = {};
+
+        $scope.specficationImmigranDoc = "";
+
+        $scope.listImmigrationDoc = [];
+        $scope.documentosMigratoriosFill = function(){
+	   	//alert("$scope.school.level=="+JSON.stringify($scope.school.level));
+        $scope.listImmigrationDoc=JSON.parse(MeetingService.documentosMigratorios());
+	   	}
+
+	   	$scope.l={};
+	   	$scope.l.oc={};
+	   	$scope.l.ocId={};
+
+	   	$scope.l.fac={};
+	   	$scope.l.facId={};
+
+	   	$scope.l.rel={};
+	   	$scope.l.relId={};
+
+	   	$scope.l.specificationRelationship={};
+
+	   	$scope.relacionPersonalAll = function(){
+        $scope.listRel=JSON.parse(MeetingService.relacionPersonal());
+	   	}
+
+///////////end Leave country
+
+        $timeout(function () {
+    		$scope.Iniciate();
+		}, 0);
+
+
+		$scope.Iniciate = function(){
+		    try{
+			    //alert("asshole html>>"+$("#asshole").html());
+			    var js = JSON.parse($("#hdnJsonMtng").val());
+			    $scope.m = js;
+			    //alert("m valu>>"+JSON.stringify($scope.m));
+			    //Birthplace iniciation
+			    $scope.InitCountryPD();
+			    //activities iniciation
+			    $scope.InitActivities();
+			    $scope.InitSchool();
+		    }
+		    catch(err){
+		    	alert("error catched Iniciate angular function erro==>"+err.message);
+		    }
+		    $(".blocker").remove();
+		};
+
+    $scope.selectedActivities = function (lstActivity, lstActivitySelect) {
         for (var i = 0; i < lstActivitySelect.length; i++) {
             for (var j = 0; j < lstActivity.length; j++) {
                 if (lstActivity[j].id === lstActivitySelect[i].id) {
@@ -54,8 +339,7 @@ alert($("#showId").html());
         $scope.relActivities = [];
         for (var i = 0; i < $scope.activityModel.length; i++) {
             var model = {};
-            model.activity = {};
-            model.activity.id = $scope.activityModel[i].id;
+            model.ActivityId = $scope.activityModel[i].id;
             if ($scope.specification[$scope.activityModel[i].name] != undefined) {
                 model.specification = $scope.specification[$scope.activityModel[i].name];
             } else {
@@ -63,95 +347,50 @@ alert($("#showId").html());
             }
             $scope.relActivities.push(model);
         }
-        $scope.activities = JSON.stringify($scope.relActivities);
+        $scope.m.Activities = JSON.stringify($scope.relActivities);
         return true;
     };
-    	//genero
-        $scope.gen = {};
-
-        //pais nacimiento
-        $scope.listCountry = [];
-        $scope.listState = [];
-        $scope.listMuni = [];
-        listMunByEdo = [];
-        $scope.SeceltedCountry = {};
-        $scope.SeceltedEstate = {};
-        $scope.SeceltedMuni = {};
-
-         $scope.savePersonalData = function () {
-	        var jsonData = JSON.stringify($scope.m);
-	        alert("m value>>"+JSON.stringify($scope.m));
-				window.location.replace('hybrid:Meeting/SaveMeetingDatosPersonales?model=' + encodeURIComponent(jsonData));
-	    };
-        //END DATOS PERSONALES
-
-        //para historia escolar
-        $scope.block = true;
-
-        //para Leave country 
-        $scope.Edocumento = {};
-        $scope.EdocumentoId = {};
-
-
-
+    	
         $scope.save = function(){
-            $scope.Wait = true;
-//todos los key del json deben ser igual al modelo cs
-if($("#frmSubmitValuesMeeting").valid()==false){
-    $scope.Wait = false;
-    return false;
-}
-var jsonData = JSON.stringify($scope.m);
-window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
-$scope.Wait = false;
+		            $scope.Wait = true;
+		//todos los key del json deben ser igual al modelo cs
+		if($("#frmSubmitValuesMeeting").valid()==false){
+		    $scope.Wait = false;
+		    return false;
+		}
+		var jsonData = JSON.stringify($scope.m);
+		window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
+		$scope.Wait = false;
+		};
+
+
+
+$scope.showMessageError = function(indicator){
+    alert(indicator);
 };
 
+
+
+$scope.showState = function(){
+    //alert("html >>"+$("#AdresBirth").html());
+    //alert("   m.BirthCountry_>"+$scope.m.BirthCountry);
+	alert("$scope.specification=>"+JSON.stringify($scope.specification));
+    alert("$scope.lstActivity=>"+JSON.stringify($scope.lstActivity));
+    alert("$scope.activityModel=>"+JSON.stringify($scope.activityModel));
+    alert("$scope.activityList=>"+JSON.stringify($scope.activityList));
+};
+
+
+
+//regresa la pantalla de seleccion de meeting
 $scope.cancel = function(){
     $scope.saving = false;
 //todos los key del json deben ser igual al modelo cs
 window.location.replace('hybrid:Meeting/Index');
 };
 
-$scope.showMessageError = function(indicator){
-    alert(indicator);
-};
-
-$scope.tuFunk = function(){
-    try{
-    alert("asshole html>>"+$("#asshole").html());
-    var js = JSON.parse($("#hdnJsonMtng").val());
-    $scope.m = js;
-    alert("m valu>>"+JSON.stringify($scope.m));
-    }
-    catch(err){
-    alert("error catched tu funk function:::"+err.message);
-    }
-};
-
-$scope.showState = function(){
-    alert("m valu>>"+JSON.stringify($scope.m));
-    alert("   m.BirthCountry_>"+$scope.m.BirthCountry);
-
-};
-
-$scope.MunByEdo = function(){
-    $scope.listMunByEdo = [];
-    var em=0;
-    alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate));
-    for(x in $scope.listMuni){
-    	if($scope.listMuni[x].Reference==$scope.SeceltedEstate['Id']){
-    		$scope.listMunByEdo.push($scope.listMuni[x]);
-    		em++;
-    	}
-    }
-};
-
-
-$timeout(function () {
-    $scope.tuFunk();
-}, 0);
-
 });
+
 
 </script>
 <div id="generalDivForAngular" ng-app="umecaMobile" ng-controller="MeettingDatosPersonalesController">
@@ -227,7 +466,7 @@ $timeout(function () {
         <!-- LATERAL PAGER MENU -->
         <div class="row">
             <div class="col-sm-12">
-                <div class="tabbable tabs-left">
+                <div class="tabbable tabs-left"  id="sidebar" class="sidebar" >
                     <ul class="nav nav-tabs" id="tabMeeting">
                         <li class="active" id="liPersonalData">
                             <a data-toggle="tab" href="#personalData">
@@ -385,8 +624,13 @@ $timeout(function () {
                                 </div>
                             </a>
                         </li>
+                        <!--<li id="collapser" class="sidebar-collapse">
+                        	<i class="icon-double-angle-left"></i>
+                        </li>-->
                     </ul>
-
+					<!--<script type="text/javascript">
+						$(function(){ $("#collapser").on("click",function(){$("#sidebar").toggle();})});
+					</script>-->
                     <div class="tab-content">
 
                         <!-- END LATERAL PAGER MENU -->
@@ -409,7 +653,7 @@ $timeout(function () {
                             <div class="col-xs-10 element-center col-xs-offset-1">
                                 <h2><i class="purple glyphicon glyphicon-user bigger-100"></i> &nbsp;Datos personales y entorno social</h2>
                                 <div ng-show="msgExito" class="alert alert-success element-center success-font">
-                                    <span ng-bind-html="msgExito"></span>
+                                    <span>{{msgExito}}</span>
                                 </div>
                                 <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
                                 class="form-horizontal"
@@ -807,7 +1051,7 @@ $timeout(function () {
                                             <div class="widget-body">
                                                 <br/>
 
-                                                <div class="row">
+                                                <div class="row" >
                                                     <div class="col-xs-2 element-left col-xs-offset-1">
                                                         Pa&iacute;s:
                                                     </div>
@@ -816,20 +1060,18 @@ $timeout(function () {
                                                         id="country"
                                                         value="${m.BirthCountry == null ? '': m.BirthCountry}"
                                                         ng-model="m.BirthCountry" />
-
-                                                        <!--revisar el css y que se escape correctamente el json, values incorrectos -->
-                                                        <select class="form-control element-center" ng-model="SeceltedCountry" 
-                                                        ng-options="e.Name for e in listCountry" value=""
-                                                        ng-change="m.BirthCountry = SeceltedCountry['Id'];showState();" ng-init='listCountry = @Model.JsonCountrys'></select>
+                                                        <select class="form-control element-center" ng-model="SeceltedCountry"  id="AdresBirth"
+                                                        ng-options="e.Name for e in listCountry" value="{{SeceltedCountry['ID']}}"
+                                                        ng-change="m.BirthCountry = SeceltedCountry['Id'];" ng-init='listCountry = @Model.JsonCountrys;'></select>
                                                    </div>
                                                     <div class="col-xs-2 element-right" ng-show="m.BirthCountry != 1">
                                                         Estado:
                                                     </div>
                                                     <div class="col-xs-3" ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
-                                                        type="text" ng-model="stateString" id="imputed.birthState"   data-val="true"
-                                                        name="imputed.birthState" data-val-required="El estado es un campo requerido" value="{{stateString}}"
-                                                        ng-init=''>
+                                                        type="text" ng-model="m.BirthState" id="imputed.birthState"   data-val="true"
+                                                        name="imputed.birthState" data-val-required="El estado es un campo requerido" value="{{m.BirthState}}"
+                                                        ng-init='' />
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
@@ -839,7 +1081,7 @@ $timeout(function () {
                                                     <div class="col-xs-3" ng-show="m.BirthCountry == 1">
                                                         <select class="form-control element-center" ng-model="SeceltedEstate" value=""
                                                         ng-options="e.Name for e in listState" ng-init='listState = @Model.JsonStates'
-                                                        ng-change="m.BirthState = SeceltedEstate['Name'];MunByEdo();"></select><br/>
+                                                        ng-change="MunByEdo();"></select><br/>
                                                         <!--ng-options="e.name for e in listState" ng-init=''-->
                                                     </div>
                                                 </div>
@@ -851,7 +1093,7 @@ $timeout(function () {
                                                     </div>
                                                     <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
-                                                        type="text" ng-model="birthMunicipality" id="imputed.birthMunicipality"    data-val="true"
+                                                        type="text" ng-model="m.BirthMunicipality" id="imputed.birthMunicipality"    data-val="true"
                                                         name="m.BirthMunicipality" data-val-required="El municipio es un campo requerido"
                                                         ng-init=''>
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
@@ -864,8 +1106,8 @@ $timeout(function () {
                                                         <input type="hidden" ng-model="urlMunicipality"
                                                         ng-init=''>
                                                         <select class="form-control element-center" ng-model="SeceltedMuni" 
-                                                        ng-options="e.Name for e in listMunByEdo" ng-init='listMuni = @Model.JsonMunycipality; listMunByEdo=[];'
-                                                        ng-change="m.BirthMunicipality = SeceltedMuni['Name'];"></select><br/>
+                                                        ng-options="e.Name for e in listMunByEdo" 
+                                                        ng-change="LocByMun();"></select><br/>
 
                                                     </div>
                                                     <div class="col-xs-2 element-right"  ng-show="m.BirthCountry != 1">
@@ -873,7 +1115,7 @@ $timeout(function () {
                                                     </div>
                                                     <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
-                                                        type="text" ng-model="locationstr" id="imputed.birthLocation"
+                                                        type="text" ng-model="m.BirthLocation" id="imputed.birthLocation"
                                                         name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"   data-val="true"
                                                         ng-init=''>
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
@@ -883,18 +1125,14 @@ $timeout(function () {
                                                         Localidad/Colonia:
                                                     </div>
                                                     <div class="col-xs-3"  ng-show="m.BirthCountry == 1">
-                                                        <input type="hidden" ng-model="urlLocation"
-                                                        ng-init='' />
-                                                        <select class="form-control" ng-model="location" change-cp  value="{{location.id}}"
-                                                        ng-options="e.name for e in listLocation" ng-init='listLocation = ""'
-                                                        ng-change="locationId = location.id;"></select>
-
-
+                                                        <select class="form-control" ng-model="SeceltedLocation" change-cp 
+                                                        ng-options="e.Name for e in listLocalidades" ng-init="listLocalidades = [];"
+                                                        ng-change="locationDp();"></select>
                                                     </div>
                                                     <div class="col-xs-10 col-xs-offset-1" ng-show="m.BirthCountry == 1">
-                                                        <input type="hidden" ng-model="locationId" ng-update-hidden name="imputed.location.id"
+                                                        <input type="hidden" ng-model="m.LocationId" ng-update-hidden name="imputed.location.id"
                                                         data-val-required="La localidad es un campo requerido. Elija Estado y Municipio para desplegar la lista de localidades.">
-                                                        <span class="field-validation-valid" data-valmsg-for="locationId"
+                                                        <span class="field-validation-valid" data-valmsg-for="mputed.location.id"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
                                                 </div>
@@ -920,7 +1158,7 @@ $timeout(function () {
                                     <div class="col-xs-9">
                                         <textarea class="form-control"
                                         data-val-required="Si padece alguna enfermedad o condici&oacute;n f&iacute;sica es un campo requerido"
-                                        name="socialEnvironment.physicalCondition">@Model.PhysicalCondition</textarea>
+                                        name="socialEnvironment.physicalCondition" ng-model="m.PhysicalCondition">{{m.PhysicalCondition}}</textarea>
                                         <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
                                         data-valmsg-replace="true"></span>
                                     </div>
@@ -941,11 +1179,11 @@ $timeout(function () {
 								            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
 								        </div>
 								        <div class="col-xs-9 element-left">
-								            <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
-								            <select multiple ng-model="activityModel" data-placeholder="..."
-								                    ng-init='lstActivity = @Model.JsonActivities;'
-								                    id="slctActivity" style="width:650px;"
-								                    ng-options="ac.name for ac in lstActivity">
+								            <input name="activities" ng-model="activities" type="hidden" ng-update-hidden >
+								            <select ng-model="activityModel" data-placeholder="..." id="ms"
+								                    ng-init='lstActivity = @Model.JsonActivities;' ng-change="matchActivities();"
+								                    id="slctActivity" style="width:450px;heigth: 100%;"
+								                    ng-options="ac.name for ac in lstActivity" multiple >
 								            </select>
 								        </div>
 								    </div>
@@ -964,7 +1202,7 @@ $timeout(function () {
 							                           data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
 							                           type="text" value="" ng-model="specification[activity.name]"
 							                           id="specification{{activity.name}}" name="specification{{activity.name}}"
-							                           ng-change="matchAc   tivities()"><br/>
+							                           ng-change="matchActivities()"><br/>
 							                <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
 							                      data-valmsg-replace="true"></span>
 							                    <br/>
@@ -996,15 +1234,10 @@ $timeout(function () {
                         </span>
                     </div>
                 </div>
-                <input type="button" onclick="shw();" value="ertyuiopfghj"/>
+                <!--<input type="button" ng-click="showState();" value="ertyuiopfghj"/>-->
 
 
 <div class="space-2"></div>
-                MIERDAAA:
-<select multiple="" class="form-control chosen-select" data-placeholder="..." ng-change="putasHarry();" ng-model="ac"
-                    id="axelMulti" ng-options="ac.name for ac in lstActivity track by ac.id">
-</select>
-
             </div><!--End of Datos Personales-->
 
 
@@ -1018,7 +1251,6 @@ $timeout(function () {
             <div id="address" class="tab-pane"><!-- Begin of Domicilios -->
                 <!-- include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp" -->
 
-<select class="form-control element-center ng-pristine ng-valid valid" ng-options="e.name for e in listElection"  ng-init="listElection = [{&quot;id&quot;:1,&quot;name&quot;:&quot;Si&quot;},{&quot;id&quot;:2,&quot;name&quot;:&quot;No&quot;}];"><option value="0" selected="selected">Si</option><option value="1">No</option></select>
                 <br />
 <div class="row element-center">
     <div class="col-xs-12">
@@ -1088,8 +1320,8 @@ $timeout(function () {
 </div>
 <br/><br/>
     <div class="col-xs-10 col-xs-offset-1">
-        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            <span ng-bind-html="msgSuccess"></span>
+        <div ng-show="msgSuccessDom" class="alert alert-success element-center success-font">
+            <span>{{msgSuccessDom}}</span>
         </div>
     </div>
 
@@ -1104,7 +1336,7 @@ $timeout(function () {
                 data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                 data-val-length-max="500"
                 data-val-length-min="1"
-                name="commentHome"></textarea>
+                name="commentHome">{{m.CommentHome}}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="comment"
                 data-valmsg-replace="true"></span>
             </div>
@@ -1117,7 +1349,7 @@ $timeout(function () {
         </div>-->
         <div class="col-xs-12">
             <div class="modal-footer">
-                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true">
+                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="saveDomicilios()">
                 <span class="glyphicon glyphicon-cloud-upload"></span>
                 Guardar
             </span>
@@ -1207,23 +1439,23 @@ $timeout(function () {
         <br/>
 <br/>
 <div class="row">
-    <!--<div class="col-xs-10 col-xs-offset-1">
-    <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-        <span ng-bind-html="msgSuccess"></span>
+    <div class="col-xs-10 col-xs-offset-1">
+    <div ng-show="msgSuccessSocNet" class="alert alert-success element-center success-font">
+        <span>{{msgSuccessSocNet}}</span>
     </div>
-    </div>-->
+    </div>
     <form id="FormSocialNetworkIndexId" name="FormSocialNetworkIndexId" class="form-horizontal" role="form">
                 <div class="col-xs-3 element-right">Observaciones:<br/>
                     <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
                 <div class="col-xs-8">
-                    <textarea class="width-100"     ng-model = "comment" ng-init=''
+                    <textarea class="width-100"     ng-model = "m.CommentSocialNetwork" ng-init=''
                               data-val-required="Las observaciones es un campo requerido"
                               data-val="true"
                               data-val-required="Las observaciones es un campo requerido"
                               data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                               data-val-length-max="500"
                               data-val-length-min="1"
-                              name="socialNetwork.comment"></textarea>
+                              name="socialNetwork.comment">{{m.CommentSocialNetwork}}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="comment"
                       data-valmsg-replace="true"></span>
                 </div>
@@ -1236,7 +1468,7 @@ $timeout(function () {
         </div>
     <div class="col-xs-12">
         <div class="modal-footer">
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="saveSocialNetwork();">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
@@ -1331,24 +1563,24 @@ $timeout(function () {
     <br/><br/>
 <div class="row" >
 
-    <!--<div class="col-xs-10 col-xs-offset-1">
-        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            <span ng-bind-html="msgSuccess"></span>
+    <<div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccessReferences" class="alert alert-success element-center success-font">
+            <span>{{msgSuccessReferences}}</span>
         </div>
-    </div>-->
+    </div>
     <form id="FormCommentReferenceId" name="FormCommentReferenceId" class="form-horizontal" role="form">
         <div class="col-xs-3 element-right">Observaciones:<br/>
             <label class="info-example">(no tiene donde vivir, existe violencia, etc.)</label></div>
         <div class="col-xs-8">
             <textarea class="width-100"
-                      ng-model = "comment" ng-init=''
+                      ng-model = "m.CommentReference" ng-init=''
                       data-val-required="Las observaciones es un campo requerido"
                       data-val="true"
                       data-val-required="Las observaciones es un campo requerido"
                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500"
                       data-val-length-min="1"
-                      name="commentReference">${m.socialNetwork.comment}</textarea>
+                      name="commentReference">${m.CommentReference}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="comment"
                       data-valmsg-replace="true"></span>
         </div>
@@ -1362,7 +1594,7 @@ $timeout(function () {
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="">
+                          ng-click="saveReferences();">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
@@ -1406,7 +1638,7 @@ $timeout(function () {
 	}
 	function btnEditHistorialLaboral (){
 	 alert("cliked btnRereshHistorialLaboral");
-	}
+	}		
 	</script>
 <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
      data-pagination="true" data-height="450"
@@ -1458,23 +1690,23 @@ $timeout(function () {
 
 <div class="row" >
 
-    <!--<div class="col-xs-10 col-xs-offset-1">
-        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            <span ng-bind-html="msgSuccess"></span>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccessLaboral" class="alert alert-success element-center success-font">
+            <span>{{msgSuccessLaboral}}</span>
         </div>
-    </div>-->
+    </div>
     <form id="FormCommentJobId" name="FormCommentJobId" class="form-horizontal" role="form">
         <div class="col-xs-3 element-right">Observaciones:<br/>
             <label class="info-example">(Este campo no es verificable)</label></div>
         <div class="col-xs-8">
             <textarea class="width-100"
-                      data-val="true" ng-model="comment"
+                      data-val="true" ng-model="m.CommentJob"
                       ng-init=''
                       data-val-required="Las observaciones es un campo requerido"
                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500"
                       data-val-length-min="1"
-                      name="commentJob"></textarea>
+                      name="commentJob">{{m.CommentJob}}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="commentJob"
                       data-valmsg-replace="true"></span>
         </div>
@@ -1489,7 +1721,7 @@ $timeout(function () {
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="">
+                          ng-click="saveLaboral();">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
@@ -1519,9 +1751,9 @@ $timeout(function () {
         <br/>
         <div class="row" >
             <div class="col-xs-10 col-xs-offset-1">
-                <!--<div ng-show="msgExito" class="alert alert-success element-center success-font">
-                    <span ng-bind-html="msgExito"></span>
-                </div>-->
+                <div ng-show="msgSuccessEscolar" class="alert alert-success element-center success-font">
+                    <span>{{msgSuccessEscolar}}</span>
+                </div>
                 <form id="FormSchool" name="FormSchool" ng-submit="submit('#FormSchool')" class="form-horizontal"
                       role="form">
                     <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
@@ -1533,16 +1765,15 @@ $timeout(function () {
             </div>
             <div class="col-xs-2">
                 <input type="radio" name="school.block"
-                id="blockYes" ng-value="true" ng-model="block" ng-change="fillModel()">
+                id="blockYes" ng-value="true" ng-model="m.SchoolBlock" ng-change="fillModel()">
                 <label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;
-                <input type="radio" ng-checked="block==false" name="school.block"
-                id="blockNo" ng-value="false" ng-model="block" ng-change="fillModel()">
+                <input type="radio" ng-checked="m.SchoolBlock==false" name="school.block"
+                id="blockNo" ng-value="false" ng-model="m.SchoolBlock" ng-change="fillModel()">
                 <label for="blockNo">No</label>
             </div>
         </div>
     </div>
     <br/>
-
     <div class="row">
         <div class="col-xs-2 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
@@ -1553,12 +1784,12 @@ $timeout(function () {
             ng-click="doConfirmVerifNotKnow('school.name')"></i>
             Escuela:
         </div>
-        <div class="col-xs-10"><input class="form-control" data-val="true" ng-readonly="!block"
+        <div class="col-xs-10"><input class="form-control" data-val="true" ng-readonly="!m.SchoolBlock"
           data-val-length="Debe tener al menos 5 y m?ximo 200 caracteres"
           data-val-length-max="200" data-val-length-min="5"
           data-val-required="La escuela es un campo requerido" type="text" value=""
           ng-init=''
-          ng-model="school.name" id="school.name" name="school.name"></div>
+          ng-model="m.SchoolName" id="school.name" name="school.name"></div>
           <div class="row">
             <div class="col-xs-9 col-xs-offset-2 element-left"><span class="field-validation-valid"
              data-valmsg-for="school.name"
@@ -1579,10 +1810,10 @@ $timeout(function () {
         </div>
         <div class="col-xs-4"><input class="form-control" data-val="true"
          data-val-length="Debe tener al menos 5 y m&aacute;ximo 30 caracteres"
-         data-val-length-max="30" data-val-length-min="5" ng-readonly="!block"
+         data-val-length-max="30" data-val-length-min="5" ng-readonly="!m.SchoolBlock"
          data-val-required="El tel&eacute;fono es un campo requerido" type="text"
          value=""
-         ng-model="school.phone" id="school.phone" name="school.phone"
+         ng-model="m.SchoolPhone" id="school.phone" name="school.phone"
          ng-init=''>
          <span class="field-validation-valid" data-valmsg-for="school.phone"
          data-valmsg-replace="true"></span>
@@ -1603,13 +1834,13 @@ $timeout(function () {
         Direcci&oacute;n:
     </div>
     <div class="col-xs-10"><textarea id="school.address" class="form-control" name="school.address"
-     ng-model="school.address" ng-readonly="!block"
+     ng-model="m.SchoolAddress" ng-readonly="!m.SchoolBlock"
      ng-init=''
      data-val="true"
      data-val-required="La direcci&oacute;n es un campo requerido"
      data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
      data-val-length-max="500"
-     data-val-length-min="6">m.school.address</textarea>
+     data-val-length-min="6">{{m.SchoolAddress}}</textarea>
 
      <div class="col-xs-9 col-xs-offset-2 element-left"><span class="field-validation-valid"
          data-valmsg-for="school.address"
@@ -1635,8 +1866,8 @@ $timeout(function () {
                 </div>
                 <div class="col-xs-4">
                     <select class="form-control element-center" ng-model="school.level"
-                    ng-options="e.name for e in lstLevel" ng-init=''
-                    ng-change="school.levelId = school.level.id; lstDegree = school.level.degrees; school.degree=lstDegree[0]"></select>
+                    ng-options="e.Name for e in lstLevel" ng-init=''
+                    ng-change="gradeByNivel();"></select>
                 </div>
                 <div class="col-xs-1">
                     Grado:
@@ -1644,9 +1875,9 @@ $timeout(function () {
                 <div class="col-xs-3">
 
                     <select class="form-control element-center" ng-model="school.degree"
-                    ng-options="e.name for e in lstDegree"
-                    ng-change="school.degreeId = school.degree.id"
-                    ng-init='lstDegree = school.level.degrees;'></select>
+                    ng-options="e.Name for e in lstDegree"
+                    ng-change=" m.SchoolDegreeId = school.degree['Id'] "
+                    ng-init=''></select>
                     <input type="hidden" ng-update-hidden ng-model=" school.degree.id" name="school.degree.id"
                     id="degreeId"
                     ng-init="">
@@ -1655,7 +1886,7 @@ $timeout(function () {
                 <br/>
             </div>
             <br/>
-            <div class="row" ng-show="school.levelId == 7">
+            <div class="row" ng-show="school.level['Id'] == 7">
                 <br/>
 
                 <div class="col-xs-2  element-left col-xs-offset-1">
@@ -1672,7 +1903,7 @@ $timeout(function () {
                     data-val-length="Debe tener al menos 1 y m&aacute;ximo 300 caracteres"
                     data-val-length-max="300" data-val-length-min="1"
                     data-val-required="La especificaci&oacute;n  es un campo requerido" type="text" value=""
-                    ng-model="school.specification" id="school.specification" name="school.specification"
+                    ng-model="m.SchoolSpecification" id="school.specification" name="school.specification"
                     ng-init=''>
                     <span class="field-validation-valid" data-valmsg-for="school.specification"
                     data-valmsg-replace="true"></span>
@@ -1704,8 +1935,8 @@ $timeout(function () {
     <script src="scripts/app/reviewer/scheduleCtrl.js"></script>
 
     <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
-        <input type="hidden" ng-update-hidden ng-model="schString" name='sch'>
-        <input type="hidden" ng-update-hidden ng-init='listSchedule = ""'>
+        <input type="hidden" ng-update-hidden ng-model="schString" name='sch' id="hdnJsonScheduleSchool">
+        <input type="hidden" ng-update-hidden >
         <div class="col-xs-10 col-xs-offset-1">
             <div class="row">
                 <div class="col-xs-4 element-center">
@@ -1733,7 +1964,7 @@ $timeout(function () {
             </div>
             <div class="col-xs-2">
                 Acciones<br/><div class="space-5"></div>
-                <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()"></i>
+                <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()">	</i>
             </div>
         </div>
         <div class="row">
@@ -1803,7 +2034,7 @@ $timeout(function () {
         data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
         data-val-length-max="500"
         data-val-length-min="1"
-        name="school.commentSchool"></textarea>
+        name="school.commentSchool">{{m.CommentSchool}}</textarea>
         <span class="field-validation-valid" data-valmsg-for="comment"
         data-valmsg-replace="true"></span>
     </div>
@@ -1818,7 +2049,7 @@ $timeout(function () {
         <div class="row">
             <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormSchool', '');">
+                          ng-click="saveEscolarship();">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                            Guardar
                     </span>
@@ -1911,23 +2142,23 @@ $timeout(function () {
 <br/><br/>
 <div class="row" >
 
-    <!--<div class="col-xs-10 col-xs-offset-1">
-        <div ng-show="msgSuccess" class="alert alert-success element-center success-font">
-            <span ng-bind-html="msgSuccess"></span>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div ng-show="msgSuccessDrugs" class="alert alert-success element-center success-font">
+            <span>{{msgSuccessDrugs}}</span>
         </div>
-    </div>-->
+    </div>
     <form id="FormCommentDrugId" name="FormCommentDrugId" class="form-horizontal" role="form">
         <div class="col-xs-3 element-right">Observaciones:<br/>
             <label class="info-example">(Este campo no es verificable)</label></div>
         <div class="col-xs-8">
-            <textarea class="width-100"      ng-model = "comment" ng-init=''
+            <textarea class="width-100"      ng-model = "m.CommentDrug" ng-init=''
                       data-val-required="Las observaciones es un campo requerido"
                       data-val="true"
                       data-val-required="Las observaciones es un campo requerido"
                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                       data-val-length-max="500"
                       data-val-length-min="1"
-                      name="commentDrug"></textarea>
+                      name="commentDrug">{{m.CommentDrug}}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="comment"
                       data-valmsg-replace="true"></span>
         </div>
@@ -1941,7 +2172,7 @@ $timeout(function () {
     <div class="col-xs-12">
         <div class="modal-footer">
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="">
+                          ng-click="saveDrugs();">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                           Guardar
                     </span>
@@ -2039,9 +2270,6 @@ $timeout(function () {
                            name="leaveCountry.officialDocumentation.id"
                            id="doc"
                            ng-init=''>
-                    <!--<select class="form-control element-center" ng-model="l.doc"
-                            ng-options="e.Name for e in @Model.JsonElection"
-                            ng-change="l.docId = l.doc.id;" ng-init=''></select>-->
                             <select class="form-control element-center" ng-model="Edocumento" 
                             ng-options="e.Name for e in listElection" value=""
                             ng-change="EdocumentoId = Edocumento['Id'];" ng-init='listElection = @Model.JsonElection'></select>
@@ -2050,30 +2278,30 @@ $timeout(function () {
         </div>
         <br/>
 
-        <div class="row" ng-show="l.doc.id==1">
+        <div class="row" ng-show="EdocumentoId==1">
             <div class="col-xs-3">
                 Documentaci&oacute;n:
             </div>
             <div class="col-xs-3"  >
                 <input type="hidden" ng-update-hidden ng-model="l.immigrationDocId"
                        name="leaveCountry.immigrationDocument.id"
-                       id="immigrationDcc" ng-show="l.doc.id==1"
+                       id="immigrationDcc" ng-show="EdocumentoId==1"
                        ng-init=''>
-                <select class="form-control element-center" ng-model="l.immigrationDoc"
-                        ng-options="e.name for e in listImmigrationDoc" value="{{l.immigrationDocId}}"
-                        ng-change="l.immigrationDocId = l.immigrationDoc.id;"
-                        ng-init=''></select>
+                <select class="form-control element-center" ng-model="ImmigrationDoc"
+                        ng-options="e.Name for e in listImmigrationDoc" value=""
+                        ng-change="ImmigrationDocId = ImmigrationDoc['Id'];"
+                        ng-init='documentosMigratoriosFill();'></select>
             </div>
-            <div class="col-xs-2" ng-show="l.immigrationDoc.specification">
+            <div class="col-xs-2" ng-show="ImmigrationDoc['Specification']">
                 Especifique documentaci&oacute;n:
             </div>
-            <div class="col-xs-3" ng-show="l.doc.id == 1 && l.immigrationDoc.specification">
-                <input class="form-control"    ng-show="l.doc.id == 1 && l.immigrationDoc.specification"
+            <div class="col-xs-3" ng-show="EdocumentoId == 1 && ImmigrationDoc['Specification']">
+                <input class="form-control"    ng-show="EdocumentoId  == 1 && ImmigrationDoc['Specification']"
                        data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
                        data-val-length-max="50" data-val-length-min="1"
                        data-val-required="La especificaci&oacute;n es un campo requerido"
-                       type="text" ng-model="l.specficationImmigranDoc" id="leaveCountry.specficationImmigranDoc"
-                       name="leaveCountry.specficationImmigranDoc" value="{{l.specficationImmigranDoc}}"
+                       type="text" ng-model="specficationImmigranDoc" id="leaveCountry.specficationImmigranDoc"
+                       name="leaveCountry.specficationImmigranDoc" value=""
                        ng-init=''>
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.specficationImmigranDoc"
                               data-valmsg-replace="true"></span>
@@ -2101,8 +2329,8 @@ $timeout(function () {
                 <input type="hidden" ng-update-hidden ng-model="l.ocId" name="leaveCountry.livedCountry.id" id="oc"
                        ng-init=''>
                 <select class="form-control element-center" ng-model="l.oc"
-                        ng-options="e.name for e in listElection" value="{{l.oc.id}}"
-                        ng-change="l.ocId = l.oc.id;" ng-init=''></select>
+                         ng-options="e.Name for e in listElection" value=""
+                        ng-change="l.ocId = l.oc['Id'];" ng-init=''></select>
             </div>
         </div>
     </div>
@@ -2118,7 +2346,7 @@ $timeout(function () {
                        id="country" ng-show="l.ocId ==1"
                        ng-init=''>
                 <select class="form-control element-center" ng-model="l.country"
-                        ng-options="e.name for e in listCountry" value="{{l.country.id}}"
+                        ng-options="e.Name for e in listCountry" value="{{l.country.id}}"
                         url-request="/catalogs/getStatesByCountry.json"
                         ng-change="l.countryId = l.country.id;" ng-init=''></select>
             </div>
@@ -2230,8 +2458,8 @@ $timeout(function () {
                    id="fac"
                    ng-init=''>
             <select class="form-control element-center" ng-model="l.fac"
-                    ng-options="e.name for e in listElection" value="{{l.fac.id}}"
-                    ng-change="l.facId = l.fac.id;" ng-init=''></select>
+                    ng-options="e.Name for e in listElection" value=""
+                    ng-change="l.facId = l.fac['Id'];" ng-init=''></select>
         </div>
 
     </div>
@@ -2245,8 +2473,8 @@ $timeout(function () {
             <input type="hidden" ng-update-hidden ng-model="l.cfId" name="leaveCountry.communicationFamily.id" id="cf"     ng-show="l.facId == 1"
                    ng-init=''>
             <select class="form-control element-center" ng-model="l.cf"
-                    ng-options="e.name for e in listElection" value="{{l.cf.id}}"
-                    ng-change="l.cfId = l.cf.id;" ng-init=''></select>
+                    ng-options="e.Name for e in listElection" value=""
+                    ng-change="l.cfId = l.cf['Id'];" ng-init=''></select>
         </div>
         <div class="col-xs-3 element-left">
             &iquest;Por qu&eacute; medio?:
@@ -2271,14 +2499,14 @@ $timeout(function () {
             <input type="hidden" ng-update-hidden ng-model="l.relId" name="leaveCountry.relationship.id" id="rel"  ng-show="l.facId == 1"
                    ng-init=''>
             <select class="form-control element-center" ng-model="l.rel"
-                    ng-options="e.name for e in listRel" value="{{l.rel.id}}"
-                    ng-change="l.relId = l.rel.id;" ng-init=''></select>
+                    ng-options="e.Name for e in listRel" value="{{l.rel.id}}"
+                    ng-change="l.relId = l.rel['Id'];" ng-init='relacionPersonalAll();'></select>
         </div>
-        <div class="col-xs-3 element-left"  ng-show="l.rel.specification">
+        <div class="col-xs-3 element-left"  ng-show="l.rel['Specification']">
             Especifique relaci&oacute;n:
         </div>
-        <div class="col-xs-3" ng-show="l.facId == 1 && l.rel.specification">
-            <input class="form-control"     ng-show="l.facId == 1  && l.rel.specification"
+        <div class="col-xs-3" ng-show="l.facId == 1 && l.rel['Specification']">
+            <input class="form-control"     ng-show="l.facId == 1  && l.rel['Specification']"
                    data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
                    data-val-length-max="255" data-val-length-min="1"
                    data-val-required="La especifici&oacute;n es un campo requerido"
@@ -2315,7 +2543,7 @@ $timeout(function () {
     </div>
     <div class="col-xs-9">
         <textarea class="form-control" name="leaveCountry.commentSocialEnvironment" ng-show="!verification"
-                  data-val-required="Los comentarios es un campo requerido">m.socialEnvironment.comment</textarea>
+                  data-val-required="Los comentarios es un campo requerido"></textarea>
          <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentSocialEnvironment"
                data-valmsg-replace="true"></span>
     </div>
@@ -2335,7 +2563,7 @@ $timeout(function () {
     </div>
     <div class="col-xs-9">
         <textarea class="form-control" name="socialEnvironment.comment"
-                  data-val-required="Los comentarios es un campo requerido">m.socialEnvironment.comment</textarea>
+                  data-val-required="Los comentarios es un campo requerido">{{m.CommentCountry}}</textarea>
         <span class="field-validation-valid" data-valmsg-for="socialEnvironment.comment"
               data-valmsg-replace="true"></span>
     </div>
@@ -2387,7 +2615,7 @@ $timeout(function () {
 <div class="row">
     <div class="modal-footer">
     <a href="@Url.Action("Index","Meeting")">
-        <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
+        <span class="btn btn-default btn-sm" >
             Regresar
         </span>
 </a>
@@ -2401,8 +2629,18 @@ $timeout(function () {
 </div>
 </div>
     	<script>
-    	$(".blocker").remove();
-
-    	$(".chosen-select").chosen();
+$(function() {
+        $("#ms").change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+            	width: '100%',
+    			filter:true,
+				selectAll : false,
+//				position : 'top',
+				allSelected : 'Todas las opciones',
+				minimumCountSelected : 7,
+				countSelected : '# de % seleccionados'
+        });
+});
 
     	</script>
