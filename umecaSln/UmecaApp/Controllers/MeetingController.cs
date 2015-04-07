@@ -212,6 +212,7 @@ namespace UmecaApp
 			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
 			if(SE!=null){
 				result.PhysicalCondition = SE.physicalCondition;
+				result.comment = SE.comment;
 				var ActList = db.Table<RelActivity> ().Where(s=> s.SocialEnvironmentId==SE.Id).ToList();
 				if(ActList!=null&&ActList.Count>0){
 					result.Activities = JsonConvert.SerializeObject(ActList);
@@ -223,6 +224,8 @@ namespace UmecaApp
 			if (socialNetComent != null) {
 				result.CommentSocialNetwork = socialNetComent.Comment;
 			}
+
+
 				
 			//school history
 			db.CreateTable<School> ();
@@ -244,6 +247,29 @@ namespace UmecaApp
 					result.ScheduleSchool = JsonConvert.SerializeObject (schedule);
 				}
 			}
+
+			//leave country
+			db.CreateTable<LeaveCountry> ();
+			var leaveActual = db.Table<LeaveCountry> ().Where (lv => lv.MeetingId == result.MeetingId).FirstOrDefault ();
+			if (leaveActual != null) {
+				result.OfficialDocumentationId = leaveActual.OfficialDocumentationId;
+				result.LivedCountryId = leaveActual.LivedCountryId;
+				result.timeAgo = leaveActual.timeAgo;
+				result.Reason = leaveActual.Reason;
+				result.FamilyAnotherCountryId = leaveActual.FamilyAnotherCountryId;
+				result.CountryId = leaveActual.CountryId;
+				result.State = leaveActual.State;
+				result.Media = leaveActual.Media;
+				result.Address = leaveActual.Address;
+				result.ImmigrationDocumentId = leaveActual.ImmigrationDocumentId;
+				result.RelationshipId = leaveActual.RelationshipId;
+				result.TimeResidence = leaveActual.TimeResidence;
+				result.SpecficationImmigranDoc = leaveActual.SpecficationImmigranDoc;
+				result.SpecificationRelationship = leaveActual.SpecificationRelationship;
+				result.CommunicationFamilyId = leaveActual.CommunicationFamilyId;
+			}
+			//End leave country
+
 
 			string output = JsonConvert.SerializeObject(result);
 			result.JsonMeeting = output;
@@ -297,51 +323,171 @@ namespace UmecaApp
 			webView.LoadHtmlString (pagestring);
 		}
 
+		public void  MeetingDomicilio()
+		{
+			ImputedHome mdl= new ImputedHome();
+			var temp = new AddressUpsert{ Model = mdl };
+			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
+
+		public void IndexVerificacion()
+		{
+
+			services.createMeetingTest();
+			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
+			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
+			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
+
+			var result = db.Query<MeetingTblDto> (
+				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
+				+" FROM meeting as me "
+				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
+				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+				+" WHERE me.id_status in (?,?) "
+				//				+" and me.id_reviewer = 2 "
+				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
+
+			Console.WriteLine ("carga de casos "+result.Count);
+
+			var temp = new MeetingList{Model = result};
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
+
+		public void  VerificacionMeeting(int idCase)
+		{
+			if(idCase==0){
+				idCase = db.Table<Case> ().FirstOrDefault().Id;
+			}
+			var result = db.Query<MeetingDatosPersonalesDto> (
+				"SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
+				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
+				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
+				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
+				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
+				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
+				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
+				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
+				+" ,me.id_meeting as 'MeetingId'"
+				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
+				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
+				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
+				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
+				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
+				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
+				+" FROM meeting as me "
+				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
+				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+				//				+" and me.id_reviewer = 2 "
+				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
+			result.CaseId = idCase;
+
+			result.ageString = services.calculateAge (result.BirthDate);
+
+			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
+			if(SE!=null){
+				result.PhysicalCondition = SE.physicalCondition;
+				result.comment = SE.comment;
+				var ActList = db.Table<RelActivity> ().Where(s=> s.SocialEnvironmentId==SE.Id).ToList();
+				if(ActList!=null&&ActList.Count>0){
+					result.Activities = JsonConvert.SerializeObject(ActList);
+				}
+			}
+			//socialNetworkComment
+			db.CreateTable<SocialNetwork> ();
+			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
+			if (socialNetComent != null) {
+				result.CommentSocialNetwork = socialNetComent.Comment;
+			}
 
 
 
-//		@Query("select a from Activity as a where a.isObsolete=false")
-//		List<Activity> findNotObsolete();
+			//school history
+			db.CreateTable<School> ();
+			var escuelaUtlActual = db.Table<School> ().Where (sc=>sc.MeetingId == result.MeetingId).FirstOrDefault ();
+			if (escuelaUtlActual != null) {
+				result.SchoolAddress = escuelaUtlActual.Address;
+				result.SchoolBlock = escuelaUtlActual.block;
+				result.SchoolDegreeId = escuelaUtlActual.DegreeId.GetValueOrDefault ();
+				result.SchoolName = escuelaUtlActual.Name;
+				result.SchoolPhone = escuelaUtlActual.Phone;
+				result.SchoolSpecification = escuelaUtlActual.Specification;
+			}
 
-//		public void validateMeeting(TerminateMeetingMessageDto t){
-//			List<ImputedHome> imputedHomeList = getImputedHomes();
-//			if(imputedHomeList== null || (imputedHomeList !=null && imputedHomeList.size()==0)){
-//				List<String> result = new ArrayList<>();
-//				result.add("Debe registrar al menos un domicilio del imputado.");
-//				t.getGroupMessage().add(new GroupMessageMeetingDto("imputedHome",result));
+
+			db.CreateTable<Schedule>();
+			if(escuelaUtlActual!=null){
+				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
+				if(schedule!=null){
+					result.ScheduleSchool = JsonConvert.SerializeObject (schedule);
+				}
+			}
+
+			//leave country
+			db.CreateTable<LeaveCountry> ();
+			var leaveActual = db.Table<LeaveCountry> ().Where (lv => lv.MeetingId == result.MeetingId).FirstOrDefault ();
+			if (leaveActual != null) {
+				result.OfficialDocumentationId = leaveActual.OfficialDocumentationId;
+				result.LivedCountryId = leaveActual.LivedCountryId;
+				result.timeAgo = leaveActual.timeAgo;
+				result.Reason = leaveActual.Reason;
+				result.FamilyAnotherCountryId = leaveActual.FamilyAnotherCountryId;
+				result.CountryId = leaveActual.CountryId;
+				result.State = leaveActual.State;
+				result.Media = leaveActual.Media;
+				result.Address = leaveActual.Address;
+				result.ImmigrationDocumentId = leaveActual.ImmigrationDocumentId;
+				result.RelationshipId = leaveActual.RelationshipId;
+				result.TimeResidence = leaveActual.TimeResidence;
+				result.SpecficationImmigranDoc = leaveActual.SpecficationImmigranDoc;
+				result.SpecificationRelationship = leaveActual.SpecificationRelationship;
+				result.CommunicationFamilyId = leaveActual.CommunicationFamilyId;
+			}
+			//End leave country
+
+
+			string output = JsonConvert.SerializeObject(result);
+			result.JsonMeeting = output;
+
+
+			result.JsonCountrys = this.JsonCountrys;
+			result.JsonStates = this.JsonStates;
+			result.JsonMunycipality = this.JsonMunycipality;
+			result.JsonElection = this.JsonElection;
+			result.JsonActivities = this.JsonActivities;
+
+			var temp = new VerificacionInterview{Model = result };
+			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
+
+
+//		public void  MeetingDomicilio(int? DomicilioId)
+//		{
+//			ImputedHome mdl;
+//			if (DomicilioId == null || DomicilioId.Equals (0)) {
+//				mdl = new ImputedHome();
+//			} else {
+//				var home = db.Table<ImputedHome> ().Where (s=>s.Id==DomicilioId).FirstOrDefault ();
+//				mdl = home ?? new ImputedHome ();
 //			}
-//			List<PersonSocialNetwork> listPS = getSocialNetwork()==null? new ArrayList<PersonSocialNetwork>() :getSocialNetwork().getPeopleSocialNetwork();
-//			List<Reference> referenceList = getReferences();
-//			List<String> listMessSN = new ArrayList<>();
-//			if ((referenceList==null || (referenceList != null && referenceList.size() == 0))) {
-//				List<String> listMess = new ArrayList<>();
-//				listMess.add("Para terminar la entrevista debe agragar al menos una referencia personal.");
-//				t.getGroupMessage().add(new GroupMessageMeetingDto("reference",listMess));
-//			}
-//
-//			if(socialNetwork==null|| (socialNetwork.getComment()==null || (socialNetwork.getComment()!=null && socialNetwork.getComment().equals("")))){
-//				listMessSN.add(t.template.replace("entity","Las observaciones"));
-//			}
-//
-//			if((listPS== null ||( listPS!= null && listPS.size()==0))){
-//				listMessSN.add("Para terminar la entrevista debe agregar al menos una persona en su red social.");
-//			}
-//
-//			if(listMessSN.size()>0){
-//				t.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork",listMessSN));
-//			}
-//			List<Job> jobList = getJobs();
-//			if(jobList==null || (jobList!=null && jobList.size()==0)){
-//				List<String> result = new ArrayList<>();
-//				result.add("Debe agregar al menos un empleo del imputado.");
-//				t.getGroupMessage().add(new GroupMessageMeetingDto("job",result));
-//			}
-//			List<Drug> drugsList= getDrugs();
-//			if(drugsList==null || (drugsList!=null && drugsList.size()==0)){
-//				List<String> result = new ArrayList<>();
-//				result.add("Debe agregar al menos una sustancia que consume el imputado. (En caso de no consumir sustancias seleccione otro y especifique ninguna)");
-//				t.getGroupMessage().add(new GroupMessageMeetingDto("drug",result));
-//			}
+//			var temp = new AddressUpsert{ Model = mdl };
+//			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
+//			var pagestring = "nada que ver";
+//			pagestring = temp.GenerateString ();
+//			webView.LoadHtmlString (pagestring);
 //		}
 
 	}

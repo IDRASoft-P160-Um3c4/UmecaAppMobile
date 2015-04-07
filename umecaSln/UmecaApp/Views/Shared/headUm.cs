@@ -109,11 +109,11 @@ WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" src=\"scripts/umeca/bootstrap.min.js\"");
 
-WriteLiteral("></script>\r\n    <script");
+WriteLiteral("></script>\r\n    <!--<script");
 
 WriteLiteral(" src=\"scripts/common.js\"");
 
-WriteLiteral("></script>\r\n    <script");
+WriteLiteral("></script>-->\r\n    <script");
 
 WriteLiteral(" src=\"scripts/modernizr-2.6.2.js\"");
 

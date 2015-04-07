@@ -1,14 +1,18 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Assets\scripts\app\reviewer\scheduleCtrl.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.ZX1D82JFCJ" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Program Files (x86)\MSBuild\Xamarin\Android\Xamarin.Android.Common.targets">
     <Files>
-      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="104" Column="104" />
-      <File FileName="UmecaApp\Assets\scripts\app\reviewer\scheduleCtrl.js" Line="23" Column="23" />
-      <File FileName="UmecaApp\com\umeca\entities\reviewer\School.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\com\umeca\entities\reviewer\Schedule.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Models\reviewer\MeetingDatosPersonalesDto.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Controllers\CatalogServiceController.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="7" Column="7" />
+      <File FileName="UmecaApp\Assets\scripts\app\reviewer\scheduleCtrl.js" Line="30" Column="30" />
+      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="15" Column="15" />
+      <File FileName="UmecaApp\Service\MeetingService.cs" Line="29" Column="29" />
+      <File FileName="UmecaApp\com\umeca\entities\reviewer\ImputedHome.cs" Line="44" Column="44" />
+      <File FileName="UmecaApp\Views\Shared\headUm.cshtml" Line="10" Column="10" />
+      <File FileName="UmecaApp\Views\AddressUpsert.cshtml" Line="46" Column="46" />
+      <File FileName="UmecaApp\Models\reviewer\GroupMessageMeetingDto.cs" Line="24" Column="24" />
+      <File FileName="UmecaApp\Views\VerificacionInterview.cshtml" Line="29" Column="29" />
+      <File FileName="UmecaApp\com\umeca\entities\reviewer\Schedule.cs" Line="3" Column="3" />
+      <File FileName="..\..\..\Program Files (x86)\MSBuild\Xamarin\Android\Xamarin.Android.Common.targets" Line="15" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

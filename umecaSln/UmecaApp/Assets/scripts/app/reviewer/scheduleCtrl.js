@@ -1,10 +1,12 @@
 	app.controller('scheduleController', function($scope, $timeout) {
     $scope.s = {};
     $scope.listSchedule = [];
-    $scope.content = "School";
 
 
     $scope.init = function(){
+    if( $scope.content == undefined || $scope.content=="" ){
+    	
+    }
     $scope.listSchedule = [];
         $('#timepickerEnd'+$scope.content).timepicker({
             minuteStep: 1,
@@ -20,23 +22,20 @@
         }).next().on(ace.click_event, function(){
                 $(this).prev().focus();
             });
-        if($scope.listSchedule == undefined){
-            $scope.listSchedule = [];
-        }else{
             try{
             console.log("1 init schedule");
-            if($scope.schString==undefined){$scope.schString=$("#hdnJsonScheduleSchool").val();}
-//            console.log("$scope.schString-"+$scope.schString);
-//            console.log("hdnJsonScheduleSchool-"+$("#hdnJsonScheduleSchool").val());
-            if($scope.schString != undefined){
+            if($scope.schString==undefined){$scope.schString=$("#hdnJsonSchedule"+$scope.content).val();}
+            console.log("$scope.schString-"+$scope.schString);
+            console.log("hdnJsonSchedule"+$scope.content+"-"+$("#hdnJsonSchedule"+$scope.content).val());
+            if($scope.schString != undefined&&$scope.schString != null&&$scope.schString != ""){
                 $scope.listSchedule = JSON.parse($scope.schString);
                 console.log("2 init schedule");
+            }else{
+            	$scope.listSchedule = [];
             }
             }catch(e){console.log("error init schedule err---->"+e.message);}finally{
                 $scope.matchSchedule();
             }
-
-        }
     };
 
 
@@ -45,22 +44,22 @@
     }, 0);
 
    $scope.addSchedule = function(){
-      if($scope.s.day==undefined|| $scope.s.day.trim() == "" ||  $scope.s.start == undefined || $scope.s.end == undefined){
+      if($scope.s.Day==undefined|| $scope.s.Day.trim() == "" ||  $scope.s.Start == undefined || $scope.s.End == undefined){
           $scope.msgError="Favor de ingresar un día, una hora de inicio y una hora de fin";
       }else{
           $scope.msgError="";
           var a ={};
-          a.day = $scope.s.day;
-          a.start = $scope.s.start;
-          a.end = $scope.s.end;
+          a.Day = $scope.s.Day;
+          a.Start = $scope.s.Start;
+          a.End = $scope.s.End;
           if($scope.listSchedule == undefined){
             $scope.listSchedule = [];
         	}
 console.log("typeof listSchedule >>"+typeof $scope.listSchedule+"    ...and string==>"+JSON.stringify($scope.listSchedule) );
           $scope.listSchedule.push(a);
-          $scope.s.day = "";
-          $scope.s.start = "12:00";
-          $scope.s.end = "12:00";
+          $scope.s.Day = "";
+          $scope.s.Start = "12:00";
+          $scope.s.End = "12:00";
           $scope.matchSchedule();
       }
    };

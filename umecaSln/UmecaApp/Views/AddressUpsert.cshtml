@@ -1,0 +1,451 @@
+﻿@model UmecaApp.ImputedHome
+@inherits WebViewTemplate
+@{
+Layout = "UmecaApp.headUm";
+}
+
+<script type="text/javascript">
+    app.controller('AddressUpsertControler', function($scope, $http, $timeout, $sce){
+
+    $timeout(function () {
+    		$scope.init();
+		}, 0);
+
+		$scope.init = function(){
+		    try{
+		    $scope.propiedades=true;
+		    console.log("inicia AddressUpsertControler");
+		    }
+		    catch(err){
+		    	alert("error catched Iniciate angular function erro==>"+err.message);
+		    }
+		};
+		    
+		//regresa la pantalla de seleccion de meeting
+		$scope.cancel = function(){
+			window.location.replace('hybrid:Meeting/Index');
+		};
+
+});
+
+</script>
+
+<div ng-app="umecaMobile" ng-controller="AddressUpsertControler">
+    <div >
+        <div style="width:95%">
+        		<div class="modal-header">
+                    <div class="alert alert-info ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-home "></i>&nbsp;&nbsp;Domicilio</h4>
+                    </div>
+                </div>
+                <!--componente adress by cp-->
+                <div class="row">
+				  <div class="col-xs-5">
+				    <label for="zipCode">C&oacute;digo postal:</label>
+				    <input type="text" id="zipCode" name="zipCode" class="input-xxlarge" ng-model="zipCode"
+				    data-val="true" data-val-required="El c&oacute;digo postal es un campo requerido"
+				    placeholder="Escriba su C.P. para buscar.."
+				    data-val-length-max="6" data-val-length-min="1"
+				    data-val-length="Debe tener al menos 1 y m&aacute;ximo 6 caracteres."/>
+				    <br>
+				    <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
+				  </div>
+				  <div class="col-xs-7">
+				    <br/>
+				    <div ng-show="msgZipCode" class="alert-danger element-center">
+				      {{msgZipCode}}
+				    </div>
+				  </div>
+				</div>
+
+				<div class="row">
+				  <div class="col-xs-6">
+				    <label>Estado:</label>
+				    <select class="form-control element-center" ng-model="state" 
+				    ng-options="e.name for e in listState"
+				    ng-change="stateId = state.id;"></select><br/>
+
+				  </div>
+				  <div class="col-xs-6">
+				    <label>Municipio:</label>
+				    <select class="form-control element-center" ng-model="municipality"
+				    ng-options="e.name for e in listMunicipality" ng-init='listMunicipaliti = ""'
+				    ng-change="municipalityId = municipality.id;"></select><br/>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-xs-12">
+				    <label>Localidad/Colonia:</label>
+				    <br/>
+				    <select class="form-control" ng-model="location"
+				    ng-options="e.name for e in listLocation" ng-init='listLocation = ""'
+				    ng-change="locationId = location.id; zipCode = location.zipCode; refreshMap();"></select>
+				  </div>
+				</div>
+				<br/>
+				<div class="row">
+					  	<div class="col-xs-6">
+						    Calle <br/>
+						    <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
+						    data-val-length-max="100" data-val-length-min="1"
+						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 100 caracteres."
+						    type="text" value="" ng-model="street" name="streetComponent" id="streetComponent">
+						    <span class="field-validation-valid" data-valmsg-for="streetComponent"
+						    data-valmsg-replace="true"></span>
+						  </div>
+						  <div class="col-xs-3">
+						    No Ext <br/>
+						    <input class="form-control" data-val="true"
+						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
+						    data-val-length-max="10" data-val-length-min="1"
+						    data-val-required="El n&uacute;mero exterior es un campo requerido"
+						    type="text" ng-model="outNum"
+						    id="outNumComponent"
+						    name="outNumComponent">
+						    <span class="field-validation-valid" data-valmsg-for="outNumComponent"
+						    data-valmsg-replace="true"></span>
+						  </div>
+						  <div class="col-xs-3">
+						    No Int <br/>
+						    <input class="with-100" data-val="true"
+						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
+						    data-val-length-max="10" data-val-length-min="1"
+						    type="text" ng-model="innNum"
+						    id="innNumComponent"
+						    name="innNumComponent">
+						    <span class="field-validation-valid" data-valmsg-for="innNumComponent"
+						    data-valmsg-replace="true"></span>
+						  </div>
+				</div>
+				<br/>
+				<!--END componente adress by cp-->
+<div class="row">
+  <div class="col-xs-3 element-left col-xs-offset-1">
+    Tel&eacute;fono:
+  </div>
+  <div class="col-xs-9">
+    <textarea type="text" class="width-100" ng-model="a.phone" name="phone"
+    id="phone"
+    data-val="true"
+    data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+    data-val-length-max="200" data-val-length-min="5"
+    data-val-required="El tel&eacute;efono es un campo requerido">{{a.phone}}</textarea>
+    <span class="field-validation-valid" data-valmsg-for="phone"
+    data-valmsg-replace="true"></span>
+  </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-2 element-left col-xs-offset-1">
+        Tipo de propiedad:
+    </div>
+    <div class="col-xs-2">
+        <select class="form-control element-center" ng-model="a.homeType"
+                ng-options="e.name for e in lstHomeType"
+                ng-change="a.homeTypeId = a.homeType.id;" ></select>
+    </div>
+    <div class="col-xs-3 element-right">
+        Tipo de domiclio:
+    </div>
+    <div class="col-xs-3">
+        <select class="form-control element-center" ng-model="a.type"
+                ng-options="e.name for e in listType"
+                ng-change="a.typeId = a.type.id;" ></select>
+    </div>
+</div>
+<div class="row" ng-show="a.homeType.specification == true">
+    <div class="col-xs-3 element-right">
+        Especif&iacute;que tipo de propiedad:
+    </div>
+    <div class="col-xs-8">
+        <input type="text" class="form-control" ng-model="a.specification" name="specification"
+               id="specification"
+               data-val="true"
+               data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
+               data-val-length-max="50" data-val-length-min="1"
+               data-val-required="La especificaci&oacute;n del tipo de propiedad es un campo requerido" >
+         <span class="field-validation-valid" data-valmsg-for="specification"
+               data-valmsg-replace="true"></span>
+    </div>
+</div>
+
+
+
+    <!--Seccion dependiente del tipo de domicilio-->
+<div class="row" ng-show="a.typeId==3">
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4>Domicilio {{a.type.name}}</h4>
+                </div>
+                <div class="widget-body">
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="row">
+                                <div class="col-xs-5 element-left">
+                                    Tiempo de residencia:
+                                </div>
+                                <div class="col-xs-7">
+                                    <input class="form-control" data-val="true"
+                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
+                                           data-val-length-max="30" data-val-length-min="1"
+                                           data-val-required="El tiempo de residencia es un campo requerido"
+                                           id="timeLiveD"
+                                           ng-model="a.timeLive"
+                                           name="timeLiveD"
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-4">
+                                    <span class="field-validation-valid" data-valmsg-for="timeLiveD"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row element-left">
+                                <div class="col-xs-3">
+                                    Motivo de la mudanza:
+                                </div>
+                                <div class="col-xs-9">
+                                    <textarea id="reasonChange" name="reasonChange" ng-model="a.reasonChange"
+                                              class="form-control"
+                                              data-val="true"
+                                              data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                                              data-val-length-max="500" data-val-length-min="1"
+                                              data-val-required="La raz&oacute;n de cambio es un campo requerido"></textarea>
+                                    <br/>
+                                    <span class="field-validation-valid" data-valmsg-for="reasonChange"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="hr hr-8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="row" ng-show="a.typeId ==1 || a.typeId ==2">
+  <div class="col-xs-10 col-xs-offset-1">
+    <div class="widget-box">
+      <div class="widget-header">
+        <h4>Domicilio {{a.type.name}}</h4>
+      </div>
+
+      <div class="widget-body">
+        <br/>
+
+        <div class="row">
+          <div class="col-xs-10 col-xs-offset-1">
+            <div class="row">
+              <div class="col-xs-5">
+                Tiempo de vivir en el domicilio:
+              </div>
+              <div class="col-xs-7">
+                <input class="form-control" data-val="true"
+                data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
+                data-val-length-max="30" data-val-length-min="1"
+                data-val-required="El tiempo de residencia es un campo requerido"
+                id="timeLiveA"
+                ng-model="a.timeLive"
+                name="timeLiveA"
+                type="text">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-8 col-xs-offset-4">
+                <span class="field-validation-valid" data-valmsg-for="timeLiveA"
+                data-valmsg-replace="true"></span>
+              </div>
+            </div>
+            <br/>
+
+            <div class="row">
+              <div class="col-xs-3">
+                Descripci&oacute;n de c&oacute;mo llegar al domicilio:<br/>
+                <label class="info-example">(color de casa, ruta, etc.)</label>
+              </div>
+              <div class="col-xs-9">
+                <textarea id="description" class="form-control" name="description"
+                ng-model="a.description"
+                data-val="true"
+                data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                data-val-length-max="500" data-val-length-min="1"
+                data-val-required="La descripci&oacute;n es un campo requerido"></textarea>
+                <br/>
+                <span class="field-validation-valid" data-valmsg-for="description"
+                data-valmsg-replace="true"></span>
+              </div>
+            </div>
+            <br/>
+            <div class="row" ng-show="a.typeId==2">
+              <div class="col-xs-3">
+               Raz&oacute;n por la que tiene <br/>un domicilio secundario:
+             </div>
+             <div class="col-xs-9">
+              <textarea id="reasonSecondary" class="form-control" name="reasonSecondary"
+              ng-model="a.reasonSecondary"
+              data-val="true"
+              data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+              data-val-length-max="500" data-val-length-min="1"
+              data-val-required="La raz&oacute;n es un campo requerido"></textarea>
+              <br/>
+              <span class="field-validation-valid" data-valmsg-for="reasonSecondary"
+              data-valmsg-replace="true"></span>
+            </div>
+          </div>
+          <br/>
+
+          <div class="row">
+            <div class="col-xs-12">
+            <!--schedule component-->
+<div id="divScheduleComponent">
+
+  <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css" />
+  <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+  <script src="scripts/umeca/date-time/moment.min.js"></script>
+  <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
+  <script src="scripts/app/reviewer/scheduleCtrl.js"></script>
+
+  <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
+    <input type="hidden" ng-model="schString" name="sch" id="hdnJsonScheduleHome" ng-update-hidden >
+    <input type="hidden" ng-model="content" ng-init="content =''+'Home';" ng-update-hidden >
+    <div class="col-xs-10 col-xs-offset-1">
+      <div class="row">
+        <div class="col-xs-4 element-center">
+         D&iacute;a(s)<br/>
+         <input class="form-control" type="text" value=""
+         ng-model="s.Day" ng-init='s.Day= ""'>
+       </div>
+       <div class="col-xs-3 element-center">
+        Inicio<br/>
+        <div class="input-group bootstrap-timepicker">
+          <input id="timepickerStart{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.Start"/>
+          <span class="input-group-addon">
+            <i class="icon-time bigger-60"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-3 element-center">
+        Fin <br/>
+        <div class="input-group bootstrap-timepicker">
+          <input id="timepickerEnd{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.End"/>
+          <span class="input-group-addon">
+            <i class="icon-time  bigger-40"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        Acciones<br/><div class="space-5"></div>
+        <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()">  </i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="hr hr-6"></div>
+    </div>
+    <div ng-show="msgError" class="alert-danger element-center">
+      {{msgError}}
+    </div>
+    <div class="col-xs-12" ng-show="listSchedule.length==0">
+      <br/>
+      <br/>
+      <br/>
+    </div>
+    <div class="col-xs-9 col-xs-offset-1" ng-show ="listSchedule.length > 0">
+     <div class="row center">
+       <div class="col-xs-5">
+         <h5 class="smaller lighter blue">D&iacute;a</h5>
+         <div class="hr hr-2"></div>
+       </div>
+       <div class="col-xs-2">
+         <h5 class="smaller lighter blue">Inicio</h5>
+         <div class="hr hr-2"></div>
+       </div>
+       <div class="col-xs-2">
+         <h5 class="smaller lighter blue">Fin</h5>
+         <div class="hr hr-2"></div>
+       </div>
+       <div class="col-xs-2">
+         <h5 class="smaller lighter blue">Acciones</h5>
+         <div class="hr hr-2"></div>
+       </div>
+     </div>
+     <div class="row center" ng-repeat ="sch in listSchedule">
+      <div class="col-xs-5">
+        {{sch.Day}}
+      </div>
+      <div class="col-xs-2">
+       {{sch.Start}}
+     </div>
+     <div class="col-xs-2">
+      {{sch.End}}
+    </div>
+    <div class="col-xs-2">
+      <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteSchedule($index)"></i>
+    </div>
+  </div>
+  <br/>
+</div>
+</div>
+<br/>
+</div>
+</div>
+            <!--schedule component-->
+            </div>
+          </div>
+          <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+    <!--END Seccion dependiente del tipo de domicilio-->
+
+
+
+
+
+
+
+
+
+
+                <div >
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" class="alert alert-danger element-center">
+                                {{MsgError}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="">
+                          Guardar
+                    </span>
+                </div>
+
+
+
+        </div>
+    </div>
+</div>
+

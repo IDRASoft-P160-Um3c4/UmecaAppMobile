@@ -1,11 +1,12 @@
-﻿@model UmecaApp.MeetingDatosPersonalesDto
+﻿
+@model UmecaApp.MeetingDatosPersonalesDto
 @inherits WebViewTemplate
 @{
 Layout = "UmecaApp.headUm";
 }
 <script>
 function shw(){
-//alert($("#showId").html());
+alert($("#showId").html());
 }
 
 
@@ -13,15 +14,18 @@ function shw(){
 //GENERAL CONTROLLER STATE OF MEETING
         $scope.m = {};
         $scope.readOnly = true;
+
+        $scope.verification = true;
+
         $scope.listMsgError = [];
-        /*$scope.listMsgError['personalData'] = true;
-        $scope.listMsgError['imputedHome'] = true;
+        $scope.listMsgError['personalData'] = false;
+        $scope.listMsgError['imputedHome'] = false;
         $scope.listMsgError['socialNetwork'] = false;
         $scope.listMsgError['reference'] = false;
         $scope.listMsgError['job'] = false;
-        $scope.listMsgError['school'] = true;
+        $scope.listMsgError['school'] = false;
         $scope.listMsgError['drug'] = false;
-        $scope.listMsgError['leavingCountry'] = true;*/
+        $scope.listMsgError['leavingCountry'] = false;
 
         $scope.putasHarry=function(){
         $timeout(function(){
@@ -248,7 +252,7 @@ function shw(){
         $scope.school.degree={};
 
 	   	$scope.gradeByNivel = function(){
-	   	//alert("$scope.school.level=="+JSON.stringify($scope.school.level));
+	   	alert("$scope.school.level=="+JSON.stringify($scope.school.level));
         $scope.lstDegree=JSON.parse(MeetingService.gradeByNivel( $scope.school.level['Id']));
 	   	}
 
@@ -296,7 +300,7 @@ function shw(){
 	   				}
 	   			}
 	   		}
-	   		//alert("model "+ JSON.stringify($scope.m));
+	   		alert("model "+ JSON.stringify($scope.m));
 	   };
 ////////////////END historia escolar
 
@@ -403,7 +407,7 @@ function shw(){
 
 
 $scope.showMessageError = function(indicator){
-    //alert(indicator);
+    alert(indicator);
 };
 
 
@@ -411,10 +415,10 @@ $scope.showMessageError = function(indicator){
 $scope.showState = function(){
     //alert("html >>"+$("#AdresBirth").html());
     //alert("   m.BirthCountry_>"+$scope.m.BirthCountry);
-	//alert("$scope.specification=>"+JSON.stringify($scope.specification));
-    //alert("$scope.lstActivity=>"+JSON.stringify($scope.lstActivity));
-    //alert("$scope.activityModel=>"+JSON.stringify($scope.activityModel));
-    //alert("$scope.activityList=>"+JSON.stringify($scope.activityList));
+	alert("$scope.specification=>"+JSON.stringify($scope.specification));
+    alert("$scope.lstActivity=>"+JSON.stringify($scope.lstActivity));
+    alert("$scope.activityModel=>"+JSON.stringify($scope.activityModel));
+    alert("$scope.activityList=>"+JSON.stringify($scope.activityList));
 };
 
 
@@ -2021,8 +2025,8 @@ window.location.replace('hybrid:Meeting/Index');
     <script src="scripts/app/reviewer/scheduleCtrl.js"></script>
 
     <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
-        <input type="hidden" ng-model="schString" name="sch" id="hdnJsonScheduleSchool" ng-update-hidden >
-        <input type="hidden" ng-model="content" ng-init="content =''+'School';" ng-update-hidden >
+        <input type="hidden" ng-update-hidden ng-model="schString" name='sch' id="hdnJsonScheduleSchool">
+        <input type="hidden" ng-model="content" value="School" ng-update-hidden  >
         <div class="col-xs-10 col-xs-offset-1">
             <div class="row">
                 <div class="col-xs-4 element-center">

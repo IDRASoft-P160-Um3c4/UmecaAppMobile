@@ -14,27 +14,27 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id")]
 		public int Id{ get; set; }
 
-		[Column("official_documentation_id")]
-		public int OfficialDocumentationId{ get; set; }
+		[Column("id_official_documentation")]
+		public int? OfficialDocumentationId{ get; set; }
 
-		[Column("lived_countr_id")]
-		public int LivedCountryId{ get; set; }
+		[Column("id_lived_country")]
+		public int? LivedCountryId{ get; set; }
 
 		[Column("time_ago"), MaxLength(250)]
 		public String timeAgo{ get; set; }
 
 		[Column("reason"), MaxLength(500)]
-		public String reason{ get; set; }
+		public String Reason{ get; set; }
 
 		[Column("id_family_another_country")]
-		public int FamilyAnotherCountryId{ get; set; }
+		public int? FamilyAnotherCountryId{ get; set; }
 
 
 		[Column("id_communication_family")]
-		public int CommunicationFamilyId{ get; set; }
+		public int? CommunicationFamilyId{ get; set; }
 
 		[Column("id_country")]
-		public int CountryId{ get; set; }
+		public int? CountryId{ get; set; }
 
 		[Column("state"), MaxLength(100)]
 		public String State{ get; set; }
@@ -48,20 +48,20 @@ namespace UmecaApp
 
 
 		[Column("id_immigration_document")]
-		public int ImmigrationDocumentId{ get; set; }
+		public int? ImmigrationDocumentId{ get; set; }
 
 		[Column("id_relationship")]
-		public int RelationshipId{ get; set; }
-
+		public int? RelationshipId{ get; set; }
 
 		[Column("time_residence"), MaxLength(50)]
 		public String TimeResidence{ get; set; }
 
-		[Column("specification_immigrant_docountr_id"), MaxLength(255)]
+
+		[Column("specification_immigrant_doc")]
 		public String SpecficationImmigranDoc{ get; set; }
 
 		[Column("specification_relationship"), MaxLength(255)]
-		public String specificationRelationship{ get; set; }
+		public String SpecificationRelationship{ get; set; }
 
 		[Column("id_meeting")]
 		public int MeetingId{ get; set; }

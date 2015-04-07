@@ -127,6 +127,42 @@ namespace UmecaApp
 		//END historial escolar
 
 
+///////////////identified by meeting///////////
+		public int? OfficialDocumentationId{ get; set; }
+
+		public int? LivedCountryId{ get; set; }
+
+		public String timeAgo{ get; set; }
+
+		public String Reason{ get; set; }
+
+		public int? FamilyAnotherCountryId{ get; set; }
+
+		public int? CommunicationFamilyId{ get; set; }
+
+		public int? CountryId{ get; set; }
+
+		public String State{ get; set; }
+
+		public String Media{ get; set; }
+
+		public String Address{ get; set; }
+
+		public int? ImmigrationDocumentId{ get; set; }
+
+		public int? RelationshipId{ get; set; }
+
+		public String TimeResidence{ get; set; }
+
+		public String SpecficationImmigranDoc{ get; set; }
+
+		public String SpecificationRelationship{ get; set; }
+//////////////
+
+
+
+
+
 //		[Column("date_create")]
 		public DateTime? DateCreate{ get; set; }
 

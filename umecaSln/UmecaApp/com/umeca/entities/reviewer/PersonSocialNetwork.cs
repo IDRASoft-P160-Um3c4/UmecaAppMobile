@@ -29,8 +29,8 @@ namespace UmecaApp
 		[Column("address"),MaxLength(500)]
 		public String Address{ get; set; }
 
-		[Column("documentTypeId")]
-		public int DocumentType{ get; set; }
+		[Column("id_document_type")]
+		public int DocumentTypeId{ get; set; }
 
 		[Column("specification_document_type"),MaxLength(250)]
 		public String SpecificationDocumentType{ get; set; }

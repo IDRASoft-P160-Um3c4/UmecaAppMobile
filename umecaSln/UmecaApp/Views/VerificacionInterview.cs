@@ -18,12 +18,12 @@ using System.Text;
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorTemplatePreprocessor", "2.6.0.0")]
-public partial class MeetingDatosPersonales : WebViewTemplate
+public partial class VerificacionInterview : WebViewTemplate
 {
 
 #line hidden
 
-#line 1 "MeetingDatosPersonales.cshtml"
+#line 2 "VerificacionInterview.cshtml"
 public UmecaApp.MeetingDatosPersonalesDto Model { get; set; }
 
 #line default
@@ -32,214 +32,217 @@ public UmecaApp.MeetingDatosPersonalesDto Model { get; set; }
 
 public override void Execute()
 {
+WriteLiteral("\r\n");
 
-#line 3 "MeetingDatosPersonales.cshtml"
+
+#line 4 "VerificacionInterview.cshtml"
   
 Layout = "UmecaApp.headUm";
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n<script>\r\nfunction shw(){\r\n//alert($(\"#showId\").html());\r\n}\r\n\r\n\r\n    app.contro" +
-"ller(\'MeettingDatosPersonalesController\', function($scope, $http, $timeout, $sce" +
-"){\r\n//GENERAL CONTROLLER STATE OF MEETING\r\n        $scope.m = {};\r\n        $scop" +
-"e.readOnly = true;\r\n        $scope.listMsgError = [];\r\n        /*$scope.listMsgE" +
-"rror[\'personalData\'] = true;\r\n        $scope.listMsgError[\'imputedHome\'] = true;" +
-"\r\n        $scope.listMsgError[\'socialNetwork\'] = false;\r\n        $scope.listMsgE" +
-"rror[\'reference\'] = false;\r\n        $scope.listMsgError[\'job\'] = false;\r\n       " +
-" $scope.listMsgError[\'school\'] = true;\r\n        $scope.listMsgError[\'drug\'] = fa" +
-"lse;\r\n        $scope.listMsgError[\'leavingCountry\'] = true;*/\r\n\r\n        $scope." +
-"putasHarry=function(){\r\n        $timeout(function(){\r\n        \t$(\"#axelMulti\").c" +
-"hosen();\r\n        \t},0);\r\n        };\r\n\r\n////////////////DATOS PERSONALES CONTROL" +
-"LER\r\n\r\n        ////////////////VARIABLES///////////////\r\n    \t//genero\r\n        " +
-"$scope.gen = {};\r\n\r\n        //pais nacimiento\r\n        $scope.listCountry = [];\r" +
-"\n        $scope.listState = [];\r\n        $scope.listMuni = [];\r\n        $scope.l" +
-"istLocalidades = [];\r\n        $scope.listMunByEdo = [];\r\n        $scope.Secelted" +
-"Country = {};\r\n        $scope.SeceltedEstate = {};\r\n        $scope.SeceltedMuni " +
-"= {};\r\n        $scope.SeceltedLocation = {};\r\n\r\n        //actividades que realiz" +
-"a\r\n\t$scope.specification = {};\r\n    $scope.lstActivity = [];\r\n    $scope.activit" +
-"yModel = [];\r\n    $scope.activityList = [];\r\n\r\n    ///////////////////METHODS///" +
-"///////////////\r\n    //Init de country \r\n    $scope.InitCountryPD = function(){\r" +
-"\n\t\t    if($scope.m.BirthCountry!=undefined&&$scope.m.BirthCountry!=null){\r\n\t\t\t  " +
-"  for(x=0;x<$scope.listCountry.length;x++){\r\n\t\t\t    \tif($scope.listCountry[x].Id" +
-"==$scope.m.BirthCountry){\r\n\t\t\t    \t\t$scope.SeceltedCountry = $scope.listCountry[" +
-"x];\r\n\t\t\t    \t\t//alert(\"$scope.listCountry[x]\"+JSON.stringify($scope.listCountry[" +
-"x]));\r\n\t\t\t    \t\t//alert(\"$scope.SeceltedCountry\"+JSON.stringify($scope.SeceltedC" +
-"ountry));\r\n\t\t\t    \t\t$scope.InitMunicipalityDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t" +
-"\t    }\r\n\t\t\t}\r\n\t\t};\r\n\r\n    $scope.InitMunicipalityDP = function(){\r\n    //alert(\"" +
-"InitMunicipalityDP -> $scope.m.LocationId>>\"+$scope.m.LocationId);\r\n\t    if($sco" +
-"pe.m.LocationId!=undefined&&$scope.m.LocationId!=null){\r\n\t    \tvar data = JSON.p" +
-"arse(MeetingService.findAllByLocation($scope.m.LocationId));\r\n\t    \t//alert(\"Ini" +
-"tMunicipalityDP -> data>>\"+JSON.stringify(data));\r\n\t    \t//alert(\"InitMunicipali" +
-"tyDP -> data.StateId=\"+data.StateId+\"    data.MunicipalityId=\"+data.Municipality" +
-"Id);\r\n\t\t    for(x=0;x<$scope.listState.length;x++){\r\n\t\t    \tif($scope.listState[" +
-"x].Id==data.StateId){\r\n\t\t    \t\t$scope.SeceltedEstate = $scope.listState[x];\r\n\t\t " +
-"   \t\t//alert(\"$scope.SeceltedEstate[x]\"+JSON.stringify($scope.SeceltedEstate));\r" +
-"\n\t\t    \t\t$scope.MunByEdo();\r\n\t\t    \t\t\tfor(y=0;y<$scope.listMunByEdo.length;y++){" +
-"\r\n\t\t\t    \t\t\tif($scope.listMunByEdo[y].Id==data.MunicipalityId){\r\n\t\t\t    \t\t\t\t$sco" +
-"pe.SeceltedMuni = $scope.listMunByEdo[y];\r\n\t\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t  " +
-"  \t\t\t\tfor(z=0;z<$scope.listLocalidades.length;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.list" +
-"Localidades[z].Id==$scope.m.LocationId){\r\n\t\t\t\t    \t\t\t\t\t\t$scope.SeceltedLocation " +
-"= $scope.listLocalidades[z];\r\n\t\t\t\t    \t\t\t\t\t\tbreak;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t" +
-"}\r\n\t\t\t\t    \t\t\tbreak;\r\n\t\t\t    \t\t\t}\r\n\t\t    \t\t\t}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }" +
-"\r\n\t\t}\r\n\t};\r\n\r\n\t\t//cuando se elije un estado se filtran los municipios\r\n\t\t$scope." +
-"MunByEdo = function(){\r\n\t\t\t$scope.listMunByEdo = [];\r\n\t        $scope.SeceltedMu" +
-"ni = {};\r\n\t        $scope.SeceltedLocation = {};\r\n\t        $scope.listLocalidade" +
-"s = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var municipios = MeetingService.findMunicipali" +
-"tyByState($scope.SeceltedEstate[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+" +
-"JSON.stringify($scope.SeceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t" +
-"\t\t    if(municipios!=undefined&&municipios!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{" +
-"\r\n\t\t\t\t    \t$scope.listMunByEdo = JSON.parse(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t" +
-"\t\t    \t\t\tconsole.log(\"exception caugth at MunByEdo Message >>\"+e.Message);\r\n\t\t\t " +
-"   \t\t\t$scope.listMunByEdo = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t$scope.selectedA" +
-"ctivities = function (lstActivity, lstActivitySelect) {\r\n        for (var i = 0;" +
-" i < lstActivitySelect.length; i++) {\r\n            for (var j = 0; j < lstActivi" +
-"ty.length; j++) {\r\n                if (lstActivity[j].id === lstActivitySelect[i" +
-"].id) {\r\n                    $scope.activityModel.push(lstActivity[j]);\r\n       " +
-"             if (lstActivity[j].specification) {\r\n                        $scope" +
-".specification[lstActivity[j].name] = lstActivitySelect[i].specification;\r\n     " +
-"               }\r\n                }\r\n            }\r\n        }\r\n        $scope.ma" +
-"tchActivities();\r\n    };\r\n\r\n    $scope.matchActivities = function () {\r\n        " +
-"$scope.relActivities = [];\r\n        for (var i = 0; i < $scope.activityModel.len" +
-"gth; i++) {\r\n            var model = {};\r\n            model.ActivityId = $scope." +
-"activityModel[i].id;\r\n            if ($scope.specification[$scope.activityModel[" +
-"i].name] != undefined) {\r\n                model.specification = $scope.specifica" +
-"tion[$scope.activityModel[i].name];\r\n            } else {\r\n                model" +
-".specification = \"\";\r\n            }\r\n            $scope.relActivities.push(model" +
-");\r\n        }\r\n        $scope.m.Activities = JSON.stringify($scope.relActivities" +
-");\r\n        return true;\r\n    };\r\n\r\n\r\n\t\t//cuando se elije un municipio se filtra" +
-"n las localidades\r\n\t\t$scope.LocByMun = function(){\r\n        $scope.SeceltedLocat" +
-"ion = {};\r\n\t\t\t    $scope.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var loc" +
-"ations = MeetingService.findLocationByMunicipality($scope.SeceltedMuni[\'Id\']);\r\n" +
+WriteLiteral("\r\n<script>\r\nfunction shw(){\r\nalert($(\"#showId\").html());\r\n}\r\n\r\n\r\n    app.controll" +
+"er(\'MeettingDatosPersonalesController\', function($scope, $http, $timeout, $sce){" +
+"\r\n//GENERAL CONTROLLER STATE OF MEETING\r\n        $scope.m = {};\r\n        $scope." +
+"readOnly = true;\r\n\r\n        $scope.verification = true;\r\n\r\n        $scope.listMs" +
+"gError = [];\r\n        $scope.listMsgError[\'personalData\'] = false;\r\n        $sco" +
+"pe.listMsgError[\'imputedHome\'] = false;\r\n        $scope.listMsgError[\'socialNetw" +
+"ork\'] = false;\r\n        $scope.listMsgError[\'reference\'] = false;\r\n        $scop" +
+"e.listMsgError[\'job\'] = false;\r\n        $scope.listMsgError[\'school\'] = false;\r\n" +
+"        $scope.listMsgError[\'drug\'] = false;\r\n        $scope.listMsgError[\'leavi" +
+"ngCountry\'] = false;\r\n\r\n        $scope.putasHarry=function(){\r\n        $timeout(" +
+"function(){\r\n        \t$(\"#axelMulti\").chosen();\r\n        \t},0);\r\n        };\r\n\r\n/" +
+"///////////////DATOS PERSONALES CONTROLLER\r\n\r\n        ////////////////VARIABLES/" +
+"//////////////\r\n    \t//genero\r\n        $scope.gen = {};\r\n\r\n        //pais nacimi" +
+"ento\r\n        $scope.listCountry = [];\r\n        $scope.listState = [];\r\n        " +
+"$scope.listMuni = [];\r\n        $scope.listLocalidades = [];\r\n        $scope.list" +
+"MunByEdo = [];\r\n        $scope.SeceltedCountry = {};\r\n        $scope.SeceltedEst" +
+"ate = {};\r\n        $scope.SeceltedMuni = {};\r\n        $scope.SeceltedLocation = " +
+"{};\r\n\r\n        //actividades que realiza\r\n\t$scope.specification = {};\r\n    $scop" +
+"e.lstActivity = [];\r\n    $scope.activityModel = [];\r\n    $scope.activityList = [" +
+"];\r\n\r\n    ///////////////////METHODS//////////////////\r\n    //Init de country \r\n" +
+"    $scope.InitCountryPD = function(){\r\n\t\t    if($scope.m.BirthCountry!=undefine" +
+"d&&$scope.m.BirthCountry!=null){\r\n\t\t\t    for(x=0;x<$scope.listCountry.length;x++" +
+"){\r\n\t\t\t    \tif($scope.listCountry[x].Id==$scope.m.BirthCountry){\r\n\t\t\t    \t\t$scop" +
+"e.SeceltedCountry = $scope.listCountry[x];\r\n\t\t\t    \t\t//alert(\"$scope.listCountry" +
+"[x]\"+JSON.stringify($scope.listCountry[x]));\r\n\t\t\t    \t\t//alert(\"$scope.SeceltedC" +
+"ountry\"+JSON.stringify($scope.SeceltedCountry));\r\n\t\t\t    \t\t$scope.InitMunicipali" +
+"tyDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t};\r\n\r\n    $scope.InitMuni" +
+"cipalityDP = function(){\r\n    //alert(\"InitMunicipalityDP -> $scope.m.LocationId" +
+">>\"+$scope.m.LocationId);\r\n\t    if($scope.m.LocationId!=undefined&&$scope.m.Loca" +
+"tionId!=null){\r\n\t    \tvar data = JSON.parse(MeetingService.findAllByLocation($sc" +
+"ope.m.LocationId));\r\n\t    \t//alert(\"InitMunicipalityDP -> data>>\"+JSON.stringify" +
+"(data));\r\n\t    \t//alert(\"InitMunicipalityDP -> data.StateId=\"+data.StateId+\"    " +
+"data.MunicipalityId=\"+data.MunicipalityId);\r\n\t\t    for(x=0;x<$scope.listState.le" +
+"ngth;x++){\r\n\t\t    \tif($scope.listState[x].Id==data.StateId){\r\n\t\t    \t\t$scope.Sec" +
+"eltedEstate = $scope.listState[x];\r\n\t\t    \t\t//alert(\"$scope.SeceltedEstate[x]\"+J" +
+"SON.stringify($scope.SeceltedEstate));\r\n\t\t    \t\t$scope.MunByEdo();\r\n\t\t    \t\t\tfor" +
+"(y=0;y<$scope.listMunByEdo.length;y++){\r\n\t\t\t    \t\t\tif($scope.listMunByEdo[y].Id=" +
+"=data.MunicipalityId){\r\n\t\t\t    \t\t\t\t$scope.SeceltedMuni = $scope.listMunByEdo[y];" +
+"\r\n\t\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t    \t\t\t\tfor(z=0;z<$scope.listLocalidades.le" +
+"ngth;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.listLocalidades[z].Id==$scope.m.LocationId){\r" +
+"\n\t\t\t\t    \t\t\t\t\t\t$scope.SeceltedLocation = $scope.listLocalidades[z];\r\n\t\t\t\t    \t\t\t" +
+"\t\t\tbreak;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t}\r\n\t\t\t\t    \t\t\tbreak;\r\n\t\t\t    \t\t\t}\r\n\t\t    " +
+"\t\t\t}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t};\r\n\r\n\t\t//cuando se elije un esta" +
+"do se filtran los municipios\r\n\t\t$scope.MunByEdo = function(){\r\n\t\t\t$scope.listMun" +
+"ByEdo = [];\r\n\t        $scope.SeceltedMuni = {};\r\n\t        $scope.SeceltedLocatio" +
+"n = {};\r\n\t        $scope.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var mun" +
+"icipios = MeetingService.findMunicipalityByState($scope.SeceltedEstate[\'Id\']);\r\n" +
 "\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\" " +
-"  and \\n municipios _>\"+municipios);\r\n\t\t\t    if(locations!=undefined&&locations!" +
-"=null&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listLocalidades = JSON.par" +
-"se(locations);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at " +
-"LocByMun Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listLocalidades = [];\r\n\t\t\t\t\t\t" +
-"}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t//cuando se elije un estado se filtran los municipios \r" +
-"\n\t\t//TODO: se cambiara a una peticion a methodo\r\n\t\t$scope.InitActivities = funct" +
-"ion(){\r\n\t\t\tif($scope.m.Activities!=undefined&&$scope.m.Activities!=null){\r\n\t\t\t  " +
-"  var actividades = JSON.parse($scope.m.Activities);\r\n\t\t\t    var ids = [];\r\n\t\t\t " +
-"   //alert(\"string de actividades>\"+JSON.stringify(actividades));\r\n\t\t\t    //iter" +
-"ates activities\r\n\t\t\t    for(a in actividades){\r\n\t\t\t\t    for(e in $scope.lstActiv" +
-"ity){\r\n\t\t\t\t\t    if($scope.lstActivity[e].id==actividades[a].ActivityId){\r\n\t\t\t   " +
-" \t\t\tconsole.log(\"coincidence >>>\"+actividades[a].ActivityId);\r\n\t\t\t    \t\t\tids.pus" +
-"h(e);\r\n\t\t\t\t\t    \t$scope.activityModel.push($scope.lstActivity[e]);\r\n\t\t          " +
-"          if ($scope.lstActivity[e].specification) {\r\n\t\t                        " +
-"$scope.specification[$scope.lstActivity[e].name] = actividades[a].specification;" +
-" \r\n\t\t                    } \r\n\t\t\t\t\t    }\r\n\t\t\t\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').mu" +
-"ltipleSelect(\"setSelects\",ids);\r\n\t\t\t}\r\n\t\t};\r\n\r\n\t\t$scope.locationDp = function(){" +
-"\r\n\t\t\t$scope.m.LocationId = $scope.SeceltedLocation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda l" +
-"os cambios realizados a la seccion de datos personales\r\n         $scope.savePers" +
-"onalData = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t  " +
-"      //alert(\"m value>>\"+JSON.stringify($scope.m));\r\n\t\t\t$scope.msgExito = Meeti" +
-"ngService.upsertPersonalData(JSON.stringify($scope.m));\r\n\t\t\t//alert(\"result =\"+r" +
-"esultado);\r\n\t    };\r\n        //END DATOS PERSONALES\r\n\r\n\r\n        ////////////Dom" +
-"icilios///////////\r\n \t\t$scope.saveDomicilios = function () {\r\n\t        var jsonD" +
-"ata = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessDom = MeetingService.upsert" +
-"DomicilioComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end dom" +
-"icilios///////////\r\n\r\n        ////////////SocialNetwork///////////\r\n \t\t$scope.sa" +
-"veSocialNetwork = function () {\r\n\t        var jsonData = JSON.stringify($scope.m" +
-");\r\n\t\t\t$scope.msgSuccessSocNet = MeetingService.upsertRedSocialComment(JSON.stri" +
-"ngify($scope.m));\r\n\t    };\r\n        ///////////end SocialNetwork///////////\r\n\r\n " +
-"       ////////////Referencias///////////\r\n \t\t$scope.saveReferences = function (" +
-") {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessRefe" +
-"rences = MeetingService.upsertReferenciasComment(JSON.stringify($scope.m));\r\n\t  " +
-"  };\r\n        ///////////end Referencias///////////\r\n\r\n        ////////////Labor" +
-"al///////////\r\n \t\t$scope.saveLaboral = function () {\r\n\t        var jsonData = JS" +
-"ON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessLaboral = MeetingService.upsertLabo" +
-"ralComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Laboral//" +
-"/////////\r\n\r\n        ////////////Drugs///////////\r\n \t\t$scope.saveDrugs = functio" +
-"n () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessD" +
-"rugs = MeetingService.upsertDrugComment(JSON.stringify($scope.m));\r\n\t    };\r\n   " +
-"     ///////////end Drugs///////////\r\n\r\n/////////////para historia escolar\r\n    " +
-"    $scope.block = true;\r\n        $scope.school = {};\r\n        $scope.school.lev" +
-"el={};\r\n        $scope.school.degree={};\r\n\r\n\t   \t$scope.gradeByNivel = function(" +
-"){\r\n\t   \t//alert(\"$scope.school.level==\"+JSON.stringify($scope.school.level));\r\n" +
-"        $scope.lstDegree=JSON.parse(MeetingService.gradeByNivel( $scope.school.l" +
-"evel[\'Id\']));\r\n\t   \t}\r\n\r\n        $scope.fillModel = function(){\r\n\t       var tem" +
-"plate =\"NO ESTUDIA\";\r\n\t       if($scope.m.SchoolBlock == false){\r\n\t            $" +
-"scope.m.SchoolName=template;\r\n\t           $scope.m.SchoolPhone = template;\r\n\t   " +
-"        $scope.m.SchoolAddress = template;\r\n\t       }else{\r\n\t            $scope." +
-"m.SchoolName=\"\";\r\n\t           $scope.m.SchoolPhone = \"\";\r\n\t           $scope.m.S" +
-"choolAddress = \"\";\r\n\t       }\r\n\t   };\r\n\r\n\t   $scope.saveEscolarship = function()" +
-"{\r\n\t   \t\t$scope.m.ScheduleSchool = $(\"#hdnJsonScheduleSchool\").val();\r\n\t   \t\tvar" +
-" jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessEscolar = MeetingServ" +
-"ice.upsertSchoolarship(JSON.stringify($scope.m));\r\n\t   }\r\n\r\n\t   $scope.InitSchoo" +
-"l = function(){\r\n\t   if($scope.m.ScheduleSchool!=undefined&&$scope.m.ScheduleSch" +
-"ool!=null){\r\n\t   \t$(\"#hdnJsonScheduleSchool\").val($scope.m.ScheduleSchool);\r\n\t  " +
-" \tconsole.log(\"hdnJsonScheduleSchool-->\"+$(\"#hdnJsonScheduleSchool\").val());\r\n\t " +
-"  }\r\n\t   \tif($scope.m.SchoolBlock!=true){\r\n\t   \t\t$scope.fillModel();\r\n\t   \t}\r\n\t " +
-"  \t\t\r\n\t   \t\t$scope.lstLevel=JSON.parse(MeetingService.allAcademicLevels());\r\n\t  " +
-" \t\tif($scope.m.SchoolDegreeId!=undefined&&$scope.m.SchoolDegreeId!=null){\r\n\t   \t" +
-"\t\t$scope.lstDegree=JSON.parse(MeetingService.gradesBySelectedDegree($scope.m.Sch" +
-"oolDegreeId));\r\n\t   \t\t\tfor(a in $scope.lstDegree){\r\n\t   \t\t\t\tif($scope.lstDegree[" +
-"a].Id==$scope.m.SchoolDegreeId){\r\n\t   \t\t\t\t\t$scope.school.degree = $scope.lstDegr" +
-"ee[a];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t\tfor(b in $scope.lstLevel){\r" +
-"\n\t   \t\t\t\tif($scope.lstLevel[b].Id==$scope.school.degree.AcademicLevelId){\r\n\t   \t" +
-"\t\t\t\t$scope.school.level=$scope.lstLevel[b];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t" +
-"}\r\n\t   \t\t}\r\n\t   \t\t//alert(\"model \"+ JSON.stringify($scope.m));\r\n\t   };\r\n////////" +
-"////////END historia escolar\r\n\r\n////////para Leave country \r\n        $scope.Edoc" +
-"umento = {};\r\n        $scope.ImmigrationDoc = {};\r\n        $scope.ImmigrationDoc" +
-"Id = {};\r\n\r\n        $scope.specficationImmigranDoc = \"\";\r\n\r\n        $scope.listI" +
-"mmigrationDoc = [];\r\n\r\n\t   \t$scope.l={};\r\n\t   \t$scope.l.oc={};\r\n\t   \t\t\r\n\t   \t$sc" +
-"ope.l.fac={};\r\n\r\n\t   \t$scope.l.rel={};\r\n\r\n\t   \t$scope.l.cf={};\r\n\r\n\t   \t$scope.do" +
-"cumentosMigratoriosFill = function(){\r\n\t   \t//alert(\"$scope.school.level==\"+JSON" +
-".stringify($scope.school.level));\r\n        $scope.listImmigrationDoc=JSON.parse(" +
-"MeetingService.documentosMigratorios());\r\n\t   \t};\r\n\r\n\t   \t$scope.relacionPersona" +
-"lAll = function(){\r\n        $scope.listRel=JSON.parse(MeetingService.relacionPer" +
-"sonal());\r\n\t   \t};\r\n\r\n\r\n\t   \t$scope.saveLeaveCountry = function () {\r\n\t        v" +
-"ar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessLeaveCountry = Meet" +
-"ingService.upsertLeaveCountry(JSON.stringify($scope.m));\r\n\t    };\r\n\r\n\t    $scope" +
-".InitLeaveCountry = function () {\r\n\t    console.log(\"InitLeaveCountry\");\r\n\t    $" +
-"scope.Edocumento = $scope.itemListById($scope.m.OfficialDocumentationId, $scope." +
-"listElection);\r\n\t    $scope.ImmigrationDoc = $scope.itemListById($scope.m.Immigr" +
-"ationDocumentId, $scope.listImmigrationDoc);\r\n\t    $scope.l.oc = $scope.itemList" +
-"ById($scope.m.LivedCountryId, $scope.listElection);\r\n\t    $scope.l.country = $sc" +
-"ope.itemListById($scope.m.CountryId, $scope.listCountry);\r\n\t    $scope.l.fac = $" +
-"scope.itemListById($scope.m.FamilyAnotherCountryId, $scope.listElection);\r\n\t    " +
-"$scope.l.cf = $scope.itemListById($scope.m.CommunicationFamilyId, $scope.listEle" +
-"ction);\r\n\t    $scope.l.rel = $scope.itemListById($scope.m.RelationshipId, $scope" +
-".listRel);\r\n\t    };\r\n\r\n///////////end Leave country\r\n\r\n        $timeout(function" +
-" () {\r\n    \t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n\r\n\t\t$scope.Iniciate = function(){\r\n" +
-"\t\t    try{\r\n\t\t\t    //alert(\"asshole html>>\"+$(\"#asshole\").html());\r\n\t\t\t    var j" +
-"s = JSON.parse($(\"#hdnJsonMtng\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    //alert(" +
-"\"m valu>>\"+JSON.stringify($scope.m));\r\n\t\t\t    //Birthplace iniciation\r\n\t\t\t    $s" +
-"cope.InitCountryPD();\r\n\t\t\t    //activities iniciation\r\n\t\t\t    $scope.InitActivit" +
-"ies();\r\n\t\t\t    $scope.InitSchool();\r\n\r\n\t\t\t    $scope.InitLeaveCountry();\r\n\t\t    " +
-"}\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error catched Iniciate angular function erro" +
-"==>\"+err.message);\r\n\t\t    }\r\n\t\t    $(\".blocker\").remove();\r\n\t\t};\r\n\r\n    \r\n    \t\r" +
-"\n        $scope.save = function(){\r\n\t\t            $scope.Wait = true;\r\n\t\t//todos" +
-" los key del json deben ser igual al modelo cs\r\n\t\t//if($(\"#frmSubmitValuesMeetin" +
-"g\").valid()==false){\r\n\t\t//    $scope.Wait = false;\r\n\t\t//    return false;\r\n\t\t//}" +
-"\r\n\t\t//var jsonData = JSON.stringify($scope.m);\r\n\t\t//window.location.replace(\'hyb" +
-"rid:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n\t\tconsole.log(\"" +
-"save meeting\");\r\n\t\tvar reslt = MeetingService.TerminateMeeting(JSON.stringify($s" +
-"cope.m));\r\n\t\tif(reslt != undefined && reslt != \"\"){\r\n\t\t\tvar obj = JSON.parse(res" +
-"lt);\r\n            if(obj.groupMessage != undefined){\r\n                for(var i=" +
-"0; i < obj.groupMessage.length; i++){\r\n                    var g1= obj.groupMess" +
-"age[i];\r\n                    $scope.listMsgError[g1.section]= $sce.trustAsHtml( " +
-"g1.messages);\r\n                }\r\n            }\r\n\t\t}else{\r\n\t\t\t$scope.msgSuccessT" +
-"otally = \"total successs\";\r\n\t\t\t$scope.cancel();\r\n\t\t}\r\n\t\t//TerminateMeeting\r\n\t\t$s" +
-"cope.Wait = false;\r\n\t\t};\r\n\r\n\r\n\r\n$scope.showMessageError = function(indicator){\r\n" +
-"    //alert(indicator);\r\n};\r\n\r\n\r\n\r\n$scope.showState = function(){\r\n    //alert(\"" +
-"html >>\"+$(\"#AdresBirth\").html());\r\n    //alert(\"   m.BirthCountry_>\"+$scope.m.B" +
-"irthCountry);\r\n\t//alert(\"$scope.specification=>\"+JSON.stringify($scope.specifica" +
-"tion));\r\n    //alert(\"$scope.lstActivity=>\"+JSON.stringify($scope.lstActivity));" +
-"\r\n    //alert(\"$scope.activityModel=>\"+JSON.stringify($scope.activityModel));\r\n " +
-"   //alert(\"$scope.activityList=>\"+JSON.stringify($scope.activityList));\r\n};\r\n\r\n" +
-"\r\n\r\n//regresa la pantalla de seleccion de meeting\r\n$scope.cancel = function(){\r\n" +
-"    $scope.saving = false;\r\n//todos los key del json deben ser igual al modelo c" +
-"s\r\nwindow.location.replace(\'hybrid:Meeting/Index\');\r\n};\r\n\r\n\r\n    $scope.itemList" +
-"ById = function(idObj, list){\r\n    console.log(\"idObj=\"+idObj);\r\n    \tif(idObj!=" +
-"undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.length;x++){\r\n\t\t    \tif(list[x].I" +
-"d==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\tr" +
-"eturn undefined;\r\n\t};\r\n\r\n\t    $scope.showMessageError = function(elementClick){\r" +
-"\n        $(\"#divErrorMessage\").show();\r\n        var position = $(\".tab-content\")" +
-".position();\r\n        $(\"#divErrorMessage\").css(\"left\",position.left+5);\r\n      " +
-"  $(\"#divErrorMessage\").addClass(\"errorMessageClass\");\r\n        $scope.entityErr" +
-"or=elementClick;\r\n    \t};\r\n\r\n    $scope.hideMessageError = function(){\r\n        " +
-"$(\"#divErrorMessage\").hide();\r\n    };\r\n\r\n});\r\n\r\n\r\n</script>\r\n<div");
+"  and \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=undefined&&municipio" +
+"s!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listMunByEdo = JSON.par" +
+"se(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at" +
+" MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunByEdo = [];\r\n\t\t\t\t\t\t}\r" +
+"\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t$scope.selectedActivities = function (lstActivity, lstAct" +
+"ivitySelect) {\r\n        for (var i = 0; i < lstActivitySelect.length; i++) {\r\n  " +
+"          for (var j = 0; j < lstActivity.length; j++) {\r\n                if (ls" +
+"tActivity[j].id === lstActivitySelect[i].id) {\r\n                    $scope.activ" +
+"ityModel.push(lstActivity[j]);\r\n                    if (lstActivity[j].specifica" +
+"tion) {\r\n                        $scope.specification[lstActivity[j].name] = lst" +
+"ActivitySelect[i].specification;\r\n                    }\r\n                }\r\n    " +
+"        }\r\n        }\r\n        $scope.matchActivities();\r\n    };\r\n\r\n    $scope.ma" +
+"tchActivities = function () {\r\n        $scope.relActivities = [];\r\n        for (" +
+"var i = 0; i < $scope.activityModel.length; i++) {\r\n            var model = {};\r" +
+"\n            model.ActivityId = $scope.activityModel[i].id;\r\n            if ($sc" +
+"ope.specification[$scope.activityModel[i].name] != undefined) {\r\n               " +
+" model.specification = $scope.specification[$scope.activityModel[i].name];\r\n    " +
+"        } else {\r\n                model.specification = \"\";\r\n            }\r\n    " +
+"        $scope.relActivities.push(model);\r\n        }\r\n        $scope.m.Activitie" +
+"s = JSON.stringify($scope.relActivities);\r\n        return true;\r\n    };\r\n\r\n\r\n\t\t/" +
+"/cuando se elije un municipio se filtran las localidades\r\n\t\t$scope.LocByMun = fu" +
+"nction(){\r\n        $scope.SeceltedLocation = {};\r\n\t\t\t    $scope.listLocalidades " +
+"= [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locations = MeetingService.findLocationByMun" +
+"icipality($scope.SeceltedMuni[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JS" +
+"ON.stringify($scope.SeceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t" +
+"    if(locations!=undefined&&locations!=null&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t" +
+"\t    \t$scope.listLocalidades = JSON.parse(locations);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t " +
+"   \t\t\tconsole.log(\"exception caugth at LocByMun Message >>\"+e.Message);\r\n\t\t\t    " +
+"\t\t\t$scope.listLocalidades = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t//cuando se elij" +
+"e un estado se filtran los municipios \r\n\t\t//TODO: se cambiara a una peticion a m" +
+"ethodo\r\n\t\t$scope.InitActivities = function(){\r\n\t\t\tif($scope.m.Activities!=undefi" +
+"ned&&$scope.m.Activities!=null){\r\n\t\t\t    var actividades = JSON.parse($scope.m.A" +
+"ctivities);\r\n\t\t\t    var ids = [];\r\n\t\t\t    //alert(\"string de actividades>\"+JSON." +
+"stringify(actividades));\r\n\t\t\t    //iterates activities\r\n\t\t\t    for(a in activida" +
+"des){\r\n\t\t\t\t    for(e in $scope.lstActivity){\r\n\t\t\t\t\t    if($scope.lstActivity[e]." +
+"id==actividades[a].ActivityId){\r\n\t\t\t    \t\t\tconsole.log(\"coincidence >>>\"+activid" +
+"ades[a].ActivityId);\r\n\t\t\t    \t\t\tids.push(e);\r\n\t\t\t\t\t    \t$scope.activityModel.pus" +
+"h($scope.lstActivity[e]);\r\n\t\t                    if ($scope.lstActivity[e].speci" +
+"fication) {\r\n\t\t                        $scope.specification[$scope.lstActivity[e" +
+"].name] = actividades[a].specification; \r\n\t\t                    } \r\n\t\t\t\t\t    }\r\n" +
+"\t\t\t\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').multipleSelect(\"setSelects\",ids);\r\n\t\t\t}\r\n\t\t" +
+"};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scope.m.LocationId = $scope.Secelte" +
+"dLocation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda los cambios realizados a la seccion de dat" +
+"os personales\r\n         $scope.savePersonalData = function () {\r\n\t        var js" +
+"onData = JSON.stringify($scope.m);\r\n\t        //alert(\"m value>>\"+JSON.stringify(" +
+"$scope.m));\r\n\t\t\t$scope.msgExito = MeetingService.upsertPersonalData(JSON.stringi" +
+"fy($scope.m));\r\n\t\t\t//alert(\"result =\"+resultado);\r\n\t    };\r\n        //END DATOS " +
+"PERSONALES\r\n\r\n\r\n        ////////////Domicilios///////////\r\n \t\t$scope.saveDomicil" +
+"ios = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scop" +
+"e.msgSuccessDom = MeetingService.upsertDomicilioComment(JSON.stringify($scope.m)" +
+");\r\n\t    };\r\n        ///////////end domicilios///////////\r\n\r\n        ///////////" +
+"/SocialNetwork///////////\r\n \t\t$scope.saveSocialNetwork = function () {\r\n\t       " +
+" var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessSocNet = MeetingS" +
+"ervice.upsertRedSocialComment(JSON.stringify($scope.m));\r\n\t    };\r\n        /////" +
+"//////end SocialNetwork///////////\r\n\r\n        ////////////Referencias///////////" +
+"\r\n \t\t$scope.saveReferences = function () {\r\n\t        var jsonData = JSON.stringi" +
+"fy($scope.m);\r\n\t\t\t$scope.msgSuccessReferences = MeetingService.upsertReferencias" +
+"Comment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Referencias/" +
+"//////////\r\n\r\n        ////////////Laboral///////////\r\n \t\t$scope.saveLaboral = fu" +
+"nction () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuc" +
+"cessLaboral = MeetingService.upsertLaboralComment(JSON.stringify($scope.m));\r\n\t " +
+"   };\r\n        ///////////end Laboral///////////\r\n\r\n        ////////////Drugs///" +
+"////////\r\n \t\t$scope.saveDrugs = function () {\r\n\t        var jsonData = JSON.stri" +
+"ngify($scope.m);\r\n\t\t\t$scope.msgSuccessDrugs = MeetingService.upsertDrugComment(J" +
+"SON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Drugs///////////\r\n\r\n/" +
+"////////////para historia escolar\r\n        $scope.block = true;\r\n        $scope." +
+"school = {};\r\n        $scope.school.level={};\r\n        $scope.school.degree={};\r" +
+"\n\r\n\t   \t$scope.gradeByNivel = function(){\r\n\t   \talert(\"$scope.school.level==\"+JS" +
+"ON.stringify($scope.school.level));\r\n        $scope.lstDegree=JSON.parse(Meeting" +
+"Service.gradeByNivel( $scope.school.level[\'Id\']));\r\n\t   \t}\r\n\r\n        $scope.fil" +
+"lModel = function(){\r\n\t       var template =\"NO ESTUDIA\";\r\n\t       if($scope.m.S" +
+"choolBlock == false){\r\n\t            $scope.m.SchoolName=template;\r\n\t           $" +
+"scope.m.SchoolPhone = template;\r\n\t           $scope.m.SchoolAddress = template;\r" +
+"\n\t       }else{\r\n\t            $scope.m.SchoolName=\"\";\r\n\t           $scope.m.Scho" +
+"olPhone = \"\";\r\n\t           $scope.m.SchoolAddress = \"\";\r\n\t       }\r\n\t   };\r\n\r\n\t " +
+"  $scope.saveEscolarship = function(){\r\n\t   \t\t$scope.m.ScheduleSchool = $(\"#hdnJ" +
+"sonScheduleSchool\").val();\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$" +
+"scope.msgSuccessEscolar = MeetingService.upsertSchoolarship(JSON.stringify($scop" +
+"e.m));\r\n\t   }\r\n\r\n\t   $scope.InitSchool = function(){\r\n\t   if($scope.m.ScheduleSc" +
+"hool!=undefined&&$scope.m.ScheduleSchool!=null){\r\n\t   \t$(\"#hdnJsonScheduleSchool" +
+"\").val($scope.m.ScheduleSchool);\r\n\t   \tconsole.log(\"hdnJsonScheduleSchool-->\"+$(" +
+"\"#hdnJsonScheduleSchool\").val());\r\n\t   }\r\n\t   \tif($scope.m.SchoolBlock!=true){\r\n" +
+"\t   \t\t$scope.fillModel();\r\n\t   \t}\r\n\t   \t\t\r\n\t   \t\t$scope.lstLevel=JSON.parse(Meet" +
+"ingService.allAcademicLevels());\r\n\t   \t\tif($scope.m.SchoolDegreeId!=undefined&&$" +
+"scope.m.SchoolDegreeId!=null){\r\n\t   \t\t\t$scope.lstDegree=JSON.parse(MeetingServic" +
+"e.gradesBySelectedDegree($scope.m.SchoolDegreeId));\r\n\t   \t\t\tfor(a in $scope.lstD" +
+"egree){\r\n\t   \t\t\t\tif($scope.lstDegree[a].Id==$scope.m.SchoolDegreeId){\r\n\t   \t\t\t\t\t" +
+"$scope.school.degree = $scope.lstDegree[a];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t" +
+"}\r\n\t   \t\t\tfor(b in $scope.lstLevel){\r\n\t   \t\t\t\tif($scope.lstLevel[b].Id==$scope.s" +
+"chool.degree.AcademicLevelId){\r\n\t   \t\t\t\t\t$scope.school.level=$scope.lstLevel[b];" +
+"\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t}\r\n\t   \t\talert(\"model \"+ JSON.stri" +
+"ngify($scope.m));\r\n\t   };\r\n////////////////END historia escolar\r\n\r\n////////para " +
+"Leave country \r\n        $scope.Edocumento = {};\r\n        $scope.ImmigrationDoc =" +
+" {};\r\n        $scope.ImmigrationDocId = {};\r\n\r\n        $scope.specficationImmigr" +
+"anDoc = \"\";\r\n\r\n        $scope.listImmigrationDoc = [];\r\n\r\n\t   \t$scope.l={};\r\n\t  " +
+" \t$scope.l.oc={};\r\n\t   \t\t\r\n\t   \t$scope.l.fac={};\r\n\r\n\t   \t$scope.l.rel={};\r\n\r\n\t  " +
+" \t$scope.l.cf={};\r\n\r\n\t   \t$scope.documentosMigratoriosFill = function(){\r\n\t   \t/" +
+"/alert(\"$scope.school.level==\"+JSON.stringify($scope.school.level));\r\n        $s" +
+"cope.listImmigrationDoc=JSON.parse(MeetingService.documentosMigratorios());\r\n\t  " +
+" \t};\r\n\r\n\t   \t$scope.relacionPersonalAll = function(){\r\n        $scope.listRel=JS" +
+"ON.parse(MeetingService.relacionPersonal());\r\n\t   \t};\r\n\r\n\r\n\t   \t$scope.saveLeave" +
+"Country = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$" +
+"scope.msgSuccessLeaveCountry = MeetingService.upsertLeaveCountry(JSON.stringify(" +
+"$scope.m));\r\n\t    };\r\n\r\n\t    $scope.InitLeaveCountry = function () {\r\n\t    conso" +
+"le.log(\"InitLeaveCountry\");\r\n\t    $scope.Edocumento = $scope.itemListById($scope" +
+".m.OfficialDocumentationId, $scope.listElection);\r\n\t    $scope.ImmigrationDoc = " +
+"$scope.itemListById($scope.m.ImmigrationDocumentId, $scope.listImmigrationDoc);\r" +
+"\n\t    $scope.l.oc = $scope.itemListById($scope.m.LivedCountryId, $scope.listElec" +
+"tion);\r\n\t    $scope.l.country = $scope.itemListById($scope.m.CountryId, $scope.l" +
+"istCountry);\r\n\t    $scope.l.fac = $scope.itemListById($scope.m.FamilyAnotherCoun" +
+"tryId, $scope.listElection);\r\n\t    $scope.l.cf = $scope.itemListById($scope.m.Co" +
+"mmunicationFamilyId, $scope.listElection);\r\n\t    $scope.l.rel = $scope.itemListB" +
+"yId($scope.m.RelationshipId, $scope.listRel);\r\n\t    };\r\n\r\n///////////end Leave c" +
+"ountry\r\n\r\n        $timeout(function () {\r\n    \t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n" +
+"\r\n\t\t$scope.Iniciate = function(){\r\n\t\t    try{\r\n\t\t\t    //alert(\"asshole html>>\"+$" +
+"(\"#asshole\").html());\r\n\t\t\t    var js = JSON.parse($(\"#hdnJsonMtng\").val());\r\n\t\t\t" +
+"    $scope.m = js;\r\n\t\t\t    //alert(\"m valu>>\"+JSON.stringify($scope.m));\r\n\t\t\t   " +
+" //Birthplace iniciation\r\n\t\t\t    $scope.InitCountryPD();\r\n\t\t\t    //activities in" +
+"iciation\r\n\t\t\t    $scope.InitActivities();\r\n\t\t\t    $scope.InitSchool();\r\n\r\n\t\t\t   " +
+" $scope.InitLeaveCountry();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error cat" +
+"ched Iniciate angular function erro==>\"+err.message);\r\n\t\t    }\r\n\t\t    $(\".blocke" +
+"r\").remove();\r\n\t\t};\r\n\r\n    \r\n    \t\r\n        $scope.save = function(){\r\n\t\t       " +
+"     $scope.Wait = true;\r\n\t\t//todos los key del json deben ser igual al modelo c" +
+"s\r\n\t\t//if($(\"#frmSubmitValuesMeeting\").valid()==false){\r\n\t\t//    $scope.Wait = f" +
+"alse;\r\n\t\t//    return false;\r\n\t\t//}\r\n\t\t//var jsonData = JSON.stringify($scope.m)" +
+";\r\n\t\t//window.location.replace(\'hybrid:Meeting/AddMeeting?model=\' + encodeURICom" +
+"ponent(jsonData));\r\n\t\tconsole.log(\"save meeting\");\r\n\t\tvar reslt = MeetingService" +
+".TerminateMeeting(JSON.stringify($scope.m));\r\n\t\tif(reslt != undefined && reslt !" +
+"= \"\"){\r\n\t\t\tvar obj = JSON.parse(reslt);\r\n            if(obj.groupMessage != unde" +
+"fined){\r\n                for(var i=0; i < obj.groupMessage.length; i++){\r\n      " +
+"              var g1= obj.groupMessage[i];\r\n                    $scope.listMsgEr" +
+"ror[g1.section]= $sce.trustAsHtml( g1.messages);\r\n                }\r\n           " +
+" }\r\n\t\t}else{\r\n\t\t\t$scope.msgSuccessTotally = \"total successs\";\r\n\t\t\t$scope.cancel(" +
+");\r\n\t\t}\r\n\t\t//TerminateMeeting\r\n\t\t$scope.Wait = false;\r\n\t\t};\r\n\r\n\r\n\r\n$scope.showMe" +
+"ssageError = function(indicator){\r\n    alert(indicator);\r\n};\r\n\r\n\r\n\r\n$scope.showS" +
+"tate = function(){\r\n    //alert(\"html >>\"+$(\"#AdresBirth\").html());\r\n    //alert" +
+"(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\talert(\"$scope.specification=>\"+" +
+"JSON.stringify($scope.specification));\r\n    alert(\"$scope.lstActivity=>\"+JSON.st" +
+"ringify($scope.lstActivity));\r\n    alert(\"$scope.activityModel=>\"+JSON.stringify" +
+"($scope.activityModel));\r\n    alert(\"$scope.activityList=>\"+JSON.stringify($scop" +
+"e.activityList));\r\n};\r\n\r\n\r\n\r\n//regresa la pantalla de seleccion de meeting\r\n$sco" +
+"pe.cancel = function(){\r\n    $scope.saving = false;\r\n//todos los key del json de" +
+"ben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Meeting/Index\');\r\n};" +
+"\r\n\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    console.log(\"idObj=\"" +
+"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.length;x" +
+"++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t" +
+"    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t    $scope.showMessageError =" +
+" function(elementClick){\r\n        $(\"#divErrorMessage\").show();\r\n        var pos" +
+"ition = $(\".tab-content\").position();\r\n        $(\"#divErrorMessage\").css(\"left\"," +
+"position.left+5);\r\n        $(\"#divErrorMessage\").addClass(\"errorMessageClass\");\r" +
+"\n        $scope.entityError=elementClick;\r\n    \t};\r\n\r\n    $scope.hideMessageErro" +
+"r = function(){\r\n        $(\"#divErrorMessage\").hide();\r\n    };\r\n\r\n});\r\n\r\n\r\n</scr" +
+"ipt>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -259,7 +262,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 461 "MeetingDatosPersonales.cshtml"
+#line 465 "VerificacionInterview.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -384,7 +387,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 525 "MeetingDatosPersonales.cshtml"
+#line 529 "VerificacionInterview.cshtml"
                Write(Model.DateCreate);
 
 
@@ -404,7 +407,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 532 "MeetingDatosPersonales.cshtml"
+#line 536 "VerificacionInterview.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -968,7 +971,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 745 "MeetingDatosPersonales.cshtml"
+#line 749 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -2342,7 +2345,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1149 "MeetingDatosPersonales.cshtml"
+#line 1153 "VerificacionInterview.cshtml"
                                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
@@ -2425,7 +2428,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1167 "MeetingDatosPersonales.cshtml"
+#line 1171 "VerificacionInterview.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
@@ -2796,7 +2799,7 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1268 "MeetingDatosPersonales.cshtml"
+#line 1272 "VerificacionInterview.cshtml"
            , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
@@ -2964,7 +2967,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1344 "MeetingDatosPersonales.cshtml"
+#line 1348 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingDomicilio","Meeting")
 
 #line default
@@ -2975,7 +2978,7 @@ WriteLiteral(">-->\r\n<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1345 "MeetingDatosPersonales.cshtml"
+#line 1349 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingDomicilio","Meeting")
 
 #line default
@@ -3047,13 +3050,13 @@ WriteLiteral(@">
 ");
 
 
-#line 1377 "MeetingDatosPersonales.cshtml"
+#line 1381 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1377 "MeetingDatosPersonales.cshtml"
+#line 1381 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -3079,7 +3082,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1383 "MeetingDatosPersonales.cshtml"
+#line 1387 "VerificacionInterview.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3090,7 +3093,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1386 "MeetingDatosPersonales.cshtml"
+#line 1390 "VerificacionInterview.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3101,7 +3104,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1389 "MeetingDatosPersonales.cshtml"
+#line 1393 "VerificacionInterview.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3112,7 +3115,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1392 "MeetingDatosPersonales.cshtml"
+#line 1396 "VerificacionInterview.cshtml"
     Write(Dmcl.RegisterTypeId);
 
 
@@ -3149,7 +3152,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1399 "MeetingDatosPersonales.cshtml"
+#line 1403 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -3271,7 +3274,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1462 "MeetingDatosPersonales.cshtml"
+#line 1466 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -3338,13 +3341,13 @@ WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Depe
 ">\r\n");
 
 
-#line 1494 "MeetingDatosPersonales.cshtml"
+#line 1498 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1494 "MeetingDatosPersonales.cshtml"
+#line 1498 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -3370,7 +3373,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1500 "MeetingDatosPersonales.cshtml"
+#line 1504 "VerificacionInterview.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3381,7 +3384,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1503 "MeetingDatosPersonales.cshtml"
+#line 1507 "VerificacionInterview.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3392,7 +3395,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1506 "MeetingDatosPersonales.cshtml"
+#line 1510 "VerificacionInterview.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3403,7 +3406,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1509 "MeetingDatosPersonales.cshtml"
+#line 1513 "VerificacionInterview.cshtml"
     Write(Dmcl.RegisterTypeId);
 
 
@@ -3441,7 +3444,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1520 "MeetingDatosPersonales.cshtml"
+#line 1524 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -3570,7 +3573,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1585 "MeetingDatosPersonales.cshtml"
+#line 1589 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -3638,13 +3641,13 @@ WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Depe
 ">\r\n");
 
 
-#line 1617 "MeetingDatosPersonales.cshtml"
+#line 1621 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1617 "MeetingDatosPersonales.cshtml"
+#line 1621 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){	
     }
     else{
@@ -3670,7 +3673,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1623 "MeetingDatosPersonales.cshtml"
+#line 1627 "VerificacionInterview.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3681,7 +3684,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1626 "MeetingDatosPersonales.cshtml"
+#line 1630 "VerificacionInterview.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3692,7 +3695,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1629 "MeetingDatosPersonales.cshtml"
+#line 1633 "VerificacionInterview.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3703,7 +3706,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1632 "MeetingDatosPersonales.cshtml"
+#line 1636 "VerificacionInterview.cshtml"
     Write(Dmcl.RegisterTypeId);
 
 
@@ -3741,7 +3744,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1643 "MeetingDatosPersonales.cshtml"
+#line 1647 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -3871,7 +3874,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 1713 "MeetingDatosPersonales.cshtml"
+#line 1717 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -3933,13 +3936,13 @@ WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Empresa</th>\r\n      
 "th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
 
-#line 1744 "MeetingDatosPersonales.cshtml"
+#line 1748 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1744 "MeetingDatosPersonales.cshtml"
+#line 1748 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){	
     }
     else{
@@ -3965,7 +3968,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1750 "MeetingDatosPersonales.cshtml"
+#line 1754 "VerificacionInterview.cshtml"
        Write(Dmcl.Description);
 
 
@@ -3976,7 +3979,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1753 "MeetingDatosPersonales.cshtml"
+#line 1757 "VerificacionInterview.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -3987,7 +3990,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1756 "MeetingDatosPersonales.cshtml"
+#line 1760 "VerificacionInterview.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -3998,7 +4001,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1759 "MeetingDatosPersonales.cshtml"
+#line 1763 "VerificacionInterview.cshtml"
     Write(Dmcl.RegisterTypeId);
 
 
@@ -4035,7 +4038,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1768 "MeetingDatosPersonales.cshtml"
+#line 1772 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -4719,21 +4722,23 @@ WriteLiteral(">\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
+WriteLiteral(" ng-update-hidden");
+
 WriteLiteral(" ng-model=\"schString\"");
 
-WriteLiteral(" name=\"sch\"");
+WriteLiteral(" name=\'sch\'");
 
 WriteLiteral(" id=\"hdnJsonScheduleSchool\"");
 
-WriteLiteral(" ng-update-hidden >\r\n        <input");
+WriteLiteral(">\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" ng-model=\"content\"");
 
-WriteLiteral(" ng-init=\"content =\'\'+\'School\';\"");
+WriteLiteral(" value=\"School\"");
 
-WriteLiteral(" ng-update-hidden >\r\n        <div");
+WriteLiteral(" ng-update-hidden  >\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -5036,7 +5041,7 @@ WriteLiteral(">\r\n\t    <!--<a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 2169 "MeetingDatosPersonales.cshtml"
+#line 2173 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -5098,13 +5103,13 @@ WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Sustancia</th>\r\n    
 "th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
 
-#line 2199 "MeetingDatosPersonales.cshtml"
+#line 2203 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2199 "MeetingDatosPersonales.cshtml"
+#line 2203 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){	
     }
     else{
@@ -5130,7 +5135,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2205 "MeetingDatosPersonales.cshtml"
+#line 2209 "VerificacionInterview.cshtml"
        Write(Dmcl.Description);
 
 
@@ -5141,7 +5146,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2208 "MeetingDatosPersonales.cshtml"
+#line 2212 "VerificacionInterview.cshtml"
     Write(Dmcl.Phone);
 
 
@@ -5152,7 +5157,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2211 "MeetingDatosPersonales.cshtml"
+#line 2215 "VerificacionInterview.cshtml"
     Write(Dmcl.HomeTypeId);
 
 
@@ -5163,7 +5168,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2214 "MeetingDatosPersonales.cshtml"
+#line 2218 "VerificacionInterview.cshtml"
     Write(Dmcl.RegisterTypeId);
 
 
@@ -5200,7 +5205,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2221 "MeetingDatosPersonales.cshtml"
+#line 2225 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -5500,7 +5505,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2360 "MeetingDatosPersonales.cshtml"
+#line 2364 "VerificacionInterview.cshtml"
                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -6456,7 +6461,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 2702 "MeetingDatosPersonales.cshtml"
+#line 2706 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default

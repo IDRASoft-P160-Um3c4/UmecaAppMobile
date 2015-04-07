@@ -114,7 +114,6 @@
     <Compile Include="com\umeca\entities\reviewer\Drug.cs" />
     <Compile Include="com\umeca\entities\reviewer\Imputed.cs" />
     <Compile Include="com\umeca\entities\reviewer\ImputedHome.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Job.cs" />
     <Compile Include="com\umeca\entities\reviewer\LeaveCountry.cs" />
     <Compile Include="com\umeca\entities\reviewer\Meeting.cs" />
     <Compile Include="com\umeca\entities\reviewer\PersonSocialNetwork.cs" />
@@ -150,6 +149,18 @@
     <Compile Include="Models\Shared\IdNameDto.cs" />
     <Compile Include="com\umeca\entities\catalog\address\Municipality.cs" />
     <Compile Include="Service\MeetingService.cs" />
+    <Compile Include="Models\reviewer\GroupMessageMeetingDto.cs" />
+    <Compile Include="Models\reviewer\TerminateMeetingMessageDto.cs" />
+    <Compile Include="Data\Job.cs" />
+    <Compile Include="Views\AddressUpsert.cs">
+      <DependentUpon>AddressUpsert.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VerificacionInterview.cs">
+      <DependentUpon>VerificacionInterview.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VerificationList.cs">
+      <DependentUpon>VerificationList.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -182,6 +193,18 @@
     <None Include="Views\MeetingDatosPersonales.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>MeetingDatosPersonales.cs</LastGenOutput>
+    </None>
+    <None Include="Views\AddressUpsert.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>AddressUpsert.cs</LastGenOutput>
+    </None>
+    <None Include="Views\VerificacionInterview.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>VerificacionInterview.cs</LastGenOutput>
+    </None>
+    <None Include="Views\VerificationList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>VerificationList.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
