@@ -209,6 +209,14 @@ namespace UmecaApp
 
 			result.ageString = services.calculateAge (result.BirthDate);
 
+			db.CreateTable<ImputedHome> ();
+			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
+			if(domiciliosImputado!=null){
+				result.JsonDomicilios = domiciliosImputado;
+			}
+
+
+
 			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
 			if(SE!=null){
 				result.PhysicalCondition = SE.physicalCondition;
@@ -223,6 +231,11 @@ namespace UmecaApp
 			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (socialNetComent != null) {
 				result.CommentSocialNetwork = socialNetComent.Comment;
+			} else {
+				var me = new SocialNetwork ();
+				me.Comment = "";
+				me.MeetingId = result.MeetingId ?? 0;
+				db.Insert (me);
 			}
 
 
@@ -323,15 +336,135 @@ namespace UmecaApp
 			webView.LoadHtmlString (pagestring);
 		}
 
-		public void  MeetingDomicilio()
+		public void  MeetingDomicilio(int idMeeting)
 		{
-			ImputedHome mdl= new ImputedHome();
-			var temp = new AddressUpsert{ Model = mdl };
+			var MeetingId = int.Parse (idMeeting.ToString ());
+			var dto = new ModelContainer ();
+			dto.Reference = db.Table<Meeting>().Where(s=>s.Id == MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+			db.CreateTable<ImputedHome> ();
+			ImputedHome mdl = new ImputedHome ();
+				mdl.MeetingId = idMeeting;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+			var temp = new AddressUpsert{ Model = dto };
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
+		public void  EditMeetingDomicilio(int idHome)
+		{
+			var HomeId = int.Parse (idHome.ToString ());
+			var dto = new ModelContainer ();
+			db.CreateTable<ImputedHome> ();
+			ImputedHome mdl=db.Table<ImputedHome> ().Where (lv => lv.Id == HomeId).FirstOrDefault ();
+			db.CreateTable<Schedule>();
+			if(mdl!=null){
+				var schedule = db.Table<Schedule>().Where(sc=>sc.ImputedHomeId==mdl.Id).ToList();
+				if(schedule!=null){
+					mdl.Schedule = JsonConvert.SerializeObject (schedule);
+				}
+			}
+			if (mdl != null) {
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+			} else {
+				mdl = new ImputedHome ();
+				mdl.MeetingId = idHome;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+			}
+			Console.WriteLine ("saved imputed home-->"+dto.JsonModel);
+			var temp = new AddressUpsert{ Model = dto };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
+
+		public void  PersonSocialNetwork(int idMeeting)
+		{
+			try{
+				var MeetingId = int.Parse (idMeeting.ToString ());
+				var dto = new ModelContainer ();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+				db.CreateTable<SocialNetwork>();
+				SocialNetwork me = db.Table<SocialNetwork>().Where(mee => mee.MeetingId == idMeeting ).FirstOrDefault();
+				if(me==null){
+					me = new SocialNetwork();
+					me.Comment = "";
+					me.MeetingId = idMeeting;
+					db.Insert(me);
+				}
+				db.CreateTable<PersonSocialNetwork>();
+				PersonSocialNetwork mdl = new PersonSocialNetwork ();
+				mdl.SocialNetworkId = me.Id;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new PersonSocialNetworkUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
+
+		public void  EditPersonSocialNetwork(int idPerson)
+		{
+			try{
+				var SNPersonId = int.Parse (idPerson.ToString ());
+				var dto = new ModelContainer ();
+				db.CreateTable<PersonSocialNetwork>();
+				var mdl = db.Table<PersonSocialNetwork>().Where(mee => mee.Id == SNPersonId ).FirstOrDefault();
+				db.CreateTable<SocialNetwork>();
+				var sn = db.Table<SocialNetwork>().Where(a=>a.Id == mdl.SocialNetworkId).FirstOrDefault();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == sn.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new PersonSocialNetworkUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
+
+
+		public void  ReferenceMeeting(int idMeeting)
+		{
+			try{
+				var MeetingId = int.Parse (idMeeting.ToString ());
+				var dto = new ModelContainer ();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+				db.CreateTable<Reference>();
+				Reference mdl = new Reference ();
+				mdl.MeetingId = MeetingId;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new ReferenciasUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
+
+
+
+
 
 
 		public void IndexVerificacion()

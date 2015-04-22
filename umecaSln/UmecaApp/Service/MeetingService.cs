@@ -128,6 +128,25 @@ namespace UmecaApp
 			return output;
 		}
 
+		[Export("findAddressByLocation")]
+		public Java.Lang.String findAddressByLocation(Java.Lang.String LocationId){
+			var JsonStates = services.findAddressByLocation (LocationId.ToString());
+			return new Java.Lang.String(JsonStates);
+		}
+
+
+		[Export("findAddressByCp")]
+		public Java.Lang.String findAddressByCp(Java.Lang.String Cp){
+			return new Java.Lang.String(services.findAddressByCp (Cp.ToString()));
+		}
+
+
+		[Export("findAllStates")]
+		public Java.Lang.String findAllStates(){
+			var estados = db.Table<State> ().OrderBy (c=>c.Name).ToList ()??new List<State> ();
+			return new Java.Lang.String(JsonConvert.SerializeObject(estados));
+		}
+
 		[Export("findMunicipalityByState")]
 		public Java.Lang.String findMunicipalityByState(Java.Lang.String idState){
 			var n = int.Parse (idState.ToString());
@@ -155,11 +174,21 @@ namespace UmecaApp
 		}
 
 
+		[Export("HomeTypeFindAllOrderByName")]
+		public Java.Lang.String HomeTypeFindAllOrderByName(){
+			return new Java.Lang.String(JsonConvert.SerializeObject(services.HomeTypeFindAllOrderByName ()));
+		}
+
+		[Export("RegisterTypeFindAllOrderByName")]
+		public Java.Lang.String RegisterTypeFindAllOrderByName(){
+			return new Java.Lang.String(JsonConvert.SerializeObject(services.RegisterTypeFindAllOrderByName ()));
+		}
+
 
 		[Export("upsertDomicilioComment")]
 		public Java.Lang.String upsertDomicilioComment(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
+			Console.WriteLine (" upsertDomicilioComment json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
 			db.BeginTransaction ();
 			try{
@@ -170,6 +199,113 @@ namespace UmecaApp
 			}catch(Exception e){
 				db.Rollback ();
 				Console.WriteLine("catched exception in MeetingService method upsertDomicilioComment invoked javascript calling -> MeetingService.upsertDomicilioComment() Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+
+		[Export("upsertImputedHome")]
+		public Java.Lang.String upsertImputedHome(Java.Lang.String modelJson){
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
+			var model = JsonConvert.DeserializeObject<ImputedHome> (modelJson.ToString());
+			db.BeginTransaction ();
+			try{
+				db.CreateTable<ImputedHome>();
+				ImputedHome me = db.Table<ImputedHome>().Where(mee => mee.Id == model.Id ).FirstOrDefault();
+				if(me==null){
+					me = new ImputedHome();
+					me.addressString = model.addressString;
+					me.Description = model.Description;
+					me.HomeTypeId = model.HomeTypeId;
+					me.InnNum = model.InnNum;
+					me.Lat = model.Lat;
+					me.Lng = model.Lng;
+					me.LocationId = model.LocationId;
+					me.OutNum = model.OutNum;
+					me.Phone = model.Phone;
+					me.ReasonChange = model.ReasonChange;
+					me.ReasonSecondary = model.ReasonSecondary;
+					me.RegisterTypeId = model.RegisterTypeId;
+					me.Specification = model.Specification;
+					me.Street = model.Street;
+					me.TimeLive = model.TimeLive;
+					me.Lat = model.Lat;
+					me.Lat = model.Lat;
+					me.MeetingId = model.MeetingId??0;
+					me.addressString = ImputedHomeAddressString(me);
+					db.Insert(me);
+				}else{
+					me.addressString = model.addressString;
+					me.Description = model.Description;
+					me.HomeTypeId = model.HomeTypeId;
+					me.InnNum = model.InnNum;
+					me.Lat = model.Lat;
+					me.Lng = model.Lng;
+					me.LocationId = model.LocationId;
+					me.OutNum = model.OutNum;
+					me.Phone = model.Phone;
+					me.ReasonChange = model.ReasonChange;
+					me.ReasonSecondary = model.ReasonSecondary;
+					me.RegisterTypeId = model.RegisterTypeId;
+					me.Specification = model.Specification;
+					me.Street = model.Street;
+					me.TimeLive = model.TimeLive;
+					me.Lat = model.Lat;
+					me.Lat = model.Lat;
+					me.MeetingId = model.MeetingId??0;
+					me.addressString = ImputedHomeAddressString(me);
+					db.Update(me);
+				}
+				db.CreateTable<Schedule>();
+				var schedule = db.Table<Schedule>().Where(sc=>sc.ImputedHomeId==me.Id).ToList();
+				foreach(Schedule sch in schedule){
+					db.Delete(sch);
+				}
+				if(model.Schedule!=null){
+					var newSchedules = JsonConvert.DeserializeObject<List<Schedule>>(model.Schedule);
+					foreach(Schedule sch in newSchedules){
+						sch.ImputedHomeId = me.Id;
+						db.Insert(sch);
+					}
+				}
+				output = new Java.Lang.String("");
+				Console.WriteLine ("saved imputed home-->"+me.MeetingId);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method upsertImputedHome invoked javascript calling -> MeetingService.upsertImputedHome()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+
+		[Export("eraseImputedHome")]
+		public Java.Lang.String eraseImputedHome(Java.Lang.String idHome){
+			var output = new Java.Lang.String("");
+			try{
+				var HomeId = int.Parse (idHome.ToString ());
+				db.CreateTable<ImputedHome> ();
+				ImputedHome mdl=db.Table<ImputedHome> ().Where (lv => lv.Id == HomeId).FirstOrDefault ();
+				db.CreateTable<Schedule>();
+				var schedule = db.Table<Schedule>().Where(sc=>sc.ImputedHomeId==HomeId).ToList();
+				foreach(Schedule sch in schedule){
+					db.Delete(sch);
+				}
+				db.Delete(mdl);
+				Console.WriteLine ("erased imputed home-->"+idHome);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method eraseImputedHome invoked javascript calling -> MeetingService.eraseImputedHome("+idHome+")");
+				Console.WriteLine("Exception message :::>"+e.Message);
 				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
 			}
 			finally{
@@ -920,9 +1056,25 @@ namespace UmecaApp
 //			}
 		}
 
-
-
-
+		public String ImputedHomeAddressString(ImputedHome im){
+			String result = "";
+			if (im.Street != null && !im.Street.Equals("")) {
+				result = "Calle: " + im.Street + " No Ext: " + im.OutNum;
+			}
+			if (im.OutNum != null && !im.OutNum.Equals ("")) {
+				result = result + " No Ext: " + im.OutNum;
+			}
+			if (im.InnNum != null && !im.InnNum.Equals ("")) {
+				result = result + " No Int:" + im.InnNum;
+			}
+			if (im.LocationId != null) {
+				var Location = db.Table<Location> ().Where (lo=>lo.Id==im.LocationId).FirstOrDefault ();
+				var Municipality = db.Table<Municipality> ().Where (lo=>lo.Id==Location.MunicipalityId).FirstOrDefault ();
+				var Estado = db.Table<State> ().Where (lo=>lo.Id==Municipality.StateId).FirstOrDefault ();
+				result = result + "," + Location.Name + ". CP: " + Location.ZipCode + ". " + Municipality.Name + ", " + Estado.Name + ".";
+			}
+			return result;
+		}
 
 	}//class end
 }

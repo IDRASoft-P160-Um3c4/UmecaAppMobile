@@ -18,25 +18,25 @@ namespace UmecaApp
 			public int? AddressId{ get; set; }
 
 		[Column("street"),MaxLength(100)]
-		public String street{ get; set; }
+		public String Street{ get; set; }
 
 		[Column("no_outside"),MaxLength(10)]
-		public String outNum{ get; set; }
+		public String OutNum{ get; set; }
 
 		[Column("no_inside"),MaxLength(10)]
-		public String innNum{ get; set; }
+		public String InnNum{ get; set; }
 
 		[Column("id_location")]
-		private int? location{ get; set; }
+		public int? LocationId{ get; set; }
 
 		[Column("lat")]
-		private String lat{ get; set; }
+		public String Lat{ get; set; }
 
 		[Column("lng")]
-		private String lng{ get; set; }
+		public String Lng{ get; set; }
 
 		[Column("address_string"),MaxLength(500)]
-		private String addressString{ get; set; }
+		public String addressString{ get; set; }
 
 //		@Override
 //		public String toString() {
@@ -57,13 +57,13 @@ namespace UmecaApp
 //		}
 
 		[Column("id_register_type")]
-			public int RegisterTypeId{ get; set; }
+			public int? RegisterTypeId{ get; set; }
 
 		[Column("time_live"),MaxLength(30)]
 			public String TimeLive{ get; set; }
 
 		[Column("id_belong")]
-			public int HomeTypeId{ get; set; }
+			public int? HomeTypeId{ get; set; }
 
 		[Column("reason_change"),MaxLength(500)]
 			public String ReasonChange{ get; set; }
@@ -75,7 +75,7 @@ namespace UmecaApp
 			public String Phone{ get; set; }
 
 		[Column("id_meeting")]
-			public int MeetingId{ get; set; }
+			public int? MeetingId{ get; set; }
 
 		[Column("specification"),MaxLength(50)]
 			public String Specification{ get; set; }
@@ -83,6 +83,7 @@ namespace UmecaApp
 		[Column("reasonSecondary"),MaxLength(500)]
 			public String ReasonSecondary{ get; set; }
 
+			public String Schedule{ get; set; }
 	}
 }
 

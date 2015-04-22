@@ -34,6 +34,9 @@ namespace UmecaApp
 			InsertStatusMeeting (act);
 			InsertStatusVerification (act);
 			InsertLocationCat (act);
+			//
+			InsertHomeType(act);
+			InsertRegisterType (act);
 		}
 
 		public void InsertDegree(Activity act){

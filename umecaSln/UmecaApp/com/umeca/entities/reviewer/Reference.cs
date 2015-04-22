@@ -16,37 +16,37 @@ namespace UmecaApp
 		public int Id{ get; set; }
 
 		[Column("name"),MaxLength(150)]
-		private String FullName{ get; set; }
+		public String FullName{ get; set; }
 
 		[Column("age"),MaxLength(50)]
-		private int Age{ get; set; }
+		public int Age{ get; set; }
 
 		[Column("id_relationship")]
-		private int RelationshipId{ get; set; }
+		public int RelationshipId{ get; set; }
 
 		[Column("address"),MaxLength(250)]
-		private String Address{ get; set; }
+		public String Address{ get; set; }
 
 		[Column("phone"),MaxLength(200)]
-		private String Phone{ get; set; }
+		public String Phone{ get; set; }
 
 		[Column("specification_document_type"),MaxLength(250)]
-		private String SpecificationDocumentType{ get; set; }
+		public String SpecificationDocumentType{ get; set; }
 
 		[Column("id_document_type")]
-		private int DocumentTypeId{ get; set; }
+		public int DocumentTypeId{ get; set; }
 
 		[Column("meeting_id")]
-		private int MeetingId{ get; set; }
+		public int MeetingId{ get; set; }
 
 		[Column("is_accompaniment")]
-		private Boolean IsAccompaniment{ get; set; }
+		public Boolean IsAccompaniment{ get; set; }
 
 		[Column("specification_relationship"),MaxLength(255)]
-		private String SpecificationRelationship{ get; set; }
+		public String SpecificationRelationship{ get; set; }
 
 		[Column("block")]
-		private Boolean Block{ get; set; }
+		public Boolean Block{ get; set; }
 
 	}
 }

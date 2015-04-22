@@ -1,0 +1,337 @@
+﻿@model UmecaApp.ModelContainer
+@inherits WebViewTemplate
+@{
+Layout = "UmecaApp.headUm";
+}
+<script>
+app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
+	$scope.m = {};
+    $scope.p = {};
+    $scope.lstRel = [];
+    $scope.lstDoc = [];
+    $scope.lstLiv = [];
+    $scope.lstDep = [];
+    $scope.m.RelationshipId = 0;
+    $scope.m.DocumentTypeId = 0;
+    $scope.p.liv = 0;
+    $scope.p.dep = 0;
+
+    $scope.init = function(){
+
+    try{
+		    $scope.propiedades=true;
+		    console.log("modelContainer"+$("#hdnJsonModelContainer").val());
+		    var js = JSON.parse($("#hdnJsonModelContainer").val());
+			    $scope.m = js;
+    };
+
+
+    $timeout(function() {
+        $scope.init();
+    }, 0);
+    $scope.WaitFor = false;
+    $scope.MsgError = "";
+    $scope.Model = {};
+
+    $scope.save = function(idcase){
+	   		var jsonData = JSON.stringify($scope.m);
+			$scope.msgError = MeetingService.upsertPersonSocialNetwork(JSON.stringify($scope.m));
+			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
+				$scope.editMeeting($("#hdnMeetingCaseReference").val());
+			}
+	   };
+
+    $scope.cancel = function () {
+        window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idCase);
+    };
+
+    $scope.fillModel = function(){
+        var template= "NO TIENE";
+        var template2 = "Ninguno";
+        if($scope.m.block === false){
+            $scope.name = template;
+            for(var i= 0; i < $scope.lstRel.length ; i++){
+                if($scope.lstRel[i].name == template2){
+                    $scope.m.RelationshipId = $scope.lstRel[i];
+                    $scope.m.RelationshipIdId = $scope.lstRel[i].id;
+                    break;
+                }
+            }
+            $scope.m.Phone = template;
+            for(var i= 0; i < $scope.lstDoc.length ; i++){
+                if($scope.lstDoc[i].name == template2){
+                    $scope.m.DocumentTypeId = $scope.lstDoc[i];
+                    $scope.m.DocumentTypeIdId = $scope.lstDoc[i].id;
+                    break;
+                }
+            }
+
+            $scope.age = 0;
+            $scope.m.isAccompaniment = false;
+            for(var i= 0; i < $scope.lstDep.length ; i++){
+                if($scope.lstDep[i].name == "No"){
+                    $scope.p.dep = $scope.lstDep[i];
+                    $scope.p.depId = $scope.lstDep[i].id;
+                    break;
+                }
+            }
+            for(var i= 0; i < $scope.lstLiv.length ; i++){
+                if($scope.lstLiv[i].name == "Si"){
+                    $scope.p.liv = $scope.lstLiv[i];
+                    $scope.p.livId = $scope.lstLiv[i].id;
+                    break;
+                }
+            }
+        }else{
+            $scope.name = "";
+                    $scope.m.RelationshipId = $scope.lstRel[0];
+                    $scope.m.RelationshipIdId = $scope.lstRel[0].id;
+            $scope.m.Phone = template;
+                    $scope.m.DocumentTypeId = $scope.lstDoc[0];
+                    $scope.m.DocumentTypeIdId = $scope.lstDoc[0].id;
+            $scope.age = "";
+            $scope.m.Phone = "";
+            $scope.m.isAccompaniment = false;
+                    $scope.p.dep = $scope.lstDep[0];
+                    $scope.p.depId = $scope.lstDep[0].id;
+                    $scope.p.liv = $scope.lstLiv[0];
+                    $scope.p.livId = $scope.lstLiv[0].id;
+            $scope.address="";
+        }
+    };
+});
+</script>
+<div>
+    <div id="dlgUpModalId" ng-app="umecaMobile" ng-controller="ReferencesController" >
+    <div>
+        <div class="alert alert-info ">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Persona de su red social</h4>
+        </div>
+    </div>
+           
+<div>
+	<div>
+	    <input id="hdnJsonModelContainer" type="hidden" value="@Model.JsonModel" name="jsonString" />
+	    <input id="hdnMeetingCaseReference" type="hidden" value="@Model.Reference" name="wasd"/>
+	</div>
+    <div class="row">
+        <div class="col-xs-12 element-center">
+            <div class="col-xs-6 element-right" >
+                &iquest;El imputado cuenta con personas en su red social?
+            </div>
+            <div class="col-xs-2">
+                <input type="radio" name="block"
+                       id="blockYes" ng-value="true" ng-model="m.block" ng-change="fillModel()">
+                <label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;
+                <input type="radio"  name="block"
+                       id="blockNo" ng-value="false" ng-model="m.block" ng-change="fillModel()">
+                <label for="blockNo">No</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="hr hr-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1" ng-show="m.block">
+
+            <!--<input type="hidden" ng-update-hidden name="isAccompaniment" ng-model="m.isAccompaniment">-->
+            <input type="checkbox" ng-model="m.isAccompaniment" id="isAccompaniment" ng-checked="m.isAccompaniment"
+            	ng-disabled="!m.block">
+
+           <label for="isAccompaniment"> &iquest;Esta persona acompa&ntilde;ar&aacute; al imputado durante el proceso?</label>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">
+                Nombre:
+            </div>
+            <div class="col-xs-10">
+                <input class="width-100" type="text"
+                       data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+                       data-val-length-max="150" data-val-length-min="3"   ng-readonly="!m.block"
+                       data-val-required="El Nombre es un campo requerido"
+                       name="name" id="name" value="{{m.Name}}">
+                <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Relaci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+                <select class="form-control element-center" ng-model="m.RelationshipId"
+                        ng-options="e.name for e in lstRel"
+                        ng-change="m.RelationshipIdId = m.RelationshipId.id"   ng-readonly="!m.block"
+                        ng-init='lstRel = ${lstRelationship};'></select>
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Tel&eacute;fono:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"  ng-readonly="!m.block"
+                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                       data-val-length-max="200" data-val-length-min="5"
+                       data-val-required="El tel&eacute;fono es un campo requerido"
+                       name="Phone" id="Phone" ng-model="m.Phone" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Phone" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row" ng-show="m.RelationshipId['Specification'] == true">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Especif&iacute;que<br/>relaci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="m.specificationRelationship" 
+                       id="specificationRelationship" name="specificationRelationship">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Identificaci&oacute;n prensentada:
+            </div>
+            <div class="col-xs-8">
+                <select class="form-control element-center" ng-model="m.DocumentTypeId"
+                        ng-options="e.name for e in lstDoc"
+                        ng-change="m.DocumentTypeIdId = m.DocumentTypeId.id"  ng-readonly="!m.block"
+                        ></select>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Edad:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 2 n&uacute;mero"
+                       data-val-regex-pattern="([0-9]+)"    ng-readonly="!m.block"
+                       data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
+                       data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
+                       type="text" name="age" ng-model="m.Age" >
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="age" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row" ng-show="m.DocumentTypeId['Specification'] == true">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Especif&iacute;que:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="m.SpecificationDocumentType"
+                       id="specification" name="specification">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Vive con el:
+            </div>
+            <div class="col-xs-8">
+                <select class="form-control element-center" ng-model="p.liv"
+                        ng-options="e.name for e in lstLiv"
+                        ng-change="m.LivingWithIde = p.liv.id"  ng-readonly="!m.block"
+                        ></select>
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Dependiente econ&oacute;mico:
+            </div>
+            <div class="col-xs-8">
+                <select class="form-control element-center" ng-model="p.dep"
+                        ng-options="e.name for e in lstDep"
+                        ng-change="m.DependentId = p.dep.id"   ng-readonly="!m.block"
+                        ></select>
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row" ng-show="m.LivingWithIde == 2">
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
+            <div class="col-xs-10">
+                <textarea id="address" class="form-control" name="address" ng-model="m.Address"
+                          ng-init="address = person.address"
+                          data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                          data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                          data-val-length-max="500" data-val-length-min="6"></textarea>
+            </div>
+        </div>
+        <div class="col-xs-10 col-xs-offset-2">
+            <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+
+</div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" class="alert alert-danger element-center">
+                                {{MsgError}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm"  ng-click="cancel('@Model.Reference')">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                           ng-click="save('@Model.Reference');">
+                          Guardar
+                    </span>
+                </div>
+            </div>
+

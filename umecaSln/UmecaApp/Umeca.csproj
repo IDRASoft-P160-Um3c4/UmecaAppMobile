@@ -161,6 +161,14 @@
     <Compile Include="Views\VerificationList.cs">
       <DependentUpon>VerificationList.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Shared\ModelContainer.cs" />
+    <Compile Include="Models\Shared\AddressFindDto.cs" />
+    <Compile Include="Views\PersonSocialNetworkUpsert.cs">
+      <DependentUpon>PersonSocialNetworkUpsert.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReferenciasUpsert.cs">
+      <DependentUpon>ReferenciasUpsert.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -205,6 +213,14 @@
     <None Include="Views\VerificationList.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>VerificationList.cs</LastGenOutput>
+    </None>
+    <None Include="Views\PersonSocialNetworkUpsert.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>PersonSocialNetworkUpsert.cs</LastGenOutput>
+    </None>
+    <None Include="Views\ReferenciasUpsert.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>ReferenciasUpsert.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

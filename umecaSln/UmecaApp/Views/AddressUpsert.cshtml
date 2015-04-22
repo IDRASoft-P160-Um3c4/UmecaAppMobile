@@ -1,4 +1,4 @@
-﻿@model UmecaApp.ImputedHome
+﻿@model UmecaApp.ModelContainer
 @inherits WebViewTemplate
 @{
 Layout = "UmecaApp.headUm";
@@ -7,30 +7,153 @@ Layout = "UmecaApp.headUm";
 <script type="text/javascript">
     app.controller('AddressUpsertControler', function($scope, $http, $timeout, $sce){
 
+    $scope.m = {};
+    $scope.zipCode = "";
+    $scope.Reference = 0;
+    $scope.listState=[];
+    $scope.state = {};
+    $scope.listMunicipality=[];
+    $scope.municipality = {};
+    $scope.listLocation=[];
+    $scope.location = {};
+
+    $scope.listHomeType=[];
+    $scope.HomeType = {};
+    $scope.listRegisterType=[];
+    $scope.RegisterType = {};
+
+    $scope.domTitle = "";
+
     $timeout(function () {
     		$scope.init();
 		}, 0);
 
+		$scope.editMeeting = function(idCase){
+    		window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idCase);
+    	}
+
+    	$scope.ZipCodeSearch = function(){
+    	$scope.msgZipCode = undefined;
+    	if($scope.listState==undefined){
+    	var asx = MeetingService.findAllStates();
+		    $scope.listState = JSON.parse(asx);
+    	}
+		    console.log("ZipCodeSearch"+$scope.zipCode);
+    		if(($scope.zipCode+"").length>=5){
+    		console.log(MeetingService.findAddressByCp($scope.zipCode));
+    			var jsonStrngData = MeetingService.findAddressByCp($scope.zipCode);
+    			if(jsonStrngData==""){
+    				$scope.msgZipCode = "El código postal "+$scope.zipCode+" no existe.";
+    			}
+    			else{
+    				var domicilioData = JSON.parse(jsonStrngData);
+    				$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
+    				$scope.listMunicipality = domicilioData.Municipios;
+    				console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
+    				$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
+    				$scope.listLocation = domicilioData.Locaciones;
+    				console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
+    			}
+    		}
+    	};
+
+    	$scope.LocationInit = function(){
+    	if($scope.listState==undefined){
+    	var asx = MeetingService.findAllStates();
+		    $scope.listState = JSON.parse(asx);
+    	}
+    		if($scope.m.LocationId!=undefined &&  $scope.m.LocationId!=null){
+    			var jsonStrngData = MeetingService.findAddressByLocation($scope.m.LocationId);
+    			if(jsonStrngData==""){
+    				$scope.msgZipCode = "El código postal "+$scope.zipCode+" no existe.";
+    			}
+    			else{
+    				var domicilioData = JSON.parse(jsonStrngData);
+    				$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
+    				$scope.listMunicipality = domicilioData.Municipios;
+    				console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
+    				$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
+    				$scope.listLocation = domicilioData.Locaciones;
+    				$scope.location = $scope.itemListById($scope.m.LocationId , $scope.listLocation);
+    				console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
+    				$scope.zipCode = domicilioData.zipCode;
+    			}
+    		}
+    	};
+
 		$scope.init = function(){
 		    try{
 		    $scope.propiedades=true;
-		    console.log("inicia AddressUpsertControler");
+		    console.log("modelContainer"+$("#hdnJsonAddrssImptd").val());
+		    var js = JSON.parse($("#hdnJsonAddrssImptd").val());
+			    $scope.m = js;
+		    var asx = MeetingService.findAllStates();
+		    console.log("asx"+asx);
+		    $scope.listState = JSON.parse(asx);
+		    $("#hdnJsonScheduleHome").val($scope.m.Schedule);
+		    var register = MeetingService.RegisterTypeFindAllOrderByName();
+		    console.log("register"+register);
+		    $scope.listRegisterType = JSON.parse(register);
+		    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=null){
+		    	$scope.RegisterType = $scope.itemListById($scope.m.RegisterTypeId , $scope.listRegisterType);
+		    	$scope.domTitle = $scope.RegisterType['Name'];
+		    }else{
+		    	$scope.RegisterType = $scope.listRegisterType[0];
+		    	$scope.domTitle = $scope.listRegisterType[0].Name;
+		    	$scope.m.RegisterTypeId = $scope.RegisterType['Id'];
+		    }
+
+		    var houm = MeetingService.HomeTypeFindAllOrderByName();
+		    console.log("houm"+houm);
+		    $scope.listHomeType = JSON.parse(houm);
+		    if($scope.m.HomeTypeId!=undefined && $scope.m.HomeTypeId!=null){
+		    	$scope.HomeType = $scope.itemListById($scope.m.HomeTypeId , $scope.listHomeType);
+		    }else{
+		    	$scope.HomeType = $scope.listHomeType[0];
+		    	$scope.m.HomeTypeId = $scope.HomeType['Id'];
+		    }
+
+		    console.log("$scope.listState"+typeof $scope.listState);
+		    if( js!=undefined && js!=null && js.LocationId!=undefined)
+		    	$scope.LocationInit();
 		    }
 		    catch(err){
 		    	alert("error catched Iniciate angular function erro==>"+err.message);
 		    }
 		};
-		    
-		//regresa la pantalla de seleccion de meeting
-		$scope.cancel = function(){
-			window.location.replace('hybrid:Meeting/Index');
-		};
+
+		$scope.itemListById = function(idObj, list){
+    console.log("idObj="+idObj);
+    	if(idObj!=undefined&&idObj!=null){
+		    for(x=0;x<list.length;x++){
+		    	if(list[x].Id==idObj){
+		    		return list[x];
+		    		break;
+		    	}
+		    }
+		}
+		return undefined;
+	};
+
+	$scope.save = function(idcase){
+	   		$scope.m.Schedule = $("#hdnJsonScheduleHome").val();
+	   		var jsonData = JSON.stringify($scope.m);
+			$scope.msgError = MeetingService.upsertImputedHome(JSON.stringify($scope.m));
+			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
+				$scope.editMeeting($("#hdnAddrssImptdReference").val());
+			}
+	   };
+
 
 });
 
 </script>
 
 <div ng-app="umecaMobile" ng-controller="AddressUpsertControler">
+	<div>
+	    <input id="hdnJsonAddrssImptd" type="hidden" value="@Model.JsonModel" name="jsonString" />
+	    <input id="hdnAddrssImptdReference" type="hidden" value="@Model.Reference" name="wasd"/>
+	</div>
     <div >
         <div style="width:95%">
         		<div class="modal-header">
@@ -47,7 +170,8 @@ Layout = "UmecaApp.headUm";
 				    data-val="true" data-val-required="El c&oacute;digo postal es un campo requerido"
 				    placeholder="Escriba su C.P. para buscar.."
 				    data-val-length-max="6" data-val-length-min="1"
-				    data-val-length="Debe tener al menos 1 y m&aacute;ximo 6 caracteres."/>
+				    data-val-length="Debe tener al menos 1 y m&aacute;ximo 6 caracteres."
+				    ng-change="ZipCodeSearch();" />
 				    <br>
 				    <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
 				  </div>
@@ -56,6 +180,7 @@ Layout = "UmecaApp.headUm";
 				    <div ng-show="msgZipCode" class="alert-danger element-center">
 				      {{msgZipCode}}
 				    </div>
+				     
 				  </div>
 				</div>
 
@@ -63,14 +188,12 @@ Layout = "UmecaApp.headUm";
 				  <div class="col-xs-6">
 				    <label>Estado:</label>
 				    <select class="form-control element-center" ng-model="state" 
-				    ng-options="e.name for e in listState"
-				    ng-change="stateId = state.id;"></select><br/>
-
+				    ng-options="e.Name for e in listState" ></select><br/>
 				  </div>
 				  <div class="col-xs-6">
 				    <label>Municipio:</label>
 				    <select class="form-control element-center" ng-model="municipality"
-				    ng-options="e.name for e in listMunicipality" ng-init='listMunicipaliti = ""'
+				    ng-options="e.Name for e in listMunicipality" ng-init='listMunicipaliti = ""'
 				    ng-change="municipalityId = municipality.id;"></select><br/>
 				  </div>
 				</div>
@@ -79,8 +202,8 @@ Layout = "UmecaApp.headUm";
 				    <label>Localidad/Colonia:</label>
 				    <br/>
 				    <select class="form-control" ng-model="location"
-				    ng-options="e.name for e in listLocation" ng-init='listLocation = ""'
-				    ng-change="locationId = location.id; zipCode = location.zipCode; refreshMap();"></select>
+				    ng-options="e.Name for e in listLocation" ng-init='listLocation = ""'
+				    ng-change="m.LocationId = location['Id'];"></select>
 				  </div>
 				</div>
 				<br/>
@@ -90,7 +213,7 @@ Layout = "UmecaApp.headUm";
 						    <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
 						    data-val-length-max="100" data-val-length-min="1"
 						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 100 caracteres."
-						    type="text" value="" ng-model="street" name="streetComponent" id="streetComponent">
+						    type="text" value="" ng-model="m.Street" name="streetComponent" id="streetComponent">
 						    <span class="field-validation-valid" data-valmsg-for="streetComponent"
 						    data-valmsg-replace="true"></span>
 						  </div>
@@ -100,7 +223,7 @@ Layout = "UmecaApp.headUm";
 						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
 						    data-val-length-max="10" data-val-length-min="1"
 						    data-val-required="El n&uacute;mero exterior es un campo requerido"
-						    type="text" ng-model="outNum"
+						    type="text" ng-model="m.OutNum"
 						    id="outNumComponent"
 						    name="outNumComponent">
 						    <span class="field-validation-valid" data-valmsg-for="outNumComponent"
@@ -111,7 +234,7 @@ Layout = "UmecaApp.headUm";
 						    <input class="with-100" data-val="true"
 						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
 						    data-val-length-max="10" data-val-length-min="1"
-						    type="text" ng-model="innNum"
+						    type="text" ng-model="m.InnNum"
 						    id="innNumComponent"
 						    name="innNumComponent">
 						    <span class="field-validation-valid" data-valmsg-for="innNumComponent"
@@ -125,12 +248,12 @@ Layout = "UmecaApp.headUm";
     Tel&eacute;fono:
   </div>
   <div class="col-xs-9">
-    <textarea type="text" class="width-100" ng-model="a.phone" name="phone"
+    <textarea type="text" class="width-100" ng-model="m.Phone" name="phone"
     id="phone"
     data-val="true"
     data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
     data-val-length-max="200" data-val-length-min="5"
-    data-val-required="El tel&eacute;efono es un campo requerido">{{a.phone}}</textarea>
+    data-val-required="El tel&eacute;efono es un campo requerido">{{m.Phone}}</textarea>
     <span class="field-validation-valid" data-valmsg-for="phone"
     data-valmsg-replace="true"></span>
   </div>
@@ -141,25 +264,26 @@ Layout = "UmecaApp.headUm";
         Tipo de propiedad:
     </div>
     <div class="col-xs-2">
-        <select class="form-control element-center" ng-model="a.homeType"
-                ng-options="e.name for e in lstHomeType"
-                ng-change="a.homeTypeId = a.homeType.id;" ></select>
+        <select class="form-control element-center" ng-model="HomeType"
+                ng-options="e.Name for e in listHomeType"
+                ng-change="m.HomeTypeId = HomeType['Id'];" ></select>
     </div>
     <div class="col-xs-3 element-right">
         Tipo de domiclio:
     </div>
     <div class="col-xs-3">
-        <select class="form-control element-center" ng-model="a.type"
-                ng-options="e.name for e in listType"
-                ng-change="a.typeId = a.type.id;" ></select>
+    	<br />
+        <select class="form-control element-center" ng-model="RegisterType"
+                ng-options="e.Name for e in listRegisterType"
+                ng-change="m.RegisterTypeId = RegisterType['Id']; domTitle = RegisterType['Name'];" ></select>
     </div>
 </div>
-<div class="row" ng-show="a.homeType.specification == true">
+<div class="row" ng-show="HomeType['Specification'] == true">
     <div class="col-xs-3 element-right">
         Especif&iacute;que tipo de propiedad:
     </div>
     <div class="col-xs-8">
-        <input type="text" class="form-control" ng-model="a.specification" name="specification"
+        <input type="text" class="form-control" ng-model="m.Specification" name="specification"
                id="specification"
                data-val="true"
                data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
@@ -173,11 +297,11 @@ Layout = "UmecaApp.headUm";
 
 
     <!--Seccion dependiente del tipo de domicilio-->
-<div class="row" ng-show="a.typeId==3">
+<div class="row" ng-show="m.RegisterTypeId==3">
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4>Domicilio {{a.type.name}}</h4>
+                    <h4>Domicilio {{domTitle}}</h4>
                 </div>
                 <div class="widget-body">
                     <br/>
@@ -194,7 +318,7 @@ Layout = "UmecaApp.headUm";
                                            data-val-length-max="30" data-val-length-min="1"
                                            data-val-required="El tiempo de residencia es un campo requerido"
                                            id="timeLiveD"
-                                           ng-model="a.timeLive"
+                                           ng-model="m.TimeLive"
                                            name="timeLiveD"
                                            type="text">
                                 </div>
@@ -212,7 +336,7 @@ Layout = "UmecaApp.headUm";
                                     Motivo de la mudanza:
                                 </div>
                                 <div class="col-xs-9">
-                                    <textarea id="reasonChange" name="reasonChange" ng-model="a.reasonChange"
+                                    <textarea id="reasonChange" name="reasonChange" ng-model="m.ReasonChange"
                                               class="form-control"
                                               data-val="true"
                                               data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
@@ -236,11 +360,11 @@ Layout = "UmecaApp.headUm";
     </div>
 
 
-<div class="row" ng-show="a.typeId ==1 || a.typeId ==2">
+<div class="row" ng-show="m.RegisterTypeId ==1 || m.RegisterTypeId ==2">
   <div class="col-xs-10 col-xs-offset-1">
     <div class="widget-box">
       <div class="widget-header">
-        <h4>Domicilio {{a.type.name}}</h4>
+        <h4>Domicilio {{domTitle}}</h4>
       </div>
 
       <div class="widget-body">
@@ -258,7 +382,7 @@ Layout = "UmecaApp.headUm";
                 data-val-length-max="30" data-val-length-min="1"
                 data-val-required="El tiempo de residencia es un campo requerido"
                 id="timeLiveA"
-                ng-model="a.timeLive"
+                ng-model="m.TimeLive"
                 name="timeLiveA"
                 type="text">
               </div>
@@ -278,28 +402,28 @@ Layout = "UmecaApp.headUm";
               </div>
               <div class="col-xs-9">
                 <textarea id="description" class="form-control" name="description"
-                ng-model="a.description"
+                ng-model="m.Description"
                 data-val="true"
                 data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                 data-val-length-max="500" data-val-length-min="1"
                 data-val-required="La descripci&oacute;n es un campo requerido"></textarea>
                 <br/>
                 <span class="field-validation-valid" data-valmsg-for="description"
-                data-valmsg-replace="true"></span>
+                data-valmsg-replace="true">{{m.Description}}</span>
               </div>
             </div>
             <br/>
-            <div class="row" ng-show="a.typeId==2">
+            <div class="row" ng-show="m.RegisterTypeId==2">
               <div class="col-xs-3">
                Raz&oacute;n por la que tiene <br/>un domicilio secundario:
              </div>
              <div class="col-xs-9">
               <textarea id="reasonSecondary" class="form-control" name="reasonSecondary"
-              ng-model="a.reasonSecondary"
+              ng-model="m.ReasonSecondary"
               data-val="true"
               data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
               data-val-length-max="500" data-val-length-min="1"
-              data-val-required="La raz&oacute;n es un campo requerido"></textarea>
+              data-val-required="La raz&oacute;n es un campo requerido">{{m.ReasonSecondary}}</textarea>
               <br/>
               <span class="field-validation-valid" data-valmsg-for="reasonSecondary"
               data-valmsg-replace="true"></span>
@@ -319,7 +443,7 @@ Layout = "UmecaApp.headUm";
   <script src="scripts/app/reviewer/scheduleCtrl.js"></script>
 
   <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
-    <input type="hidden" ng-model="schString" name="sch" id="hdnJsonScheduleHome" ng-update-hidden >
+    <input type="hidden" ng-model="schString" name="sch" id="hdnJsonScheduleHome" ng-update-hidden ng-init="">
     <input type="hidden" ng-model="content" ng-init="content =''+'Home';" ng-update-hidden >
     <div class="col-xs-10 col-xs-offset-1">
       <div class="row">
@@ -434,11 +558,11 @@ Layout = "UmecaApp.headUm";
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                    <span class="btn btn-default btn-sm" ng-click="editMeeting('@Model.Reference')">
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="">
+                          ng-click="save('@Model.Reference');">
                           Guardar
                     </span>
                 </div>

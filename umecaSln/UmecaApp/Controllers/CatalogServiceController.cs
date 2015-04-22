@@ -6,6 +6,8 @@ using SQLiteNetExtensions.Extensions;
 using System.Linq;
 //listas
 using System.Collections.Generic;
+//jsonConverter
+using Newtonsoft.Json;
 
 namespace UmecaApp
 {
@@ -168,6 +170,54 @@ namespace UmecaApp
 			var table = db.Query<IdNameDto>("select c.id as 'Id',c.name as 'Name', c.id_state as 'Reference' from cat_municipality as c order by c.name");
 			return table;
 		}
+
+		public String findAddressByCp(String cp){
+			var locations = db.Table<Location> ().Where (s=>s.ZipCode.Equals(cp)).OrderBy (c=>c.Name).ToList ();
+			if (locations == null || locations.Count == 0) {
+				return "";
+			} else {
+				var mcpltid = int.Parse(locations.First ().MunicipalityId.ToString());
+				var stateid = db.Table<Municipality> ().Where (st=>st.Id==mcpltid).FirstOrDefault ().StateId;
+				var municipios = db.Table<Municipality> ().Where (st=>st.StateId==stateid).OrderBy (c=>c.Name).ToList();
+				var resultado = new AddressFindDto();
+				resultado.Locaciones = locations;
+				resultado.MunicipalityId = mcpltid.ToString();
+				resultado.Municipios = municipios;
+				resultado.StateId = stateid.ToString();
+				return JsonConvert.SerializeObject (resultado);
+			}
+		}
+
+		public String findAddressByLocation(String loc){
+			var lo =  db.Table<Location> ().Where (s=>s.Id.Equals(loc)).FirstOrDefault (); 
+			var locations = db.Table<Location> ().Where (s=>s.ZipCode.Equals(lo.ZipCode)).OrderBy (c=>c.Name).ToList (); 
+			if (locations == null || locations.Count == 0) {
+				return "";
+			} else {
+				var mcpltid = int.Parse(locations.First ().MunicipalityId.ToString());
+				var stateid = db.Table<Municipality> ().Where (st=>st.Id==mcpltid).FirstOrDefault ().StateId;
+				var municipios = db.Table<Municipality> ().Where (st=>st.StateId==stateid).OrderBy (c=>c.Name).ToList();
+				var resultado = new AddressFindDto();
+				resultado.Locaciones = locations;
+				resultado.LocationId = lo.Id.ToString();
+				resultado.MunicipalityId = mcpltid.ToString();
+				resultado.Municipios = municipios;
+				resultado.StateId = stateid.ToString();
+				resultado.zipCode = lo.ZipCode;
+				return JsonConvert.SerializeObject (resultado);
+			}
+		}
+
+		public List<HomeType> HomeTypeFindAllOrderByName(){
+			var tableStatus = db.Table<HomeType>().ToList();
+			return tableStatus;
+		}
+
+		public List<IdNameDto> RegisterTypeFindAllOrderByName(){
+			var tableStatus = db.Query<IdNameDto>("select c.id as 'Id',c.register_type as 'Name' from cat_register_type as c order by c.register_type");
+			return tableStatus;
+		}
+
 
 		public void CreateStatusCaseCatalog(){
 			db.CreateTable<StatusCase> ();

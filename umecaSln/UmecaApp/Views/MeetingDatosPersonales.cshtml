@@ -3,6 +3,42 @@
 @{
 Layout = "UmecaApp.headUm";
 }
+
+
+<script>
+var askYesNo  = {};
+askYesNo.reference = {};
+askYesNo.show = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.show();
+};
+askYesNo.hide = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.hide();
+};
+    	</script>
+<div class="modal-dialog" style="display:none;" id="MessageBoxDlgId" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="alert alert-danger">
+                    <button id="MessageBoxDlgXclose" type="button" class="close" onclick="javascript:askYesNo.no();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Eliminar registro</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">¿Está seguro de que desea eliminar el registro?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-danger" onclick="javascript:askYesNo.yes(askYesNo.referencia);" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askYesNo.no();" >No</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 <script>
 function shw(){
 //alert($("#showId").html());
@@ -353,7 +389,6 @@ function shw(){
 
 		$scope.Iniciate = function(){
 		    try{
-			    //alert("asshole html>>"+$("#asshole").html());
 			    var js = JSON.parse($("#hdnJsonMtng").val());
 			    $scope.m = js;
 			    //alert("m valu>>"+JSON.stringify($scope.m));
@@ -440,24 +475,33 @@ window.location.replace('hybrid:Meeting/Index');
 		return undefined;
 	};
 
-	    $scope.showMessageError = function(elementClick){
+	$scope.showMessageError = function(elementClick){
         $("#divErrorMessage").show();
         var position = $(".tab-content").position();
         $("#divErrorMessage").css("left",position.left+5);
         $("#divErrorMessage").addClass("errorMessageClass");
         $scope.entityError=elementClick;
-    	};
+    };
 
     $scope.hideMessageError = function(){
         $("#divErrorMessage").hide();
     };
+
+    $scope.addImputedHome = function(){
+    	window.location.replace('hybrid:Meeting/MeetingDomicilio?idMeeting='+$scope.m.MeetingId);
+    };
+
+    $scope.addPersonSocialNetwork = function(){
+    	window.location.replace('hybrid:Meeting/PersonSocialNetwork?idMeeting='+$scope.m.MeetingId);
+    };
+
 
 });
 
 
 </script>
 <div id="generalDivForAngular" ng-app="umecaMobile" ng-controller="MeettingDatosPersonalesController">
-    <div id="asshole">
+    <div>
     <input id="hdnJsonMtng" type="hidden" value="@Model.JsonMeeting" name="jsonString" />
     </div>
 <div class="blocker" >
@@ -1341,28 +1385,51 @@ window.location.replace('hybrid:Meeting/Index');
         <h2> <i class="green  icon-home  bigger-100"></i>&nbsp;Domicilios</h2>
         <br/>
 <div id="toolbarDomicilios" class="btn-group">
-	    <!--<a href="@Url.Action("MeetingDomicilio","Meeting")">-->
-<a href="@Url.Action("MeetingDomicilio","Meeting")">
-	    <button type="button" class="btn btn-default" id="btnAddDomicilio">
+<a href="javascript:;">
+	    <button type="button" class="btn btn-default" id="btnAddDomicilio" ng-click="addImputedHome();">
 	        <i class="glyphicon glyphicon-plus"></i>
-	    </button><!--</a>-->
-</a>
-	    <button type="button" class="btn btn-default" id="btnRereshDomicilio">
-	        <i class="glyphicon glyphicon-refresh"></i>
 	    </button>
+</a>
 	</div>
 	<script>
-	function btnDeleteDomicilio (){
-	 alert("cliked btnAddDomicilio");
+	function elimirarDomicilioImputado(respuesta){
+		console.log("elimirarDomicilioImputado respuesta>>"+respuesta);
+		var valus = [];
+		valus[0]=respuesta;
+		var reslt = MeetingService.eraseImputedHome(respuesta);
+		console.log("reslt>>"+reslt);
+		$('#tr-IH-'+respuesta).remove();
+		$('#meetingImputedHomeTbl').bootstrapTable('refresh', {silent: true});
+		if($("#meetingImputedHomeTbl").html()==""){
+        $("#meetingImputedHomeTbl").html("<tr class='no-records-found'><td colspan='5'>No se encontraron registros</td></tr>");
+        }
+		console.log("tr de origen "+$("#meetingImputedHomeTbl").html());
+		askYesNo.hide();
 	}
-	function btnEditDomicilio (){
-	 alert("cliked btnRereshDomicilio");
+
+	function cancelElimirarDomicilioImputado(){
+		console.log("cancelElimirarDomicilioImputado >>");
+		askYesNo.hide();
+	}
+
+	function btnDeleteDomicilio (idHome){
+	askYesNo.yes = elimirarDomicilioImputado;
+	askYesNo.no = cancelElimirarDomicilioImputado;
+	askYesNo.referencia=idHome;
+	askYesNo.show();
+    	console.log("btnDeleteDomicilio idHome>>"+idHome);
+	}
+
+	function btnEditDomicilio (idHome){
+    	console.log("editImputedHome>>"+idHome);
+    	window.location.replace('hybrid:Meeting/EditMeetingDomicilio?idHome='+idHome);
 	}
 	</script>
-<table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+<table
+		data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]" 
      data-pagination="true" data-height="450"
      data-striped="true" data-search="true" 
-     data-search-align="right" data-toolbar="#toolbarDomicilios" class="element-center" style="margin: auto">
+     data-search-align="right" data-toolbar="#toolbarDomicilios" class="element-center" style="margin: auto">		
     <thead>
     <tr>
         <!--<th>ID</th>-->
@@ -1373,14 +1440,14 @@ window.location.replace('hybrid:Meeting/Index');
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="meetingImputedHomeTbl">
     @if(Model.JsonDomicilios==null){
     }
     else{
     foreach(var Dmcl in Model.JsonDomicilios) {
-    <tr id="tr-id-1" class="tr-class-1">
+    <tr id='tr-IH-@Dmcl.Id' class="tr-class-1" >
         <td id="td-id-1" class="td-class-1">
-            @Dmcl.Description
+            @Dmcl.addressString
         </td>
         <td>
         	@Dmcl.Phone
@@ -1392,16 +1459,14 @@ window.location.replace('hybrid:Meeting/Index');
         	@Dmcl.RegisterTypeId
         </td>
         <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeleteDomicilio();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditDomicilio();"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a href="javascript:;" style="display:inline-block;" title="Eliminar domicilio" onclick="btnDeleteDomicilio('@Dmcl.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+        <a href="javascript:;" style="display:inline-block;" title="Editar Domicilio" onclick="btnEditDomicilio('@Dmcl.Id');"><span class="glyphicon glyphicon-pencil"></span></a>
         </td>
     </tr>
 	}
 }
     </tbody>
 </table>	
-
-        <!-- Aqui arriba va el bootstrap table de domicilio -->
     </div>
 </div>
 <br/><br/>
@@ -1459,13 +1524,11 @@ window.location.replace('hybrid:Meeting/Index');
         <h2> <i class="blue icon-group bigger-100"></i> &nbsp;Red social</h2>
         <br/>
         <div id="toolbarRedSocial" class="btn-group">
-	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
-	    <button type="button" class="btn btn-default" id="btnAddsocialNetwork">
+
+	    <button type="button" class="btn btn-default" id="btnAddDomicilio" ng-click="addPersonSocialNetwork();">
 	        <i class="glyphicon glyphicon-plus"></i>
-	    </button><!--</a>-->
-	    <button type="button" class="btn btn-default" id="btnRereshsocialNetwork">
-	        <i class="glyphicon glyphicon-refresh"></i>
 	    </button>
+
 	</div>
 	<script>
 	function btnDeletesocialNetwork (){
@@ -1513,8 +1576,8 @@ window.location.replace('hybrid:Meeting/Index');
         <td>
         </td>
         <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeletesocialNetwork();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditsocialNetwork();"><span class="glyphicon glyphicon-pencil"></span></a>
+         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" ng-click="editMeeting('@Dmcl.Id')"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+         	<span class="glyphicon glyphicon-pencil" style="display:inline-block;" ng-click="editMeeting('@Dmcl.Id')"></span>
         </td>
     </tr>
 	}
@@ -2732,5 +2795,10 @@ $(function() {
 				countSelected : '# de % seleccionados'
         });
 });
-
     	</script>
+
+
+
+
+
+
