@@ -1,0 +1,278 @@
+﻿@model UmecaApp.ModelContainer
+@inherits WebViewTemplate
+@{
+Layout = "UmecaApp.headUm";
+}
+<script>
+app.controller('DrugController', function($scope, $timeout) {
+	$scope.m = {};
+	$scope.d = {};
+    $scope.lstType = [];
+    $scope.lstPer = [];
+    $scope.d.type = {};
+    $scope.d.per = {};
+    $scope.MsgError = "";
+
+    $scope.init = function(){
+			var typeDrogas = MeetingService.findAllDrugType();
+		    console.log("typeDrogas"+typeDrogas);
+		    $scope.lstType = JSON.parse(typeDrogas);
+		    var periodicidad = MeetingService.findAllPeriodicity();
+		    console.log("periodicidad"+periodicidad);
+		    $scope.lstPer = JSON.parse(periodicidad);
+		    try{
+		    	console.log("modelContainer"+$("#hdnJsonModelContainer").val());
+		    	var js = JSON.parse($("#hdnJsonModelContainer").val());
+			    $scope.m = js;
+			} catch(err){
+		    	alert("Init erro==>"+err.message);
+		    }
+
+		    if($scope.m.block == undefined ||$scope.m.block == null || $scope.m.block == false ){
+		    	$scope.m.block=false;
+		    	$scope.fillModel();
+		    }
+		    else{
+		    	$scope.m.block = true;
+		    }
+		    if($scope.m.DrugTypeId!=undefined){
+		    	for(var i= 0; i < $scope.lstType.length ; i++){
+	                if($scope.lstType[i].Id == $scope.m.DrugTypeId){
+	    				$scope.d.type = $scope.lstType[i];
+	                    break;
+	                }
+	            }
+		    }
+		    if($scope.m.PeriodicityId!=undefined){
+		    	for(var i= 0; i < $scope.lstPer.length ; i++){
+	                if($scope.lstPer[i].Id == $scope.m.PeriodicityId){
+	    				$scope.d.per = $scope.lstPer[i];
+	                    break;
+	                }
+	            }
+		    }
+		    //fecha
+		var today  = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth();
+        var date = today.getDate();
+
+        if($scope.m.LastUse == "" || $scope.m.LastUse == undefined){
+            $scope.m.LastUse = year+"/"+(month+1)+"/"+date;
+        }
+        $scope.m.LastUse= $scope.m.LastUse.replace(/-/g,"/");
+        $scope.m.LastUse = $scope.m.LastUse.replace("T00:00:00","");
+    };
+
+    $timeout(function() {
+        $scope.init();
+    }, 0);
+
+    $scope.save = function(){
+    if($("#FormDrugId").valid() == false){
+         return false;
+    }else{
+    console.log("save"+$("#hdnMeetingCaseReference").val());
+	   		var jsonData = JSON.stringify($scope.m);
+			$scope.msgError = MeetingService.upsertDrug(JSON.stringify($scope.m));
+			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
+				$scope.cancel($("#hdnMeetingCaseReference").val());
+			}
+	}
+	   };
+
+    $scope.cancel = function (idCase) {
+    console.log("cancel"+idCase);
+        window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idCase);
+    };
+
+    $scope.fillModel = function(){
+    var template ="NO CONSUME";
+        if($scope.m.block == false){
+            $scope.m.OnsetAge =0;
+            //$scope.d.other=template;
+            //$scope.d.specificationPeriodicity = template;
+            $scope.m.Quantity = template;
+        var today  = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth();
+        var date = today.getDate();
+        $scope.m.LastUse = year+"/"+(month+1)+"/"+date;
+        $scope.m.LastUse= $scope.m.LastUse.replace(/-/g,"/");
+        $scope.m.LastUse = $scope.m.LastUse.replace("T00:00:00","");
+            for(var i=0; i < $scope.lstType.length; i++){
+                var type = $scope.lstType[i];
+                 if(type.Name === "No consume"){
+                    $scope.d.type = type;
+                    $scope.m.DrugTypeId = type.Id;
+                    break;
+                }
+            }
+            for(var i=0; i < $scope.lstPer.length; i++){
+                var per = $scope.lstPer[i];
+                if(per.Name == "No consume"){
+                    $scope.d.per = per;
+                    $scope.m.PeriodicityId = per.Id;
+                    break;
+                }
+            }
+        }else{
+            $scope.m.SpecificationPeriodicity = "";
+            $scope.m.Quantity = "";
+            $scope.m.OnsetAge ="";
+
+        var today  = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth();
+        var date = today.getDate();
+        $scope.m.LastUse = year+"/"+(month+1)+"/"+date;
+        $scope.m.LastUse= $scope.m.LastUse.replace(/-/g,"/");
+        $scope.m.LastUse = $scope.m.LastUse.replace("T00:00:00","");
+        }
+    };
+});
+</script>
+<div id="dlgUpModalId" ng-app="umecaMobile" ng-controller="DrugController" >
+    <div>
+        <div class="alert alert-info ">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Consumo de sustancias</h4>
+        </div>
+    </div>
+           
+	<div>
+		<div>
+		    <input id="hdnJsonModelContainer" type="hidden" value="@Model.JsonModel" name="jsonString" />
+		    <input id="hdnMeetingCaseReference" type="hidden" value="@Model.Reference" name="wasd"/>
+		</div>
+		<form id="FormDrugId" name="FormDrugId" >
+	    <div class="row">
+	        <div class="col-xs-12 element-center">
+	            <div class="col-xs-6 element-right" >
+	                &iquest;El imputado consume sustancias actualmente?
+	            </div>
+	            <div class="col-xs-2">
+	                <input type="radio" name="block"
+	                       id="blockYes" ng-value="true" ng-model="m.block" ng-change="fillModel()">
+	                <label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;
+	                <input type="radio"  name="block"
+	                       id="blockNo" ng-value="false" ng-model="m.block" ng-change="fillModel()">
+	                <label for="blockNo">No</label>
+	            </div>
+	        </div>
+	    </div>
+	    <!--inicio content drug-->
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
+<div class="row">
+    <div class="col-xs-2">
+        Sustancia:
+    </div>
+    <div class="col-xs-4">
+        <select class="form-control element-center" ng-model="d.type"
+                ng-options="e.Name for e in lstType"
+                ng-change="m.DrugTypeId = d.type['Id']"  ng-disabled="!m.block"></select>
+
+    </div>
+    <div class="col-xs-2">
+        Periodicidad:
+    </div>
+    <div class="col-xs-4">
+        <select class="form-control element-center" ng-model="d.per"
+                ng-options="e.Name for e in lstPer"
+                ng-change="m.PeriodicityId = d.per['Id']"   ng-disabled="!m.block"
+                ></select>
+    </div>
+</div>
+<br/>
+<div class="row" ng-show="d.type.['Specification']">
+    <div class="col-xs-2" ng-show="d.type.['Specification']" >
+        Especif&iacute;que sustancia:
+    </div>
+    <div class="col-xs-4" ng-show="d.type['Specification']">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"  ng-readonly="!m.block"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificaci&oacute;n es un campo requerido"
+               type="text" value="" ng-model="m.Specification" 
+               id="specificationType" name="specificationType">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="specificationType" data-valmsg-replace="true"></span>
+    </div>
+    <div class="col-xs-2"   ng-show="d.per['Specification']">
+        Especif&iacute;que periodicidad:
+    </div>
+    <div class="col-xs-4" ng-show="d.per['Specification']">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 100 caracteres"    ng-readonly="!m.block"
+               data-val-length-max="100" data-val-length-min="3" data-val-required="La especificaci&oacute;n es un campo requerido"
+               type="text" value="" ng-model="m.SpecificationPeriodicity" 
+               id="specificationPeriodicity" name="specificationPeriodicity">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="specificationPeriodicity" data-valmsg-replace="true"></span>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-2">
+        Cantidad:
+    </div>
+    <div class="col-xs-4">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 2 y m&aacute;ximo 25 caracteres"
+               data-val-length-max="25" data-val-length-min="2" data-val-required="La cantidad es un campo requerido"  ng-readonly="!m.block"
+               type="text"  ng-model="m.Quantity" name="quantity" id="quantity">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="quantity" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="col-xs-2">
+        &Uacute;ltimo consumo:
+    </div>
+    <div class="col-xs-4">
+        <div class="input-group">
+            <input class="form-control date-picker" id="lastUse" data-val="true" type="text" data-date-format="yyyy/mm/dd" readonly="readonly"
+                   name="lastUse" data-val-required="La &uacute;ltima fecha de consumo es un campo requerido" ng-model="m.LastUse"/>
+																	<span class="input-group-addon">
+																		<i class="icon-calendar bigger-110"></i>
+																	</span>
+        </div>
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="lastUse" data-valmsg-replace="true"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2">
+        Edad de inicio:
+    </div>
+    <div class="col-xs-4">
+        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 25 caracteres"
+               data-val-length-max="25" data-val-length-min="1" data-val-required="La edad de inicio es un campo requerido"  ng-readonly="!m.block"
+               type="text"  ng-model="m.OnsetAge" name="onsetAge" id="onsetAge">
+        <br/>
+        <span class="field-validation-valid" data-valmsg-for="onsetAge" data-valmsg-replace="true"></span>
+    </div>
+</div>
+
+	    <!--fin content drug-->
+        <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <div ng-show="MsgError" class="alert alert-danger element-center">
+                    {{MsgError}}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span class="btn btn-default btn-sm"  ng-click="cancel('@Model.Reference')">
+                Cancelar
+            </span>
+            <span class="btn btn-default btn-primary btn-sm"
+                   ng-click="save();">
+                  Guardar
+            </span>
+        </div>
+        </form>
+	</div>
+</div>
+
+<script>
+    $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+        $(this).prev().focus();
+    });
+</script>

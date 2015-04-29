@@ -1,0 +1,558 @@
+﻿@model UmecaApp.ModelContainer
+@inherits WebViewTemplate
+@{
+Layout = "UmecaApp.headUm";
+}
+<script>
+app.controller('JobController', function($scope, $timeout) {
+	$scope.m = {};
+    $scope.m.RelationshipId = {};
+    $scope.m.DocumentTypeId = {};
+    $scope.MsgError = "";
+
+    //anterior secundario actual
+    $scope.listRegisterType=[];
+    $scope.RegisterType = {};
+    $scope.domTitle = "";
+
+    $scope.init = function(){
+		    try{
+		    	console.log("modelContainer"+$("#hdnJsonModelContainer").val());
+		    	var js = JSON.parse($("#hdnJsonModelContainer").val());
+			    $scope.m = js;
+			    var register = MeetingService.RegisterTypeFindAllOrderByName();
+		    	console.log("register"+register);
+		    	$scope.listRegisterType = JSON.parse(register);
+			} catch(err){
+		    	alert("Init erro==>"+err.message);
+		    }
+		    if($scope.m.block == undefined ||$scope.m.block == false ){
+		    	$scope.fillModel();
+		    }
+		    else{
+		    	$scope.m.block = true;
+		    }
+		    //anterior actual secundario
+		    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=null && $scope.m.RegisterTypeId!=0){
+		    	$scope.RegisterType = $scope.itemListById($scope.m.RegisterTypeId , $scope.listRegisterType);
+		    	$scope.domTitle = $scope.RegisterType['Name'];
+		    }
+
+
+		    //fechas
+		var today  = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth();
+        var date = today.getDate();
+
+        if($scope.m.StartPrev == "" || $scope.m.StartPrev == undefined){
+            $scope.m.StartPrev = year+"/"+(month+1)+"/"+date;
+        }
+        $scope.m.StartPrev= $scope.m.StartPrev.replace(/-/g,"/");
+        $scope.m.StartPrev = $scope.m.StartPrev.replace("T00:00:00","");
+        if($scope.m.Start == "" || $scope.m.Start == undefined){
+            $scope.m.Start = year+"/"+(month+1)+"/"+date;
+        }
+        $scope.m.Start= $scope.m.Start.replace(/-/g,"/");
+        $scope.m.Start = $scope.m.Start.replace("T00:00:00","");
+        if($scope.m.End == "" || $scope.m.End == undefined){
+            $scope.m.End = year+"/"+(month+1)+"/"+date;
+        }
+        $scope.m.End= $scope.m.End.replace(/-/g,"/");
+        $scope.m.End = $scope.m.End.replace("T00:00:00","");
+        //init schedule
+        if($scope.m.Schedule!=undefined&&$scope.m.Schedule!=null){
+		   	$("#hdnJsonScheduleHome").val($scope.m.Schedule);
+		   	console.log("hdnJsonScheduleHome-->"+$("#hdnJsonScheduleHome").val());
+	    }
+
+
+    };
+
+    $timeout(function() {
+        $scope.init();
+    }, 0);
+
+    $scope.save = function(){
+    if($("#FormJobId").valid() == false){
+         return false;
+    }else{
+    		$scope.m.Schedule = $("#hdnJsonScheduleHome").val();
+    		console.log("save"+$("#hdnMeetingCaseReference").val());
+	   		var jsonData = JSON.stringify($scope.m);
+			$scope.msgError = MeetingService.upsertLaboral(JSON.stringify($scope.m));
+			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
+				$scope.cancel($("#hdnMeetingCaseReference").val());
+			}
+	}
+	   };
+
+    $scope.cancel = function (idCase) {
+    console.log("cancel"+idCase);
+        window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idCase);
+    };
+
+    $scope.fillModel = function(){
+       var template= "NO TRABAJA";
+        //alert("en fill model con blcok "+$scope.block);
+       if($scope.m.block == false){
+           $scope.m.Company= template;
+           $scope.m.Post= template;
+           $scope.m.Phone = template;
+           $scope.m.NameHead = template;
+           $scope.m.ReasonChange = template;
+           $scope.m.Address= template;
+           for(var i= 0; i < $scope.listRegisterType.length ; i++){
+               if($scope.listRegisterType[i].Name == "Anterior"){
+                   $scope.RegisterType = $scope.listRegisterType[i];
+                   $scope.m.RegisterTypeId = $scope.listRegisterType[i].Id;
+                   $scope.domTitle = $scope.RegisterType['Name'];
+                   break;
+               }
+           }
+       }else{
+           $scope.m.Company= "";
+           $scope.m.Post= "";
+           $scope.m.Phone = "";
+           $scope.m.NameHead = "";
+           $scope.m.ReasonChange = "";
+           $scope.m.Address = "";
+       }
+    };
+
+    $scope.itemListById = function(idObj, list){
+    	console.log("idObj="+idObj);
+    	if(idObj!=undefined&&idObj!=null){
+		    for(x=0;x<list.length;x++){
+		    	if(list[x].Id==idObj){
+		    		return list[x];
+		    		break;
+		    	}
+		    }
+		}
+		return undefined;
+	};
+});
+</script>
+<div>
+    <div id="dlgUpModalId" ng-app="umecaMobile" ng-controller="JobController" >
+    <div>
+        <div class="alert alert-info ">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="element-center"><i class="icon-briefcase"></i>&nbsp;&nbsp;Empleo</h4>
+        </div>
+    </div>
+           
+<div>
+	<div>
+	    <input id="hdnJsonModelContainer" type="hidden" value="@Model.JsonModel" name="jsonString" />
+	    <input id="hdnMeetingCaseReference" type="hidden" value="@Model.Reference" name="wasd"/>
+	</div>
+	<form id="FormJobId" name="FormJobId" >
+    <div class="row">
+        <div class="col-xs-12 element-center">
+            <div class="col-xs-6 element-right" >
+                &iquest;El imputado trabaja actualmente?
+            </div>
+            <div class="col-xs-2">
+                <input type="radio" name="block"
+                       id="blockYes" ng-value="true" ng-model="m.block" ng-change="fillModel()">
+                <label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;
+                <input type="radio"  name="block"
+                       id="blockNo" ng-value="false" ng-model="m.block" ng-change="fillModel()">
+                <label for="blockNo">No</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="hr hr-3"></div>
+    </div>
+    <br/>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">
+                Empresa:
+            </div>
+            <div class="col-xs-10">
+                <input class="width-100" type="text"
+                       data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+                       data-val-length-max="150" data-val-length-min="3"   ng-readonly="!m.block"
+                       data-val-required="El Nombre es un campo requerido"
+                       name="Company" id="Company" ng-model="m.Company">
+                <span class="field-validation-valid" data-valmsg-for="Company" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Puesto:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                   data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
+                   data-val-length-max="50" data-val-length-min="3" data-val-required="El puesto es un campo requerido"
+                   ng-readonly="!m.block"
+                   type="text" ng-model="m.Post"
+                   name="post" id="post">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="post" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Tel&eacute;fono:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"  ng-readonly="!m.block"
+                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                       data-val-length-max="200" data-val-length-min="5"
+                       data-val-required="El tel&eacute;fono es un campo requerido"
+                       name="Phone" id="Phone" ng-model="m.Phone" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Phone" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Nombre del patr&oacute;n:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                   data-val-length="Debe tener al menos 6 y m&aacute;ximo 150 caracteres" ng-readonly="!m.block"
+                   data-val-length-max="150" data-val-length-min="6"
+                   data-val-required="El nombre del patr&oacute;n es un campo requerido"
+                   type="text" value="" ng-model="m.NameHead"
+                   name="nameHead" id="nameHead">
+            </div>
+        	<div class="col-xs-10 col-xs-offset-1">
+           		<span class="field-validation-valid" data-valmsg-for="nameHead" data-valmsg-replace="true"></span>
+        	</div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-xs-5 element-left">
+	            Tipo de empleo:
+	        </div>
+	        <div class="col-xs-6">
+	            <select class="form-control element-center" ng-model="RegisterType"
+                ng-options="e.Name for e in listRegisterType" ng-readonly="!m.block"
+                ng-change="m.RegisterTypeId = RegisterType['Id']; domTitle = RegisterType['Name'];" ></select>
+	        </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row" >
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
+            <div class="col-xs-10">
+                <textarea id="address" class="form-control" name="address" ng-model="m.Address" ng-readonly="!m.block"
+                          data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                          data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                          data-val-length-max="500" data-val-length-min="6"></textarea>
+            </div>
+        </div>
+        <div class="col-xs-10 col-xs-offset-2">
+            <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+
+
+
+
+    <div class="row" ng-show="m.RegisterTypeId==3">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4>Trabajo {{domTitle}}</h4>
+        </div>
+        <div class="widget-body">
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div class="row widget-main">
+                        <div class="col-xs-3">
+                            Fecha Inicio:
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="input-group">
+                                <input class="form-control date-picker" id="jdpStart" type="text"
+                                       data-date-format="yyyy/mm/dd" ng-model="m.StartPrev" readonly="readonly"
+                                       data-val="true" data-val-required="La fecha de inicio es un campo requerido"
+                                       name="startPrev"/> <span class="input-group-addon">
+																		<i class="icon-calendar bigger-110"></i>
+																	</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-9 col-xs-offset-3">
+                                    <span class="field-validation-valid" data-valmsg-for="startPrev"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            Fecha Fin:
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="input-group">
+                                <input class="form-control date-picker" id="jdbEnd" type="text"
+                                       data-date-format="yyyy/mm/dd" ng-model="m.End" readonly="readonly"
+                                       data-val="true" data-val-required="La fecha de fin es un campo requerido"
+                                       name="end"/>
+																	<span class="input-group-addon">
+																		<i class="icon-calendar bigger-110"></i>
+																	</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-9 col-xs-offset-3">
+                                    <span class="field-validation-valid" data-valmsg-for="end"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-xs-3">Motivo de cambio:</div>
+                        <div class="col-xs-9">
+                            <textarea id="form-field-11" class="form-control"
+                                      ng-model="m.ReasonChange" name="reasonChange" ng-readonly="!m.block"
+                                      data-val="true"
+                                      data-val-required="El motivo de cambio es un campo requerido">{{m.ReasonChange}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="field-validation-valid" data-valmsg-for="reasonChange"
+                              data-valmsg-replace="true"></span>
+                        <br/>
+
+                        <div class="hr hr-8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="m.RegisterTypeId == 1 || m.RegisterTypeId == 2">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4>Trabajo {{domTitle}}</h4>
+        </div>
+
+        <div class="widget-body">
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Fecha Inicio:
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="input-group">
+                                <input class="form-control date-picker" id="jdpStartCurrent" type="text"
+                                       data-date-format="yyyy/mm/dd" ng-model="m.Start" readonly="readonly"
+                                       data-val="true" data-val-required="La fecha de inicio es un campo requerido"
+                                       name="start"/>
+                                                                    <span class="input-group-addon">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <span class="field-validation-valid" data-valmsg-for="start"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            Salario semanal:
+                        </div>
+                        <div class="col-xs-3">
+                            <input class="form-control" data-val="true"
+                                   data-val-length="Debe tener m&aacute;ximo 7 caracteres" name="salaryWeek"
+                                   data-val-length-max="7" data-val-length-min="1"
+                                   data-val-required="El salario semanal es un campo requerido"
+                                   data-val-regex-pattern="([0-9]+(.[0-9])?)"
+                                   data-val-regex="El salario s&oacute;lo puede contener n&uacute;meros y un punto"
+                                   type="text" 
+                                   ng-model="m.SalaryWeek">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <span class="field-validation-valid" data-valmsg-for="salaryWeek"
+                                      data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+
+
+
+
+
+
+
+
+                    <div class="col-xs-12">
+                            <div class="widget-header header-color-blue">
+                                <h5 class="bigger lighter">
+                                    <h6><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                                </h5>
+                            </div>
+
+                            <div class="widget-body">
+<!--schedule component-->
+<div id="divScheduleComponent">
+
+  <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css" />
+  <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+  <script src="scripts/umeca/date-time/moment.min.js"></script>
+  <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
+  <script src="scripts/app/reviewer/scheduleCtrl2.js"></script>
+
+  <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
+    <input type="hidden" ng-model="schString" name="sch" id="hdnJsonScheduleHome" ng-update-hidden ng-init="">
+    <input type="hidden" ng-model="content" ng-init="content =''+'Home';" ng-update-hidden >
+    <div class="col-xs-10 col-xs-offset-1">
+      <div class="row">
+        <div class="col-xs-4 element-center">
+         D&iacute;a(s)<br/>
+         <input class="form-control" type="text" value=""
+         ng-model="s.Day" ng-init='s.Day= ""'>
+       </div>
+       <div class="col-xs-3 element-center">
+        Inicio<br/>
+        <div class="input-group bootstrap-timepicker">
+          <input id="timepickerStart{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.Start"/>
+          <span class="input-group-addon">
+            <i class="icon-time bigger-60"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-3 element-center">
+        Fin <br/>
+        <div class="input-group bootstrap-timepicker">
+          <input id="timepickerEnd{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.End"/>
+          <span class="input-group-addon">
+            <i class="icon-time  bigger-40"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        Acciones<br/><div class="space-5"></div>
+        <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()">  </i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="hr hr-6"></div>
+    </div>
+    <div ng-show="msgError" class="alert-danger element-center">
+      {{msgError}}
+    </div>
+    <div class="col-xs-12" ng-show="listSchedule.length==0">
+      <br/>
+      <br/>
+      <br/>
+    </div>
+    <div class="col-xs-9 col-xs-offset-1" ng-show ="listSchedule.length > 0">
+     <div class="row center">
+       <div class="col-xs-5">
+         <h5 class="smaller lighter blue">D&iacute;a</h5>
+         <div class="hr hr-2"></div>
+       </div>
+       <div class="col-xs-2">
+         <h5 class="smaller lighter blue">Inicio</h5>
+         <div class="hr hr-2"></div>
+       </div>
+       <div class="col-xs-2">
+         <h5 class="smaller lighter blue">Fin</h5>
+         <div class="hr hr-2"></div>
+       </div>
+       <div class="col-xs-2">
+         <h5 class="smaller lighter blue">Acciones</h5>
+         <div class="hr hr-2"></div>
+       </div>
+     </div>
+     <div class="row center" ng-repeat ="sch in listSchedule track by $index">
+      <div class="col-xs-5">
+        {{sch.Day}}
+      </div>
+      <div class="col-xs-2">
+       {{sch.Start}}
+     </div>
+     <div class="col-xs-2">
+      {{sch.End}}
+    </div>
+    <div class="col-xs-2">
+      <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteSchedule($index)"></i>
+    </div>
+  </div>
+  <br/>
+</div>
+</div>
+<br/>
+</div>
+</div>
+            <!--schedule component-->
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" class="alert alert-danger element-center">
+                                {{MsgError}}
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm"  ng-click="cancel('@Model.Reference')">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm"
+                           ng-click="save();">
+                          Guardar
+                    </span>
+                </div>
+                </form>
+                </div>
+            </div>
+
+<script>
+    $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
+        $(this).prev().focus();
+    });
+</script>
