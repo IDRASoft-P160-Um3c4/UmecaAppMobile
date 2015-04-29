@@ -49,72 +49,73 @@ WriteLiteral(">\r\n    app.controller(\'AddressUpsertControler\', function($scop
 "0;\r\n    $scope.listState=[];\r\n    $scope.state = {};\r\n    $scope.listMunicipalit" +
 "y=[];\r\n    $scope.municipality = {};\r\n    $scope.listLocation=[];\r\n    $scope.lo" +
 "cation = {};\r\n\r\n    $scope.listHomeType=[];\r\n    $scope.HomeType = {};\r\n    $sco" +
-"pe.listRegisterType=[];\r\n    $scope.RegisterType = {};\r\n\r\n    $scope.domTitle = " +
-"\"\";\r\n\r\n    $timeout(function () {\r\n    \t\t$scope.init();\r\n\t\t}, 0);\r\n\r\n\t\t$scope.ed" +
-"itMeeting = function(idCase){\r\n    \t\twindow.location.replace(\'hybrid:Meeting/Mee" +
-"tingDatosPersonales?idCase=\'+idCase);\r\n    \t}\r\n\r\n    \t$scope.ZipCodeSearch = fun" +
-"ction(){\r\n    \t$scope.msgZipCode = undefined;\r\n    \tif($scope.listState==undefin" +
-"ed){\r\n    \tvar asx = MeetingService.findAllStates();\r\n\t\t    $scope.listState = J" +
-"SON.parse(asx);\r\n    \t}\r\n\t\t    console.log(\"ZipCodeSearch\"+$scope.zipCode);\r\n   " +
-" \t\tif(($scope.zipCode+\"\").length>=5){\r\n    \t\tconsole.log(MeetingService.findAddr" +
-"essByCp($scope.zipCode));\r\n    \t\t\tvar jsonStrngData = MeetingService.findAddress" +
-"ByCp($scope.zipCode);\r\n    \t\t\tif(jsonStrngData==\"\"){\r\n    \t\t\t\t$scope.msgZipCode " +
-"= \"El código postal \"+$scope.zipCode+\" no existe.\";\r\n    \t\t\t}\r\n    \t\t\telse{\r\n   " +
-" \t\t\t\tvar domicilioData = JSON.parse(jsonStrngData);\r\n    \t\t\t\t$scope.state = $sco" +
-"pe.itemListById(domicilioData.StateId ,  $scope.listState);\r\n    \t\t\t\t$scope.list" +
-"Municipality = domicilioData.Municipios;\r\n    \t\t\t\tconsole.log(\"listMunicipality " +
-"name \"+ $scope.listMunicipality[1].Name+\"    $scope.listMunicipality[1]--\"+$scop" +
-"e.listMunicipality[1].Id);\r\n    \t\t\t\t$scope.municipality = $scope.itemListById(do" +
-"micilioData.MunicipalityId , $scope.listMunicipality);\r\n    \t\t\t\t$scope.listLocat" +
-"ion = domicilioData.Locaciones;\r\n    \t\t\t\tconsole.log(\"Locaciones name \"+ $scope." +
-"listLocation[1].Name+\"    id--\"+$scope.listLocation[1].Id);\r\n    \t\t\t}\r\n    \t\t}\r\n" +
-"    \t};\r\n\r\n    \t$scope.LocationInit = function(){\r\n    \tif($scope.listState==und" +
-"efined){\r\n    \tvar asx = MeetingService.findAllStates();\r\n\t\t    $scope.listState" +
-" = JSON.parse(asx);\r\n    \t}\r\n    \t\tif($scope.m.LocationId!=undefined &&  $scope." +
-"m.LocationId!=null){\r\n    \t\t\tvar jsonStrngData = MeetingService.findAddressByLoc" +
-"ation($scope.m.LocationId);\r\n    \t\t\tif(jsonStrngData==\"\"){\r\n    \t\t\t\t$scope.msgZi" +
-"pCode = \"El código postal \"+$scope.zipCode+\" no existe.\";\r\n    \t\t\t}\r\n    \t\t\telse" +
-"{\r\n    \t\t\t\tvar domicilioData = JSON.parse(jsonStrngData);\r\n    \t\t\t\t$scope.state " +
-"= $scope.itemListById(domicilioData.StateId ,  $scope.listState);\r\n    \t\t\t\t$scop" +
-"e.listMunicipality = domicilioData.Municipios;\r\n    \t\t\t\tconsole.log(\"listMunicip" +
-"ality name \"+ $scope.listMunicipality[1].Name+\"    $scope.listMunicipality[1]--\"" +
-"+$scope.listMunicipality[1].Id);\r\n    \t\t\t\t$scope.municipality = $scope.itemListB" +
-"yId(domicilioData.MunicipalityId , $scope.listMunicipality);\r\n    \t\t\t\t$scope.lis" +
-"tLocation = domicilioData.Locaciones;\r\n    \t\t\t\t$scope.location = $scope.itemList" +
-"ById($scope.m.LocationId , $scope.listLocation);\r\n    \t\t\t\tconsole.log(\"Locacione" +
-"s name \"+ $scope.listLocation[1].Name+\"    id--\"+$scope.listLocation[1].Id);\r\n  " +
-"  \t\t\t\t$scope.zipCode = domicilioData.zipCode;\r\n    \t\t\t}\r\n    \t\t}\r\n    \t};\r\n\r\n\t\t$" +
-"scope.init = function(){\r\n\t\t    try{\r\n\t\t    $scope.propiedades=true;\r\n\t\t    cons" +
-"ole.log(\"modelContainer\"+$(\"#hdnJsonAddrssImptd\").val());\r\n\t\t    var js = JSON.p" +
-"arse($(\"#hdnJsonAddrssImptd\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t    var asx = Me" +
-"etingService.findAllStates();\r\n\t\t    console.log(\"asx\"+asx);\r\n\t\t    $scope.listS" +
-"tate = JSON.parse(asx);\r\n\t\t    $(\"#hdnJsonScheduleHome\").val($scope.m.Schedule);" +
-"\r\n\t\t    var register = MeetingService.RegisterTypeFindAllOrderByName();\r\n\t\t    c" +
-"onsole.log(\"register\"+register);\r\n\t\t    $scope.listRegisterType = JSON.parse(reg" +
-"ister);\r\n\t\t    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!" +
-"=null){\r\n\t\t    \t$scope.RegisterType = $scope.itemListById($scope.m.RegisterTypeI" +
-"d , $scope.listRegisterType);\r\n\t\t    \t$scope.domTitle = $scope.RegisterType[\'Nam" +
-"e\'];\r\n\t\t    }else{\r\n\t\t    \t$scope.RegisterType = $scope.listRegisterType[0];\r\n\t\t" +
-"    \t$scope.domTitle = $scope.listRegisterType[0].Name;\r\n\t\t    \t$scope.m.Registe" +
-"rTypeId = $scope.RegisterType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t    var houm = MeetingService" +
-".HomeTypeFindAllOrderByName();\r\n\t\t    console.log(\"houm\"+houm);\r\n\t\t    $scope.li" +
-"stHomeType = JSON.parse(houm);\r\n\t\t    if($scope.m.HomeTypeId!=undefined && $scop" +
-"e.m.HomeTypeId!=null){\r\n\t\t    \t$scope.HomeType = $scope.itemListById($scope.m.Ho" +
-"meTypeId , $scope.listHomeType);\r\n\t\t    }else{\r\n\t\t    \t$scope.HomeType = $scope." +
-"listHomeType[0];\r\n\t\t    \t$scope.m.HomeTypeId = $scope.HomeType[\'Id\'];\r\n\t\t    }\r\n" +
-"\r\n\t\t    console.log(\"$scope.listState\"+typeof $scope.listState);\r\n\t\t    if( js!=" +
-"undefined && js!=null && js.LocationId!=undefined)\r\n\t\t    \t$scope.LocationInit()" +
-";\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error catched Iniciate angular func" +
-"tion erro==>\"+err.message);\r\n\t\t    }\r\n\t\t};\r\n\r\n\t\t$scope.itemListById = function(i" +
-"dObj, list){\r\n    console.log(\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!" +
-"=null){\r\n\t\t    for(x=0;x<list.length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t   " +
-" \t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r" +
-"\n\t};\r\n\r\n\t$scope.save = function(idcase){\r\n\t   \t\t$scope.m.Schedule = $(\"#hdnJsonS" +
-"cheduleHome\").val();\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope." +
-"msgError = MeetingService.upsertImputedHome(JSON.stringify($scope.m));\r\n\t\t\tif($s" +
-"cope.msgError==undefined||$scope.msgError==null||$scope.msgError==\"\"){\r\n\t\t\t\t$sco" +
-"pe.editMeeting($(\"#hdnAddrssImptdReference\").val());\r\n\t\t\t}\r\n\t   };\r\n\r\n\r\n});\r\n\r\n<" +
-"/script>\r\n\r\n<div");
+"pe.listRegisterType=[];\r\n    $scope.RegisterType = {};\r\n    $scope.domTitle = \"\"" +
+";\r\n\r\n    $timeout(function () {\r\n    \t\t$scope.init();\r\n\t\t}, 0);\r\n\r\n\t\t$scope.edit" +
+"Meeting = function(idCase){\r\n    \t\twindow.location.replace(\'hybrid:Meeting/Meeti" +
+"ngDatosPersonales?idCase=\'+idCase);\r\n    \t}\r\n\r\n    \t$scope.ZipCodeSearch = funct" +
+"ion(){\r\n    \t$scope.msgZipCode = undefined;\r\n    \tif($scope.listState==undefined" +
+"){\r\n    \tvar asx = MeetingService.findAllStates();\r\n\t\t    $scope.listState = JSO" +
+"N.parse(asx);\r\n    \t}\r\n\t\t    console.log(\"ZipCodeSearch\"+$scope.zipCode);\r\n    \t" +
+"\tif(($scope.zipCode+\"\").length>=5){\r\n    \t\tconsole.log(MeetingService.findAddres" +
+"sByCp($scope.zipCode));\r\n    \t\t\tvar jsonStrngData = MeetingService.findAddressBy" +
+"Cp($scope.zipCode);\r\n    \t\t\tif(jsonStrngData==\"\"){\r\n    \t\t\t\t$scope.msgZipCode = " +
+"\"El código postal \"+$scope.zipCode+\" no existe.\";\r\n    \t\t\t}\r\n    \t\t\telse{\r\n    \t" +
+"\t\t\tvar domicilioData = JSON.parse(jsonStrngData);\r\n    \t\t\t\t$scope.state = $scope" +
+".itemListById(domicilioData.StateId ,  $scope.listState);\r\n    \t\t\t\t$scope.listMu" +
+"nicipality = domicilioData.Municipios;\r\n    \t\t\t\tconsole.log(\"listMunicipality na" +
+"me \"+ $scope.listMunicipality[1].Name+\"    $scope.listMunicipality[1]--\"+$scope." +
+"listMunicipality[1].Id);\r\n    \t\t\t\t$scope.municipality = $scope.itemListById(domi" +
+"cilioData.MunicipalityId , $scope.listMunicipality);\r\n    \t\t\t\t$scope.listLocatio" +
+"n = domicilioData.Locaciones;\r\n    \t\t\t\tconsole.log(\"Locaciones name \"+ $scope.li" +
+"stLocation[1].Name+\"    id--\"+$scope.listLocation[1].Id);\r\n    \t\t\t}\r\n    \t\t}\r\n  " +
+"  \t};\r\n\r\n    \t$scope.LocationInit = function(){\r\n    \tif($scope.listState==undef" +
+"ined){\r\n    \tvar asx = MeetingService.findAllStates();\r\n\t\t    $scope.listState =" +
+" JSON.parse(asx);\r\n    \t}\r\n    \t\tif($scope.m.LocationId!=undefined &&  $scope.m." +
+"LocationId!=null){\r\n    \t\t\tvar jsonStrngData = MeetingService.findAddressByLocat" +
+"ion($scope.m.LocationId);\r\n    \t\t\tif(jsonStrngData==\"\"){\r\n    \t\t\t\t$scope.msgZipC" +
+"ode = \"El código postal \"+$scope.zipCode+\" no existe.\";\r\n    \t\t\t}\r\n    \t\t\telse{\r" +
+"\n    \t\t\t\tvar domicilioData = JSON.parse(jsonStrngData);\r\n    \t\t\t\t$scope.state = " +
+"$scope.itemListById(domicilioData.StateId ,  $scope.listState);\r\n    \t\t\t\t$scope." +
+"listMunicipality = domicilioData.Municipios;\r\n    \t\t\t\tconsole.log(\"listMunicipal" +
+"ity name \"+ $scope.listMunicipality[1].Name+\"    $scope.listMunicipality[1]--\"+$" +
+"scope.listMunicipality[1].Id);\r\n    \t\t\t\t$scope.municipality = $scope.itemListByI" +
+"d(domicilioData.MunicipalityId , $scope.listMunicipality);\r\n    \t\t\t\t$scope.listL" +
+"ocation = domicilioData.Locaciones;\r\n    \t\t\t\t$scope.location = $scope.itemListBy" +
+"Id($scope.m.LocationId , $scope.listLocation);\r\n    \t\t\t\tconsole.log(\"Locaciones " +
+"name \"+ $scope.listLocation[1].Name+\"    id--\"+$scope.listLocation[1].Id);\r\n    " +
+"\t\t\t\t$scope.zipCode = domicilioData.zipCode;\r\n    \t\t\t}\r\n    \t\t}\r\n    \t};\r\n\r\n\t\t$sc" +
+"ope.init = function(){\r\n\t\t    try{\r\n\t\t    $scope.propiedades=true;\r\n\t\t    consol" +
+"e.log(\"modelContainer\"+$(\"#hdnJsonAddrssImptd\").val());\r\n\t\t    var js = JSON.par" +
+"se($(\"#hdnJsonAddrssImptd\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t    var asx = Meet" +
+"ingService.findAllStates();\r\n\t\t    console.log(\"asx\"+asx);\r\n\t\t    $scope.listSta" +
+"te = JSON.parse(asx);\r\n\t\t    $(\"#hdnJsonScheduleHome\").val($scope.m.Schedule);\r\n" +
+"\t\t    var register = MeetingService.RegisterTypeFindAllOrderByName();\r\n\t\t    con" +
+"sole.log(\"register\"+register);\r\n\t\t    $scope.listRegisterType = JSON.parse(regis" +
+"ter);\r\n\t\t    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=n" +
+"ull && $scope.m.RegisterTypeId!=0){\r\n\t\t    \t$scope.RegisterType = $scope.itemLis" +
+"tById($scope.m.RegisterTypeId , $scope.listRegisterType);\r\n\t\t    \t$scope.domTitl" +
+"e = $scope.RegisterType[\'Name\'];\r\n\t\t    }else{\r\n\t\t    \t$scope.RegisterType = $sc" +
+"ope.listRegisterType[0];\r\n\t\t    \t$scope.domTitle = $scope.listRegisterType[0].Na" +
+"me;\r\n\t\t    \t$scope.m.RegisterTypeId = $scope.RegisterType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t " +
+"   var houm = MeetingService.HomeTypeFindAllOrderByName();\r\n\t\t    console.log(\"h" +
+"oum\"+houm);\r\n\t\t    $scope.listHomeType = JSON.parse(houm);\r\n\t\t    if($scope.m.Ho" +
+"meTypeId!=undefined && $scope.m.HomeTypeId!=null){\r\n\t\t    \t$scope.HomeType = $sc" +
+"ope.itemListById($scope.m.HomeTypeId , $scope.listHomeType);\r\n\t\t    }else{\r\n\t\t  " +
+"  \t$scope.HomeType = $scope.listHomeType[0];\r\n\t\t    \t$scope.m.HomeTypeId = $scop" +
+"e.HomeType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t    console.log(\"$scope.listState\"+typeof $scope" +
+".listState);\r\n\t\t    if( js!=undefined && js!=null && js.LocationId!=undefined)\r\n" +
+"\t\t    \t$scope.LocationInit();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error c" +
+"atched Iniciate angular function erro==>\"+err.message);\r\n\t\t    }\r\n\t\t};\r\n\r\n\t\t$sco" +
+"pe.itemListById = function(idObj, list){\r\n    console.log(\"idObj=\"+idObj);\r\n    " +
+"\tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.length;x++){\r\n\t\t    \ti" +
+"f(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    " +
+"}\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t$scope.save = function(idcase){\r\n\tif($(\"#Fo" +
+"rmAddressId\").valid() == false){\r\n         return false;\r\n         }else{\r\n\t   \t" +
+"\t$scope.m.Schedule = $(\"#hdnJsonScheduleHome\").val();\r\n\t   \t\tvar jsonData = JSON" +
+".stringify($scope.m);\r\n\t\t\t$scope.msgError = MeetingService.upsertImputedHome(JSO" +
+"N.stringify($scope.m));\r\n\t\t\tif($scope.msgError==undefined||$scope.msgError==null" +
+"||$scope.msgError==\"\"){\r\n\t\t\t\t$scope.editMeeting($(\"#hdnAddrssImptdReference\").va" +
+"l());\r\n\t\t\t}\r\n\t\t}\r\n\t   };\r\n\r\n\r\n});\r\n\r\n</script>\r\n\r\n<div");
 
 WriteLiteral(" ng-app=\"umecaMobile\"");
 
@@ -128,7 +129,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 154 "AddressUpsert.cshtml"
+#line 157 "AddressUpsert.cshtml"
                   , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
@@ -145,7 +146,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 155 "AddressUpsert.cshtml"
+#line 158 "AddressUpsert.cshtml"
                        , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -154,7 +155,7 @@ WriteAttribute ("value", " value=\"", "\""
 );
 WriteLiteral(" name=\"wasd\"");
 
-WriteLiteral("/>\r\n\t</div>\r\n    <div >\r\n        <div");
+WriteLiteral("/>\r\n\t</div>\r\n    <div >\r\n\r\n        <div");
 
 WriteLiteral(" style=\"width:95%\"");
 
@@ -185,7 +186,13 @@ WriteLiteral("><i");
 WriteLiteral(" class=\"glyphicon glyphicon-home \"");
 
 WriteLiteral("></i>&nbsp;&nbsp;Domicilio</h4>\r\n                    </div>\r\n                </di" +
-"v>\r\n                <!--componente adress by cp-->\r\n                <div");
+"v>\r\n\r\n                <form");
+
+WriteLiteral(" id=\"FormAddressId\"");
+
+WriteLiteral(" name=\"FormAddressId\"");
+
+WriteLiteral("  >\r\n\r\n                <!--componente adress by cp-->\r\n                <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -854,11 +861,24 @@ WriteLiteral("\r\n              data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n            </div>\r\n          </div>\r\n          <br/>\r\n\r\n          <div" +
 "");
 
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n            <div");
-
 WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                            <div");
+
+WriteLiteral(" class=\"widget-header header-color-blue\"");
+
+WriteLiteral(">\r\n                                <h5");
+
+WriteLiteral(" class=\"bigger lighter\"");
+
+WriteLiteral(">\r\n                                    <h6><i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-calendar \"");
+
+WriteLiteral("></i>Disponibilidad</h6>\r\n                                </h5>\r\n                " +
+"            </div>\r\n\r\n                            <div");
+
+WriteLiteral(" class=\"widget-body\"");
 
 WriteLiteral(">\r\n            <!--schedule component-->\r\n<div");
 
@@ -1122,8 +1142,8 @@ WriteLiteral(@"></i>
 </div>
 </div>
             <!--schedule component-->
-            </div>
-          </div>
+                    </div>
+                    </div>
           <br/>
         </div>
       </div>
@@ -1134,7 +1154,7 @@ WriteLiteral(@"></i>
 
     <!--END Seccion dependiente del tipo de domicilio-->
 
-
+    </form>
 
 
 
@@ -1172,7 +1192,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "editMeeting(\'", true)
 
-#line 561 "AddressUpsert.cshtml"
+#line 574 "AddressUpsert.cshtml"
                                          , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -1190,7 +1210,7 @@ WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 WriteAttribute ("ng-click", "\r\n                          ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "save(\'", true)
 
-#line 565 "AddressUpsert.cshtml"
+#line 578 "AddressUpsert.cshtml"
    , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

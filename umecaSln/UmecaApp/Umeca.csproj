@@ -169,6 +169,12 @@
     <Compile Include="Views\ReferenciasUpsert.cs">
       <DependentUpon>ReferenciasUpsert.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\JobUpsert.cs">
+      <DependentUpon>JobUpsert.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DrugUpsert.cs">
+      <DependentUpon>DrugUpsert.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -221,6 +227,14 @@
     <None Include="Views\ReferenciasUpsert.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>ReferenciasUpsert.cs</LastGenOutput>
+    </None>
+    <None Include="Views\JobUpsert.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>JobUpsert.cs</LastGenOutput>
+    </None>
+    <None Include="Views\DrugUpsert.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>DrugUpsert.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1233,6 +1247,7 @@
     <AndroidAsset Include="Assets\content\selectize.bootstrap3.css" />
     <AndroidAsset Include="Assets\scripts\jquery.multiple.select.js" />
     <AndroidAsset Include="Assets\scripts\selectize.js" />
+    <AndroidAsset Include="Assets\scripts\app\reviewer\scheduleCtrl2.js" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

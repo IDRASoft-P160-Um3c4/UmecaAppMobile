@@ -173,6 +173,18 @@ namespace UmecaApp
 			return new Java.Lang.String(obj);
 		}
 
+		[Export("findAllDrugType")]
+		public Java.Lang.String findAllDrugType(){
+			var drogas = db.Table<DrugType> ().OrderBy (c=>c.Name).ToList ()??new List<DrugType> ();
+			return new Java.Lang.String(JsonConvert.SerializeObject(drogas));
+		}
+
+		[Export("findAllPeriodicity")]
+		public Java.Lang.String findAllPeriodicity(){
+			var periodicidad = db.Table<Periodicity> ().OrderBy (c=>c.Name).ToList ()??new List<Periodicity> ();
+			return new Java.Lang.String(JsonConvert.SerializeObject(periodicidad));
+		}
+
 
 		[Export("HomeTypeFindAllOrderByName")]
 		public Java.Lang.String HomeTypeFindAllOrderByName(){
@@ -184,6 +196,22 @@ namespace UmecaApp
 			return new Java.Lang.String(JsonConvert.SerializeObject(services.RegisterTypeFindAllOrderByName ()));
 		}
 
+		[Export("findAllRelationship")]
+		public Java.Lang.String findAllRelationship(){
+			var relationships = db.Table<Relationship>().OrderBy(s=>s.Name).ToList();
+			return new Java.Lang.String(JsonConvert.SerializeObject(relationships));
+		}
+
+		[Export("findAllDocumentType")]
+		public Java.Lang.String findAllDocumentType(){
+			var documents = db.Table<DocumentType>().OrderBy(s=>s.Name).ToList();
+			return new Java.Lang.String(JsonConvert.SerializeObject(documents));
+		}
+
+		[Export("findAllElection")]
+		public Java.Lang.String findAllElection(){
+			return new Java.Lang.String(JsonConvert.SerializeObject (services.ElectionFindAll()));
+		}
 
 		[Export("upsertDomicilioComment")]
 		public Java.Lang.String upsertDomicilioComment(Java.Lang.String modelJson){
@@ -314,6 +342,56 @@ namespace UmecaApp
 			return output;
 		}
 
+		[Export("upsertPersonaRedSocial")]
+		public Java.Lang.String upsertPersonaRedSocial(Java.Lang.String modelJson){
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("upsertPersonaRedSocial json model-->"+modelJson);
+			var model = JsonConvert.DeserializeObject<PersonSocialNetwork> (modelJson.ToString());
+			db.BeginTransaction ();
+			try{
+				db.CreateTable<PersonSocialNetwork>();
+				PersonSocialNetwork me = db.Table<PersonSocialNetwork>().Where(mee => mee.Id == model.Id ).FirstOrDefault();
+				if(me==null){
+					me = new PersonSocialNetwork();
+					me = model;
+					db.Insert(me);
+				}else{
+					db.Update(model);
+				}
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method upsertPersonaRedSocial invoked javascript calling -> MeetingService.upsertPersonaRedSocial()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+		[Export("erasePersonaRedSocial")]
+		public Java.Lang.String erasePersonaRedSocial(Java.Lang.String PersonId){
+			var prsnId = int.Parse(PersonId.ToString ());
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("erasePersonaRedSocial json PersonId-->"+PersonId);
+			db.CreateTable<PersonSocialNetwork> ();
+			var model = db.Table<PersonSocialNetwork> ().Where(s=> s.Id == prsnId).FirstOrDefault();
+			db.BeginTransaction ();
+			try{
+				db.Delete(model);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method erasePersonaRedSocial invoked javascript calling -> MeetingService.erasePersonaRedSocial()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_DELETE);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
 		[Export("upsertRedSocialComment")]
 		public Java.Lang.String upsertRedSocialComment(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
@@ -345,10 +423,60 @@ namespace UmecaApp
 			return output;
 		}
 
+		[Export("upsertRefrerencia")]
+		public Java.Lang.String upsertRefrerencia(Java.Lang.String modelJson){
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("upsertRefrerencia json model-->"+modelJson);
+			var model = JsonConvert.DeserializeObject<Reference> (modelJson.ToString());
+			db.BeginTransaction ();
+			try{
+				db.CreateTable<Reference>();
+				Reference me = db.Table<Reference>().Where(mee => mee.Id == model.Id ).FirstOrDefault();
+				if(me==null){
+					me = new Reference();
+					me = model;
+					db.Insert(me);
+				}else{
+					db.Update(model);
+				}
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method upsertReference invoked javascript calling -> MeetingService.upsertReference()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+		[Export("eraseReferencia")]
+		public Java.Lang.String eraseReferencia(Java.Lang.String ReferenceId){
+			var referencedId = int.Parse(ReferenceId.ToString ());
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("eraseReferencia json ReferenceId-->"+ReferenceId);
+			db.CreateTable<Reference> ();
+			var model = db.Table<Reference> ().Where(s=> s.Id == referencedId).FirstOrDefault();
+			db.BeginTransaction ();
+			try{
+				db.Delete(model);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method eraseReferencia invoked javascript calling -> MeetingService.eraseReferencia()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_DELETE);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
 		[Export("upsertReferenciasComment")]
 		public Java.Lang.String upsertReferenciasComment(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
+			Console.WriteLine ("upsertReferenciasComment json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
 			db.BeginTransaction ();
 			try{
@@ -358,7 +486,78 @@ namespace UmecaApp
 				output = new Java.Lang.String(Constants.MSG_SUCCESS_UPSERT);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine("catched exception in MeetingService method upsertDomicilioComment invoked javascript calling -> MeetingService.upsertDomicilioComment() Exception message :::>"+e.Message);
+				Console.WriteLine("catched exception in MeetingService method upsertReferenciasComment invoked javascript calling -> MeetingService.upsertReferenciasComment() Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+		[Export("upsertLaboral")]
+		public Java.Lang.String upsertLaboral(Java.Lang.String modelJson){
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("upsertLaboral json model-->"+modelJson);
+			var model = JsonConvert.DeserializeObject<Job> (modelJson.ToString());
+			db.BeginTransaction ();
+			try{
+				db.CreateTable<Job>();
+				Job me = db.Table<Job>().Where(mee => mee.Id == model.Id ).FirstOrDefault();
+				if(me==null){
+					me = new Job();
+					me = model;
+					db.Insert(me);
+				}else{
+					db.Update(model);
+				}
+				db.CreateTable<Schedule>();
+				var schedule = db.Table<Schedule>().Where(sc=>sc.JobId==me.Id).ToList();
+				foreach(Schedule sch in schedule){
+					db.Delete(sch);
+				}
+				if(model.Schedule!=null){
+					var newSchedules = JsonConvert.DeserializeObject<List<Schedule>>(model.Schedule);
+					foreach(Schedule sch in newSchedules){
+						sch.JobId = me.Id;
+						db.Insert(sch);
+					}
+				}
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method upsertLaboral invoked javascript calling -> MeetingService.upsertLaboral()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+		[Export("eraseLaboral")]
+		public Java.Lang.String eraseLaboral(Java.Lang.String idLaboral){
+			var laboralId = int.Parse(idLaboral.ToString ());
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("eraseLaboral json laboralId-->"+laboralId);
+			db.CreateTable<Job> ();
+			var model = db.Table<Job> ().Where(s=> s.Id == laboralId).FirstOrDefault();
+			db.BeginTransaction ();
+			try{
+				if(model==null){
+					output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+				}else{
+					db.CreateTable<Schedule>();
+					var schedule = db.Table<Schedule>().Where(sc=>sc.JobId==model.Id).ToList();
+					foreach(Schedule sch in schedule){
+						db.Delete(sch);
+					}
+					db.Delete(model);
+				}
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method eraseLaboral invoked javascript calling -> MeetingService.eraseLaboral()");
+				Console.WriteLine("Exception message :::>"+e.Message);
 				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
 			}
 			finally{
@@ -382,6 +581,56 @@ namespace UmecaApp
 				db.Rollback ();
 				Console.WriteLine("catched exception in MeetingService method upsertDomicilioComment invoked javascript calling -> MeetingService.upsertDomicilioComment() Exception message :::>"+e.Message);
 				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+		[Export("upsertDrug")]
+		public Java.Lang.String upsertDrug(Java.Lang.String modelJson){
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("upsertDrug json model-->"+modelJson);
+			var model = JsonConvert.DeserializeObject<Drug> (modelJson.ToString());
+			db.BeginTransaction ();
+			try{
+				db.CreateTable<Drug>();
+				Drug me = db.Table<Drug>().Where(mee => mee.Id == model.Id ).FirstOrDefault();
+				if(me==null){
+					me = new Drug();
+					me = model;
+					db.Insert(me);
+				}else{
+					db.Update(model);
+				}
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method upsertDrug invoked javascript calling -> MeetingService.upsertDrug()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+		[Export("eraseDrug")]
+		public Java.Lang.String eraseDrug(Java.Lang.String DrugId){
+			var IdDrug = int.Parse(DrugId.ToString ());
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("eraseDrug json IdDrug-->"+IdDrug);
+			db.CreateTable<Drug> ();
+			var model = db.Table<Drug> ().Where(s=> s.Id == IdDrug).FirstOrDefault();
+			db.BeginTransaction ();
+			try{
+				db.Delete(model);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingService method eraseDrug invoked javascript calling -> MeetingService.eraseDrug()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_DELETE);
 			}
 			finally{
 				db.Commit ();
@@ -754,9 +1003,67 @@ namespace UmecaApp
 				validateMeetingSocialEnvironment(validate, social);
 				validateMeetingSchool(validate, meSchool);
 				validateMeetingCountry(validate, meLeaveCountry);
+
+				List<String> r = new List<string>();
+				const String e = "entity";
+
+				db.CreateTable<ImputedHome> ();
+				var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == model.MeetingId).ToList ();
+				if(domiciliosImputado==null||domiciliosImputado.Count.Equals(0)){
+					r.Add("Debe registrar al menos un domicilio del imputado.");
+					validate.groupMessage.Add(new GroupMessageMeetingDto("imputedHome", r));
+				}
+				//PersonSocialNetwork
+				r = new List<string>();
+				db.CreateTable<PersonSocialNetwork> ();
+				var personsSocNet = db.Table<PersonSocialNetwork> ().Where (sn=>sn.SocialNetworkId==socnet.Id).ToList ();
+				if(socnet.Comment==null||socnet.Comment.Equals("")){
+					r.Add(validate.template.Replace(e, "Las observaciones"));
+				}
+				if(personsSocNet==null||personsSocNet.Count.Equals(0)){
+					r.Add("Para terminar la entrevista debe agregar al menos una persona en su red social.");
+				}
+				if(r.Count>0){
+					validate.groupMessage.Add(new GroupMessageMeetingDto("socialNetwork", r));
+				}
+				r = new List<string>();
+				db.CreateTable<Reference> ();
+				var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==model.MeetingId).ToList ();
+				if(references==null||references.Count.Equals(0)){
+					r.Add("Para terminar la entrevista debe agregar al menos una referencia personal.");
+					validate.groupMessage.Add(new GroupMessageMeetingDto("reference", r));
+				}
+
+				r = new List<string>();
+				db.CreateTable<Job> ();
+				var trabajos = db.Table<Job> ().Where (sn=>sn.MeetingId==model.MeetingId).ToList ();
+				if(trabajos==null||trabajos.Count.Equals(0)){
+					r.Add("Debe agregar al menos un empleo del imputado.");
+					validate.groupMessage.Add(new GroupMessageMeetingDto("job", r));
+				}
+
+				r = new List<string>();
+				db.CreateTable<Drug> ();
+				var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==model.MeetingId).ToList ();
+				if(drogas==null||drogas.Count.Equals(0)){
+					r.Add("Debe agregar al menos una sustancia que consume el imputado. (En caso de no consumir sustancias seleccione otro y especifique ninguna)");
+					validate.groupMessage.Add(new GroupMessageMeetingDto("drug", r));
+				}
+
+
 /* end validaciones */
 				if(validate.groupMessage.Count<=0){
 				output = new Java.Lang.String("");
+					var casoMeeting = db.Table<Case>().Where(cm=>cm.Id==me.CaseDetentionId).FirstOrDefault();
+					StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
+					StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
+					casoMeeting.StatusCaseId = sc.Id;
+					casoMeeting.Status = sc;
+					me.StatusMeetingId = statusMeeting2.Id;
+					me.StatusMeeting = statusMeeting2;
+					me.DateTerminate = DateTime.Today;
+					db.Update(casoMeeting);
+					db.Update(me);
 				}
 				else{
 					List<String> listGeneral = new List<string>();
@@ -958,6 +1265,7 @@ namespace UmecaApp
 			t.groupMessage.Add(new GroupMessageMeetingDto("school", r));
 			return t;
 		}
+
 
 		public TerminateMeetingMessageDto validateMeetingCountry(TerminateMeetingMessageDto t, LeaveCountry Lc){
 			List<String> r = new List<string>();

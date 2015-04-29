@@ -179,6 +179,13 @@ namespace UmecaApp
 
 		public List<ImputedHome> JsonDomicilios { get; set; }
 
+		public List<PersonSocialNetwork> JsonPersonSN { get; set; }
+
+		public List<Reference> JsonReferences { get; set; }
+
+		public List<Job> JsonJobs { get; set; }
+
+		public List<Drug> JsonDrugs { get; set; }
 
 		public String JsonElection { get; set; }
 	}

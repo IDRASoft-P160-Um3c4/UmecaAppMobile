@@ -4,44 +4,79 @@
 Layout = "UmecaApp.headUm";
 }
 <script>
-app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
+app.controller('ReferencesController', function($scope, $timeout) {
 	$scope.m = {};
-    $scope.p = {};
+	$scope.p = {};
     $scope.lstRel = [];
     $scope.lstDoc = [];
     $scope.lstLiv = [];
     $scope.lstDep = [];
-    $scope.m.RelationshipId = 0;
-    $scope.m.DocumentTypeId = 0;
-    $scope.p.liv = 0;
-    $scope.p.dep = 0;
+    $scope.rel = {};
+    $scope.doc = {};
+    $scope.m.RelationshipId = {};
+    $scope.m.DocumentTypeId = {};
+    $scope.liv = {};
+    $scope.dep = {};
+    $scope.MsgError = "";
 
     $scope.init = function(){
-
-    try{
-		    $scope.propiedades=true;
-		    console.log("modelContainer"+$("#hdnJsonModelContainer").val());
-		    var js = JSON.parse($("#hdnJsonModelContainer").val());
+			var relaciones = MeetingService.findAllRelationship();
+		    console.log("relaciones"+relaciones);
+		    $scope.lstRel = JSON.parse(relaciones);
+		    var documentos = MeetingService.findAllDocumentType();
+		    console.log("documentos"+documentos);
+		    $scope.lstDoc = JSON.parse(documentos);
+		    try{
+		    	console.log("modelContainer"+$("#hdnJsonModelContainer").val());
+		    	var js = JSON.parse($("#hdnJsonModelContainer").val());
 			    $scope.m = js;
-    };
+			} catch(err){
+		    	alert("Init erro==>"+err.message);
+		    }
 
+		    if($scope.m.block == undefined ||$scope.m.block == false ){
+		    	$scope.fillModel();
+		    }
+		    else{
+		    	$scope.m.block = true;
+		    }
+		    if($scope.m.RelationshipId!=undefined){
+		    	for(var i= 0; i < $scope.lstRel.length ; i++){
+	                if($scope.lstRel[i].Id == $scope.m.RelationshipId){
+	    				$scope.rel = $scope.lstRel[i];
+	                    break;
+	                }
+	            }
+		    }
+		    if($scope.m.DocumentTypeId!=undefined){
+		    	for(var i= 0; i < $scope.lstDoc.length ; i++){
+	                if($scope.lstDoc[i].Id == $scope.m.DocumentTypeId){
+	    				$scope.doc = $scope.lstDoc[i];
+	                    break;
+	                }
+	            }
+		    }
+    };
 
     $timeout(function() {
         $scope.init();
     }, 0);
-    $scope.WaitFor = false;
-    $scope.MsgError = "";
-    $scope.Model = {};
 
-    $scope.save = function(idcase){
+    $scope.save = function(){
+    if($("#FormCatId").valid() == false){
+         return false;
+         }else{
+    		console.log("save"+$("#hdnMeetingCaseReference").val());
 	   		var jsonData = JSON.stringify($scope.m);
-			$scope.msgError = MeetingService.upsertPersonSocialNetwork(JSON.stringify($scope.m));
+			$scope.msgError = MeetingService.upsertRefrerencia(JSON.stringify($scope.m));
 			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
-				$scope.editMeeting($("#hdnMeetingCaseReference").val());
+				$scope.cancel($("#hdnMeetingCaseReference").val());
 			}
+		}
 	   };
 
-    $scope.cancel = function () {
+    $scope.cancel = function (idCase) {
+    console.log("cancel"+idCase);
         window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idCase);
     };
 
@@ -49,54 +84,51 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
         var template= "NO TIENE";
         var template2 = "Ninguno";
         if($scope.m.block === false){
-            $scope.name = template;
+            $scope.m.FullName = template;
+            $scope.m.Address = template;
             for(var i= 0; i < $scope.lstRel.length ; i++){
-                if($scope.lstRel[i].name == template2){
-                    $scope.m.RelationshipId = $scope.lstRel[i];
-                    $scope.m.RelationshipIdId = $scope.lstRel[i].id;
+                if($scope.lstRel[i].Name == template2){
+    				$scope.rel = $scope.lstRel[i];
+                    $scope.m.RelationshipId = $scope.lstRel[i].Id;
                     break;
                 }
             }
             $scope.m.Phone = template;
             for(var i= 0; i < $scope.lstDoc.length ; i++){
-                if($scope.lstDoc[i].name == template2){
-                    $scope.m.DocumentTypeId = $scope.lstDoc[i];
-                    $scope.m.DocumentTypeIdId = $scope.lstDoc[i].id;
+                if($scope.lstDoc[i].Name == template2){
+                	$scope.doc = $scope.lstDoc[i];
+                    $scope.m.DocumentTypeId = $scope.lstDoc[i].Id;
                     break;
                 }
             }
 
-            $scope.age = 0;
+            $scope.m.Age = 0;
             $scope.m.isAccompaniment = false;
             for(var i= 0; i < $scope.lstDep.length ; i++){
-                if($scope.lstDep[i].name == "No"){
-                    $scope.p.dep = $scope.lstDep[i];
-                    $scope.p.depId = $scope.lstDep[i].id;
+                if($scope.lstDep[i].Name == "No"){
+                    $scope.dep = $scope.lstDep[i];
+                    $scope.m.DependentId = $scope.lstDep[i].Id;
                     break;
                 }
             }
             for(var i= 0; i < $scope.lstLiv.length ; i++){
-                if($scope.lstLiv[i].name == "Si"){
-                    $scope.p.liv = $scope.lstLiv[i];
-                    $scope.p.livId = $scope.lstLiv[i].id;
+                if($scope.lstLiv[i].Name == "Si"){
+                    $scope.liv = $scope.lstLiv[i];
+                    $scope.m.LivingWithIde = $scope.lstLiv[i].Id;
                     break;
                 }
             }
         }else{
-            $scope.name = "";
-                    $scope.m.RelationshipId = $scope.lstRel[0];
-                    $scope.m.RelationshipIdId = $scope.lstRel[0].id;
-            $scope.m.Phone = template;
-                    $scope.m.DocumentTypeId = $scope.lstDoc[0];
-                    $scope.m.DocumentTypeIdId = $scope.lstDoc[0].id;
-            $scope.age = "";
+            $scope.m.FullName = "";
+            $scope.rel = $scope.lstRel[0];
+            $scope.m.RelationshipId = $scope.lstRel[0].Id;
+            $scope.m.Phone = "";
+            		$scope.doc = $scope.lstDoc[0];
+                    $scope.m.DocumentTypeId = $scope.lstDoc[0].Id;
+            $scope.m.Age = "";
             $scope.m.Phone = "";
             $scope.m.isAccompaniment = false;
-                    $scope.p.dep = $scope.lstDep[0];
-                    $scope.p.depId = $scope.lstDep[0].id;
-                    $scope.p.liv = $scope.lstLiv[0];
-                    $scope.p.livId = $scope.lstLiv[0].id;
-            $scope.address="";
+            $scope.m.Address="";
         }
     };
 });
@@ -106,7 +138,7 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
     <div>
         <div class="alert alert-info ">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="element-center"><i class="icon-group "></i>&nbsp;&nbsp;Persona de su red social</h4>
+            <h4 class="element-center"><i class="icon-list"></i>&nbsp;&nbsp;Referencia personal</h4>
         </div>
     </div>
            
@@ -115,6 +147,7 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
 	    <input id="hdnJsonModelContainer" type="hidden" value="@Model.JsonModel" name="jsonString" />
 	    <input id="hdnMeetingCaseReference" type="hidden" value="@Model.Reference" name="wasd"/>
 	</div>
+	<form id="FormCatId" name="FormCatId" >
     <div class="row">
         <div class="col-xs-12 element-center">
             <div class="col-xs-6 element-right" >
@@ -155,7 +188,7 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
                        data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                        data-val-length-max="150" data-val-length-min="3"   ng-readonly="!m.block"
                        data-val-required="El Nombre es un campo requerido"
-                       name="name" id="name" value="{{m.Name}}">
+                       name="name" id="name" ng-model="m.FullName">
                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -168,10 +201,10 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
                 Relaci&oacute;n:
             </div>
             <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="m.RelationshipId"
-                        ng-options="e.name for e in lstRel"
-                        ng-change="m.RelationshipIdId = m.RelationshipId.id"   ng-readonly="!m.block"
-                        ng-init='lstRel = ${lstRelationship};'></select>
+                <select class="form-control element-center" ng-model="rel"
+                        ng-options="e.Name for e in lstRel"
+                        ng-change="m.RelationshipId = rel['Id']"   ng-readonly="!m.block"
+                       ></select>
             </div>
             <div class="col-xs-9 col-xs-offset-3">
                 <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
@@ -220,9 +253,9 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
                 Identificaci&oacute;n prensentada:
             </div>
             <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="m.DocumentTypeId"
-                        ng-options="e.name for e in lstDoc"
-                        ng-change="m.DocumentTypeIdId = m.DocumentTypeId.id"  ng-readonly="!m.block"
+                <select class="form-control element-center" ng-model="doc"
+                        ng-options="e.Name for e in lstDoc"
+                        ng-change="m.DocumentTypeId = doc['Id']"  ng-readonly="!m.block"
                         ></select>
             </div>
         </div>
@@ -265,44 +298,11 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
     </div>
     <br/>
 
-    <div class="row">
-        <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
-                Vive con el:
-            </div>
-            <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="p.liv"
-                        ng-options="e.name for e in lstLiv"
-                        ng-change="m.LivingWithIde = p.liv.id"  ng-readonly="!m.block"
-                        ></select>
-            </div>
-            <div class="col-xs-9 col-xs-offset-3">
-                <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
-                Dependiente econ&oacute;mico:
-            </div>
-            <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="p.dep"
-                        ng-options="e.name for e in lstDep"
-                        ng-change="m.DependentId = p.dep.id"   ng-readonly="!m.block"
-                        ></select>
-            </div>
-            <div class="col-xs-9 col-xs-offset-3">
-                <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-    </div>
-    <br/>
-
-    <div class="row" ng-show="m.LivingWithIde == 2">
+    <div class="row" >
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
             <div class="col-xs-10">
-                <textarea id="address" class="form-control" name="address" ng-model="m.Address"
-                          ng-init="address = person.address"
+                <textarea id="address" class="form-control" name="address" ng-model="m.Address" ng-readonly="!m.block"
                           data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
                           data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                           data-val-length-max="500" data-val-length-min="6"></textarea>
@@ -312,7 +312,7 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
             <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
         </div>
     </div>
-
+    </form>
 </div>
 
                     <br />
@@ -323,15 +323,16 @@ app.controller('ReferencesController', function($scope, $timeout,$rootScope) {
                             </div>
                         </div>
                     </div>
-                </div>
+                
                 <div class="modal-footer">
                     <span class="btn btn-default btn-sm"  ng-click="cancel('@Model.Reference')">
                         Cancelar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                           ng-click="save('@Model.Reference');">
+                    <span class="btn btn-default btn-primary btn-sm"
+                           ng-click="save();">
                           Guardar
                     </span>
+                </div>
                 </div>
             </div>
 

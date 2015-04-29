@@ -6,46 +6,156 @@ Layout = "UmecaApp.headUm";
 <script>
 app.controller('socialNetworkController', function($scope, $timeout) {
 	$scope.m = {};
-    $scope.p = {};
+	$scope.p = {};
     $scope.lstRel = [];
     $scope.lstDoc = [];
     $scope.lstLiv = [];
     $scope.lstDep = [];
-    $scope.m.RelationshipId = 0;
-    $scope.m.DocumentTypeId = 0;
-    $scope.p.liv = 0;
-    $scope.p.dep = 0;
+    $scope.rel = {};
+    $scope.doc = {};
+    $scope.m.RelationshipId = {};
+    $scope.m.DocumentTypeId = {};
+    $scope.liv = {};
+    $scope.dep = {};
+    $scope.MsgError = "";
 
     $scope.init = function(){
+		    
 
-    try{
-		    $scope.propiedades=true;
+			var relaciones = MeetingService.findAllRelationship();
+		    console.log("relaciones"+relaciones);
+		    $scope.lstRel = JSON.parse(relaciones);
+		    var documentos = MeetingService.findAllDocumentType();
+		    console.log("documentos"+documentos);
+		    $scope.lstDoc = JSON.parse(documentos);
+			var election = MeetingService.findAllElection();
+		    console.log("election"+election);
+		    $scope.lstLiv = JSON.parse(election);
+		    $scope.lstDep = JSON.parse(election);
+
+		    try{
 		    console.log("modelContainer"+$("#hdnJsonModelContainer").val());
-		    var js = JSON.parse($("#hdnJsonModelContainer").val());
+		    	var js = JSON.parse($("#hdnJsonModelContainer").val());
 			    $scope.m = js;
-    };
+			    } catch(err){
+		    	alert("Init erro==>"+err.message);
+		    }
 
+		    if($scope.m.block == undefined ||$scope.m.block == false ){
+		    	$scope.fillModel();
+		    }
+		    else{
+		    	$scope.m.block = true;
+		    }
+		    if($scope.m.RelationshipId!=undefined){
+		    	for(var i= 0; i < $scope.lstRel.length ; i++){
+	                if($scope.lstRel[i].Id == $scope.m.RelationshipId){
+	    				$scope.rel = $scope.lstRel[i];
+	                    break;
+	                }
+	            }
+		    }
+		    if($scope.m.DocumentTypeId!=undefined){
+		    	for(var i= 0; i < $scope.lstDoc.length ; i++){
+	                if($scope.lstDoc[i].Id == $scope.m.DocumentTypeId){
+	    				$scope.doc = $scope.lstDoc[i];
+	                    break;
+	                }
+	            }
+		    }
+		    if($scope.m.LivingWithIde!=undefined){
+		    	for(var i= 0; i < $scope.lstLiv.length ; i++){
+	                if($scope.lstLiv[i].Id == $scope.m.LivingWithIde){
+	    				$scope.liv = $scope.lstLiv[i];
+	                    break;
+	                }
+	            }
+		    }
+		    if($scope.m.DependentId!=undefined){
+		    	for(var i= 0; i < $scope.lstDep.length ; i++){
+	                if($scope.lstDep[i].Id == $scope.m.DependentId){
+	    				$scope.dep = $scope.lstDep[i];
+	                    break;
+	                }
+	            }
+		    }
+    };
 
     $timeout(function() {
         $scope.init();
     }, 0);
-    $scope.WaitFor = false;
-    $scope.MsgError = "";
-    $scope.Model = {};
 
-    $scope.save = function(idcase){
+    $scope.save = function(){
+    if($("#FormSocialNetworkId").valid() == false){
+         return false;
+         }else{
+    		console.log("save"+$("#hdnMeetingCaseReference").val());
 	   		var jsonData = JSON.stringify($scope.m);
-			$scope.msgError = MeetingService.upsertPersonSocialNetwork(JSON.stringify($scope.m));
+			$scope.msgError = MeetingService.upsertPersonaRedSocial(JSON.stringify($scope.m));
 			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
-				$scope.editMeeting($("#hdnMeetingCaseReference").val());
+				$scope.cancel($("#hdnMeetingCaseReference").val());
 			}
+		}
 	   };
 
-    $scope.cancel = function () {
+    $scope.cancel = function (idCase) {
+    console.log("cancel"+idCase);
         window.location.replace('hybrid:Meeting/MeetingDatosPersonales?idCase='+idCase);
     };
 
     $scope.fillModel = function(){
+        var template= "NO TIENE";
+        var template2 = "Ninguno";
+        if($scope.m.block === false){
+            $scope.m.Name = template;
+            for(var i= 0; i < $scope.lstRel.length ; i++){
+                if($scope.lstRel[i].Name == template2){
+    				$scope.rel = $scope.lstRel[i];
+                    $scope.m.RelationshipId = $scope.lstRel[i].Id;
+                    break;
+                }
+            }
+            $scope.m.Phone = template;
+            for(var i= 0; i < $scope.lstDoc.length ; i++){
+                if($scope.lstDoc[i].Name == template2){
+                	$scope.doc = $scope.lstDoc[i];
+                    $scope.m.DocumentTypeId = $scope.lstDoc[i].Id;
+                    break;
+                }
+            }
+
+            $scope.m.Age = 0;
+            $scope.m.isAccompaniment = false;
+            for(var i= 0; i < $scope.lstDep.length ; i++){
+                if($scope.lstDep[i].Name == "No"){
+                    $scope.dep = $scope.lstDep[i];
+                    $scope.m.DependentId = $scope.lstDep[i].Id;
+                    break;
+                }
+            }
+            for(var i= 0; i < $scope.lstLiv.length ; i++){
+                if($scope.lstLiv[i].Name == "Si"){
+                    $scope.liv = $scope.lstLiv[i];
+                    $scope.m.LivingWithIde = $scope.lstLiv[i].Id;
+                    break;
+                }
+            }
+        }else{
+            $scope.m.Name = "";
+            		$scope.rel = $scope.lstRel[0];
+                    $scope.m.RelationshipId = $scope.lstRel[0].Id;
+            $scope.m.Phone = template;
+            		$scope.doc = $scope.lstDoc[0];
+                    $scope.m.DocumentTypeId = $scope.lstDoc[0].Id;
+            $scope.m.Age = "";
+            $scope.m.Phone = "";
+            $scope.m.isAccompaniment = false;
+                    $scope.dep = $scope.lstDep[0];
+                    $scope.m.DependentId = $scope.lstDep[0].Id;
+                    $scope.liv = $scope.lstLiv[0];
+                    $scope.m.LivingWithIde = $scope.lstLiv[0].Id;
+            $scope.m.Address="";
+        }
     };
 });
 </script>
@@ -63,6 +173,7 @@ app.controller('socialNetworkController', function($scope, $timeout) {
 	    <input id="hdnJsonModelContainer" type="hidden" value="@Model.JsonModel" name="jsonString" />
 	    <input id="hdnMeetingCaseReference" type="hidden" value="@Model.Reference" name="wasd"/>
 	</div>
+	<form id="FormSocialNetworkId" name="FormSocialNetworkId" >
     <div class="row">
         <div class="col-xs-12 element-center">
             <div class="col-xs-6 element-right" >
@@ -103,7 +214,7 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                        data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                        data-val-length-max="150" data-val-length-min="3"   ng-readonly="!m.block"
                        data-val-required="El Nombre es un campo requerido"
-                       name="name" id="name" value="{{m.Name}}">
+                       name="name" id="name" ng-model="m.Name">
                 <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -116,9 +227,9 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                 Relaci&oacute;n:
             </div>
             <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="m.RelationshipId"
-                        ng-options="e.name for e in lstRel"
-                        ng-change="m.RelationshipIdId = m.RelationshipId.id"   ng-readonly="!m.block"
+                <select class="form-control element-center" ng-model="rel"
+                        ng-options="e.Name for e in lstRel"
+                        ng-change="m.RelationshipId = rel['Id']"   ng-readonly="!m.block"
                        ></select>
             </div>
             <div class="col-xs-9 col-xs-offset-3">
@@ -168,9 +279,9 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                 Identificaci&oacute;n prensentada:
             </div>
             <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="m.DocumentTypeId"
-                        ng-options="e.name for e in lstDoc"
-                        ng-change="m.DocumentTypeIdId = m.DocumentTypeId.id"  ng-readonly="!m.block"
+                <select class="form-control element-center" ng-model="doc"
+                        ng-options="e.Name for e in lstDoc"
+                        ng-change="m.DocumentTypeId = doc['Id']"  ng-readonly="!m.block"
                         ></select>
             </div>
         </div>
@@ -219,9 +330,9 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                 Vive con el:
             </div>
             <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="p.liv"
-                        ng-options="e.name for e in lstLiv"
-                        ng-change="m.LivingWithIde = p.liv.id"  ng-readonly="!m.block"
+                <select class="form-control element-center" ng-model="liv"
+                        ng-options="e.Name for e in lstLiv"
+                        ng-change="m.LivingWithIde = liv['Id']"  ng-readonly="!m.block"
                         ></select>
             </div>
             <div class="col-xs-9 col-xs-offset-3">
@@ -233,9 +344,9 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                 Dependiente econ&oacute;mico:
             </div>
             <div class="col-xs-8">
-                <select class="form-control element-center" ng-model="p.dep"
-                        ng-options="e.name for e in lstDep"
-                        ng-change="m.DependentId = p.dep.id"   ng-readonly="!m.block"
+                <select class="form-control element-center" ng-model="dep"
+                        ng-options="e.Name for e in lstDep"
+                        ng-change="m.DependentId = dep['Id']"   ng-readonly="!m.block"
                         ></select>
             </div>
             <div class="col-xs-9 col-xs-offset-3">
@@ -259,7 +370,7 @@ app.controller('socialNetworkController', function($scope, $timeout) {
             <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
         </div>
     </div>
-
+    </form>
 </div>
 
                     <br />
@@ -270,15 +381,16 @@ app.controller('socialNetworkController', function($scope, $timeout) {
                             </div>
                         </div>
                     </div>
-                </div>
+                
                 <div class="modal-footer">
                     <span class="btn btn-default btn-sm"  ng-click="cancel('@Model.Reference')">
                         Cancelar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                           ng-click="save('@Model.Reference');">
+                    <span class="btn btn-default btn-primary btn-sm"
+                           ng-click="save();">
                           Guardar
                     </span>
+                </div>
                 </div>
             </div>
 

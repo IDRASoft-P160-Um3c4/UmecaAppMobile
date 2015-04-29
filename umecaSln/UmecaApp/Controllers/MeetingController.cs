@@ -216,7 +216,7 @@ namespace UmecaApp
 			}
 
 
-
+			db.CreateTable<SocialEnvironment> ();
 			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
 			if(SE!=null){
 				result.PhysicalCondition = SE.physicalCondition;
@@ -231,14 +231,39 @@ namespace UmecaApp
 			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (socialNetComent != null) {
 				result.CommentSocialNetwork = socialNetComent.Comment;
-			} else {
-				var me = new SocialNetwork ();
-				me.Comment = "";
-				me.MeetingId = result.MeetingId ?? 0;
-				db.Insert (me);
+			} else {		
+				socialNetComent = new SocialNetwork ();
+				socialNetComent.Comment = "";
+				socialNetComent.MeetingId = result.MeetingId ?? 0;
+				db.Insert (socialNetComent);
 			}
 
+			//PersonSocialNetwork
+			db.CreateTable<PersonSocialNetwork> ();
+			var personsSocNet = db.Table<PersonSocialNetwork> ().Where (sn=>sn.SocialNetworkId==socialNetComent.Id).ToList ();
+			if(personsSocNet!=null){
+				result.JsonPersonSN = personsSocNet;
+			}else{
+				result.JsonPersonSN = null;
+			}
 
+			//Reference
+			db.CreateTable<Reference> ();
+			var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
+			if(references!=null){
+				result.JsonReferences = references;
+			}else{
+				result.JsonReferences = null;
+			}
+
+			//Laboral History
+			db.CreateTable<Job> ();
+			var trabajos = db.Table<Job> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
+			if(trabajos!=null){
+				result.JsonJobs = trabajos;
+			}else{
+				result.JsonJobs = null;
+			}
 				
 			//school history
 			db.CreateTable<School> ();
@@ -250,6 +275,16 @@ namespace UmecaApp
 				result.SchoolName = escuelaUtlActual.Name;
 				result.SchoolPhone = escuelaUtlActual.Phone;
 				result.SchoolSpecification = escuelaUtlActual.Specification;
+			}
+
+
+			//DROGAS
+			db.CreateTable<Drug> ();
+			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
+			if(drogas!=null){
+				result.JsonDrugs = drogas;
+			}else{
+				result.JsonDrugs = null;
 			}
 
 
@@ -462,8 +497,122 @@ namespace UmecaApp
 			}
 		}
 
+		public void  EditReferenceMeeting(int idReference)
+		{
+			try{
+				var referenceId = int.Parse (idReference.ToString ());
+				var dto = new ModelContainer ();
+				db.CreateTable<Reference>();
+				var mdl = db.Table<Reference>().Where(mee => mee.Id == referenceId ).FirstOrDefault();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new ReferenciasUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
 
+		public void  JobMeeting(int idMeeting)
+		{
+			try{
+				var MeetingId = int.Parse (idMeeting.ToString ());
+				var dto = new ModelContainer ();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+				db.CreateTable<Job>();
+				Job mdl = new Job ();
+				mdl.MeetingId = MeetingId;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new JobUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
 
+		public void  EditJobMeeting(int idJob)
+		{
+			try{
+				var jobId = int.Parse (idJob.ToString ());
+				var dto = new ModelContainer ();
+				db.CreateTable<Job>();
+				var mdl = db.Table<Job>().Where(mee => mee.Id == jobId ).FirstOrDefault();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new JobUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
+
+		public void  DrugMeeting(int idMeeting)
+		{
+			try{
+				var MeetingId = int.Parse (idMeeting.ToString ());
+				var dto = new ModelContainer ();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+				db.CreateTable<Drug>();
+				Drug mdl = new Drug ();
+				mdl.MeetingId = MeetingId;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new DrugUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
+
+		public void  EditDrugMeeting(int idDrug)
+		{
+			try{
+				var drugId = int.Parse (idDrug.ToString ());
+				var dto = new ModelContainer ();
+				db.CreateTable<Drug>();
+				var mdl = db.Table<Drug>().Where(mee => mee.Id == drugId ).FirstOrDefault();
+				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new DrugUpsert{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
+		}
 
 
 

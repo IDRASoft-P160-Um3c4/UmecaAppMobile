@@ -15,19 +15,19 @@ namespace UmecaApp
 		public int Id{ get; set; }
 
 		[Column("name")]
-		public int DrugTypeId{ get; set; }
+		public int? DrugTypeId{ get; set; }
 
 		[Column("id_periodicity")]
-		public int PeriodicityId{ get; set; }
+		public int? PeriodicityId{ get; set; }
 
 		[Column("quantity"),MaxLength(25)]
 		public String Quantity{ get; set; }
 
 		[Column("last_use")]
-		public DateTime LastUse{ get; set; }
+		public DateTime? LastUse{ get; set; }
 
 		[Column("block")]
-		public Boolean block{ get; set; }
+		public Boolean? block{ get; set; }
 
 		[Column("specification_type"),MaxLength(100)]
 		public String Specification{ get; set; }

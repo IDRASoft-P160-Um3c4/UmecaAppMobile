@@ -17,8 +17,8 @@ var dlgMsgBox = $('#MessageBoxDlgId');
 dlgMsgBox.hide();
 };
     	</script>
-<div class="modal-dialog" style="display:none;" id="MessageBoxDlgId" >
-        <div class="modal-content">
+<div class="modal-dialog" style="display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="MessageBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
             <div class="modal-header">
                 <div class="alert alert-danger">
                     <button id="MessageBoxDlgXclose" type="button" class="close" onclick="javascript:askYesNo.no();">×</button>
@@ -33,6 +33,11 @@ dlgMsgBox.hide();
                 <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askYesNo.no();" >No</button>
             </div>
         </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
     </div>
 
 
@@ -40,12 +45,7 @@ dlgMsgBox.hide();
 
 
 <script>
-function shw(){
-//alert($("#showId").html());
-}
-
-
-    app.controller('MeettingDatosPersonalesController', function($scope, $http, $timeout, $sce){
+app.controller('MeettingDatosPersonalesController', function($scope, $http, $timeout, $sce){
 //GENERAL CONTROLLER STATE OF MEETING
         $scope.m = {};
         $scope.readOnly = true;
@@ -97,6 +97,15 @@ function shw(){
 			    		$scope.SeceltedCountry = $scope.listCountry[x];
 			    		//alert("$scope.listCountry[x]"+JSON.stringify($scope.listCountry[x]));
 			    		//alert("$scope.SeceltedCountry"+JSON.stringify($scope.SeceltedCountry));
+			    		$scope.InitMunicipalityDP();
+			    		break;
+			    	}
+			    }
+			}
+			else{
+				for(x=0;x<$scope.listCountry.length;x++){
+			    	if($scope.listCountry[x].Name=="Mexico"){
+			    		$scope.SeceltedCountry = $scope.listCountry[x];
 			    		$scope.InitMunicipalityDP();
 			    		break;
 			    	}
@@ -234,10 +243,12 @@ function shw(){
 
 		//guarda los cambios realizados a la seccion de datos personales
          $scope.savePersonalData = function () {
+         if($("#FormPersonalData").valid() == false){
+         return false;
+         }else{
 	        var jsonData = JSON.stringify($scope.m);
-	        //alert("m value>>"+JSON.stringify($scope.m));
 			$scope.msgExito = MeetingService.upsertPersonalData(JSON.stringify($scope.m));
-			//alert("result ="+resultado);
+			}
 	    };
         //END DATOS PERSONALES
 
@@ -302,9 +313,13 @@ function shw(){
 	   };
 
 	   $scope.saveEscolarship = function(){
-	   		$scope.m.ScheduleSchool = $("#hdnJsonScheduleSchool").val();
-	   		var jsonData = JSON.stringify($scope.m);
-			$scope.msgSuccessEscolar = MeetingService.upsertSchoolarship(JSON.stringify($scope.m));
+		   if($("#FormSchool").valid() == false){
+	         return false;
+	       }else{
+		   		$scope.m.ScheduleSchool = $("#hdnJsonScheduleSchool").val();
+		   		var jsonData = JSON.stringify($scope.m);
+				$scope.msgSuccessEscolar = MeetingService.upsertSchoolarship(JSON.stringify($scope.m));
+			}
 	   }
 
 	   $scope.InitSchool = function(){
@@ -365,17 +380,33 @@ function shw(){
 
 
 	   	$scope.saveLeaveCountry = function () {
-	        var jsonData = JSON.stringify($scope.m);
-			$scope.msgSuccessLeaveCountry = MeetingService.upsertLeaveCountry(JSON.stringify($scope.m));
+		   	if($("#FormLeaveCountry").valid() == false){
+		         return false;
+		    }else{
+	        	var jsonData = JSON.stringify($scope.m);
+				$scope.msgSuccessLeaveCountry = MeetingService.upsertLeaveCountry(JSON.stringify($scope.m));
+			}
 	    };
 
 	    $scope.InitLeaveCountry = function () {
 	    console.log("InitLeaveCountry");
+	    if($scope.m.OfficialDocumentationId==undefined){
+	    	$scope.m.OfficialDocumentationId=2;
+	    }
 	    $scope.Edocumento = $scope.itemListById($scope.m.OfficialDocumentationId, $scope.listElection);
 	    $scope.ImmigrationDoc = $scope.itemListById($scope.m.ImmigrationDocumentId, $scope.listImmigrationDoc);
+	    if($scope.m.LivedCountryId==undefined){
+	    	$scope.m.LivedCountryId=2;
+	    }
 	    $scope.l.oc = $scope.itemListById($scope.m.LivedCountryId, $scope.listElection);
 	    $scope.l.country = $scope.itemListById($scope.m.CountryId, $scope.listCountry);
+	    if($scope.m.FamilyAnotherCountryId==undefined){
+	    	$scope.m.FamilyAnotherCountryId=2;
+	    }
 	    $scope.l.fac = $scope.itemListById($scope.m.FamilyAnotherCountryId, $scope.listElection);
+	    if($scope.m.CommunicationFamilyId==undefined){
+	    	$scope.m.CommunicationFamilyId=2;
+	    }
 	    $scope.l.cf = $scope.itemListById($scope.m.CommunicationFamilyId, $scope.listElection);
 	    $scope.l.rel = $scope.itemListById($scope.m.RelationshipId, $scope.listRel);
 	    };
@@ -403,19 +434,14 @@ function shw(){
 		    catch(err){
 		    	alert("error catched Iniciate angular function erro==>"+err.message);
 		    }
-		    $(".blocker").remove();
+		    $("#blocker").remove();
 		};
 
     
     	
         $scope.save = function(){
 		            $scope.Wait = true;
-		//todos los key del json deben ser igual al modelo cs
-		//if($("#frmSubmitValuesMeeting").valid()==false){
-		//    $scope.Wait = false;
-		//    return false;
-		//}
-		//var jsonData = JSON.stringify($scope.m);
+		//todos los key del json deben ser igual al modelo c
 		//window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
 		console.log("save meeting");
 		var reslt = MeetingService.TerminateMeeting(JSON.stringify($scope.m));
@@ -433,25 +459,8 @@ function shw(){
 		}
 		//TerminateMeeting
 		$scope.Wait = false;
+		$scope.askTerminatehide();
 		};
-
-
-
-$scope.showMessageError = function(indicator){
-    //alert(indicator);
-};
-
-
-
-$scope.showState = function(){
-    //alert("html >>"+$("#AdresBirth").html());
-    //alert("   m.BirthCountry_>"+$scope.m.BirthCountry);
-	//alert("$scope.specification=>"+JSON.stringify($scope.specification));
-    //alert("$scope.lstActivity=>"+JSON.stringify($scope.lstActivity));
-    //alert("$scope.activityModel=>"+JSON.stringify($scope.activityModel));
-    //alert("$scope.activityList=>"+JSON.stringify($scope.activityList));
-};
-
 
 
 //regresa la pantalla de seleccion de meeting
@@ -495,6 +504,27 @@ window.location.replace('hybrid:Meeting/Index');
     	window.location.replace('hybrid:Meeting/PersonSocialNetwork?idMeeting='+$scope.m.MeetingId);
     };
 
+    $scope.addReference = function(){
+    	window.location.replace('hybrid:Meeting/ReferenceMeeting?idMeeting='+$scope.m.MeetingId);
+    };
+
+    $scope.addJob = function(){
+    	window.location.replace('hybrid:Meeting/JobMeeting?idMeeting='+$scope.m.MeetingId);
+    };
+
+    $scope.addDrug = function(){
+    	window.location.replace('hybrid:Meeting/DrugMeeting?idMeeting='+$scope.m.MeetingId);
+    };
+
+    $scope.askTerminateshow = function (){
+		var dlgMsgBox = $('#MessageBoxDlgTerminateId');
+		dlgMsgBox.show();
+	};
+
+	$scope.askTerminatehide = function (){
+		var dlgMsgBox = $('#MessageBoxDlgTerminateId');
+		dlgMsgBox.hide();
+	};
 
 });
 
@@ -504,7 +534,7 @@ window.location.replace('hybrid:Meeting/Index');
     <div>
     <input id="hdnJsonMtng" type="hidden" value="@Model.JsonMeeting" name="jsonString" />
     </div>
-<div class="blocker" >
+<div id="blocker" class="blocker" >
     <div>
         Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
     </div>
@@ -518,6 +548,32 @@ window.location.replace('hybrid:Meeting/Index');
         <span ng-bind-html="listMsgError[entityError]"></span>
         <br/>
     </div>
+
+
+    <!--Terminate ask-->
+<div class="modal-dialog" style="display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="MessageBoxDlgTerminateId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="MessageBoxDlgXclose" type="button" class="close" ng-click="askTerminatehide();">×</button>
+                    <h4 class="modal-title element-center">Terminar entrevista</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center">¿Está seguro que desea terminar la entrevista de riesgos procesales?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-info" ng-click="save();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" ng-click="askTerminatehide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
 
 
 
@@ -783,7 +839,7 @@ window.location.replace('hybrid:Meeting/Index');
                                 <div ng-show="msgExito" class="alert alert-success element-center success-font">
                                     <span>{{msgExito}}</span>
                                 </div>
-                                <form id="FormPersonalData" name="FormPersonalData" ng-submit="submit('#FormPersonalData')"
+                                <form id="FormPersonalData" name="FormPersonalData"
                                 class="form-horizontal"
                                 role="form">
                                 <input type="hidden" value="@Model.IdFolder" name="caseDetention.id">
@@ -1223,8 +1279,8 @@ window.location.replace('hybrid:Meeting/Index');
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthMunicipality" id="imputed.birthMunicipality"    data-val="true"
                                                         name="m.BirthMunicipality" data-val-required="El municipio es un campo requerido"
-                                                        ng-init=''>
-                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
+                                                        >
+                                                        <span class="field-validation-valid" data-valmsg-for="m.BirthMunicipality"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
                                                     <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry == 1">
@@ -1362,9 +1418,6 @@ window.location.replace('hybrid:Meeting/Index');
                         </span>
                     </div>
                 </div>
-                <!--<input type="button" ng-click="showState();" value="ertyuiopfghj"/>-->
-
-
 <div class="space-2"></div>
             </div><!--End of Datos Personales-->
 
@@ -1453,10 +1506,45 @@ window.location.replace('hybrid:Meeting/Index');
         	@Dmcl.Phone
         </td>
         <td>
-        	@Dmcl.HomeTypeId
+        @{switch(@Dmcl.RegisterTypeId)
+    {
+        case 1:
+            // Use the text block below to separate html elements from code
+                <label>Actual</label>
+            break;  // Always break each case
+        case 2:
+            <label>Secundario</label>
+            break;
+        case 3:
+       		<label>Anterior</label>
+        	break;
+        default:
+            <label></label>
+            break;                   
+    }
+    }
         </td>
         <td>
-        	@Dmcl.RegisterTypeId
+         @{switch(@Dmcl.HomeTypeId)
+    {
+        case 1:
+            // Use the text block below to separate html elements from code
+                <label>Propia</label>
+            break;  // Always break each case
+        case 2:
+            <label>Rentada</label>
+            break;
+        case 3:
+       		<label>Prestada</label>
+        	break;
+        case 4:
+       		<label>Otro</label>
+        	break;
+        default:
+            <label></label>
+            break;                   
+    }
+    }
         </td>
         <td>
         <a href="javascript:;" style="display:inline-block;" title="Eliminar domicilio" onclick="btnDeleteDomicilio('@Dmcl.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
@@ -1531,11 +1619,33 @@ window.location.replace('hybrid:Meeting/Index');
 
 	</div>
 	<script>
-	function btnDeletesocialNetwork (){
-	 alert("cliked btnAddsocialNetwork");
+	function elimirarPersonSn(idPerson){
+		console.log("elimirarPersonSn idPerson>>"+idPerson);
+		var reslt = MeetingService.erasePersonaRedSocial(idPerson);
+		console.log("reslt>>"+reslt);
+		$('#tr-PSN-'+idPerson).remove();
+		if($("#meetingPersonSNTbl").html()==""){
+       		$("#meetingPersonSNTbl").html("<tr class='no-records-found'><td colspan='7'>No se encontraron registros</td></tr>");
+        }
+		askYesNo.hide();
 	}
-	function btnEditsocialNetwork (){
-	 alert("cliked btnRereshsocialNetwork");
+
+	function cancelElimirarPersonSn(){
+		console.log("cancelElimirarPersonSn >>");
+		askYesNo.hide();
+	}
+
+	function btnDeletePersonSn (idPerson){
+	askYesNo.yes = elimirarPersonSn;
+	askYesNo.no = cancelElimirarPersonSn;
+	askYesNo.referencia=idPerson;
+	askYesNo.show();
+    	console.log("btnDeletePersonSn idPerson>>"+idPerson);
+	}
+
+	function btnEditPersonSn (idPerson){
+    	console.log("btnEditPersonSn>>"+idPerson);
+    	window.location.replace('hybrid:Meeting/EditPersonSocialNetwork?idPerson='+idPerson);
 	}
 	</script>
 <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
@@ -1553,31 +1663,123 @@ window.location.replace('hybrid:Meeting/Index');
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
-    <tbody>
-    @if(Model.JsonDomicilios==null){
+    <tbody id="meetingPersonSNTbl">
+    @if(Model.JsonPersonSN==null){
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
-    <tr id="tr-id-1" class="tr-class-1">
+    foreach(var Jpsn in Model.JsonPersonSN) {
+    <tr id='tr-PSN-@Jpsn.Id' class="tr-class-1" >
         <td id="td-id-1" class="td-class-1">
-            @Dmcl.Description
+            @Jpsn.Name
         </td>
         <td>
-        	@Dmcl.Phone
+@{switch(@Jpsn.RelationshipId)
+    {
+        	case 18:   
+			<label>Abuelo</label>
+            break;  
+            case 6:  
+            <label>Amigo</label>
+            break;  
+            case 10:
+            <label>Compañero de trabajo</label>
+            break;  
+            case 12:  
+            <label>Empleado</label>
+            break;  
+            case 14:  
+            <label>Esposa</label>
+            break;  
+            case 16:  
+            <label>Familiar Político</label>
+            break;  
+            case 1:  
+            <label>Hermano</label>
+            break;  
+            case 3: 
+            <label>Hijo(a)</label>
+            break;  
+            case 20:
+            <label>Imputado</label>
+            break;  
+            case 2:  
+            <label>Madre</label>
+            break;  
+            case 8:  
+            <label>Ninguno</label>
+            break;  
+            case 19:  
+            <label>Otro</label>
+            break;  
+            case 17:  
+            <label>Padre</label>
+            break;  
+            case 11:  
+            <label>Padrino</label>
+            break;  
+            case 13:  
+            <label>Pareja sentimental</label>
+            break;  
+            case 9:  
+            <label>Patrón</label>
+            break;  
+            case 4:  
+            <label>Primo(a)</label>
+            break;  
+            case 15:  
+            <label>Suegra</label>
+            break;  
+            case 5:  
+            <label>Tío(a)</label>
+            break;  
+            case 7:  
+            <label>Vecino</label>
+            break;  
+            default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-        	@Dmcl.HomeTypeId
+        	@Jpsn.Age
         </td>
         <td>
-        	@Dmcl.RegisterTypeId
+        	@Jpsn.Phone
         </td>
         <td>
+@{switch(@Jpsn.isAccompaniment)
+    {
+        case true:
+            <label>Si</label>
+            break;
+        case false:
+            <label>No</label>
+            break;
+        default:
+            <label></label>
+            break;                   
+    }
+}
+        </td>  
+        <td>
+@{switch(@Jpsn.DependentId)
+    {
+        case 1:
+            <label>Si</label>
+            break;
+        case 2:
+            <label>No</label>
+            break;
+        default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-        </td>
-        <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" ng-click="editMeeting('@Dmcl.Id')"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-         	<span class="glyphicon glyphicon-pencil" style="display:inline-block;" ng-click="editMeeting('@Dmcl.Id')"></span>
+        <a href="javascript:;" style="display:inline-block;" title="Eliminar Persona" onclick="btnDeletePersonSn('@Jpsn.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+        <a href="javascript:;" style="display:inline-block;" title="Editar Persona" onclick="btnEditPersonSn('@Jpsn.Id');"><span class="glyphicon glyphicon-pencil"></span></a>
         </td>
     </tr>
 	}
@@ -1645,20 +1847,38 @@ window.location.replace('hybrid:Meeting/Index');
         <h2><i class="red icon-list bigger-100"></i> &nbsp;Referencias personales</h2>
         <br/>
 <div id="toolbarReferencias" class="btn-group">
-	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
-	    <button type="button" class="btn btn-default" id="btnAddpersonalReferences">
+	    <button type="button" class="btn btn-default" id="btnAddpersonalReferences" ng-click="addReference();">
 	        <i class="glyphicon glyphicon-plus"></i>
-	    </button><!--</a>-->
-	    <button type="button" class="btn btn-default" id="btnRereshpersonalReferences">
-	        <i class="glyphicon glyphicon-refresh"></i>
 	    </button>
-	</div>
+</div>
 	<script>
-	function btnDeletepersonalReferences (){
-	 alert("cliked btnAddpersonalReferences");
+	function elimirarReference(idReference){
+		console.log("elimirarReference idReference>>"+idReference);
+		var reslt = MeetingService.eraseReferencia(idReference);
+		console.log("reslt>>"+reslt);
+		$('#tr-MRF-'+idReference).remove();
+		if($("#meetingReferenceTbl").html()==""){
+       		$("#meetingReferenceTbl").html("<tr class='no-records-found'><td colspan='6'>No se encontraron registros</td></tr>");
+        }
+		askYesNo.hide();
 	}
-	function btnEditpersonalReferences (){
-	 alert("cliked btnRereshpersonalReferences");
+
+	function cancelElimirarReference(){
+		console.log("cancelElimirarReference >>");
+		askYesNo.hide();
+	}
+
+	function btnDeleteReference (idReference){
+	askYesNo.yes = elimirarReference;
+	askYesNo.no = cancelElimirarReference;
+	askYesNo.referencia=idReference;
+	askYesNo.show();
+    	console.log("btnDeleteReference idReference>>"+idReference);
+	}
+
+	function btnEditReference (idReference){
+    	console.log("btnEditReference>>"+idReference);
+    	window.location.replace('hybrid:Meeting/EditReferenceMeeting?idReference='+idReference);
 	}
 	</script>
 <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
@@ -1672,35 +1892,111 @@ window.location.replace('hybrid:Meeting/Index');
         <th>Edad</th>
         <th>Tel&eacute;fono</th>
         <th style="width: 30px;">Acompaña al imputado durante el proceso</th>
-        <th>Dependiente econ&oacute;mico</th>
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
-    <tbody>
-    @if(Model.JsonDomicilios==null){	
+    <tbody id="meetingReferenceTbl">
+    @if(Model.JsonReferences==null){	
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
-    <tr id="tr-id-1" class="tr-class-1">
+    foreach(var Jrfnc in Model.JsonReferences) {
+   <tr id='tr-MRF-@Jrfnc.Id' class="tr-class-1" >
         <td id="td-id-1" class="td-class-1">
-            @Dmcl.Description
+            @Jrfnc.FullName
         </td>
         <td>
-        	@Dmcl.Phone
+@{switch(@Jrfnc.RelationshipId)
+    {
+        	case 18:   
+			<label>Abuelo</label>
+            break;  
+            case 6:  
+            <label>Amigo</label>
+            break;  
+            case 10:
+            <label>Compañero de trabajo</label>
+            break;  
+            case 12:  
+            <label>Empleado</label>
+            break;  
+            case 14:  
+            <label>Esposa</label>
+            break;  
+            case 16:  
+            <label>Familiar Político</label>
+            break;  
+            case 1:  
+            <label>Hermano</label>
+            break;  
+            case 3: 
+            <label>Hijo(a)</label>
+            break;  
+            case 20:
+            <label>Imputado</label>
+            break;  
+            case 2:  
+            <label>Madre</label>
+            break;  
+            case 8:  
+            <label>Ninguno</label>
+            break;  
+            case 19:  
+            <label>Otro</label>
+            break;  
+            case 17:  
+            <label>Padre</label>
+            break;  
+            case 11:  
+            <label>Padrino</label>
+            break;  
+            case 13:  
+            <label>Pareja sentimental</label>
+            break;  
+            case 9:  
+            <label>Patrón</label>
+            break;  
+            case 4:  
+            <label>Primo(a)</label>
+            break;  
+            case 15:  
+            <label>Suegra</label>
+            break;  
+            case 5:  
+            <label>Tío(a)</label>
+            break;  
+            case 7:  
+            <label>Vecino</label>
+            break;  
+            default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-        	@Dmcl.HomeTypeId
+        	@Jrfnc.Age
         </td>
         <td>
-        	@Dmcl.RegisterTypeId
+        	@Jrfnc.Phone
         </td>
         <td>
+@{switch(@Jrfnc.IsAccompaniment)
+    {
+        case true:
+            <label>Si</label>
+            break;
+        case false:
+            <label>No</label>
+            break;
+        default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-        </td>
-        <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeletepersonalReferences();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditpersonalReferences();"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a href="javascript:;" style="display:inline-block;" title="Eliminar Registro" onclick="btnDeleteReference('@Jrfnc.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+        <a href="javascript:;" style="display:inline-block;" title="Editar Registro" onclick="btnEditReference('@Jrfnc.Id');"><span class="glyphicon glyphicon-pencil"></span></a>
         </td>
     </tr>
 	}
@@ -1712,7 +2008,7 @@ window.location.replace('hybrid:Meeting/Index');
     <br/><br/>
 <div class="row" >
 
-    <<div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccessReferences" class="alert alert-success element-center success-font">
             <span>{{msgSuccessReferences}}</span>
         </div>
@@ -1773,21 +2069,39 @@ window.location.replace('hybrid:Meeting/Index');
         <h2><i class="pink icon-briefcase  bigger-100">&nbsp;</i>Historia Laboral</h2>
         <br/>
 <div id="toolbarHistorialLaboral" class="btn-group">
-	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
-	    <button type="button" class="btn btn-default" id="btnAddHistorialLaboral">
+	    <button type="button" class="btn btn-default" id="btnAddHistorialLaboral" ng-click="addJob();" >
 	        <i class="glyphicon glyphicon-plus"></i>
-	    </button><!--</a>-->
-	    <button type="button" class="btn btn-default" id="btnRereshHistorialLaboral">
-	        <i class="glyphicon glyphicon-refresh"></i>
 	    </button>
 	</div>
 	<script>
-	function btnDeleteHistorialLaboral (){
-	 alert("cliked btnAddHistorialLaboral");
+	function elimirarJob(idJob){
+		console.log("elimirarJob idJob>>"+idJob);
+		var reslt = MeetingService.eraseLaboral(idJob);
+		console.log("reslt>>"+reslt);
+		$('#tr-MJB-'+idJob).remove();
+		if($("#meetingJobTbl").html()==""){
+       		$("#meetingJobTbl").html("<tr class='no-records-found'><td colspan='6'>No se encontraron registros</td></tr>");
+        }
+		askYesNo.hide();
 	}
-	function btnEditHistorialLaboral (){
-	 alert("cliked btnRereshHistorialLaboral");
-	}		
+
+	function cancelElimirarJob(){
+		console.log("cancelElimirarJob >>");
+		askYesNo.hide();
+	}
+
+	function btnDeleteJob (idJob){
+	askYesNo.yes = elimirarJob;
+	askYesNo.no = cancelElimirarJob;
+	askYesNo.referencia=idJob;
+	askYesNo.show();
+    	console.log("btnDeleteJob idJob>>"+idJob);
+	}
+
+	function btnEditJob (idJob){
+    	console.log("btnEditReference>>"+idJob);
+    	window.location.replace('hybrid:Meeting/EditJobMeeting?idJob='+idJob);
+	}	
 	</script>
 <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
      data-pagination="true" data-height="450"
@@ -1803,29 +2117,46 @@ window.location.replace('hybrid:Meeting/Index');
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
-    <tbody>
-    @if(Model.JsonDomicilios==null){	
+    <tbody id="meetingJobTbl">
+    @if(Model.JsonJobs==null){	
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
-    <tr id="tr-id-1" class="tr-class-1">
+    foreach(var Jjbs in Model.JsonJobs) {
+    <tr id='tr-MJB-@Jjbs.Id' class="tr-class-1" >
         <td id="td-id-1" class="td-class-1">
-            @Dmcl.Description
+            @Jjbs.Company
         </td>
         <td>
-        	@Dmcl.Phone
+        	@Jjbs.Post
         </td>
         <td>
-        	@Dmcl.HomeTypeId
+        	@Jjbs.NameHead
         </td>
         <td>
-        	@Dmcl.RegisterTypeId
+        	@Jjbs.Phone
         </td>
         <td>
+@{switch(@Jjbs.RegisterTypeId)
+    {
+        case 1:
+            // Use the text block below to separate html elements from code
+                <label>Actual</label>
+            break;  // Always break each case
+        case 2:
+            <label>Secundario</label>
+            break;
+        case 3:
+       		<label>Anterior</label>
+        	break;
+        default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeleteHistorialLaboral();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditHistorialLaboral();"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a href="javascript:;" style="display:inline-block;" title="Eliminar Registro" onclick="btnDeleteJob('@Jjbs.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+        <a href="javascript:;" style="display:inline-block;" title="Editar Registro" onclick="btnEditJob('@Jjbs.Id');"><span class="glyphicon glyphicon-pencil"></span></a>
         </td>
     </tr>
 	}
@@ -2229,20 +2560,38 @@ window.location.replace('hybrid:Meeting/Index');
         <h2> <i class="green icon-warning-sign  bigger-100">&nbsp;</i>Consumo de sustancias</h2>
         <br/>
 <div id="toolbarDrug" class="btn-group">
-	    <!--<a href="@Url.Action("MeetingEditNew","Meeting")">-->
-	    <button type="button" class="btn btn-default" id="btnAddDrug">
+	    <button type="button" class="btn btn-default" id="btnAddDrug" ng-click="addDrug();">
 	        <i class="glyphicon glyphicon-plus"></i>
-	    </button><!--</a>-->
-	    <button type="button" class="btn btn-default" id="btnRereshDrug">
-	        <i class="glyphicon glyphicon-refresh"></i>
 	    </button>
 	</div>
 	<script>
-	function btnDeleteDrug (){
-	 alert("cliked btnAddDrug");
+	function elimirarDrug(idDrug){
+		console.log("elimirarDrug idDrug>>"+idDrug);
+		var reslt = MeetingService.eraseDrug(idDrug);
+		console.log("reslt>>"+reslt);
+		$('#tr-MDRG-'+idDrug).remove();
+		if($("#meetingDrugTbl").html()==""){
+       		$("#meetingDrugTbl").html("<tr class='no-records-found'><td colspan='5'>No se encontraron registros</td></tr>");
+        }
+		askYesNo.hide();
 	}
-	function btnEditDrug (){
-	 alert("cliked btnRereshDrug");
+
+	function cancelElimirarDrug(){
+		console.log("cancelElimirarDrug >>");
+		askYesNo.hide();
+	}
+
+	function btnDeleteDrug (idDrug){
+	askYesNo.yes = elimirarDrug;
+	askYesNo.no = cancelElimirarDrug;
+	askYesNo.referencia=idDrug;
+	askYesNo.show();
+    	console.log("btnDeleteDrug idDrug>>"+idDrug);
+	}
+
+	function btnEditDrug (idDrug){
+    	console.log("btnEditReference>>"+idDrug);
+    	window.location.replace('hybrid:Meeting/EditDrugMeeting?idDrug='+idDrug);
 	}
 	</script>
 <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
@@ -2258,27 +2607,109 @@ window.location.replace('hybrid:Meeting/Index');
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
-    <tbody>
-    @if(Model.JsonDomicilios==null){	
+    <tbody id="meetingDrugTbl">
+    @if(Model.JsonDrugs==null){	
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
-    <tr id="tr-id-1" class="tr-class-1">
+    foreach(var Jdrg in Model.JsonDrugs) {
+    <tr id='tr-MDRG-@Jdrg.Id' class="tr-class-1" >
         <td id="td-id-1" class="td-class-1">
-            @Dmcl.Description
+            
+@{switch(@Jdrg.DrugTypeId)
+    {
+    		case 1:
+	<label>Alcohol</label>
+            break;
+            case 10:
+	<label>Anfetaminas</label>
+            break;
+            case 8:
+	<label>Cemento</label>
+            break;
+            case 3:
+	<label>Cocacaína</label>
+            break;
+            case 12:
+	<label>Extasis</label>
+            break;
+            case 4:
+	<label>Heroína</label>
+            break;
+            case 13:
+	<label>Hongos</label>
+            break;
+            case 9:
+	<label>LSD</label>
+            break;
+            case 2:
+	<label>Marihuana</label>
+            break;
+            case 11:
+	<label>Metanfetaminas</label>
+            break;
+            case 15:
+	<label>No consume</label>
+            break;
+            case 5:
+	<label>Opiáceos</label>
+            break;
+            case 14:
+	<label>Otro</label>
+            break;
+            case 6:
+	<label>PBC(Pasta básica de cocaína)</label>
+            break;
+            case 7:
+	<label>Solventes</label>
+            break;
+        	default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-        	@Dmcl.Phone
+@{switch(@Jdrg.PeriodicityId)
+    {
+case 3:
+<label>Cada fin de semana</label>
+break;
+case 4:
+<label>Cada quince días</label>
+break;
+case 2:
+<label>Cada tercer día</label>
+break;
+case 1:
+<label>Diariamente</label>
+break;
+case 7:
+<label>En reuniones sociales</label>
+break;
+case 8:
+<label>No consume</label>
+break;
+case 6:
+<label>Una vez al año</label>
+break;
+case 5:
+<label>Una vez al mes</label>
+break;
+        default:
+            <label></label>
+            break;                   
+    }
+}
         </td>
         <td>
-        	@Dmcl.HomeTypeId
+        	@Jdrg.Quantity
         </td>
         <td>
-        	@Dmcl.RegisterTypeId
+        	@Jdrg.LastUse
         </td>
         <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnDeleteDrug();"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-         	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="btnEditDrug();"><span class="glyphicon glyphicon-pencil"></span></a>
+       		<a href="javascript:;" style="display:inline-block;" title="Eliminar sustancia" onclick="btnDeleteDrug('@Jdrg.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+       		<a href="javascript:;" style="display:inline-block;" title="Editar sustancia" onclick="btnEditDrug('@Jdrg.Id');"><span class="glyphicon glyphicon-pencil"></span></a>
         </td>
     </tr>
 	}
@@ -2774,7 +3205,7 @@ window.location.replace('hybrid:Meeting/Index');
     	</span>-->
 
     	<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" 
-        ng-click="save();">
+        ng-click="askTerminateshow();">
         Terminar
     	</span>
 

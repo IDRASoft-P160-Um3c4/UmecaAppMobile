@@ -46,7 +46,7 @@ namespace UmecaApp
 		public String SpecificationRelationship{ get; set; }
 
 		[Column("block")]
-		public Boolean Block{ get; set; }
+		public Boolean block{ get; set; }
 
 	}
 }

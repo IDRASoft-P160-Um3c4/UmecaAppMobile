@@ -21,7 +21,6 @@ Layout = "UmecaApp.headUm";
     $scope.HomeType = {};
     $scope.listRegisterType=[];
     $scope.RegisterType = {};
-
     $scope.domTitle = "";
 
     $timeout(function () {
@@ -94,7 +93,7 @@ Layout = "UmecaApp.headUm";
 		    var register = MeetingService.RegisterTypeFindAllOrderByName();
 		    console.log("register"+register);
 		    $scope.listRegisterType = JSON.parse(register);
-		    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=null){
+		    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=null && $scope.m.RegisterTypeId!=0){
 		    	$scope.RegisterType = $scope.itemListById($scope.m.RegisterTypeId , $scope.listRegisterType);
 		    	$scope.domTitle = $scope.RegisterType['Name'];
 		    }else{
@@ -136,12 +135,16 @@ Layout = "UmecaApp.headUm";
 	};
 
 	$scope.save = function(idcase){
+	if($("#FormAddressId").valid() == false){
+         return false;
+         }else{
 	   		$scope.m.Schedule = $("#hdnJsonScheduleHome").val();
 	   		var jsonData = JSON.stringify($scope.m);
 			$scope.msgError = MeetingService.upsertImputedHome(JSON.stringify($scope.m));
 			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
 				$scope.editMeeting($("#hdnAddrssImptdReference").val());
 			}
+		}
 	   };
 
 
@@ -155,6 +158,7 @@ Layout = "UmecaApp.headUm";
 	    <input id="hdnAddrssImptdReference" type="hidden" value="@Model.Reference" name="wasd"/>
 	</div>
     <div >
+
         <div style="width:95%">
         		<div class="modal-header">
                     <div class="alert alert-info ">
@@ -162,6 +166,9 @@ Layout = "UmecaApp.headUm";
                         <h4 class="element-center"><i class="glyphicon glyphicon-home "></i>&nbsp;&nbsp;Domicilio</h4>
                     </div>
                 </div>
+
+                <form id="FormAddressId" name="FormAddressId"  >
+
                 <!--componente adress by cp-->
                 <div class="row">
 				  <div class="col-xs-5">
@@ -431,8 +438,14 @@ Layout = "UmecaApp.headUm";
           </div>
           <br/>
 
-          <div class="row">
-            <div class="col-xs-12">
+          <div class="col-xs-12">
+                            <div class="widget-header header-color-blue">
+                                <h5 class="bigger lighter">
+                                    <h6><i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                                </h5>
+                            </div>
+
+                            <div class="widget-body">
             <!--schedule component-->
 <div id="divScheduleComponent">
 
@@ -526,8 +539,8 @@ Layout = "UmecaApp.headUm";
 </div>
 </div>
             <!--schedule component-->
-            </div>
-          </div>
+                    </div>
+                    </div>
           <br/>
         </div>
       </div>
@@ -538,7 +551,7 @@ Layout = "UmecaApp.headUm";
 
     <!--END Seccion dependiente del tipo de domicilio-->
 
-
+    </form>
 
 
 
