@@ -37,10 +37,10 @@ namespace UmecaApp
 			var result = cmd.ExecuteScalar<string> ();
 			return result != null;
 
-//			var cmd = db.Query("SELECT CASE WHEN tbl_name = '"+typeof(T).Name+"' THEN 1 ELSE 0 END FROM sqlite_master WHERE tbl_name = '"+typeof(T).Name+"' AND type = \"table\"").e;
-//			cmd.CommandText = "SELECT * FROM sqlite_master WHERE type = 'table' AND name = "+typeof(T).Name;
-//			var result = cmd.;
-//			return (cmd.ExecuteScalar<string>() != null);
+			//			var cmd = db.Query("SELECT CASE WHEN tbl_name = '"+typeof(T).Name+"' THEN 1 ELSE 0 END FROM sqlite_master WHERE tbl_name = '"+typeof(T).Name+"' AND type = \"table\"").e;
+			//			cmd.CommandText = "SELECT * FROM sqlite_master WHERE type = 'table' AND name = "+typeof(T).Name;
+			//			var result = cmd.;
+			//			return (cmd.ExecuteScalar<string>() != null);
 		}
 
 		public void createMeetingTest(){
@@ -89,13 +89,102 @@ namespace UmecaApp
 				Console.WriteLine ("done execution>");
 				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
 			}
-			//			db.CreateTable<Meeting> ();
-			//			if (db.Table<Meeting> ().Count () > 0) {
-			//				Console.WriteLine ("recreate de meeting NO borro a meeting");
-			//			} else {
-			//				Console.WriteLine ("recreate de meeting SI borro a meeting");
-			//			}
 		}
+
+
+		public void createVerificationTest(){
+			db.CreateTable<Case> (); 
+			db.CreateTable<Meeting> ();
+			db.CreateTable<Imputed> ();
+			db.CreateTable<Verification> ();
+			if (db.Table<Verification> ().Count() > 0) {
+				Console.WriteLine ("Verification existe!!!!");
+			}else {
+				Console.WriteLine ("CREATING !!!!!!!!!! Verification !!!!");
+				db.CreateTable<Case> ();
+				db.CreateTable<Meeting> ();
+				db.CreateTable<Imputed> ();
+				db.CreateTable<Verification> ();
+				db.CreateTable<StatusVerification> ();
+				db.CreateTable<SourceVerification> ();
+				db.CreateTable<User> ();
+
+
+				StatusVerification statusVerification1 = statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
+				StatusVerification statusVerification2 = statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
+				StatusCase sc = statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
+
+				User reviewer = new User ();
+				reviewer.email = "rageofced@gmail.com";
+				reviewer.enabled = true;
+				reviewer.FirstName = "axel";
+				reviewer.fullname = "Uriel Axel Sánchez Pérez";
+				reviewer.username = "rageofce";
+				db.Insert (reviewer);
+
+				Case caseDetention = new Case ();
+				Imputed newImputed = new Imputed ();
+				newImputed.Name = "axl".Trim ();
+				newImputed.LastNameP = "sanz".Trim ();
+				newImputed.LastNameM = "perz".Trim ();
+				newImputed.FoneticString = getFoneticByName ("axl", "sanz", "perz");
+				newImputed.Gender = false;
+				newImputed.BirthDate = DateTime.Today.AddYears (-27);
+				caseDetention.Status = statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION);
+				caseDetention.StatusCaseId = statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION).Id;
+				caseDetention.IdFolder = "nuevo Folder example";
+				caseDetention.DateCreate = DateTime.Today;
+				db.InsertWithChildren (caseDetention);
+				Meeting meeting = new Meeting ();
+				meeting.MeetingType = Constants.MEETING_PROCEDURAL_RISK;
+				meeting.CaseDetentionId = caseDetention.Id;
+				meeting.CaseDetention = caseDetention;
+				StatusMeeting statusMeeting = statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE);
+				meeting.StatusMeetingId = statusMeeting.Id;
+				meeting.StatusMeeting = statusMeeting;
+				meeting.DateCreate = DateTime.Today;
+				meeting.DateTerminate = DateTime.Now.AddDays(2);
+				meeting.ReviewerId = int.Parse(reviewer.Id.ToString());
+				db.InsertWithChildren (meeting);
+				newImputed.MeetingId = meeting.Id;
+				newImputed.Meeting = meeting;
+				db.InsertWithChildren (newImputed);
+				db.UpdateWithChildren (meeting);
+				db.UpdateWithChildren (caseDetention);
+
+				Verification ver = new Verification ();
+				ver.CaseDetention = caseDetention;
+				ver.CaseDetentionId = caseDetention.Id;
+				ver.DateCreate = DateTime.Today;
+				ver.Meeting = meeting;
+				ver.MeetingId = meeting.Id;
+				ver.StatusVerification = statusVerification1;
+				ver.StatusVerificationId = statusVerification1.Id;
+				db.Insert (ver);
+
+				SourceVerification cv = new SourceVerification ();
+				cv.Address = "No Tiene";
+				cv.Age = 66;
+				cv.DateAuthorized = DateTime.Today;
+				cv.DateComplete = null;
+				cv.FullName = "uhj ghjlk fyvgblhjlkñ gfhjkl";
+				cv.IdCase = caseDetention.Id;
+				cv.IsAuthorized = true;
+				cv.Phone = "26461809";
+				cv.RelationshipId = 18;
+				cv.VerificationId = ver.Id;
+				cv.VerificationMethodId = 1;
+				cv.Visible = true;
+				db.Insert (cv);
+
+				Console.WriteLine ("caseDetention.Id> {0}", caseDetention.Id);
+				var ese = db.GetWithChildren<Verification> (ver.Id);
+				Console.WriteLine ("done execution>");
+				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
+				db.Commit ();
+			}
+		}
+
 
 		public void CreateElection(){
 			db.CreateTable<Election> ();
@@ -148,6 +237,11 @@ namespace UmecaApp
 
 		public StatusMeeting statusMeetingfindByCode(String code){
 			var tableStatus = db.Table<StatusMeeting>().Where (s => s.Status == code).FirstOrDefault ();
+			return tableStatus;
+		}
+
+		public StatusVerification statusVerificationfindByCode(String code){
+			var tableStatus = db.Table<StatusVerification>().Where (s => s.Name == code).FirstOrDefault ();
 			return tableStatus;
 		}
 

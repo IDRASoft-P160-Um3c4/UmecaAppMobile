@@ -6,7 +6,7 @@ namespace UmecaApp
 	public class User
 	{
 		[PrimaryKey, AutoIncrement, Column("id_user")]
-		public long Id { get; set; }
+		public int Id { get; set; }
 
 		//		@NotEmpty(message="El usuario es un campo requerido")
 		[Column("username"),MaxLength(200)]

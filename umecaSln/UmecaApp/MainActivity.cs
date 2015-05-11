@@ -32,6 +32,10 @@ namespace UmecaApp
 			RouteHandler.RegisterController ("Login", loginController);
 			var meetingController = new MeetingController (new HybridWebView (webView, this), db);
 			RouteHandler.RegisterController ("Meeting", meetingController);
+			var verificationController = new VerificationController (new HybridWebView (webView, this), db);
+			RouteHandler.RegisterController ("Verification", verificationController);
+			var supervisionController = new SupervisionController (new HybridWebView (webView, this), db);
+			RouteHandler.RegisterController ("Supervition", verificationController);
 			loginController.Index ();
 		}
 	}

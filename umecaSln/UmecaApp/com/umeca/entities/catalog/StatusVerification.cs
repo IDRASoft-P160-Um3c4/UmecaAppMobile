@@ -10,7 +10,7 @@ namespace UmecaApp
 		{
 		}
 
-		[PrimaryKey,AutoIncrement]
+		[PrimaryKey,AutoIncrement,Column("id_status")]
 		public int Id{ get; set;}
 
 		[Column("name"), MaxLength(255)]

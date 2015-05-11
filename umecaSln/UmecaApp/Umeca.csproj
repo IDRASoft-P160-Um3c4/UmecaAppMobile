@@ -158,9 +158,6 @@
     <Compile Include="Views\VerificacionInterview.cs">
       <DependentUpon>VerificacionInterview.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VerificationList.cs">
-      <DependentUpon>VerificationList.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Shared\ModelContainer.cs" />
     <Compile Include="Models\Shared\AddressFindDto.cs" />
     <Compile Include="Views\PersonSocialNetworkUpsert.cs">
@@ -175,6 +172,32 @@
     <Compile Include="Views\DrugUpsert.cs">
       <DependentUpon>DrugUpsert.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="com\umeca\entities\reviewer\FieldMeetingSource.cs" />
+    <Compile Include="com\umeca\entities\reviewer\FieldVerification.cs" />
+    <Compile Include="com\umeca\entities\reviewer\FinalField.cs" />
+    <Compile Include="com\umeca\entities\reviewer\SourceVerification.cs" />
+    <Compile Include="com\umeca\entities\reviewer\Verification.cs" />
+    <Compile Include="Service\VerificationService.cs" />
+    <Compile Include="Controllers\VerificationController.cs" />
+    <Compile Include="Views\VerificationSourceList.cs">
+      <DependentUpon>VerificationSourceList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VerificationList.cs">
+      <DependentUpon>VerificationList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\reviewer\SourcesTblDto.cs" />
+    <Compile Include="Models\reviewer\VerificationMeetingSourceDto.cs" />
+    <Compile Include="Views\HearingFormat.cs">
+      <DependentUpon>HearingFormat.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HearingFormatList.cs">
+      <DependentUpon>HearingFormatList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HearingFormatNew.cs">
+      <DependentUpon>HearingFormatNew.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\SupervisionController.cs" />
+    <Compile Include="Service\SupervisionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -235,6 +258,22 @@
     <None Include="Views\DrugUpsert.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>DrugUpsert.cs</LastGenOutput>
+    </None>
+    <None Include="Views\VerificationSourceList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>VerificationSourceList.cs</LastGenOutput>
+    </None>
+    <None Include="Views\HearingFormat.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>HearingFormat.cs</LastGenOutput>
+    </None>
+    <None Include="Views\HearingFormatList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>HearingFormatList.cs</LastGenOutput>
+    </None>
+    <None Include="Views\HearingFormatNew.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>HearingFormatNew.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

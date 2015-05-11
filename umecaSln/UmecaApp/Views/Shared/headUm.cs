@@ -109,11 +109,7 @@ WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" src=\"scripts/umeca/bootstrap.min.js\"");
 
-WriteLiteral("></script>\r\n    <!--<script");
-
-WriteLiteral(" src=\"scripts/common.js\"");
-
-WriteLiteral("></script>-->\r\n    <script");
+WriteLiteral("></script>\r\n    <!--<script src=\"scripts/common.js\"></script>-->\r\n    <script");
 
 WriteLiteral(" src=\"scripts/modernizr-2.6.2.js\"");
 
@@ -235,11 +231,8 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" href=\"content/selectize.bootstrap3.css\"");
 
-WriteLiteral("/>\r\n    //dasdsa\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<!--<script");
-
-WriteLiteral(" src=\"scripts/app/shared/menuCtrl.js\"");
-
-WriteLiteral("></script>-->\r\n<div");
+WriteLiteral("/>\r\n    //dasdsa\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<!--<script src=\"scripts/app/shared/menu" +
+"Ctrl.js\"></script>-->\r\n<div");
 
 WriteLiteral(" ng-controller=\"menuController\"");
 
@@ -295,11 +288,8 @@ WriteLiteral(">\r\n        <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
-WriteLiteral("></li>\r\n        <!--<sec:authorize");
-
-WriteLiteral(" access=\"hasRole(\'ROLE_REVIEWER\')\"");
-
-WriteLiteral(">-->\r\n            <li");
+WriteLiteral("></li>\r\n        <!--<sec:authorize access=\"hasRole(\'ROLE_REVIEWER\')\">-->\r\n       " +
+"     <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
@@ -321,8 +311,15 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
-WriteLiteral(" href=\"javascript;\"");
+WriteAttribute ("href", " href=\"", "\""
 
+#line 125 "headUm.cshtml"
+      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral("><i\r\n                    class=\"icon-check\"></i>&nbsp;&nbsp;Verificaci&oacute;n</" +
 "a>\r\n            </li>\r\n            <li");
 
@@ -346,151 +343,53 @@ WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp
 
 WriteLiteral(" class=\"dropdown nav-li-blue\"");
 
-WriteLiteral(">\r\n        <!--</sec:authorize>-->\r\n        <!--<sec:authorize");
-
-WriteLiteral(" access=\"hasRole(\'ROLE_SUPERVISOR\')\"");
-
-WriteLiteral(">\r\n            <li");
-
-WriteLiteral(" class=\"nav-li-blue\"");
-
-WriteLiteral("><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/hearingFormat/index.html\' />\"");
-
-WriteLiteral("><i\r\n                    class=\"glyphicon glyphicon-file\"></i>&nbsp;&nbsp;Formato" +
-" de audiencia</a>\r\n            </li>\r\n            <li");
-
-WriteLiteral(" class=\"nav-li-blue\"");
-
-WriteLiteral("><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/scheduleHearings/index.html\'/>\"");
-
-WriteLiteral(">\r\n                <i");
-
-WriteLiteral(" class=\"icon icon-calendar\"");
-
-WriteLiteral("></i>&nbsp;&nbsp;Agenda de audiencias</a>\r\n            </li>\r\n            <li");
-
-WriteLiteral(" class=\"nav-li-blue\"");
-
-WriteLiteral("><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/framingMeeting/index.html\' />\"");
-
-WriteLiteral("><i\r\n                    class=\"glyphicon glyphicon-bullhorn\"></i>&nbsp;&nbsp;Ent" +
-"revista de encuadre</a></li>\r\n            <li");
-
-WriteLiteral(" class=\"dropdown nav-li-blue\"");
-
-WriteLiteral(">\r\n                <a");
-
-WriteLiteral(" href=\"#\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(" data-toggle=\"dropdown\"");
-
-WriteLiteral("><i\r\n                        class=\"glyphicon glyphicon-tasks\"></i>&nbsp;&nbsp;Pl" +
-"an de supervisi&oacute;n\r\n                    <i");
-
-WriteLiteral(" class=\"icon-caret-down\"");
-
-WriteLiteral("></i> </a>\r\n                <ul");
-
-WriteLiteral(" class=\"dropdown-menu\"");
-
-WriteLiteral(">\r\n                    <li><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/generateMonitoringPlan/index.html\' />\"");
-
-WriteLiteral("><i\r\n                            class=\"glyphicon glyphicon-folder-open\"></i>&nbs" +
-"p;&nbsp;Generar/Modificar</a>\r\n                    </li>\r\n                    <l" +
-"i><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/trackMonitoringPlan/index.html\' />\"");
-
-WriteLiteral("><i\r\n                            class=\"glyphicon glyphicon-thumbs-up\"></i>&nbsp;" +
-"&nbsp;Dar seguimiento</a></li>\r\n                    <li><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/manageMonitoringPlan/index.html\' />\"");
-
-WriteLiteral("><i\r\n                            class=\"glyphicon glyphicon-list\"></i>&nbsp;&nbsp" +
-";Manejar casos y planes</a></li>\r\n                </ul>\r\n            </li>\r\n    " +
-"        <li");
-
-WriteLiteral(" class=\"dropdown nav-li-blue\"");
-
-WriteLiteral(">\r\n                <a");
-
-WriteLiteral(" href=\"#\"");
-
-WriteLiteral(" class=\"dropdown-toggle\"");
-
-WriteLiteral(" data-toggle=\"dropdown\"");
-
-WriteLiteral("><i\r\n                        class=\"glyphicon glyphicon-folder-close\"></i>\r\n     " +
-"                   <%--&nbsp;&nbsp;Bit&aacute;coras--%>\r\n                       " +
-" <%--<i");
-
-WriteLiteral(" class=\"icon-caret-down\"");
-
-WriteLiteral("></i>--%>\r\n                    &nbsp;&nbsp;Historiales\r\n                    <i");
-
-WriteLiteral(" class=\"icon-caret-down\"");
-
-WriteLiteral("></i>\r\n                </a>\r\n                <ul");
-
-WriteLiteral(" class=\"dropdown-menu\"");
-
-WriteLiteral(">\r\n                        <%--<li><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/log/index.html\'/>\"");
-
-WriteLiteral("><i--%>\r\n                        <%--class=\"glyphicon glyphicon-folder-open\"></i>" +
-"&nbsp;&nbsp;Bit&aacute;coras de--%>\r\n                        <%--supervisi&oacut" +
-"e;n y cumplimiento</a></li>--%>\r\n                    <li><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/log/index.html\'/>\"");
-
-WriteLiteral(@"><i
-                            class=""glyphicon glyphicon-folder-open""></i>&nbsp;&nbsp;Historial de
-                        supervisi&oacute;n y cumplimiento</a></li>
-                    <li><a
-                            href=""<c:url value='/shared/messageHistory/index.html' />""><i
-                            class=""icon icon-envelope""></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
-                    </li>
-                </ul>
-            </li>
-            <li");
-
-WriteLiteral(" class=\"nav-li-blue\"");
-
-WriteLiteral("><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/showCaseSupervision/index.html\'/>\"");
-
-WriteLiteral(">\r\n                <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-bullhorn\"");
-
-WriteLiteral("></i>&nbsp;&nbsp;Consultar casos en\r\n                supervisi&oacute;n</a>\r\n    " +
-"        </li>\r\n            <li");
-
-WriteLiteral(" class=\"nav-li-blue\"");
-
-WriteLiteral("><a");
-
-WriteLiteral(" href=\"<c:url value=\'/supervisor/caseNotProsecute/index.html\'/>\"");
-
-WriteLiteral(">\r\n                <i");
-
-WriteLiteral(" class=\"icon icon-folder-close\"");
-
-WriteLiteral("></i>&nbsp;&nbsp;Casos no judicializados</a>\r\n            </li>\r\n\r\n        </sec:" +
-"authorize>-->\r\n    </ul>\r\n    <!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -" +
-"->\r\n</div>\r\n<!-- /.container -->\r\n</div>\r\n\r\n<div");
+WriteLiteral(">\r\n        <!--</sec:authorize>-->\r\n        <!--<sec:authorize access=\"hasRole(\'R" +
+"OLE_SUPERVISOR\')\">\r\n            <li class=\"nav-li-blue\"><a href=\"<c:url value=\'/" +
+"supervisor/hearingFormat/index.html\' />\"><i\r\n                    class=\"glyphico" +
+"n glyphicon-file\"></i>&nbsp;&nbsp;Formato de audiencia</a>\r\n            </li>\r\n " +
+"           <li class=\"nav-li-blue\"><a href=\"<c:url value=\'/supervisor/scheduleHe" +
+"arings/index.html\'/>\">\r\n                <i class=\"icon icon-calendar\"></i>&nbsp;" +
+"&nbsp;Agenda de audiencias</a>\r\n            </li>\r\n            <li class=\"nav-li" +
+"-blue\"><a href=\"<c:url value=\'/supervisor/framingMeeting/index.html\' />\"><i\r\n   " +
+"                 class=\"glyphicon glyphicon-bullhorn\"></i>&nbsp;&nbsp;Entrevista" +
+" de encuadre</a></li>\r\n            <li class=\"dropdown nav-li-blue\">\r\n          " +
+"      <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i\r\n           " +
+"             class=\"glyphicon glyphicon-tasks\"></i>&nbsp;&nbsp;Plan de supervisi" +
+"&oacute;n\r\n                    <i class=\"icon-caret-down\"></i> </a>\r\n           " +
+"     <ul class=\"dropdown-menu\">\r\n                    <li><a href=\"<c:url value=\'" +
+"/supervisor/generateMonitoringPlan/index.html\' />\"><i\r\n                         " +
+"   class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;&nbsp;Generar/Modificar</a>" +
+"\r\n                    </li>\r\n                    <li><a href=\"<c:url value=\'/sup" +
+"ervisor/trackMonitoringPlan/index.html\' />\"><i\r\n                            clas" +
+"s=\"glyphicon glyphicon-thumbs-up\"></i>&nbsp;&nbsp;Dar seguimiento</a></li>\r\n    " +
+"                <li><a href=\"<c:url value=\'/supervisor/manageMonitoringPlan/inde" +
+"x.html\' />\"><i\r\n                            class=\"glyphicon glyphicon-list\"></i" +
+">&nbsp;&nbsp;Manejar casos y planes</a></li>\r\n                </ul>\r\n           " +
+" </li>\r\n            <li class=\"dropdown nav-li-blue\">\r\n                <a href=\"" +
+"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i\r\n                        cl" +
+"ass=\"glyphicon glyphicon-folder-close\"></i>\r\n                        <%--&nbsp;&" +
+"nbsp;Bit&aacute;coras--%>\r\n                        <%--<i class=\"icon-caret-down" +
+"\"></i>--%>\r\n                    &nbsp;&nbsp;Historiales\r\n                    <i " +
+"class=\"icon-caret-down\"></i>\r\n                </a>\r\n                <ul class=\"d" +
+"ropdown-menu\">\r\n                        <%--<li><a href=\"<c:url value=\'/supervis" +
+"or/log/index.html\'/>\"><i--%>\r\n                        <%--class=\"glyphicon glyph" +
+"icon-folder-open\"></i>&nbsp;&nbsp;Bit&aacute;coras de--%>\r\n                     " +
+"   <%--supervisi&oacute;n y cumplimiento</a></li>--%>\r\n                    <li><" +
+"a href=\"<c:url value=\'/supervisor/log/index.html\'/>\"><i\r\n                       " +
+"     class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;&nbsp;Historial de\r\n     " +
+"                   supervisi&oacute;n y cumplimiento</a></li>\r\n                 " +
+"   <li><a\r\n                            href=\"<c:url value=\'/shared/messageHistor" +
+"y/index.html\' />\"><i\r\n                            class=\"icon icon-envelope\"></i" +
+">&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>\r\n                    </li>\r\n      " +
+"          </ul>\r\n            </li>\r\n            <li class=\"nav-li-blue\"><a href=" +
+"\"<c:url value=\'/supervisor/showCaseSupervision/index.html\'/>\">\r\n                " +
+"<i class=\"glyphicon glyphicon-bullhorn\"></i>&nbsp;&nbsp;Consultar casos en\r\n    " +
+"            supervisi&oacute;n</a>\r\n            </li>\r\n            <li class=\"na" +
+"v-li-blue\"><a href=\"<c:url value=\'/supervisor/caseNotProsecute/index.html\'/>\">\r\n" +
+"                <i class=\"icon icon-folder-close\"></i>&nbsp;&nbsp;Casos no judic" +
+"ializados</a>\r\n            </li>\r\n\r\n        </sec:authorize>-->\r\n    </ul>\r\n    " +
+"<!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>\r\n<!-- /.container -" +
+"->\r\n</div>\r\n\r\n<div");
 
 WriteLiteral(" id=\"ConfirmBoxDialogSession\"");
 
@@ -548,7 +447,7 @@ WriteLiteral("\t\t");
 
 
 #line 235 "headUm.cshtml"
-Write(RenderBody());
+   Write(RenderBody());
 
 
 #line default

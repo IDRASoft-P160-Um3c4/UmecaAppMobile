@@ -2991,7 +2991,7 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
 #line 1368 "MeetingDatosPersonales.cshtml"
-           , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
+                                   , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
 #line hidden
@@ -3245,7 +3245,7 @@ WriteLiteral("        \t");
 
 
 #line 1506 "MeetingDatosPersonales.cshtml"
-    Write(Dmcl.Phone);
+       Write(Dmcl.Phone);
 
 
 #line default
@@ -3485,21 +3485,16 @@ WriteLiteral(" data-valmsg-for=\"comment\"");
 
 WriteLiteral("\r\n                data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n            </div>\r\n        </form>\r\n        <br/>\r\n        <!--<div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n                <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n            </div>\r\n        </div>-->\r\n        <div");
+WriteLiteral(@"></span>
+            </div>
+        </form>
+        <br/>
+        <!--<div class=""col-xs-10 col-xs-offset-1"">
+            <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+                <span ng-bind-html=""msgError""></span>
+            </div>
+        </div>-->
+        <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -3901,7 +3896,7 @@ WriteLiteral("        \t");
 
 
 #line 1745 "MeetingDatosPersonales.cshtml"
-    Write(Jpsn.Age);
+       Write(Jpsn.Age);
 
 
 #line default
@@ -3912,7 +3907,7 @@ WriteLiteral("        \t");
 
 
 #line 1748 "MeetingDatosPersonales.cshtml"
-    Write(Jpsn.Phone);
+       Write(Jpsn.Phone);
 
 
 #line default
@@ -4116,17 +4111,9 @@ WriteLiteral("></span>\r\n                </div>\r\n    </form>\r\n    <br/>\r\n
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
-WriteLiteral(">\r\n    <!--<div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n        <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n    </div>-->\r\n        </div>\r\n    <div");
+WriteLiteral(">\r\n    <!--<div ng-show=\"msgError\" class=\"alert alert-danger element-center error" +
+"-font\">\r\n        <span ng-bind-html=\"msgError\"></span>\r\n    </div>-->\r\n        <" +
+"/div>\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -4530,7 +4517,7 @@ WriteLiteral("        \t");
 
 
 #line 1977 "MeetingDatosPersonales.cshtml"
-    Write(Jrfnc.Age);
+       Write(Jrfnc.Age);
 
 
 #line default
@@ -4541,7 +4528,7 @@ WriteLiteral("        \t");
 
 
 #line 1980 "MeetingDatosPersonales.cshtml"
-    Write(Jrfnc.Phone);
+       Write(Jrfnc.Phone);
 
 
 #line default
@@ -4701,21 +4688,16 @@ WriteLiteral(" data-valmsg-for=\"comment\"");
 
 WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n    <!--<div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+WriteLiteral(@"></span>
+        </div>
+    </form>
+    <br/>
+    <!--<div class=""col-xs-10 col-xs-offset-1"">
+        <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+            <span ng-bind-html=""msgError""></span>
+        </div>
+    </div>-->
+    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -4894,7 +4876,7 @@ WriteLiteral("        \t");
 
 
 #line 2130 "MeetingDatosPersonales.cshtml"
-    Write(Jjbs.Post);
+       Write(Jjbs.Post);
 
 
 #line default
@@ -4905,7 +4887,7 @@ WriteLiteral("        \t");
 
 
 #line 2133 "MeetingDatosPersonales.cshtml"
-    Write(Jjbs.NameHead);
+       Write(Jjbs.NameHead);
 
 
 #line default
@@ -4916,7 +4898,7 @@ WriteLiteral("        \t");
 
 
 #line 2136 "MeetingDatosPersonales.cshtml"
-    Write(Jjbs.Phone);
+       Write(Jjbs.Phone);
 
 
 #line default
@@ -5096,21 +5078,17 @@ WriteLiteral(" data-valmsg-for=\"commentJob\"");
 
 WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n\r\n    <!--<div");
+WriteLiteral(@"></span>
+        </div>
+    </form>
+    <br/>
 
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+    <!--<div class=""col-xs-10 col-xs-offset-1"">
+        <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+            <span ng-bind-html=""msgError""></span>
+        </div>
+    </div>-->
+    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -6412,7 +6390,7 @@ WriteLiteral("        \t");
 
 
 #line 2705 "MeetingDatosPersonales.cshtml"
-    Write(Jdrg.Quantity);
+       Write(Jdrg.Quantity);
 
 
 #line default
@@ -6423,7 +6401,7 @@ WriteLiteral("        \t");
 
 
 #line 2708 "MeetingDatosPersonales.cshtml"
-    Write(Jdrg.LastUse);
+       Write(Jdrg.LastUse);
 
 
 #line default
@@ -6440,7 +6418,7 @@ WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDrug(\'", true)
 
 #line 2711 "MeetingDatosPersonales.cshtml"
-                                                                          , Tuple.Create<string,object,bool> ("", Jdrg.Id
+                                                                             , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
 #line hidden
@@ -6463,7 +6441,7 @@ WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDrug(\'", true)
 
 #line 2712 "MeetingDatosPersonales.cshtml"
-                                                                      , Tuple.Create<string,object,bool> ("", Jdrg.Id
+                                                                         , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
 #line hidden
@@ -6541,21 +6519,16 @@ WriteLiteral(" data-valmsg-for=\"comment\"");
 
 WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n    <!--<div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+WriteLiteral(@"></span>
+        </div>
+    </form>
+    <br/>
+    <!--<div class=""col-xs-10 col-xs-offset-1"">
+        <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+            <span ng-bind-html=""msgError""></span>
+        </div>
+    </div>-->
+    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -7603,7 +7576,7 @@ WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" ng-show=\"verification || selectSource\"");
 
-WriteLiteral(">what\r\n    <div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
@@ -7670,17 +7643,10 @@ WriteLiteral(" data-valmsg-for=\"socialEnvironment.comment\"");
 
 WriteLiteral("\r\n              data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n        </form>\r\n        <br/>\r\n\r\n        <!--<div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>-->\r\n    </div>\r\n    <div");
+WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n        </form>\r\n        <br/>\r\n\r\n        <!--<div " +
+"ng-show=\"msgError\" class=\"alert alert-danger element-center error-font\">\r\n      " +
+"      <span ng-bind-html=\"msgError\"></span>\r\n        </div>-->\r\n    </div>\r\n    " +
+"<div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -7744,22 +7710,17 @@ WriteLiteral(">\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
-WriteLiteral(" >\r\n            Regresar\r\n        </span>\r\n</a>\r\n        <!--<span");
+WriteLiteral(@" >
+            Regresar
+        </span>
+</a>
+        <!--<span class=""btn btn-default btn-primary btn-sm"" ng-disabled=""WaitFor==true"" ng-confirm-actionconfirm-message=""&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?""
+        confirm-title=""Terminar entrevista"" confirm-type=""info""
+        confirmed-click-action=""save();"">
+        Terminar
+    	</span>-->
 
-WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
-
-WriteLiteral(" ng-disabled=\"WaitFor==true\"");
-
-WriteLiteral(" ng-confirm-actionconfirm-message=\"&iquest;Est&aacute; seguro que desea terminar " +
-"la entrevista de riesgos procesales?\"");
-
-WriteLiteral("\r\n        confirm-title=\"Terminar entrevista\"");
-
-WriteLiteral(" confirm-type=\"info\"");
-
-WriteLiteral("\r\n        confirmed-click-action=\"save();\"");
-
-WriteLiteral(">\r\n        Terminar\r\n    \t</span>-->\r\n\r\n    \t<span");
+    	<span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 

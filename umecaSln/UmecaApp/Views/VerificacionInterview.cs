@@ -23,8 +23,8 @@ public partial class VerificacionInterview : WebViewTemplate
 
 #line hidden
 
-#line 2 "VerificacionInterview.cshtml"
-public UmecaApp.MeetingDatosPersonalesDto Model { get; set; }
+#line 1 "VerificacionInterview.cshtml"
+public UmecaApp.VerificationMeetingSourceDto Model { get; set; }
 
 #line default
 #line hidden
@@ -32,217 +32,330 @@ public UmecaApp.MeetingDatosPersonalesDto Model { get; set; }
 
 public override void Execute()
 {
-WriteLiteral("\r\n");
 
-
-#line 4 "VerificacionInterview.cshtml"
+#line 3 "VerificacionInterview.cshtml"
   
 Layout = "UmecaApp.headUm";
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n<script>\r\nfunction shw(){\r\nalert($(\"#showId\").html());\r\n}\r\n\r\n\r\n    app.controll" +
-"er(\'MeettingDatosPersonalesController\', function($scope, $http, $timeout, $sce){" +
-"\r\n//GENERAL CONTROLLER STATE OF MEETING\r\n        $scope.m = {};\r\n        $scope." +
-"readOnly = true;\r\n\r\n        $scope.verification = true;\r\n\r\n        $scope.listMs" +
-"gError = [];\r\n        $scope.listMsgError[\'personalData\'] = false;\r\n        $sco" +
-"pe.listMsgError[\'imputedHome\'] = false;\r\n        $scope.listMsgError[\'socialNetw" +
-"ork\'] = false;\r\n        $scope.listMsgError[\'reference\'] = false;\r\n        $scop" +
-"e.listMsgError[\'job\'] = false;\r\n        $scope.listMsgError[\'school\'] = false;\r\n" +
-"        $scope.listMsgError[\'drug\'] = false;\r\n        $scope.listMsgError[\'leavi" +
-"ngCountry\'] = false;\r\n\r\n        $scope.putasHarry=function(){\r\n        $timeout(" +
-"function(){\r\n        \t$(\"#axelMulti\").chosen();\r\n        \t},0);\r\n        };\r\n\r\n/" +
-"///////////////DATOS PERSONALES CONTROLLER\r\n\r\n        ////////////////VARIABLES/" +
-"//////////////\r\n    \t//genero\r\n        $scope.gen = {};\r\n\r\n        //pais nacimi" +
-"ento\r\n        $scope.listCountry = [];\r\n        $scope.listState = [];\r\n        " +
-"$scope.listMuni = [];\r\n        $scope.listLocalidades = [];\r\n        $scope.list" +
-"MunByEdo = [];\r\n        $scope.SeceltedCountry = {};\r\n        $scope.SeceltedEst" +
-"ate = {};\r\n        $scope.SeceltedMuni = {};\r\n        $scope.SeceltedLocation = " +
-"{};\r\n\r\n        //actividades que realiza\r\n\t$scope.specification = {};\r\n    $scop" +
-"e.lstActivity = [];\r\n    $scope.activityModel = [];\r\n    $scope.activityList = [" +
-"];\r\n\r\n    ///////////////////METHODS//////////////////\r\n    //Init de country \r\n" +
-"    $scope.InitCountryPD = function(){\r\n\t\t    if($scope.m.BirthCountry!=undefine" +
-"d&&$scope.m.BirthCountry!=null){\r\n\t\t\t    for(x=0;x<$scope.listCountry.length;x++" +
-"){\r\n\t\t\t    \tif($scope.listCountry[x].Id==$scope.m.BirthCountry){\r\n\t\t\t    \t\t$scop" +
-"e.SeceltedCountry = $scope.listCountry[x];\r\n\t\t\t    \t\t//alert(\"$scope.listCountry" +
-"[x]\"+JSON.stringify($scope.listCountry[x]));\r\n\t\t\t    \t\t//alert(\"$scope.SeceltedC" +
-"ountry\"+JSON.stringify($scope.SeceltedCountry));\r\n\t\t\t    \t\t$scope.InitMunicipali" +
-"tyDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t};\r\n\r\n    $scope.InitMuni" +
-"cipalityDP = function(){\r\n    //alert(\"InitMunicipalityDP -> $scope.m.LocationId" +
-">>\"+$scope.m.LocationId);\r\n\t    if($scope.m.LocationId!=undefined&&$scope.m.Loca" +
-"tionId!=null){\r\n\t    \tvar data = JSON.parse(MeetingService.findAllByLocation($sc" +
-"ope.m.LocationId));\r\n\t    \t//alert(\"InitMunicipalityDP -> data>>\"+JSON.stringify" +
-"(data));\r\n\t    \t//alert(\"InitMunicipalityDP -> data.StateId=\"+data.StateId+\"    " +
-"data.MunicipalityId=\"+data.MunicipalityId);\r\n\t\t    for(x=0;x<$scope.listState.le" +
-"ngth;x++){\r\n\t\t    \tif($scope.listState[x].Id==data.StateId){\r\n\t\t    \t\t$scope.Sec" +
-"eltedEstate = $scope.listState[x];\r\n\t\t    \t\t//alert(\"$scope.SeceltedEstate[x]\"+J" +
-"SON.stringify($scope.SeceltedEstate));\r\n\t\t    \t\t$scope.MunByEdo();\r\n\t\t    \t\t\tfor" +
-"(y=0;y<$scope.listMunByEdo.length;y++){\r\n\t\t\t    \t\t\tif($scope.listMunByEdo[y].Id=" +
-"=data.MunicipalityId){\r\n\t\t\t    \t\t\t\t$scope.SeceltedMuni = $scope.listMunByEdo[y];" +
-"\r\n\t\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t    \t\t\t\tfor(z=0;z<$scope.listLocalidades.le" +
-"ngth;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.listLocalidades[z].Id==$scope.m.LocationId){\r" +
-"\n\t\t\t\t    \t\t\t\t\t\t$scope.SeceltedLocation = $scope.listLocalidades[z];\r\n\t\t\t\t    \t\t\t" +
-"\t\t\tbreak;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t}\r\n\t\t\t\t    \t\t\tbreak;\r\n\t\t\t    \t\t\t}\r\n\t\t    " +
-"\t\t\t}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t};\r\n\r\n\t\t//cuando se elije un esta" +
-"do se filtran los municipios\r\n\t\t$scope.MunByEdo = function(){\r\n\t\t\t$scope.listMun" +
-"ByEdo = [];\r\n\t        $scope.SeceltedMuni = {};\r\n\t        $scope.SeceltedLocatio" +
-"n = {};\r\n\t        $scope.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var mun" +
-"icipios = MeetingService.findMunicipalityByState($scope.SeceltedEstate[\'Id\']);\r\n" +
-"\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\" " +
-"  and \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=undefined&&municipio" +
-"s!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listMunByEdo = JSON.par" +
-"se(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at" +
-" MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunByEdo = [];\r\n\t\t\t\t\t\t}\r" +
-"\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t$scope.selectedActivities = function (lstActivity, lstAct" +
-"ivitySelect) {\r\n        for (var i = 0; i < lstActivitySelect.length; i++) {\r\n  " +
-"          for (var j = 0; j < lstActivity.length; j++) {\r\n                if (ls" +
-"tActivity[j].id === lstActivitySelect[i].id) {\r\n                    $scope.activ" +
-"ityModel.push(lstActivity[j]);\r\n                    if (lstActivity[j].specifica" +
-"tion) {\r\n                        $scope.specification[lstActivity[j].name] = lst" +
-"ActivitySelect[i].specification;\r\n                    }\r\n                }\r\n    " +
-"        }\r\n        }\r\n        $scope.matchActivities();\r\n    };\r\n\r\n    $scope.ma" +
-"tchActivities = function () {\r\n        $scope.relActivities = [];\r\n        for (" +
-"var i = 0; i < $scope.activityModel.length; i++) {\r\n            var model = {};\r" +
-"\n            model.ActivityId = $scope.activityModel[i].id;\r\n            if ($sc" +
-"ope.specification[$scope.activityModel[i].name] != undefined) {\r\n               " +
-" model.specification = $scope.specification[$scope.activityModel[i].name];\r\n    " +
-"        } else {\r\n                model.specification = \"\";\r\n            }\r\n    " +
-"        $scope.relActivities.push(model);\r\n        }\r\n        $scope.m.Activitie" +
-"s = JSON.stringify($scope.relActivities);\r\n        return true;\r\n    };\r\n\r\n\r\n\t\t/" +
-"/cuando se elije un municipio se filtran las localidades\r\n\t\t$scope.LocByMun = fu" +
-"nction(){\r\n        $scope.SeceltedLocation = {};\r\n\t\t\t    $scope.listLocalidades " +
-"= [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locations = MeetingService.findLocationByMun" +
-"icipality($scope.SeceltedMuni[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JS" +
-"ON.stringify($scope.SeceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t" +
-"    if(locations!=undefined&&locations!=null&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t" +
-"\t    \t$scope.listLocalidades = JSON.parse(locations);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t " +
-"   \t\t\tconsole.log(\"exception caugth at LocByMun Message >>\"+e.Message);\r\n\t\t\t    " +
-"\t\t\t$scope.listLocalidades = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t//cuando se elij" +
-"e un estado se filtran los municipios \r\n\t\t//TODO: se cambiara a una peticion a m" +
-"ethodo\r\n\t\t$scope.InitActivities = function(){\r\n\t\t\tif($scope.m.Activities!=undefi" +
-"ned&&$scope.m.Activities!=null){\r\n\t\t\t    var actividades = JSON.parse($scope.m.A" +
-"ctivities);\r\n\t\t\t    var ids = [];\r\n\t\t\t    //alert(\"string de actividades>\"+JSON." +
-"stringify(actividades));\r\n\t\t\t    //iterates activities\r\n\t\t\t    for(a in activida" +
-"des){\r\n\t\t\t\t    for(e in $scope.lstActivity){\r\n\t\t\t\t\t    if($scope.lstActivity[e]." +
-"id==actividades[a].ActivityId){\r\n\t\t\t    \t\t\tconsole.log(\"coincidence >>>\"+activid" +
-"ades[a].ActivityId);\r\n\t\t\t    \t\t\tids.push(e);\r\n\t\t\t\t\t    \t$scope.activityModel.pus" +
-"h($scope.lstActivity[e]);\r\n\t\t                    if ($scope.lstActivity[e].speci" +
-"fication) {\r\n\t\t                        $scope.specification[$scope.lstActivity[e" +
-"].name] = actividades[a].specification; \r\n\t\t                    } \r\n\t\t\t\t\t    }\r\n" +
-"\t\t\t\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').multipleSelect(\"setSelects\",ids);\r\n\t\t\t}\r\n\t\t" +
-"};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scope.m.LocationId = $scope.Secelte" +
-"dLocation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda los cambios realizados a la seccion de dat" +
-"os personales\r\n         $scope.savePersonalData = function () {\r\n\t        var js" +
-"onData = JSON.stringify($scope.m);\r\n\t        //alert(\"m value>>\"+JSON.stringify(" +
-"$scope.m));\r\n\t\t\t$scope.msgExito = MeetingService.upsertPersonalData(JSON.stringi" +
-"fy($scope.m));\r\n\t\t\t//alert(\"result =\"+resultado);\r\n\t    };\r\n        //END DATOS " +
-"PERSONALES\r\n\r\n\r\n        ////////////Domicilios///////////\r\n \t\t$scope.saveDomicil" +
-"ios = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scop" +
-"e.msgSuccessDom = MeetingService.upsertDomicilioComment(JSON.stringify($scope.m)" +
-");\r\n\t    };\r\n        ///////////end domicilios///////////\r\n\r\n        ///////////" +
-"/SocialNetwork///////////\r\n \t\t$scope.saveSocialNetwork = function () {\r\n\t       " +
-" var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessSocNet = MeetingS" +
-"ervice.upsertRedSocialComment(JSON.stringify($scope.m));\r\n\t    };\r\n        /////" +
-"//////end SocialNetwork///////////\r\n\r\n        ////////////Referencias///////////" +
-"\r\n \t\t$scope.saveReferences = function () {\r\n\t        var jsonData = JSON.stringi" +
-"fy($scope.m);\r\n\t\t\t$scope.msgSuccessReferences = MeetingService.upsertReferencias" +
-"Comment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Referencias/" +
-"//////////\r\n\r\n        ////////////Laboral///////////\r\n \t\t$scope.saveLaboral = fu" +
-"nction () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuc" +
-"cessLaboral = MeetingService.upsertLaboralComment(JSON.stringify($scope.m));\r\n\t " +
-"   };\r\n        ///////////end Laboral///////////\r\n\r\n        ////////////Drugs///" +
-"////////\r\n \t\t$scope.saveDrugs = function () {\r\n\t        var jsonData = JSON.stri" +
-"ngify($scope.m);\r\n\t\t\t$scope.msgSuccessDrugs = MeetingService.upsertDrugComment(J" +
-"SON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Drugs///////////\r\n\r\n/" +
-"////////////para historia escolar\r\n        $scope.block = true;\r\n        $scope." +
-"school = {};\r\n        $scope.school.level={};\r\n        $scope.school.degree={};\r" +
-"\n\r\n\t   \t$scope.gradeByNivel = function(){\r\n\t   \talert(\"$scope.school.level==\"+JS" +
-"ON.stringify($scope.school.level));\r\n        $scope.lstDegree=JSON.parse(Meeting" +
-"Service.gradeByNivel( $scope.school.level[\'Id\']));\r\n\t   \t}\r\n\r\n        $scope.fil" +
-"lModel = function(){\r\n\t       var template =\"NO ESTUDIA\";\r\n\t       if($scope.m.S" +
-"choolBlock == false){\r\n\t            $scope.m.SchoolName=template;\r\n\t           $" +
-"scope.m.SchoolPhone = template;\r\n\t           $scope.m.SchoolAddress = template;\r" +
-"\n\t       }else{\r\n\t            $scope.m.SchoolName=\"\";\r\n\t           $scope.m.Scho" +
-"olPhone = \"\";\r\n\t           $scope.m.SchoolAddress = \"\";\r\n\t       }\r\n\t   };\r\n\r\n\t " +
-"  $scope.saveEscolarship = function(){\r\n\t   \t\t$scope.m.ScheduleSchool = $(\"#hdnJ" +
-"sonScheduleSchool\").val();\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$" +
-"scope.msgSuccessEscolar = MeetingService.upsertSchoolarship(JSON.stringify($scop" +
-"e.m));\r\n\t   }\r\n\r\n\t   $scope.InitSchool = function(){\r\n\t   if($scope.m.ScheduleSc" +
-"hool!=undefined&&$scope.m.ScheduleSchool!=null){\r\n\t   \t$(\"#hdnJsonScheduleSchool" +
-"\").val($scope.m.ScheduleSchool);\r\n\t   \tconsole.log(\"hdnJsonScheduleSchool-->\"+$(" +
-"\"#hdnJsonScheduleSchool\").val());\r\n\t   }\r\n\t   \tif($scope.m.SchoolBlock!=true){\r\n" +
-"\t   \t\t$scope.fillModel();\r\n\t   \t}\r\n\t   \t\t\r\n\t   \t\t$scope.lstLevel=JSON.parse(Meet" +
-"ingService.allAcademicLevels());\r\n\t   \t\tif($scope.m.SchoolDegreeId!=undefined&&$" +
-"scope.m.SchoolDegreeId!=null){\r\n\t   \t\t\t$scope.lstDegree=JSON.parse(MeetingServic" +
-"e.gradesBySelectedDegree($scope.m.SchoolDegreeId));\r\n\t   \t\t\tfor(a in $scope.lstD" +
-"egree){\r\n\t   \t\t\t\tif($scope.lstDegree[a].Id==$scope.m.SchoolDegreeId){\r\n\t   \t\t\t\t\t" +
-"$scope.school.degree = $scope.lstDegree[a];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t" +
-"}\r\n\t   \t\t\tfor(b in $scope.lstLevel){\r\n\t   \t\t\t\tif($scope.lstLevel[b].Id==$scope.s" +
-"chool.degree.AcademicLevelId){\r\n\t   \t\t\t\t\t$scope.school.level=$scope.lstLevel[b];" +
-"\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t}\r\n\t   \t\talert(\"model \"+ JSON.stri" +
-"ngify($scope.m));\r\n\t   };\r\n////////////////END historia escolar\r\n\r\n////////para " +
-"Leave country \r\n        $scope.Edocumento = {};\r\n        $scope.ImmigrationDoc =" +
-" {};\r\n        $scope.ImmigrationDocId = {};\r\n\r\n        $scope.specficationImmigr" +
-"anDoc = \"\";\r\n\r\n        $scope.listImmigrationDoc = [];\r\n\r\n\t   \t$scope.l={};\r\n\t  " +
-" \t$scope.l.oc={};\r\n\t   \t\t\r\n\t   \t$scope.l.fac={};\r\n\r\n\t   \t$scope.l.rel={};\r\n\r\n\t  " +
-" \t$scope.l.cf={};\r\n\r\n\t   \t$scope.documentosMigratoriosFill = function(){\r\n\t   \t/" +
-"/alert(\"$scope.school.level==\"+JSON.stringify($scope.school.level));\r\n        $s" +
-"cope.listImmigrationDoc=JSON.parse(MeetingService.documentosMigratorios());\r\n\t  " +
-" \t};\r\n\r\n\t   \t$scope.relacionPersonalAll = function(){\r\n        $scope.listRel=JS" +
-"ON.parse(MeetingService.relacionPersonal());\r\n\t   \t};\r\n\r\n\r\n\t   \t$scope.saveLeave" +
-"Country = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$" +
-"scope.msgSuccessLeaveCountry = MeetingService.upsertLeaveCountry(JSON.stringify(" +
-"$scope.m));\r\n\t    };\r\n\r\n\t    $scope.InitLeaveCountry = function () {\r\n\t    conso" +
-"le.log(\"InitLeaveCountry\");\r\n\t    $scope.Edocumento = $scope.itemListById($scope" +
-".m.OfficialDocumentationId, $scope.listElection);\r\n\t    $scope.ImmigrationDoc = " +
-"$scope.itemListById($scope.m.ImmigrationDocumentId, $scope.listImmigrationDoc);\r" +
+WriteLiteral(@"
+
+
+<script>
+var askYesNo  = {};
+askYesNo.reference = {};
+askYesNo.show = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.show();
+};
+askYesNo.hide = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.hide();
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0" +
+" -30%;\"");
+
+WriteLiteral(" id=\"MessageBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-danger\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"MessageBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askYesNo.no();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Eliminar registro</h4>\r\n                </div>\r\n            </div>\r\n            " +
+"<div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">¿Está seguro de que desea eliminar el registro?</div>\r\n            </div>\r\n     " +
+"       <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-danger\"");
+
+WriteLiteral(" onclick=\"javascript:askYesNo.yes(askYesNo.referencia);\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askYesNo.no();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n<script>\r\napp.controller(\'Meet" +
+"tingDatosPersonalesController\', function($scope, $http, $timeout, $sce){\r\n//GENE" +
+"RAL CONTROLLER STATE OF MEETING\r\n        $scope.m = {};\r\n        $scope.verifica" +
+"tion = true;\r\n        $scope.readOnly = true;\r\n        $scope.listMsgError = [];" +
+"\r\n        /*$scope.listMsgError[\'personalData\'] = true;\r\n        $scope.listMsgE" +
+"rror[\'imputedHome\'] = true;\r\n        $scope.listMsgError[\'socialNetwork\'] = fals" +
+"e;\r\n        $scope.listMsgError[\'reference\'] = false;\r\n        $scope.listMsgErr" +
+"or[\'job\'] = false;\r\n        $scope.listMsgError[\'school\'] = true;\r\n        $scop" +
+"e.listMsgError[\'drug\'] = false;\r\n        $scope.listMsgError[\'leavingCountry\'] =" +
+" true;*/\r\n\r\n        $scope.putasHarry=function(){\r\n        $timeout(function(){\r" +
+"\n        \t$(\"#axelMulti\").chosen();\r\n        \t},0);\r\n        };\r\n\r\n/////////////" +
+"///DATOS PERSONALES CONTROLLER\r\n\r\n        ////////////////VARIABLES/////////////" +
+"//\r\n    \t//genero\r\n        $scope.gen = {};\r\n\r\n        //pais nacimiento\r\n      " +
+"  $scope.listCountry = [];\r\n        $scope.listState = [];\r\n        $scope.listM" +
+"uni = [];\r\n        $scope.listLocalidades = [];\r\n        $scope.listMunByEdo = [" +
+"];\r\n        $scope.SeceltedCountry = {};\r\n        $scope.SeceltedEstate = {};\r\n " +
+"       $scope.SeceltedMuni = {};\r\n        $scope.SeceltedLocation = {};\r\n\r\n     " +
+"   //actividades que realiza\r\n\t$scope.specification = {};\r\n    $scope.lstActivit" +
+"y = [];\r\n    $scope.activityModel = [];\r\n    $scope.activityList = [];\r\n\r\n    //" +
+"/////////////////METHODS//////////////////\r\n    //Init de country \r\n    $scope.I" +
+"nitCountryPD = function(){\r\n\t\t    if($scope.m.BirthCountry!=undefined&&$scope.m." +
+"BirthCountry!=null){\r\n\t\t\t    for(x=0;x<$scope.listCountry.length;x++){\r\n\t\t\t    \t" +
+"if($scope.listCountry[x].Id==$scope.m.BirthCountry){\r\n\t\t\t    \t\t$scope.SeceltedCo" +
+"untry = $scope.listCountry[x];\r\n\t\t\t    \t\t//alert(\"$scope.listCountry[x]\"+JSON.st" +
+"ringify($scope.listCountry[x]));\r\n\t\t\t    \t\t//alert(\"$scope.SeceltedCountry\"+JSON" +
+".stringify($scope.SeceltedCountry));\r\n\t\t\t    \t\t$scope.InitMunicipalityDP();\r\n\t\t\t" +
+"    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t\telse{\r\n\t\t\t\tfor(x=0;x<$scope.listCoun" +
+"try.length;x++){\r\n\t\t\t    \tif($scope.listCountry[x].Name==\"Mexico\"){\r\n\t\t\t    \t\t$s" +
+"cope.SeceltedCountry = $scope.listCountry[x];\r\n\t\t\t    \t\t$scope.InitMunicipalityD" +
+"P();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t};\r\n\r\n    $scope.InitMunicip" +
+"alityDP = function(){\r\n    //alert(\"InitMunicipalityDP -> $scope.m.LocationId>>\"" +
+"+$scope.m.LocationId);\r\n\t    if($scope.m.LocationId!=undefined&&$scope.m.Locatio" +
+"nId!=null){\r\n\t    \tvar data = JSON.parse(MeetingService.findAllByLocation($scope" +
+".m.LocationId));\r\n\t    \t//alert(\"InitMunicipalityDP -> data>>\"+JSON.stringify(da" +
+"ta));\r\n\t    \t//alert(\"InitMunicipalityDP -> data.StateId=\"+data.StateId+\"    dat" +
+"a.MunicipalityId=\"+data.MunicipalityId);\r\n\t\t    for(x=0;x<$scope.listState.lengt" +
+"h;x++){\r\n\t\t    \tif($scope.listState[x].Id==data.StateId){\r\n\t\t    \t\t$scope.Secelt" +
+"edEstate = $scope.listState[x];\r\n\t\t    \t\t//alert(\"$scope.SeceltedEstate[x]\"+JSON" +
+".stringify($scope.SeceltedEstate));\r\n\t\t    \t\t$scope.MunByEdo();\r\n\t\t    \t\t\tfor(y=" +
+"0;y<$scope.listMunByEdo.length;y++){\r\n\t\t\t    \t\t\tif($scope.listMunByEdo[y].Id==da" +
+"ta.MunicipalityId){\r\n\t\t\t    \t\t\t\t$scope.SeceltedMuni = $scope.listMunByEdo[y];\r\n\t" +
+"\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t    \t\t\t\tfor(z=0;z<$scope.listLocalidades.lengt" +
+"h;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.listLocalidades[z].Id==$scope.m.LocationId){\r\n\t\t" +
+"\t\t    \t\t\t\t\t\t$scope.SeceltedLocation = $scope.listLocalidades[z];\r\n\t\t\t\t    \t\t\t\t\t\t" +
+"break;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t}\r\n\t\t\t\t    \t\t\tbreak;\r\n\t\t\t    \t\t\t}\r\n\t\t    \t\t\t" +
+"}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t};\r\n\r\n\t\t//cuando se elije un estado " +
+"se filtran los municipios\r\n\t\t$scope.MunByEdo = function(){\r\n\t\t\t$scope.listMunByE" +
+"do = [];\r\n\t        $scope.SeceltedMuni = {};\r\n\t        $scope.SeceltedLocation =" +
+" {};\r\n\t        $scope.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var munici" +
+"pios = MeetingService.findMunicipalityByState($scope.SeceltedEstate[\'Id\']);\r\n\t\t\t" +
+"    //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\"   a" +
+"nd \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=undefined&&municipios!=" +
+"null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listMunByEdo = JSON.parse(" +
+"municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at Mu" +
+"nByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunByEdo = [];\r\n\t\t\t\t\t\t}\r\n\t\t" +
+"\t    }\r\n\t\t};\r\n\r\n\r\n\t\t$scope.selectedActivities = function (lstActivity, lstActivi" +
+"tySelect) {\r\n        for (var i = 0; i < lstActivitySelect.length; i++) {\r\n     " +
+"       for (var j = 0; j < lstActivity.length; j++) {\r\n                if (lstAc" +
+"tivity[j].id === lstActivitySelect[i].id) {\r\n                    $scope.activity" +
+"Model.push(lstActivity[j]);\r\n                    if (lstActivity[j].specificatio" +
+"n) {\r\n                        $scope.specification[lstActivity[j].name] = lstAct" +
+"ivitySelect[i].specification;\r\n                    }\r\n                }\r\n       " +
+"     }\r\n        }\r\n        $scope.matchActivities();\r\n    };\r\n\r\n    $scope.match" +
+"Activities = function () {\r\n        $scope.relActivities = [];\r\n        for (var" +
+" i = 0; i < $scope.activityModel.length; i++) {\r\n            var model = {};\r\n  " +
+"          model.ActivityId = $scope.activityModel[i].id;\r\n            if ($scope" +
+".specification[$scope.activityModel[i].name] != undefined) {\r\n                mo" +
+"del.specification = $scope.specification[$scope.activityModel[i].name];\r\n       " +
+"     } else {\r\n                model.specification = \"\";\r\n            }\r\n       " +
+"     $scope.relActivities.push(model);\r\n        }\r\n        $scope.m.Activities =" +
+" JSON.stringify($scope.relActivities);\r\n        return true;\r\n    };\r\n\r\n\r\n\t\t//cu" +
+"ando se elije un municipio se filtran las localidades\r\n\t\t$scope.LocByMun = funct" +
+"ion(){\r\n        $scope.SeceltedLocation = {};\r\n\t\t\t    $scope.listLocalidades = [" +
+"];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locations = MeetingService.findLocationByMunici" +
+"pality($scope.SeceltedMuni[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JSON." +
+"stringify($scope.SeceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t   " +
+" if(locations!=undefined&&locations!=null&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t  " +
+"  \t$scope.listLocalidades = JSON.parse(locations);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    " +
+"\t\t\tconsole.log(\"exception caugth at LocByMun Message >>\"+e.Message);\r\n\t\t\t    \t\t\t" +
+"$scope.listLocalidades = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t//cuando se elije u" +
+"n estado se filtran los municipios \r\n\t\t//TODO: se cambiara a una peticion a meth" +
+"odo\r\n\t\t$scope.InitActivities = function(){\r\n\t\t\tif($scope.m.Activities!=undefined" +
+"&&$scope.m.Activities!=null){\r\n\t\t\t    var actividades = JSON.parse($scope.m.Acti" +
+"vities);\r\n\t\t\t    var ids = [];\r\n\t\t\t    //alert(\"string de actividades>\"+JSON.str" +
+"ingify(actividades));\r\n\t\t\t    //iterates activities\r\n\t\t\t    for(a in actividades" +
+"){\r\n\t\t\t\t    for(e in $scope.lstActivity){\r\n\t\t\t\t\t    if($scope.lstActivity[e].id=" +
+"=actividades[a].ActivityId){\r\n\t\t\t    \t\t\tconsole.log(\"coincidence >>>\"+actividade" +
+"s[a].ActivityId);\r\n\t\t\t    \t\t\tids.push(e);\r\n\t\t\t\t\t    \t$scope.activityModel.push($" +
+"scope.lstActivity[e]);\r\n\t\t                    if ($scope.lstActivity[e].specific" +
+"ation) {\r\n\t\t                        $scope.specification[$scope.lstActivity[e].n" +
+"ame] = actividades[a].specification; \r\n\t\t                    } \r\n\t\t\t\t\t    }\r\n\t\t\t" +
+"\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').multipleSelect(\"setSelects\",ids);\r\n\t\t\t}\r\n\t\t};\r" +
+"\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scope.m.LocationId = $scope.SeceltedLo" +
+"cation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda los cambios realizados a la seccion de datos " +
+"personales\r\n         $scope.savePersonalData = function () {\r\n         if($(\"#Fo" +
+"rmPersonalData\").valid() == false){\r\n         return false;\r\n         }else{\r\n\t " +
+"       var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgExito = MeetingSer" +
+"vice.upsertPersonalData(JSON.stringify($scope.m));\r\n\t\t\t}\r\n\t    };\r\n        //END" +
+" DATOS PERSONALES\r\n\r\n\r\n        ////////////Domicilios///////////\r\n \t\t$scope.save" +
+"Domicilios = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t" +
+"\t\t$scope.msgSuccessDom = MeetingService.upsertDomicilioComment(JSON.stringify($s" +
+"cope.m));\r\n\t    };\r\n        ///////////end domicilios///////////\r\n\r\n        ////" +
+"////////SocialNetwork///////////\r\n \t\t$scope.saveSocialNetwork = function () {\r\n\t" +
+"        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessSocNet = M" +
+"eetingService.upsertRedSocialComment(JSON.stringify($scope.m));\r\n\t    };\r\n      " +
+"  ///////////end SocialNetwork///////////\r\n\r\n        ////////////Referencias////" +
+"///////\r\n \t\t$scope.saveReferences = function () {\r\n\t        var jsonData = JSON." +
+"stringify($scope.m);\r\n\t\t\t$scope.msgSuccessReferences = MeetingService.upsertRefe" +
+"renciasComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Refer" +
+"encias///////////\r\n\r\n        ////////////Laboral///////////\r\n \t\t$scope.saveLabor" +
+"al = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope" +
+".msgSuccessLaboral = MeetingService.upsertLaboralComment(JSON.stringify($scope.m" +
+"));\r\n\t    };\r\n        ///////////end Laboral///////////\r\n\r\n        ////////////D" +
+"rugs///////////\r\n \t\t$scope.saveDrugs = function () {\r\n\t        var jsonData = JS" +
+"ON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessDrugs = MeetingService.upsertDrugCo" +
+"mment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Drugs/////////" +
+"//\r\n\r\n/////////////para historia escolar\r\n        $scope.block = true;\r\n        " +
+"$scope.school = {};\r\n        $scope.school.level={};\r\n        $scope.school.degr" +
+"ee={};\r\n\r\n\t   \t$scope.gradeByNivel = function(){\r\n\t   \t//alert(\"$scope.school.le" +
+"vel==\"+JSON.stringify($scope.school.level));\r\n        $scope.lstDegree=JSON.pars" +
+"e(MeetingService.gradeByNivel( $scope.school.level[\'Id\']));\r\n\t   \t}\r\n\r\n        $" +
+"scope.fillModel = function(){\r\n\t       var template =\"NO ESTUDIA\";\r\n\t       if($" +
+"scope.m.SchoolBlock == false){\r\n\t            $scope.m.SchoolName=template;\r\n\t   " +
+"        $scope.m.SchoolPhone = template;\r\n\t           $scope.m.SchoolAddress = t" +
+"emplate;\r\n\t       }else{\r\n\t            $scope.m.SchoolName=\"\";\r\n\t           $sco" +
+"pe.m.SchoolPhone = \"\";\r\n\t           $scope.m.SchoolAddress = \"\";\r\n\t       }\r\n\t  " +
+" };\r\n\r\n\t   $scope.saveEscolarship = function(){\r\n\t\t   if($(\"#FormSchool\").valid(" +
+") == false){\r\n\t         return false;\r\n\t       }else{\r\n\t\t   \t\t$scope.m.ScheduleS" +
+"chool = $(\"#hdnJsonScheduleSchool\").val();\r\n\t\t   \t\tvar jsonData = JSON.stringify" +
+"($scope.m);\r\n\t\t\t\t$scope.msgSuccessEscolar = MeetingService.upsertSchoolarship(JS" +
+"ON.stringify($scope.m));\r\n\t\t\t}\r\n\t   }\r\n\r\n\t   $scope.InitSchool = function(){\r\n\t " +
+"  if($scope.m.ScheduleSchool!=undefined&&$scope.m.ScheduleSchool!=null){\r\n\t   \t$" +
+"(\"#hdnJsonScheduleSchool\").val($scope.m.ScheduleSchool);\r\n\t   \tconsole.log(\"hdnJ" +
+"sonScheduleSchool-->\"+$(\"#hdnJsonScheduleSchool\").val());\r\n\t   }\r\n\t   \tif($scope" +
+".m.SchoolBlock!=true){\r\n\t   \t\t$scope.fillModel();\r\n\t   \t}\r\n\t   \t\t\r\n\t   \t\t$scope." +
+"lstLevel=JSON.parse(MeetingService.allAcademicLevels());\r\n\t   \t\tif($scope.m.Scho" +
+"olDegreeId!=undefined&&$scope.m.SchoolDegreeId!=null){\r\n\t   \t\t\t$scope.lstDegree=" +
+"JSON.parse(MeetingService.gradesBySelectedDegree($scope.m.SchoolDegreeId));\r\n\t  " +
+" \t\t\tfor(a in $scope.lstDegree){\r\n\t   \t\t\t\tif($scope.lstDegree[a].Id==$scope.m.Sch" +
+"oolDegreeId){\r\n\t   \t\t\t\t\t$scope.school.degree = $scope.lstDegree[a];\r\n\t   \t\t\t\t\tbr" +
+"eak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t\tfor(b in $scope.lstLevel){\r\n\t   \t\t\t\tif($scope." +
+"lstLevel[b].Id==$scope.school.degree.AcademicLevelId){\r\n\t   \t\t\t\t\t$scope.school.l" +
+"evel=$scope.lstLevel[b];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t}\r\n\t   \t\t/" +
+"/alert(\"model \"+ JSON.stringify($scope.m));\r\n\t   };\r\n////////////////END histori" +
+"a escolar\r\n\r\n////////para Leave country \r\n        $scope.Edocumento = {};\r\n     " +
+"   $scope.ImmigrationDoc = {};\r\n        $scope.ImmigrationDocId = {};\r\n\r\n       " +
+" $scope.specficationImmigranDoc = \"\";\r\n\r\n        $scope.listImmigrationDoc = [];" +
+"\r\n\r\n\t   \t$scope.l={};\r\n\t   \t$scope.l.oc={};\r\n\t   \t\t\r\n\t   \t$scope.l.fac={};\r\n\r\n\t " +
+"  \t$scope.l.rel={};\r\n\r\n\t   \t$scope.l.cf={};\r\n\r\n\t   \t$scope.documentosMigratorios" +
+"Fill = function(){\r\n\t   \t//alert(\"$scope.school.level==\"+JSON.stringify($scope.s" +
+"chool.level));\r\n        $scope.listImmigrationDoc=JSON.parse(MeetingService.docu" +
+"mentosMigratorios());\r\n\t   \t};\r\n\r\n\t   \t$scope.relacionPersonalAll = function(){\r" +
+"\n        $scope.listRel=JSON.parse(MeetingService.relacionPersonal());\r\n\t   \t};\r" +
+"\n\r\n\r\n\t   \t$scope.saveLeaveCountry = function () {\r\n\t\t   \tif($(\"#FormLeaveCountry" +
+"\").valid() == false){\r\n\t\t         return false;\r\n\t\t    }else{\r\n\t        \tvar jso" +
+"nData = JSON.stringify($scope.m);\r\n\t\t\t\t$scope.msgSuccessLeaveCountry = MeetingSe" +
+"rvice.upsertLeaveCountry(JSON.stringify($scope.m));\r\n\t\t\t}\r\n\t    };\r\n\r\n\t    $scop" +
+"e.InitLeaveCountry = function () {\r\n\t    console.log(\"InitLeaveCountry\");\r\n\t    " +
+"if($scope.m.OfficialDocumentationId==undefined){\r\n\t    \t$scope.m.OfficialDocumen" +
+"tationId=2;\r\n\t    }\r\n\t    $scope.Edocumento = $scope.itemListById($scope.m.Offic" +
+"ialDocumentationId, $scope.listElection);\r\n\t    $scope.ImmigrationDoc = $scope.i" +
+"temListById($scope.m.ImmigrationDocumentId, $scope.listImmigrationDoc);\r\n\t    if" +
+"($scope.m.LivedCountryId==undefined){\r\n\t    \t$scope.m.LivedCountryId=2;\r\n\t    }\r" +
 "\n\t    $scope.l.oc = $scope.itemListById($scope.m.LivedCountryId, $scope.listElec" +
 "tion);\r\n\t    $scope.l.country = $scope.itemListById($scope.m.CountryId, $scope.l" +
-"istCountry);\r\n\t    $scope.l.fac = $scope.itemListById($scope.m.FamilyAnotherCoun" +
-"tryId, $scope.listElection);\r\n\t    $scope.l.cf = $scope.itemListById($scope.m.Co" +
-"mmunicationFamilyId, $scope.listElection);\r\n\t    $scope.l.rel = $scope.itemListB" +
-"yId($scope.m.RelationshipId, $scope.listRel);\r\n\t    };\r\n\r\n///////////end Leave c" +
-"ountry\r\n\r\n        $timeout(function () {\r\n    \t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n" +
-"\r\n\t\t$scope.Iniciate = function(){\r\n\t\t    try{\r\n\t\t\t    //alert(\"asshole html>>\"+$" +
-"(\"#asshole\").html());\r\n\t\t\t    var js = JSON.parse($(\"#hdnJsonMtng\").val());\r\n\t\t\t" +
-"    $scope.m = js;\r\n\t\t\t    //alert(\"m valu>>\"+JSON.stringify($scope.m));\r\n\t\t\t   " +
-" //Birthplace iniciation\r\n\t\t\t    $scope.InitCountryPD();\r\n\t\t\t    //activities in" +
-"iciation\r\n\t\t\t    $scope.InitActivities();\r\n\t\t\t    $scope.InitSchool();\r\n\r\n\t\t\t   " +
-" $scope.InitLeaveCountry();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error cat" +
-"ched Iniciate angular function erro==>\"+err.message);\r\n\t\t    }\r\n\t\t    $(\".blocke" +
-"r\").remove();\r\n\t\t};\r\n\r\n    \r\n    \t\r\n        $scope.save = function(){\r\n\t\t       " +
-"     $scope.Wait = true;\r\n\t\t//todos los key del json deben ser igual al modelo c" +
-"s\r\n\t\t//if($(\"#frmSubmitValuesMeeting\").valid()==false){\r\n\t\t//    $scope.Wait = f" +
-"alse;\r\n\t\t//    return false;\r\n\t\t//}\r\n\t\t//var jsonData = JSON.stringify($scope.m)" +
-";\r\n\t\t//window.location.replace(\'hybrid:Meeting/AddMeeting?model=\' + encodeURICom" +
-"ponent(jsonData));\r\n\t\tconsole.log(\"save meeting\");\r\n\t\tvar reslt = MeetingService" +
-".TerminateMeeting(JSON.stringify($scope.m));\r\n\t\tif(reslt != undefined && reslt !" +
-"= \"\"){\r\n\t\t\tvar obj = JSON.parse(reslt);\r\n            if(obj.groupMessage != unde" +
-"fined){\r\n                for(var i=0; i < obj.groupMessage.length; i++){\r\n      " +
-"              var g1= obj.groupMessage[i];\r\n                    $scope.listMsgEr" +
-"ror[g1.section]= $sce.trustAsHtml( g1.messages);\r\n                }\r\n           " +
-" }\r\n\t\t}else{\r\n\t\t\t$scope.msgSuccessTotally = \"total successs\";\r\n\t\t\t$scope.cancel(" +
-");\r\n\t\t}\r\n\t\t//TerminateMeeting\r\n\t\t$scope.Wait = false;\r\n\t\t};\r\n\r\n\r\n\r\n$scope.showMe" +
-"ssageError = function(indicator){\r\n    alert(indicator);\r\n};\r\n\r\n\r\n\r\n$scope.showS" +
-"tate = function(){\r\n    //alert(\"html >>\"+$(\"#AdresBirth\").html());\r\n    //alert" +
-"(\"   m.BirthCountry_>\"+$scope.m.BirthCountry);\r\n\talert(\"$scope.specification=>\"+" +
-"JSON.stringify($scope.specification));\r\n    alert(\"$scope.lstActivity=>\"+JSON.st" +
-"ringify($scope.lstActivity));\r\n    alert(\"$scope.activityModel=>\"+JSON.stringify" +
-"($scope.activityModel));\r\n    alert(\"$scope.activityList=>\"+JSON.stringify($scop" +
-"e.activityList));\r\n};\r\n\r\n\r\n\r\n//regresa la pantalla de seleccion de meeting\r\n$sco" +
-"pe.cancel = function(){\r\n    $scope.saving = false;\r\n//todos los key del json de" +
-"ben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Meeting/Index\');\r\n};" +
-"\r\n\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    console.log(\"idObj=\"" +
-"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.length;x" +
-"++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t" +
-"    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t    $scope.showMessageError =" +
-" function(elementClick){\r\n        $(\"#divErrorMessage\").show();\r\n        var pos" +
-"ition = $(\".tab-content\").position();\r\n        $(\"#divErrorMessage\").css(\"left\"," +
-"position.left+5);\r\n        $(\"#divErrorMessage\").addClass(\"errorMessageClass\");\r" +
-"\n        $scope.entityError=elementClick;\r\n    \t};\r\n\r\n    $scope.hideMessageErro" +
-"r = function(){\r\n        $(\"#divErrorMessage\").hide();\r\n    };\r\n\r\n});\r\n\r\n\r\n</scr" +
-"ipt>\r\n<div");
+"istCountry);\r\n\t    if($scope.m.FamilyAnotherCountryId==undefined){\r\n\t    \t$scope" +
+".m.FamilyAnotherCountryId=2;\r\n\t    }\r\n\t    $scope.l.fac = $scope.itemListById($s" +
+"cope.m.FamilyAnotherCountryId, $scope.listElection);\r\n\t    if($scope.m.Communica" +
+"tionFamilyId==undefined){\r\n\t    \t$scope.m.CommunicationFamilyId=2;\r\n\t    }\r\n\t   " +
+" $scope.l.cf = $scope.itemListById($scope.m.CommunicationFamilyId, $scope.listEl" +
+"ection);\r\n\t    $scope.l.rel = $scope.itemListById($scope.m.RelationshipId, $scop" +
+"e.listRel);\r\n\t    };\r\n\r\n///////////end Leave country\r\n\r\n        $timeout(functio" +
+"n () {\r\n    \t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n\r\n\t\t$scope.Iniciate = function(){\r" +
+"\n\t\t    try{\r\n\t\t\t    var js = JSON.parse($(\"#hdnJsonMtng\").val());\r\n\t\t\t    $scope" +
+".m = js;\r\n\t\t\t    //alert(\"m valu>>\"+JSON.stringify($scope.m));\r\n\t\t\t    //Birthpl" +
+"ace iniciation\r\n\t\t\t    $scope.InitCountryPD();\r\n\t\t\t    //activities iniciation\r\n" +
+"\t\t\t    $scope.InitActivities();\r\n\t\t\t    $scope.InitSchool();\r\n\r\n\t\t\t    $scope.In" +
+"itLeaveCountry();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error catched Inici" +
+"ate angular function erro==>\"+err.message);\r\n\t\t    }\r\n\t\t    $(\"#blocker\").remove" +
+"();\r\n\t\t};\r\n\r\n    \r\n    \t\r\n        $scope.save = function(){\r\n\t\t            $scop" +
+"e.Wait = true;\r\n\t\t//todos los key del json deben ser igual al modelo c\r\n\t\t//wind" +
+"ow.location.replace(\'hybrid:Meeting/AddMeeting?model=\' + encodeURIComponent(json" +
+"Data));\r\n\t\tconsole.log(\"save meeting\");\r\n\t\tvar reslt = MeetingService.TerminateM" +
+"eeting(JSON.stringify($scope.m));\r\n\t\tif(reslt != undefined && reslt != \"\"){\r\n\t\t\t" +
+"var obj = JSON.parse(reslt);\r\n            if(obj.groupMessage != undefined){\r\n  " +
+"              for(var i=0; i < obj.groupMessage.length; i++){\r\n                 " +
+"   var g1= obj.groupMessage[i];\r\n                    $scope.listMsgError[g1.sect" +
+"ion]= $sce.trustAsHtml( g1.messages);\r\n                }\r\n            }\r\n\t\t}else" +
+"{\r\n\t\t\t$scope.msgSuccessTotally = \"total successs\";\r\n\t\t\t$scope.cancel();\r\n\t\t}\r\n\t\t" +
+"//TerminateMeeting\r\n\t\t$scope.Wait = false;\r\n\t\t$scope.askTerminatehide();\r\n\t\t};\r\n" +
+"\r\n\r\n//regresa la pantalla de seleccion de meeting\r\n$scope.cancel = function(idCa" +
+"se){\r\nwindow.location.replace(\'hybrid:Verification/IndexFuentes?idCase=\'+idCase)" +
+";\r\n};\r\n\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    console.log(\"id" +
+"Obj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.len" +
+"gth;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak" +
+";\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t$scope.showMessageError " +
+"= function(elementClick){\r\n        $(\"#divErrorMessage\").show();\r\n        var po" +
+"sition = $(\".tab-content\").position();\r\n        $(\"#divErrorMessage\").css(\"left\"" +
+",position.left+5);\r\n        $(\"#divErrorMessage\").addClass(\"errorMessageClass\");" +
+"\r\n        $scope.entityError=elementClick;\r\n    };\r\n\r\n    $scope.hideMessageErro" +
+"r = function(){\r\n        $(\"#divErrorMessage\").hide();\r\n    };\r\n\r\n    $scope.add" +
+"ImputedHome = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/MeetingD" +
+"omicilio?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addPersonSocialN" +
+"etwork = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/PersonSocialN" +
+"etwork?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addReference = fun" +
+"ction(){\r\n    \twindow.location.replace(\'hybrid:Meeting/ReferenceMeeting?idMeetin" +
+"g=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addJob = function(){\r\n    \twindow" +
+".location.replace(\'hybrid:Meeting/JobMeeting?idMeeting=\'+$scope.m.MeetingId);\r\n " +
+"   };\r\n\r\n    $scope.addDrug = function(){\r\n    \twindow.location.replace(\'hybrid:" +
+"Meeting/DrugMeeting?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.askTe" +
+"rminateshow = function (){\r\n\t\tvar dlgMsgBox = $(\'#MessageBoxDlgTerminateId\');\r\n\t" +
+"\tdlgMsgBox.show();\r\n\t};\r\n\r\n\t$scope.askTerminatehide = function (){\r\n\t\tvar dlgMsg" +
+"Box = $(\'#MessageBoxDlgTerminateId\');\r\n\t\tdlgMsgBox.hide();\r\n\t};\r\n\r\n\t$scope.showC" +
+"hoicesSection = function() {\r\n\r\n\t};\r\n\r\n});\r\n\r\n\r\n</script>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -250,11 +363,7 @@ WriteLiteral(" ng-app=\"umecaMobile\"");
 
 WriteLiteral(" ng-controller=\"MeettingDatosPersonalesController\"");
 
-WriteLiteral(">\r\n    <div");
-
-WriteLiteral(" id=\"asshole\"");
-
-WriteLiteral(">\r\n    <input");
+WriteLiteral(">\r\n    <div>\r\n    <input");
 
 WriteLiteral(" id=\"hdnJsonMtng\"");
 
@@ -262,7 +371,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 465 "VerificacionInterview.cshtml"
+#line 538 "VerificacionInterview.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -272,6 +381,8 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(" name=\"jsonString\"");
 
 WriteLiteral(" />\r\n    </div>\r\n<div");
+
+WriteLiteral(" id=\"blocker\"");
 
 WriteLiteral(" class=\"blocker\"");
 
@@ -305,7 +416,90 @@ WriteLiteral("></i>\r\n        </button>\r\n        <br/>\r\n        <span");
 
 WriteLiteral(" ng-bind-html=\"listMsgError[entityError]\"");
 
-WriteLiteral("></span>\r\n        <br/>\r\n    </div>\r\n\r\n\r\n\r\n    <div");
+WriteLiteral("></span>\r\n        <br/>\r\n    </div>\r\n\r\n\r\n    <!--Terminate ask-->\r\n<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0" +
+" -30%;\"");
+
+WriteLiteral(" id=\"MessageBoxDlgTerminateId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"MessageBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" ng-click=\"askTerminatehide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center\"");
+
+WriteLiteral(">Terminar entrevista</h4>\r\n                </div>\r\n            </div>\r\n          " +
+"  <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(">¿Está seguro que desea terminar la entrevista de riesgos procesales?</div>\r\n    " +
+"        </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-info\"");
+
+WriteLiteral(" ng-click=\"save();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" ng-click=\"askTerminatehide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -387,7 +581,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 529 "VerificacionInterview.cshtml"
+#line 628 "VerificacionInterview.cshtml"
                Write(Model.DateCreate);
 
 
@@ -407,7 +601,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 536 "VerificacionInterview.cshtml"
+#line 635 "VerificacionInterview.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -959,8 +1153,6 @@ WriteLiteral(" id=\"FormPersonalData\"");
 
 WriteLiteral(" name=\"FormPersonalData\"");
 
-WriteLiteral(" ng-submit=\"submit(\'#FormPersonalData\')\"");
-
 WriteLiteral("\r\n                                class=\"form-horizontal\"");
 
 WriteLiteral("\r\n                                role=\"form\"");
@@ -971,7 +1163,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 749 "VerificacionInterview.cshtml"
+#line 848 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -2345,7 +2537,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1153 "VerificacionInterview.cshtml"
+#line 1252 "VerificacionInterview.cshtml"
                                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
@@ -2428,7 +2620,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1171 "VerificacionInterview.cshtml"
+#line 1270 "VerificacionInterview.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
@@ -2479,13 +2671,12 @@ WriteLiteral("\r\n                                                        name=\
 
 WriteLiteral(" data-val-required=\"El municipio es un campo requerido\"");
 
-WriteLiteral("\r\n                                                        ng-init=\'\'");
-
-WriteLiteral(">\r\n                                                        <span");
+WriteLiteral("\r\n                                                        >\r\n                    " +
+"                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"imputed.birthMunicipality\"");
+WriteLiteral(" data-valmsg-for=\"m.BirthMunicipality\"");
 
 WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
 "ue\"");
@@ -2799,8 +2990,8 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1272 "VerificacionInterview.cshtml"
-           , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
+#line 1371 "VerificacionInterview.cshtml"
+                                   , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
 #line hidden
@@ -2925,15 +3116,7 @@ WriteLiteral(">\r\n                            <span");
 WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\t\"");
 
 WriteLiteral("></span>\r\n                            Guardar\r\n                        </span>\r\n " +
-"                   </div>\r\n                </div>\r\n                <!--<input");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" ng-click=\"showState();\"");
-
-WriteLiteral(" value=\"ertyuiopfghj\"");
-
-WriteLiteral("/>-->\r\n\r\n\r\n<div");
+"                   </div>\r\n                </div>\r\n<div");
 
 WriteLiteral(" class=\"space-2\"");
 
@@ -2963,28 +3146,10 @@ WriteLiteral(" id=\"toolbarDomicilios\"");
 
 WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(">\r\n\t    <!--<a");
+WriteLiteral(">\r\n<a");
 
-WriteAttribute ("href", " href=\"", "\""
+WriteLiteral(" href=\"javascript:;\"");
 
-#line 1348 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingDomicilio","Meeting")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">-->\r\n<a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 1349 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingDomicilio","Meeting")
-
-#line default
-#line hidden
-, false)
-);
 WriteLiteral(">\r\n\t    <button");
 
 WriteLiteral(" type=\"button\"");
@@ -2993,70 +3158,48 @@ WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" id=\"btnAddDomicilio\"");
 
+WriteLiteral(" ng-click=\"addImputedHome();\"");
+
 WriteLiteral(">\r\n\t        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n</a>\r\n\t    <button");
+WriteLiteral("></i>\r\n\t    </button>\r\n</a>\r\n\t</div>\r\n\t<script>\r\n\tfunction elimirarDomicilioImput" +
+"ado(respuesta){\r\n\t\tconsole.log(\"elimirarDomicilioImputado respuesta>>\"+respuesta" +
+");\r\n\t\tvar valus = [];\r\n\t\tvalus[0]=respuesta;\r\n\t\tvar reslt = MeetingService.erase" +
+"ImputedHome(respuesta);\r\n\t\tconsole.log(\"reslt>>\"+reslt);\r\n\t\t$(\'#tr-IH-\'+respuest" +
+"a).remove();\r\n\t\t$(\'#meetingImputedHomeTbl\').bootstrapTable(\'refresh\', {silent: t" +
+"rue});\r\n\t\tif($(\"#meetingImputedHomeTbl\").html()==\"\"){\r\n        $(\"#meetingImpute" +
+"dHomeTbl\").html(\"<tr class=\'no-records-found\'><td colspan=\'5\'>No se encontraron " +
+"registros</td></tr>\");\r\n        }\r\n\t\tconsole.log(\"tr de origen \"+$(\"#meetingImpu" +
+"tedHomeTbl\").html());\r\n\t\taskYesNo.hide();\r\n\t}\r\n\r\n\tfunction cancelElimirarDomicil" +
+"ioImputado(){\r\n\t\tconsole.log(\"cancelElimirarDomicilioImputado >>\");\r\n\t\taskYesNo." +
+"hide();\r\n\t}\r\n\r\n\tfunction btnDeleteDomicilio (idHome){\r\n\taskYesNo.yes = elimirarD" +
+"omicilioImputado;\r\n\taskYesNo.no = cancelElimirarDomicilioImputado;\r\n\taskYesNo.re" +
+"ferencia=idHome;\r\n\taskYesNo.show();\r\n    \tconsole.log(\"btnDeleteDomicilio idHome" +
+">>\"+idHome);\r\n\t}\r\n\r\n\tfunction btnEditDomicilio (idHome){\r\n    \tconsole.log(\"edit" +
+"ImputedHome>>\"+idHome);\r\n    \twindow.location.replace(\'hybrid:Meeting/EditMeetin" +
+"gDomicilio?idHome=\'+idHome);\r\n\t}\r\n\t</script>\r\n<table\r\n\t\tdata-toggle=\"table\" data" +
+"-page-size=\"10\" data-page-list=\"[10, 20, 30]\" \r\n     data-pagination=\"true\" data" +
+"-height=\"450\"\r\n     data-striped=\"true\" data-search=\"true\" \r\n     data-search-al" +
+"ign=\"right\" data-toolbar=\"#toolbarDomicilios\" class=\"element-center\" style=\"marg" +
+"in: auto\">\t\t\r\n    <thead>\r\n    <tr>\r\n        <!--<th>ID</th>-->\r\n        <th>Dir" +
+"ecci&oacute;n</th>\r\n        <th>Tel&eacute;fono</th>\r\n        <th>Tipo de domici" +
+"lio</th>\r\n        <th>Tipo de propiedad</th>\r\n        <th>Acci&oacute;n</th>\r\n  " +
+"  </tr>\r\n    </thead>\r\n    <tbody");
 
-WriteLiteral(" type=\"button\"");
+WriteLiteral(" id=\"meetingImputedHomeTbl\"");
 
-WriteLiteral(" class=\"btn btn-default\"");
-
-WriteLiteral(" id=\"btnRereshDomicilio\"");
-
-WriteLiteral(">\r\n\t        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
-
-WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteDomicilio (){\r\n\t al" +
-"ert(\"cliked btnAddDomicilio\");\r\n\t}\r\n\tfunction btnEditDomicilio (){\r\n\t alert(\"cli" +
-"ked btnRereshDomicilio\");\r\n\t}\r\n\t</script>\r\n<table");
-
-WriteLiteral(" data-toggle=\"table\"");
-
-WriteLiteral(" data-page-size=\"10\"");
-
-WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
-
-WriteLiteral("\r\n     data-pagination=\"true\"");
-
-WriteLiteral(" data-height=\"450\"");
-
-WriteLiteral("\r\n     data-striped=\"true\"");
-
-WriteLiteral(" data-search=\"true\"");
-
-WriteLiteral(" \r\n     data-search-align=\"right\"");
-
-WriteLiteral(" data-toolbar=\"#toolbarDomicilios\"");
-
-WriteLiteral(" class=\"element-center\"");
-
-WriteLiteral(" style=\"margin: auto\"");
-
-WriteLiteral(@">
-    <thead>
-    <tr>
-        <!--<th>ID</th>-->
-        <th>Direcci&oacute;n</th>
-        <th>Tel&eacute;fono</th>
-        <th>Tipo de domicilio</th>
-        <th>Tipo de propiedad</th>
-        <th>Acci&oacute;n</th>
-    </tr>
-    </thead>
-    <tbody>
-");
+WriteLiteral(">\r\n");
 
 
-#line 1381 "VerificacionInterview.cshtml"
+#line 1500 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1381 "VerificacionInterview.cshtml"
+#line 1500 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -3067,11 +3210,19 @@ WriteLiteral(@">
 #line hidden
 WriteLiteral("    <tr");
 
-WriteLiteral(" id=\"tr-id-1\"");
+WriteAttribute ("id", " id=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "tr-IH-", true)
 
+#line 1504 "VerificacionInterview.cshtml"
+, Tuple.Create<string,object,bool> ("", Dmcl.Id
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
+WriteLiteral(" >\r\n        <td");
 
 WriteLiteral(" id=\"td-id-1\"");
 
@@ -3082,8 +3233,8 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1387 "VerificacionInterview.cshtml"
-       Write(Dmcl.Description);
+#line 1506 "VerificacionInterview.cshtml"
+       Write(Dmcl.addressString);
 
 
 #line default
@@ -3093,58 +3244,180 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1390 "VerificacionInterview.cshtml"
-    Write(Dmcl.Phone);
+#line 1509 "VerificacionInterview.cshtml"
+       Write(Dmcl.Phone);
 
 
 #line default
 #line hidden
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
-WriteLiteral("        \t");
+
+#line 1512 "VerificacionInterview.cshtml"
+        
+
+#line default
+#line hidden
+
+#line 1512 "VerificacionInterview.cshtml"
+          switch(@Dmcl.RegisterTypeId)
+    {
+        case 1:
+            // Use the text block below to separate html elements from code
 
 
-#line 1393 "VerificacionInterview.cshtml"
-    Write(Dmcl.HomeTypeId);
+#line default
+#line hidden
+WriteLiteral("                <label>Actual</label>\r\n");
 
+
+#line 1517 "VerificacionInterview.cshtml"
+            break;  // Always break each case
+        case 2:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Secundario</label>\r\n");
+
+
+#line 1520 "VerificacionInterview.cshtml"
+            break;
+        case 3:
+
+
+#line default
+#line hidden
+WriteLiteral("       \t\t<label>Anterior</label>\r\n");
+
+
+#line 1523 "VerificacionInterview.cshtml"
+        	break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1526 "VerificacionInterview.cshtml"
+            break;                   
+    }
+    
 
 #line default
 #line hidden
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
-WriteLiteral("        \t");
 
+#line 1531 "VerificacionInterview.cshtml"
+         
 
-#line 1396 "VerificacionInterview.cshtml"
-    Write(Dmcl.RegisterTypeId);
+#line default
+#line hidden
+
+#line 1531 "VerificacionInterview.cshtml"
+           switch(@Dmcl.HomeTypeId)
+    {
+        case 1:
+            // Use the text block below to separate html elements from code
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \t<a");
+WriteLiteral("                <label>Propia</label>\r\n");
+
+
+#line 1536 "VerificacionInterview.cshtml"
+            break;  // Always break each case
+        case 2:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Rentada</label>\r\n");
+
+
+#line 1539 "VerificacionInterview.cshtml"
+            break;
+        case 3:
+
+
+#line default
+#line hidden
+WriteLiteral("       \t\t<label>Prestada</label>\r\n");
+
+
+#line 1542 "VerificacionInterview.cshtml"
+        	break;
+        case 4:
+
+
+#line default
+#line hidden
+WriteLiteral("       \t\t<label>Otro</label>\r\n");
+
+
+#line 1545 "VerificacionInterview.cshtml"
+        	break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1548 "VerificacionInterview.cshtml"
+            break;                   
+    }
+    
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Eliminar domicilio\"");
 
-WriteLiteral(" onclick=\"btnDeleteDomicilio();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnDeleteDomicilio(\'", true)
 
+#line 1553 "VerificacionInterview.cshtml"
+                                                                              , Tuple.Create<string,object,bool> ("", Dmcl.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
 
-WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Editar Domicilio\"");
 
-WriteLiteral(" onclick=\"btnEditDomicilio();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnEditDomicilio(\'", true)
 
+#line 1554 "VerificacionInterview.cshtml"
+                                                                          , Tuple.Create<string,object,bool> ("", Dmcl.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
@@ -3152,15 +3425,14 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1403 "VerificacionInterview.cshtml"
+#line 1557 "VerificacionInterview.cshtml"
 	}
 }
 
 
 #line default
 #line hidden
-WriteLiteral("    </tbody>\r\n</table>\t\r\n\r\n        <!-- Aqui arriba va el bootstrap table de domi" +
-"cilio -->\r\n    </div>\r\n</div>\r\n<br/><br/>\r\n    <div");
+WriteLiteral("    </tbody>\r\n</table>\t\r\n    </div>\r\n</div>\r\n<br/><br/>\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -3213,21 +3485,16 @@ WriteLiteral(" data-valmsg-for=\"comment\"");
 
 WriteLiteral("\r\n                data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n            </div>\r\n        </form>\r\n        <br/>\r\n        <!--<div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n                <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n            </div>\r\n        </div>-->\r\n        <div");
+WriteLiteral(@"></span>
+            </div>
+        </form>
+        <br/>
+        <!--<div class=""col-xs-10 col-xs-offset-1"">
+            <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+                <span ng-bind-html=""msgError""></span>
+            </div>
+        </div>-->
+        <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -3270,44 +3537,55 @@ WriteLiteral(" id=\"toolbarRedSocial\"");
 
 WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(">\r\n\t    <!--<a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 1466 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">-->\r\n\t    <button");
+WriteLiteral(">\r\n\r\n\t    <button");
 
 WriteLiteral(" type=\"button\"");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
-WriteLiteral(" id=\"btnAddsocialNetwork\"");
+WriteLiteral(" id=\"btnAddDomicilio\"");
+
+WriteLiteral(" ng-click=\"addPersonSocialNetwork();\"");
 
 WriteLiteral(">\r\n\t        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+WriteLiteral(@"></i>
+	    </button>
 
-WriteLiteral(" type=\"button\"");
+	</div>
+	<script>
+	function elimirarPersonSn(idPerson){
+		console.log(""elimirarPersonSn idPerson>>""+idPerson);
+		var reslt = MeetingService.erasePersonaRedSocial(idPerson);
+		console.log(""reslt>>""+reslt);
+		$('#tr-PSN-'+idPerson).remove();
+		if($(""#meetingPersonSNTbl"").html()==""""){
+       		$(""#meetingPersonSNTbl"").html(""<tr class='no-records-found'><td colspan='7'>No se encontraron registros</td></tr>"");
+        }
+		askYesNo.hide();
+	}
 
-WriteLiteral(" class=\"btn btn-default\"");
+	function cancelElimirarPersonSn(){
+		console.log(""cancelElimirarPersonSn >>"");
+		askYesNo.hide();
+	}
 
-WriteLiteral(" id=\"btnRereshsocialNetwork\"");
+	function btnDeletePersonSn (idPerson){
+	askYesNo.yes = elimirarPersonSn;
+	askYesNo.no = cancelElimirarPersonSn;
+	askYesNo.referencia=idPerson;
+	askYesNo.show();
+    	console.log(""btnDeletePersonSn idPerson>>""+idPerson);
+	}
 
-WriteLiteral(">\r\n\t        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
-
-WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeletesocialNetwork (){\r\n" +
-"\t alert(\"cliked btnAddsocialNetwork\");\r\n\t}\r\n\tfunction btnEditsocialNetwork (){\r\n" +
-"\t alert(\"cliked btnRereshsocialNetwork\");\r\n\t}\r\n\t</script>\r\n<table");
+	function btnEditPersonSn (idPerson){
+    	console.log(""btnEditPersonSn>>""+idPerson);
+    	window.location.replace('hybrid:Meeting/EditPersonSocialNetwork?idPerson='+idPerson);
+	}
+	</script>
+<table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -3338,31 +3616,43 @@ WriteLiteral(" style=\"width: 30px;\"");
 
 WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Dependiente econ&oacut" +
 "e;mico</th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody" +
-">\r\n");
+"");
+
+WriteLiteral(" id=\"meetingPersonSNTbl\"");
+
+WriteLiteral(">\r\n");
 
 
-#line 1498 "VerificacionInterview.cshtml"
+#line 1670 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1498 "VerificacionInterview.cshtml"
-     if(Model.JsonDomicilios==null){
+#line 1670 "VerificacionInterview.cshtml"
+     if(Model.JsonPersonSN==null){
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
+    foreach(var Jpsn in Model.JsonPersonSN) {
 
 
 #line default
 #line hidden
 WriteLiteral("    <tr");
 
-WriteLiteral(" id=\"tr-id-1\"");
+WriteAttribute ("id", " id=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "tr-PSN-", true)
 
+#line 1674 "VerificacionInterview.cshtml"
+, Tuple.Create<string,object,bool> ("", Jpsn.Id
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
+WriteLiteral(" >\r\n        <td");
 
 WriteLiteral(" id=\"td-id-1\"");
 
@@ -3373,8 +3663,229 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1504 "VerificacionInterview.cshtml"
-       Write(Dmcl.Description);
+#line 1676 "VerificacionInterview.cshtml"
+       Write(Jpsn.Name);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+
+#line 1679 "VerificacionInterview.cshtml"
+  switch(@Jpsn.RelationshipId)
+    {
+        	case 18:   
+
+
+#line default
+#line hidden
+WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
+
+
+#line 1683 "VerificacionInterview.cshtml"
+            break;  
+            case 6:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Amigo</label>\r\n");
+
+
+#line 1686 "VerificacionInterview.cshtml"
+            break;  
+            case 10:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
+
+
+#line 1689 "VerificacionInterview.cshtml"
+            break;  
+            case 12:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Empleado</label>\r\n");
+
+
+#line 1692 "VerificacionInterview.cshtml"
+            break;  
+            case 14:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Esposa</label>\r\n");
+
+
+#line 1695 "VerificacionInterview.cshtml"
+            break;  
+            case 16:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Familiar Político</label>\r\n");
+
+
+#line 1698 "VerificacionInterview.cshtml"
+            break;  
+            case 1:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Hermano</label>\r\n");
+
+
+#line 1701 "VerificacionInterview.cshtml"
+            break;  
+            case 3: 
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Hijo(a)</label>\r\n");
+
+
+#line 1704 "VerificacionInterview.cshtml"
+            break;  
+            case 20:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Imputado</label>\r\n");
+
+
+#line 1707 "VerificacionInterview.cshtml"
+            break;  
+            case 2:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Madre</label>\r\n");
+
+
+#line 1710 "VerificacionInterview.cshtml"
+            break;  
+            case 8:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Ninguno</label>\r\n");
+
+
+#line 1713 "VerificacionInterview.cshtml"
+            break;  
+            case 19:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Otro</label>\r\n");
+
+
+#line 1716 "VerificacionInterview.cshtml"
+            break;  
+            case 17:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Padre</label>\r\n");
+
+
+#line 1719 "VerificacionInterview.cshtml"
+            break;  
+            case 11:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Padrino</label>\r\n");
+
+
+#line 1722 "VerificacionInterview.cshtml"
+            break;  
+            case 13:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Pareja sentimental</label>\r\n");
+
+
+#line 1725 "VerificacionInterview.cshtml"
+            break;  
+            case 9:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Patrón</label>\r\n");
+
+
+#line 1728 "VerificacionInterview.cshtml"
+            break;  
+            case 4:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Primo(a)</label>\r\n");
+
+
+#line 1731 "VerificacionInterview.cshtml"
+            break;  
+            case 15:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Suegra</label>\r\n");
+
+
+#line 1734 "VerificacionInterview.cshtml"
+            break;  
+            case 5:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Tío(a)</label>\r\n");
+
+
+#line 1737 "VerificacionInterview.cshtml"
+            break;  
+            case 7:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Vecino</label>\r\n");
+
+
+#line 1740 "VerificacionInterview.cshtml"
+            break;  
+            default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1743 "VerificacionInterview.cshtml"
+            break;                   
+    }
 
 
 #line default
@@ -3384,8 +3895,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1507 "VerificacionInterview.cshtml"
-    Write(Dmcl.Phone);
+#line 1748 "VerificacionInterview.cshtml"
+       Write(Jpsn.Age);
 
 
 #line default
@@ -3395,48 +3906,136 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1510 "VerificacionInterview.cshtml"
-    Write(Dmcl.HomeTypeId);
+#line 1751 "VerificacionInterview.cshtml"
+       Write(Jpsn.Phone);
 
 
 #line default
 #line hidden
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
-WriteLiteral("        \t");
 
-
-#line 1513 "VerificacionInterview.cshtml"
-    Write(Dmcl.RegisterTypeId);
+#line 1754 "VerificacionInterview.cshtml"
+  switch(@Jpsn.isAccompaniment)
+    {
+        case true:
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n        </td>\r\n        <td>\r\n        </td>\r\n      " +
-"  <td>\r\n         \t<a");
+WriteLiteral("            <label>Si</label>\r\n");
+
+
+#line 1758 "VerificacionInterview.cshtml"
+            break;
+        case false:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>No</label>\r\n");
+
+
+#line 1761 "VerificacionInterview.cshtml"
+            break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1764 "VerificacionInterview.cshtml"
+            break;                   
+    }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
+
+
+#line 1769 "VerificacionInterview.cshtml"
+  switch(@Jpsn.DependentId)
+    {
+        case 1:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Si</label>\r\n");
+
+
+#line 1773 "VerificacionInterview.cshtml"
+            break;
+        case 2:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>No</label>\r\n");
+
+
+#line 1776 "VerificacionInterview.cshtml"
+            break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1779 "VerificacionInterview.cshtml"
+            break;                   
+    }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Eliminar Persona\"");
 
-WriteLiteral(" onclick=\"btnDeletesocialNetwork();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnDeletePersonSn(\'", true)
 
+#line 1784 "VerificacionInterview.cshtml"
+                                                                           , Tuple.Create<string,object,bool> ("", Jpsn.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
 
-WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Editar Persona\"");
 
-WriteLiteral(" onclick=\"btnEditsocialNetwork();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnEditPersonSn(\'", true)
 
+#line 1785 "VerificacionInterview.cshtml"
+                                                                       , Tuple.Create<string,object,bool> ("", Jpsn.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
@@ -3444,7 +4043,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1524 "VerificacionInterview.cshtml"
+#line 1788 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -3512,17 +4111,9 @@ WriteLiteral("></span>\r\n                </div>\r\n    </form>\r\n    <br/>\r\n
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
-WriteLiteral(">\r\n    <!--<div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n        <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n    </div>-->\r\n        </div>\r\n    <div");
+WriteLiteral(">\r\n    <!--<div ng-show=\"msgError\" class=\"alert alert-danger element-center error" +
+"-font\">\r\n        <span ng-bind-html=\"msgError\"></span>\r\n    </div>-->\r\n        <" +
+"/div>\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -3569,18 +4160,7 @@ WriteLiteral(" id=\"toolbarReferencias\"");
 
 WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(">\r\n\t    <!--<a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 1589 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">-->\r\n\t    <button");
+WriteLiteral(">\r\n\t    <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -3588,26 +4168,46 @@ WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" id=\"btnAddpersonalReferences\"");
 
+WriteLiteral(" ng-click=\"addReference();\"");
+
 WriteLiteral(">\r\n\t        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+WriteLiteral(@"></i>
+	    </button>
+</div>
+	<script>
+	function elimirarReference(idReference){
+		console.log(""elimirarReference idReference>>""+idReference);
+		var reslt = MeetingService.eraseReferencia(idReference);
+		console.log(""reslt>>""+reslt);
+		$('#tr-MRF-'+idReference).remove();
+		if($(""#meetingReferenceTbl"").html()==""""){
+       		$(""#meetingReferenceTbl"").html(""<tr class='no-records-found'><td colspan='6'>No se encontraron registros</td></tr>"");
+        }
+		askYesNo.hide();
+	}
 
-WriteLiteral(" type=\"button\"");
+	function cancelElimirarReference(){
+		console.log(""cancelElimirarReference >>"");
+		askYesNo.hide();
+	}
 
-WriteLiteral(" class=\"btn btn-default\"");
+	function btnDeleteReference (idReference){
+	askYesNo.yes = elimirarReference;
+	askYesNo.no = cancelElimirarReference;
+	askYesNo.referencia=idReference;
+	askYesNo.show();
+    	console.log(""btnDeleteReference idReference>>""+idReference);
+	}
 
-WriteLiteral(" id=\"btnRereshpersonalReferences\"");
-
-WriteLiteral(">\r\n\t        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
-
-WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeletepersonalReferences " +
-"(){\r\n\t alert(\"cliked btnAddpersonalReferences\");\r\n\t}\r\n\tfunction btnEditpersonalR" +
-"eferences (){\r\n\t alert(\"cliked btnRereshpersonalReferences\");\r\n\t}\r\n\t</script>\r\n<" +
-"table");
+	function btnEditReference (idReference){
+    	console.log(""btnEditReference>>""+idReference);
+    	window.location.replace('hybrid:Meeting/EditReferenceMeeting?idReference='+idReference);
+	}
+	</script>
+<table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -3636,33 +4236,44 @@ WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Nombre</th>\r\n       
 
 WriteLiteral(" style=\"width: 30px;\"");
 
-WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Dependiente econ&oacut" +
-"e;mico</th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody" +
-">\r\n");
+WriteLiteral(">Acompaña al imputado durante el proceso</th>\r\n        <th>Acci&oacute;n</th>\r\n  " +
+"  </tr>\r\n    </thead>\r\n    <tbody");
+
+WriteLiteral(" id=\"meetingReferenceTbl\"");
+
+WriteLiteral(">\r\n");
 
 
-#line 1621 "VerificacionInterview.cshtml"
+#line 1902 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1621 "VerificacionInterview.cshtml"
-     if(Model.JsonDomicilios==null){	
+#line 1902 "VerificacionInterview.cshtml"
+     if(Model.JsonReferences==null){	
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
+    foreach(var Jrfnc in Model.JsonReferences) {
 
 
 #line default
 #line hidden
-WriteLiteral("    <tr");
+WriteLiteral("   <tr");
 
-WriteLiteral(" id=\"tr-id-1\"");
+WriteAttribute ("id", " id=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "tr-MRF-", true)
 
+#line 1906 "VerificacionInterview.cshtml"
+, Tuple.Create<string,object,bool> ("", Jrfnc.Id
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
+WriteLiteral(" >\r\n        <td");
 
 WriteLiteral(" id=\"td-id-1\"");
 
@@ -3673,8 +4284,229 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1627 "VerificacionInterview.cshtml"
-       Write(Dmcl.Description);
+#line 1908 "VerificacionInterview.cshtml"
+       Write(Jrfnc.FullName);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+
+#line 1911 "VerificacionInterview.cshtml"
+  switch(@Jrfnc.RelationshipId)
+    {
+        	case 18:   
+
+
+#line default
+#line hidden
+WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
+
+
+#line 1915 "VerificacionInterview.cshtml"
+            break;  
+            case 6:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Amigo</label>\r\n");
+
+
+#line 1918 "VerificacionInterview.cshtml"
+            break;  
+            case 10:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
+
+
+#line 1921 "VerificacionInterview.cshtml"
+            break;  
+            case 12:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Empleado</label>\r\n");
+
+
+#line 1924 "VerificacionInterview.cshtml"
+            break;  
+            case 14:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Esposa</label>\r\n");
+
+
+#line 1927 "VerificacionInterview.cshtml"
+            break;  
+            case 16:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Familiar Político</label>\r\n");
+
+
+#line 1930 "VerificacionInterview.cshtml"
+            break;  
+            case 1:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Hermano</label>\r\n");
+
+
+#line 1933 "VerificacionInterview.cshtml"
+            break;  
+            case 3: 
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Hijo(a)</label>\r\n");
+
+
+#line 1936 "VerificacionInterview.cshtml"
+            break;  
+            case 20:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Imputado</label>\r\n");
+
+
+#line 1939 "VerificacionInterview.cshtml"
+            break;  
+            case 2:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Madre</label>\r\n");
+
+
+#line 1942 "VerificacionInterview.cshtml"
+            break;  
+            case 8:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Ninguno</label>\r\n");
+
+
+#line 1945 "VerificacionInterview.cshtml"
+            break;  
+            case 19:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Otro</label>\r\n");
+
+
+#line 1948 "VerificacionInterview.cshtml"
+            break;  
+            case 17:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Padre</label>\r\n");
+
+
+#line 1951 "VerificacionInterview.cshtml"
+            break;  
+            case 11:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Padrino</label>\r\n");
+
+
+#line 1954 "VerificacionInterview.cshtml"
+            break;  
+            case 13:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Pareja sentimental</label>\r\n");
+
+
+#line 1957 "VerificacionInterview.cshtml"
+            break;  
+            case 9:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Patrón</label>\r\n");
+
+
+#line 1960 "VerificacionInterview.cshtml"
+            break;  
+            case 4:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Primo(a)</label>\r\n");
+
+
+#line 1963 "VerificacionInterview.cshtml"
+            break;  
+            case 15:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Suegra</label>\r\n");
+
+
+#line 1966 "VerificacionInterview.cshtml"
+            break;  
+            case 5:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Tío(a)</label>\r\n");
+
+
+#line 1969 "VerificacionInterview.cshtml"
+            break;  
+            case 7:  
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Vecino</label>\r\n");
+
+
+#line 1972 "VerificacionInterview.cshtml"
+            break;  
+            default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1975 "VerificacionInterview.cshtml"
+            break;                   
+    }
 
 
 #line default
@@ -3684,8 +4516,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1630 "VerificacionInterview.cshtml"
-    Write(Dmcl.Phone);
+#line 1980 "VerificacionInterview.cshtml"
+       Write(Jrfnc.Age);
 
 
 #line default
@@ -3695,48 +4527,95 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1633 "VerificacionInterview.cshtml"
-    Write(Dmcl.HomeTypeId);
+#line 1983 "VerificacionInterview.cshtml"
+       Write(Jrfnc.Phone);
 
 
 #line default
 #line hidden
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
-WriteLiteral("        \t");
 
-
-#line 1636 "VerificacionInterview.cshtml"
-    Write(Dmcl.RegisterTypeId);
+#line 1986 "VerificacionInterview.cshtml"
+  switch(@Jrfnc.IsAccompaniment)
+    {
+        case true:
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n        </td>\r\n        <td>\r\n        </td>\r\n      " +
-"  <td>\r\n         \t<a");
+WriteLiteral("            <label>Si</label>\r\n");
+
+
+#line 1990 "VerificacionInterview.cshtml"
+            break;
+        case false:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>No</label>\r\n");
+
+
+#line 1993 "VerificacionInterview.cshtml"
+            break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 1996 "VerificacionInterview.cshtml"
+            break;                   
+    }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Eliminar Registro\"");
 
-WriteLiteral(" onclick=\"btnDeletepersonalReferences();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnDeleteReference(\'", true)
 
+#line 2001 "VerificacionInterview.cshtml"
+                                                                             , Tuple.Create<string,object,bool> ("", Jrfnc.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
 
-WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Editar Registro\"");
 
-WriteLiteral(" onclick=\"btnEditpersonalReferences();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnEditReference(\'", true)
 
+#line 2002 "VerificacionInterview.cshtml"
+                                                                         , Tuple.Create<string,object,bool> ("", Jrfnc.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
@@ -3744,7 +4623,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1647 "VerificacionInterview.cshtml"
+#line 2005 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -3755,7 +4634,7 @@ WriteLiteral("    </tbody>\r\n</table>\r\n    </div>\r\n</div>\r\n    <br/><br/>
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" >\r\n\r\n    <<div");
+WriteLiteral(" >\r\n\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -3809,21 +4688,16 @@ WriteLiteral(" data-valmsg-for=\"comment\"");
 
 WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n    <!--<div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+WriteLiteral(@"></span>
+        </div>
+    </form>
+    <br/>
+    <!--<div class=""col-xs-10 col-xs-offset-1"">
+        <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+            <span ng-bind-html=""msgError""></span>
+        </div>
+    </div>-->
+    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -3870,18 +4744,7 @@ WriteLiteral(" id=\"toolbarHistorialLaboral\"");
 
 WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(">\r\n\t    <!--<a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 1717 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">-->\r\n\t    <button");
+WriteLiteral(">\r\n\t    <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -3889,25 +4752,46 @@ WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" id=\"btnAddHistorialLaboral\"");
 
-WriteLiteral(">\r\n\t        <i");
+WriteLiteral(" ng-click=\"addJob();\"");
+
+WriteLiteral(" >\r\n\t        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+WriteLiteral(@"></i>
+	    </button>
+	</div>
+	<script>
+	function elimirarJob(idJob){
+		console.log(""elimirarJob idJob>>""+idJob);
+		var reslt = MeetingService.eraseLaboral(idJob);
+		console.log(""reslt>>""+reslt);
+		$('#tr-MJB-'+idJob).remove();
+		if($(""#meetingJobTbl"").html()==""""){
+       		$(""#meetingJobTbl"").html(""<tr class='no-records-found'><td colspan='6'>No se encontraron registros</td></tr>"");
+        }
+		askYesNo.hide();
+	}
 
-WriteLiteral(" type=\"button\"");
+	function cancelElimirarJob(){
+		console.log(""cancelElimirarJob >>"");
+		askYesNo.hide();
+	}
 
-WriteLiteral(" class=\"btn btn-default\"");
+	function btnDeleteJob (idJob){
+	askYesNo.yes = elimirarJob;
+	askYesNo.no = cancelElimirarJob;
+	askYesNo.referencia=idJob;
+	askYesNo.show();
+    	console.log(""btnDeleteJob idJob>>""+idJob);
+	}
 
-WriteLiteral(" id=\"btnRereshHistorialLaboral\"");
-
-WriteLiteral(">\r\n\t        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
-
-WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteHistorialLaboral ()" +
-"{\r\n\t alert(\"cliked btnAddHistorialLaboral\");\r\n\t}\r\n\tfunction btnEditHistorialLabo" +
-"ral (){\r\n\t alert(\"cliked btnRereshHistorialLaboral\");\r\n\t}\t\t\r\n\t</script>\r\n<table");
+	function btnEditJob (idJob){
+    	console.log(""btnEditReference>>""+idJob);
+    	window.location.replace('hybrid:Meeting/EditJobMeeting?idJob='+idJob);
+	}	
+	</script>
+<table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -3933,31 +4817,43 @@ WriteLiteral(" style=\"margin: auto\"");
 
 WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Empresa</th>\r\n        <th>Puesto</th>\r\n    " +
 "    <th>Patr&oacute;n</th>\r\n        <th>Tel&eacute;fono</th>\r\n        <th>Tipo</" +
-"th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
+"th>\r\n        <th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody");
+
+WriteLiteral(" id=\"meetingJobTbl\"");
+
+WriteLiteral(">\r\n");
 
 
-#line 1748 "VerificacionInterview.cshtml"
+#line 2124 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1748 "VerificacionInterview.cshtml"
-     if(Model.JsonDomicilios==null){	
+#line 2124 "VerificacionInterview.cshtml"
+     if(Model.JsonJobs==null){	
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
+    foreach(var Jjbs in Model.JsonJobs) {
 
 
 #line default
 #line hidden
 WriteLiteral("    <tr");
 
-WriteLiteral(" id=\"tr-id-1\"");
+WriteAttribute ("id", " id=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "tr-MJB-", true)
 
+#line 2128 "VerificacionInterview.cshtml"
+, Tuple.Create<string,object,bool> ("", Jjbs.Id
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
+WriteLiteral(" >\r\n        <td");
 
 WriteLiteral(" id=\"td-id-1\"");
 
@@ -3968,8 +4864,8 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1754 "VerificacionInterview.cshtml"
-       Write(Dmcl.Description);
+#line 2130 "VerificacionInterview.cshtml"
+       Write(Jjbs.Company);
 
 
 #line default
@@ -3979,8 +4875,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1757 "VerificacionInterview.cshtml"
-    Write(Dmcl.Phone);
+#line 2133 "VerificacionInterview.cshtml"
+       Write(Jjbs.Post);
 
 
 #line default
@@ -3990,8 +4886,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1760 "VerificacionInterview.cshtml"
-    Write(Dmcl.HomeTypeId);
+#line 2136 "VerificacionInterview.cshtml"
+       Write(Jjbs.NameHead);
 
 
 #line default
@@ -4001,36 +4897,106 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1763 "VerificacionInterview.cshtml"
-    Write(Dmcl.RegisterTypeId);
+#line 2139 "VerificacionInterview.cshtml"
+       Write(Jjbs.Phone);
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n        </td>\r\n        <td>\r\n         \t<a");
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+
+#line 2142 "VerificacionInterview.cshtml"
+  switch(@Jjbs.RegisterTypeId)
+    {
+        case 1:
+            // Use the text block below to separate html elements from code
+
+
+#line default
+#line hidden
+WriteLiteral("                <label>Actual</label>\r\n");
+
+
+#line 2147 "VerificacionInterview.cshtml"
+            break;  // Always break each case
+        case 2:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label>Secundario</label>\r\n");
+
+
+#line 2150 "VerificacionInterview.cshtml"
+            break;
+        case 3:
+
+
+#line default
+#line hidden
+WriteLiteral("       \t\t<label>Anterior</label>\r\n");
+
+
+#line 2153 "VerificacionInterview.cshtml"
+        	break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 2156 "VerificacionInterview.cshtml"
+            break;                   
+    }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Eliminar Registro\"");
 
-WriteLiteral(" onclick=\"btnDeleteHistorialLaboral();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnDeleteJob(\'", true)
 
+#line 2161 "VerificacionInterview.cshtml"
+                                                                       , Tuple.Create<string,object,bool> ("", Jjbs.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
 
-WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n        <a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Editar Registro\"");
 
-WriteLiteral(" onclick=\"btnEditHistorialLaboral();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnEditJob(\'", true)
 
+#line 2162 "VerificacionInterview.cshtml"
+                                                                   , Tuple.Create<string,object,bool> ("", Jjbs.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
@@ -4038,7 +5004,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1772 "VerificacionInterview.cshtml"
+#line 2165 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -4112,21 +5078,17 @@ WriteLiteral(" data-valmsg-for=\"commentJob\"");
 
 WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n\r\n    <!--<div");
+WriteLiteral(@"></span>
+        </div>
+    </form>
+    <br/>
 
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+    <!--<div class=""col-xs-10 col-xs-offset-1"">
+        <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+            <span ng-bind-html=""msgError""></span>
+        </div>
+    </div>-->
+    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -4722,23 +5684,21 @@ WriteLiteral(">\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteLiteral(" ng-update-hidden");
-
 WriteLiteral(" ng-model=\"schString\"");
 
-WriteLiteral(" name=\'sch\'");
+WriteLiteral(" name=\"sch\"");
 
 WriteLiteral(" id=\"hdnJsonScheduleSchool\"");
 
-WriteLiteral(">\r\n        <input");
+WriteLiteral(" ng-update-hidden >\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" ng-model=\"content\"");
 
-WriteLiteral(" value=\"School\"");
+WriteLiteral(" ng-init=\"content =\'\'+\'School\';\"");
 
-WriteLiteral(" ng-update-hidden  >\r\n        <div");
+WriteLiteral(" ng-update-hidden >\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -5037,18 +5997,7 @@ WriteLiteral(" id=\"toolbarDrug\"");
 
 WriteLiteral(" class=\"btn-group\"");
 
-WriteLiteral(">\r\n\t    <!--<a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 2173 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">-->\r\n\t    <button");
+WriteLiteral(">\r\n\t    <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -5056,25 +6005,46 @@ WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" id=\"btnAddDrug\"");
 
+WriteLiteral(" ng-click=\"addDrug();\"");
+
 WriteLiteral(">\r\n\t        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n\t    </button><!--</a>-->\r\n\t    <button");
+WriteLiteral(@"></i>
+	    </button>
+	</div>
+	<script>
+	function elimirarDrug(idDrug){
+		console.log(""elimirarDrug idDrug>>""+idDrug);
+		var reslt = MeetingService.eraseDrug(idDrug);
+		console.log(""reslt>>""+reslt);
+		$('#tr-MDRG-'+idDrug).remove();
+		if($(""#meetingDrugTbl"").html()==""""){
+       		$(""#meetingDrugTbl"").html(""<tr class='no-records-found'><td colspan='5'>No se encontraron registros</td></tr>"");
+        }
+		askYesNo.hide();
+	}
 
-WriteLiteral(" type=\"button\"");
+	function cancelElimirarDrug(){
+		console.log(""cancelElimirarDrug >>"");
+		askYesNo.hide();
+	}
 
-WriteLiteral(" class=\"btn btn-default\"");
+	function btnDeleteDrug (idDrug){
+	askYesNo.yes = elimirarDrug;
+	askYesNo.no = cancelElimirarDrug;
+	askYesNo.referencia=idDrug;
+	askYesNo.show();
+    	console.log(""btnDeleteDrug idDrug>>""+idDrug);
+	}
 
-WriteLiteral(" id=\"btnRereshDrug\"");
-
-WriteLiteral(">\r\n\t        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
-
-WriteLiteral("></i>\r\n\t    </button>\r\n\t</div>\r\n\t<script>\r\n\tfunction btnDeleteDrug (){\r\n\t alert(\"" +
-"cliked btnAddDrug\");\r\n\t}\r\n\tfunction btnEditDrug (){\r\n\t alert(\"cliked btnRereshDr" +
-"ug\");\r\n\t}\r\n\t</script>\r\n<table");
+	function btnEditDrug (idDrug){
+    	console.log(""btnEditReference>>""+idDrug);
+    	window.location.replace('hybrid:Meeting/EditDrugMeeting?idDrug='+idDrug);
+	}
+	</script>
+<table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -5100,43 +6070,316 @@ WriteLiteral(" style=\"margin: auto\"");
 
 WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>Sustancia</th>\r\n        <th>Periodicidad</t" +
 "h>\r\n        <th>Cantidad</th>\r\n        <th>&Uacute;ltimo consumo</th>\r\n        <" +
-"th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n");
+"th>Acci&oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody");
+
+WriteLiteral(" id=\"meetingDrugTbl\"");
+
+WriteLiteral(">\r\n");
 
 
-#line 2203 "VerificacionInterview.cshtml"
+#line 2614 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2203 "VerificacionInterview.cshtml"
-     if(Model.JsonDomicilios==null){	
+#line 2614 "VerificacionInterview.cshtml"
+     if(Model.JsonDrugs==null){	
     }
     else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
+    foreach(var Jdrg in Model.JsonDrugs) {
 
 
 #line default
 #line hidden
 WriteLiteral("    <tr");
 
-WriteLiteral(" id=\"tr-id-1\"");
+WriteAttribute ("id", " id=\'", "\'"
+, Tuple.Create<string,object,bool> ("", "tr-MDRG-", true)
 
+#line 2618 "VerificacionInterview.cshtml"
+, Tuple.Create<string,object,bool> ("", Jdrg.Id
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
+WriteLiteral(" >\r\n        <td");
 
 WriteLiteral(" id=\"td-id-1\"");
 
 WriteLiteral(" class=\"td-class-1\"");
 
-WriteLiteral(">\r\n");
-
-WriteLiteral("            ");
+WriteLiteral(">\r\n            \r\n");
 
 
-#line 2209 "VerificacionInterview.cshtml"
-       Write(Dmcl.Description);
+#line 2621 "VerificacionInterview.cshtml"
+  switch(@Jdrg.DrugTypeId)
+    {
+    		case 1:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Alcohol</label>\r\n");
+
+
+#line 2625 "VerificacionInterview.cshtml"
+            break;
+            case 10:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Anfetaminas</label>\r\n");
+
+
+#line 2628 "VerificacionInterview.cshtml"
+            break;
+            case 8:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Cemento</label>\r\n");
+
+
+#line 2631 "VerificacionInterview.cshtml"
+            break;
+            case 3:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Cocacaína</label>\r\n");
+
+
+#line 2634 "VerificacionInterview.cshtml"
+            break;
+            case 12:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Extasis</label>\r\n");
+
+
+#line 2637 "VerificacionInterview.cshtml"
+            break;
+            case 4:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Heroína</label>\r\n");
+
+
+#line 2640 "VerificacionInterview.cshtml"
+            break;
+            case 13:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Hongos</label>\r\n");
+
+
+#line 2643 "VerificacionInterview.cshtml"
+            break;
+            case 9:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>LSD</label>\r\n");
+
+
+#line 2646 "VerificacionInterview.cshtml"
+            break;
+            case 2:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Marihuana</label>\r\n");
+
+
+#line 2649 "VerificacionInterview.cshtml"
+            break;
+            case 11:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
+
+
+#line 2652 "VerificacionInterview.cshtml"
+            break;
+            case 15:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>No consume</label>\r\n");
+
+
+#line 2655 "VerificacionInterview.cshtml"
+            break;
+            case 5:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Opiáceos</label>\r\n");
+
+
+#line 2658 "VerificacionInterview.cshtml"
+            break;
+            case 14:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Otro</label>\r\n");
+
+
+#line 2661 "VerificacionInterview.cshtml"
+            break;
+            case 6:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
+
+
+#line 2664 "VerificacionInterview.cshtml"
+            break;
+            case 7:
+
+
+#line default
+#line hidden
+WriteLiteral("\t<label>Solventes</label>\r\n");
+
+
+#line 2667 "VerificacionInterview.cshtml"
+            break;
+        	default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 2670 "VerificacionInterview.cshtml"
+            break;                   
+    }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+
+#line 2675 "VerificacionInterview.cshtml"
+  switch(@Jdrg.PeriodicityId)
+    {
+case 3:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>Cada fin de semana</label>\r\n");
+
+
+#line 2679 "VerificacionInterview.cshtml"
+break;
+case 4:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>Cada quince días</label>\r\n");
+
+
+#line 2682 "VerificacionInterview.cshtml"
+break;
+case 2:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>Cada tercer día</label>\r\n");
+
+
+#line 2685 "VerificacionInterview.cshtml"
+break;
+case 1:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>Diariamente</label>\r\n");
+
+
+#line 2688 "VerificacionInterview.cshtml"
+break;
+case 7:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>En reuniones sociales</label>\r\n");
+
+
+#line 2691 "VerificacionInterview.cshtml"
+break;
+case 8:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>No consume</label>\r\n");
+
+
+#line 2694 "VerificacionInterview.cshtml"
+break;
+case 6:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>Una vez al año</label>\r\n");
+
+
+#line 2697 "VerificacionInterview.cshtml"
+break;
+case 5:
+
+
+#line default
+#line hidden
+WriteLiteral("<label>Una vez al mes</label>\r\n");
+
+
+#line 2700 "VerificacionInterview.cshtml"
+break;
+        default:
+
+
+#line default
+#line hidden
+WriteLiteral("            <label></label>\r\n");
+
+
+#line 2703 "VerificacionInterview.cshtml"
+            break;                   
+    }
 
 
 #line default
@@ -5146,8 +6389,8 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2212 "VerificacionInterview.cshtml"
-    Write(Dmcl.Phone);
+#line 2708 "VerificacionInterview.cshtml"
+       Write(Jdrg.Quantity);
 
 
 #line default
@@ -5157,47 +6400,54 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2215 "VerificacionInterview.cshtml"
-    Write(Dmcl.HomeTypeId);
+#line 2711 "VerificacionInterview.cshtml"
+       Write(Jdrg.LastUse);
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
-
-WriteLiteral("        \t");
-
-
-#line 2218 "VerificacionInterview.cshtml"
-    Write(Dmcl.RegisterTypeId);
-
-
-#line default
-#line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \t<a");
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n       \t\t<a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Eliminar sustancia\"");
 
-WriteLiteral(" onclick=\"btnDeleteDrug();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnDeleteDrug(\'", true)
 
+#line 2714 "VerificacionInterview.cshtml"
+                                                                             , Tuple.Create<string,object,bool> ("", Jdrg.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-trash\"");
 
-WriteLiteral("></span></a>&nbsp;&nbsp;\r\n         \t<a");
+WriteLiteral("></span></a>&nbsp;&nbsp;\r\n       \t\t<a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Continuar entrevista\"");
+WriteLiteral(" title=\"Editar sustancia\"");
 
-WriteLiteral(" onclick=\"btnEditDrug();\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "btnEditDrug(\'", true)
 
+#line 2715 "VerificacionInterview.cshtml"
+                                                                         , Tuple.Create<string,object,bool> ("", Jdrg.Id
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", "\');", true)
+);
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
@@ -5205,7 +6455,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2225 "VerificacionInterview.cshtml"
+#line 2718 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -5269,21 +6519,16 @@ WriteLiteral(" data-valmsg-for=\"comment\"");
 
 WriteLiteral("\r\n                      data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </form>\r\n    <br/>\r\n    <!--<div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>\r\n    </div>-->\r\n    <div");
+WriteLiteral(@"></span>
+        </div>
+    </form>
+    <br/>
+    <!--<div class=""col-xs-10 col-xs-offset-1"">
+        <div ng-show=""msgError"" class=""alert alert-danger element-center error-font"">
+            <span ng-bind-html=""msgError""></span>
+        </div>
+    </div>-->
+    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -5505,7 +6750,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2364 "VerificacionInterview.cshtml"
+#line 2857 "VerificacionInterview.cshtml"
                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -6331,7 +7576,7 @@ WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" ng-show=\"verification || selectSource\"");
 
-WriteLiteral(">what\r\n    <div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
@@ -6398,17 +7643,10 @@ WriteLiteral(" data-valmsg-for=\"socialEnvironment.comment\"");
 
 WriteLiteral("\r\n              data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n        </form>\r\n        <br/>\r\n\r\n        <!--<div");
-
-WriteLiteral(" ng-show=\"msgError\"");
-
-WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
-
-WriteLiteral(">\r\n            <span");
-
-WriteLiteral(" ng-bind-html=\"msgError\"");
-
-WriteLiteral("></span>\r\n        </div>-->\r\n    </div>\r\n    <div");
+WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n        </form>\r\n        <br/>\r\n\r\n        <!--<div " +
+"ng-show=\"msgError\" class=\"alert alert-danger element-center error-font\">\r\n      " +
+"      <span ng-bind-html=\"msgError\"></span>\r\n        </div>-->\r\n    </div>\r\n    " +
+"<div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -6430,8 +7668,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-cloud-upload\"");
 
 WriteLiteral("></span>\r\n                          Guardar\r\n                    </span>\r\n       " +
 " </div>\r\n    </div>\r\n            </div><!--End of Facilidad abandonar el pais --" +
-">\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n</div>\r\n<br/>\r\n" +
-"\r\n<div");
+">\r\n\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n</div>\r\n<br/>\r\n\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -6457,48 +7694,23 @@ WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
-WriteLiteral(">\r\n    <a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 2706 "VerificacionInterview.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
-
-#line default
-#line hidden
-, false)
-);
 WriteLiteral(">\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
-WriteLiteral(" >\r\n            Regresar\r\n        </span>\r\n</a>\r\n        <!--<span");
+WriteLiteral(" ng-click=\"cancel();\"");
+
+WriteLiteral(">\r\n            Regresar\r\n        </span>\r\n    \t<span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral(" ng-confirm-actionconfirm-message=\"&iquest;Est&aacute; seguro que desea terminar " +
-"la entrevista de riesgos procesales?\"");
-
-WriteLiteral("\r\n        confirm-title=\"Terminar entrevista\"");
-
-WriteLiteral(" confirm-type=\"info\"");
-
-WriteLiteral("\r\n        confirmed-click-action=\"save();\"");
-
-WriteLiteral(">\r\n        Terminar\r\n    \t</span>-->\r\n\r\n    \t<span");
-
-WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
-
-WriteLiteral(" ng-disabled=\"WaitFor==true\"");
-
-WriteLiteral(" \r\n        ng-click=\"save();\"");
+WriteLiteral(" \r\n        ng-click=\"askTerminateshow();\"");
 
 WriteLiteral(@">
-        Terminar
+        	Terminar
     	</span>
-
 </div>
 </div>
 </div>
@@ -6516,7 +7728,6 @@ $(function() {
 				countSelected : '# de % seleccionados'
         });
 });
-
     	</script>");
 
 }

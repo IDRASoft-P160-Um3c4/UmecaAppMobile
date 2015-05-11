@@ -1,0 +1,172 @@
+﻿@model UmecaApp.SourcesTblDto
+@inherits WebViewTemplate
+@{
+	Layout = "UmecaApp.headUm";
+}
+
+
+<script type="text/javascript">
+    app.controller('SourcesListControler', function($scope, $http, $timeout, $sce){
+
+    $scope.m = {};
+    $scope.listSources=[];
+
+    $timeout(function () {
+    		$scope.init();
+
+	}, 0);
+
+	$scope.init = function(){
+	    try{
+	    console.log("wasd");
+	    }
+	    catch(err){
+	    	alert("error catched Iniciate angular function erro==>"+err.message);
+	    }
+	};
+   
+});
+
+	window.SourceMeeting = function(id){
+    	var iner = parseInt(id);
+    	window.location.replace('hybrid:Verification/ValidationMeetingBySource?idSource='+iner);
+	}
+
+</script>
+
+<div ng-app="umecaMobile" ng-controller="SourcesListControler">
+
+
+<h2 class="element-center"><i class=" icon-group"></i>&nbsp;&nbsp;Fuentes de verificaci&oacute;n</h2>
+
+
+	<div class="row">
+        <div class="col-sm-3">
+            <h3 class="header smaller lighter blue" >
+                <small>Carpeta de investigaci&oacute;n:  </small>
+               &nbsp;@Model.IdFolder
+            </h3>
+        </div>
+        <div class="col-sm-8">
+            <h3 class="header smaller lighter blue">
+                <small>Nombre del imputado:  </small>
+                &nbsp;@Model.FullnameImputed
+            </h3>
+        </div>
+         <div class="col-sm-1">
+                <h3 class="header smaller lighter blue">
+                    <small>Edad:  </small>
+                    &nbsp;@Model.Age
+                </h3>
+            </div>
+    </div>
+
+    <div class="row" ng-show="'@Model.tStart'==''?false:true">
+        <div class="col-sm-8">
+            <h3 class="header smaller lighter blue">
+                <small>Entrevista de riesgos procesales:  </small>
+                &nbsp;@Model.tEnd
+            </h3>
+        </div>
+        <div class="col-sm-4">
+            <h3 class="header smaller lighter blue">
+                <small>Evaluador:  </small>
+                &nbsp;@Model.reviewerFullname
+            </h3>
+        </div>
+    </div>
+    <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="250"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbar2" ng-init='listSources = @Model.SourceListJson;' >
+    <thead>
+    <tr>
+        <th ng-click="init();">Nombre</th>
+        <th>Edad</th>
+        <th>Relaci&oacute;n</th>
+        <th>Direcci&oacute;n</th>
+        <th>Tel&eacute;fono</th>
+        <th>Estatus</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="tr-class-1" ng-repeat ="src in listSources track by $index" >
+    	<td class="td-class-1">
+           {{src.FullName}}
+        </td>
+        <td>
+        	{{src.Age}}
+        </td>
+        <td on="src.RelationshipId" ng-switch >
+			<label ng-switch-when="18" >
+			Abuelo</label>
+            <label ng-switch-when="6" >
+             Amigo</label>
+            <label ng-switch-when="10" >
+             Compañero de trabajo</label>
+            <label ng-switch-when="12" >
+             Empleado</label>
+            <label ng-switch-when="14" >
+             Esposa</label>
+            <label ng-switch-when="16" >
+             Familiar Político</label>
+            <label ng-switch-when="1" >
+             Hermano</label>
+            <label ng-switch-when="3" >
+             Hijo(a)</label>
+            <label ng-switch-when="20" >
+             Imputado</label>
+            <label ng-switch-when="2" >
+             Madre</label>
+            <label ng-switch-when="8" >
+             Ninguno</label>
+            <label ng-switch-when="19" >
+             Otro</label>
+            <label ng-switch-when="17" >
+             Padre</label>
+            <label ng-switch-when="11" >
+             Padrino</label>
+            <label ng-switch-when="13" >
+             Pareja sentimental</label>
+            <label ng-switch-when="9" >
+             Patrón</label>
+            <label ng-switch-when="4" >
+             Primo(a)</label>
+            <label ng-switch-when="15" >
+             Suegra</label>
+            <label ng-switch-when="5" >
+             Tío(a)</label>
+            <label ng-switch-when="7" >
+             Vecino</label>
+            <label ng-switch-default >
+             </label>
+        </td>
+        <td >
+            {{src.Address}}
+        </td>
+        <td>
+        	{{src.Phone}}
+        </td>
+        <td>
+        	{{src.StatusString}}
+        </td>
+        <td id="valor">
+			<a href="javascript:;"  onclick='SourceMeeting($(this).text());' ng-click='src.Id = 4' style="display:inline-block;" title="Entrevistar fuentes" >
+				<label style="display:none;">{{src.Id}}</label>
+				<i class="icon-edit blue"></i>
+			</a>
+        </td>
+	</tr>
+    </tbody>
+</table>
+<script>
+ function cancelari(){
+		window.location.replace('hybrid:Verification/Index');
+    }
+</script>
+	<span class="btn btn-default btn-sm" onclick="cancelari();">
+        Cancelar
+    </span>
+</div>

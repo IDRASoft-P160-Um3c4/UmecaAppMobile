@@ -22,6 +22,8 @@ namespace UmecaApp
 			webView.Settings.JavaScriptEnabled = true;
 			webView.AddJavascriptInterface (new LoginAction(context), "login");
 			webView.AddJavascriptInterface (new MeetingService(context), "MeetingService");
+			webView.AddJavascriptInterface (new VerificationService(context), "VerificationService");
+			webView.AddJavascriptInterface (new SupervisionService(context), "SupervisionService");
 			webView.SetWebChromeClient (new HybridWebChromeClient (webView.Context));
 		}
 
