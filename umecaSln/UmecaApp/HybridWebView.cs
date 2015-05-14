@@ -79,10 +79,10 @@ namespace UmecaApp
 				var alertDialogBuilder = new AlertDialog.Builder (context)
 					.SetMessage (message)
 					.SetCancelable (false)
-					.SetPositiveButton ("Aceptar", (sender, args) => {
+					.SetPositiveButton("Aceptar", (sender, args) => {
 						result.Confirm();
 					})
-					.SetNegativeButton ("Cancelar", (sender, args) => {
+					.SetNegativeButton("Cancelar", (sender, args) => {
 						result.Cancel();
 					});
 

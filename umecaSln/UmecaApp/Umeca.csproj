@@ -86,47 +86,6 @@
     <Compile Include="Views\NewMeeting.cs">
       <DependentUpon>NewMeeting.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="com\umeca\constants\ConstantsDB.cs" />
-    <Compile Include="com\umeca\entities\catalog\AcademicLevel.cs" />
-    <Compile Include="com\umeca\entities\catalog\ActivityCatalog.cs" />
-    <Compile Include="com\umeca\entities\catalog\CrimeCatalog.cs" />
-    <Compile Include="com\umeca\entities\catalog\Degree.cs" />
-    <Compile Include="com\umeca\entities\catalog\DocumentType.cs" />
-    <Compile Include="com\umeca\entities\catalog\DrugType.cs" />
-    <Compile Include="com\umeca\entities\catalog\Election.cs" />
-    <Compile Include="com\umeca\entities\catalog\FieldVerfication.cs" />
-    <Compile Include="com\umeca\entities\catalog\GroupCrime.cs" />
-    <Compile Include="com\umeca\entities\catalog\HearingType.cs" />
-    <Compile Include="com\umeca\entities\catalog\HomeType.cs" />
-    <Compile Include="com\umeca\entities\catalog\ImmigrationDocument.cs" />
-    <Compile Include="com\umeca\entities\catalog\InsertCatalogs.cs" />
-    <Compile Include="com\umeca\entities\catalog\MaritalStatus.cs" />
-    <Compile Include="com\umeca\entities\catalog\Periodicity.cs" />
-    <Compile Include="com\umeca\entities\catalog\RegisterType.cs" />
-    <Compile Include="com\umeca\entities\catalog\Relationship.cs" />
-    <Compile Include="com\umeca\entities\catalog\StatusCase.cs" />
-    <Compile Include="com\umeca\entities\catalog\StatusFieldVerification.cs" />
-    <Compile Include="com\umeca\entities\catalog\StatusMeeting.cs" />
-    <Compile Include="com\umeca\entities\catalog\StatusVerification.cs" />
-    <Compile Include="com\umeca\entities\catalog\address\Country.cs" />
-    <Compile Include="com\umeca\entities\catalog\address\Location.cs" />
-    <Compile Include="com\umeca\entities\catalog\address\State.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Drug.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Imputed.cs" />
-    <Compile Include="com\umeca\entities\reviewer\ImputedHome.cs" />
-    <Compile Include="com\umeca\entities\reviewer\LeaveCountry.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Meeting.cs" />
-    <Compile Include="com\umeca\entities\reviewer\PersonSocialNetwork.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Reference.cs" />
-    <Compile Include="com\umeca\entities\reviewer\RelActivity.cs" />
-    <Compile Include="com\umeca\entities\reviewer\RelSchedule.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Schedule.cs" />
-    <Compile Include="com\umeca\entities\reviewer\School.cs" />
-    <Compile Include="com\umeca\entities\reviewer\SocialEnvironment.cs" />
-    <Compile Include="com\umeca\entities\reviewer\SocialNetwork.cs" />
-    <Compile Include="com\umeca\entities\shared\Case.cs" />
-    <Compile Include="com\umeca\entities\shared\Contact.cs" />
-    <Compile Include="com\umeca\entities\shared\Person.cs" />
     <Compile Include="Views\Shared\headUm.cs">
       <DependentUpon>headUm.cshtml</DependentUpon>
     </Compile>
@@ -135,7 +94,6 @@
     <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Models\Shared\Constants.cs" />
     <Compile Include="Models\reviewer\NewMeetingDto.cs" />
-    <Compile Include="com\umeca\entities\account\User.cs" />
     <Compile Include="Views\Shared\headUmGrid.cs">
       <DependentUpon>headUmGrid.cshtml</DependentUpon>
     </Compile>
@@ -147,7 +105,6 @@
     <Compile Include="Models\Shared\CountryDto.cs" />
     <Compile Include="Controllers\CatalogServiceController.cs" />
     <Compile Include="Models\Shared\IdNameDto.cs" />
-    <Compile Include="com\umeca\entities\catalog\address\Municipality.cs" />
     <Compile Include="Service\MeetingService.cs" />
     <Compile Include="Models\reviewer\GroupMessageMeetingDto.cs" />
     <Compile Include="Models\reviewer\TerminateMeetingMessageDto.cs" />
@@ -172,11 +129,6 @@
     <Compile Include="Views\DrugUpsert.cs">
       <DependentUpon>DrugUpsert.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="com\umeca\entities\reviewer\FieldMeetingSource.cs" />
-    <Compile Include="com\umeca\entities\reviewer\FieldVerification.cs" />
-    <Compile Include="com\umeca\entities\reviewer\FinalField.cs" />
-    <Compile Include="com\umeca\entities\reviewer\SourceVerification.cs" />
-    <Compile Include="com\umeca\entities\reviewer\Verification.cs" />
     <Compile Include="Service\VerificationService.cs" />
     <Compile Include="Controllers\VerificationController.cs" />
     <Compile Include="Views\VerificationSourceList.cs">
@@ -295,12 +247,10 @@
     <Folder Include="Assets\content\" />
     <Folder Include="Assets\fonts\" />
     <Folder Include="Assets\scripts\" />
-    <Folder Include="com\" />
     <Folder Include="Models\reviewer\" />
     <Folder Include="lib\" />
     <Folder Include="Models\Shared\" />
     <Folder Include="Service\" />
-    <Folder Include="com\umeca\entities\account\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap-table\bootstrap.min.css" />
@@ -1293,5 +1243,11 @@
       <Version>1.0.8.3</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Umeca.Data\Umeca.Data.csproj">
+      <Project>{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}</Project>
+      <Name>Umeca.Data</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

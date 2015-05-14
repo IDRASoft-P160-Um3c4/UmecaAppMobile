@@ -2,14 +2,10 @@
 using PortableRazor;
 using System.IO;
 using SQLite.Net;
-//query toList()
 using System.Linq;
 using SQLiteNetExtensions.Extensions;
 using Newtonsoft.Json;
-//listas
 using System.Collections.Generic;
-
-
 
 //TODO DONE StatusMeeting, Imputed, Case
 
@@ -50,14 +46,12 @@ namespace UmecaApp
 			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
 			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
 			this.JsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
-
 		}
 
 
 
 		public void Index()
-		{	
-
+		{
 			services.createVerificationTest();
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
@@ -70,7 +64,6 @@ namespace UmecaApp
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
-				//				+" and me.id_reviewer = 2 "
 				+" AND cs.id_status = ?; ", statusVerification1.Id, statusVerification2.Id, sc.Id);
 
 			Console.WriteLine ("result.count> {0}", result.Count);
@@ -281,27 +274,32 @@ namespace UmecaApp
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
-
-
-
+			
 		public void IndexVerificacion()
 		{
-
 			services.createVerificationTest();
 			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
 
 			var result = db.Query<MeetingTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-				+" WHERE me.id_status in (?,?) "
-				//				+" and me.id_reviewer = 2 "
-				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
+@"SELECT 
+	cs.id_case as 'CaseId',
+	cs.id_folder as 'IdFolder',
+	im.name as 'Name',
+	im.lastname_p as 'LastNameP',
+	im.lastname_m as 'LastNameM',
+	im.birth_date as 'DateBirth', 
+	im.gender as 'Gender', 
+	csm.status as 'StatusCode', 
+	csm.description as 'Description'
+FROM 
+	meeting as me
+	left JOIN case_detention as cs ON me.id_case = cs.id_case
+	left JOIN imputed as im ON im.id_meeting = me.id_meeting
+	left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status
+	WHERE me.id_status in (?,?)
+	AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
 
 			Console.WriteLine ("carga de casos "+result.Count);
 
@@ -310,10 +308,5 @@ namespace UmecaApp
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
-
-
-
-
 	}
 }
-

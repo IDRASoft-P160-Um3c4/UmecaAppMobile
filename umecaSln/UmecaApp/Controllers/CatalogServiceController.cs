@@ -1,12 +1,8 @@
 ﻿using System;
 using SQLite.Net;
-//insert with children etc
 using SQLiteNetExtensions.Extensions;
-//query to list
 using System.Linq;
-//listas
 using System.Collections.Generic;
-//jsonConverter
 using Newtonsoft.Json;
 
 namespace UmecaApp
@@ -36,11 +32,6 @@ namespace UmecaApp
 			var cmd = db.CreateCommand (cmdText, typeof(T).Name);
 			var result = cmd.ExecuteScalar<string> ();
 			return result != null;
-
-			//			var cmd = db.Query("SELECT CASE WHEN tbl_name = '"+typeof(T).Name+"' THEN 1 ELSE 0 END FROM sqlite_master WHERE tbl_name = '"+typeof(T).Name+"' AND type = \"table\"").e;
-			//			cmd.CommandText = "SELECT * FROM sqlite_master WHERE type = 'table' AND name = "+typeof(T).Name;
-			//			var result = cmd.;
-			//			return (cmd.ExecuteScalar<string>() != null);
 		}
 
 		public void createMeetingTest(){

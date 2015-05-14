@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umeca", "UmecaApp\Umeca.csproj", "{448C6763-07EC-4543-9435-65706D5B9634}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umeca.Data", "Umeca.Data\Umeca.Data.csproj", "{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{448C6763-07EC-4543-9435-65706D5B9634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{448C6763-07EC-4543-9435-65706D5B9634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{448C6763-07EC-4543-9435-65706D5B9634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
