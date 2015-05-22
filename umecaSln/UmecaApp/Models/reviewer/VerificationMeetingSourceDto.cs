@@ -6,7 +6,7 @@ namespace UmecaApp
 {
 	public class VerificationMeetingSourceDto
 	{
-		
+
 		public VerificationMeetingSourceDto ()
 		{
 		}
@@ -16,6 +16,8 @@ namespace UmecaApp
 		public String IdFolder { get; set; }
 
 		//source begin
+		public int SourceId { get; set; }
+
 		public int SourceAge { get; set; }
 
 		public String SourceName{ get; set; }
@@ -113,10 +115,10 @@ namespace UmecaApp
 
 		public String CommentCountry{ get; set; }
 
-//		[Column("comment_home"),MaxLength(500)]
+		//		[Column("comment_home"),MaxLength(500)]
 		public String CommentHome{ get; set; }
 
-//		[Column("comment_drug"),MaxLength(500)]
+		//		[Column("comment_drug"),MaxLength(500)]
 		public String CommentDrug{ get; set; }
 
 
@@ -141,7 +143,7 @@ namespace UmecaApp
 		//END historial escolar
 
 
-///////////////identified by meeting///////////
+		///////////////identified by meeting///////////
 		public int? OfficialDocumentationId{ get; set; }
 
 		public int? LivedCountryId{ get; set; }
@@ -171,16 +173,16 @@ namespace UmecaApp
 		public String SpecficationImmigranDoc{ get; set; }
 
 		public String SpecificationRelationship{ get; set; }
-//////////////
+		//////////////
 
 
 
 
 
-//		[Column("date_create")]
+		//		[Column("date_create")]
 		public DateTime? DateCreate{ get; set; }
 
-//		[Column("date_terminate")]
+		//		[Column("date_terminate")]
 		public DateTime? DateTerminate{ get; set; }
 
 		public String JsonMeeting { get; set; }

@@ -22,11 +22,11 @@ namespace UmecaApp
 		readonly SQLiteConnection db;
 		CatalogServiceController services;
 
-		String JsonCountrys;
-		String JsonStates;
-		String JsonMunycipality;
-		String JsonElection;
-		String JsonActivities;
+		String jsonCountrys;
+		String jsonStates;
+		String jsonMunycipality;
+		String jsonElection;
+		String jsonActivities;
 
 		public MeetingController(IHybridWebView webView, SQLiteConnection dbConection)
 		{
@@ -41,15 +41,12 @@ namespace UmecaApp
 			services.CreateCountryCatalog ();
 			services.CreateStateCatalog ();
 			services.CreateMunicipalityCatalog ();
-			db.CreateTable<SocialEnvironment>();
-			db.CreateTable<RelActivity>();
 			db.Commit ();
-
-			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
-			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
-			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
-			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
-			this.JsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
+			this.jsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
+			this.jsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
+			this.jsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
+			this.jsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
+			this.jsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
 
 		}
 
@@ -124,7 +121,7 @@ namespace UmecaApp
 					foreach (var c in tableImputed) {
 						Console.WriteLine ("c.fonetic__>"+c.FoneticString+"  c.birthdate==>"+c.BirthDate);
 						Console.WriteLine ("m.fonetic__>"+services.getFoneticByName(model.Name, model.LastNameP, model.LastNameM)+"  m.birthdate==>"+model.DateBirth);
-						if(c.FoneticString.Equals(services.getFoneticByName(model.Name, model.LastNameP, model.LastNameM))&&c.BirthDate.Equals(model.DateBirth)){
+						if(c.FoneticString==services.getFoneticByName(model.Name, model.LastNameP, model.LastNameM)&&c.BirthDate.Equals(model.DateBirth)){
 							return "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrados.";
 						}
 					}
@@ -209,14 +206,12 @@ namespace UmecaApp
 
 			result.ageString = services.calculateAge (result.BirthDate);
 
-			db.CreateTable<ImputedHome> ();
 			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
 			if(domiciliosImputado!=null){
 				result.JsonDomicilios = domiciliosImputado;
 			}
 
 
-			db.CreateTable<SocialEnvironment> ();
 			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
 			if(SE!=null){
 				result.PhysicalCondition = SE.physicalCondition;
@@ -227,7 +222,6 @@ namespace UmecaApp
 				}
 			}
 			//socialNetworkComment
-			db.CreateTable<SocialNetwork> ();
 			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (socialNetComent != null) {
 				result.CommentSocialNetwork = socialNetComent.Comment;
@@ -239,7 +233,6 @@ namespace UmecaApp
 			}
 
 			//PersonSocialNetwork
-			db.CreateTable<PersonSocialNetwork> ();
 			var personsSocNet = db.Table<PersonSocialNetwork> ().Where (sn=>sn.SocialNetworkId==socialNetComent.Id).ToList ();
 			if(personsSocNet!=null){
 				result.JsonPersonSN = personsSocNet;
@@ -248,7 +241,6 @@ namespace UmecaApp
 			}
 
 			//Reference
-			db.CreateTable<Reference> ();
 			var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(references!=null){
 				result.JsonReferences = references;
@@ -257,7 +249,6 @@ namespace UmecaApp
 			}
 
 			//Laboral History
-			db.CreateTable<Job> ();
 			var trabajos = db.Table<Job> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(trabajos!=null){
 				result.JsonJobs = trabajos;
@@ -266,7 +257,6 @@ namespace UmecaApp
 			}
 				
 			//school history
-			db.CreateTable<School> ();
 			var escuelaUtlActual = db.Table<School> ().Where (sc=>sc.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (escuelaUtlActual != null) {
 				result.SchoolAddress = escuelaUtlActual.Address;
@@ -279,7 +269,6 @@ namespace UmecaApp
 
 
 			//DROGAS
-			db.CreateTable<Drug> ();
 			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(drogas!=null){
 				result.JsonDrugs = drogas;
@@ -288,7 +277,6 @@ namespace UmecaApp
 			}
 
 
-			db.CreateTable<Schedule>();
 			if(escuelaUtlActual!=null){
 				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
 				if(schedule!=null){
@@ -297,7 +285,6 @@ namespace UmecaApp
 			}
 
 			//leave country
-			db.CreateTable<LeaveCountry> ();
 			var leaveActual = db.Table<LeaveCountry> ().Where (lv => lv.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (leaveActual != null) {
 				result.OfficialDocumentationId = leaveActual.OfficialDocumentationId;
@@ -323,11 +310,11 @@ namespace UmecaApp
 			result.JsonMeeting = output;
 
 
-			result.JsonCountrys = this.JsonCountrys;
-			result.JsonStates = this.JsonStates;
-			result.JsonMunycipality = this.JsonMunycipality;
-			result.JsonElection = this.JsonElection;
-			result.JsonActivities = this.JsonActivities;
+			result.JsonCountrys = this.jsonCountrys;
+			result.JsonStates = this.jsonStates;
+			result.JsonMunycipality = this.jsonMunycipality;
+			result.JsonElection = this.jsonElection;
+			result.JsonActivities = this.jsonActivities;
 
 			var temp = new MeetingDatosPersonales{Model = result };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
@@ -359,11 +346,11 @@ namespace UmecaApp
 			db.Update(imputado);
 			string output = JsonConvert.SerializeObject(model);
 			model.JsonMeeting = output;
-			model.JsonCountrys = this.JsonCountrys;
-			model.JsonStates = this.JsonStates;
-			model.JsonMunycipality = this.JsonMunycipality;
-			model.JsonElection = this.JsonElection;
-			model.JsonActivities = this.JsonActivities;
+			model.JsonCountrys = this.jsonCountrys;
+			model.JsonStates = this.jsonStates;
+			model.JsonMunycipality = this.jsonMunycipality;
+			model.JsonElection = this.jsonElection;
+			model.JsonActivities = this.jsonActivities;
 
 			var temp = new MeetingDatosPersonales{Model = model };
 			var pagestring = "nada que ver";
@@ -376,7 +363,6 @@ namespace UmecaApp
 			var MeetingId = int.Parse (idMeeting.ToString ());
 			var dto = new ModelContainer ();
 			dto.Reference = db.Table<Meeting>().Where(s=>s.Id == MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
-			db.CreateTable<ImputedHome> ();
 			ImputedHome mdl = new ImputedHome ();
 				mdl.MeetingId = idMeeting;
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -390,9 +376,7 @@ namespace UmecaApp
 		{
 			var HomeId = int.Parse (idHome.ToString ());
 			var dto = new ModelContainer ();
-			db.CreateTable<ImputedHome> ();
 			ImputedHome mdl=db.Table<ImputedHome> ().Where (lv => lv.Id == HomeId).FirstOrDefault ();
-			db.CreateTable<Schedule>();
 			if(mdl!=null){
 				var schedule = db.Table<Schedule>().Where(sc=>sc.ImputedHomeId==mdl.Id).ToList();
 				if(schedule!=null){
@@ -421,7 +405,6 @@ namespace UmecaApp
 				var MeetingId = int.Parse (idMeeting.ToString ());
 				var dto = new ModelContainer ();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
-				db.CreateTable<SocialNetwork>();
 				SocialNetwork me = db.Table<SocialNetwork>().Where(mee => mee.MeetingId == idMeeting ).FirstOrDefault();
 				if(me==null){
 					me = new SocialNetwork();
@@ -429,7 +412,6 @@ namespace UmecaApp
 					me.MeetingId = idMeeting;
 					db.Insert(me);
 				}
-				db.CreateTable<PersonSocialNetwork>();
 				PersonSocialNetwork mdl = new PersonSocialNetwork ();
 				mdl.SocialNetworkId = me.Id;
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -452,9 +434,7 @@ namespace UmecaApp
 			try{
 				var SNPersonId = int.Parse (idPerson.ToString ());
 				var dto = new ModelContainer ();
-				db.CreateTable<PersonSocialNetwork>();
 				var mdl = db.Table<PersonSocialNetwork>().Where(mee => mee.Id == SNPersonId ).FirstOrDefault();
-				db.CreateTable<SocialNetwork>();
 				var sn = db.Table<SocialNetwork>().Where(a=>a.Id == mdl.SocialNetworkId).FirstOrDefault();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == sn.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -479,7 +459,6 @@ namespace UmecaApp
 				var MeetingId = int.Parse (idMeeting.ToString ());
 				var dto = new ModelContainer ();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
-				db.CreateTable<Reference>();
 				Reference mdl = new Reference ();
 				mdl.MeetingId = MeetingId;
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -502,7 +481,6 @@ namespace UmecaApp
 			try{
 				var referenceId = int.Parse (idReference.ToString ());
 				var dto = new ModelContainer ();
-				db.CreateTable<Reference>();
 				var mdl = db.Table<Reference>().Where(mee => mee.Id == referenceId ).FirstOrDefault();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -526,7 +504,6 @@ namespace UmecaApp
 				var MeetingId = int.Parse (idMeeting.ToString ());
 				var dto = new ModelContainer ();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
-				db.CreateTable<Job>();
 				Job mdl = new Job ();
 				mdl.MeetingId = MeetingId;
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -549,7 +526,6 @@ namespace UmecaApp
 			try{
 				var jobId = int.Parse (idJob.ToString ());
 				var dto = new ModelContainer ();
-				db.CreateTable<Job>();
 				var mdl = db.Table<Job>().Where(mee => mee.Id == jobId ).FirstOrDefault();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -573,7 +549,6 @@ namespace UmecaApp
 				var MeetingId = int.Parse (idMeeting.ToString ());
 				var dto = new ModelContainer ();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
-				db.CreateTable<Drug>();
 				Drug mdl = new Drug ();
 				mdl.MeetingId = MeetingId;
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -596,7 +571,6 @@ namespace UmecaApp
 			try{
 				var drugId = int.Parse (idDrug.ToString ());
 				var dto = new ModelContainer ();
-				db.CreateTable<Drug>();
 				var mdl = db.Table<Drug>().Where(mee => mee.Id == drugId ).FirstOrDefault();
 				dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);

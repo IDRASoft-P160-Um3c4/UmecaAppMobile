@@ -29,7 +29,7 @@ namespace UmecaApp
 		String JsonActivities;
 
 		public VerificationController(IHybridWebView webView, SQLiteConnection dbConection)
-		{	
+		{
 			this.webView = webView;
 			this.db = dbConection;
 			services = new CatalogServiceController (db);	
@@ -41,8 +41,6 @@ namespace UmecaApp
 			services.CreateCountryCatalog ();
 			services.CreateStateCatalog ();
 			services.CreateMunicipalityCatalog ();
-			db.CreateTable<SocialEnvironment>();
-			db.CreateTable<RelActivity>();
 			db.Commit ();
 
 			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
@@ -82,13 +80,11 @@ namespace UmecaApp
 
 		public void IndexFuentes(int idCase)
 		{
-			db.CreateTable<SourceVerification> ();
 			var caso = db.Table<Case> ().Where(cs => cs .Id == idCase).FirstOrDefault ();
 			var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
 			var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
 			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
 			var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true && sv.IsAuthorized == true && sv.IdCase == idCase && sv.DateComplete == null)).ToList ();
-			db.CreateTable<User> ();
 			var entrevistador = db.Table<User> ().Where (u => u.Id.Equals(meeting.ReviewerId)).FirstOrDefault ();
 			var result = new SourcesTblDto ();
 			result.Age=services.calculateAge(imputado.BirthDate);
@@ -112,7 +108,6 @@ namespace UmecaApp
 
 		public void ValidationMeetingBySource(int idSource)
 		{
-			db.CreateTable<SourceVerification> ();
 			var source = db.Table<SourceVerification> ().Where (sv => sv.Id==idSource ).FirstOrDefault ();
 			int idCase = source.IdCase;
 			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
@@ -143,14 +138,12 @@ namespace UmecaApp
 
 			result.ageString = services.calculateAge (result.BirthDate);
 
-			db.CreateTable<ImputedHome> ();
 			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
 			if(domiciliosImputado!=null){
 				result.JsonDomicilios = domiciliosImputado;
 			}
 
 
-			db.CreateTable<SocialEnvironment> ();
 			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
 			if(SE!=null){
 				result.PhysicalCondition = SE.physicalCondition;
@@ -161,7 +154,6 @@ namespace UmecaApp
 				}
 			}
 			//socialNetworkComment
-			db.CreateTable<SocialNetwork> ();
 			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (socialNetComent != null) {
 				result.CommentSocialNetwork = socialNetComent.Comment;
@@ -173,7 +165,6 @@ namespace UmecaApp
 			}
 
 			//PersonSocialNetwork
-			db.CreateTable<PersonSocialNetwork> ();
 			var personsSocNet = db.Table<PersonSocialNetwork> ().Where (sn=>sn.SocialNetworkId==socialNetComent.Id).ToList ();
 			if(personsSocNet!=null){
 				result.JsonPersonSN = personsSocNet;
@@ -182,7 +173,6 @@ namespace UmecaApp
 			}
 
 			//Reference
-			db.CreateTable<Reference> ();
 			var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(references!=null){
 				result.JsonReferences = references;
@@ -191,7 +181,6 @@ namespace UmecaApp
 			}
 
 			//Laboral History
-			db.CreateTable<Job> ();
 			var trabajos = db.Table<Job> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(trabajos!=null){
 				result.JsonJobs = trabajos;
@@ -200,7 +189,6 @@ namespace UmecaApp
 			}
 
 			//school history
-			db.CreateTable<School> ();
 			var escuelaUtlActual = db.Table<School> ().Where (sc=>sc.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (escuelaUtlActual != null) {
 				result.SchoolAddress = escuelaUtlActual.Address;
@@ -213,7 +201,6 @@ namespace UmecaApp
 
 
 			//DROGAS
-			db.CreateTable<Drug> ();
 			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(drogas!=null){
 				result.JsonDrugs = drogas;
@@ -222,7 +209,6 @@ namespace UmecaApp
 			}
 
 
-			db.CreateTable<Schedule>();
 			if(escuelaUtlActual!=null){
 				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
 				if(schedule!=null){
@@ -231,7 +217,6 @@ namespace UmecaApp
 			}
 
 			//leave country
-			db.CreateTable<LeaveCountry> ();
 			var leaveActual = db.Table<LeaveCountry> ().Where (lv => lv.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (leaveActual != null) {
 				result.OfficialDocumentationId = leaveActual.OfficialDocumentationId;
@@ -266,6 +251,7 @@ namespace UmecaApp
 			//result source
 			result.SourceAddress = source.Address;
 			result.SourceAge = source.Age;
+			result.SourceId = source.Id;
 			result.SourceName = source.FullName;
 			result.SourcePhone = source.Phone;
 			var SourceRelationship = db.Table<Relationship> ().Where (sore=> sore.Id==source.RelationshipId).FirstOrDefault ();

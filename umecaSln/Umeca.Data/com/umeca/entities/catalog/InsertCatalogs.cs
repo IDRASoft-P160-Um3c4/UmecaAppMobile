@@ -7,6 +7,7 @@ using SQLite.Net;
 using System.Linq;
 using Environment = System.Environment;
 using System.Collections.Generic;
+
 namespace UmecaApp
 {
 
@@ -37,6 +38,33 @@ namespace UmecaApp
 			//
 			InsertHomeType(act);
 			InsertRegisterType (act);
+			CreateTablesToConsult ();
+		}
+
+		public void CreateTablesToConsult(){
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<FieldVerification>();
+			db.CreateTable<FieldMeetingSource>();
+			db.CreateTable<SocialEnvironment>();
+			db.CreateTable<ImputedHome> ();
+			db.CreateTable<SocialEnvironment>();
+			db.CreateTable<RelActivity>();
+			db.CreateTable<SocialNetwork> ();
+			db.CreateTable<PersonSocialNetwork>();
+			db.CreateTable<Reference> ();
+			db.CreateTable<School> ();
+			db.CreateTable<Drug> ();
+			db.CreateTable<Schedule>();
+			db.CreateTable<LeaveCountry> ();
+			db.CreateTable<ImputedHome> ();
+			db.CreateTable<Job>();
+			db.CreateTable<SourceVerification> ();
+			db.CreateTable<User> ();
 		}
 
 		public void InsertDegree(Activity act){
@@ -297,16 +325,16 @@ namespace UmecaApp
 				true,
 				null // (can be null in which case you will need to provide tables that only use supported data types)
 			);
-			db.CreateTable<FieldVerfication> ();
-			if (db.Table<FieldVerfication> ().Count () == 0) {
+			db.CreateTable<FieldVerification> ();
+			if (db.Table<FieldVerification> ().Count () == 0) {
 				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/field_verification.txt", act);
-				List<FieldVerfication> entities=new List<FieldVerfication>(); 
+				List<FieldVerification> entities=new List<FieldVerification>(); 
 				foreach (String[] line in data) {
 					try{
-						FieldVerfication model = new FieldVerfication ();
+						FieldVerification model = new FieldVerification ();
 						model.Id = int.Parse(line [0]);
 						model.Code = line[1];
-						model.SectionName = line[2];
+						model.Section = line[2];
 						model.SectionCode = int.Parse(line[3]);
 						model.FieldName = line[4];
 						model.IndexField = int.Parse(line[5]);
@@ -319,9 +347,9 @@ namespace UmecaApp
 					}
 				}
 				db.InsertAll (entities);
-				var content = db.Table<FieldVerfication> ().ToList();
+				var content = db.Table<FieldVerification> ().ToList();
 				Console.WriteLine ("Se inserto en tabla FieldVerfication:");
-				foreach (FieldVerfication m in content) {
+				foreach (FieldVerification m in content) {
 					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Code);
 				}
 			}

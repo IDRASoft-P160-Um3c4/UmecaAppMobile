@@ -103,13 +103,7 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 			    }
 			}
 			else{
-				for(x=0;x<$scope.listCountry.length;x++){
-			    	if($scope.listCountry[x].Name=="Mexico"){
-			    		$scope.SeceltedCountry = $scope.listCountry[x];
-			    		$scope.InitMunicipalityDP();
-			    		break;
-			    	}
-			    }
+	    		$scope.SeceltedCountry = $scope.listCountry[0];
 			}
 		};
 

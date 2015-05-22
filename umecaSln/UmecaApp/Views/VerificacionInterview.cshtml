@@ -3,35 +3,139 @@
 @{
 Layout = "UmecaApp.headUm";
 }
-
-
+<input id="hdnVerificationCaseId" type="hidden" value="@Model.CaseId" name="jsonString" />
+<input id="hdnVerificationSourceId" type="hidden" value="@Model.SourceId" name="jsonString" />
 <script>
-var askYesNo  = {};
-askYesNo.reference = {};
-askYesNo.show = function (){
-var dlgMsgBox = $('#MessageBoxDlgId');
-dlgMsgBox.show();
+var SingleVerify  = {};
+SingleVerify.code = "";
+SingleVerify.case = 0;
+SingleVerify.source = 0;
+SingleVerify.listid = 0;
+
+SingleVerify.show = function (element){
+SingleVerify.code = "";
+var caso = $("#hdnVerificationCaseId").val();
+var fuente = $("#hdnVerificationSourceId").val();
+if(caso!=undefined&&caso!=""&&SingleVerify.case==0){
+	SingleVerify.case = caso;
+}
+if(fuente!=undefined&&fuente!=""&&SingleVerify.source==0){
+	SingleVerify.source = fuente;
+}
+$("#SingleVerifyBoxDlgIderrorMsg").text("");
+/*	var ele = $(this);
+	var cosa = ele[0];
+	for(prop in cosa){
+	console.log("prop-->"+prop+ "    ...cosa[prop]=>"+cosa[prop]);
+	}*/
+	var jqElement = $("[code='"+element.getAttribute("code")+"']");
+
+	var finalElem=jqElement;
+    for(var i=0; i<element.getAttribute("level-child"); i++){
+    	finalElem = finalElem.parent();
+    }
+console.log("finalElem.html()"+finalElem.html()+"   ...childLevel=>"+element.getAttribute("level-child"));
+$("#divElementVerif").html(finalElem.html());
+$("#divElementVerif .icon-ok-circle").remove();
+$("#divElementVerif .icon-remove-circle").remove();
+$("#divElementVerif .icon-ban-circle").remove();
+$("#divElementVerif .icon-list").remove();
+$("#divElementVerif input").prop("disabled",false).attr('readonly', false).val("");readonly="readonly"
+$("#divElementVerif textarea").prop("disabled",false).attr('readonly', false).val("");
+$("#divElementVerif select").prop("disabled",false).attr('readonly', false).val("");
+
+var InformacionAnterior = VerificationService.searchFieldVerification(element.getAttribute("code"), SingleVerify.case, SingleVerify.source, 0);
+console.log("InformacionAnterior-->"+InformacionAnterior);
+$("#SingleVerifyBoxDlgIdsearch").html(InformacionAnterior);
+	var dlgMsgBox = $('#SingleVerifyBoxDlgId');
+	window.scrollTo(0, 0);
+	dlgMsgBox.show();
+	SingleVerify.code = element.getAttribute("code");
+	$('#FormVerifUpsertId .date-picker').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
 };
-askYesNo.hide = function (){
-var dlgMsgBox = $('#MessageBoxDlgId');
-dlgMsgBox.hide();
+
+SingleVerify.hide = function (){
+	SingleVerify.code = "";
+	var dlgMsgBox = $('#SingleVerifyBoxDlgId');
+	dlgMsgBox.hide();
+	$("#divElementVerif").html("");
 };
-    	</script>
-<div class="modal-dialog" style="display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="MessageBoxDlgId" >
+
+SingleVerify.save = function (){
+	var dlgMsgBox = $('#SingleVerifyBoxDlgId');		
+	var data = $("#FormVerifUpsertId").serialize();
+	var encoded = validateVerif(data);
+	console.log("serialize del form =>"+data);
+	console.log("encoded object list>"+encoded);
+	console.log("encoded=json=>"+JSON.stringify(encoded));
+	var saveStatus = VerificationService.saveFieldVerification(JSON.stringify(encoded), SingleVerify.case, SingleVerify.source, 0);
+	if(saveStatus==""){
+		$("#SingleVerifyBoxDlgIderrorMsg").text("");
+	}else{
+		$("#SingleVerifyBoxDlgIderrorMsg").text(saveStatus);
+		return 0;
+	}
+	dlgMsgBox.hide();
+	$("#divElementVerif").html("");
+	SingleVerify.code = "";
+};
+</script>
+
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="SingleVerifyBoxDlgId" >
         <div class="modal-content" style="z-index: 1000;">
-            <div class="modal-header">
-                <div class="alert alert-danger">
-                    <button id="MessageBoxDlgXclose" type="button" class="close" onclick="javascript:askYesNo.no();">×</button>
-                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Eliminar registro</h4>
+        <a name="singleVerificationFocus"></a>
+                <div class="modal-header">
+                    <div class="alert alert-danger ">
+                        <h4 class="element-center">&nbsp;&nbsp;Dato proporcionado por la fuente</h4>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-body">
-                <div class="element-center ng-binding" ng-bind-html="Message">¿Está seguro de que desea eliminar el registro?</div>
-            </div>
-            <div class="modal-footer">
-                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-danger" onclick="javascript:askYesNo.yes(askYesNo.referencia);" >Si</button>
-                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askYesNo.no();" >No</button>
-            </div>
+                <div class="modal-body">
+                    <div class="row">
+                    	<div class="widget-box transparent">
+                            <div class="widget-header">
+                                <div class="row"> <input type="hidden"
+                                                         ng-init=''/>
+                                    <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+                                </div>
+                                <div class="row">
+                                    <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+                                        <ul>
+                                            <p id="SingleVerifyBoxDlgIdsearch"></p>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-init="generalComponent = true"
+                         id="divContentVerifId">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <form id="FormVerifUpsertId" name="FormVerifUpsertId"
+                                  class="form-horizontal"
+                                  role="form">
+                                <div id="divElementVerif">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" id="SingleVerifyBoxDlgIderrorMsg" style="display:none;" class="alert alert-danger element-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="SingleVerify.hide();">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-danger btn-danger btn-sm" onclick="SingleVerify.save();">
+                    	Guardar
+                    </span>
+                </div>
         </div>
         <div class="blocker" style="z-index:999;">
 		    <div>
@@ -39,6 +143,439 @@ dlgMsgBox.hide();
 		    </div>
 		</div>
     </div>
+	
+
+
+
+
+<!--nuevo marital status-->
+<script>
+var MaritalStatusVerify  = {};
+MaritalStatusVerify.reference = 0;
+
+
+function showMaritalYears(valor){
+console.log("showmari"+valor);
+MaritalStatusVerify.reference = valor; 
+$('#FormVerifMaritalYears #newVerifMaritalYears').removeClass("ng-hide");
+}
+function hideMaritalYears(valor){
+console.log("hidemari"+valor);
+MaritalStatusVerify.reference = valor;
+$('#FormVerifMaritalYears #newVerifMaritalYears').addClass("ng-hide");
+$("#divElementMaritalStatusVerify input").val("");
+}
+
+MaritalStatusVerify.show = function (element){
+var caso = $("#hdnVerificationCaseId").val();
+var fuente = $("#hdnVerificationSourceId").val();
+$("#divElementMaritalStatusVerify input").val("");
+var InformacionAnterior = VerificationService.searchFieldVerification("imputed.maritalStatus.id", caso, fuente, 0);
+console.log("InformacionAnterior-->"+InformacionAnterior);
+$("#MaritalStatusVerifyBoxDlgIdsearch").html(InformacionAnterior);
+	var dlgMsgBox = $('#MaritalStatusVerifyBoxDlgId');
+	window.scrollTo(0, 0);
+	dlgMsgBox.show();
+	$("#FormVerifMaritalYears input").prop( "disabled", false );
+};
+
+MaritalStatusVerify.hide = function (){
+	MaritalStatusVerify.code = "";
+	var dlgMsgBox = $('#MaritalStatusVerifyBoxDlgId');
+	dlgMsgBox.hide();
+$("#divElementMaritalStatusVerify input").val("");
+};
+
+MaritalStatusVerify.save = function (){
+var caso = $("#hdnVerificationCaseId").val();
+var fuente = $("#hdnVerificationSourceId").val();
+	var dlgMsgBox = $('#MaritalStatusVerifyBoxDlgId');		
+	var data = $("#FormVerifMaritalYears").serialize();
+	var data = data.replace("imputed.maritalStatus.id=&","imputed.maritalStatus.id="+MaritalStatusVerify.reference+"&");
+	var encoded = [];
+	var vars = data.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var psEqual = vars[i].split("=");
+        var e = {};
+        e.name = psEqual[0];
+        e.value = psEqual[1];
+        console.log("psEqual[0] ->"+psEqual[0]+"<-");
+        console.log("psEqual[1] ->"+psEqual[1]+"<-");
+        if(e.value!=undefined&&e.value!=null&&e.value!=""){
+        encoded.push(e);
+        }
+    }
+	console.log("serialize del form =>"+data);
+	console.log("encoded object list>"+encoded);
+	console.log("encoded=json=>"+JSON.stringify(encoded));
+	var saveStatus = VerificationService.saveFieldVerification(JSON.stringify(encoded), caso, fuente, 0);
+	if(saveStatus==""){
+		$("#MaritalStatusVerifyBoxDlgIderrorMsg").text("");
+	}else{
+		$("#MaritalStatusVerifyBoxDlgIderrorMsg").text(saveStatus);
+		return 0;
+	}
+	dlgMsgBox.hide();
+$("#divElementMaritalStatusVerify input").val("");
+}
+</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="MaritalStatusVerifyBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+        <a name="MaritalStatusVerifyFocus"></a>
+                <div class="modal-header">
+                    <div class="alert alert-danger ">
+                        <h4 class="element-center">&nbsp;&nbsp;Dato proporcionado por la fuente</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                    	<div class="widget-box transparent">
+                            <div class="widget-header">
+                                <div class="row"> <input type="hidden"
+                                                         ng-init=''/>
+                                    <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+                                </div>
+                                <div class="row">
+                                    <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+                                        <ul>
+                                            <p id="MaritalStatusVerifyBoxDlgIdsearch"></p>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" 
+                         id="divContentVerifId">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <form id="FormVerifMaritalYears" name="FormVerifMaritalYears"
+                                  class="form-horizontal"
+                                  role="form">
+                                <div id="divElementMaritalStatusVerify">
+<div class="col-xs-12">
+    <div class="widget-box">
+        <div class="widget-header">
+        <div class="col-xs-2">
+        </div>
+        <div class="col-xs-9 element-left">
+            <h5>Estado civil</h5>
+        </div>
+
+    </div>
+    <div class="widget-body">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="control-group">
+                    <div class="radio element-left">
+                        <label>
+                            <input name="imputed.maritalStatus.id" type="radio" class="ace" value="1"
+                            onclick="hideMaritalYears('1');" />
+                            <span class="lbl">Soltero</span>
+                        </label>
+                    </div>
+
+                    <div class="radio element-left">
+                        <label>
+                            <input name="imputed.maritalStatus.id" type="radio" class="ace"
+                            value="2" onclick="showMaritalYears('2');"/>
+                            <span class="lbl">Casado</span>
+
+                        </label>
+                    </div>
+                </div>
+
+                <div class="radio element-left">
+                    <label>
+                        <input name="imputed.maritalStatus.id" type="radio" class="ace" value="3"
+                        onclick="hideMaritalYears('3');" />
+                        <span class="lbl">Divorciado</span>
+                    </label>
+                </div>
+
+                <div class="radio element-left">
+                    <label>
+                        <input name="imputed.maritalStatus.id" type="radio" class="ace" value="4"
+                        onclick="showMaritalYears('4');" />
+                        <span class="lbl">Uni&oacute;n libre</span>
+                    </label>
+                </div>
+
+                <div class="radio element-left">
+                    <label>
+                        <input name="imputed.maritalStatus.id" type="radio" class="ace" value="5"
+                        onclick="hideMaritalYears('5');" />
+                        <span class="lbl">Viudo</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-xs-5 ng-hide" id="newVerifMaritalYears">
+                <div class="space-10"></div>
+                <div class="widget-main">
+                    <input type="text" class="input-mini"
+                    value=""
+                    name="imputed.yearsMaritalStatus" id="imputed.yearsMaritalStatus" data-val="true"
+                    data-val-regex-pattern="([0-9]+)" ng-model="m.YearsMaritalStatus"
+                    data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
+                    data-val-length-max="3" data-val-length-min="1"
+                    data-val-required="El n&uacute;mero de a&ntilde;os es un campo requerido"
+                    data-val-regex="La cantidad de a&ntilde;os s&oacute;lo pueden ser n&uacute;meros"/> A&ntilde;os
+                    <br/>
+                    <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
+                    data-valmsg-replace="true"></span>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>
+</div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" id="MaritalStatusVerifyBoxDlgIderrorMsg" style="display:none;" class="alert alert-danger element-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="MaritalStatusVerify.hide();">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-danger btn-danger btn-sm" onclick="MaritalStatusVerify.save();">
+                    	Guardar
+                    </span>
+                </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
+
+<!--nuevo list of activities-->
+<!--nuevo marital status-->
+
+<script>
+var ImputedActivitiesVerify  = {};
+ImputedActivitiesVerify.actList = [];
+ImputedActivitiesVerify.modelList = [];
+ImputedActivitiesVerify.specificationHtml = "";
+
+
+ImputedActivitiesVerify.show = function (element){
+var caso = $("#hdnVerificationCaseId").val();
+var fuente = $("#hdnVerificationSourceId").val();
+var convertableString = VerificationService.actividadesImputado();
+ImputedActivitiesVerify.actList = $.parseJSON(convertableString);
+console.log("ImputedActivitiesVerify.actList.lenght>"+ImputedActivitiesVerify.actList.length+"ImputedActivitiesVerify.actList type>"+typeof ImputedActivitiesVerify.actList);
+console.log("stringify jsonable>"+JSON.stringify(ImputedActivitiesVerify.actList));
+ImputedActivitiesVerify.modelList = [];
+if (ImputedActivitiesVerify.specificationHtml=="") {
+    ImputedActivitiesVerify.specificationHtml = $("#divActivitySpecificationList").html();
+}
+$("#divActivitySpecificationList").html("");
+$('#slctMultipleActivitiesVerify').empty();
+//llenado del select
+for(var indx=0;indx<ImputedActivitiesVerify.actList.length;indx++){
+console.log("val->"+ImputedActivitiesVerify.actList[indx].Id);
+console.log("text->"+ImputedActivitiesVerify.actList[indx].Name);
+    $('#slctMultipleActivitiesVerify').append("<option value='"+ImputedActivitiesVerify.actList[indx].Id+"' >"+ImputedActivitiesVerify.actList[indx].Name+"</option>");
+}
+$('#slctMultipleActivitiesVerify').prop("disabled",false).attr('readonly', false).val("");
+$('#slctMultipleActivitiesVerify').change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+              width: '100%',
+          filter:true,
+        selectAll : false,
+        allSelected : 'Todas las opciones',
+        minimumCountSelected : 7,
+        countSelected : '# de % seleccionados'
+        });
+var InformacionAnterior = VerificationService.searchFieldVerification("socialEnvironment.activities", caso, fuente, 0);
+console.log("InformacionAnterior-->"+InformacionAnterior);
+$("#ImputedActivitiesVerifyBoxDlgIdsearch").html(InformacionAnterior);
+    var dlgMsgBox = $('#ImputedActivitiesVerifyBoxDlgId');
+    window.scrollTo(0, 0);
+    dlgMsgBox.show();
+    console.log($("#FormImputedActivitiesVerify").html());
+};
+
+ImputedActivitiesVerify.hide = function (){
+    var dlgMsgBox = $('#ImputedActivitiesVerifyBoxDlgId');
+    dlgMsgBox.hide();
+    ImputedActivitiesVerify.modelList = [];
+    $("#divActivitySpecificationList").html("");
+    $('#slctMultipleActivitiesVerify').empty();
+};
+
+ImputedActivitiesVerify.save = function (){
+var caso = $("#hdnVerificationCaseId").val();
+var fuente = $("#hdnVerificationSourceId").val();
+    var dlgMsgBox = $('#ImputedActivitiesVerifyBoxDlgId');      
+    var data = $("#FormImputedActivitiesVerify").serialize();
+    var encoded = [];
+    /*var vars = data.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var psEqual = vars[i].split("=");
+        var e = {};
+        e.name = psEqual[0];
+        e.value = psEqual[1];
+        console.log("psEqual[0] ->"+psEqual[0]+"<-");
+        console.log("psEqual[1] ->"+psEqual[1]+"<-");
+        if(e.value!=undefined&&e.value!=null&&e.value!=""){
+        encoded.push(e);
+        }
+    }*/
+    console.log("serialize del form =>"+data);
+    console.log("encoded object list>"+encoded);
+    console.log("encoded=json=>"+JSON.stringify(encoded));
+    /*var saveStatus = VerificationService.saveFieldVerification(JSON.stringify(encoded), caso, fuente, 0);
+    if(saveStatus==""){
+        $("#ImputedActivitiesVerifyBoxDlgIderrorMsg").text("");
+    }else{
+        $("#ImputedActivitiesVerifyBoxDlgIderrorMsg").text(saveStatus);
+        return 0;
+    }*/
+    dlgMsgBox.hide();
+}
+ImputedActivitiesVerify.drawActivityEspecifications = function (){
+    var selctedActivities = $('#slctMultipleActivitiesVerify').val();
+    var ids = selctedActivities.split(",");
+    for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
+    	if(ids.indexOf(ImputedActivitiesVerify.actList[actInd].Id)=="-1"){
+    		//quitar el div
+    	}else{
+    		//agregar el div
+    	}
+    }
+};
+@*
+ImputedActivitiesVerify.drawActivityEspecifications = function (){
+    var selctedActivities = $('#slctMultipleActivitiesVerify').val();
+    var ids = selctedActivities.split(",");
+    for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
+    	if(ids.indexOf(ImputedActivitiesVerify.actList[actInd].Id)=="-1"){
+    		//quitar el div
+    	}else{
+    		//agregar el div
+    	}
+    }
+};
+ImputedActivitiesVerify.drawActivityEspecifications = function (){
+    var selctedActivities = $('#slctMultipleActivitiesVerify').val();
+    var ids = selctedActivities.split(",");
+    for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
+    	if(ids.indexOf(ImputedActivitiesVerify.actList[actInd].Id)=="-1"){
+    		//quitar el div
+    	}else{
+    		//agregar el div
+    	}
+    }
+};
+*@
+</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="ImputedActivitiesVerifyBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+        <a name="ImputedActivitiesVerifyFocus"></a>
+                <div class="modal-header">
+                    <div class="alert alert-danger ">
+                        <h4 class="element-center">&nbsp;&nbsp;Dato proporcionado por la fuente</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="widget-box transparent">
+                            <div class="widget-header">
+                                <div class="row"> <input type="hidden" />
+                                    <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+                                </div>
+                                <div class="row">
+                                    <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+                                        <ul>
+                                            <p id="ImputedActivitiesVerifyBoxDlgIdsearch"></p>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" >
+                            <input name="activities" type="hidden" value="" id="hdnJsonImputedActivitiesVerify" >
+                            <input name="listOfActivities" type="hidden" value="@Model.JsonActivities" id="hdnJsonActivityListVerify" >
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <form id="FormImputedActivitiesVerify" name="FormImputedActivitiesVerify"
+                                  class="form-horizontal"
+                                  role="form">
+                                <div id="diverifMaritalYears">
+
+                    <div class="row">
+                        <div class="col-xs-3 element-left">
+                            &iquest;Qu&eacute; actividades realiza?:  <br/>
+                            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
+                        </div>
+                        <div class="col-xs-9 element-left">
+                            <select onchange="drawActivityEspecifications();"
+                                    id="slctMultipleActivitiesVerify" style="width:450px;heigth: 100%;"
+                                    multiple >
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row" id="divActivitySpecificationList">
+                          <div id="divSpecification{{entity}}">
+                              <div class="col-xs-3">
+                                  Especif&iacute;que actividades {{entity}}:
+                              </div>
+                              <div class="col-xs-9">
+                                  <input class="form-control" data-val="true"
+                                         data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
+                                         data-val-length-max="255" data-val-length-min="3"
+                                         data-val-required="La especificaci&oacute;n de actividades {{entity}} es un campo requerido"
+                                         type="text" value="" 
+                                         id="specification{{entity}}" name="specification{{entity}}"
+                                         onchange="matchActivities()"><br/>
+                                    <span class="field-validation-valid" data-valmsg-for="specification{{entity}}"
+                                          data-valmsg-replace="true"></span>
+                                  <br/>
+                              </div>
+                          </div>
+                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" id="ImputedActivitiesVerifyBoxDlgIderrorMsg" style="display:none;" class="alert alert-danger element-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm" onclick="ImputedActivitiesVerify.hide();">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-danger btn-danger btn-sm" onclick="ImputedActivitiesVerify.save();">
+                        Guardar
+                    </span>
+                </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+            <div>
+                Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+            </div>
+        </div>
+    </div>
+
+
+
 
 
 
@@ -92,27 +629,21 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
     ///////////////////METHODS//////////////////
     //Init de country 
     $scope.InitCountryPD = function(){
-		    if($scope.m.BirthCountry!=undefined&&$scope.m.BirthCountry!=null){
-			    for(x=0;x<$scope.listCountry.length;x++){
-			    	if($scope.listCountry[x].Id==$scope.m.BirthCountry){
-			    		$scope.SeceltedCountry = $scope.listCountry[x];
-			    		//alert("$scope.listCountry[x]"+JSON.stringify($scope.listCountry[x]));
-			    		//alert("$scope.SeceltedCountry"+JSON.stringify($scope.SeceltedCountry));
-			    		$scope.InitMunicipalityDP();
-			    		break;
-			    	}
-			    }
-			}
-			else{
-				for(x=0;x<$scope.listCountry.length;x++){
-			    	if($scope.listCountry[x].Name=="Mexico"){
-			    		$scope.SeceltedCountry = $scope.listCountry[x];
-			    		$scope.InitMunicipalityDP();
-			    		break;
-			    	}
-			    }
-			}
-		};
+	    if($scope.m.BirthCountry!=undefined&&$scope.m.BirthCountry!=null){
+		    for(x=0;x<$scope.listCountry.length;x++){
+		    	if($scope.listCountry[x].Id==$scope.m.BirthCountry){
+		    		$scope.SeceltedCountry = $scope.listCountry[x];
+		    		//alert("$scope.listCountry[x]"+JSON.stringify($scope.listCountry[x]));
+		    		//alert("$scope.SeceltedCountry"+JSON.stringify($scope.SeceltedCountry));
+		    		$scope.InitMunicipalityDP();
+		    		break;
+		    	}
+		    }
+		}
+		else{
+    		$scope.SeceltedCountry = $scope.listCountry[0];
+		}
+	};
 
     $scope.InitMunicipalityDP = function(){
     //alert("InitMunicipalityDP -> $scope.m.LocationId>>"+$scope.m.LocationId);
@@ -165,18 +696,18 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 
 
 		$scope.selectedActivities = function (lstActivity, lstActivitySelect) {
-        for (var i = 0; i < lstActivitySelect.length; i++) {
-            for (var j = 0; j < lstActivity.length; j++) {
-                if (lstActivity[j].id === lstActivitySelect[i].id) {
-                    $scope.activityModel.push(lstActivity[j]);
-                    if (lstActivity[j].specification) {
-                        $scope.specification[lstActivity[j].name] = lstActivitySelect[i].specification;
-                    }
-                }
-            }
-        }
-        $scope.matchActivities();
-    };
+	        for (var i = 0; i < lstActivitySelect.length; i++) {
+	            for (var j = 0; j < lstActivity.length; j++) {
+	                if (lstActivity[j].id === lstActivitySelect[i].id) {
+	                    $scope.activityModel.push(lstActivity[j]);
+	                    if (lstActivity[j].specification) {
+	                        $scope.specification[lstActivity[j].name] = lstActivitySelect[i].specification;
+	                    }
+	                }
+	            }
+	        }
+	        $scope.matchActivities();
+	    };
 
     $scope.matchActivities = function () {
         $scope.relActivities = [];
@@ -465,8 +996,10 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 
 
 //regresa la pantalla de seleccion de meeting
-$scope.cancel = function(idCase){
-window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
+$scope.cancel = function(){
+    $scope.saving = false;
+//todos los key del json deben ser igual al modelo cs
+window.location.replace('hybrid:Meeting/Index');
 };
 
 
@@ -523,10 +1056,6 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
 	$scope.askTerminatehide = function (){
 		var dlgMsgBox = $('#MessageBoxDlgTerminateId');
 		dlgMsgBox.hide();
-	};
-
-	$scope.showChoicesSection = function() {
-
 	};
 
 });
@@ -878,7 +1407,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.name')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.name"></i>
+                                                    ng-show="verification" code="imputed.name" onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.name')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"
@@ -900,7 +1429,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.lastNameP')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.lastNameP"></i>
+                                                    ng-show="verification" code="imputed.lastNameP" onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.lastNameP')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"
@@ -922,7 +1451,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.lastNameM')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.lastNameM"></i>
+                                                    ng-show="verification" code="imputed.lastNameM" onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.lastNameM')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"
@@ -947,7 +1476,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.gender')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.gender"></i>
+                                                    ng-show="verification" code="imputed.gender" onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.gender')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.gender')"></i>
@@ -984,7 +1513,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <br/> <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.nickname')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.nickname"></i>
+                                                    ng-show="verification" code="imputed.nickname" onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.nickname')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource"  ng-click="showChoices('imputed.nickname')"></i>
@@ -1007,7 +1536,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     Fecha de nacimiento:
                                                 </div>
                                                 <div class="col-xs-7">
-                                                    <input class="form-control" id="birthDate" readonly="readonly" value="${m.BirthDate}" disabled="disabled">
+                                                    <input class="form-control" id="birthDate" readonly="readonly" value="{{m.BirthDate}}" disabled="disabled">
                                                 </div>
                                             </div>
                                             <div class="row" ng-show="verification == true || selectSource==true">
@@ -1015,7 +1544,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.birthDate')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.birthDate"></i>
+                                                    ng-show="verification" code="imputed.birthDate" onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.birthDate')"></i>
                                                     <i class="purple icon-list icon-only bigger-120" onclick="window.showChoices('imputed.birthDate')"
@@ -1025,7 +1554,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                 <div class="col-xs-7">
                                                     <div class="input-group">
                                                         <input class="form-control date-picker" id="dateBirthV"  type="text"  disabled="disabled"
-                                                        data-date-format="yyyy/mm/dd" value="${m.BirthDate}" readonly="readonly"
+                                                        data-date-format="yyyy/mm/dd" value="{{m.BirthDate}}" readonly="readonly"
                                                         name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
@@ -1042,7 +1571,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.celPhone')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-                                                    ng-show="verification" code="imputed.celPhone"></i>
+                                                    ng-show="verification" code="imputed.celPhone"  onclick="SingleVerify.show(this);"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.celPhone')"></i>
                                                     <i class="purple icon-list icon-only bigger-120" ng-click="showChoices('imputed.celPhone')"
@@ -1065,11 +1594,11 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                             <div class="widget-box">
                                                 <div class="widget-header"
                                                 ng-init="maritalStatus = (m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id)">
-                                                <div class="col-xs-2">
+                                                <div class="col-xs-3">
                                                     <i class="icon-ok-circle green  icon-only bigger-120"  ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.maritalStatus.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
-                                                    code="imputed.maritalStatus.id"></i>
+                                                    code="imputed.maritalStatus.id"  onclick="MaritalStatusVerify.show(this);" ></i>
                                                     <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
@@ -1086,17 +1615,17 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                                         <div class="control-group">
                                                             <div class="radio element-left">
                                                                 <label>
-                                                                    <input name="imputed.maritalStatus.id" type="radio" class="ace" value="1"
-                                                                    ng-model="m.MaritalStatusId"/>
+                                                                    <input name="M4r1t4lS" type="radio" class="ace" value="1"
+                                                                    ng-model="m.MaritalStatusId" onclick="hideMaritalYears();" />
                                                                     <span class="lbl">Soltero</span>
                                                                 </label>
                                                             </div>
 
                                                             <div class="radio element-left">
                                                                 <label>
-                                                                    <input name="imputed.maritalStatus.id" type="radio" class="ace"
+                                                                    <input name="M4r1t4lS" type="radio" class="ace"
                                                                     ng-model="m.MaritalStatusId"
-                                                                    value="2"/>
+                                                                    value="2" onclick="showMaritalYears();"/>
                                                                     <span class="lbl">Casado</span>
 
                                                                 </label>
@@ -1105,41 +1634,41 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
 
                                                         <div class="radio element-left">
                                                             <label>
-                                                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="3"
-                                                                ng-model="m.MaritalStatusId"/>
+                                                                <input name="M4r1t4lS" type="radio" class="ace" value="3"
+                                                                ng-model="m.MaritalStatusId" onclick="hideMaritalYears();" />
                                                                 <span class="lbl">Divorciado</span>
                                                             </label>
                                                         </div>
 
                                                         <div class="radio element-left">
                                                             <label>
-                                                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="4"
-                                                                ng-model="m.MaritalStatusId" />
+                                                                <input name="M4r1t4lS" type="radio" class="ace" value="4"
+                                                                ng-model="m.MaritalStatusId" onclick="showMaritalYears();" />
                                                                 <span class="lbl">Uni&oacute;n libre</span>
                                                             </label>
                                                         </div>
 
                                                         <div class="radio element-left">
                                                             <label>
-                                                                <input name="imputed.maritalStatus.id" type="radio" class="ace" value="5"
-                                                                ng-model="m.MaritalStatusId" />
+                                                                <input name="M4r1t4lS" type="radio" class="ace" value="5"
+                                                                ng-model="m.MaritalStatusId" onclick="hideMaritalYears();" />
                                                                 <span class="lbl">Viudo</span>
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xs-5" ng-show="m.MaritalStatusId ==2 || m.MaritalStatusId == 4" ng-model="verifElem">
+                                                    <div class="col-xs-5" ng-show="m.MaritalStatusId ==2 || m.MaritalStatusId == 4">
                                                         <div class="space-10"></div>
                                                         <div class="widget-main">
                                                             <input type="text" class="input-mini" id="spinnder1"
-                                                            value="${m.YearsMaritalStatus ==null ? '': m.YearsMaritalStatus}"
-                                                            name="imputed.yearsMaritalStatus" id="imputed.yearsMaritalStatus" data-val="true"
+                                                            value="{{m.YearsMaritalStatus ==null ? '': m.YearsMaritalStatus}}"
+                                                            name="aritalStatus" id="aritalStatus" data-val="true"
                                                             data-val-regex-pattern="([0-9]+)" ng-model="m.YearsMaritalStatus"
                                                             data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres"
                                                             data-val-length-max="3" data-val-length-min="1"
                                                             data-val-required="El n&uacute;mero de a&ntilde;os es un campo requerido"
                                                             data-val-regex="La cantidad de a&ntilde;os s&oacute;lo pueden ser n&uacute;meros"/> A&ntilde;os
                                                             <br/>
-                                                            <span class="field-validation-valid" data-valmsg-for="imputed.yearsMaritalStatus"
+                                                            <span class="field-validation-valid" data-valmsg-for="ritalStatus"
                                                             data-valmsg-replace="true"></span>
                                                         </div>
                                                     </div>
@@ -1154,17 +1683,17 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                 <div class="col-xs-12">
                                     <div class="widget-box">
                                         <div class="widget-header">
-                                            <div class="col-xs-1">
+                                            <div class="col-xs-3">
                                                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                 ng-click="doConfirmVerifEqual('imputed.boys')"></i>
                                                 <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
-                                                code="imputed.boys"></i>
+                                                code="imputed.boys"  onclick="SingleVerify.show(this);"></i>
                                                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                 ng-click="doConfirmVerifNotKnow('imputed.boys')"></i>
                                                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.boys')"></i>
                                             </div>
 
-                                            <div class="col-xs-11 element-left">
+                                            <div class="col-xs-9 element-left">
                                                 <h5>Hijos</h5>
                                             </div>
                                         </div>
@@ -1221,16 +1750,16 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                     <div class="col-xs-12">
                                         <div class="widget-box">
                                             <div class="widget-header">
-                                                <div class="col-xs-1" >
-                                                    <i class="icon-ok-circle green  icon-only bigger-120"ng-show="verification"
+                                                <div class="col-xs-3" >
+                                                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.birthCountry.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5" ng-show="verification"
-                                                    code="imputed.birthCountry.id"></i>
-                                                    <i class="icon-ban-circle gray icon-only bigger-120"ng-show="verification"
+                                                    code="imputed.birthCountry.id" ></i>
+                                                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.birthCountry.id')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
                                                 </div>
-                                                <div class="col-xs-10 element-left">
+                                                <div class="col-xs-9 element-left">
                                                     <h4>Lugar de nacimiento</h4>
                                                 </div>
                                             </div>
@@ -1335,7 +1864,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                         ng-click="doConfirmVerifEqual('socialEnvironment.physicalCondition')"></i>
                                         <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
-                                        code="socialEnvironment.physicalCondition"></i>
+                                        code="socialEnvironment.physicalCondition"  onclick="SingleVerify.show(this);"></i>
                                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                         ng-click="doConfirmVerifNotKnow('socialEnvironment.physicalCondition')"></i>
                                         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.physicalCondition')"></i>
@@ -1357,7 +1886,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
 								        <div class="col-xs-3 element-left">
 								            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
 								               ng-click="doConfirmVerifEqual('socialEnvironment.activities')"></i>
-								            <i class="icon-remove-circle red  icon-only bigger-120" onclick="window.verificationActivities();" ng-show="verification"
+								            <i class="icon-remove-circle red  icon-only bigger-120" onclick="ImputedActivitiesVerify.show();" ng-show="verification"
 								               code="socialEnvironment.activities"></i>
 								            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
 								               ng-click="doConfirmVerifNotKnow('socialEnvironment.acitivies')"></i>
@@ -1407,21 +1936,7 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                             <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 
                         </form>
-                        <br/>
-                        <div ng-show="msgError" class="alert alert-danger element-center error-font">
-                            <span ng-bind-html="msgError"></span>
-                        </div>
                     </div>
-                    <div class="col-xs-12">
-                        <div class="modal-footer">
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                            ng-click="savePersonalData()">
-                            <span class="glyphicon glyphicon-cloud-upload	"></span>
-                            Guardar
-                        </span>
-                    </div>
-                </div>
-<div class="space-2"></div>
             </div><!--End of Datos Personales-->
 
 
@@ -2239,30 +2754,20 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
                 </div>
                 <form id="FormSchool" name="FormSchool" ng-submit="submit('#FormSchool')" class="form-horizontal"
                       role="form">
-                    <input type="hidden" value="${m.caseDetention.id}" name="caseDetention.id">
+                    <input type="hidden" value="{{m.caseDetention.id}}" name="caseDetention.id">
 
     <div class="row">
-        <div class="col-xs-12 element-center" ng-init="">
-            <div class="col-xs-6 element-right">
-                &iquest;El imputado estudia actualmente?
-            </div>
-            <div class="col-xs-2">
-                <input type="radio" name="school.block"
-                id="blockYes" ng-value="true" ng-model="m.SchoolBlock" ng-change="fillModel()">
-                <label for="blockYes">Si</label> &nbsp;&nbsp;&nbsp;
-                <input type="radio" ng-checked="m.SchoolBlock==false" name="school.block"
-                id="blockNo" ng-value="false" ng-model="m.SchoolBlock" ng-change="fillModel()">
-                <label for="blockNo">No</label>
-            </div>
-        </div>
-    </div>
+	    <div class="col-xs-12">
+	        <label class="text-primary">Observaciones: <b>{{m.commentSchool}}</b></label>
+	    </div>
+	</div>
     <br/>
     <div class="row">
         <div class="col-xs-2 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
             ng-click="doConfirmVerifEqual('school.name')"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
-            ng-show="verification" code="school.name"></i>
+            ng-show="verification" code="school.name" onclick="SingleVerify.show(this);"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
             ng-click="doConfirmVerifNotKnow('school.name')"></i>
             Escuela:
@@ -2285,8 +2790,8 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
         <div class="col-xs-2 element-left">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
             ng-click="doConfirmVerifEqual('school.phone')"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-            ng-show="verification" code="school.phone"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+            ng-show="verification" code="school.phone" onclick="SingleVerify.show(this);"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
             ng-click="doConfirmVerifNotKnow('school.phone')"></i>
             Tel&eacute;fono:
@@ -2310,8 +2815,8 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
     <div class="col-xs-2 element-left">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
         ng-click="doConfirmVerifEqual('school.address')"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
-        ng-show="verification" code="school.address"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"
+        ng-show="verification" code="school.address" onclick="SingleVerify.show(this);"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
         ng-click="doConfirmVerifNotKnow('school.address')"></i>
         Direcci&oacute;n:
@@ -2337,6 +2842,12 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
     <div class="widget-box">
         <div class="widget-header">
             <div class="col-xs-10 element-left">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+            ng-click="doConfirmVerifEqual('school.degree.id')"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+            ng-show="verification" code="school.degree.id" onclick="SingleVerify.show(this);"></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+            ng-click="doConfirmVerifNotKnow('school.degree.id')"></i>
                 <h4>Actual/&Uacute;ltimo nivel de estudios</h4>
             </div>
         </div>
@@ -2503,39 +3014,8 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
             </div>
         </div>
     </div>
-
-</div>
-<br/><br/>
-
-<div class="row">
-    <div class="col-xs-3 element-left">Observaciones:<br/>
-        <label class="info-example">(Este campo no es verificable)</label>
-    </div>
-    <div class="col-xs-9">
-        <textarea class="width-100" ng-model="m.CommentSchool"
-        data-val="true"
-        data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
-        data-val-length-max="500"
-        data-val-length-min="1"
-        name="school.commentSchool">{{m.CommentSchool}}</textarea>
-        <span class="field-validation-valid" data-valmsg-for="comment"
-        data-valmsg-replace="true"></span>
-    </div>
 </div>
                 </form>
-                <div ng-show="msgError" class="alert alert-danger element-center error-font">
-                    <span ng-bind-html="msgError"></span>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="modal-footer">
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="saveEscolarship();">
-                        <span class="glyphicon glyphicon-cloud-upload"></span>
-                           Guardar
-                    </span>
             </div>
         </div>
     </div>
@@ -3169,6 +3649,17 @@ break;
             </div><!--End of Facilidad abandonar el pais -->
 
 
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
 </div>
@@ -3185,13 +3676,16 @@ break;
 </div>
 <div class="row">
     <div class="modal-footer">
-        <span class="btn btn-default btn-sm" ng-click="cancel();">
+    <a href="@Url.Action("Index","Meeting")">
+        <span class="btn btn-default btn-sm" >
             Regresar
         </span>
+</a>
     	<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" 
-        ng-click="askTerminateshow();">
-        	Terminar
+        onclick="askYesNo.show();">
+        Terminar Entrevista
     	</span>
+
 </div>
 </div>
 </div>
@@ -3203,10 +3697,110 @@ $(function() {
             	width: '100%',
     			filter:true,
 				selectAll : false,
-//				position : 'top',
 				allSelected : 'Todas las opciones',
 				minimumCountSelected : 7,
 				countSelected : '# de % seleccionados'
         });
 });
+$("input").prop( "disabled", true );
+$("select").prop( "disabled", true );
+$("textarea").prop( "disabled", true );
+
+//funcion para convertir serialize en objetos 
+function validateVerif(formSerialize) {
+    debugger;
+    var hasError = false;
+    var submitElement = [];
+    var vars = formSerialize.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var psEqual = vars[i].split("=");
+        var e = {};
+        e.name = psEqual[0];
+        if (psEqual[0] == "imputedHomes.timeLive1") {
+            e.name = "imputedHomes.timeLive";
+        }
+
+
+        e.value = decodeURIComponent(psEqual[1].replace(/\+/g, ' '));
+
+        console.log("psEqual[0] ->"+psEqual[0]);
+        console.log("psEqual[1] ->"+psEqual[1].replace(/\+/g, ' '));
+        console.log("e.value ->"+decodeURIComponent(psEqual[1]));
+        console.log("e.value ->"+e.value);
+
+        if (psEqual[0] == "imputed.birthDate") {
+        	//console.log("text ->"+$('#FormVerifUpsertId #dateBirthV').text()+"   ...Val->"+$('#FormVerifUpsertId #dateBirthV').val());
+            e.value = $('#FormVerifUpsertId #dateBirthV').val();
+        }
+
+        var allElement = $("[name='" + psEqual[0] + "']");
+        $("#divElementVerif").find(allElement).each(function () {
+            var message = "";
+            var adding = true;
+
+            var elementAux = $(this);
+            var isHide = false;
+            var isParent = false;
+            do {
+                isHide = elementAux.hasClass("ng-hide");
+                isParent = (elementAux.attr("id") == "divElementVerif");
+                elementAux = elementAux.parent();
+            } while (!isHide && !isParent);
+            if (isHide) {
+                adding = false;
+            }
+            if (e.value == undefined || e.value == "") {
+                if (!isHide && isParent) {
+                    message = $(this).attr("data-val-required");
+                }
+            } else {
+                var valMax = $(this).attr("data-val-length-max");
+                var valMin = $(this).attr("data-val-length-min");
+                var pattern = $(this).attr("data-val-regex-pattern");
+                if (valMax != undefined && valMin != undefined && ($(this).val().length > parseInt(valMax) || $(this).val().length < parseInt(valMin))) {
+                    message = $(this).attr("data-val-length")
+                }
+                if (pattern != undefined && $(this).val().match("^[0-9]+$") == null) {
+                    message = $(this).attr("data-val-regex");
+                }
+            }
+            var spanVal = $(this).siblings("span");
+            if (spanVal.hasClass("input-group-addon")) {
+                spanVal = $(this).parent().siblings('span');
+            }
+            var c = $(this).is("input:text");
+            if (message != "") {
+                spanVal.css("display", "block");
+                spanVal.addClass("field-validation-error");
+                spanVal.removeClass("field-validation-valid");
+                spanVal.text(message);
+                hasError = true;
+            } else {
+                if ($(this).is("input:text") || $(this).is("textarea")) {
+                    spanVal.css("display", "none");
+                    spanVal.addClass("field-validation-valid");
+                    spanVal.removeClass("field-validation-error");
+                }
+                if (e.value != "") {
+
+                    if ($(this).is("input:radio")) {
+                        for (var z = 0; z < submitElement.length; z++) {
+                            if (submitElement[z].name == e.name) {
+                                adding = false;
+                            }
+                        }
+                    }
+                    if (adding) {
+                        submitElement.push(e);
+                    }
+                }
+            }
+        });
+
+    }
+    if (hasError)
+        return null;
+    return submitElement;
+}
+
     	</script>

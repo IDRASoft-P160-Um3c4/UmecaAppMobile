@@ -14,7 +14,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>Umeca</AssemblyName>
-    <TargetFrameworkVersion>v4.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -108,7 +108,6 @@
     <Compile Include="Service\MeetingService.cs" />
     <Compile Include="Models\reviewer\GroupMessageMeetingDto.cs" />
     <Compile Include="Models\reviewer\TerminateMeetingMessageDto.cs" />
-    <Compile Include="Data\Job.cs" />
     <Compile Include="Views\AddressUpsert.cs">
       <DependentUpon>AddressUpsert.cshtml</DependentUpon>
     </Compile>
@@ -150,6 +149,9 @@
     </Compile>
     <Compile Include="Controllers\SupervisionController.cs" />
     <Compile Include="Service\SupervisionService.cs" />
+    <Compile Include="Models\Verification\CatalogDto.cs" />
+    <Compile Include="Models\Verification\DegreeDto.cs" />
+    <Compile Include="Models\Verification\FieldVerified.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -251,6 +253,7 @@
     <Folder Include="lib\" />
     <Folder Include="Models\Shared\" />
     <Folder Include="Service\" />
+    <Folder Include="Models\Verification\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap-table\bootstrap.min.css" />
