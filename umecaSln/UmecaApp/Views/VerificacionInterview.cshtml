@@ -40,7 +40,7 @@ $("#divElementVerif .icon-ok-circle").remove();
 $("#divElementVerif .icon-remove-circle").remove();
 $("#divElementVerif .icon-ban-circle").remove();
 $("#divElementVerif .icon-list").remove();
-$("#divElementVerif input").prop("disabled",false).attr('readonly', false).val("");readonly="readonly"
+$("#divElementVerif input").prop("disabled",false).attr('readonly', false).val("");
 $("#divElementVerif textarea").prop("disabled",false).attr('readonly', false).val("");
 $("#divElementVerif select").prop("disabled",false).attr('readonly', false).val("");
 
@@ -369,38 +369,40 @@ ImputedActivitiesVerify.specificationHtml = "";
 
 
 ImputedActivitiesVerify.show = function (element){
-var caso = $("#hdnVerificationCaseId").val();
-var fuente = $("#hdnVerificationSourceId").val();
-var convertableString = VerificationService.actividadesImputado();
-ImputedActivitiesVerify.actList = $.parseJSON(convertableString);
-console.log("ImputedActivitiesVerify.actList.lenght>"+ImputedActivitiesVerify.actList.length+"ImputedActivitiesVerify.actList type>"+typeof ImputedActivitiesVerify.actList);
-console.log("stringify jsonable>"+JSON.stringify(ImputedActivitiesVerify.actList));
-ImputedActivitiesVerify.modelList = [];
-if (ImputedActivitiesVerify.specificationHtml=="") {
-    ImputedActivitiesVerify.specificationHtml = $("#divActivitySpecificationList").html();
-}
-$("#divActivitySpecificationList").html("");
-$('#slctMultipleActivitiesVerify').empty();
-//llenado del select
-for(var indx=0;indx<ImputedActivitiesVerify.actList.length;indx++){
-console.log("val->"+ImputedActivitiesVerify.actList[indx].Id);
-console.log("text->"+ImputedActivitiesVerify.actList[indx].Name);
-    $('#slctMultipleActivitiesVerify').append("<option value='"+ImputedActivitiesVerify.actList[indx].Id+"' >"+ImputedActivitiesVerify.actList[indx].Name+"</option>");
-}
-$('#slctMultipleActivitiesVerify').prop("disabled",false).attr('readonly', false).val("");
-$('#slctMultipleActivitiesVerify').change(function() {
-            console.log($(this).val());
-        }).multipleSelect({
-              width: '100%',
-          filter:true,
+    $("#ImputedActivitiesVerifyBoxDlgIderrorMsg").html("");
+	var caso = $("#hdnVerificationCaseId").val();
+	var fuente = $("#hdnVerificationSourceId").val();
+	var convertableString = VerificationService.actividadesImputado();
+	ImputedActivitiesVerify.actList = $.parseJSON(convertableString);
+	console.log("ImputedActivitiesVerify.actList.lenght>"+ImputedActivitiesVerify.actList.length+"ImputedActivitiesVerify.actList type>"+typeof ImputedActivitiesVerify.actList);
+	console.log("stringify jsonable>"+JSON.stringify(ImputedActivitiesVerify.actList));
+	ImputedActivitiesVerify.modelList = [];
+	if (ImputedActivitiesVerify.specificationHtml=="") {
+		$("#divActivitySpecificationList input").prop("disabled",false).attr('readonly', false).val("");
+	    ImputedActivitiesVerify.specificationHtml = $("#divActivitySpecificationList").html();
+	}
+	$("#divActivitySpecificationList").html("");
+	$('#slctMultipleActivitiesVerify').empty();
+	//llenado del select
+	for(var indx=0;indx<ImputedActivitiesVerify.actList.length;indx++){
+		console.log("val->"+ImputedActivitiesVerify.actList[indx].Id);
+		console.log("text->"+ImputedActivitiesVerify.actList[indx].Name);
+	    $('#slctMultipleActivitiesVerify').append("<option value='"+ImputedActivitiesVerify.actList[indx].Id+"' >"+ImputedActivitiesVerify.actList[indx].Name+"</option>");
+	}
+	$('#slctMultipleActivitiesVerify').prop("disabled",false).attr('readonly', false).val("");
+	$('#slctMultipleActivitiesVerify').change(function() {
+    	console.log($(this).val());
+    }).multipleSelect({
+    	width: '100%',
+        filter:true,
         selectAll : false,
         allSelected : 'Todas las opciones',
         minimumCountSelected : 7,
         countSelected : '# de % seleccionados'
-        });
-var InformacionAnterior = VerificationService.searchFieldVerification("socialEnvironment.activities", caso, fuente, 0);
-console.log("InformacionAnterior-->"+InformacionAnterior);
-$("#ImputedActivitiesVerifyBoxDlgIdsearch").html(InformacionAnterior);
+    });
+	var InformacionAnterior = VerificationService.searchFieldVerification("socialEnvironment.activities", caso, fuente, 0);
+	console.log("InformacionAnterior-->"+InformacionAnterior);
+	$("#ImputedActivitiesVerifyBoxDlgIdsearch").html(InformacionAnterior);
     var dlgMsgBox = $('#ImputedActivitiesVerifyBoxDlgId');
     window.scrollTo(0, 0);
     dlgMsgBox.show();
@@ -416,71 +418,75 @@ ImputedActivitiesVerify.hide = function (){
 };
 
 ImputedActivitiesVerify.save = function (){
-var caso = $("#hdnVerificationCaseId").val();
-var fuente = $("#hdnVerificationSourceId").val();
-    var dlgMsgBox = $('#ImputedActivitiesVerifyBoxDlgId');      
-    var data = $("#FormImputedActivitiesVerify").serialize();
-    var encoded = [];
-    /*var vars = data.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var psEqual = vars[i].split("=");
-        var e = {};
-        e.name = psEqual[0];
-        e.value = psEqual[1];
-        console.log("psEqual[0] ->"+psEqual[0]+"<-");
-        console.log("psEqual[1] ->"+psEqual[1]+"<-");
-        if(e.value!=undefined&&e.value!=null&&e.value!=""){
-        encoded.push(e);
-        }
-    }*/
-    console.log("serialize del form =>"+data);
-    console.log("encoded object list>"+encoded);
-    console.log("encoded=json=>"+JSON.stringify(encoded));
-    /*var saveStatus = VerificationService.saveFieldVerification(JSON.stringify(encoded), caso, fuente, 0);
-    if(saveStatus==""){
-        $("#ImputedActivitiesVerifyBoxDlgIderrorMsg").text("");
+	var ids = $('#slctMultipleActivitiesVerify').val();
+	var data =[];
+	var JsonVal = "";
+	var caso = $("#hdnVerificationCaseId").val();
+	var fuente = $("#hdnVerificationSourceId").val();
+	if(ids==undefined||ids==null||ids.length<=0){
+    	$("#ImputedActivitiesVerifyBoxDlgIderrorMsg").html("Las actividades que realiza el imputado es un campo requerido.");
+    	return false;
     }else{
-        $("#ImputedActivitiesVerifyBoxDlgIderrorMsg").text(saveStatus);
-        return 0;
-    }*/
-    dlgMsgBox.hide();
-}
+    	for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
+    	var actividad = { "activity":{"id":0}, "specification":""};
+		    console.log("ImputedActivitiesVerify.actList[actInd].Id"+ImputedActivitiesVerify.actList[actInd].Id);
+	    	if($.inArray(ImputedActivitiesVerify.actList[actInd].Id.toString(), ids)!="-1"){
+	    		//si esta en los elejidos
+	    		actividad["activity"].id = ImputedActivitiesVerify.actList[actInd].Id;
+	    		JsonVal += ImputedActivitiesVerify.actList[actInd].Name;
+	    		if(ImputedActivitiesVerify.actList[actInd].Specification){
+	    			var complete = $("#specification"+ImputedActivitiesVerify.actList[actInd].Name).val();
+	    			console.log("complete"+complete);
+	    			if(complete!=undefined&&complete!=null&&complete!=""){
+		    			actividad["specification"] = complete;
+		    			JsonVal +=": "+complete+";";
+		    		}
+		    		else{
+		    			$("#ImputedActivitiesVerifyBoxDlgIderrorMsg").html("Debe agregar las especificaciones de cada actividad requerida.");
+		    			return false;
+		    		}
+	    		}//end de especificacion
+	    		else{
+	    		JsonVal += ";";
+	    		}
+	    		data.push(actividad);
+	    	}//end dentro 
+	    }//end de iteracion de actividades
+    }//end else donde si hay actividades 
+    console.log("encoded object list>"+data);
+    console.log("encoded=json=>"+JSON.stringify(data));
+     console.log("JsonVal value to display=>"+JsonVal);
+    var saveStatus = VerificationService.saveActivitiesVerification(JsonVal, JSON.stringify(data), caso, fuente);
+	if(saveStatus==""){
+		$("#MaritalStatusVerifyBoxDlgIderrorMsg").text("");
+	}else{
+		$("#MaritalStatusVerifyBoxDlgIderrorMsg").text(saveStatus);
+		return 0;
+	}
+    ImputedActivitiesVerify.hide();
+};
+
 ImputedActivitiesVerify.drawActivityEspecifications = function (){
-    var selctedActivities = $('#slctMultipleActivitiesVerify').val();
-    var ids = selctedActivities.split(",");
+    var ids = $('#slctMultipleActivitiesVerify').val();
+    if(ids==undefined||ids==null||ids.length<=0){
+    	$("#divActivitySpecificationList").html("");
+    }
     for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
-    	if(ids.indexOf(ImputedActivitiesVerify.actList[actInd].Id)=="-1"){
-    		//quitar el div
+    	if($.inArray(ImputedActivitiesVerify.actList[actInd].Id.toString(), ids)=="-1"){
+    		$("#divSpecification"+ImputedActivitiesVerify.actList[actInd].Name).remove();
     	}else{
-    		//agregar el div
+    		var already = $("#specification"+ImputedActivitiesVerify.actList[actInd].Name).val();
+    		if(already==undefined||already==""){
+    			$("#divSpecification"+ImputedActivitiesVerify.actList[actInd].Name).remove();
+    			if(ImputedActivitiesVerify.actList[actInd].Specification){
+    				$("#divActivitySpecificationList").append(ImputedActivitiesVerify.specificationHtml.replace(/entity/g,""+ImputedActivitiesVerify.actList[actInd].Name));
+    			}
+    		}
     	}
     }
 };
-@*
-ImputedActivitiesVerify.drawActivityEspecifications = function (){
-    var selctedActivities = $('#slctMultipleActivitiesVerify').val();
-    var ids = selctedActivities.split(",");
-    for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
-    	if(ids.indexOf(ImputedActivitiesVerify.actList[actInd].Id)=="-1"){
-    		//quitar el div
-    	}else{
-    		//agregar el div
-    	}
-    }
-};
-ImputedActivitiesVerify.drawActivityEspecifications = function (){
-    var selctedActivities = $('#slctMultipleActivitiesVerify').val();
-    var ids = selctedActivities.split(",");
-    for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
-    	if(ids.indexOf(ImputedActivitiesVerify.actList[actInd].Id)=="-1"){
-    		//quitar el div
-    	}else{
-    		//agregar el div
-    	}
-    }
-};
-*@
 </script>
+
 <div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="ImputedActivitiesVerifyBoxDlgId" >
         <div class="modal-content" style="z-index: 1000;">
         <a name="ImputedActivitiesVerifyFocus"></a>
@@ -521,7 +527,7 @@ ImputedActivitiesVerify.drawActivityEspecifications = function (){
                             <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
                         </div>
                         <div class="col-xs-9 element-left">
-                            <select onchange="drawActivityEspecifications();"
+                            <select onchange="ImputedActivitiesVerify.drawActivityEspecifications();"
                                     id="slctMultipleActivitiesVerify" style="width:450px;heigth: 100%;"
                                     multiple >
                             </select>
@@ -529,19 +535,19 @@ ImputedActivitiesVerify.drawActivityEspecifications = function (){
                     </div>
                     <br/>
                     <div class="row" id="divActivitySpecificationList">
-                          <div id="divSpecification{{entity}}">
+                          <div id="divSpecificationentity">
                               <div class="col-xs-3">
-                                  Especif&iacute;que actividades {{entity}}:
+                                  Especif&iacute;que actividades entity:
                               </div>
                               <div class="col-xs-9">
                                   <input class="form-control" data-val="true"
                                          data-val-length="Debe tener al menos 3 y m&aacute;ximo 255 caracteres"
                                          data-val-length-max="255" data-val-length-min="3"
-                                         data-val-required="La especificaci&oacute;n de actividades {{entity}} es un campo requerido"
+                                         data-val-required="La especificaci&oacute;n de actividades entity es un campo requerido"
                                          type="text" value="" 
-                                         id="specification{{entity}}" name="specification{{entity}}"
+                                         id="specificationentity" name="specificationentity"
                                          onchange="matchActivities()"><br/>
-                                    <span class="field-validation-valid" data-valmsg-for="specification{{entity}}"
+                                    <span class="field-validation-valid" data-valmsg-for="specificationentity"
                                           data-valmsg-replace="true"></span>
                                   <br/>
                               </div>
@@ -3803,4 +3809,9 @@ function validateVerif(formSerialize) {
     return submitElement;
 }
 
+///TODOTODOTODO
+	function gradeByNivel (){
+		
+    	//var degrees=JSON.parse(MeetingService.gradeByNivel( $scope.school.level['Id']));
+   	}
     	</script>

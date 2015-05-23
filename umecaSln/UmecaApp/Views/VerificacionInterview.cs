@@ -90,27 +90,27 @@ WriteLiteral(" />\r\n<script>\r\nvar SingleVerify  = {};\r\nSingleVerify.code = 
 "Verif .icon-ok-circle\").remove();\r\n$(\"#divElementVerif .icon-remove-circle\").rem" +
 "ove();\r\n$(\"#divElementVerif .icon-ban-circle\").remove();\r\n$(\"#divElementVerif .i" +
 "con-list\").remove();\r\n$(\"#divElementVerif input\").prop(\"disabled\",false).attr(\'r" +
-"eadonly\', false).val(\"\");readonly=\"readonly\"\r\n$(\"#divElementVerif textarea\").pro" +
-"p(\"disabled\",false).attr(\'readonly\', false).val(\"\");\r\n$(\"#divElementVerif select" +
-"\").prop(\"disabled\",false).attr(\'readonly\', false).val(\"\");\r\n\r\nvar InformacionAnt" +
-"erior = VerificationService.searchFieldVerification(element.getAttribute(\"code\")" +
-", SingleVerify.case, SingleVerify.source, 0);\r\nconsole.log(\"InformacionAnterior-" +
-"->\"+InformacionAnterior);\r\n$(\"#SingleVerifyBoxDlgIdsearch\").html(InformacionAnte" +
-"rior);\r\n\tvar dlgMsgBox = $(\'#SingleVerifyBoxDlgId\');\r\n\twindow.scrollTo(0, 0);\r\n\t" +
-"dlgMsgBox.show();\r\n\tSingleVerify.code = element.getAttribute(\"code\");\r\n\t$(\'#Form" +
-"VerifUpsertId .date-picker\').datepicker({autoclose: true, endDate: new Date()})." +
-"next().on(ace.click_event, function () {\r\n        $(this).prev().focus();\r\n    }" +
-");\r\n};\r\n\r\nSingleVerify.hide = function (){\r\n\tSingleVerify.code = \"\";\r\n\tvar dlgMs" +
-"gBox = $(\'#SingleVerifyBoxDlgId\');\r\n\tdlgMsgBox.hide();\r\n\t$(\"#divElementVerif\").h" +
-"tml(\"\");\r\n};\r\n\r\nSingleVerify.save = function (){\r\n\tvar dlgMsgBox = $(\'#SingleVer" +
-"ifyBoxDlgId\');\t\t\r\n\tvar data = $(\"#FormVerifUpsertId\").serialize();\r\n\tvar encoded" +
-" = validateVerif(data);\r\n\tconsole.log(\"serialize del form =>\"+data);\r\n\tconsole.l" +
-"og(\"encoded object list>\"+encoded);\r\n\tconsole.log(\"encoded=json=>\"+JSON.stringif" +
-"y(encoded));\r\n\tvar saveStatus = VerificationService.saveFieldVerification(JSON.s" +
-"tringify(encoded), SingleVerify.case, SingleVerify.source, 0);\r\n\tif(saveStatus==" +
-"\"\"){\r\n\t\t$(\"#SingleVerifyBoxDlgIderrorMsg\").text(\"\");\r\n\t}else{\r\n\t\t$(\"#SingleVerif" +
-"yBoxDlgIderrorMsg\").text(saveStatus);\r\n\t\treturn 0;\r\n\t}\r\n\tdlgMsgBox.hide();\r\n\t$(\"" +
-"#divElementVerif\").html(\"\");\r\n\tSingleVerify.code = \"\";\r\n};\r\n</script>\r\n\r\n<div");
+"eadonly\', false).val(\"\");\r\n$(\"#divElementVerif textarea\").prop(\"disabled\",false)" +
+".attr(\'readonly\', false).val(\"\");\r\n$(\"#divElementVerif select\").prop(\"disabled\"," +
+"false).attr(\'readonly\', false).val(\"\");\r\n\r\nvar InformacionAnterior = Verificatio" +
+"nService.searchFieldVerification(element.getAttribute(\"code\"), SingleVerify.case" +
+", SingleVerify.source, 0);\r\nconsole.log(\"InformacionAnterior-->\"+InformacionAnte" +
+"rior);\r\n$(\"#SingleVerifyBoxDlgIdsearch\").html(InformacionAnterior);\r\n\tvar dlgMsg" +
+"Box = $(\'#SingleVerifyBoxDlgId\');\r\n\twindow.scrollTo(0, 0);\r\n\tdlgMsgBox.show();\r\n" +
+"\tSingleVerify.code = element.getAttribute(\"code\");\r\n\t$(\'#FormVerifUpsertId .date" +
+"-picker\').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click" +
+"_event, function () {\r\n        $(this).prev().focus();\r\n    });\r\n};\r\n\r\nSingleVer" +
+"ify.hide = function (){\r\n\tSingleVerify.code = \"\";\r\n\tvar dlgMsgBox = $(\'#SingleVe" +
+"rifyBoxDlgId\');\r\n\tdlgMsgBox.hide();\r\n\t$(\"#divElementVerif\").html(\"\");\r\n};\r\n\r\nSin" +
+"gleVerify.save = function (){\r\n\tvar dlgMsgBox = $(\'#SingleVerifyBoxDlgId\');\t\t\r\n\t" +
+"var data = $(\"#FormVerifUpsertId\").serialize();\r\n\tvar encoded = validateVerif(da" +
+"ta);\r\n\tconsole.log(\"serialize del form =>\"+data);\r\n\tconsole.log(\"encoded object " +
+"list>\"+encoded);\r\n\tconsole.log(\"encoded=json=>\"+JSON.stringify(encoded));\r\n\tvar " +
+"saveStatus = VerificationService.saveFieldVerification(JSON.stringify(encoded), " +
+"SingleVerify.case, SingleVerify.source, 0);\r\n\tif(saveStatus==\"\"){\r\n\t\t$(\"#SingleV" +
+"erifyBoxDlgIderrorMsg\").text(\"\");\r\n\t}else{\r\n\t\t$(\"#SingleVerifyBoxDlgIderrorMsg\")" +
+".text(saveStatus);\r\n\t\treturn 0;\r\n\t}\r\n\tdlgMsgBox.hide();\r\n\t$(\"#divElementVerif\")." +
+"html(\"\");\r\n\tSingleVerify.code = \"\";\r\n};\r\n</script>\r\n\r\n<div");
 
 WriteLiteral(" class=\"modal-dialog\"");
 
@@ -675,58 +675,78 @@ WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n<!--n
 "-nuevo marital status-->\r\n\r\n<script>\r\nvar ImputedActivitiesVerify  = {};\r\nImpute" +
 "dActivitiesVerify.actList = [];\r\nImputedActivitiesVerify.modelList = [];\r\nImpute" +
 "dActivitiesVerify.specificationHtml = \"\";\r\n\r\n\r\nImputedActivitiesVerify.show = fu" +
-"nction (element){\r\nvar caso = $(\"#hdnVerificationCaseId\").val();\r\nvar fuente = $" +
-"(\"#hdnVerificationSourceId\").val();\r\nvar convertableString = VerificationService" +
-".actividadesImputado();\r\nImputedActivitiesVerify.actList = $.parseJSON(convertab" +
-"leString);\r\nconsole.log(\"ImputedActivitiesVerify.actList.lenght>\"+ImputedActivit" +
-"iesVerify.actList.length+\"ImputedActivitiesVerify.actList type>\"+typeof ImputedA" +
-"ctivitiesVerify.actList);\r\nconsole.log(\"stringify jsonable>\"+JSON.stringify(Impu" +
-"tedActivitiesVerify.actList));\r\nImputedActivitiesVerify.modelList = [];\r\nif (Imp" +
-"utedActivitiesVerify.specificationHtml==\"\") {\r\n    ImputedActivitiesVerify.speci" +
-"ficationHtml = $(\"#divActivitySpecificationList\").html();\r\n}\r\n$(\"#divActivitySpe" +
-"cificationList\").html(\"\");\r\n$(\'#slctMultipleActivitiesVerify\').empty();\r\n//llena" +
-"do del select\r\nfor(var indx=0;indx<ImputedActivitiesVerify.actList.length;indx++" +
-"){\r\nconsole.log(\"val->\"+ImputedActivitiesVerify.actList[indx].Id);\r\nconsole.log(" +
-"\"text->\"+ImputedActivitiesVerify.actList[indx].Name);\r\n    $(\'#slctMultipleActiv" +
-"itiesVerify\').append(\"<option value=\'\"+ImputedActivitiesVerify.actList[indx].Id+" +
-"\"\' >\"+ImputedActivitiesVerify.actList[indx].Name+\"</option>\");\r\n}\r\n$(\'#slctMulti" +
-"pleActivitiesVerify\').prop(\"disabled\",false).attr(\'readonly\', false).val(\"\");\r\n$" +
-"(\'#slctMultipleActivitiesVerify\').change(function() {\r\n            console.log($" +
-"(this).val());\r\n        }).multipleSelect({\r\n              width: \'100%\',\r\n     " +
-"     filter:true,\r\n        selectAll : false,\r\n        allSelected : \'Todas las " +
-"opciones\',\r\n        minimumCountSelected : 7,\r\n        countSelected : \'# de % s" +
-"eleccionados\'\r\n        });\r\nvar InformacionAnterior = VerificationService.search" +
-"FieldVerification(\"socialEnvironment.activities\", caso, fuente, 0);\r\nconsole.log" +
-"(\"InformacionAnterior-->\"+InformacionAnterior);\r\n$(\"#ImputedActivitiesVerifyBoxD" +
+"nction (element){\r\n    $(\"#ImputedActivitiesVerifyBoxDlgIderrorMsg\").html(\"\");\r\n" +
+"\tvar caso = $(\"#hdnVerificationCaseId\").val();\r\n\tvar fuente = $(\"#hdnVerificatio" +
+"nSourceId\").val();\r\n\tvar convertableString = VerificationService.actividadesImpu" +
+"tado();\r\n\tImputedActivitiesVerify.actList = $.parseJSON(convertableString);\r\n\tco" +
+"nsole.log(\"ImputedActivitiesVerify.actList.lenght>\"+ImputedActivitiesVerify.actL" +
+"ist.length+\"ImputedActivitiesVerify.actList type>\"+typeof ImputedActivitiesVerif" +
+"y.actList);\r\n\tconsole.log(\"stringify jsonable>\"+JSON.stringify(ImputedActivities" +
+"Verify.actList));\r\n\tImputedActivitiesVerify.modelList = [];\r\n\tif (ImputedActivit" +
+"iesVerify.specificationHtml==\"\") {\r\n\t\t$(\"#divActivitySpecificationList input\").p" +
+"rop(\"disabled\",false).attr(\'readonly\', false).val(\"\");\r\n\t    ImputedActivitiesVe" +
+"rify.specificationHtml = $(\"#divActivitySpecificationList\").html();\r\n\t}\r\n\t$(\"#di" +
+"vActivitySpecificationList\").html(\"\");\r\n\t$(\'#slctMultipleActivitiesVerify\').empt" +
+"y();\r\n\t//llenado del select\r\n\tfor(var indx=0;indx<ImputedActivitiesVerify.actLis" +
+"t.length;indx++){\r\n\t\tconsole.log(\"val->\"+ImputedActivitiesVerify.actList[indx].I" +
+"d);\r\n\t\tconsole.log(\"text->\"+ImputedActivitiesVerify.actList[indx].Name);\r\n\t    $" +
+"(\'#slctMultipleActivitiesVerify\').append(\"<option value=\'\"+ImputedActivitiesVeri" +
+"fy.actList[indx].Id+\"\' >\"+ImputedActivitiesVerify.actList[indx].Name+\"</option>\"" +
+");\r\n\t}\r\n\t$(\'#slctMultipleActivitiesVerify\').prop(\"disabled\",false).attr(\'readonl" +
+"y\', false).val(\"\");\r\n\t$(\'#slctMultipleActivitiesVerify\').change(function() {\r\n  " +
+"  \tconsole.log($(this).val());\r\n    }).multipleSelect({\r\n    \twidth: \'100%\',\r\n  " +
+"      filter:true,\r\n        selectAll : false,\r\n        allSelected : \'Todas las" +
+" opciones\',\r\n        minimumCountSelected : 7,\r\n        countSelected : \'# de % " +
+"seleccionados\'\r\n    });\r\n\tvar InformacionAnterior = VerificationService.searchFi" +
+"eldVerification(\"socialEnvironment.activities\", caso, fuente, 0);\r\n\tconsole.log(" +
+"\"InformacionAnterior-->\"+InformacionAnterior);\r\n\t$(\"#ImputedActivitiesVerifyBoxD" +
 "lgIdsearch\").html(InformacionAnterior);\r\n    var dlgMsgBox = $(\'#ImputedActiviti" +
 "esVerifyBoxDlgId\');\r\n    window.scrollTo(0, 0);\r\n    dlgMsgBox.show();\r\n    cons" +
 "ole.log($(\"#FormImputedActivitiesVerify\").html());\r\n};\r\n\r\nImputedActivitiesVerif" +
 "y.hide = function (){\r\n    var dlgMsgBox = $(\'#ImputedActivitiesVerifyBoxDlgId\')" +
 ";\r\n    dlgMsgBox.hide();\r\n    ImputedActivitiesVerify.modelList = [];\r\n    $(\"#d" +
 "ivActivitySpecificationList\").html(\"\");\r\n    $(\'#slctMultipleActivitiesVerify\')." +
-"empty();\r\n};\r\n\r\nImputedActivitiesVerify.save = function (){\r\nvar caso = $(\"#hdnV" +
-"erificationCaseId\").val();\r\nvar fuente = $(\"#hdnVerificationSourceId\").val();\r\n " +
-"   var dlgMsgBox = $(\'#ImputedActivitiesVerifyBoxDlgId\');      \r\n    var data = " +
-"$(\"#FormImputedActivitiesVerify\").serialize();\r\n    var encoded = [];\r\n    /*var" +
-" vars = data.split(\"&\");\r\n    for (var i = 0; i < vars.length; i++) {\r\n        v" +
-"ar psEqual = vars[i].split(\"=\");\r\n        var e = {};\r\n        e.name = psEqual[" +
-"0];\r\n        e.value = psEqual[1];\r\n        console.log(\"psEqual[0] ->\"+psEqual[" +
-"0]+\"<-\");\r\n        console.log(\"psEqual[1] ->\"+psEqual[1]+\"<-\");\r\n        if(e.v" +
-"alue!=undefined&&e.value!=null&&e.value!=\"\"){\r\n        encoded.push(e);\r\n       " +
-" }\r\n    }*/\r\n    console.log(\"serialize del form =>\"+data);\r\n    console.log(\"en" +
-"coded object list>\"+encoded);\r\n    console.log(\"encoded=json=>\"+JSON.stringify(e" +
-"ncoded));\r\n    /*var saveStatus = VerificationService.saveFieldVerification(JSON" +
-".stringify(encoded), caso, fuente, 0);\r\n    if(saveStatus==\"\"){\r\n        $(\"#Imp" +
-"utedActivitiesVerifyBoxDlgIderrorMsg\").text(\"\");\r\n    }else{\r\n        $(\"#Impute" +
-"dActivitiesVerifyBoxDlgIderrorMsg\").text(saveStatus);\r\n        return 0;\r\n    }*" +
-"/\r\n    dlgMsgBox.hide();\r\n}\r\nImputedActivitiesVerify.drawActivityEspecifications" +
-" = function (){\r\n    var selctedActivities = $(\'#slctMultipleActivitiesVerify\')." +
-"val();\r\n    var ids = selctedActivities.split(\",\");\r\n    for(var actInd=0;actInd" +
-"<ImputedActivitiesVerify.actList.length;actInd++){\r\n    \tif(ids.indexOf(ImputedA" +
-"ctivitiesVerify.actList[actInd].Id)==\"-1\"){\r\n    \t\t//quitar el div\r\n    \t}else{\r" +
-"\n    \t\t//agregar el div\r\n    \t}\r\n    }\r\n};\r\n");
-
-WriteLiteral("\r\n</script>\r\n<div");
+"empty();\r\n};\r\n\r\nImputedActivitiesVerify.save = function (){\r\n\tvar ids = $(\'#slct" +
+"MultipleActivitiesVerify\').val();\r\n\tvar data =[];\r\n\tvar JsonVal = \"\";\r\n\tvar caso" +
+" = $(\"#hdnVerificationCaseId\").val();\r\n\tvar fuente = $(\"#hdnVerificationSourceId" +
+"\").val();\r\n\tif(ids==undefined||ids==null||ids.length<=0){\r\n    \t$(\"#ImputedActiv" +
+"itiesVerifyBoxDlgIderrorMsg\").html(\"Las actividades que realiza el imputado es u" +
+"n campo requerido.\");\r\n    \treturn false;\r\n    }else{\r\n    \tfor(var actInd=0;act" +
+"Ind<ImputedActivitiesVerify.actList.length;actInd++){\r\n    \tvar actividad = { \"a" +
+"ctivity\":{\"id\":0}, \"specification\":\"\"};\r\n\t\t    console.log(\"ImputedActivitiesVer" +
+"ify.actList[actInd].Id\"+ImputedActivitiesVerify.actList[actInd].Id);\r\n\t    \tif($" +
+".inArray(ImputedActivitiesVerify.actList[actInd].Id.toString(), ids)!=\"-1\"){\r\n\t " +
+"   \t\t//si esta en los elejidos\r\n\t    \t\tactividad[\"activity\"].id = ImputedActivit" +
+"iesVerify.actList[actInd].Id;\r\n\t    \t\tJsonVal += ImputedActivitiesVerify.actList" +
+"[actInd].Name;\r\n\t    \t\tif(ImputedActivitiesVerify.actList[actInd].Specification)" +
+"{\r\n\t    \t\t\tvar complete = $(\"#specification\"+ImputedActivitiesVerify.actList[act" +
+"Ind].Name).val();\r\n\t    \t\t\tconsole.log(\"complete\"+complete);\r\n\t    \t\t\tif(complet" +
+"e!=undefined&&complete!=null&&complete!=\"\"){\r\n\t\t    \t\t\tactividad[\"specification\"" +
+"] = complete;\r\n\t\t    \t\t\tJsonVal +=\": \"+complete+\";\";\r\n\t\t    \t\t}\r\n\t\t    \t\telse{\r\n" +
+"\t\t    \t\t\t$(\"#ImputedActivitiesVerifyBoxDlgIderrorMsg\").html(\"Debe agregar las es" +
+"pecificaciones de cada actividad requerida.\");\r\n\t\t    \t\t\treturn false;\r\n\t\t    \t\t" +
+"}\r\n\t    \t\t}//end de especificacion\r\n\t    \t\telse{\r\n\t    \t\tJsonVal += \";\";\r\n\t    \t" +
+"\t}\r\n\t    \t\tdata.push(actividad);\r\n\t    \t}//end dentro \r\n\t    }//end de iteracion" +
+" de actividades\r\n    }//end else donde si hay actividades \r\n    console.log(\"enc" +
+"oded object list>\"+data);\r\n    console.log(\"encoded=json=>\"+JSON.stringify(data)" +
+");\r\n     console.log(\"JsonVal value to display=>\"+JsonVal);\r\n    var saveStatus " +
+"= VerificationService.saveActivitiesVerification(JsonVal, JSON.stringify(data), " +
+"caso, fuente);\r\n\tif(saveStatus==\"\"){\r\n\t\t$(\"#MaritalStatusVerifyBoxDlgIderrorMsg\"" +
+").text(\"\");\r\n\t}else{\r\n\t\t$(\"#MaritalStatusVerifyBoxDlgIderrorMsg\").text(saveStatu" +
+"s);\r\n\t\treturn 0;\r\n\t}\r\n    ImputedActivitiesVerify.hide();\r\n};\r\n\r\nImputedActiviti" +
+"esVerify.drawActivityEspecifications = function (){\r\n    var ids = $(\'#slctMulti" +
+"pleActivitiesVerify\').val();\r\n    if(ids==undefined||ids==null||ids.length<=0){\r" +
+"\n    \t$(\"#divActivitySpecificationList\").html(\"\");\r\n    }\r\n    for(var actInd=0;" +
+"actInd<ImputedActivitiesVerify.actList.length;actInd++){\r\n    \tif($.inArray(Impu" +
+"tedActivitiesVerify.actList[actInd].Id.toString(), ids)==\"-1\"){\r\n    \t\t$(\"#divSp" +
+"ecification\"+ImputedActivitiesVerify.actList[actInd].Name).remove();\r\n    \t}else" +
+"{\r\n    \t\tvar already = $(\"#specification\"+ImputedActivitiesVerify.actList[actInd" +
+"].Name).val();\r\n    \t\tif(already==undefined||already==\"\"){\r\n    \t\t\t$(\"#divSpecif" +
+"ication\"+ImputedActivitiesVerify.actList[actInd].Name).remove();\r\n    \t\t\tif(Impu" +
+"tedActivitiesVerify.actList[actInd].Specification){\r\n    \t\t\t\t$(\"#divActivitySpec" +
+"ificationList\").append(ImputedActivitiesVerify.specificationHtml.replace(/entity" +
+"/g,\"\"+ImputedActivitiesVerify.actList[actInd].Name));\r\n    \t\t\t}\r\n    \t\t}\r\n    \t}" +
+"\r\n    }\r\n};\r\n</script>\r\n\r\n<div");
 
 WriteLiteral(" class=\"modal-dialog\"");
 
@@ -831,7 +851,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 511 "VerificacionInterview.cshtml"
+#line 517 "VerificacionInterview.cshtml"
                                          , Tuple.Create<string,object,bool> ("", Model.JsonActivities
 
 #line default
@@ -878,7 +898,7 @@ WriteLiteral(" class=\"col-xs-9 element-left\"");
 
 WriteLiteral(">\r\n                            <select");
 
-WriteLiteral(" onchange=\"drawActivityEspecifications();\"");
+WriteLiteral(" onchange=\"ImputedActivitiesVerify.drawActivityEspecifications();\"");
 
 WriteLiteral("\r\n                                    id=\"slctMultipleActivitiesVerify\"");
 
@@ -894,14 +914,14 @@ WriteLiteral(" id=\"divActivitySpecificationList\"");
 
 WriteLiteral(">\r\n                          <div");
 
-WriteLiteral(" id=\"divSpecification{{entity}}\"");
+WriteLiteral(" id=\"divSpecificationentity\"");
 
 WriteLiteral(">\r\n                              <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(">\r\n                                  Especif&iacute;que actividades {{entity}}:\r\n" +
-"                              </div>\r\n                              <div");
+WriteLiteral(">\r\n                                  Especif&iacute;que actividades entity:\r\n    " +
+"                          </div>\r\n                              <div");
 
 WriteLiteral(" class=\"col-xs-9\"");
 
@@ -919,15 +939,15 @@ WriteLiteral("\r\n                                         data-val-length-max=\
 WriteLiteral(" data-val-length-min=\"3\"");
 
 WriteLiteral("\r\n                                         data-val-required=\"La especificaci&oac" +
-"ute;n de actividades {{entity}} es un campo requerido\"");
+"ute;n de actividades entity es un campo requerido\"");
 
 WriteLiteral("\r\n                                         type=\"text\"");
 
 WriteLiteral(" value=\"\"");
 
-WriteLiteral(" \r\n                                         id=\"specification{{entity}}\"");
+WriteLiteral(" \r\n                                         id=\"specificationentity\"");
 
-WriteLiteral(" name=\"specification{{entity}}\"");
+WriteLiteral(" name=\"specificationentity\"");
 
 WriteLiteral("\r\n                                         onchange=\"matchActivities()\"");
 
@@ -935,7 +955,7 @@ WriteLiteral("><br/>\r\n                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"specification{{entity}}\"");
+WriteLiteral(" data-valmsg-for=\"specificationentity\"");
 
 WriteLiteral("\r\n                                          data-valmsg-replace=\"true\"");
 
@@ -1224,7 +1244,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1067 "VerificacionInterview.cshtml"
+#line 1073 "VerificacionInterview.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -1434,7 +1454,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 1157 "VerificacionInterview.cshtml"
+#line 1163 "VerificacionInterview.cshtml"
                Write(Model.DateCreate);
 
 
@@ -1454,7 +1474,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 1164 "VerificacionInterview.cshtml"
+#line 1170 "VerificacionInterview.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -2016,7 +2036,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1377 "VerificacionInterview.cshtml"
+#line 1383 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -3416,7 +3436,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1781 "VerificacionInterview.cshtml"
+#line 1787 "VerificacionInterview.cshtml"
                                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
@@ -3499,7 +3519,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1799 "VerificacionInterview.cshtml"
+#line 1805 "VerificacionInterview.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
@@ -3871,7 +3891,7 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1900 "VerificacionInterview.cshtml"
+#line 1906 "VerificacionInterview.cshtml"
                                    , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
@@ -4038,13 +4058,13 @@ WriteLiteral(" id=\"meetingImputedHomeTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2015 "VerificacionInterview.cshtml"
+#line 2021 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2015 "VerificacionInterview.cshtml"
+#line 2021 "VerificacionInterview.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -4058,7 +4078,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-IH-", true)
 
-#line 2019 "VerificacionInterview.cshtml"
+#line 2025 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -4078,7 +4098,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2021 "VerificacionInterview.cshtml"
+#line 2027 "VerificacionInterview.cshtml"
        Write(Dmcl.addressString);
 
 
@@ -4089,7 +4109,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2024 "VerificacionInterview.cshtml"
+#line 2030 "VerificacionInterview.cshtml"
        Write(Dmcl.Phone);
 
 
@@ -4098,13 +4118,13 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2027 "VerificacionInterview.cshtml"
+#line 2033 "VerificacionInterview.cshtml"
         
 
 #line default
 #line hidden
 
-#line 2027 "VerificacionInterview.cshtml"
+#line 2033 "VerificacionInterview.cshtml"
           switch(@Dmcl.RegisterTypeId)
     {
         case 1:
@@ -4116,7 +4136,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Actual</label>\r\n");
 
 
-#line 2032 "VerificacionInterview.cshtml"
+#line 2038 "VerificacionInterview.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -4126,7 +4146,7 @@ WriteLiteral("                <label>Actual</label>\r\n");
 WriteLiteral("            <label>Secundario</label>\r\n");
 
 
-#line 2035 "VerificacionInterview.cshtml"
+#line 2041 "VerificacionInterview.cshtml"
             break;
         case 3:
 
@@ -4136,7 +4156,7 @@ WriteLiteral("            <label>Secundario</label>\r\n");
 WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 
 
-#line 2038 "VerificacionInterview.cshtml"
+#line 2044 "VerificacionInterview.cshtml"
         	break;
         default:
 
@@ -4146,7 +4166,7 @@ WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2041 "VerificacionInterview.cshtml"
+#line 2047 "VerificacionInterview.cshtml"
             break;                   
     }
     
@@ -4156,13 +4176,13 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2046 "VerificacionInterview.cshtml"
+#line 2052 "VerificacionInterview.cshtml"
          
 
 #line default
 #line hidden
 
-#line 2046 "VerificacionInterview.cshtml"
+#line 2052 "VerificacionInterview.cshtml"
            switch(@Dmcl.HomeTypeId)
     {
         case 1:
@@ -4174,7 +4194,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Propia</label>\r\n");
 
 
-#line 2051 "VerificacionInterview.cshtml"
+#line 2057 "VerificacionInterview.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -4184,7 +4204,7 @@ WriteLiteral("                <label>Propia</label>\r\n");
 WriteLiteral("            <label>Rentada</label>\r\n");
 
 
-#line 2054 "VerificacionInterview.cshtml"
+#line 2060 "VerificacionInterview.cshtml"
             break;
         case 3:
 
@@ -4194,7 +4214,7 @@ WriteLiteral("            <label>Rentada</label>\r\n");
 WriteLiteral("       \t\t<label>Prestada</label>\r\n");
 
 
-#line 2057 "VerificacionInterview.cshtml"
+#line 2063 "VerificacionInterview.cshtml"
         	break;
         case 4:
 
@@ -4204,7 +4224,7 @@ WriteLiteral("       \t\t<label>Prestada</label>\r\n");
 WriteLiteral("       \t\t<label>Otro</label>\r\n");
 
 
-#line 2060 "VerificacionInterview.cshtml"
+#line 2066 "VerificacionInterview.cshtml"
         	break;
         default:
 
@@ -4214,7 +4234,7 @@ WriteLiteral("       \t\t<label>Otro</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2063 "VerificacionInterview.cshtml"
+#line 2069 "VerificacionInterview.cshtml"
             break;                   
     }
     
@@ -4232,7 +4252,7 @@ WriteLiteral(" title=\"Eliminar domicilio\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDomicilio(\'", true)
 
-#line 2068 "VerificacionInterview.cshtml"
+#line 2074 "VerificacionInterview.cshtml"
                                                                               , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -4255,7 +4275,7 @@ WriteLiteral(" title=\"Editar Domicilio\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDomicilio(\'", true)
 
-#line 2069 "VerificacionInterview.cshtml"
+#line 2075 "VerificacionInterview.cshtml"
                                                                           , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -4270,7 +4290,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2072 "VerificacionInterview.cshtml"
+#line 2078 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -4468,13 +4488,13 @@ WriteLiteral(" id=\"meetingPersonSNTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2185 "VerificacionInterview.cshtml"
+#line 2191 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2185 "VerificacionInterview.cshtml"
+#line 2191 "VerificacionInterview.cshtml"
      if(Model.JsonPersonSN==null){
     }
     else{
@@ -4488,7 +4508,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-PSN-", true)
 
-#line 2189 "VerificacionInterview.cshtml"
+#line 2195 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4508,7 +4528,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2191 "VerificacionInterview.cshtml"
+#line 2197 "VerificacionInterview.cshtml"
        Write(Jpsn.Name);
 
 
@@ -4517,7 +4537,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2194 "VerificacionInterview.cshtml"
+#line 2200 "VerificacionInterview.cshtml"
   switch(@Jpsn.RelationshipId)
     {
         	case 18:   
@@ -4528,7 +4548,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 
 
-#line 2198 "VerificacionInterview.cshtml"
+#line 2204 "VerificacionInterview.cshtml"
             break;  
             case 6:  
 
@@ -4538,7 +4558,7 @@ WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 WriteLiteral("            <label>Amigo</label>\r\n");
 
 
-#line 2201 "VerificacionInterview.cshtml"
+#line 2207 "VerificacionInterview.cshtml"
             break;  
             case 10:
 
@@ -4548,7 +4568,7 @@ WriteLiteral("            <label>Amigo</label>\r\n");
 WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 
 
-#line 2204 "VerificacionInterview.cshtml"
+#line 2210 "VerificacionInterview.cshtml"
             break;  
             case 12:  
 
@@ -4558,7 +4578,7 @@ WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 WriteLiteral("            <label>Empleado</label>\r\n");
 
 
-#line 2207 "VerificacionInterview.cshtml"
+#line 2213 "VerificacionInterview.cshtml"
             break;  
             case 14:  
 
@@ -4568,7 +4588,7 @@ WriteLiteral("            <label>Empleado</label>\r\n");
 WriteLiteral("            <label>Esposa</label>\r\n");
 
 
-#line 2210 "VerificacionInterview.cshtml"
+#line 2216 "VerificacionInterview.cshtml"
             break;  
             case 16:  
 
@@ -4578,7 +4598,7 @@ WriteLiteral("            <label>Esposa</label>\r\n");
 WriteLiteral("            <label>Familiar Político</label>\r\n");
 
 
-#line 2213 "VerificacionInterview.cshtml"
+#line 2219 "VerificacionInterview.cshtml"
             break;  
             case 1:  
 
@@ -4588,7 +4608,7 @@ WriteLiteral("            <label>Familiar Político</label>\r\n");
 WriteLiteral("            <label>Hermano</label>\r\n");
 
 
-#line 2216 "VerificacionInterview.cshtml"
+#line 2222 "VerificacionInterview.cshtml"
             break;  
             case 3: 
 
@@ -4598,7 +4618,7 @@ WriteLiteral("            <label>Hermano</label>\r\n");
 WriteLiteral("            <label>Hijo(a)</label>\r\n");
 
 
-#line 2219 "VerificacionInterview.cshtml"
+#line 2225 "VerificacionInterview.cshtml"
             break;  
             case 20:
 
@@ -4608,7 +4628,7 @@ WriteLiteral("            <label>Hijo(a)</label>\r\n");
 WriteLiteral("            <label>Imputado</label>\r\n");
 
 
-#line 2222 "VerificacionInterview.cshtml"
+#line 2228 "VerificacionInterview.cshtml"
             break;  
             case 2:  
 
@@ -4618,7 +4638,7 @@ WriteLiteral("            <label>Imputado</label>\r\n");
 WriteLiteral("            <label>Madre</label>\r\n");
 
 
-#line 2225 "VerificacionInterview.cshtml"
+#line 2231 "VerificacionInterview.cshtml"
             break;  
             case 8:  
 
@@ -4628,7 +4648,7 @@ WriteLiteral("            <label>Madre</label>\r\n");
 WriteLiteral("            <label>Ninguno</label>\r\n");
 
 
-#line 2228 "VerificacionInterview.cshtml"
+#line 2234 "VerificacionInterview.cshtml"
             break;  
             case 19:  
 
@@ -4638,7 +4658,7 @@ WriteLiteral("            <label>Ninguno</label>\r\n");
 WriteLiteral("            <label>Otro</label>\r\n");
 
 
-#line 2231 "VerificacionInterview.cshtml"
+#line 2237 "VerificacionInterview.cshtml"
             break;  
             case 17:  
 
@@ -4648,7 +4668,7 @@ WriteLiteral("            <label>Otro</label>\r\n");
 WriteLiteral("            <label>Padre</label>\r\n");
 
 
-#line 2234 "VerificacionInterview.cshtml"
+#line 2240 "VerificacionInterview.cshtml"
             break;  
             case 11:  
 
@@ -4658,7 +4678,7 @@ WriteLiteral("            <label>Padre</label>\r\n");
 WriteLiteral("            <label>Padrino</label>\r\n");
 
 
-#line 2237 "VerificacionInterview.cshtml"
+#line 2243 "VerificacionInterview.cshtml"
             break;  
             case 13:  
 
@@ -4668,7 +4688,7 @@ WriteLiteral("            <label>Padrino</label>\r\n");
 WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 
 
-#line 2240 "VerificacionInterview.cshtml"
+#line 2246 "VerificacionInterview.cshtml"
             break;  
             case 9:  
 
@@ -4678,7 +4698,7 @@ WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 WriteLiteral("            <label>Patrón</label>\r\n");
 
 
-#line 2243 "VerificacionInterview.cshtml"
+#line 2249 "VerificacionInterview.cshtml"
             break;  
             case 4:  
 
@@ -4688,7 +4708,7 @@ WriteLiteral("            <label>Patrón</label>\r\n");
 WriteLiteral("            <label>Primo(a)</label>\r\n");
 
 
-#line 2246 "VerificacionInterview.cshtml"
+#line 2252 "VerificacionInterview.cshtml"
             break;  
             case 15:  
 
@@ -4698,7 +4718,7 @@ WriteLiteral("            <label>Primo(a)</label>\r\n");
 WriteLiteral("            <label>Suegra</label>\r\n");
 
 
-#line 2249 "VerificacionInterview.cshtml"
+#line 2255 "VerificacionInterview.cshtml"
             break;  
             case 5:  
 
@@ -4708,7 +4728,7 @@ WriteLiteral("            <label>Suegra</label>\r\n");
 WriteLiteral("            <label>Tío(a)</label>\r\n");
 
 
-#line 2252 "VerificacionInterview.cshtml"
+#line 2258 "VerificacionInterview.cshtml"
             break;  
             case 7:  
 
@@ -4718,7 +4738,7 @@ WriteLiteral("            <label>Tío(a)</label>\r\n");
 WriteLiteral("            <label>Vecino</label>\r\n");
 
 
-#line 2255 "VerificacionInterview.cshtml"
+#line 2261 "VerificacionInterview.cshtml"
             break;  
             default:
 
@@ -4728,7 +4748,7 @@ WriteLiteral("            <label>Vecino</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2258 "VerificacionInterview.cshtml"
+#line 2264 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -4740,7 +4760,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2263 "VerificacionInterview.cshtml"
+#line 2269 "VerificacionInterview.cshtml"
        Write(Jpsn.Age);
 
 
@@ -4751,7 +4771,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2266 "VerificacionInterview.cshtml"
+#line 2272 "VerificacionInterview.cshtml"
        Write(Jpsn.Phone);
 
 
@@ -4760,7 +4780,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2269 "VerificacionInterview.cshtml"
+#line 2275 "VerificacionInterview.cshtml"
   switch(@Jpsn.isAccompaniment)
     {
         case true:
@@ -4771,7 +4791,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 2273 "VerificacionInterview.cshtml"
+#line 2279 "VerificacionInterview.cshtml"
             break;
         case false:
 
@@ -4781,7 +4801,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 2276 "VerificacionInterview.cshtml"
+#line 2282 "VerificacionInterview.cshtml"
             break;
         default:
 
@@ -4791,7 +4811,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2279 "VerificacionInterview.cshtml"
+#line 2285 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -4801,7 +4821,7 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
 
 
-#line 2284 "VerificacionInterview.cshtml"
+#line 2290 "VerificacionInterview.cshtml"
   switch(@Jpsn.DependentId)
     {
         case 1:
@@ -4812,7 +4832,7 @@ WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 2288 "VerificacionInterview.cshtml"
+#line 2294 "VerificacionInterview.cshtml"
             break;
         case 2:
 
@@ -4822,7 +4842,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 2291 "VerificacionInterview.cshtml"
+#line 2297 "VerificacionInterview.cshtml"
             break;
         default:
 
@@ -4832,7 +4852,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2294 "VerificacionInterview.cshtml"
+#line 2300 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -4850,7 +4870,7 @@ WriteLiteral(" title=\"Eliminar Persona\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeletePersonSn(\'", true)
 
-#line 2299 "VerificacionInterview.cshtml"
+#line 2305 "VerificacionInterview.cshtml"
                                                                            , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4873,7 +4893,7 @@ WriteLiteral(" title=\"Editar Persona\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditPersonSn(\'", true)
 
-#line 2300 "VerificacionInterview.cshtml"
+#line 2306 "VerificacionInterview.cshtml"
                                                                        , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4888,7 +4908,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2303 "VerificacionInterview.cshtml"
+#line 2309 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -5089,13 +5109,13 @@ WriteLiteral(" id=\"meetingReferenceTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2417 "VerificacionInterview.cshtml"
+#line 2423 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2417 "VerificacionInterview.cshtml"
+#line 2423 "VerificacionInterview.cshtml"
      if(Model.JsonReferences==null){	
     }
     else{
@@ -5109,7 +5129,7 @@ WriteLiteral("   <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MRF-", true)
 
-#line 2421 "VerificacionInterview.cshtml"
+#line 2427 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -5129,7 +5149,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2423 "VerificacionInterview.cshtml"
+#line 2429 "VerificacionInterview.cshtml"
        Write(Jrfnc.FullName);
 
 
@@ -5138,7 +5158,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2426 "VerificacionInterview.cshtml"
+#line 2432 "VerificacionInterview.cshtml"
   switch(@Jrfnc.RelationshipId)
     {
         	case 18:   
@@ -5149,7 +5169,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 
 
-#line 2430 "VerificacionInterview.cshtml"
+#line 2436 "VerificacionInterview.cshtml"
             break;  
             case 6:  
 
@@ -5159,7 +5179,7 @@ WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 WriteLiteral("            <label>Amigo</label>\r\n");
 
 
-#line 2433 "VerificacionInterview.cshtml"
+#line 2439 "VerificacionInterview.cshtml"
             break;  
             case 10:
 
@@ -5169,7 +5189,7 @@ WriteLiteral("            <label>Amigo</label>\r\n");
 WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 
 
-#line 2436 "VerificacionInterview.cshtml"
+#line 2442 "VerificacionInterview.cshtml"
             break;  
             case 12:  
 
@@ -5179,7 +5199,7 @@ WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 WriteLiteral("            <label>Empleado</label>\r\n");
 
 
-#line 2439 "VerificacionInterview.cshtml"
+#line 2445 "VerificacionInterview.cshtml"
             break;  
             case 14:  
 
@@ -5189,7 +5209,7 @@ WriteLiteral("            <label>Empleado</label>\r\n");
 WriteLiteral("            <label>Esposa</label>\r\n");
 
 
-#line 2442 "VerificacionInterview.cshtml"
+#line 2448 "VerificacionInterview.cshtml"
             break;  
             case 16:  
 
@@ -5199,7 +5219,7 @@ WriteLiteral("            <label>Esposa</label>\r\n");
 WriteLiteral("            <label>Familiar Político</label>\r\n");
 
 
-#line 2445 "VerificacionInterview.cshtml"
+#line 2451 "VerificacionInterview.cshtml"
             break;  
             case 1:  
 
@@ -5209,7 +5229,7 @@ WriteLiteral("            <label>Familiar Político</label>\r\n");
 WriteLiteral("            <label>Hermano</label>\r\n");
 
 
-#line 2448 "VerificacionInterview.cshtml"
+#line 2454 "VerificacionInterview.cshtml"
             break;  
             case 3: 
 
@@ -5219,7 +5239,7 @@ WriteLiteral("            <label>Hermano</label>\r\n");
 WriteLiteral("            <label>Hijo(a)</label>\r\n");
 
 
-#line 2451 "VerificacionInterview.cshtml"
+#line 2457 "VerificacionInterview.cshtml"
             break;  
             case 20:
 
@@ -5229,7 +5249,7 @@ WriteLiteral("            <label>Hijo(a)</label>\r\n");
 WriteLiteral("            <label>Imputado</label>\r\n");
 
 
-#line 2454 "VerificacionInterview.cshtml"
+#line 2460 "VerificacionInterview.cshtml"
             break;  
             case 2:  
 
@@ -5239,7 +5259,7 @@ WriteLiteral("            <label>Imputado</label>\r\n");
 WriteLiteral("            <label>Madre</label>\r\n");
 
 
-#line 2457 "VerificacionInterview.cshtml"
+#line 2463 "VerificacionInterview.cshtml"
             break;  
             case 8:  
 
@@ -5249,7 +5269,7 @@ WriteLiteral("            <label>Madre</label>\r\n");
 WriteLiteral("            <label>Ninguno</label>\r\n");
 
 
-#line 2460 "VerificacionInterview.cshtml"
+#line 2466 "VerificacionInterview.cshtml"
             break;  
             case 19:  
 
@@ -5259,7 +5279,7 @@ WriteLiteral("            <label>Ninguno</label>\r\n");
 WriteLiteral("            <label>Otro</label>\r\n");
 
 
-#line 2463 "VerificacionInterview.cshtml"
+#line 2469 "VerificacionInterview.cshtml"
             break;  
             case 17:  
 
@@ -5269,7 +5289,7 @@ WriteLiteral("            <label>Otro</label>\r\n");
 WriteLiteral("            <label>Padre</label>\r\n");
 
 
-#line 2466 "VerificacionInterview.cshtml"
+#line 2472 "VerificacionInterview.cshtml"
             break;  
             case 11:  
 
@@ -5279,7 +5299,7 @@ WriteLiteral("            <label>Padre</label>\r\n");
 WriteLiteral("            <label>Padrino</label>\r\n");
 
 
-#line 2469 "VerificacionInterview.cshtml"
+#line 2475 "VerificacionInterview.cshtml"
             break;  
             case 13:  
 
@@ -5289,7 +5309,7 @@ WriteLiteral("            <label>Padrino</label>\r\n");
 WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 
 
-#line 2472 "VerificacionInterview.cshtml"
+#line 2478 "VerificacionInterview.cshtml"
             break;  
             case 9:  
 
@@ -5299,7 +5319,7 @@ WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 WriteLiteral("            <label>Patrón</label>\r\n");
 
 
-#line 2475 "VerificacionInterview.cshtml"
+#line 2481 "VerificacionInterview.cshtml"
             break;  
             case 4:  
 
@@ -5309,7 +5329,7 @@ WriteLiteral("            <label>Patrón</label>\r\n");
 WriteLiteral("            <label>Primo(a)</label>\r\n");
 
 
-#line 2478 "VerificacionInterview.cshtml"
+#line 2484 "VerificacionInterview.cshtml"
             break;  
             case 15:  
 
@@ -5319,7 +5339,7 @@ WriteLiteral("            <label>Primo(a)</label>\r\n");
 WriteLiteral("            <label>Suegra</label>\r\n");
 
 
-#line 2481 "VerificacionInterview.cshtml"
+#line 2487 "VerificacionInterview.cshtml"
             break;  
             case 5:  
 
@@ -5329,7 +5349,7 @@ WriteLiteral("            <label>Suegra</label>\r\n");
 WriteLiteral("            <label>Tío(a)</label>\r\n");
 
 
-#line 2484 "VerificacionInterview.cshtml"
+#line 2490 "VerificacionInterview.cshtml"
             break;  
             case 7:  
 
@@ -5339,7 +5359,7 @@ WriteLiteral("            <label>Tío(a)</label>\r\n");
 WriteLiteral("            <label>Vecino</label>\r\n");
 
 
-#line 2487 "VerificacionInterview.cshtml"
+#line 2493 "VerificacionInterview.cshtml"
             break;  
             default:
 
@@ -5349,7 +5369,7 @@ WriteLiteral("            <label>Vecino</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2490 "VerificacionInterview.cshtml"
+#line 2496 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -5361,7 +5381,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2495 "VerificacionInterview.cshtml"
+#line 2501 "VerificacionInterview.cshtml"
        Write(Jrfnc.Age);
 
 
@@ -5372,7 +5392,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2498 "VerificacionInterview.cshtml"
+#line 2504 "VerificacionInterview.cshtml"
        Write(Jrfnc.Phone);
 
 
@@ -5381,7 +5401,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2501 "VerificacionInterview.cshtml"
+#line 2507 "VerificacionInterview.cshtml"
   switch(@Jrfnc.IsAccompaniment)
     {
         case true:
@@ -5392,7 +5412,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 2505 "VerificacionInterview.cshtml"
+#line 2511 "VerificacionInterview.cshtml"
             break;
         case false:
 
@@ -5402,7 +5422,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 2508 "VerificacionInterview.cshtml"
+#line 2514 "VerificacionInterview.cshtml"
             break;
         default:
 
@@ -5412,7 +5432,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2511 "VerificacionInterview.cshtml"
+#line 2517 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -5430,7 +5450,7 @@ WriteLiteral(" title=\"Eliminar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteReference(\'", true)
 
-#line 2516 "VerificacionInterview.cshtml"
+#line 2522 "VerificacionInterview.cshtml"
                                                                              , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -5453,7 +5473,7 @@ WriteLiteral(" title=\"Editar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditReference(\'", true)
 
-#line 2517 "VerificacionInterview.cshtml"
+#line 2523 "VerificacionInterview.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -5468,7 +5488,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2520 "VerificacionInterview.cshtml"
+#line 2526 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -5669,13 +5689,13 @@ WriteLiteral(" id=\"meetingJobTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2639 "VerificacionInterview.cshtml"
+#line 2645 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2639 "VerificacionInterview.cshtml"
+#line 2645 "VerificacionInterview.cshtml"
      if(Model.JsonJobs==null){	
     }
     else{
@@ -5689,7 +5709,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MJB-", true)
 
-#line 2643 "VerificacionInterview.cshtml"
+#line 2649 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5709,7 +5729,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2645 "VerificacionInterview.cshtml"
+#line 2651 "VerificacionInterview.cshtml"
        Write(Jjbs.Company);
 
 
@@ -5720,7 +5740,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2648 "VerificacionInterview.cshtml"
+#line 2654 "VerificacionInterview.cshtml"
        Write(Jjbs.Post);
 
 
@@ -5731,7 +5751,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2651 "VerificacionInterview.cshtml"
+#line 2657 "VerificacionInterview.cshtml"
        Write(Jjbs.NameHead);
 
 
@@ -5742,7 +5762,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2654 "VerificacionInterview.cshtml"
+#line 2660 "VerificacionInterview.cshtml"
        Write(Jjbs.Phone);
 
 
@@ -5751,7 +5771,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2657 "VerificacionInterview.cshtml"
+#line 2663 "VerificacionInterview.cshtml"
   switch(@Jjbs.RegisterTypeId)
     {
         case 1:
@@ -5763,7 +5783,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Actual</label>\r\n");
 
 
-#line 2662 "VerificacionInterview.cshtml"
+#line 2668 "VerificacionInterview.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -5773,7 +5793,7 @@ WriteLiteral("                <label>Actual</label>\r\n");
 WriteLiteral("            <label>Secundario</label>\r\n");
 
 
-#line 2665 "VerificacionInterview.cshtml"
+#line 2671 "VerificacionInterview.cshtml"
             break;
         case 3:
 
@@ -5783,7 +5803,7 @@ WriteLiteral("            <label>Secundario</label>\r\n");
 WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 
 
-#line 2668 "VerificacionInterview.cshtml"
+#line 2674 "VerificacionInterview.cshtml"
         	break;
         default:
 
@@ -5793,7 +5813,7 @@ WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2671 "VerificacionInterview.cshtml"
+#line 2677 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -5811,7 +5831,7 @@ WriteLiteral(" title=\"Eliminar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteJob(\'", true)
 
-#line 2676 "VerificacionInterview.cshtml"
+#line 2682 "VerificacionInterview.cshtml"
                                                                        , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5834,7 +5854,7 @@ WriteLiteral(" title=\"Editar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditJob(\'", true)
 
-#line 2677 "VerificacionInterview.cshtml"
+#line 2683 "VerificacionInterview.cshtml"
                                                                    , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5849,7 +5869,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2680 "VerificacionInterview.cshtml"
+#line 2686 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -6873,13 +6893,13 @@ WriteLiteral(" id=\"meetingDrugTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 3094 "VerificacionInterview.cshtml"
+#line 3100 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 3094 "VerificacionInterview.cshtml"
+#line 3100 "VerificacionInterview.cshtml"
      if(Model.JsonDrugs==null){	
     }
     else{
@@ -6893,7 +6913,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MDRG-", true)
 
-#line 3098 "VerificacionInterview.cshtml"
+#line 3104 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6911,7 +6931,7 @@ WriteLiteral(" class=\"td-class-1\"");
 WriteLiteral(">\r\n            \r\n");
 
 
-#line 3101 "VerificacionInterview.cshtml"
+#line 3107 "VerificacionInterview.cshtml"
   switch(@Jdrg.DrugTypeId)
     {
     		case 1:
@@ -6922,7 +6942,7 @@ WriteLiteral(">\r\n            \r\n");
 WriteLiteral("\t<label>Alcohol</label>\r\n");
 
 
-#line 3105 "VerificacionInterview.cshtml"
+#line 3111 "VerificacionInterview.cshtml"
             break;
             case 10:
 
@@ -6932,7 +6952,7 @@ WriteLiteral("\t<label>Alcohol</label>\r\n");
 WriteLiteral("\t<label>Anfetaminas</label>\r\n");
 
 
-#line 3108 "VerificacionInterview.cshtml"
+#line 3114 "VerificacionInterview.cshtml"
             break;
             case 8:
 
@@ -6942,7 +6962,7 @@ WriteLiteral("\t<label>Anfetaminas</label>\r\n");
 WriteLiteral("\t<label>Cemento</label>\r\n");
 
 
-#line 3111 "VerificacionInterview.cshtml"
+#line 3117 "VerificacionInterview.cshtml"
             break;
             case 3:
 
@@ -6952,7 +6972,7 @@ WriteLiteral("\t<label>Cemento</label>\r\n");
 WriteLiteral("\t<label>Cocacaína</label>\r\n");
 
 
-#line 3114 "VerificacionInterview.cshtml"
+#line 3120 "VerificacionInterview.cshtml"
             break;
             case 12:
 
@@ -6962,7 +6982,7 @@ WriteLiteral("\t<label>Cocacaína</label>\r\n");
 WriteLiteral("\t<label>Extasis</label>\r\n");
 
 
-#line 3117 "VerificacionInterview.cshtml"
+#line 3123 "VerificacionInterview.cshtml"
             break;
             case 4:
 
@@ -6972,7 +6992,7 @@ WriteLiteral("\t<label>Extasis</label>\r\n");
 WriteLiteral("\t<label>Heroína</label>\r\n");
 
 
-#line 3120 "VerificacionInterview.cshtml"
+#line 3126 "VerificacionInterview.cshtml"
             break;
             case 13:
 
@@ -6982,7 +7002,7 @@ WriteLiteral("\t<label>Heroína</label>\r\n");
 WriteLiteral("\t<label>Hongos</label>\r\n");
 
 
-#line 3123 "VerificacionInterview.cshtml"
+#line 3129 "VerificacionInterview.cshtml"
             break;
             case 9:
 
@@ -6992,7 +7012,7 @@ WriteLiteral("\t<label>Hongos</label>\r\n");
 WriteLiteral("\t<label>LSD</label>\r\n");
 
 
-#line 3126 "VerificacionInterview.cshtml"
+#line 3132 "VerificacionInterview.cshtml"
             break;
             case 2:
 
@@ -7002,7 +7022,7 @@ WriteLiteral("\t<label>LSD</label>\r\n");
 WriteLiteral("\t<label>Marihuana</label>\r\n");
 
 
-#line 3129 "VerificacionInterview.cshtml"
+#line 3135 "VerificacionInterview.cshtml"
             break;
             case 11:
 
@@ -7012,7 +7032,7 @@ WriteLiteral("\t<label>Marihuana</label>\r\n");
 WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
 
 
-#line 3132 "VerificacionInterview.cshtml"
+#line 3138 "VerificacionInterview.cshtml"
             break;
             case 15:
 
@@ -7022,7 +7042,7 @@ WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
 WriteLiteral("\t<label>No consume</label>\r\n");
 
 
-#line 3135 "VerificacionInterview.cshtml"
+#line 3141 "VerificacionInterview.cshtml"
             break;
             case 5:
 
@@ -7032,7 +7052,7 @@ WriteLiteral("\t<label>No consume</label>\r\n");
 WriteLiteral("\t<label>Opiáceos</label>\r\n");
 
 
-#line 3138 "VerificacionInterview.cshtml"
+#line 3144 "VerificacionInterview.cshtml"
             break;
             case 14:
 
@@ -7042,7 +7062,7 @@ WriteLiteral("\t<label>Opiáceos</label>\r\n");
 WriteLiteral("\t<label>Otro</label>\r\n");
 
 
-#line 3141 "VerificacionInterview.cshtml"
+#line 3147 "VerificacionInterview.cshtml"
             break;
             case 6:
 
@@ -7052,7 +7072,7 @@ WriteLiteral("\t<label>Otro</label>\r\n");
 WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
 
 
-#line 3144 "VerificacionInterview.cshtml"
+#line 3150 "VerificacionInterview.cshtml"
             break;
             case 7:
 
@@ -7062,7 +7082,7 @@ WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
 WriteLiteral("\t<label>Solventes</label>\r\n");
 
 
-#line 3147 "VerificacionInterview.cshtml"
+#line 3153 "VerificacionInterview.cshtml"
             break;
         	default:
 
@@ -7072,7 +7092,7 @@ WriteLiteral("\t<label>Solventes</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 3150 "VerificacionInterview.cshtml"
+#line 3156 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -7082,7 +7102,7 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 3155 "VerificacionInterview.cshtml"
+#line 3161 "VerificacionInterview.cshtml"
   switch(@Jdrg.PeriodicityId)
     {
 case 3:
@@ -7093,7 +7113,7 @@ case 3:
 WriteLiteral("<label>Cada fin de semana</label>\r\n");
 
 
-#line 3159 "VerificacionInterview.cshtml"
+#line 3165 "VerificacionInterview.cshtml"
 break;
 case 4:
 
@@ -7103,7 +7123,7 @@ case 4:
 WriteLiteral("<label>Cada quince días</label>\r\n");
 
 
-#line 3162 "VerificacionInterview.cshtml"
+#line 3168 "VerificacionInterview.cshtml"
 break;
 case 2:
 
@@ -7113,7 +7133,7 @@ case 2:
 WriteLiteral("<label>Cada tercer día</label>\r\n");
 
 
-#line 3165 "VerificacionInterview.cshtml"
+#line 3171 "VerificacionInterview.cshtml"
 break;
 case 1:
 
@@ -7123,7 +7143,7 @@ case 1:
 WriteLiteral("<label>Diariamente</label>\r\n");
 
 
-#line 3168 "VerificacionInterview.cshtml"
+#line 3174 "VerificacionInterview.cshtml"
 break;
 case 7:
 
@@ -7133,7 +7153,7 @@ case 7:
 WriteLiteral("<label>En reuniones sociales</label>\r\n");
 
 
-#line 3171 "VerificacionInterview.cshtml"
+#line 3177 "VerificacionInterview.cshtml"
 break;
 case 8:
 
@@ -7143,7 +7163,7 @@ case 8:
 WriteLiteral("<label>No consume</label>\r\n");
 
 
-#line 3174 "VerificacionInterview.cshtml"
+#line 3180 "VerificacionInterview.cshtml"
 break;
 case 6:
 
@@ -7153,7 +7173,7 @@ case 6:
 WriteLiteral("<label>Una vez al año</label>\r\n");
 
 
-#line 3177 "VerificacionInterview.cshtml"
+#line 3183 "VerificacionInterview.cshtml"
 break;
 case 5:
 
@@ -7163,7 +7183,7 @@ case 5:
 WriteLiteral("<label>Una vez al mes</label>\r\n");
 
 
-#line 3180 "VerificacionInterview.cshtml"
+#line 3186 "VerificacionInterview.cshtml"
 break;
         default:
 
@@ -7173,7 +7193,7 @@ break;
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 3183 "VerificacionInterview.cshtml"
+#line 3189 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -7185,7 +7205,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 3188 "VerificacionInterview.cshtml"
+#line 3194 "VerificacionInterview.cshtml"
        Write(Jdrg.Quantity);
 
 
@@ -7196,7 +7216,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 3191 "VerificacionInterview.cshtml"
+#line 3197 "VerificacionInterview.cshtml"
        Write(Jdrg.LastUse);
 
 
@@ -7213,7 +7233,7 @@ WriteLiteral(" title=\"Eliminar sustancia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDrug(\'", true)
 
-#line 3194 "VerificacionInterview.cshtml"
+#line 3200 "VerificacionInterview.cshtml"
                                                                              , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -7236,7 +7256,7 @@ WriteLiteral(" title=\"Editar sustancia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDrug(\'", true)
 
-#line 3195 "VerificacionInterview.cshtml"
+#line 3201 "VerificacionInterview.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -7251,7 +7271,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 3198 "VerificacionInterview.cshtml"
+#line 3204 "VerificacionInterview.cshtml"
 	}
 }
 
@@ -7546,7 +7566,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 3337 "VerificacionInterview.cshtml"
+#line 3343 "VerificacionInterview.cshtml"
                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -8495,7 +8515,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 3679 "VerificacionInterview.cshtml"
+#line 3685 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -8569,7 +8589,9 @@ WriteLiteral(">\r\n        Terminar Entrevista\r\n    \t</span>\r\n\r\n</div>\r\
 "                      }\r\n                    }\r\n                    if (adding) " +
 "{\r\n                        submitElement.push(e);\r\n                    }\r\n      " +
 "          }\r\n            }\r\n        });\r\n\r\n    }\r\n    if (hasError)\r\n        ret" +
-"urn null;\r\n    return submitElement;\r\n}\r\n\r\n    \t</script>");
+"urn null;\r\n    return submitElement;\r\n}\r\n\r\n///TODOTODOTODO\r\n\tfunction gradeByNiv" +
+"el (){\r\n\t\t\r\n    \t//var degrees=JSON.parse(MeetingService.gradeByNivel( $scope.sc" +
+"hool.level[\'Id\']));\r\n   \t}\r\n    \t</script>");
 
 }
 }

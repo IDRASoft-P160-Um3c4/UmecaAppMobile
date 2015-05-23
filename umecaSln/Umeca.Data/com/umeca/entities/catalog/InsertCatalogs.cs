@@ -140,8 +140,8 @@ namespace UmecaApp
 						ActivityCatalog model = new ActivityCatalog ();
 						model.Id = int.Parse(line [0]);
 						model.Name = line [1];
-						model.IsObsolete = line [2].Equals ("1");
-						model.Specification = line [3].Equals ("1");
+						model.Specification = line [2].Equals ("1");
+						model.IsObsolete = line [3].Equals ("1");
 						entities.Add(model);
 					}catch(Exception e){
 						Console.WriteLine ("ActivityCatalog error "+e.Message);

@@ -2,17 +2,25 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.modals" />
   <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Views\VerificacionInterview.cshtml">
     <Files>
-      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="17" Column="2" />
-      <File FileName="UmecaApp\Service\VerificationService.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="49" Column="17" />
+      <File FileName="UmecaApp\Service\VerificationService.cs" Line="448" Column="1" />
       <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="1361" Column="83" />
-      <File FileName="UmecaApp\Views\VerificacionInterview.cshtml" Line="460" Column="58" />
+      <File FileName="UmecaApp\Views\VerificacionInterview.cshtml" Line="3812" Column="16" />
       <File FileName="UmecaApp\Controllers\VerificationController.cs" Line="1" Column="1" />
       <File FileName="UmecaApp\Models\reviewer\VerificationMeetingSourceDto.cs" Line="1" Column="1" />
+      <File FileName="Umeca.Data\com\umeca\entities\catalog\ActivityCatalog.cs" Line="20" Column="32" />
+      <File FileName="Umeca.Data\com\umeca\entities\catalog\InsertCatalogs.cs" Line="144" Column="23" />
+      <File FileName="UmecaApp\Assets\dbCatalogs\activity.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Administrator\Documents\GitHub\UmecaAppMobile\umecaSln\UmecaApp\Controllers\MeetingController.cs" line="59" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="419" column="29" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="425" column="16" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="429" column="16" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="442" column="15" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="448" column="15" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
