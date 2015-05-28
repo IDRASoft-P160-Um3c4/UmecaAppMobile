@@ -84,6 +84,7 @@ namespace UmecaApp
 			public String ReasonSecondary{ get; set; }
 
 			public String Schedule{ get; set; }
+
 	}
 }
 

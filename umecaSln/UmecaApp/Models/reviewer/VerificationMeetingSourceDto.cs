@@ -126,6 +126,7 @@ namespace UmecaApp
 		public String CommentSocialNetwork{ get; set; }
 
 		//historial escolar
+		public int SchoolId{ get; set; }
 
 		public String SchoolName{ get; set; }
 
@@ -139,7 +140,7 @@ namespace UmecaApp
 
 		public Boolean SchoolBlock{ get; set; }
 
-		public String ScheduleSchool{ get; set; }
+		public List<Schedule> ScheduleSchool{ get; set; }
 		//END historial escolar
 
 

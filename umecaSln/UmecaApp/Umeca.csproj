@@ -111,9 +111,6 @@
     <Compile Include="Views\AddressUpsert.cs">
       <DependentUpon>AddressUpsert.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VerificacionInterview.cs">
-      <DependentUpon>VerificacionInterview.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Shared\ModelContainer.cs" />
     <Compile Include="Models\Shared\AddressFindDto.cs" />
     <Compile Include="Views\PersonSocialNetworkUpsert.cs">
@@ -152,6 +149,9 @@
     <Compile Include="Models\Verification\CatalogDto.cs" />
     <Compile Include="Models\Verification\DegreeDto.cs" />
     <Compile Include="Models\Verification\FieldVerified.cs" />
+    <Compile Include="Views\VerificacionInterview.cs">
+      <DependentUpon>VerificacionInterview.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -189,10 +189,6 @@
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>AddressUpsert.cs</LastGenOutput>
     </None>
-    <None Include="Views\VerificacionInterview.cshtml">
-      <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>VerificacionInterview.cs</LastGenOutput>
-    </None>
     <None Include="Views\VerificationList.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>VerificationList.cs</LastGenOutput>
@@ -228,6 +224,10 @@
     <None Include="Views\HearingFormatNew.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>HearingFormatNew.cs</LastGenOutput>
+    </None>
+    <None Include="Views\VerificacionInterview.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>VerificacionInterview.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

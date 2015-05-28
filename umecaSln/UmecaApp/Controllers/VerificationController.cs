@@ -142,7 +142,15 @@ namespace UmecaApp
 			if(domiciliosImputado!=null){
 				result.JsonDomicilios = domiciliosImputado;
 			}
-
+			foreach(ImputedHome h in result.JsonDomicilios){
+				h.Schedule = "";
+				var horario = db.Table<Schedule> ().Where (sche=>sche.ImputedHomeId==h.Id).ToList ();
+				if (horario != null && horario.Count > 0) {
+					foreach(Schedule es in horario){
+						h.Schedule += "<tr><td class='element-center'>"+es.Day+"</td><td class='element-center'>"+es.Start+"</td><td class='element-center'>"+es.End+"</td></tr>";
+					}
+				}
+			}
 
 			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
 			if(SE!=null){
@@ -210,9 +218,10 @@ namespace UmecaApp
 
 
 			if(escuelaUtlActual!=null){
+				result.SchoolId = escuelaUtlActual.Id;
 				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
 				if(schedule!=null){
-					result.ScheduleSchool = JsonConvert.SerializeObject (schedule);
+					result.ScheduleSchool = schedule;
 				}
 			}
 

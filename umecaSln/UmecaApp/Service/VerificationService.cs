@@ -457,5 +457,86 @@ namespace UmecaApp
 			return output;
 		}
 
+
+		[Export("saveScheduleVerification")]
+		public Java.Lang.String saveScheduleVerification(Java.Lang.String val, Java.Lang.String jsonVal, Java.Lang.String idCase, Java.Lang.String idSource, Java.Lang.String codigo, Java.Lang.String idList){
+			var output = new Java.Lang.String("");
+			db.BeginTransaction ();
+			try{
+				var caseId = int.Parse (idCase.ToString ());
+				var sourceId = int.Parse (idSource.ToString ());
+				var caso = db.Table<Case> ().Where (cs=>cs.Id == caseId).FirstOrDefault ();
+				var estatusCaso = db.Table<StatusCase> ().Where (esc=>esc.Id == caso.StatusCaseId).FirstOrDefault ();
+				var listId = int.Parse(idList.ToString());
+				var coding = codigo.ToString();
+
+				if (estatusCaso == null || estatusCaso.Name != Constants.CASE_STATUS_VERIFICATION) {
+					output = new Java.Lang.String("De acuerdo al estado del caso y la verificación no se puede realizar esta acción");
+					return output;
+				}
+				var fuente = db.Table<SourceVerification> ().Where (sv => sv.Id == sourceId).FirstOrDefault ();
+				var verifcacion = db.Table<Verification> ().Where (ver => ver.Id == fuente.VerificationId).FirstOrDefault ();
+				var estatusVerificacion = db.Table<StatusVerification> ().Where (stv=>stv.Id == verifcacion.StatusVerificationId).FirstOrDefault ();
+
+				if (estatusVerificacion == null || estatusVerificacion.Name != Constants.VERIFICATION_STATUS_AUTHORIZED) {
+					output = new Java.Lang.String("De acuerdo al estado del caso y la verificación no se puede realizar esta acción");
+					return output;
+				}
+				if (fuente.DateComplete != null) {
+					output = new Java.Lang.String ("No se puede modificar la información de esta fuente");
+					return output;
+				}
+
+				var estatusCampoVerificacionNotEq = db.Table<StatusFieldVerification> ().Where (ecv => ecv.Name == Constants.ST_FIELD_VERIF_NOEQUALS).FirstOrDefault ();
+
+				var key = db.Table<FieldVerification>().Where(ky=>ky.Code==coding).FirstOrDefault();
+				var fmsToDelete = new FieldMeetingSource();
+				if(listId==0){
+				fmsToDelete = db.Table<FieldMeetingSource> ().Where (fms => fms.SourceVerificationId == fuente.Id
+					&& fms.FieldVerificationId == key.Id).FirstOrDefault ();
+				}else{
+					fmsToDelete = db.Table<FieldMeetingSource> ().Where (fms => fms.SourceVerificationId == fuente.Id
+						&& fms.FieldVerificationId == key.Id
+						&& fms.IdFieldList == listId).FirstOrDefault ();
+				}
+				if (fmsToDelete != null) {
+					db.Delete (fmsToDelete);
+				}
+
+				if (val.ToString() == "" || jsonVal.ToString() == "") {
+					output = new Java.Lang.String("Ha ocurrido un error al crear la lista.");
+					db.Rollback ();
+					return output;
+				}
+				//inserta los nuevos valores
+				var fmsToInsert = new FieldMeetingSource();
+				fmsToInsert.FieldVerificationId = key.Id;
+				fmsToInsert.IsFinal = false;
+				fmsToInsert.JsonValue = jsonVal.ToString();
+				fmsToInsert.SourceVerificationId = fuente.Id;
+				fmsToInsert.StatusFieldVerificationId = estatusCampoVerificacionNotEq.Id;
+				fmsToInsert.Value = val.ToString();
+				if(listId!=0){
+					fmsToInsert.IdFieldList = listId;
+				}
+				db.Insert (fmsToInsert);
+				if (fmsToInsert.Id == null || fmsToInsert.Id == 0) {
+					output = new Java.Lang.String("Ha ocurrido un error al crear la lista.");
+					db.Rollback ();
+					return output;
+				}
+				output = new Java.Lang.String("");
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine("catched exception in VerificationService method Example invoked javascript calling -> VerificationService.saveFieldVerification() Exception message :::>"+e.Message);
+				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+			}
+			finally{
+				db.Commit ();
+			}
+			return output;
+		}
+
+
 	}//class end
 }

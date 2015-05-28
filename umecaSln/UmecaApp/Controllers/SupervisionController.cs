@@ -219,7 +219,7 @@ namespace UmecaApp
 			if(escuelaUtlActual!=null){
 				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
 				if(schedule!=null){
-					result.ScheduleSchool = JsonConvert.SerializeObject (schedule);
+					result.ScheduleSchool = schedule;
 				}
 			}
 

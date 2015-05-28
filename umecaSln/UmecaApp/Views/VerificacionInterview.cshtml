@@ -5,6 +5,7 @@ Layout = "UmecaApp.headUm";
 }
 <input id="hdnVerificationCaseId" type="hidden" value="@Model.CaseId" name="jsonString" />
 <input id="hdnVerificationSourceId" type="hidden" value="@Model.SourceId" name="jsonString" />
+
 <script>
 var SingleVerify  = {};
 SingleVerify.code = "";
@@ -61,6 +62,7 @@ SingleVerify.hide = function (){
 	var dlgMsgBox = $('#SingleVerifyBoxDlgId');
 	dlgMsgBox.hide();
 	$("#divElementVerif").html("");
+	$("#SingleVerifyBoxDlgIderrorMsg").text("");
 };
 
 SingleVerify.save = function (){
@@ -80,6 +82,7 @@ SingleVerify.save = function (){
 	dlgMsgBox.hide();
 	$("#divElementVerif").html("");
 	SingleVerify.code = "";
+	$("#SingleVerifyBoxDlgIderrorMsg").text("");
 };
 </script>
 
@@ -191,7 +194,7 @@ var caso = $("#hdnVerificationCaseId").val();
 var fuente = $("#hdnVerificationSourceId").val();
 	var dlgMsgBox = $('#MaritalStatusVerifyBoxDlgId');		
 	var data = $("#FormVerifMaritalYears").serialize();
-	var data = data.replace("imputed.maritalStatus.id=&","imputed.maritalStatus.id="+MaritalStatusVerify.reference+"&");
+	data = data.replace("imputed.maritalStatus.id=&","imputed.maritalStatus.id="+MaritalStatusVerify.reference+"&");
 	var encoded = [];
 	var vars = data.split("&");
     for (var i = 0; i < vars.length; i++) {
@@ -415,6 +418,7 @@ ImputedActivitiesVerify.hide = function (){
     ImputedActivitiesVerify.modelList = [];
     $("#divActivitySpecificationList").html("");
     $('#slctMultipleActivitiesVerify').empty();
+    $("#ImputedActivitiesVerifyBoxDlgIderrorMsg").html("");
 };
 
 ImputedActivitiesVerify.save = function (){
@@ -579,6 +583,630 @@ ImputedActivitiesVerify.drawActivityEspecifications = function (){
             </div>
         </div>
     </div>
+
+
+<!-- imputed domicilio -->
+
+<script>
+    var ImputedHomeVerify  = {};
+    ImputedHomeVerify.paises = [];
+    ImputedHomeVerify.estados = [];
+    ImputedHomeVerify.municipios = [];
+    ImputedHomeVerify.localidades = [];
+
+    ImputedHomeVerify.modelList = [];
+    ImputedHomeVerify.specificationHtml = "";
+
+
+    ImputedHomeVerify.show = function (element){
+        $("#ImputedHomeVerifyBoxDlgIderrorMsg").html("").hide();
+        var caso = $("#hdnVerificationCaseId").val();
+        var fuente = $("#hdnVerificationSourceId").val();
+        ImputedHomeVerify.paises = $.parseJSON(MeetingService.findAllCountry());
+        ImputedHomeVerify.estados = $.parseJSON(MeetingService.findAllStates());
+        console.log("stringify paises>"+JSON.stringify(ImputedHomeVerify.paises));
+        console.log("stringify estados>"+JSON.stringify(ImputedHomeVerify.estados));
+        $('#slcVerifyBirthState',"#divImputedHomeVerify").empty();
+        $('#slcVerifyBirthCountry',"#divImputedHomeVerify").empty();
+        for(var indx=0;indx<ImputedHomeVerify.paises.length;indx++){
+                console.log("id pais val->"+ImputedHomeVerify.paises[indx].Id);
+                console.log("name pais text->"+ImputedHomeVerify.paises[indx].Name);
+               $('#slcVerifyBirthCountry',"#divImputedHomeVerify").append("<option value='"+ImputedHomeVerify.paises[indx].Id+"' >"+ImputedHomeVerify.paises[indx].Name+"</option>");
+        }
+        for(var indx=0;indx<ImputedHomeVerify.estados.length;indx++){
+            console.log("id estado val->"+ImputedHomeVerify.estados[indx].Id);
+            console.log("ombr estad text->"+ImputedHomeVerify.estados[indx].Name);
+           $('#slcVerifyBirthState',"#divImputedHomeVerify").append("<option value='"+ImputedHomeVerify.estados[indx].Id+"' >"+ImputedHomeVerify.estados[indx].Name+"</option>");
+           $('#slcVerifyBirthState',"#divImputedHomeVerify").val("");
+       }
+
+       $("#divImputedHomeVerify input").prop("disabled",false).attr('readonly', false).val("");
+       $("#divImputedHomeVerify select").prop("disabled",false).attr('readonly', false);
+
+        $(".iner-mex").hide();
+        $(".outer-mex").show();
+
+   var InformacionAnterior = VerificationService.searchFieldVerification("imputed.birthCountry.id", caso, fuente, 0);
+   console.log("InformacionAnterior-->"+InformacionAnterior);
+   $("#ImputedHomeVerifyBoxDlgIdsearch").html(InformacionAnterior);
+   var dlgMsgBox = $('#ImputedHomeVerifyBoxDlgId');
+   window.scrollTo(0, 0);
+   dlgMsgBox.show();
+};
+
+ImputedHomeVerify.hide = function (){
+    var dlgMsgBox = $('#ImputedHomeVerifyBoxDlgId');
+    dlgMsgBox.hide();
+    ImputedHomeVerify.modelList = [];
+    $("#divImputedHomeVerify input").prop("disabled",false).attr('readonly', false).val("");
+        $('#slcVerifyBirthState',"#divImputedHomeVerify").empty();
+        $('#slcVerifyBirthCountry',"#divImputedHomeVerify").empty();
+    $('#slctMultipleActivitiesVerify').empty();
+    $("#ImputedHomeVerifyBoxDlgIderrorMsg").html("").hide();
+};
+
+ImputedHomeVerify.save = function (){     
+        var caso = $("#hdnVerificationCaseId").val();
+        var fuente = $("#hdnVerificationSourceId").val();
+        var selectedPais = $('#slcVerifyBirthCountry',"#divImputedHomeVerify").val();
+        $("#ImputedHomeVerifyBoxDlgIderrorMsg").html("").hide();
+        if(selectedPais==1||selectedPais=="1"){
+        	if($('#slcVerifyBirthLocation',"#divImputedHomeVerify").val()==undefined||$('#slcVerifyBirthLocation',"#divImputedHomeVerify").val()==""){
+        	$("#ImputedHomeVerifyBoxDlgIderrorMsg").html("La localidad/colonia es un campo requerido").show();
+        	return false;
+        	}
+        }else{
+        var errors=false;
+	        if($('#txtVerifyBirthState',"#divImputedHomeVerify").val()==undefined||$('#txtVerifyBirthState',"#divImputedHomeVerify").val()==""){
+	    		$("#ImputedHomeVerifyBoxDlgIderrorMsg").html("El estado es un campo requerido").show();
+	    		errors=true;
+	    	}
+	    	if($('#txtVerifyBirthMunicipality',"#divImputedHomeVerify").val()==undefined||$('#txtVerifyBirthMunicipality',"#divImputedHomeVerify").val()==""){
+	    		$("#ImputedHomeVerifyBoxDlgIderrorMsg").html($("#ImputedHomeVerifyBoxDlgIderrorMsg").html()+"<br />El municipio es un campo requerido").show();
+	    		errors=true;
+	    	}
+	    	if($('#slcVerifyBirthLocation',"#divImputedHomeVerify").val()==undefined||$('#slcVerifyBirthLocation',"#divImputedHomeVerify").val()==""){
+	    		$("#ImputedHomeVerifyBoxDlgIderrorMsg").html($("#ImputedHomeVerifyBoxDlgIderrorMsg").html()+"<br />La Localidad/Colonia es un campo requerido").show();
+	    		errors=true;
+	    	}
+	    	if(errors){
+	    	return !errors;
+	    	}
+    	}
+
+    var data = $("#FormImputedHomeVerify").serialize();
+    var encoded = [];
+	var vars = data.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var psEqual = vars[i].split("=");
+        var e = {};
+        e.name = psEqual[0];
+        e.value = decodeURIComponent(psEqual[1].replace(/\+/g, ' '));
+        console.log("psEqual[0] ->"+psEqual[0]+"<-");
+        console.log("psEqual[1] ->"+psEqual[1]+"<-");
+
+        console.log("e.name ->"+e.name);
+        console.log("e.value ->"+e.value);
+
+        if(e.value!=undefined&&e.value!=null&&e.value!=""){
+        encoded.push(e);
+        }
+    }
+    console.log("serialize del form =>"+data);
+    console.log("encoded object list>"+encoded);
+    console.log("encoded=json=>"+JSON.stringify(encoded));
+    var saveStatus = VerificationService.saveFieldVerification(JSON.stringify(encoded), caso, fuente, 0);
+    if(saveStatus==""){
+      $("#MaritalStatusVerifyBoxDlgIderrorMsg").text("");
+    }else{
+          $("#MaritalStatusVerifyBoxDlgIderrorMsg").text(saveStatus);
+          return 0;
+    }
+  ImputedHomeVerify.hide();
+};
+
+ImputedHomeVerify.showInnerAddress = function (pais){
+    var idPais = $(pais).val();
+    if(idPais==1||idPais=="1"){
+		$(".iner-mex").show();
+        $(".outer-mex").hide();
+        $("#divImputedHomeVerify input").prop("disabled",false).attr('readonly', false).val("");
+    }else{
+		$(".iner-mex").hide();
+        $(".outer-mex").show();
+       $('#slcVerifyBirthLocation',"#divImputedHomeVerify").val("");
+    }
+};
+ImputedHomeVerify.munByEdo = function (estado){
+console.log("$(estado).val()="+$(estado).val());
+    var municipios = $.parseJSON(MeetingService.findMunicipalityByState($(estado).val()));
+			    if(municipios!=undefined&&municipios!=null&&municipios!=""){
+				    try{
+				    	$('#slcVerifyBirthMunicipality',"#divImputedHomeVerify").empty();
+				    	for(var indx=0;indx<municipios.length;indx++){
+				            console.log("id municipios val->"+municipios[indx].Id);
+				            console.log("nombre municipios text->"+municipios[indx].Name);
+				           	$('#slcVerifyBirthMunicipality',"#divImputedHomeVerify").append("<option value='"+municipios[indx].Id+"' >"+municipios[indx].Name+"</option>");
+				           	$('#slcVerifyBirthMunicipality',"#divImputedHomeVerify").val("");
+				       	}
+				       	$('#slcVerifyBirthLocation',"#divImputedHomeVerify").val("").empty();
+				    	}catch(e){
+			    			console.log("exception caugth at MunByEdo Message >>"+e.Message);
+						}
+			    }
+};
+ImputedHomeVerify.locByMun = function (municipio){
+console.log("$(municipio).val()="+$(municipio).val());
+    var locations = $.parseJSON(MeetingService.findLocationByMunicipality($(municipio).val()));
+			    if(locations!=undefined&&locations!=null&&locations!=""){
+				    try{
+				    	$('#slcVerifyBirthLocation',"#divImputedHomeVerify").empty();
+				    	for(var indx=0;indx<locations.length;indx++){
+				            console.log("id municipios val->"+locations[indx].Id);
+				            console.log("nombre municipios text->"+locations[indx].Name);
+				           	$('#slcVerifyBirthLocation',"#divImputedHomeVerify").append("<option value='"+locations[indx].Id+"' >"+locations[indx].Name+"</option>");
+				       	}
+				       	$('#slcVerifyBirthLocation',"#divImputedHomeVerify").val("");
+				    	}catch(e){
+			    			console.log("exception caugth at MunByEdo Message >>"+e.Message);
+						}
+			    }
+};
+</script>
+
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="ImputedHomeVerifyBoxDlgId" >
+    <div class="modal-content" style="z-index: 1000;">
+        <a name="ImputedHomeVerifyFocus"></a>
+        <div class="modal-header">
+            <div class="alert alert-danger ">
+                <h4 class="element-center">&nbsp;&nbsp;Dato proporcionado por la fuente</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="widget-box transparent">
+                    <div class="widget-header">
+                        <div class="row"> <input type="hidden" />
+                            <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+                        </div>
+                        <div class="row">
+                            <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+                                <ul>
+                                    <p id="ImputedHomeVerifyBoxDlgIdsearch"></p>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" >
+                <input name="activities" type="hidden" value="" id="hdnJsonImputedHomeVerify" >
+                <div class="col-xs-10 col-xs-offset-1">
+                    <form id="FormImputedHomeVerify" name="FormImputedHomeVerify"
+                    class="form-horizontal"
+                    role="form">
+                        <div id="divImputedHomeVerify">
+                            <!---->
+                                                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="widget-box">
+                                            <div class="widget-header">
+                                                <div class="col-xs-3" >
+                                                </div>
+                                                <div class="col-xs-9 element-left">
+                                                    <h4>Lugar de nacimiento</h4>
+                                                </div>
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <br/>
+
+                                                <div class="row" >
+                                                    <div class="col-xs-2 element-left col-xs-offset-1">
+                                                        Pa&iacute;s:
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <select class="form-control element-center" id="slcVerifyBirthCountry"
+                                                        name="imputed.birthCountry.id" onchange="ImputedHomeVerify.showInnerAddress(this);"></select>
+                                                   </div>
+                                                    <div class="col-xs-2 element-right outer-mex">
+                                                        Estado:
+                                                    </div>
+                                                    <div class="col-xs-3 outer-mex" >
+                                                        <input class="form-control"
+                                                        type="text" id="txtVerifyBirthState" name="imputed.birthState" />
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 element-right iner-mex">
+                                                        Estado:
+                                                    </div>
+                                                    <div class="col-xs-3 iner-mex">
+                                                        <select class="form-control element-center" onchange="ImputedHomeVerify.munByEdo(this);"
+                                                        id="slcVerifyBirthState"></select><br/>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="row">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1 outer-mex">
+                                                        Municipio:
+                                                    </div>
+                                                    <div class="col-xs-3 outer-mex" >
+                                                        <input class="form-control"
+                                                        type="text" id="txtVerifyBirthMunicipality" 
+                                                        name="imputed.birthMunicipality" >
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthMunicipality"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 element-left col-xs-offset-1 iner-mex"  >
+                                                        Municipio:
+                                                    </div>
+                                                    <div class="col-xs-3 iner-mex"  >
+                                                        <select class="form-control element-center"  
+                                                        onchange="ImputedHomeVerify.locByMun(this);" id="slcVerifyBirthMunicipality" ></select><br/>
+                                                    </div>
+                                                    <div class="col-xs-2 element-right outer-mex" >
+                                                        Localidad/Colonia:
+                                                    </div>
+                                                    <div class="col-xs-3 outer-mex" >
+                                                        <input class="form-control" id="txtVerifyBirthLocation" 
+                                                        type="text" id="imputed.birthLocation" name="imputed.birthLocation" >
+                                                        <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
+                                                        data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-2 element-right iner-mex"  >
+                                                        Localidad/Colonia:
+                                                    </div>
+                                                    <div class="col-xs-3 iner-mex" >
+                                                        <select class="form-control" name="imputed.location.id"
+                                                        id="slcVerifyBirthLocation" ></select>
+                                                    </div>
+                                                    <div class="col-xs-10 col-xs-offset-1">
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!---->
+                        </div>
+                    </form>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+        <div ng-show="MsgError" id="ImputedHomeVerifyBoxDlgIderrorMsg" style="display:none;" class="alert alert-danger element-center">
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal-footer">
+    <span class="btn btn-default btn-sm" onclick="ImputedHomeVerify.hide();">
+        Cancelar
+    </span>
+    <span class="btn btn-danger btn-danger btn-sm" onclick="ImputedHomeVerify.save();">
+        Guardar
+    </span>
+</div>
+</div>
+<div class="blocker" style="z-index:999;">
+    <div>
+        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<!-- disponibilidad -->
+
+<script>
+
+    var DisponibilidadVerify  = {};
+    DisponibilidadVerify.specificationHtml = "";
+    DisponibilidadVerify.scheduleList = [];
+    DisponibilidadVerify.ramdom = 0;
+    DisponibilidadVerify.codigo = "";
+    DisponibilidadVerify.idList = 0;
+
+DisponibilidadVerify.show = function (code,idlist){
+    DisponibilidadVerify.codigo = "";
+    DisponibilidadVerify.idList = 0;
+    DisponibilidadVerify.ramdom = 0;
+	if(code!=undefined&&code!=null&&code!=""){
+		DisponibilidadVerify.codigo = code;
+	}
+	if(idlist!=undefined&&idlist!=null&&idlist!=0){
+		DisponibilidadVerify.idList=idlist;
+	}
+        $("#DisponibilidadVerifyBoxDlgIderrorMsg").html("").hide();
+        if(DisponibilidadVerify.specificationHtml == ""){
+        	DisponibilidadVerify.specificationHtml = $("#listscheduleDisponibilidadVerify","#FormDisponibilidadVerify").html();
+        }
+        $("#listscheduleDisponibilidadVerify","#FormDisponibilidadVerify").html("");
+        DisponibilidadVerify.scheduleList = [];
+        var caso = $("#hdnVerificationCaseId").val();
+        var fuente = $("#hdnVerificationSourceId").val();
+
+        $("#timepickerEndScheduleVerify","#divDisponibilidadVerify").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false
+        }).prop("disabled",false).attr('readonly', true).next().on(ace.click_event, function(){
+                $(this).prev().focus();
+            });
+        $("#timepickerStartScheduleVerify","#divDisponibilidadVerify").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false
+        }).prop("disabled",false).attr('readonly', true).next().on(ace.click_event, function(){
+                $(this).prev().focus();
+            });
+
+            $("#txtDayScheduleVerify","#divDisponibilidadVerify").prop("disabled",false).attr('readonly', false).val("");
+   $(".schedule-verif").hide();
+   var InformacionAnterior = VerificationService.searchFieldVerification("school.schedule", caso, fuente, 0);
+   console.log("InformacionAnterior-->"+InformacionAnterior);
+   $("#DisponibilidadVerifyBoxDlgIdsearch").html(InformacionAnterior);
+   var dlgMsgBox = $('#DisponibilidadVerifyBoxDlgId');
+   window.scrollTo(0, 0);
+   dlgMsgBox.show();
+};
+
+
+DisponibilidadVerify.hide = function (){
+    var dlgMsgBox = $('#DisponibilidadVerifyBoxDlgId');
+    dlgMsgBox.hide();
+    DisponibilidadVerify.modelList = [];
+    $("#txtDayScheduleVerify","#divDisponibilidadVerify").prop("disabled",false).attr('readonly', false).val("");
+     
+        $("#listscheduleDisponibilidadVerify","#FormDisponibilidadVerify").html("");
+        DisponibilidadVerify.scheduleList = [];
+	    DisponibilidadVerify.codigo = "";
+	    DisponibilidadVerify.idList = 0;
+	    DisponibilidadVerify.ramdom = 0;
+    
+    $("#DisponibilidadVerifyBoxDlgIderrorMsg").html("").hide();
+};
+
+DisponibilidadVerify.save = function (){
+	var caso = $("#hdnVerificationCaseId").val();
+	var fuente = $("#hdnVerificationSourceId").val();
+	$("#DisponibilidadVerifyBoxDlgIderrorMsg").html("").hide();
+	if(DisponibilidadVerify.scheduleList.length==null||DisponibilidadVerify.scheduleList.length<=0){
+		$("#DisponibilidadVerifyBoxDlgIderrorMsg").html("Favor de ingresar un día, una hora de inicio y una hora de fin").show();
+		return false;
+	}else{
+		var auxObj = {};
+		var json = [];
+		var valueTxt = "";
+		for(var i=0;i<DisponibilidadVerify.scheduleList.length;i++){
+			auxObj = {};
+			auxObj.day=DisponibilidadVerify.scheduleList[i].day;
+			auxObj.start=DisponibilidadVerify.scheduleList[i].start;
+			auxObj.end=DisponibilidadVerify.scheduleList[i].end;
+			json.push(auxObj);
+			valueTxt += "Día(s): "+DisponibilidadVerify.scheduleList[i].day+": Inicio: "+DisponibilidadVerify.scheduleList[i].start+" Fin: "+DisponibilidadVerify.scheduleList[i].end+"; ";
+		}
+		var saveStatus = VerificationService.saveScheduleVerification(valueTxt, JSON.stringify(json), caso, fuente, DisponibilidadVerify.codigo, DisponibilidadVerify.idList);
+	    if(saveStatus==""){
+	      $("#MaritalStatusVerifyBoxDlgIderrorMsg").text("");
+	    }else{
+	          $("#MaritalStatusVerifyBoxDlgIderrorMsg").text(saveStatus);
+	          return 0;
+	    }
+		console.log("valueTxt>>"+valueTxt);
+		console.log("json>>"+JSON.stringify(json));
+	}
+	DisponibilidadVerify.hide();
+};
+
+
+DisponibilidadVerify.addSchedule = function (){
+	var e = {};
+	var daytxt = $("#txtDayScheduleVerify","#FormDisponibilidadVerify").val();
+	var init = $("#timepickerStartScheduleVerify").val();
+	var fin = $("#timepickerEndScheduleVerify").val();
+	$("#DisponibilidadVerifyBoxDlgIderrorMsg").html("").hide();
+	if(daytxt==""||init==""||fin==""){
+		$("#DisponibilidadVerifyBoxDlgIderrorMsg").html("Favor de ingresar un día, una hora de inicio y una hora de fin").show();
+		return false;
+	}else{
+		e.day=daytxt;
+		e.start=init;
+		e.end=fin;
+		e.indice="idx"+DisponibilidadVerify.ramdom;
+		$("#txtDayScheduleVerify","#FormDisponibilidadVerify").val("");
+	}
+	DisponibilidadVerify.scheduleList.push(e);
+	var nuevoItem = DisponibilidadVerify.specificationHtml;
+	nuevoItem = nuevoItem.replace(/Index/g,"idx"+DisponibilidadVerify.ramdom);
+	nuevoItem = nuevoItem.replace(/Day/g,daytxt);
+	nuevoItem = nuevoItem.replace(/Start/g,e.start);
+	nuevoItem = nuevoItem.replace(/End/g,e.end);
+	DisponibilidadVerify.ramdom++;
+	$("#listscheduleDisponibilidadVerify").append(nuevoItem);
+	console.log("string list>"+JSON.stringify(DisponibilidadVerify.scheduleList));
+	$(".schedule-verif").show();
+};
+
+
+DisponibilidadVerify.deleteSchedule = function (idIndex){
+	$("#DisponibilidadVerifyBoxDlgIderrorMsg").html("").hide();
+	$("#listScheduleRow"+idIndex,"#FormDisponibilidadVerify").remove();
+	var target;
+	for(var i=0;i<DisponibilidadVerify.scheduleList.length;i++){
+		if(idIndex==DisponibilidadVerify.scheduleList[i].indice){
+			target = i;
+		}
+	}
+	if(target != undefined&&target != null){
+		DisponibilidadVerify.scheduleList.splice(target,1);
+	}
+	if(DisponibilidadVerify.scheduleList.length==null||DisponibilidadVerify.scheduleList.length<=0){
+		$(".schedule-verif").hide();
+	}
+	console.log("string list>"+JSON.stringify(DisponibilidadVerify.scheduleList));
+};
+</script>
+			<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="DisponibilidadVerifyBoxDlgId" >
+			    <div class="modal-content" style="z-index: 1000;">
+			        <a name="DisponibilidadVerifyFocus"></a>
+			        <div class="modal-header">
+			            <div class="alert alert-danger ">
+			                <h4 class="element-center">&nbsp;&nbsp;Dato proporcionado por la fuente</h4>
+			            </div>
+			        </div>
+			        <div class="modal-body">
+			            <div class="row">
+			                <div class="widget-box transparent">
+			                    <div class="widget-header">
+			                        <div class="row"> <input type="hidden" />
+			                            <h4 class="lighter">Infomaci&oacute;n proporcionada por la fuente: </h4>
+			                        </div>
+			                        <div class="row">
+			                            <div style="color: #808080;" class="col-xs-10 col-xs-offset-1">
+			                                <ul>
+			                                    <p id="DisponibilidadVerifyBoxDlgIdsearch"></p>
+			                                </ul>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="row" >
+			                <input name="activities" type="hidden" value="" id="hdnJsonDisponibilidadVerify" >
+			                <div class="col-xs-10 col-xs-offset-1">
+			                    <form id="FormDisponibilidadVerify" name="FormDisponibilidadVerify"
+			                    class="form-horizontal"
+			                    role="form">
+			                        <div id="divDisponibilidadVerify">
+			                            <!---->
+			                                <!--schedule component-->
+			<div>
+
+			  <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css" />
+			  <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+			  <script src="scripts/umeca/date-time/moment.min.js"></script>
+			  <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
+
+			  <div class="row element-center">
+			    <div class="col-xs-10 col-xs-offset-1">
+			      <div class="row">
+			        <div class="col-xs-4 element-center">
+			         D&iacute;a(s)<br/>
+			         <input class="form-control" type="text" value="" id="txtDayScheduleVerify">
+			       </div>
+			       <div class="col-xs-3 element-center">
+			        Inicio<br/>
+			        <div class="input-group bootstrap-timepicker">
+			          <input id="timepickerStartScheduleVerify" type="text" class="form-control umeca-time-picker tp" value="" readonly="readonly"/>
+			          <span class="input-group-addon">
+			            <i class="icon-time bigger-60"></i>
+			          </span>
+			        </div>
+			      </div>
+			      <div class="col-xs-3 element-center">
+			        Fin <br/>
+			        <div class="input-group bootstrap-timepicker">
+			          <input id="timepickerEndScheduleVerify" type="text" class="form-control umeca-time-picker tp" value=""  readonly="readonly" />
+			          <span class="input-group-addon">
+			            <i class="icon-time  bigger-40"></i>
+			          </span>
+			        </div>
+			      </div>
+			      <div class="col-xs-2">
+			        Acciones<br/><div class="space-5"></div>
+			        <i class="icon-plus-sign orange" style="cursor:pointer;" onclick="DisponibilidadVerify.addSchedule();">  </i>
+			      </div>
+			    </div>
+			    <div class="row">
+			      <div class="hr hr-6"></div>
+			    </div>
+			    <div class="alert-danger element-center " style="display:none;">
+			    </div>
+			    <div class="col-xs-12" ng-show="listSchedule.length==0">
+			      <br/>
+			      <br/>
+			      <br/>
+			    </div>
+			    <div class="col-xs-9 col-xs-offset-1 schedule-verif">
+			     <div class="row center">
+			       <div class="col-xs-5">
+			         <h5 class="smaller lighter blue">D&iacute;a</h5>
+			         <div class="hr hr-2"></div>
+			       </div>
+			       <div class="col-xs-2">
+			         <h5 class="smaller lighter blue">Inicio</h5>
+			         <div class="hr hr-2"></div>
+			       </div>
+			       <div class="col-xs-2">
+			         <h5 class="smaller lighter blue">Fin</h5>
+			         <div class="hr hr-2"></div>
+			       </div>
+			       <div class="col-xs-2">
+			         <h5 class="smaller lighter blue">Acciones</h5>
+			         <div class="hr hr-2"></div>
+			       </div>
+			     </div>
+			     <div id="listscheduleDisponibilidadVerify">
+				     <div class="row center" id="listScheduleRowIndex">
+				      	<div class="col-xs-5">
+				        	Day
+				      	</div>
+				      	<div class="col-xs-2">
+				       		Start
+				     	</div>
+				     	<div class="col-xs-2">
+				      		End
+					    </div>
+					    <div class="col-xs-2">
+					      <i class="icon-trash red" style="cursor:pointer;" onclick="DisponibilidadVerify.deleteSchedule('Index');"></i>
+					    </div>
+				  	 </div>
+			     </div>
+			  <br/>
+			</div>
+			</div>
+			<br/>
+			</div>
+			</div>
+			            <!--schedule component-->
+			                            <!---->
+			                        </div>
+			                    </form>
+			      </div>
+			  </div>
+			  <div class="row">
+			    <div class="col-xs-12">
+			        <div ng-show="MsgError" id="DisponibilidadVerifyBoxDlgIderrorMsg" style="display:none;" class="alert alert-danger element-center">
+			        </div>
+			    </div>
+			</div>
+			</div>
+			<div class="modal-footer">
+			    <span class="btn btn-default btn-sm" onclick="DisponibilidadVerify.hide();">
+			        Cancelar
+			    </span>
+			    <span class="btn btn-danger btn-danger btn-sm" onclick="DisponibilidadVerify.save();">
+			        Guardar
+			    </span>
+			</div>
+			</div>
+			<div class="blocker" style="z-index:999;">
+			    <div>
+			        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+			    </div>
+			</div>
+			</div>
+
+
 
 
 
@@ -1067,6 +1695,7 @@ window.location.replace('hybrid:Meeting/Index');
 });
 
 
+console.log("here5");
 </script>
 <div id="generalDivForAngular" ng-app="umecaMobile" ng-controller="MeettingDatosPersonalesController">
     <div>
@@ -1760,7 +2389,7 @@ window.location.replace('hybrid:Meeting/Index');
                                                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifEqual('imputed.birthCountry.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5" ng-show="verification"
-                                                    code="imputed.birthCountry.id" ></i>
+                                                    code="imputed.birthCountry.id" onclick="ImputedHomeVerify.show(this)"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                     ng-click="doConfirmVerifNotKnow('imputed.birthCountry.id')"></i>
                                                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
@@ -1792,7 +2421,7 @@ window.location.replace('hybrid:Meeting/Index');
                                                     <div class="col-xs-3" ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthState" id="imputed.birthState"   data-val="true"
-                                                        name="imputed.birthState" data-val-required="El estado es un campo requerido" value="{{m.BirthState}}"
+                                                        name="" data-val-required="El estado es un campo requerido" value="{{m.BirthState}}"
                                                         ng-init='' />
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
                                                         data-valmsg-replace="true"></span>
@@ -1816,7 +2445,7 @@ window.location.replace('hybrid:Meeting/Index');
                                                     <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthMunicipality" id="imputed.birthMunicipality"    data-val="true"
-                                                        name="m.BirthMunicipality" data-val-required="El municipio es un campo requerido"
+                                                        name="" data-val-required="El municipio es un campo requerido"
                                                         >
                                                         <span class="field-validation-valid" data-valmsg-for="m.BirthMunicipality"
                                                         data-valmsg-replace="true"></span>
@@ -1838,7 +2467,7 @@ window.location.replace('hybrid:Meeting/Index');
                                                     <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthLocation" id="imputed.birthLocation"
-                                                        name="imputed.birthLocation" data-val-required="La localidad es un campo requerido"   data-val="true"
+                                                        name="" data-val-required="La localidad es un campo requerido"   data-val="true"
                                                         ng-init=''>
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
                                                         data-valmsg-replace="true"></span>
@@ -1961,6 +2590,376 @@ window.location.replace('hybrid:Meeting/Index');
     <div class="col-xs-12">
         <h2> <i class="green  icon-home  bigger-100"></i>&nbsp;Domicilios</h2>
         <br/>
+        <div class="row">
+		    <div class="col-xs-10 col-xs-offset-1 element-left">
+		        <label class="text-primary">Observaciones: <b>{{m.CommentHome}}</b></label>
+		    </div>
+		</div>
+
+
+	@{int i = 0;}
+    @foreach(var Dmcl in Model.JsonDomicilios) {
+    i++;
+<div class="panel panel-default ng-scope">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionImputedHome"
+               href="#collapseImputedHome@i">
+                <i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down"
+                   data-icon-show="icon-angle-right"></i>
+                Domicilio <span>@i</span>
+            </a>
+        </h4>
+    </div>
+    <div class="row">
+	    <div class="col-xs-2 col-xs-offset-1 element-right">
+	        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+	           ng-click="doConfirmVerifEqual('imputedHomes.address',a.id);"></i>
+	        <i class="icon-remove-circle red  icon-only bigger-120" verif-address level-child="6" ng-show="verification"
+	           id-code="imputedHomes.address" id-element="{{a.id}}" address-id="{{a.addressId}}"></i>
+	        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+	           ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
+	        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+	           ng-click="showChoices('imputedHomes.address',a.id)"></i>
+	        Direcci&oacute;n
+	    </div>
+	    <div class="col-xs-9">
+	        @Dmcl.addressString
+	    </div>
+	</div>
+	<br />
+	<div class="row" >
+	    <div class="col-xs-3 element-right">
+	        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+	           ng-click="doConfirmVerifEqual('imputedHomes.phone',a.id);"></i>
+	        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"  ng-show="verification"
+	           code="imputedHomes.phone" id-element="{{a.id}}"></i>
+	        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+	           ng-click="doConfirmVerifNotKnow('imputedHomes.phone',a.id);"></i>
+	        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+	           ng-click="showChoices('imputedHomes.phone',a.id)"></i>
+	        Tel&eacute;fono:
+	    </div>
+	    <div class="col-xs-8">
+	        <textarea type="text" class="form-control width-100"  name="imputedHomes.phone"
+	               id="phone" value=""
+	               data-val="true"
+	               data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+	               data-val-length-max="200" data-val-length-min="5"
+	               data-val-required="El tel&eacute;efono es un campo requerido">@Dmcl.Phone</textarea>
+	         <span class="field-validation-valid" data-valmsg-for="phone"
+	               data-valmsg-replace="true"></span>
+	    </div>
+	</div>
+	<br/>
+
+	<div>
+	    <div class="row">
+	        <div class="col-xs-3 element-right">
+	            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+	               ng-click="doConfirmVerifEqual('imputedHomes.homeType.id',a.id);"></i>
+	            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
+	               code="imputedHomes.homeType.id" id-element="{{a.id}}"></i>
+	            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+	               ng-click="doConfirmVerifNotKnow('imputedHomes.homeType.id',a.id);"></i>
+	            <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+	               ng-click="showChoices('imputedHomes.homeType.id',a.id)"></i>
+	            Tipo de propiedad:
+	        </div>
+	        <div class="col-xs-3">
+	            <select class="form-control element-center" name="imputedHomes.homeType.id" value="@Dmcl.HomeTypeId">
+@{switch(@Dmcl.HomeTypeId)
+    {
+        case 1:
+                <option value="1">Propia</option><option value="2">Rentada</option><option value="3">Prestada</option><option value="4">Otro</option>
+            break;
+        case 2:
+            <option value="2">Rentada</option><option value="3">Prestada</option><option value="4">Otro</option><option value="1">Propia</option>
+            break;
+        case 3:
+       		<option value="3">Prestada</option><option value="4">Otro</option><option value="1">Propia</option><option value="2">Rentada</option>
+        	break;
+    	case 4:
+       		<option value="4">Otro</option><option value="1">Propia</option><option value="2">Rentada</option><option value="3">Prestada</option>
+        	break;
+        default:
+            <option value="1">Propia</option><option value="2">Rentada</option><option value="3">Prestada</option><option value="4">Otro</option>
+            break;                   
+    }
+}
+	            
+	            </select>
+	        </div>
+	    </div>
+	    @if(Dmcl.HomeTypeId==4){
+	    <br/>
+		    <div class="row"  id="hometypeSpecificationVerify" >
+		        <div class="col-xs-3 element-right">
+		            Especif&iacute;que tipo de propiedad:
+		        </div>
+		        <div class="col-xs-8">
+		            <input type="text" class="form-control" name="imputedHomes.specification"
+		                   data-val="true" value="@Dmcl.Specification"
+		                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
+		                   data-val-length-max="50" data-val-length-min="1"
+		                   data-val-required="La especificaci&oacute;n del tipo de propiedad es un campo requerido">
+		         	<span class="field-validation-valid" data-valmsg-for="specification"
+		               data-valmsg-replace="true"></span>
+		        </div>
+		    </div>
+		}else{
+		<br/>
+		<div class="row"  id="hometypeSpecificationVerify" style="display:none;" >
+	        <div class="col-xs-3 element-right">
+	            Especif&iacute;que tipo de propiedad:
+	        </div>
+	        <div class="col-xs-8">
+	            <input type="text" class="form-control" name="imputedHomes.specification"
+	                   data-val="true" value="@Dmcl.Specification"
+	                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
+	                   data-val-length-max="50" data-val-length-min="1"
+	                   data-val-required="La especificaci&oacute;n del tipo de propiedad es un campo requerido">
+	         	<span class="field-validation-valid" data-valmsg-for="specification"
+	               data-valmsg-replace="true"></span>
+	        </div>
+	    </div>
+		}
+	</div>
+	<br/>
+
+
+<div>
+    <div class="row">
+        <div class="col-xs-3 element-right">
+            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifEqual('imputedHomes.registerType.id',a.id);"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" level-child="3" ng-show="verification"
+               code="imputedHomes.registerType.id" ></i>
+            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+               ng-click="doConfirmVerifNotKnow('imputedHomes.registerType.id',a.id);"></i>
+            <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+               ng-click="showChoices('imputedHomes.registerType.id',a.id)"></i>
+            Tipo de domiclio:
+        </div>
+        <div class="col-xs-3">
+            <select class="form-control element-center"  value="" name="imputedHomes.registerType.id">
+@{switch(@Dmcl.RegisterTypeId)
+    {
+        case 1:
+            <option value="1">Actual</option><option value="2">Secundario</option><option value="3">Anterior</option>
+            break;
+        case 2:
+            <option value="2">Secundario</option><option value="1">Actual</option><option value="3">Anterior</option>
+            break;
+        case 3:
+       		<option value="3">Anterior</option><option value="1">Actual</option><option value="2">Secundario</option>
+        	break;
+        default:
+            <option value="1">Actual</option><option value="2">Secundario</option><option value="3">Anterior</option>
+            break;                   
+    }
+}
+            </select>
+        </div>
+    </div>
+    <br/>
+
+@{string e = "hide";}
+@if(@Dmcl.RegisterTypeId==1||@Dmcl.RegisterTypeId==2){
+e = "";
+}else{
+e="hide";
+}
+ @e
+    <div class="row @e"  >
+        <div class="widget-box col-xs-10">
+            <div class="widget-header">
+                <div class="row">
+                    <h4>Domicilio</h4>
+                </div>
+            </div>
+            <div class="widget-body">
+                <br/>
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                Tiempo de vivir en el domicilio:
+                            </div>
+                            <div class="col-xs-9">
+                                <input class="form-control width-100" data-val="true"
+                                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
+                                       data-val-length-max="30" data-val-length-min="1" name="imputedHome.timeLive"
+                                       data-val-required="El tiempo de residencia es un campo requerido"
+                                       value="@Dmcl.TimeLive" type="text">
+                                        <span class="field-validation-valid" data-valmsg-for="timeLive"
+                                              data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-xs-3">
+                                Descripci&oacute;n de c&oacute;mo llegar al domicilio:<br/>
+                                <label class="info-example">(color de casa, ruta, etc.)</label>
+                            </div>
+                            <div class="col-xs-9">
+                                <textarea id="description" class="form-control width-100"
+                                          name="imputedHomes.description"
+                                          data-val="true"
+                                          data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                                          data-val-length-max="500" data-val-length-min="1"
+                                          data-val-required="La descripci&oacute;n es un campo requerido">@Dmcl.Description</textarea>
+                                                        <span class="field-validation-valid"
+                                                              data-valmsg-for="description"
+                                                              data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <br/>
+                        @if(@Dmcl.RegisterTypeId==2){
+							e = "";
+						}else{
+							e= "hide";
+						}
+						 @e
+                        	<div class="row @e" >
+                        	    <div class="col-xs-3">
+                        	        Raz&oacute;n por la que tiene <br/>un domicilio secundario:
+                        	    </div>
+                        	    <div class="col-xs-9">
+                        	        <textarea id="reasonSecondary" class="form-control" name="imputedHomes.reasonSecondary"
+                        	                  data-val="true"
+                        	                  data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                        	                  data-val-length-max="500" data-val-length-min="1"
+                        	                  data-val-required="La raz&oacute;n es un campo requerido">@Dmcl.ReasonSecondary</textarea>
+                        	        <br/>
+                        	            <span class="field-validation-valid" data-valmsg-for="reasonSecondary"
+                        	                  data-valmsg-replace="true"></span>
+                        	    </div>
+                        	</div>
+                        <br/>@Dmcl.Schedule
+                        <div class="row">
+                            <div class="col-xs-12" >
+                                <div class="widget-header header-color-blue">
+                                    <h5 class="bigger lighter">
+                                        <h6> &nbsp;
+                                            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                                               ng-click="doConfirmVerifEqual('imputedHomes.schedule',a.id)"></i>
+                                            <i class="icon-remove-circle red  icon-only bigger-120"
+                                               ng-show="verification" id-code="imputedHomes.schedule"
+                                               id-element="{{a.id}}"></i>
+                                            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                                               ng-click="doConfirmVerifNotKnow('imputedHomes.schedule', a.id)"></i>
+                                            <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                                               ng-click="showChoices('imputedHomes.schedule',a.id)"></i>
+                                            <i class="icon-calendar "></i>Disponibilidad</h6>
+                                    </h5>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="thin-border-bottom">
+                                            <tr>
+                                                <th class="element-center">
+                                                    D&iacute;a(s)
+                                                </th>
+                                                <th class="element-center">
+                                                    Hora de inicio
+                                                </th>
+                                                <th class="element-center">
+                                                    Hora de fin
+                                                </th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                           @if(Dmcl.Schedule!=null){
+                                           		@Dmcl.Schedule
+                                           }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> <!--END of register 1 and 2-->
+    <!--begin register type 3 -->
+    @if(@Dmcl.RegisterTypeId==3){
+		e = "";
+	}else{
+		e= "hide";
+	}
+	 @e
+    <div class="row @e" >
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <div class="row">
+                        <h4 ng-show="verification ==true">Domicilio</h4>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="row">
+                                <div class="col-xs-3 element-left">
+                                    Tiempo de residencia:
+                                </div>
+                                <div class="col-xs-9">
+                                    <input class="form-control width-100" data-val="true"
+                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
+                                           data-val-length-max="30" data-val-length-min="1"
+                                           data-val-required="El tiempo de residencia es un campo requerido"
+                                           name="imputedHomes.timeLive"
+                                           value="@Dmcl.TimeLive" type="text">
+                                 <span class="field-validation-valid" data-valmsg-for="timeLive"
+                                       data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row element-left">
+                                <div class="col-xs-3">
+                                    Motivo de la mudanza:
+                                </div>
+                                <div class="col-xs-9">
+                                    <textarea id="reasonChange" name="imputedHomes.reasonChange"
+                                              class="form-control width-100"
+                                              data-val="true"
+                                              ng-model="a.reasonChange"
+                                              data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                                              data-val-length-max="500" data-val-length-min="1"
+                                              data-val-required="La raz&oacute;n de cambio es un campo requerido">@Dmcl.ReasonChange</textarea>
+                                <span class="field-validation-valid" data-valmsg-for="reasonChange"
+                                      data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end of register type 3--> 
+</div>
+
+
+</div>
+    }<!--end for each de domicilios-->
+
+
+
+
 <div id="toolbarDomicilios" class="btn-group">
 <a href="javascript:;">
 	    <button type="button" class="btn btn-default" id="btnAddDomicilio" ng-click="addImputedHome();">
@@ -2085,37 +3084,6 @@ window.location.replace('hybrid:Meeting/Index');
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccessDom" class="alert alert-success element-center success-font">
             <span>{{msgSuccessDom}}</span>
-        </div>
-    </div>
-
-    <form id="FormCommentHomeId" name="FormCommentHomeId" class="form-horizontal" role="form">
-        <div class="col-xs-3 element-right">Observaciones:<br/>
-            <label class="info-example">(Este campo no es verificable)</label></div>
-            <div class="col-xs-8">
-                <textarea class="width-100" ng-model = "m.CommentHome" ng-init=''
-                data-val-required="Las obsgervaciones es un campo requerido"
-                data-val="true"
-                data-val-required="Las observaciones es un campo requerido"
-                data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
-                data-val-length-max="500"
-                data-val-length-min="1"
-                name="commentHome">{{m.CommentHome}}</textarea>
-                <span class="field-validation-valid" data-valmsg-for="comment"
-                data-valmsg-replace="true"></span>
-            </div>
-        </form>
-        <br/>
-        <!--<div class="col-xs-10 col-xs-offset-1">
-            <div ng-show="msgError" class="alert alert-danger element-center error-font">
-                <span ng-bind-html="msgError"></span>
-            </div>
-        </div>-->
-        <div class="col-xs-12">
-            <div class="modal-footer">
-                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="saveDomicilios()">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-                Guardar
-            </span>
         </div>
     </div>
             </div><!--End of Domicilios -->
@@ -2867,26 +3835,24 @@ window.location.replace('hybrid:Meeting/Index');
                 <div class="col-xs-4">
                     <select class="form-control element-center" ng-model="school.level"
                     ng-options="e.Name for e in lstLevel" ng-init=''
-                    ng-change="gradeByNivel();"></select>
+                    onchange="gradeByNivel(this);"></select>
                 </div>
                 <div class="col-xs-1">
                     Grado:
                 </div>
                 <div class="col-xs-3">
 
-                    <select class="form-control element-center" ng-model="school.degree"
-                    ng-options="e.Name for e in lstDegree"
-                    ng-change=" m.SchoolDegreeId = school.degree['Id'] "
-                    ng-init=''></select>
-                    <input type="hidden" ng-update-hidden ng-model=" school.degree.id" name="school.degree.id"
-                    id="degreeId"
-                    ng-init="">
+                    <select class="form-control element-center" ng-model="school.degree" name="school.degree.id"
+                    ng-options="e.Name for e in lstDegree" id="slcDegreVer"
+                    onchange=" m.SchoolDegreeId = school.degree['Id'] "></select>
+                    <input type="hidden" ng-update-hidden ng-model=" school.degree.id" 
+                    id="degreeId">
                 </div>
 
                 <br/>
             </div>
             <br/>
-            <div class="row" ng-show="school.level['Id'] == 7">
+            <div class="row" ng-show="school.level['Id'] == 7" id="otherDegreBox">
                 <br/>
 
                 <div class="col-xs-2  element-left col-xs-offset-1">
@@ -2915,112 +3881,74 @@ window.location.replace('hybrid:Meeting/Index');
 </div>
 
 
-<div class="row" id="divSchedule" ng-show="m.SchoolBlock">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="widget-header header-color-blue">
-                <h5 class="bigger lighter">
-                    <h6><i class="glyphicon-calendar "></i>Disponibilidad</h6>
-                </h5>
-            </div>
 
-            <div class="widget-body">
-                <br/>
-<div id="divScheduleComponent">
 
-    <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css" />
-    <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="scripts/umeca/date-time/moment.min.js"></script>
-    <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
-    <script src="scripts/app/reviewer/scheduleCtrl.js"></script>
-
-    <div class="row element-center" ng-controller="scheduleController" id="divComponentSchedule">
-        <input type="hidden" ng-model="schString" name="sch" id="hdnJsonScheduleSchool" ng-update-hidden >
-        <input type="hidden" ng-model="content" ng-init="content =''+'School';" ng-update-hidden >
-        <div class="col-xs-10 col-xs-offset-1">
+ @if(Model.ScheduleSchool==null){
+    }
+    else{
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-header header-color-blue">
             <div class="row">
-                <div class="col-xs-4 element-center">
-                 D&iacute;a(s)<br/>
-                 <input class="form-control" type="text" value=""
-                 ng-model="s.Day" ng-init='s.Day= ""'>
-             </div>
-             <div class="col-xs-3 element-center">
-                Inicio<br/>
-                <div class="input-group bootstrap-timepicker">
-                    <input id="timepickerStart{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.Start"/>
-                    <span class="input-group-addon">
-                        <i class="icon-time bigger-60"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="col-xs-3 element-center">
-                Fin <br/>
-                <div class="input-group bootstrap-timepicker">
-                    <input id="timepickerEnd{{content}}" type="text" class="form-control umeca-time-picker tp" ng-model="s.End"/>
-                    <span class="input-group-addon">
-                        <i class="icon-time  bigger-40"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="col-xs-2">
-                Acciones<br/><div class="space-5"></div>
-                <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addSchedule()">	</i>
+                <h6> &nbsp;
+                    <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
+                       ng-click="doConfirmVerifEqual('school.schedule')"></i>
+                    <i class="icon-remove-circle red  icon-only bigger-120" onclick="DisponibilidadVerify.show('school.schedule',0);"
+                       ng-show="verification" id-code="school.schedule"></i>
+                    <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
+                       ng-click="doConfirmVerifNotKnow('school.schedule')"></i>
+                    <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                       ng-click="showChoices('school.schedule')"></i>
+                    &nbsp; <i class="icon-calendar "></i>Disponibilidad</h6>
             </div>
         </div>
-        <div class="row">
-            <div class="hr hr-6"></div>
-        </div>
-        <div ng-show="msgError" class="alert-danger element-center">
-            {{msgError}}
-        </div>
-        <div class="col-xs-12" ng-show="listSchedule.length==0">
-            <br/>
-            <br/>
-            <br/>
-        </div>
-        <div class="col-xs-9 col-xs-offset-1" ng-show ="listSchedule.length > 0">
-           <div class="row center">
-               <div class="col-xs-5">
-                   <h5 class="smaller lighter blue">D&iacute;a</h5>
-                   <div class="hr hr-2"></div>
-               </div>
-               <div class="col-xs-2">
-                   <h5 class="smaller lighter blue">Inicio</h5>
-                   <div class="hr hr-2"></div>
-               </div>
-               <div class="col-xs-2">
-                   <h5 class="smaller lighter blue">Fin</h5>
-                   <div class="hr hr-2"></div>
-               </div>
-               <div class="col-xs-2">
-                   <h5 class="smaller lighter blue">Acciones</h5>
-                   <div class="hr hr-2"></div>
-               </div>
-           </div>
-           <div class="row center" ng-repeat ="sch in listSchedule">
-            <div class="col-xs-5">
-                {{sch.Day}}
-            </div>
-            <div class="col-xs-2">
-               {{sch.Start}}
-           </div>
-           <div class="col-xs-2">
-            {{sch.End}}
-        </div>
-        <div class="col-xs-2">
-            <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteSchedule($index)"></i>
-        </div>
-    </div>
-    <br/>
-</div>
-</div>
-<br/>
-</div>
-</div>
+
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead class="thin-border-bottom">
+                    <tr>
+                        <th class="element-center">
+                            D&iacute;a(s)
+                        </th>
+                        <th class="element-center">
+                            Hora de inicio
+                        </th>
+                        <th class="element-center">
+                            Hora de fin
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                      	@foreach(var Schedul in Model.ScheduleSchool) {
+                      	<tr>
+               				<td class="element-center">
+	                            @Schedul.Day
+	                        </td>
+	                        <td class="element-center">
+	                             @Schedul.Start
+	                        </td>
+	                        <td class="element-center">
+	                             @Schedul.End
+	                        </td>
+                    	</tr>
+    					}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+}
+
+
+
+
+
+
+
+
                 </form>
             </div>
         </div>
@@ -3621,7 +4549,7 @@ break;
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
         <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
-           code="socialEnvironment.comment"></i>
+           code="socialEnvironment.comment" onclick="SingleVerify.show(this);"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
@@ -3802,7 +4730,6 @@ function validateVerif(formSerialize) {
                 }
             }
         });
-
     }
     if (hasError)
         return null;
@@ -3810,8 +4737,26 @@ function validateVerif(formSerialize) {
 }
 
 ///TODOTODOTODO
-	function gradeByNivel (){
-		
+	function gradeByNivel (este){
+		var vga = parseInt($(este).val())+1;
+		console.log("id grado academico>>"+vga);
+		if(vga==7){
+		$("#otherDegreBox","#divElementVerif").removeClass("ng-hide");
+		}else{
+		$("#otherDegreBox","#divElementVerif").addClass("ng-hide");
+		}
+		$("#slcDegreVer","#divElementVerif").prop("disabled",false).attr('readonly', false).val("").empty();
+		var lstofDegree = JSON.parse(MeetingService.gradeByNivel( vga ));
+		for(var indx=0;indx<lstofDegree.length;indx++){
+			console.log("val->"+lstofDegree[indx].Id);
+			console.log("text->"+lstofDegree.Name);
+		    $("#slcDegreVer","#divElementVerif").append("<option value='"+lstofDegree[indx].Id+"' >"+lstofDegree[indx].Name+"</option>");
+		}
     	//var degrees=JSON.parse(MeetingService.gradeByNivel( $scope.school.level['Id']));
    	}
-    	</script>
+</script>
+
+
+
+
+

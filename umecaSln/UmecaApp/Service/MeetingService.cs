@@ -134,12 +134,17 @@ namespace UmecaApp
 			return new Java.Lang.String(JsonStates);
 		}
 
-
 		[Export("findAddressByCp")]
 		public Java.Lang.String findAddressByCp(Java.Lang.String Cp){
 			return new Java.Lang.String(services.findAddressByCp (Cp.ToString()));
 		}
 
+
+		[Export("findAllCountry")]
+		public Java.Lang.String findAllCountry(){
+			var paises = db.Table<Country> ().OrderBy (c=>c.Name).ToList ()??new List<Country> ();
+			return new Java.Lang.String(JsonConvert.SerializeObject(paises));
+		}
 
 		[Export("findAllStates")]
 		public Java.Lang.String findAllStates(){

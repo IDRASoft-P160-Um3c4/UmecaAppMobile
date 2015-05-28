@@ -172,6 +172,47 @@ namespace UmecaApp
 				var ese = db.GetWithChildren<Verification> (ver.Id);
 				Console.WriteLine ("done execution>");
 				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
+
+				//school history
+				var escuelaUtlActual = new School ();
+				escuelaUtlActual.MeetingId = meeting.Id;
+				if (escuelaUtlActual != null) {
+					escuelaUtlActual.Address = "secc 35 #80 lt 34 rio de luz ecatepec Edo Mex.";
+					escuelaUtlActual.block = true;
+					escuelaUtlActual.DegreeId = 19;
+					escuelaUtlActual.Name = "ESCOM";
+					escuelaUtlActual.Phone = "26461809";
+					escuelaUtlActual.Specification = "escuela superior computo";
+				}
+				db.Insert (escuelaUtlActual);
+
+				for(var a=0;a<2;a++){
+					var schedule = new Schedule ();
+					schedule.SchoolId = escuelaUtlActual.Id;
+					schedule.Day = "dia "+a+" de la semana";
+					schedule.Start= "1"+a+":30";
+					schedule.End= "19:"+a+"0";
+					db.Insert (schedule);
+				}
+
+				var domicilioImputado = new ImputedHome ();
+				domicilioImputado.MeetingId = meeting.Id;
+				domicilioImputado.addressString = " string de domicilio";
+				domicilioImputado.Description = " descripcion de domicilio";
+				domicilioImputado.HomeTypeId = 1;
+				domicilioImputado.InnNum = "numero interior";
+				domicilioImputado.LocationId = 831;
+				domicilioImputado.OutNum = "numero exterior";
+				domicilioImputado.Phone = "26461809";
+				domicilioImputado.ReasonChange = "inseguridad";
+				domicilioImputado.ReasonSecondary = "monetary power";
+				domicilioImputado.RegisterTypeId = 1;
+				domicilioImputado.Schedule = "";
+				domicilioImputado.Specification = "como llegar o algo";
+				domicilioImputado.Street = "secc 35 # 80 lt 34";
+				domicilioImputado.TimeLive = "18";
+				db.Insert (domicilioImputado);
+
 				db.Commit ();
 			}
 		}
