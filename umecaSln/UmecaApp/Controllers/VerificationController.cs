@@ -141,13 +141,39 @@ namespace UmecaApp
 			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
 			if(domiciliosImputado!=null){
 				result.JsonDomicilios = domiciliosImputado;
+//				foreach(ImputedHome e in domiciliosImputado){
+//					var dto = new ImputedHomeVerification ();
+//					dto.addressString = e.addressString;
+//					dto.Description = e.Description;
+//					dto.HomeTypeId = e.HomeTypeId;
+//					dto.Id = e.Id;
+//					dto.InnNum = e.InnNum;
+//					dto.Lat = e.Lat;
+//					dto.Lng = e.Lng;
+//					dto.LocationId = e.LocationId;
+//					dto.MeetingId = e.MeetingId;
+//					dto.OutNum = e.OutNum;
+//					dto.Phone = e.Phone;
+//					dto.ReasonChange = e.ReasonChange;
+//					dto.ReasonSecondary = e.ReasonSecondary;
+//					dto.RegisterTypeId = e.RegisterTypeId;
+//					dto.Specification = e.Specification;
+//					dto.Street = e.Street;
+//					dto.TimeLive = e.TimeLive;
+//					result.JsDomicilios.Add (dto);
+//				}
 			}
+
 			foreach(ImputedHome h in result.JsonDomicilios){
 				h.Schedule = "";
 				var horario = db.Table<Schedule> ().Where (sche=>sche.ImputedHomeId==h.Id).ToList ();
 				if (horario != null && horario.Count > 0) {
-					foreach(Schedule es in horario){
-						h.Schedule += "<tr><td class='element-center'>"+es.Day+"</td><td class='element-center'>"+es.Start+"</td><td class='element-center'>"+es.End+"</td></tr>";
+					foreach(Schedule skdl in horario){
+						h.Schedule += "<tr>";
+						h.Schedule += "<td>"+skdl.Day+"</td>";
+						h.Schedule += "<td>"+skdl.Start+"</td>";
+						h.Schedule += "<td>"+skdl.End+"</td>";
+						h.Schedule += "</ tr>";
 					}
 				}
 			}

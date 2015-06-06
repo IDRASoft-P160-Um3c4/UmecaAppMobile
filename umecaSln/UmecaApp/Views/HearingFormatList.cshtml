@@ -1,1 +1,80 @@
-﻿
+﻿@model System.Collections.Generic.List<UmecaApp.HearingFormatGrid>
+@inherits WebViewTemplate
+@{
+	Layout = "UmecaApp.HeadSupervition";
+}
+    <script type="text/javascript">
+    function cancelari(){
+		window.location.replace('hybrid:Login/Index');
+    } 
+    function editFormatoAudiencia(fuente){
+		window.location.replace('hybrid:Login/Index');
+    }
+
+    </script>
+<h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Formato de Audiencia</h2>
+<br />
+<div id="toolbar2" class="btn-group">
+    <a href="@Url.Action("HearingFormatEditNew","Meeting")">
+    <button type="button" class="btn btn-default" id="btnAdd">
+        <i class="glyphicon glyphicon-plus"></i>
+    </button></a>
+</div>
+    <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="250"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbar2">
+    <thead>
+    <tr>
+        <th>Carpeta de Investigaci&oacute;n</th>
+        <th>Carpeta Judicial</th>
+        <th>Nombre Completo</th>
+        <th>Fecha de Registro</th>
+        <th>Supervisor</th>
+        <th>Audiencia</th>
+        <th>Ampliaci&oacute;n de plazo</th>
+        <th>Vinculaci&oacute;n a proceso</th>
+        <th>Finalizado</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var formatoAudiencia in Model) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td>
+        	@formatoAudiencia.IdFolder
+        </td>
+        <td>
+        	@formatoAudiencia.IdMP
+        </td>
+        <td>
+        	@formatoAudiencia.Fullname
+        </td>
+        <td>
+        	@formatoAudiencia.RegisterTime
+        </td>
+        <td>
+        	@formatoAudiencia.UserName
+        </td>
+        <td>
+        	@formatoAudiencia.HearingType
+        </td>
+        <td>
+        	@formatoAudiencia.Extension
+        </td>
+        <td>
+        	@formatoAudiencia.ProcessVinc
+        </td>
+        <td>
+       		@formatoAudiencia.FinishedStr
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Visualizar formatos de audiencia" onclick="visualizeFormat(@formatoAudiencia.CaseId);"><span class="icon-eye-open"></span></a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+	<!--<span class="btn btn-default btn-sm" onclick="cancelari();">
+        Cancelar
+    </span>-->

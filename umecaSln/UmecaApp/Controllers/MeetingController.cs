@@ -107,27 +107,36 @@ namespace UmecaApp
 			if (model.DateBirth.HasValue) {
 				int age = services.calculateAge(model.DateBirth.Value);
 				if (age.CompareTo(18)<0) {
-					return "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar";
+					return "El imputado debe tener más de 18 años para continuar";
 				}
 			} else {
 				return "Favor de ingresar la fecha de nacimiento del imputado.";
 			}
 			if (model.IdFolder != null) {
-				var tableImputed = db.Query<Imputed>("select i.* from imputed as i "+
-					"left join meeting as m on i.id_meeting=m.id_meeting " +
-					"left join case_detention as c on c.id_case = m.id_case " +
-					"where c.id_folder='feb-09-2015-02'");
-				if(tableImputed!=null&& tableImputed.Count>0){
-					foreach (var c in tableImputed) {
-						Console.WriteLine ("c.fonetic__>"+c.FoneticString+"  c.birthdate==>"+c.BirthDate);
-						Console.WriteLine ("m.fonetic__>"+services.getFoneticByName(model.Name, model.LastNameP, model.LastNameM)+"  m.birthdate==>"+model.DateBirth);
-						if(c.FoneticString==services.getFoneticByName(model.Name, model.LastNameP, model.LastNameM)&&c.BirthDate.Equals(model.DateBirth)){
-							return "El n&uacute;mero de carpeta de investigaci&oacute;n y el imputado ya se encuentran registrados.";
+				var repeated = 0;
+				var fonetic = services.getFoneticByName(model.Name,model.LastNameP,model.LastNameM);
+				var casos = db.Table<Case> ().Where (cs=>cs.IdFolder==model.IdFolder).ToList ();
+				if (casos != null && casos.Count > 0) {
+					foreach(Case c in casos){
+						var entrevistas = db.Table<Meeting> ().Where (ent=>ent.CaseDetentionId==c.Id).ToList ();
+						if(entrevistas != null && entrevistas.Count > 0) {
+							foreach(Meeting entrevista in entrevistas){
+								var imputado = db.Table<Imputed> ().Where (imp=>imp.MeetingId==entrevista.Id
+									&& imp.FoneticString==fonetic
+									&& imp.BirthDate==model.DateBirth).ToList ();
+								if (imputado != null && imputado.Count > 0) {
+									repeated++;
+								}
+							}
 						}
 					}
+
+				}
+				if(repeated>0){
+						return "El número de carpeta de investigación y el imputado ya se encuentran registrados.";
 				}
 			} else {
-				return "Favor de ingresar el n&uacute;mero de carpeta de investigaci&oacute;n para continuar";
+				return "Favor de ingresar el número de carpeta de investigación para continuar";
 			}
 			return null;
 		}
@@ -143,6 +152,16 @@ namespace UmecaApp
 				newImputed.FoneticString=services.getFoneticByName(imputed.Name, imputed.LastNameP, imputed.LastNameM);
 				newImputed.Gender=imputed.Gender.GetValueOrDefault();
 				newImputed.BirthDate=imputed.DateBirth.GetValueOrDefault();
+
+				var reincident = db.Table<Imputed>().Where(impu=>impu.LastNameM==newImputed.LastNameM
+					&&impu.LastNameP==newImputed.LastNameP && impu.Name==newImputed.Name
+					&& impu.BirthDate==newImputed.BirthDate).ToList();
+				if(reincident!=null&&reincident.Count>0){
+					caseDetention.Recidivist = true;
+				}else{
+					caseDetention.Recidivist = false;
+				}
+
 				caseDetention.Status=services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
 				caseDetention.StatusCaseId=services.statusCasefindByCode(Constants.CASE_STATUS_MEETING).Id;
 				caseDetention.IdFolder=imputed.IdFolder;
@@ -160,7 +179,6 @@ namespace UmecaApp
 				meeting.StatusMeeting=statusMeeting;
 				//				meeting.ReviewerId=LoggedUserId(); TODO agrega al usuario asociado al dispositivo
 				meeting.DateCreate=DateTime.Today;
-				//				meeting = meetingRepository.save(meeting);
 				db.InsertWithChildren (meeting);
 				newImputed.MeetingId=meeting.Id;
 				newImputed.Meeting = meeting;

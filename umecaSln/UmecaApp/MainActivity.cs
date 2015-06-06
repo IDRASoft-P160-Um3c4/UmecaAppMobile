@@ -35,7 +35,7 @@ namespace UmecaApp
 			var verificationController = new VerificationController (new HybridWebView (webView, this), db);
 			RouteHandler.RegisterController ("Verification", verificationController);
 			var supervisionController = new SupervisionController (new HybridWebView (webView, this), db);
-			RouteHandler.RegisterController ("Supervision", verificationController);
+			RouteHandler.RegisterController ("Supervision", supervisionController);
 
 			loginController.Index ();
 		}

@@ -1,0 +1,154 @@
+﻿@inherits WebViewTemplate
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umeca</title>
+    <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/datepicker.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/font-awesome.min.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/jquery-ui-1.10.3.full.min.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/ace-fonts.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/ace-skins.min.css"/>
+
+    <link rel="stylesheet" href="content/bootstrap.css"/>
+    <link rel="stylesheet" href="content/Site.css"/>
+    <link rel="stylesheet" href="content/themes/umeca/ace.min.css"/>
+
+
+
+
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+    <script src="scripts/jquery.multiple.select.js"></script>
+    <script src="scripts/selectize.js"></script>
+    <script src="scripts/jquery.validate.min.js"></script>
+    <script src="scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="scripts/umeca/bootstrap.min.js"></script>
+    <!--<script src="scripts/common.js"></script>-->
+    <script src="scripts/modernizr-2.6.2.js"></script>
+    <script src="scripts/respond.min.js"></script>
+    <script src="scripts/umeca/chosen.jquery.min.js"></script>
+
+
+    <script src="scripts/angular/angular.min.js"></script>
+
+    <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="scripts/umeca/date-time/daterangepicker.min.js"></script>
+    <script src="scripts/umeca/date-time/moment.min.js"></script>
+
+    <script src="scripts/umeca/ace-elements.min.js"></script>
+    <script src="scripts/umeca/ace.min.js"></script>
+    <script src="scripts/umeca/typeahead-bs2.min.js"></script>
+
+
+    <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
+
+
+    	<script src="scripts/umeca/ace-extra.js"></script>
+
+    <script src="scripts/app/shared/mainApp.js"></script>
+
+
+    	<script src="scripts/app/shared/confirmDrct.js"></script>
+    	<script src="scripts/app/shared/clearErrorMsgDrct.js"></script>
+    	<script src="scripts/app/shared/hiddenDrct.js"></script>
+
+    	<link rel="stylesheet" href="bootstrap-table/bootstrap-table.css">
+    <script src="bootstrap-table/bootstrap-table.js"></script>
+    <script src="bootstrap-table/bootstrap-table-es-AR.min.js"></script>
+    <style type="text/css">
+        .pagination-info {
+        float: right;!important;
+        }
+        div.pagination {
+            width: 55%!important;
+        float: left!important;
+        }
+        ul.pagination {
+            display: inline-block!important;
+            text-align: right!important;
+            float: right!important;
+        }
+        .page-list {
+        float: left!important;
+        padding-left: 5px;
+        }
+        .pagination-detail{
+            width: 45%!important;
+            float: right!important;
+            padding-top: 10px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="content/multiple-select.css"/>
+    <link rel="stylesheet" href="content/selectize.bootstrap3.css"/>
+    //dasdsa
+	</head>
+	<body>
+
+
+<!--<script src="scripts/app/shared/menuCtrl.js"></script>-->
+<div ng-controller="menuController">
+
+<div class="navbar navbar-default navbar-static-top">
+<style>
+    .navbar > .container {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+    }
+</style>
+<script type="text/javascript">
+    try {
+        ace.settings.check('navbar', 'fixed')
+    } catch (e) {
+    }
+</script>
+
+<div class="container" id="navbar-container">
+<div class="navbar-header pull-left">
+    <a href="@Url.Action("Index","Login")" class="navbar-brand">
+        <i class="glyphicon glyphicon-cloud"></i>&nbsp;&nbsp;Inicio</a>
+</div>
+<div class="navbar-header pull-right" role="navigation">
+    <ul class="nav ace-nav">
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Meeting")"><i
+                    class="icon-comments-alt"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Verification")"><i
+                    class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
+            </li>
+            <li class="nav-li-blue"><a href="javascript;"><i
+                    class="icon-cloud-download"></i>&nbsp;&nbsp;Visita domiciliar</a>
+            </li>
+            <li class="nav-li-blue"><a href="javascript;"><i
+                    class="icon-exchange"></i>&nbsp;&nbsp;Sincronizar</a></li>
+    </ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		@RenderBody()
+	</body>
+</html>

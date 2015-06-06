@@ -15,7 +15,6 @@ namespace UmecaApp
 
 		public String IdFolder { get; set; }
 
-		//source begin
 		public int SourceId { get; set; }
 
 		public int SourceAge { get; set; }
@@ -28,8 +27,6 @@ namespace UmecaApp
 
 		public String SourceAddress{ get; set; }
 
-
-		//imputed begin
 		public int ImputedId { get; set; }
 
 		public String Name{ get; set; }

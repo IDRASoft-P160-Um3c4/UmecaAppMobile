@@ -18,193 +18,263 @@ using System.Text;
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorTemplatePreprocessor", "2.6.0.0")]
-public partial class HearingFormatList : HearingFormatListBase
+public partial class HearingFormatList : WebViewTemplate
 {
 
 #line hidden
 
+#line 1 "HearingFormatList.cshtml"
+public System.Collections.Generic.List<UmecaApp.HearingFormatGrid> Model { get; set; }
+
+#line default
+#line hidden
+
+
 public override void Execute()
 {
-WriteLiteral("\r\n");
+
+#line 3 "HearingFormatList.cshtml"
+  
+	Layout = "UmecaApp.HeadSupervition";
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n    <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(">\r\n    function cancelari(){\r\n\t\twindow.location.replace(\'hybrid:Login/Index\');\r\n " +
+"   } \r\n    function editFormatoAudiencia(fuente){\r\n\t\twindow.location.replace(\'hy" +
+"brid:Login/Index\');\r\n    }\r\n\r\n    </script>\r\n<h2");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-comments-alt \"");
+
+WriteLiteral("></i>&nbsp;&nbsp;Formato de Audiencia</h2>\r\n<br />\r\n<div");
+
+WriteLiteral(" id=\"toolbar2\"");
+
+WriteLiteral(" class=\"btn-group\"");
+
+WriteLiteral(">\r\n    <a");
+
+WriteAttribute ("href", " href=\"", "\""
+
+#line 18 "HearingFormatList.cshtml"
+, Tuple.Create<string,object,bool> ("", Url.Action("HearingFormatEditNew","Meeting")
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(">\r\n    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAdd\"");
+
+WriteLiteral(">\r\n        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n    </button></a>\r\n</div>\r\n    <table");
+
+WriteLiteral(" data-toggle=\"table\"");
+
+WriteLiteral(" data-page-size=\"10\"");
+
+WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
+
+WriteLiteral("\r\n     data-pagination=\"true\"");
+
+WriteLiteral(" data-height=\"250\"");
+
+WriteLiteral("\r\n     data-striped=\"true\"");
+
+WriteLiteral(" data-search=\"true\"");
+
+WriteLiteral(" \r\n     data-search-align=\"right\"");
+
+WriteLiteral(" data-toolbar=\"#toolbar2\"");
+
+WriteLiteral(@">
+    <thead>
+    <tr>
+        <th>Carpeta de Investigaci&oacute;n</th>
+        <th>Carpeta Judicial</th>
+        <th>Nombre Completo</th>
+        <th>Fecha de Registro</th>
+        <th>Supervisor</th>
+        <th>Audiencia</th>
+        <th>Ampliaci&oacute;n de plazo</th>
+        <th>Vinculaci&oacute;n a proceso</th>
+        <th>Finalizado</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+");
+
+
+#line 42 "HearingFormatList.cshtml"
+    
+
+#line default
+#line hidden
+
+#line 42 "HearingFormatList.cshtml"
+     foreach(var formatoAudiencia in Model) {
+
+
+#line default
+#line hidden
+WriteLiteral("    <tr");
+
+WriteLiteral(" id=\"tr-id-1\"");
+
+WriteLiteral(" class=\"tr-class-1\"");
+
+WriteLiteral(">\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 45 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.IdFolder);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 48 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.IdMP);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 51 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.Fullname);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 54 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.RegisterTime);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 57 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.UserName);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 60 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.HearingType);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 63 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.Extension);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("        \t");
+
+
+#line 66 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.ProcessVinc);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+
+WriteLiteral("       \t\t");
+
+
+#line 69 "HearingFormatList.cshtml"
+       Write(formatoAudiencia.FinishedStr);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "visualizeFormat(", true)
+
+#line 72 "HearingFormatList.cshtml"
+                                                                                            , Tuple.Create<string,object,bool> ("", formatoAudiencia.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"icon-eye-open\"");
+
+WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
+
+
+#line 75 "HearingFormatList.cshtml"
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    </tbody>\r\n</table>\r\n\t<!--<span class=\"btn btn-default btn-sm\" onclick=\"cancel" +
+"ari();\">\r\n        Cancelar\r\n    </span>-->");
 
 }
-}
-
-// NOTE: this is the default generated helper class. You may choose to extract it to a separate file 
-// in order to customize it or share it between multiple templates, and specify the template's base 
-// class via the @inherits directive.
-public abstract class HearingFormatListBase
-{
-
-		// This field is OPTIONAL, but used by the default implementation of Generate, Write, WriteAttribute and WriteLiteral
-		//
-		System.IO.TextWriter __razor_writer;
-
-		// This method is OPTIONAL
-		//
-		/// <summary>Executes the template and returns the output as a string.</summary>
-		/// <returns>The template output.</returns>
-		public string GenerateString ()
-		{
-			using (var sw = new System.IO.StringWriter ()) {
-				Generate (sw);
-				return sw.ToString ();
-			}
-		}
-
-		// This method is OPTIONAL, you may choose to implement Write and WriteLiteral without use of __razor_writer
-		// and provide another means of invoking Execute.
-		//
-		/// <summary>Executes the template, writing to the provided text writer.</summary>
-		/// <param name="writer">The TextWriter to which to write the template output.</param>
-		public void Generate (System.IO.TextWriter writer)
-		{
-			__razor_writer = writer;
-			Execute ();
-			__razor_writer = null;
-		}
-
-		// This method is REQUIRED, but you may choose to implement it differently
-		//
-		/// <summary>Writes a literal value to the template output without HTML escaping it.</summary>
-		/// <param name="value">The literal value.</param>
-		protected void WriteLiteral (string value)
-		{
-			__razor_writer.Write (value);
-		}
-
-		// This method is REQUIRED if the template contains any Razor helpers, but you may choose to implement it differently
-		//
-		/// <summary>Writes a literal value to the TextWriter without HTML escaping it.</summary>
-		/// <param name="writer">The TextWriter to which to write the literal.</param>
-		/// <param name="value">The literal value.</param>
-		protected static void WriteLiteralTo (System.IO.TextWriter writer, string value)
-		{
-			writer.Write (value);
-		}
-
-		// This method is REQUIRED, but you may choose to implement it differently
-		//
-		/// <summary>Writes a value to the template output, HTML escaping it if necessary.</summary>
-		/// <param name="value">The value.</param>
-		/// <remarks>The value may be a Action<System.IO.TextWriter>, as returned by Razor helpers.</remarks>
-		protected void Write (object value)
-		{
-			WriteTo (__razor_writer, value);
-		}
-
-		// This method is REQUIRED if the template contains any Razor helpers, but you may choose to implement it differently
-		//
-		/// <summary>Writes an object value to the TextWriter, HTML escaping it if necessary.</summary>
-		/// <param name="writer">The TextWriter to which to write the value.</param>
-		/// <param name="value">The value.</param>
-		/// <remarks>The value may be a Action<System.IO.TextWriter>, as returned by Razor helpers.</remarks>
-		protected static void WriteTo (System.IO.TextWriter writer, object value)
-		{
-			if (value == null)
-				return;
-
-			var write = value as Action<System.IO.TextWriter>;
-			if (write != null) {
-				write (writer);
-				return;
-			}
-
-			//NOTE: a more sophisticated implementation would write safe and pre-escaped values directly to the
-			//instead of double-escaping. See System.Web.IHtmlString in ASP.NET 4.0 for an example of this.
-			writer.Write(System.Net.WebUtility.HtmlEncode (value.ToString ()));
-		}
-
-		// This method is REQUIRED, but you may choose to implement it differently
-		//
-		/// <summary>
-		/// Conditionally writes an attribute to the template output.
-		/// </summary>
-		/// <param name="name">The name of the attribute.</param>
-		/// <param name="prefix">The prefix of the attribute.</param>
-		/// <param name="suffix">The suffix of the attribute.</param>
-		/// <param name="values">Attribute values, each specifying a prefix, value and whether it's a literal.</param>
-		protected void WriteAttribute (string name, string prefix, string suffix, params Tuple<string,object,bool>[] values)
-		{
-			WriteAttributeTo (__razor_writer, name, prefix, suffix, values);
-		}
-
-		// This method is REQUIRED if the template contains any Razor helpers, but you may choose to implement it differently
-		//
-		/// <summary>
-		/// Conditionally writes an attribute to a TextWriter.
-		/// </summary>
-		/// <param name="writer">The TextWriter to which to write the attribute.</param>
-		/// <param name="name">The name of the attribute.</param>
-		/// <param name="prefix">The prefix of the attribute.</param>
-		/// <param name="suffix">The suffix of the attribute.</param>
-		/// <param name="values">Attribute values, each specifying a prefix, value and whether it's a literal.</param>
-		///<remarks>Used by Razor helpers to write attributes.</remarks>
-		protected static void WriteAttributeTo (System.IO.TextWriter writer, string name, string prefix, string suffix, params Tuple<string,object,bool>[] values)
-		{
-			// this is based on System.Web.WebPages.WebPageExecutingBase
-			// Copyright (c) Microsoft Open Technologies, Inc.
-			// Licensed under the Apache License, Version 2.0
-			if (values.Length == 0) {
-				// Explicitly empty attribute, so write the prefix and suffix
-				writer.Write (prefix);
-				writer.Write (suffix);
-				return;
-			}
-
-			bool first = true;
-			bool wroteSomething = false;
-
-			for (int i = 0; i < values.Length; i++) {
-				Tuple<string,object,bool> attrVal = values [i];
-				string attPrefix = attrVal.Item1;
-				object value = attrVal.Item2;
-				bool isLiteral = attrVal.Item3;
-
-				if (value == null) {
-					// Nothing to write
-					continue;
-				}
-
-				// The special cases here are that the value we're writing might already be a string, or that the 
-				// value might be a bool. If the value is the bool 'true' we want to write the attribute name instead
-				// of the string 'true'. If the value is the bool 'false' we don't want to write anything.
-				//
-				// Otherwise the value is another object (perhaps an IHtmlString), and we'll ask it to format itself.
-				string stringValue;
-				bool? boolValue = value as bool?;
-				if (boolValue == true) {
-					stringValue = name;
-				} else if (boolValue == false) {
-					continue;
-				} else {
-					stringValue = value as string;
-				}
-
-				if (first) {
-					writer.Write (prefix);
-					first = false;
-				} else {
-					writer.Write (attPrefix);
-				}
-
-				if (isLiteral) {
-					writer.Write (stringValue ?? value);
-				} else {
-					WriteTo (writer, stringValue ?? value);
-				}
-				wroteSomething = true;
-			}
-			if (wroteSomething) {
-				writer.Write (suffix);
-			}
-		}
-		// This method is REQUIRED. The generated Razor subclass will override it with the generated code.
-		//
-		///<summary>Executes the template, writing output to the Write and WriteLiteral methods.</summary>.
-		///<remarks>Not intended to be called directly. Call the Generate method instead.</remarks>
-		public abstract void Execute ();
-
 }
 }
 #pragma warning restore 1591

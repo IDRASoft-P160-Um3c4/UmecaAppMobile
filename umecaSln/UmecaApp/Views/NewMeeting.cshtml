@@ -4,7 +4,7 @@
 	Layout = "UmecaApp.headUm";
 }
       <script>
-    		
+    		 
     	app.controller('newMeettingController', function($scope, $http){
 			$scope.m = {};
 			$scope.Wait = false;
@@ -32,6 +32,16 @@
 
     </script>
 <form id="frmSubmitValuesMeeting" ng-app="umecaMobile" ng-controller="newMeettingController">
+@if(Model.ResponseMessage!=null){
+	<div class="row">
+	    <div class="col-xs-12">
+	        <div class="alert alert-danger element-center error-font">
+	            <span>@Model.ResponseMessage
+	            </span>
+	        </div>
+	    </div>
+	</div>
+}
     <div class="row">
         <div class="col-xs-12">
             <label>Ingrese la información requerida para poder generar un nuevo número de expediente:</label>
@@ -139,8 +149,8 @@
            Carpeta de investigación:
         </div>
         <div class="col-xs-7">
-                <!--<input class="form-control ng-pristine ng-valid" type="text" data-val-length="Debe tener al menos 1 y máximo 15 caracteres" data-val-length-max="15" data-val-length-min="1" data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''" id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder">-->
-                @Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 15 caracteres", @data_val_length_max="15", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"})
+                <!--<input class="form-control ng-pristine ng-valid" type="text" data-val-length="Debe tener al menos 1 y máximo 35 caracteres" data-val-length-max="35" data-val-length-min="1" data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''" id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder">-->
+                @Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"})
         </div>
         <div class="col-xs-9 col-xs-offset-3">
             <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder" data-valmsg-replace="true"></span>

@@ -1,7 +1,2 @@
 id|username|password|email|fullname|enabled|code role
-1|administrador|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|admin@idrasoft.com.mx|Administrador sistema|true|ROLE_ADMIN
-2|reviewer|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|reviewer@idrasoft.com.mx|Evaluador|true|ROLE_REVIEWER
-3|managereval|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|managereval@idrasoft.com.mx|Coordinador evaluador|true|ROLE_EVALUATION_MANAGER
-4|supervisor|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|Supervisor|true|ROLE_SUPERVISOR
-5|managersup|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|managersup@idrasoft.com.mx|Coordinador supervisor|true|ROLE_SUPERVISOR_MANAGER
-6|director|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|managersup@idrasoft.com.mx|Director|true|ROLE_DIRECTOR
+1|administrador|$2a$10$q58ILIuvtXBsVt713zXAmumZJCILiOKdF7RU8q3XVEI981OSd3YNO|mail@umeca.gob.mx|Administrador sistema|true|ROLE_ADMIN

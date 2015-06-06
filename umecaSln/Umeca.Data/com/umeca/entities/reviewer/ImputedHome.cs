@@ -2,6 +2,9 @@
 
 using SQLite.Net.Attributes;
 
+//listas
+using System.Collections.Generic;
+
 namespace UmecaApp
 {
 	[Table("imputed_home")]
@@ -38,24 +41,6 @@ namespace UmecaApp
 		[Column("address_string"),MaxLength(500)]
 		public String addressString{ get; set; }
 
-//		@Override
-//		public String toString() {
-//			String result = "";
-//			if (street != null && !street.equals("")) {
-//				result = "Calle: " + street + " No Ext: " + outNum;
-//			}
-//			if (outNum != null && !outNum.equals("")) {
-//
-//			}
-//			if (innNum != null && !innNum.equals("")) {
-//				result = result + " No Int:" + innNum;
-//			}
-//			if (location != null) {
-//				result = result + "," + location.getName() + ". CP: " + location.getZipCode() + ". " + location.getMunicipality().getName() + ", " + location.getMunicipality().getState().getName() + ".";
-//			}
-//			return result;
-//		}
-
 		[Column("id_register_type")]
 			public int? RegisterTypeId{ get; set; }
 
@@ -83,8 +68,8 @@ namespace UmecaApp
 		[Column("reasonSecondary"),MaxLength(500)]
 			public String ReasonSecondary{ get; set; }
 
-			public String Schedule{ get; set; }
-
+//		public List<InnerModelDto> Schedule{ get; set; }
+		public String Schedule{ get; set; }
 	}
 }
 

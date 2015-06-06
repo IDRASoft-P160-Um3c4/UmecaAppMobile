@@ -14,10 +14,10 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_case")]
 		public int Id{ get; set; }
 
-		[Column("id_folder"),MaxLength(25)]
+		[Column("id_folder"),MaxLength(35)]
 		public String IdFolder{ get; set; }
 
-		[Column("id_mp"),MaxLength(25)]
+		[Column("id_mp"),MaxLength(35)]
 		public String IdMP{ get; set; }
 
 		[Column("recidivist")]

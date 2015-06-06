@@ -15,6 +15,7 @@ SingleVerify.listid = 0;
 
 SingleVerify.show = function (element){
 SingleVerify.code = "";
+SingleVerify.listid = 0;
 var caso = $("#hdnVerificationCaseId").val();
 var fuente = $("#hdnVerificationSourceId").val();
 if(caso!=undefined&&caso!=""&&SingleVerify.case==0){
@@ -30,7 +31,12 @@ $("#SingleVerifyBoxDlgIderrorMsg").text("");
 	console.log("prop-->"+prop+ "    ...cosa[prop]=>"+cosa[prop]);
 	}*/
 	var jqElement = $("[code='"+element.getAttribute("code")+"']");
-
+	var eleIDlist = element.getAttribute("id-element");
+	if(eleIDlist!=undefined&&eleIDlist!=null&&eleIDlist!=""){
+		SingleVerify.listid = parseInt(eleIDlist);
+	}else{
+		SingleVerify.listid = 0;
+	}
 	var finalElem=jqElement;
     for(var i=0; i<element.getAttribute("level-child"); i++){
     	finalElem = finalElem.parent();
@@ -45,7 +51,7 @@ $("#divElementVerif input").prop("disabled",false).attr('readonly', false).val("
 $("#divElementVerif textarea").prop("disabled",false).attr('readonly', false).val("");
 $("#divElementVerif select").prop("disabled",false).attr('readonly', false).val("");
 
-var InformacionAnterior = VerificationService.searchFieldVerification(element.getAttribute("code"), SingleVerify.case, SingleVerify.source, 0);
+var InformacionAnterior = VerificationService.searchFieldVerification(element.getAttribute("code"), SingleVerify.case, SingleVerify.source, SingleVerify.listid);
 console.log("InformacionAnterior-->"+InformacionAnterior);
 $("#SingleVerifyBoxDlgIdsearch").html(InformacionAnterior);
 	var dlgMsgBox = $('#SingleVerifyBoxDlgId');
@@ -58,6 +64,7 @@ $("#SingleVerifyBoxDlgIdsearch").html(InformacionAnterior);
 };
 
 SingleVerify.hide = function (){
+SingleVerify.listid = 0;
 	SingleVerify.code = "";
 	var dlgMsgBox = $('#SingleVerifyBoxDlgId');
 	dlgMsgBox.hide();
@@ -83,6 +90,7 @@ SingleVerify.save = function (){
 	$("#divElementVerif").html("");
 	SingleVerify.code = "";
 	$("#SingleVerifyBoxDlgIderrorMsg").text("");
+SingleVerify.listid = 0;
 };
 </script>
 
@@ -1596,6 +1604,8 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 			    $scope.InitSchool();
 
 			    $scope.InitLeaveCountry();
+			     disponibilityHtml();
+			     $scope.$apply();
 		    }
 		    catch(err){
 		    	alert("error catched Iniciate angular function erro==>"+err.message);
@@ -2583,9 +2593,7 @@ console.log("here5");
             	
 
             <div id="address" class="tab-pane"><!-- Begin of Domicilios -->
-                <!-- include file="/WEB-INF/jsp/reviewer/meeting/address/index.jsp" -->
 
-                <br />
 <div class="row element-center">
     <div class="col-xs-12">
         <h2> <i class="green  icon-home  bigger-100"></i>&nbsp;Domicilios</h2>
@@ -2595,8 +2603,6 @@ console.log("here5");
 		        <label class="text-primary">Observaciones: <b>{{m.CommentHome}}</b></label>
 		    </div>
 		</div>
-
-
 	@{int i = 0;}
     @foreach(var Dmcl in Model.JsonDomicilios) {
     i++;
@@ -2632,7 +2638,7 @@ console.log("here5");
 	    <div class="col-xs-3 element-right">
 	        <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
 	           ng-click="doConfirmVerifEqual('imputedHomes.phone',a.id);"></i>
-	        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"  ng-show="verification"
+	        <i class="icon-remove-circle red  icon-only bigger-120"  onclick="SingleVerify.show(this);" level-child="2"  ng-show="verification"
 	           code="imputedHomes.phone" id-element="{{a.id}}"></i>
 	        <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
 	           ng-click="doConfirmVerifNotKnow('imputedHomes.phone',a.id);"></i>
@@ -2658,7 +2664,7 @@ console.log("here5");
 	        <div class="col-xs-3 element-right">
 	            <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
 	               ng-click="doConfirmVerifEqual('imputedHomes.homeType.id',a.id);"></i>
-	            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
+	            <i class="icon-remove-circle red  icon-only bigger-120"  onclick="SingleVerify.show(this);" level-child="3" ng-show="verification"
 	               code="imputedHomes.homeType.id" id-element="{{a.id}}"></i>
 	            <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
 	               ng-click="doConfirmVerifNotKnow('imputedHomes.homeType.id',a.id);"></i>
@@ -2667,7 +2673,7 @@ console.log("here5");
 	            Tipo de propiedad:
 	        </div>
 	        <div class="col-xs-3">
-	            <select class="form-control element-center" name="imputedHomes.homeType.id" value="@Dmcl.HomeTypeId">
+	            <select class="form-control element-center" name="imputedHomes.homeType.id" value="@Dmcl.HomeTypeId" onchange="singleVerifyhometype(this);">
 @{switch(@Dmcl.HomeTypeId)
     {
         case 1:
@@ -2701,8 +2707,7 @@ console.log("here5");
 		            <input type="text" class="form-control" name="imputedHomes.specification"
 		                   data-val="true" value="@Dmcl.Specification"
 		                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
-		                   data-val-length-max="50" data-val-length-min="1"
-		                   data-val-required="La especificaci&oacute;n del tipo de propiedad es un campo requerido">
+		                   data-val-length-max="50" data-val-length-min="1">
 		         	<span class="field-validation-valid" data-valmsg-for="specification"
 		               data-valmsg-replace="true"></span>
 		        </div>
@@ -2734,7 +2739,7 @@ console.log("here5");
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifEqual('imputedHomes.registerType.id',a.id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" level-child="3" ng-show="verification"
-               code="imputedHomes.registerType.id" ></i>
+               code="imputedHomes.registerType.id"  onclick="SingleVerify.show(this);removeDisponibility ();"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('imputedHomes.registerType.id',a.id);"></i>
             <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
@@ -2742,7 +2747,7 @@ console.log("here5");
             Tipo de domiclio:
         </div>
         <div class="col-xs-3">
-            <select class="form-control element-center"  value="" name="imputedHomes.registerType.id">
+            <select class="form-control element-center"  value="" name="imputedHomes.registerType.id" onchange="singleVerifyregistertype(this);" >
 @{switch(@Dmcl.RegisterTypeId)
     {
         case 1:
@@ -2770,8 +2775,7 @@ e = "";
 }else{
 e="hide";
 }
- @e
-    <div class="row @e"  >
+    <div class="row @e register1 register2" style="position:relative;" >
         <div class="widget-box col-xs-10">
             <div class="widget-header">
                 <div class="row">
@@ -2821,8 +2825,7 @@ e="hide";
 						}else{
 							e= "hide";
 						}
-						 @e
-                        	<div class="row @e" >
+                        	<div class="row @e register2" >
                         	    <div class="col-xs-3">
                         	        Raz&oacute;n por la que tiene <br/>un domicilio secundario:
                         	    </div>
@@ -2837,8 +2840,8 @@ e="hide";
                         	                  data-valmsg-replace="true"></span>
                         	    </div>
                         	</div>
-                        <br/>@Dmcl.Schedule
-                        <div class="row">
+                        <br/>
+                        <div class="row registerDisponibilidad">
                             <div class="col-xs-12" >
                                 <div class="widget-header header-color-blue">
                                     <h5 class="bigger lighter">
@@ -2872,12 +2875,10 @@ e="hide";
                                                 </th>
                                             </tr>
                                             </thead>
-
                                             <tbody>
-
-                                           @if(Dmcl.Schedule!=null){
-                                           		@Dmcl.Schedule
-                                           }
+                                            <div class="castable">
+                                            	@Dmcl.Schedule
+                                            </div>
                                             </tbody>
                                         </table>
                                     </div>
@@ -2896,9 +2897,8 @@ e="hide";
 	}else{
 		e= "hide";
 	}
-	 @e
-    <div class="row @e" >
-        <div class="col-xs-10 col-xs-offset-1">
+    <div class="row @e register3" >
+        <div class="col-xs-10">
             <div class="widget-box">
                 <div class="widget-header">
                     <div class="row">
@@ -2925,7 +2925,6 @@ e="hide";
                                 </div>
                             </div>
                             <br/>
-
                             <div class="row element-left">
                                 <div class="col-xs-3">
                                     Motivo de la mudanza:
@@ -2958,129 +2957,8 @@ e="hide";
     }<!--end for each de domicilios-->
 
 
-
-
-<div id="toolbarDomicilios" class="btn-group">
-<a href="javascript:;">
-	    <button type="button" class="btn btn-default" id="btnAddDomicilio" ng-click="addImputedHome();">
-	        <i class="glyphicon glyphicon-plus"></i>
-	    </button>
-</a>
-	</div>
-	<script>
-	function elimirarDomicilioImputado(respuesta){
-		console.log("elimirarDomicilioImputado respuesta>>"+respuesta);
-		var valus = [];
-		valus[0]=respuesta;
-		var reslt = MeetingService.eraseImputedHome(respuesta);
-		console.log("reslt>>"+reslt);
-		$('#tr-IH-'+respuesta).remove();
-		$('#meetingImputedHomeTbl').bootstrapTable('refresh', {silent: true});
-		if($("#meetingImputedHomeTbl").html()==""){
-        $("#meetingImputedHomeTbl").html("<tr class='no-records-found'><td colspan='5'>No se encontraron registros</td></tr>");
-        }
-		console.log("tr de origen "+$("#meetingImputedHomeTbl").html());
-		askYesNo.hide();
-	}
-
-	function cancelElimirarDomicilioImputado(){
-		console.log("cancelElimirarDomicilioImputado >>");
-		askYesNo.hide();
-	}
-
-	function btnDeleteDomicilio (idHome){
-	askYesNo.yes = elimirarDomicilioImputado;
-	askYesNo.no = cancelElimirarDomicilioImputado;
-	askYesNo.referencia=idHome;
-	askYesNo.show();
-    	console.log("btnDeleteDomicilio idHome>>"+idHome);
-	}
-
-	function btnEditDomicilio (idHome){
-    	console.log("editImputedHome>>"+idHome);
-    	window.location.replace('hybrid:Meeting/EditMeetingDomicilio?idHome='+idHome);
-	}
-	</script>
-<table
-		data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]" 
-     data-pagination="true" data-height="450"
-     data-striped="true" data-search="true" 
-     data-search-align="right" data-toolbar="#toolbarDomicilios" class="element-center" style="margin: auto">		
-    <thead>
-    <tr>
-        <!--<th>ID</th>-->
-        <th>Direcci&oacute;n</th>
-        <th>Tel&eacute;fono</th>
-        <th>Tipo de domicilio</th>
-        <th>Tipo de propiedad</th>
-        <th>Acci&oacute;n</th>
-    </tr>
-    </thead>
-    <tbody id="meetingImputedHomeTbl">
-    @if(Model.JsonDomicilios==null){
-    }
-    else{
-    foreach(var Dmcl in Model.JsonDomicilios) {
-    <tr id='tr-IH-@Dmcl.Id' class="tr-class-1" >
-        <td id="td-id-1" class="td-class-1">
-            @Dmcl.addressString
-        </td>
-        <td>
-        	@Dmcl.Phone
-        </td>
-        <td>
-        @{switch(@Dmcl.RegisterTypeId)
-    {
-        case 1:
-            // Use the text block below to separate html elements from code
-                <label>Actual</label>
-            break;  // Always break each case
-        case 2:
-            <label>Secundario</label>
-            break;
-        case 3:
-       		<label>Anterior</label>
-        	break;
-        default:
-            <label></label>
-            break;                   
-    }
-    }
-        </td>
-        <td>
-         @{switch(@Dmcl.HomeTypeId)
-    {
-        case 1:
-            // Use the text block below to separate html elements from code
-                <label>Propia</label>
-            break;  // Always break each case
-        case 2:
-            <label>Rentada</label>
-            break;
-        case 3:
-       		<label>Prestada</label>
-        	break;
-        case 4:
-       		<label>Otro</label>
-        	break;
-        default:
-            <label></label>
-            break;                   
-    }
-    }
-        </td>
-        <td>
-        <a href="javascript:;" style="display:inline-block;" title="Eliminar domicilio" onclick="btnDeleteDomicilio('@Dmcl.Id');"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-        <a href="javascript:;" style="display:inline-block;" title="Editar Domicilio" onclick="btnEditDomicilio('@Dmcl.Id');"><span class="glyphicon glyphicon-pencil"></span></a>
-        </td>
-    </tr>
-	}
-}
-    </tbody>
-</table>	
     </div>
 </div>
-<br/><br/>
     <div class="col-xs-10 col-xs-offset-1">
         <div ng-show="msgSuccessDom" class="alert alert-success element-center success-font">
             <span>{{msgSuccessDom}}</span>
@@ -4731,8 +4609,8 @@ function validateVerif(formSerialize) {
             }
         });
     }
-    if (hasError)
-        return null;
+    //if (hasError)
+    //    return null;
     return submitElement;
 }
 
@@ -4754,9 +4632,58 @@ function validateVerif(formSerialize) {
 		}
     	//var degrees=JSON.parse(MeetingService.gradeByNivel( $scope.school.level['Id']));
    	}
+   	function singleVerifyhometype (self){
+   		console.log("self"+self);
+		if(self.value==4){
+			$("#hometypeSpecificationVerify" , "#FormVerifUpsertId").show();
+		}else{
+			$("#hometypeSpecificationVerify" , "#FormVerifUpsertId").hide();
+			$("#hometypeSpecificationVerify input" , "#FormVerifUpsertId").val("")
+		}
+	}
+
+	function singleVerifyregistertype (self){
+   		console.log("self register type ->"+self.value);
+		if(self.value==1){
+		$(".register1" , "#FormVerifUpsertId").addClass("hide");
+		$(".register2" , "#FormVerifUpsertId").addClass("hide");
+		$(".register3" , "#FormVerifUpsertId").addClass("hide");
+			$(".register1" , "#FormVerifUpsertId").removeClass("hide");
+		}
+		if(self.value==2){
+		$(".register1" , "#FormVerifUpsertId").addClass("hide");
+		$(".register2" , "#FormVerifUpsertId").addClass("hide");
+		$(".register3" , "#FormVerifUpsertId").addClass("hide");
+			$(".register2" , "#FormVerifUpsertId").removeClass("hide");
+		}
+		if(self.value==3){
+		$(".register1" , "#FormVerifUpsertId").addClass("hide");
+		$(".register2" , "#FormVerifUpsertId").addClass("hide");
+		$(".register3" , "#FormVerifUpsertId").addClass("hide");
+			$(".register3" , "#FormVerifUpsertId").removeClass("hide");
+		}
+		console.log("html->"+$("FormVerifUpsertId").html());
+
+	}
+	function removeDisponibility (){
+   		console.log("removeDisponibility->");
+		$(".registerDisponibilidad" , "#FormVerifUpsertId").hide().remove();
+	}
+
+	function disponibilityHtml(){
+		$(".castable").each(function(){
+		 console.log("disp table ->"+$(this).html());
+		  console.log("disp table ->"+$(this).text());
+	       $(this).html($(this).text());
+	       console.log("disp table ->"+$(this).html());
+	    });
+	    $("table").bootstrapTable();
+    }
+
 </script>
 
 
 
 
 
+ 

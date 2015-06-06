@@ -83,9 +83,6 @@
     <Compile Include="Views\MeetingList.cs">
       <DependentUpon>MeetingList.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewMeeting.cs">
-      <DependentUpon>NewMeeting.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Shared\headUm.cs">
       <DependentUpon>headUm.cshtml</DependentUpon>
     </Compile>
@@ -135,12 +132,6 @@
     </Compile>
     <Compile Include="Models\reviewer\SourcesTblDto.cs" />
     <Compile Include="Models\reviewer\VerificationMeetingSourceDto.cs" />
-    <Compile Include="Views\HearingFormat.cs">
-      <DependentUpon>HearingFormat.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\HearingFormatList.cs">
-      <DependentUpon>HearingFormatList.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Views\HearingFormatNew.cs">
       <DependentUpon>HearingFormatNew.cshtml</DependentUpon>
     </Compile>
@@ -152,6 +143,33 @@
     <Compile Include="Views\VerificacionInterview.cs">
       <DependentUpon>VerificacionInterview.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\HeadSupervition.cs">
+      <DependentUpon>HeadSupervition.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supervicion\HearingFormatTblDto.cs" />
+    <Compile Include="Models\reviewer\ImputedHomeVerification.cs" />
+    <Compile Include="Models\reviewer\BaseModelDto.cs" />
+    <Compile Include="Models\reviewer\ContainerModelDto.cs" />
+    <Compile Include="Models\reviewer\InnerModelDto.cs" />
+    <Compile Include="Views\NewConditionalReprieve.cs">
+      <DependentUpon>NewConditionalReprieve.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewMeeting.cs">
+      <DependentUpon>NewMeeting.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CaseHearingList.cs">
+      <DependentUpon>CaseHearingList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HearingFormatList.cs">
+      <DependentUpon>HearingFormatList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supervicion\HearingFormatGrid.cs" />
+    <Compile Include="Views\HearingFormatEdit.cs">
+      <DependentUpon>HearingFormatEdit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supervicion\HearingFormatEditDto.cs" />
+    <Compile Include="Models\Supervicion\HearingFormatView.cs" />
+    <Compile Include="Models\Supervicion\LocationDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -213,10 +231,6 @@
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>VerificationSourceList.cs</LastGenOutput>
     </None>
-    <None Include="Views\HearingFormat.cshtml">
-      <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>HearingFormat.cs</LastGenOutput>
-    </None>
     <None Include="Views\HearingFormatList.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>HearingFormatList.cs</LastGenOutput>
@@ -228,6 +242,22 @@
     <None Include="Views\VerificacionInterview.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>VerificacionInterview.cs</LastGenOutput>
+    </None>
+    <None Include="Views\Shared\HeadSupervition.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>HeadSupervition.cs</LastGenOutput>
+    </None>
+    <None Include="Views\NewConditionalReprieve.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>NewConditionalReprieve.cs</LastGenOutput>
+    </None>
+    <None Include="Views\CaseHearingList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>CaseHearingList.cs</LastGenOutput>
+    </None>
+    <None Include="Views\HearingFormatEdit.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>HearingFormatEdit.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +284,7 @@
     <Folder Include="Models\Shared\" />
     <Folder Include="Service\" />
     <Folder Include="Models\Verification\" />
+    <Folder Include="Models\Supervicion\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap-table\bootstrap.min.css" />

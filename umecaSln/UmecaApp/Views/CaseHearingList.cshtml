@@ -1,0 +1,60 @@
+﻿@model System.Collections.Generic.List<UmecaApp.HearingFormatTblDto>
+@inherits WebViewTemplate
+@{
+	Layout = "UmecaApp.HeadSupervition";
+}
+    <script type="text/javascript">
+    function hearing(idCase){
+		window.location.replace('hybrid:Supervision/HearingFormatList?idCase='+idCase);
+    }
+    </script>
+<h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Formato de Audiencia</h2>
+<br /> 
+<div id="toolbar2" class="btn-group">
+    <a href="@Url.Action("CaseConditionalReprieveEditNew","Supervision")">
+    <button type="button" class="btn btn-default" id="btnAdd">
+        <i class="glyphicon glyphicon-plus"></i>
+    </button></a>
+</div>
+    <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="250"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbar2">
+    <thead>
+    <tr>
+        <th>Carpeta de Investigaci&oacute;n</th>
+        <th>Carpeta Judicial</th>
+        <th>Nombre Completo</th>
+        <th>Estatus</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var CaseHearing in Model) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td>
+        	@CaseHearing.IdFolder
+        </td>
+        <td>
+        	@CaseHearing.IdMP
+        </td>
+        <td>
+        	@(CaseHearing.Name+" "+CaseHearing.LastNameP+" "+CaseHearing.LastNameM)
+        </td>
+        <td>
+       		@CaseHearing.StatusCode
+        </td>
+        <td>
+         @if(CaseHearing.StatusCode=="ST_CASE_CONDITIONAL_REPRIEVE") {
+         	<a href="javascript:;" style="display:inline-block;" title="Gestionar formatos de audiencia" onclick="hearing(@CaseHearing.CaseId);"><i class="icon-plus"></i></a>
+         }
+         else if(CaseHearing.StatusCode=="INCOMPLETE") {
+         	<a href="javascript:;" style="display:inline-block;" title="Visualizar formatos de audiencia" onclick="hearing(@CaseHearing.CaseId);"><span class="icon-pencil"></span></a>
+         }else{
+         	<a href="javascript:;" style="display:inline-block;" title="Visualizar formatos de audiencia" onclick="hearing(@CaseHearing.CaseId);"><span class="icon-eye-open"></span></a>
+         }
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

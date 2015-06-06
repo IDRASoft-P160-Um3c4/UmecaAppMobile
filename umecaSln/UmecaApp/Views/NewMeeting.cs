@@ -42,7 +42,7 @@ public override void Execute()
 #line hidden
 WriteLiteral(@"
       <script>
-    		
+    		 
     	app.controller('newMeettingController', function($scope, $http){
 			$scope.m = {};
 			$scope.Wait = false;
@@ -77,7 +77,46 @@ WriteLiteral(" ng-app=\"umecaMobile\"");
 
 WriteLiteral(" ng-controller=\"newMeettingController\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n");
+
+
+#line 35 "NewMeeting.cshtml"
+ if(Model.ResponseMessage!=null){
+
+
+#line default
+#line hidden
+WriteLiteral("\t<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n\t    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n\t        <div");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n\t            <span>");
+
+
+#line 39 "NewMeeting.cshtml"
+                 Write(Model.ResponseMessage);
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n\t            </span>\r\n\t        </div>\r\n\t    </div>\r\n\t</div>\r\n");
+
+
+#line 44 "NewMeeting.cshtml"
+}
+
+
+#line default
+#line hidden
+WriteLiteral("    <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -100,32 +139,14 @@ WriteLiteral(" id=\"nombreA\"");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <!--<input");
-
-WriteLiteral(" class=\"form-control ng-pristine n2g-valid\"");
-
-WriteLiteral(" data-val=\"true\"");
-
-WriteLiteral(" data-val-length=\"Debe tener al menos 3 y máximo 50 caracteres\"");
-
-WriteLiteral(" data-val-required=\"El nombre es un campo requerido\"");
-
-WriteLiteral(" data-val-length-max=\"50\"");
-
-WriteLiteral(" data-val-length-min=\"3\"");
-
-WriteLiteral(" id=\"name\"");
-
-WriteLiteral(" name=\"name\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(">-->\r\n");
+WriteLiteral(@">
+            <!--<input class=""form-control ng-pristine n2g-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-required=""El nombre es un campo requerido"" data-val-length-max=""50"" data-val-length-min=""3"" id=""name"" name=""name"" type=""text"">-->
+");
 
 WriteLiteral("            ");
 
 
-#line 47 "NewMeeting.cshtml"
+#line 57 "NewMeeting.cshtml"
        Write(Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"}));
 
 
@@ -155,32 +176,14 @@ WriteLiteral(">\r\n            Apellido paterno:\r\n        </div>\r\n        <d
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <!--<input");
-
-WriteLiteral(" class=\"form-control ng-pristine ng-valid\"");
-
-WriteLiteral(" data-val=\"true\"");
-
-WriteLiteral(" data-val-length=\"Debe tener al menos 3 y máximo 50 caracteres\"");
-
-WriteLiteral(" data-val-length-max=\"50\"");
-
-WriteLiteral(" data-val-length-min=\"3\"");
-
-WriteLiteral(" data-val-required=\"El apellido paterno es un campo requerido\"");
-
-WriteLiteral(" id=\"lastNameP\"");
-
-WriteLiteral(" name=\"lastNameP\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(">-->\r\n");
+WriteLiteral(@">
+            <!--<input class=""form-control ng-pristine ng-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-length-max=""50"" data-val-length-min=""3"" data-val-required=""El apellido paterno es un campo requerido"" id=""lastNameP"" name=""lastNameP"" type=""text"">-->
+");
 
 WriteLiteral("            ");
 
 
-#line 60 "NewMeeting.cshtml"
+#line 70 "NewMeeting.cshtml"
        Write(Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"}));
 
 
@@ -210,32 +213,14 @@ WriteLiteral(">\r\n            Apellido materno:\r\n        </div> \r\n        <
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <!--<input");
-
-WriteLiteral(" class=\"form-control ng-pristine ng-valid\"");
-
-WriteLiteral(" data-val=\"true\"");
-
-WriteLiteral(" data-val-length=\"Debe tener al menos 3 y máximo 50 caracteres\"");
-
-WriteLiteral(" data-val-length-max=\"50\"");
-
-WriteLiteral(" data-val-length-min=\"3\"");
-
-WriteLiteral(" data-val-required=\"El apellido materno es un campo requerido\"");
-
-WriteLiteral(" id=\"lastNameM\"");
-
-WriteLiteral(" name=\"lastNameM\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(">-->\r\n");
+WriteLiteral(@">
+            <!--<input class=""form-control ng-pristine ng-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-length-max=""50"" data-val-length-min=""3"" data-val-required=""El apellido materno es un campo requerido"" id=""lastNameM"" name=""lastNameM"" type=""text"">-->
+");
 
 WriteLiteral("            ");
 
 
-#line 74 "NewMeeting.cshtml"
+#line 84 "NewMeeting.cshtml"
        Write(Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"}));
 
 
@@ -270,42 +255,19 @@ WriteLiteral(">\r\n                                <div");
 
 WriteLiteral(" class=\"input-group\"");
 
-WriteLiteral(">\r\n                                    <!--<input");
-
-WriteLiteral(" class=\"form-control date-picker\"");
-
-WriteLiteral(" readonly=\"readonly\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" data-date-format=\"yyyy/mm/dd\"");
-
-WriteLiteral("\r\n                                            data-val=\"true\"");
-
-WriteLiteral(" data-val-required=\"La fecha de nacimiento es un campo requerido\"");
-
-WriteLiteral(" ng-init=\"birthDate=\'\'\"");
-
-WriteLiteral("\r\n                                            id=\"birthDate\"");
-
-WriteLiteral(" name=\"birthDate\"");
-
-WriteLiteral(" ng-model=\"birthDate\"");
-
-WriteLiteral("/>\r\n                                            <span");
-
-WriteLiteral(" class=\"input-group-addon\"");
-
-WriteLiteral(">\r\n                                                        <i");
-
-WriteLiteral(" class=\"icon-calendar bigger-110\"");
-
-WriteLiteral(" ></i>\r\n                                            </span>-->\r\n");
+WriteLiteral(@">
+                                    <!--<input class=""form-control date-picker"" readonly=""readonly"" type=""text"" data-date-format=""yyyy/mm/dd""
+                                            data-val=""true"" data-val-required=""La fecha de nacimiento es un campo requerido"" ng-init=""birthDate=''""
+                                            id=""birthDate"" name=""birthDate"" ng-model=""birthDate""/>
+                                            <span class=""input-group-addon"">
+                                                        <i class=""icon-calendar bigger-110"" ></i>
+                                            </span>-->
+");
 
 WriteLiteral("                                    ");
 
 
-#line 93 "NewMeeting.cshtml"
+#line 103 "NewMeeting.cshtml"
                                Write(Html.TextBox("DateBirth", @Model.DateBirth,
                                      new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
                                       @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
@@ -363,31 +325,17 @@ WriteLiteral(">\r\n                    <div");
 
 WriteLiteral(" class=\"radio\"");
 
-WriteLiteral(">\r\n                        <label>\r\n                            <!--<input");
-
-WriteLiteral(" class=\"ace\"");
-
-WriteLiteral(" type=\"radio\"");
-
-WriteLiteral(" ng-checked=\"gen==true\"");
-
-WriteLiteral(" name=\"gender\"");
-
-WriteLiteral("\r\n                                                       data-val-required=\"El g?" +
-"nero es un campo requerido\"");
-
-WriteLiteral(" id=\"genero\"");
-
-WriteLiteral(" value=\"true\"");
-
-WriteLiteral("\r\n                                                       ng-model=\"gen\"");
-
-WriteLiteral(">-->\r\n");
+WriteLiteral(@">
+                        <label>
+                            <!--<input class=""ace"" type=""radio"" ng-checked=""gen==true"" name=""gender""
+                                                       data-val-required=""El g?nero es un campo requerido"" id=""genero"" value=""true""
+                                                       ng-model=""gen"">-->
+");
 
 WriteLiteral("                            ");
 
 
-#line 119 "NewMeeting.cshtml"
+#line 129 "NewMeeting.cshtml"
                        Write(Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"}));
 
 
@@ -406,28 +354,14 @@ WriteLiteral(">\r\n                    <div");
 
 WriteLiteral(" class=\"radio\"");
 
-WriteLiteral(">\r\n                        <label>\r\n                            <!--<input");
-
-WriteLiteral(" class=\"ace ng-pristine ng-valid\"");
-
-WriteLiteral(" type=\"radio\"");
-
-WriteLiteral(" value=\"false\"");
-
-WriteLiteral(" ng-model=\"gen\"");
-
-WriteLiteral(" ng-checked=\"gen==false\"");
-
-WriteLiteral(" name=\"gender\"");
-
-WriteLiteral(" checked=\"checked\"");
-
-WriteLiteral(">-->\r\n");
+WriteLiteral(">\r\n                        <label>\r\n                            <!--<input class=" +
+"\"ace ng-pristine ng-valid\" type=\"radio\" value=\"false\" ng-model=\"gen\" ng-checked=" +
+"\"gen==false\" name=\"gender\" checked=\"checked\">-->\r\n");
 
 WriteLiteral("                            ");
 
 
-#line 128 "NewMeeting.cshtml"
+#line 138 "NewMeeting.cshtml"
                        Write(Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"}));
 
 
@@ -451,37 +385,15 @@ WriteLiteral(">\r\n           Carpeta de investigación:\r\n        </div>\r\n  
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n                <!--<input");
-
-WriteLiteral(" class=\"form-control ng-pristine ng-valid\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" data-val-length=\"Debe tener al menos 1 y máximo 15 caracteres\"");
-
-WriteLiteral(" data-val-length-max=\"15\"");
-
-WriteLiteral(" data-val-length-min=\"1\"");
-
-WriteLiteral(" data-val=\"true\"");
-
-WriteLiteral(" data-val-required=\"La carpeta de investigación es un campo requerido\"");
-
-WriteLiteral(" ng-init=\"m.idFolder=\'\'\"");
-
-WriteLiteral(" id=\"meeting.caseDetention.idFolder\"");
-
-WriteLiteral(" name=\"meeting.caseDetention.idFolder\"");
-
-WriteLiteral(" ng-model=\"m.idFolder\"");
-
-WriteLiteral(">-->\r\n");
+WriteLiteral(@">
+                <!--<input class=""form-control ng-pristine ng-valid"" type=""text"" data-val-length=""Debe tener al menos 1 y máximo 35 caracteres"" data-val-length-max=""35"" data-val-length-min=""1"" data-val=""true"" data-val-required=""La carpeta de investigación es un campo requerido"" ng-init=""m.idFolder=''"" id=""meeting.caseDetention.idFolder"" name=""meeting.caseDetention.idFolder"" ng-model=""m.idFolder"">-->
+");
 
 WriteLiteral("                ");
 
 
-#line 143 "NewMeeting.cshtml"
-           Write(Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 15 caracteres", @data_val_length_max="15", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
+#line 153 "NewMeeting.cshtml"
+           Write(Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
 
 
 #line default

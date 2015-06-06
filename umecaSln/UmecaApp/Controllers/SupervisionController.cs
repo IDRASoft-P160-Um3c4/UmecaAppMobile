@@ -6,6 +6,7 @@ using System.Linq;
 using SQLiteNetExtensions.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Umeca.Data;
 
 //TODO DONE StatusMeeting, Imputed, Case
 
@@ -52,261 +53,338 @@ namespace UmecaApp
 
 		public void Index()
 		{
-			services.createVerificationTest();
-			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
-			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
+			//services.createVerificationTest();
+			StatusCase statusCaseSupervition1 = services.statusCasefindByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+			StatusCase statusCaseSupervition2 = services.statusCasefindByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
+			StatusCase statusCaseSupervition3 = services.statusCasefindByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE);
+			StatusCase statusCaseSupervition4 = services.statusCasefindByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+			StatusCase statusCaseSupervition5 = services.statusCasefindByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+			StatusCase statusCaseSupervition6 = services.statusCasefindByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
+			StatusCase statusCaseSupervition7 = services.statusCasefindByCode(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
-			var result = db.Query<MeetingTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.name as 'StatusCode', csm.description as 'Description'"
-				+" FROM verification as me "
+			var result = db.Query<HearingFormatTblDto> (
+				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+				+" im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', scs.description as 'Description'"
+				+" FROM meeting as me "
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
-				+" WHERE me.id_status in (?,?) "
-				+" AND cs.id_status = ?; ", statusVerification1.Id, statusVerification2.Id, sc.Id);
-
-			Console.WriteLine ("result.count> {0}", result.Count);
-			var temp = new VerificationList{Model = result};
+				+" left JOIN cat_status_case as scs ON scs.id_status = cs.id_status "
+//				+" WHERE me.id_status in (?,?,?,?,?,?,?) "
+				+" Where cs.id_status in (?,?,?,?,?,?,?); ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
+				statusCaseSupervition3.Id, statusCaseSupervition4.Id,
+				statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id);
+			Console.WriteLine ("result.count supervition index> {0}", result.Count);
+			var temp = new CaseHearingList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
 
-		public void IndexFuentes(int idCase)
+		public void  CaseConditionalReprieveEditNew()
 		{
-			db.CreateTable<SourceVerification> ();
-			var caso = db.Table<Case> ().Where(cs => cs .Id == idCase).FirstOrDefault ();
-			var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
-			var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
-			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
-			var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true && sv.IsAuthorized == true && sv.IdCase == idCase && sv.DateComplete == null)).ToList ();
-			db.CreateTable<User> ();
-			var entrevistador = db.Table<User> ().Where (u => u.Id.Equals(meeting.ReviewerId)).FirstOrDefault ();
-			var result = new SourcesTblDto ();
-			result.Age=services.calculateAge(imputado.BirthDate);
-			result.CaseId = idCase;
-			result.FullnameImputed = imputado.Name+" "+imputado.LastNameP+" "+imputado.LastNameM;
-			result.SourceListJson = JsonConvert.SerializeObject (sources);
-			result.tEnd = meeting.DateTerminate.ToString();
-			result.tStart = meeting.DateCreate.ToString();
-			result.IdFolder = caso.IdFolder;
-			if (entrevistador == null) {
-				result.reviewerFullname = "";
-			} else {
-				result.reviewerFullname = entrevistador.fullname;
-			}
-			Console.WriteLine ("source--"+result.SourceListJson);
-			var temp = new VerificationSourceList{Model = result};
-			var pagestring = "nada que ver";  
-			pagestring = temp.GenerateString ();
-			webView.LoadHtmlString (pagestring);
-		}
-
-		public void ValidationMeetingBySource(int idSource)
-		{
-			db.CreateTable<SourceVerification> ();
-			var source = db.Table<SourceVerification> ().Where (sv => sv.Id==idSource ).FirstOrDefault ();
-			int idCase = source.IdCase;
-			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
-
-			var result = db.Query<VerificationMeetingSourceDto> (
-				"SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
-				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
-				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
-				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
-				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
-				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
-				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
-				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
-				+" ,me.id_meeting as 'MeetingId'"
-				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
-				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
-				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
-				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
-				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
-				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-				//				+" and me.id_reviewer = 2 "
-				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
-			result.CaseId = idCase;
-
-			result.ageString = services.calculateAge (result.BirthDate);
-
-			db.CreateTable<ImputedHome> ();
-			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
-			if(domiciliosImputado!=null){
-				result.JsonDomicilios = domiciliosImputado;
-			}
-
-
-			db.CreateTable<SocialEnvironment> ();
-			var SE = db.Table<SocialEnvironment> ().Where(s=> s.MeetingId==result.MeetingId).FirstOrDefault();
-			if(SE!=null){
-				result.PhysicalCondition = SE.physicalCondition;
-				result.comment = SE.comment;
-				var ActList = db.Table<RelActivity> ().Where(s=> s.SocialEnvironmentId==SE.Id).ToList();
-				if(ActList!=null&&ActList.Count>0){
-					result.Activities = JsonConvert.SerializeObject(ActList);
-				}
-			}
-			//socialNetworkComment
-			db.CreateTable<SocialNetwork> ();
-			var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == result.MeetingId).FirstOrDefault ();
-			if (socialNetComent != null) {
-				result.CommentSocialNetwork = socialNetComent.Comment;
-			} else {		
-				socialNetComent = new SocialNetwork ();
-				socialNetComent.Comment = "";
-				socialNetComent.MeetingId = result.MeetingId ?? 0;
-				db.Insert (socialNetComent);
-			}
-
-			//PersonSocialNetwork
-			db.CreateTable<PersonSocialNetwork> ();
-			var personsSocNet = db.Table<PersonSocialNetwork> ().Where (sn=>sn.SocialNetworkId==socialNetComent.Id).ToList ();
-			if(personsSocNet!=null){
-				result.JsonPersonSN = personsSocNet;
-			}else{
-				result.JsonPersonSN = null;
-			}
-
-			//Reference
-			db.CreateTable<Reference> ();
-			var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
-			if(references!=null){
-				result.JsonReferences = references;
-			}else{
-				result.JsonReferences = null;
-			}
-
-			//Laboral History
-			db.CreateTable<Job> ();
-			var trabajos = db.Table<Job> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
-			if(trabajos!=null){
-				result.JsonJobs = trabajos;
-			}else{
-				result.JsonJobs = null;
-			}
-
-			//school history
-			db.CreateTable<School> ();
-			var escuelaUtlActual = db.Table<School> ().Where (sc=>sc.MeetingId == result.MeetingId).FirstOrDefault ();
-			if (escuelaUtlActual != null) {
-				result.SchoolAddress = escuelaUtlActual.Address;
-				result.SchoolBlock = escuelaUtlActual.block;
-				result.SchoolDegreeId = escuelaUtlActual.DegreeId.GetValueOrDefault ();
-				result.SchoolName = escuelaUtlActual.Name;
-				result.SchoolPhone = escuelaUtlActual.Phone;
-				result.SchoolSpecification = escuelaUtlActual.Specification;
-			}
-
-
-			//DROGAS
-			db.CreateTable<Drug> ();
-			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
-			if(drogas!=null){
-				result.JsonDrugs = drogas;
-			}else{
-				result.JsonDrugs = null;
-			}
-
-
-			db.CreateTable<Schedule>();
-			if(escuelaUtlActual!=null){
-				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
-				if(schedule!=null){
-					result.ScheduleSchool = schedule;
-				}
-			}
-
-			//leave country
-			db.CreateTable<LeaveCountry> ();
-			var leaveActual = db.Table<LeaveCountry> ().Where (lv => lv.MeetingId == result.MeetingId).FirstOrDefault ();
-			if (leaveActual != null) {
-				result.OfficialDocumentationId = leaveActual.OfficialDocumentationId;
-				result.LivedCountryId = leaveActual.LivedCountryId;
-				result.timeAgo = leaveActual.timeAgo;
-				result.Reason = leaveActual.Reason;
-				result.FamilyAnotherCountryId = leaveActual.FamilyAnotherCountryId;
-				result.CountryId = leaveActual.CountryId;
-				result.State = leaveActual.State;
-				result.Media = leaveActual.Media;
-				result.Address = leaveActual.Address;
-				result.ImmigrationDocumentId = leaveActual.ImmigrationDocumentId;
-				result.RelationshipId = leaveActual.RelationshipId;
-				result.TimeResidence = leaveActual.TimeResidence;
-				result.SpecficationImmigranDoc = leaveActual.SpecficationImmigranDoc;
-				result.SpecificationRelationship = leaveActual.SpecificationRelationship;
-				result.CommunicationFamilyId = leaveActual.CommunicationFamilyId;
-			}
-			//End leave country
-
-
-			string output = JsonConvert.SerializeObject(result);
-			result.JsonMeeting = output;
-
-
-			result.JsonCountrys = this.JsonCountrys;
-			result.JsonStates = this.JsonStates;
-			result.JsonMunycipality = this.JsonMunycipality;
-			result.JsonElection = this.JsonElection;
-			result.JsonActivities = this.JsonActivities;
-
-			//result source
-			result.SourceAddress = source.Address;
-			result.SourceAge = source.Age;
-			result.SourceName = source.FullName;
-			result.SourcePhone = source.Phone;
-			var SourceRelationship = db.Table<Relationship> ().Where (sore=> sore.Id==source.RelationshipId).FirstOrDefault ();
-			if (SourceRelationship.Equals (null)) {
-				result.SourceRelationshipString = "";
-			} else {
-				result.SourceRelationshipString = SourceRelationship.Name;
-			}
-
-			var temp = new VerificacionInterview{Model = result };
+			var temp = new NewConditionalReprieve{Model = new NewMeetingDto() };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
-			
-		public void IndexVerificacion()
+
+		public void AddCaseConditionalReprieve([Bind]NewMeetingDto model) {
+			Console.WriteLine ("AddCaseConditionalReprieve");
+			String validateCreateMsg = validateCaseConditionalReprieve(model);
+			if (validateCreateMsg != null) {
+				model.ResponseMessage = validateCreateMsg;
+				var temp = new NewConditionalReprieve{ Model = model };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			} else {
+				int? idCase = createCaseConditionalReprieve(model);
+				int az = idCase.GetValueOrDefault ();
+				Index();
+			}
+		}
+
+		public String validateCaseConditionalReprieve(NewMeetingDto model) {
+			if (model.DateBirth.HasValue) {
+				int age = services.calculateAge(model.DateBirth.Value);
+				if (age.CompareTo(18)<0) {
+					return "El imputado debe tener más de 18 años para continuar";
+				}
+			} else {
+				return "Favor de ingresar la fecha de nacimiento del imputado.";
+			}
+			if (model.IdMP != null) {
+				var repeated = 0;
+				var fonetic = services.getFoneticByName(model.Name,model.LastNameP,model.LastNameM);
+				var casos = db.Table<Case> ().Where (cs=>cs.IdMP==model.IdMP).ToList ();
+				if (casos != null && casos.Count > 0) {
+					foreach(Case c in casos){
+						var entrevistas = db.Table<Meeting> ().Where (ent=>ent.CaseDetentionId==c.Id).ToList ();
+						if(entrevistas != null && entrevistas.Count > 0) {
+							foreach(Meeting entrevista in entrevistas){
+								var imputado = db.Table<Imputed> ().Where (imp=>imp.MeetingId==entrevista.Id
+									&& imp.FoneticString==fonetic
+									&& imp.BirthDate==model.DateBirth).ToList ();
+								if (imputado != null && imputado.Count > 0) {
+									repeated++;
+								}
+							}
+						}
+					}
+
+				}
+				if(repeated>0){
+					return "El número de carpeta judicial y el imputado ya se encuentran registrados.";
+				}
+			} else {
+				return "Favor de ingresar el número de carpeta judicial para continuar";
+			}
+			return null;
+		}
+
+		public int? createCaseConditionalReprieve(NewMeetingDto imputed) {
+			int? result = null;
+			try {
+				Case caseDetention = new Case();
+				Imputed newImputed = new Imputed();
+				newImputed.Name=imputed.Name.Trim();
+				newImputed.LastNameP=imputed.LastNameP.Trim();
+				newImputed.LastNameM=imputed.LastNameM.Trim();
+				newImputed.FoneticString=services.getFoneticByName(imputed.Name, imputed.LastNameP, imputed.LastNameM);
+				newImputed.Gender=imputed.Gender.GetValueOrDefault();
+				newImputed.BirthDate=imputed.DateBirth.GetValueOrDefault();
+
+				var reincident = db.Table<Imputed>().Where(impu=>impu.LastNameM==newImputed.LastNameM
+					&&impu.LastNameP==newImputed.LastNameP && impu.Name==newImputed.Name
+					&& impu.BirthDate==newImputed.BirthDate).ToList();
+				if(reincident!=null&&reincident.Count>0){
+					caseDetention.Recidivist = true;
+				}else{
+					caseDetention.Recidivist = false;
+				}
+
+				caseDetention.Status=services.statusCasefindByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+				caseDetention.StatusCaseId=services.statusCasefindByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE).Id;
+
+				caseDetention.IdMP=imputed.IdMP;
+				caseDetention.IdFolder = "SIN EVALUACIÓN REGISTRADA";
+
+				caseDetention.DateCreate=DateTime.Today;
+				//caseDetention.setChangeArrangementType(false);
+				// se agrega para poder contar si un caso cambia de MC a SCPP en algun formato de audiencia
+				//caseDetention = caseRepository.save(caseDetention);
+				db.InsertWithChildren (caseDetention);
+				Meeting meeting = new Meeting();
+				meeting.MeetingType=Constants.MEETING_CONDITIONAL_REPRIEVE;
+				meeting.CaseDetentionId=caseDetention.Id;
+				meeting.CaseDetention = caseDetention;
+				StatusMeeting statusMeeting = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
+				meeting.StatusMeetingId=statusMeeting.Id;
+				meeting.StatusMeeting=statusMeeting;
+				//				meeting.ReviewerId=LoggedUserId(); TODO agrega al usuario asociado al dispositivo
+				meeting.DateCreate=DateTime.Today;
+				//				meeting = meetingRepository.save(meeting);
+				db.InsertWithChildren (meeting);
+				newImputed.MeetingId=meeting.Id;
+				newImputed.Meeting = meeting;
+				db.InsertWithChildren (newImputed);
+				db.UpdateWithChildren (meeting);
+				db.UpdateWithChildren (caseDetention);
+				//				imputedRepository.save(imputed);
+				result = caseDetention.Id;
+			} catch (Exception e) {
+				Console.WriteLine("e.Message>"+e.Message+"<< createMeeting");
+			} 
+			return result;
+		}
+
+		public void HearingFormatList(int idCase)
 		{
-			services.createVerificationTest();
-			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
-			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
-			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
+			var caso = db.Table<Case> ().Where(cs => cs .Id == idCase).FirstOrDefault ();
+			var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
+			var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
+			var result = new List<HearingFormatGrid> ();
 
-			var result = db.Query<MeetingTblDto> (
-@"SELECT 
-	cs.id_case as 'CaseId',
-	cs.id_folder as 'IdFolder',
-	im.name as 'Name',
-	im.lastname_p as 'LastNameP',
-	im.lastname_m as 'LastNameM',
-	im.birth_date as 'DateBirth', 
-	im.gender as 'Gender', 
-	csm.status as 'StatusCode', 
-	csm.description as 'Description'
-FROM 
-	meeting as me
-	left JOIN case_detention as cs ON me.id_case = cs.id_case
-	left JOIN imputed as im ON im.id_meeting = me.id_meeting
-	left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status
-	WHERE me.id_status in (?,?)
-	AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
+			var formatosAudiencia = db.Table<HearingFormat> ().Where (hf=>hf.CaseDetention == idCase).ToList ();
+			if (formatosAudiencia != null && formatosAudiencia.Count > 0) {
+				foreach(HearingFormat au in formatosAudiencia){
+					var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp=>hfimp.Id==au.hearingImputed).FirstOrDefault ();
+					var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs=>hfspcs.Id==au.HearingFormatSpecs).FirstOrDefault ();
+					var parsing = new HearingFormatGrid (au.Id,au.IsFinished,au.IdFolder,au.IdJudicial,imputedAu.Name,imputedAu.LastNameP,imputedAu.LastNameM,specs.ArrangementType,specs.Extension,specs.LinkageProcess,au.RegisterTime.GetValueOrDefault(),"TODO: supervisor",idCase);
+					result.Add (parsing);
+				}
+			}
+			Console.WriteLine ("source--"+result.Count);
+			var temp = new HearingFormatList{Model = result};
+			var pagestring = "nada que ver";  
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
 
-			Console.WriteLine ("carga de casos "+result.Count);
+		public void  HearingFormatUpsert(int idCase,int idAudiencia)
+		{
+			var view = new HearingFormatEditDto();
+			var hearingFormatData = new HearingFormatView ();
 
-			var temp = new MeetingList{Model = result};
+
+
+
+
+			var temp = new HearingFormatEdit{Model = new HearingFormatEditDto() };
+			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
+
+		public HearingFormatView newHearingFormatByCase(int idCase){
+			var hearingFormatData = new HearingFormatView ();
+			var formatosAnteriores = db.Table<HearingFormat>().Where(hf=>hf.CaseDetention==idCase).ToList();
+			//intenta traer los formatos anteriores y con eso llenar el nuevo formato
+			if (formatosAnteriores != null && formatosAnteriores.Count > 0) {
+				var ultimo = formatosAnteriores.OrderByDescending (hf => hf.Id).First ();
+				hearingFormatData = fillHearingFormaData(ultimo.Id);
+			} else {
+				var caso = db.Table<Case> ().Where (cs => cs.Id == idCase).FirstOrDefault ();
+				var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
+				var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
+				hearingFormatData.InitTime = DateTime.Now;
+				hearingFormatData.AppointmentDate = DateTime.Today;
+				hearingFormatData.IdCase = caso.Id;
+				hearingFormatData.IdFolder = caso.IdFolder;
+				hearingFormatData.IdJudicial = caso.IdMP;
+				hearingFormatData.ImputedName = imputado.Name;
+				hearingFormatData.ImputedFLastName = imputado.LastNameP;
+				hearingFormatData.ImputedSLastName = imputado.LastNameM;
+				hearingFormatData.ImputedBirthDate = imputado.BirthDate;
+				var usuario = db.Table<User> ().ToList ();
+				hearingFormatData.UserName =  usuario.First ().fullname;
+
+//				if (meeting.MeetingType == Constants.MEETING_PROCEDURAL_RISK) {
+//					var verificacion = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
+//					if (verificacion != null&&verificacion.MeetingId!=null) {
+//						meeting = db.Table<Meeting> ().Where (me => me.Id == verificacion.MeetingId).FirstOrDefault ();
+//						if(meeting==null){
+//							meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
+//						}
+//					}
+//				}
+			}
+			hearingFormatData.HasPrevHF = true;
+			hearingFormatData.CanSave = true;
+			hearingFormatData.CanEdit = true;
+			hearingFormatData.DisableAll = false;
+			return hearingFormatData;
+		}
+
+
+		public HearingFormatView fillHearingFormaData(int idFormato){
+			var result = new HearingFormatView ();
+			var formatosFuente = db.Table<HearingFormat>().Where(hf=>hf.Id==idFormato).FirstOrDefault();
+			if(formatosFuente!=null){
+
+			}
+			result.IdFormat = formatosFuente.Id;
+			result.IdCase = formatosFuente.CaseDetention;
+
+			result.IdFolder = result.IdFolder;
+			result.IdJudicial = result.IdJudicial;
+			result.AppointmentDate = result.AppointmentDate;
+			result.Room = formatosFuente.Room;
+			result.InitTime = formatosFuente.InitTime??DateTime.Now;
+			result.EndTime = formatosFuente.EndTime??DateTime.Now;
+			result.JudgeName = formatosFuente.JudgeName;
+			result.MpName = formatosFuente.MpName;
+			result.DefenderName = formatosFuente.DefenderName;
+
+			var imputado = db.Table<HearingFormatImputed> ().Where (imp => imp.Id == formatosFuente.hearingImputed).FirstOrDefault ();
+			if(imputado!=null&&imputado.Id>0){
+				result.ImputedName = imputado.Name;
+				result.ImputedFLastName = imputado.LastNameP;
+				result.ImputedSLastName = imputado.LastNameM;
+				result.ImputedBirthDate = imputado.BirthDate;
+				result.ImputedTel = imputado.ImputeTel;
+			}
+
+			result.UmecaDate = formatosFuente.UmecaDate??DateTime.Now;
+			result.UmecaTime = formatosFuente.UmecaTime ?? DateTime.Now;
+
+			var usuario = db.Table<User> ().ToList ();
+			result.UserName =  usuario.First ().fullname;
+
+			if (formatosFuente.HearingType > 0) {
+				result.HearingTypeId = formatosFuente.HearingType;
+				result.HearingTypeSpecification = formatosFuente.HearingTypeSpecification;
+			}
+
+			result.ImputedPresence = formatosFuente.ImputedPresence;
+			result.HearingResult = formatosFuente.HearingResult;
+
+			if(imputado!=null&&imputado.Id>0){
+				result.IdAddres = imputado.Address;
+			}
+
+			var specs = db.Table<HearingFormatSpecs> ().Where (hfs=> hfs.Id == formatosFuente.HearingFormatSpecs).FirstOrDefault ();
+
+			if (specs != null) {
+				result.ControlDetention = specs.ControlDetention;
+				result.Extension = specs.Extension;
+				result.ExtDate = specs.ExtDate??DateTime.Now;
+				result.ImpForm = specs.ImputationFormulation;
+				result.ImputationDate = specs.ImputationDate??DateTime.Now;
+				result.VincProcess = specs.LinkageProcess;
+				result.LinkageRoom = specs.LinkageRoom;
+				result.ImputationDate = specs.LinkageDate??DateTime.Now;
+				result.LinkageTime = specs.LinkageTime ??DateTime.Now;
+			}
+
+			if(specs!=null&&specs.LinkageProcess>0
+				&&(specs.LinkageProcess==Constants.PROCESS_VINC_YES||specs.LinkageProcess==Constants.PROCESS_VINC_NO_REGISTER)){
+				result.ArrangementType = specs.ArrangementType;
+				result.NationalArrangement = specs.NationalArrangement;
+				result.Terms = formatosFuente.Terms;
+			}
+
+			var contactos = db.Table<ContactData> ().Where (con=>con.HearingFormat == formatosFuente.Id).ToList ();
+			if(contactos!=null&&contactos.Count>0){
+				result.LstContactData = JsonConvert.SerializeObject(contactos);
+			}
+
+
+//			if (specs != null && specs.NationalArrangement != null && specs.ArrangementType !=null) {
+//				
+//				//List<ArrangementView> lstExistArrangement = db.tablethis.getArrangmentLst(existHF.getHearingFormatSpecs().getNationalArrangement(), existHF.getHearingFormatSpecs().getArrangementType());
+//
+//				//hearingFormatView.setLstArrangement(conv.toJson(this.selectedAssignedArrangementForView(lstExistArrangement, existHF.getAssignedAr//rangements())));
+//			}
+
+//			if (existHF.getHearingFormatSpecs() != null && existHF.getHearingFormatSpecs().getLinkageProcess() != null &&
+//				(existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES) || existHF.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
+//				hearingFormatView.setArrangementType(existHF.getHearingFormatSpecs().getArrangementType());
+//				hearingFormatView.setNationalArrangement(existHF.getHearingFormatSpecs().getNationalArrangement());
+//				hearingFormatView.setTerms(existHF.getTerms());
+//
+//				if (existHF.getHearingFormatSpecs().getNationalArrangement() != null && existHF.getHearingFormatSpecs().getArrangementType() != null) {
+//
+//					List<ArrangementView> lstExistArrangement = this.getArrangmentLst(existHF.getHearingFormatSpecs().getNationalArrangement(), existHF.getHearingFormatSpecs().getArrangementType());
+//					hearingFormatView.setLstArrangement(conv.toJson(this.selectedAssignedArrangementForView(lstExistArrangement, existHF.getAssignedArrangements())));
+//				}
+//
+//				hearingFormatView.setLstContactData(conv.toJson(this.contactDataForView(existHF.getContacts())));
+//			}
+//
+//			hearingFormatView.setImputedPresence(existHF.getImputedPresence());
+//			hearingFormatView.setHearingResult(existHF.getHearingResult());
+//			hearingFormatView.setPreviousHearing(existHF.getPreviousHearing());
+//
+//
+//			hearingFormatView.setComments(existHF.getComments());
+//			hearingFormatView.setIsFinished(false);
+			return result;
+		}
+
+
+
 	}
 }

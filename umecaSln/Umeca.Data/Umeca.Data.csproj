@@ -74,7 +74,6 @@
     <Compile Include="com\umeca\entities\catalog\Election.cs" />
     <Compile Include="com\umeca\entities\catalog\FieldVerfication.cs" />
     <Compile Include="com\umeca\entities\catalog\GroupCrime.cs" />
-    <Compile Include="com\umeca\entities\catalog\HearingType.cs" />
     <Compile Include="com\umeca\entities\catalog\HomeType.cs" />
     <Compile Include="com\umeca\entities\catalog\ImmigrationDocument.cs" />
     <Compile Include="com\umeca\entities\catalog\InsertCatalogs.cs" />
@@ -108,6 +107,18 @@
     <Compile Include="com\umeca\entities\shared\Contact.cs" />
     <Compile Include="com\umeca\entities\shared\Person.cs" />
     <Compile Include="com\umeca\entities\reviewer\Job.cs" />
+    <Compile Include="com\umeca\entities\supervisor\HearingFormat.cs" />
+    <Compile Include="com\umeca\entities\supervisor\HearingType.cs" />
+    <Compile Include="com\umeca\entities\supervisor\HearingFormatSpecs.cs" />
+    <Compile Include="com\umeca\entities\supervisor\AssignedArrangement.cs" />
+    <Compile Include="com\umeca\entities\supervisor\Arrangement.cs" />
+    <Compile Include="com\umeca\entities\supervisor\ContactData.cs" />
+    <Compile Include="com\umeca\entities\supervisor\HearingFormatImputed.cs" />
+    <Compile Include="com\umeca\entities\supervisor\Crime.cs" />
+    <Compile Include="com\umeca\entities\supervisor\CrimeCatalog.cs" />
+    <Compile Include="com\umeca\entities\supervisor\GroupCrime.cs" />
+    <Compile Include="com\umeca\entities\catalog\address\Address.cs" />
+    <Compile Include="com\umeca\entities\supervisor\ArrangementView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -122,5 +133,8 @@
       <Version>1.0.8.3</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="com\umeca\entities\supervisor\" />
   </ItemGroup>
 </Project>

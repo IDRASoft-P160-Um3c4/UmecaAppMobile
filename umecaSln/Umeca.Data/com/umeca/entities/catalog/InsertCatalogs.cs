@@ -7,6 +7,7 @@ using SQLite.Net;
 using System.Linq;
 using Environment = System.Environment;
 using System.Collections.Generic;
+using Umeca.Data;
 
 namespace UmecaApp
 {
@@ -24,7 +25,7 @@ namespace UmecaApp
 			InsertDrugType (act);
 			InsertElection (act);
 			InsertFieldVerification (act);
-			InsertHearingFormatType (act);
+			InsertHearingType (act);
 			InsertHomeType (act);
 			InsertImmigrationDocument (act);
 			InsertMaritalStatus (act);
@@ -36,9 +37,16 @@ namespace UmecaApp
 			InsertStatusVerification (act);
 			InsertLocationCat (act);
 			//
-			InsertHomeType(act);
+			InsertHomeType (act);
 			InsertRegisterType (act);
+
+			InsertArrangement (act);
+			InsertGroupCrime (act);
+			InsertCrimeCatalog (act);
+
+
 			CreateTablesToConsult ();
+
 		}
 
 		public void CreateTablesToConsult(){
@@ -356,7 +364,7 @@ namespace UmecaApp
 			db.Close ();
 		}
 
-		public void InsertHearingFormatType(Activity act){
+		public void InsertHearingType(Activity act){
 //			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
 			var db = new SQLiteConnection(
 				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
@@ -372,6 +380,80 @@ namespace UmecaApp
 					try{
 						HearingType model = new HearingType ();
 						model.Id = int.Parse(line [0]);
+						model.Description = line[1];
+						model.IsObsolete = line[2].Equals("1");
+						model.Lock = line[3].Equals("1");
+						model.Specification = line[4].Equals("1");
+						entities.Add(model);
+					}catch(Exception e){
+						Console.WriteLine ("HearingType error "+e.Message);
+					}
+				}
+				db.InsertAll (entities);
+				var content = db.Table<HearingType> ().ToList();
+				Console.WriteLine ("Se inserto en tabla HearingType:");
+				foreach (HearingType m in content) {
+					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Description);
+				}
+			}
+			db.Close ();
+		}
+
+		public void InsertArrangement(Activity act){
+			//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<Arrangement> ();
+			if (db.Table<Arrangement> ().Count () == 0) {
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/arrangement.txt", act);
+				List<Arrangement> entities=new List<Arrangement>(); 
+				foreach (String[] line in data) { 
+					try{
+						Arrangement model = new Arrangement ();
+						model.Id = int.Parse(line [0]);
+						model.Description = line[1];
+						model.Type = int.Parse(line[2]);
+						model.Index = int.Parse(line[3]);
+						model.IsObsolete = line[4].Equals("1");
+						model.IsNational = line[5].Equals("1");
+						model.IsDefault = line[6].Equals("1");
+						model.IsExclusive = line[7].Equals("1");
+						entities.Add(model);
+					}catch(Exception e){
+						Console.WriteLine ("HearingType error "+e.Message);
+					}
+				}
+				db.InsertAll (entities);
+				var content = db.Table<HearingType> ().ToList();
+				Console.WriteLine ("Se inserto en tabla HearingType:");
+				foreach (HearingType m in content) {
+					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Description);
+				}
+			}
+			db.Close ();
+		}
+
+
+		public void InsertGroupCrime(Activity act){
+			//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<GroupCrime> ();
+			if (db.Table<GroupCrime> ().Count () == 0) {
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/group_crime.txt", act);
+				List<GroupCrime> entities=new List<GroupCrime>(); 
+				foreach (String[] line in data) { 
+					try{
+						GroupCrime model = new GroupCrime ();
+						model.Id = int.Parse(line [0]);
 						model.Name = line[1];
 						model.Description = line[2];
 						model.IsObsolete = line[3].Equals("1");
@@ -384,7 +466,42 @@ namespace UmecaApp
 				var content = db.Table<HearingType> ().ToList();
 				Console.WriteLine ("Se inserto en tabla HearingType:");
 				foreach (HearingType m in content) {
-					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
+					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Description);
+				}
+			}
+			db.Close ();
+		}
+
+		public void InsertCrimeCatalog(Activity act){
+			//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<CrimeCatalog> ();
+			if (db.Table<CrimeCatalog> ().Count () == 0) {
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/crime.txt", act);
+				List<CrimeCatalog> entities=new List<CrimeCatalog>(); 
+				foreach (String[] line in data) { 
+					try{
+						CrimeCatalog model = new CrimeCatalog ();
+						model.Id = int.Parse(line [0]);
+						model.Name = line[1];
+						model.Description = line[2];
+						model.IsObsolete = line[3].Equals("1");
+						model.GroupCrimeId = int.Parse(line[4]);
+						entities.Add(model);
+					}catch(Exception e){
+						Console.WriteLine ("HearingType error "+e.Message);
+					}
+				}
+				db.InsertAll (entities);
+				var content = db.Table<HearingType> ().ToList();
+				Console.WriteLine ("Se inserto en tabla HearingType:");
+				foreach (HearingType m in content) {
+					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Description);
 				}
 			}
 			db.Close ();

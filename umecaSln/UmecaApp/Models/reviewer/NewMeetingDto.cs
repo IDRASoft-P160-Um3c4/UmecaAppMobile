@@ -12,6 +12,8 @@ namespace UmecaApp
 
 		public String IdFolder{ get; set; }
 
+		public String IdMP{ get; set; }
+
 		public String Name{ get; set; }
 
 		public String LastNameP{ get; set; }

@@ -7,113 +7,113 @@ id|name|description|obsolete
 6|Abuso sexual|Abuso sexual|0
 7|Abuso sexual agravado|Abuso sexual agravado|0
 8|Acopio de armas|Acopio de armas|0
-9|Acusaci髇 o denuncias falsas|Acusaci髇 o denuncias falsas|0
-10|Administraci髇 fraudulenta|Administraci髇 fraudulenta|0
+9|Acusaci贸n o denuncias falsas|Acusaci贸n o denuncias falsas|0
+10|Administraci贸n fraudulenta|Administraci贸n fraudulenta|0
 11|Allanamiento de morada|Allanamiento de morada|0
-12|Alteraci髇 de la imagen urbana|Alteraci髇 de la imagen urbana|0
+12|Alteraci贸n de la imagen urbana|Alteraci贸n de la imagen urbana|0
 13|Amenazas|Amenazas|0
 14|Asalto|Asalto|0
-15|Asociaci髇 delictuosa|Asociaci髇 delictuosa|0
-16|Asonada o mot韓|Asonada o mot韓|0
-17|Ataques a las v韆s de comunicaci髇|Ataques a las v韆s de comunicaci髇|0
+15|Asociaci贸n delictuosa|Asociaci贸n delictuosa|0
+16|Asonada o mot铆n|Asonada o mot铆n|0
+17|Ataques a las v铆as de comunicaci贸n|Ataques a las v铆as de comunicaci贸n|0
 18|Auxilio al suicidio|Auxilio al suicidio|0
 19|Bigamia|Bigamia|0
-20|Coacci髇|Coacci髇|0
-21|Coalici髇|Coalici髇|0
+20|Coacci贸n|Coacci贸n|0
+21|Coalici贸n|Coalici贸n|0
 22|Cohecho|Cohecho|0
-23|Concusi髇|Concusi髇|0
-24|Da駉|Da駉|0
+23|Concusi贸n|Concusi贸n|0
+24|Da帽o|Da帽o|0
 25|Delitos cometidos contra los derechos electorales de los ciudadanos|Delitos cometidos contra los derechos electorales de los ciudadanos|0
-26|Delitos cometidos en el ejercicio de una actividad profesional, art韘tica o t閏nica|Delitos cometidos en el ejercicio de una actividad profesional, art韘tica o t閏nica|0
+26|Delitos cometidos en el ejercicio de una actividad profesional, art铆stica o t茅cnica|Delitos cometidos en el ejercicio de una actividad profesional, art铆stica o t茅cnica|0
 27|Delitos cometidos por abogados, defensores y litigantes|Delitos cometidos por abogados, defensores y litigantes|0
 28|Delitos cometidos por fraccionadores|Delitos cometidos por fraccionadores|0
-29|Delitos cometidos por servidores p鷅licos|Delitos cometidos por servidores p鷅licos|0
-30|Delitos contra el equilibrio ecol骻ico y la protecci髇 al ambiente|Delitos contra el equilibrio ecol骻ico y la protecci髇 al ambiente|0
+29|Delitos cometidos por servidores p煤blicos|Delitos cometidos por servidores p煤blicos|0
+30|Delitos contra el equilibrio ecol贸gico y la protecci贸n al ambiente|Delitos contra el equilibrio ecol贸gico y la protecci贸n al ambiente|0
 31|Delitos contra el estado civil|Delitos contra el estado civil|0
-32|Delitos contra el respeto a los muertos, violaci髇 de las leyes sobre inhumaci髇 y exhumaci髇 de cad醰eres|Delitos contra el respeto a los muertos, violaci髇 de las leyes sobre inhumaci髇 y exhumaci髇 de cad醰eres|0
-33|Delitos contra la filiaci髇|Delitos contra la filiaci髇|0
-34|Delitos contra la seguridad del tr醤sito de veh韈ulos|Delitos contra la seguridad del tr醤sito de veh韈ulos|0
+32|Delitos contra el respeto a los muertos, violaci贸n de las leyes sobre inhumaci贸n y exhumaci贸n de cad谩veres|Delitos contra el respeto a los muertos, violaci贸n de las leyes sobre inhumaci贸n y exhumaci贸n de cad谩veres|0
+33|Delitos contra la filiaci贸n|Delitos contra la filiaci贸n|0
+34|Delitos contra la seguridad del tr谩nsito de veh铆culos|Delitos contra la seguridad del tr谩nsito de veh铆culos|0
 35|Delitos contra menores de edad y de quienes no tienen la capacidad de comprender el significado del hecho|Delitos contra menores de edad y de quienes no tienen la capacidad de comprender el significado del hecho|0
-36|Delitos inform醫icos|Delitos inform醫icos|0
-37|Deltios pol韙icos|Delitos pol韙icos|0
+36|Delitos inform谩ticos|Delitos inform谩ticos|0
+37|Deltios pol铆ticos|Delitos pol铆ticos|0
 38|Despojo|Despojo|0
 39|Ejercicio abusivo de funciones|Ejercicio abusivo de funciones|0
-40|Ejercicio indebido de servicio p鷅lico|Ejercicio indebido de servicio p鷅lico|0
+40|Ejercicio indebido de servicio p煤blico|Ejercicio indebido de servicio p煤blico|0
 41|Ejercicio indebido del propio derecho|Ejercicio indebido del propio derecho|0
 42|Encubrimiento por favorecimiento|Encubrimiento por enfavorecimiento|0
-43|Encubrimiento por receptaci髇|Encubrimiento por receptaci髇|0
-44|Enriquecimiento il韈ito|Enriquecimiento il韈ito|0
-45|Estorbo del aprovechamiento de bienes de uso com鷑|Estorbo del aprovechamiento de bienes de uso com鷑|0
+43|Encubrimiento por receptaci贸n|Encubrimiento por receptaci贸n|0
+44|Enriquecimiento il铆cito|Enriquecimiento il铆cito|0
+45|Estorbo del aprovechamiento de bienes de uso com煤n|Estorbo del aprovechamiento de bienes de uso com煤n|0
 46|Estupro|Estupro|0
-47|Evasi髇 de preso|Evasi髇 de preso|0
-48|Exposici髇 de incapaces|Exposici髇 de incapaces|0
-49|Fabricaci髇 de armas|Fabricaci髇 de armas|0
+47|Evasi贸n de preso|Evasi贸n de preso|0
+48|Exposici贸n de incapaces|Exposici贸n de incapaces|0
+49|Fabricaci贸n de armas|Fabricaci贸n de armas|0
 50|Falsedad ante autoridad|Falsedad ante autoridad|0
-51|Falsificaci髇 de documentos|Falsificaci髇 de documentos|0
-52|Falsificaci髇 de sellos, marcas, llaves, signos, contrase馻s y obras|Falsificaci髇 de sellos, marcas, llaves, signos, contrase馻s y obras|0
+51|Falsificaci贸n de documentos|Falsificaci贸n de documentos|0
+52|Falsificaci贸n de sellos, marcas, llaves, signos, contrase帽as y obras|Falsificaci贸n de sellos, marcas, llaves, signos, contrase帽as y obras|0
 53|Fraude|Fraude|0
-54|Fraude espec韋ico|Fraude espec韋ico|0
-55|Fraude gen閞ico|Fraude gen閞ico|0
+54|Fraude espec铆fico|Fraude espec铆fico|0
+55|Fraude gen茅rico|Fraude gen茅rico|0
 56|Fraude procesal|Faude procesal|0
-57|Homicidio a petici髇 expresa|Homicidio a petici髇 expresa|0
+57|Homicidio a petici贸n expresa|Homicidio a petici贸n expresa|0
 58|Homicidio culposo|Homicidio culposo|0
 59|Homicidio en grado de tentativa|Homicidio en grado de tentativa|0
-60|Homicidio en ri馻|Homicidio en ri馻|0
+60|Homicidio en ri帽a|Homicidio en ri帽a|0
 61|Hostigamiento sexual|Hostigamiento sexual|0
 62|Incesto|Incesto|0
-63|Incumplimiento de funciones p鷅licas|Incumplimiento de funciones p鷅licas|0
+63|Incumplimiento de funciones p煤blicas|Incumplimiento de funciones p煤blicas|0
 64|Incumplimiento de las obligaciones de asistencia alimentariaIncumplimiento de las obligaciones de asistencia alimentaria|Incumplimiento de las obligaciones de asistencia alimentariaIncumplimiento de las obligaciones de asistencia alimentaria|0
-65|Inducci髇 al suicidio|Inducci髇 al suicidio|0
+65|Inducci贸n al suicidio|Inducci贸n al suicidio|0
 66|Insolvencia fraudulenta en perjuicio de acreedores|Insolvencia fraudulenta en perjuicio de acreedores|0
-67|Intimidaci髇|Intimidaci髇|0
+67|Intimidaci贸n|Intimidaci贸n|0
 68|Lesiones|Lesiones|0
 69|Lesiones calificadas|Lesiones calificadas|0
 70|Lesiones culposas|Lesiones culposas|0
-71|Lesiones en ri馻|Lesiones en ri馻|0
-72|Mot韓, da駉 y obstrucci髇 de medios de comunicaci髇|Mot韓, da駉 y obstrucci髇 de medios de comunicaci髇|0
+71|Lesiones en ri帽a|Lesiones en ri帽a|0
+72|Mot铆n, da帽o y obstrucci贸n de medios de comunicaci贸n|Mot铆n, da帽o y obstrucci贸n de medios de comunicaci贸n|0
 73|Narcomenudeo, con fines de venta|Narcomenudeo, con fines de venta|0
-74|Narcomenudeo, posesi髇 simple de coca韓a|Narcomenudeo, posesi髇 simple de coca韓a|0
-75|Narcomenudeo, posesi髇 simple de hero韓a|Narcomenudeo, posesi髇 simple de hero韓a|0
-76|Narcomenudeo, posesi髇 simple de marihuana|Narcomenudeo, posesi髇 simple de marihuana|0
-77|Obstrucci髇 de justicia|Obstrucci髇 de justicia|0
-78|Obstrucci髇 de la justicia|Obstrucci髇 de la justicia|0
-79|Omisi髇 de auxilio|Omisi髇 de auxilio|0
-80|Omisi髇 de auxilio a lesionados|Omisi髇 de auxilio a lesionados|0
-81|Omisi髇 de cuidado|Omisi髇 de cuidado|0
+74|Narcomenudeo, posesi贸n simple de coca铆na|Narcomenudeo, posesi贸n simple de coca铆na|0
+75|Narcomenudeo, posesi贸n simple de hero铆na|Narcomenudeo, posesi贸n simple de hero铆na|0
+76|Narcomenudeo, posesi贸n simple de marihuana|Narcomenudeo, posesi贸n simple de marihuana|0
+77|Obstrucci贸n de justicia|Obstrucci贸n de justicia|0
+78|Obstrucci贸n de la justicia|Obstrucci贸n de la justicia|0
+79|Omisi贸n de auxilio|Omisi贸n de auxilio|0
+80|Omisi贸n de auxilio a lesionados|Omisi贸n de auxilio a lesionados|0
+81|Omisi贸n de cuidado|Omisi贸n de cuidado|0
 82|Peculado|Peculado|0
 83|Peligro de contagio|Peligro de contagio|0
-84|Peligro de devastaci髇|Peligro de devastaci髇|0
-85|Portaci髇 de arma blanca|Portaci髇 de arma|0
-86|Portaci髇, fabricaci髇, importaci髇 y acopio de armas|Portaci髇, fabricaci髇, importaci髇 y acopio de armas|0
-87|Posesi髇 de veh韈ulo robado|Posesi髇 de veh韈ulo robado|0
-88|Privaci髇 ilegal de la libertad|Privaci髇 ilegal de la libertad|0
+84|Peligro de devastaci贸n|Peligro de devastaci贸n|0
+85|Portaci贸n de arma blanca|Portaci贸n de arma|0
+86|Portaci贸n, fabricaci贸n, importaci贸n y acopio de armas|Portaci贸n, fabricaci贸n, importaci贸n y acopio de armas|0
+87|Posesi贸n de veh铆culo robado|Posesi贸n de veh铆culo robado|0
+88|Privaci贸n ilegal de la libertad|Privaci贸n ilegal de la libertad|0
 89|Procurar o consentir el aborto|Procurar o consentir el aborto|0
-90|Provocaci髇 a cometer un delito o apolog韆 de este|Provocaci髇 a cometer un delito o apolog韆 de este|0
+90|Provocaci贸n a cometer un delito o apolog铆a de este|Provocaci贸n a cometer un delito o apolog铆a de este|0
 91|Quebrantamiento de sanciones|Quebrantamiento de sanciones|0
 92|Quebrantamiento de sellos|Quebrantamiento de sellos|0
-93|Rebeli髇|Rebeli髇|0
+93|Rebeli贸n|Rebeli贸n|0
 94|Resistencia a particulares|Resistencia a particulares|0
 95|Resistencia de particulares y desobediencia|Resistencia de particulares y desobediencia|0
-96|Revelaci髇 o aprovechamiento de secreto|Revelaci髇 o aprovechamiento de secreto|0
+96|Revelaci贸n o aprovechamiento de secreto|Revelaci贸n o aprovechamiento de secreto|0
 97|Robo|Robo|0
-98|Robo a casa habitaci髇|Robo a casa habitaci髇|0
+98|Robo a casa habitaci贸n|Robo a casa habitaci贸n|0
 99|Robo calificado|Robo calificado|0
 100|Robo de autopartes|Robo de autopartes|0
-101|Robo de veh韈ulo|Robo de veh韈ulo|0
+101|Robo de veh铆culo|Robo de veh铆culo|0
 102|Secuestro (Art. 12)|Secuestro (Art. 12)|0
 103|Secuestro (Art. 13)|Secuestro (Art. 13)|0
-104|Secuestro con liberaci髇 espontanea|Secuestro con liberaci髇 espontanea|0
-105|Sedici髇|Sedici髇|0
-106|Sustracci髇 o retenci髇 de menores|Sustracci髇 o retenci髇 de menores|0
-107|Ultraje y uso indebido de insignias p鷅licas|Ultraje y uso indebido de insignias p鷅licas|0
+104|Secuestro con liberaci贸n espontanea|Secuestro con liberaci贸n espontanea|0
+105|Sedici贸n|Sedici贸n|0
+106|Sustracci贸n o retenci贸n de menores|Sustracci贸n o retenci贸n de menores|0
+107|Ultraje y uso indebido de insignias p煤blicas|Ultraje y uso indebido de insignias p煤blicas|0
 108|Ultrajes a la autoridad|Ultrajes a la autoridad|0
 109|Uso de documento falso|Uso de documento falso|0
-110|Uso indebido de medio de comunicaci髇|Uso indebido de medio de comunicaci髇|0
+110|Uso indebido de medio de comunicaci贸n|Uso indebido de medio de comunicaci贸n|0
 111|Usura|Usura|0
-112|Usurupaci髇 de funciones p鷅licas|Usurupaci髇 de funciones p鷅licas|0
-113|Usuarpaci髇 de profesiones|Usuarpaci髇 de profesiones|0
-114|Variaci髇 de nombre, domicilio o ciudadan韆|Variaci髇 de nombre, domicilio o ciudadan韆|0
-115|Violaci髇|Violaci髇|0
-116|Violaci髇 de correspondencia|Violaci髇 de correspondencia|0
-117|Violaci髇 de la intimidad personal|Violaci髇 de la intimidad personal|0
+112|Usurupaci贸n de funciones p煤blicas|Usurupaci贸n de funciones p煤blicas|0
+113|Usuarpaci贸n de profesiones|Usuarpaci贸n de profesiones|0
+114|Variaci贸n de nombre, domicilio o ciudadan铆a|Variaci贸n de nombre, domicilio o ciudadan铆a|0
+115|Violaci贸n|Violaci贸n|0
+116|Violaci贸n de correspondencia|Violaci贸n de correspondencia|0
+117|Violaci贸n de la intimidad personal|Violaci贸n de la intimidad personal|0
 118|Violencia familiar|Violencia familiar|0

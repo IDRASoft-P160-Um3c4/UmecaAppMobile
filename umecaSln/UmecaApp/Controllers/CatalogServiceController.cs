@@ -213,6 +213,16 @@ namespace UmecaApp
 				domicilioImputado.TimeLive = "18";
 				db.Insert (domicilioImputado);
 
+				for(var a=0;a<2;a++){
+					var schedule = new Schedule ();
+					schedule.ImputedHomeId = domicilioImputado.Id;
+					schedule.Day = "dia "+a+" de la semana";
+					schedule.Start= "1"+a+":30";
+					schedule.End= "19:"+a+"0";
+					db.Insert (schedule);
+				}
+
+
 				db.Commit ();
 			}
 		}
