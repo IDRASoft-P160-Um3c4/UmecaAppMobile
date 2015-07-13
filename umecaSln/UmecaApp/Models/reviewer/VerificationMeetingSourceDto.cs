@@ -191,17 +191,32 @@ namespace UmecaApp
 
 		public String JsonActivities { get; set; }
 
-		public List<ImputedHome> JsonDomicilios { get; set; }
+		public List<DomiciliosVerificationDto> JsonDomicilios { get; set; }
 
-		public List<PersonSocialNetwork> JsonPersonSN { get; set; }
+		public List<PersonSocialNetworkVerificationDto> JsonPersonSN { get; set; }
 
 		public List<Reference> JsonReferences { get; set; }
 
-		public List<Job> JsonJobs { get; set; }
+		public List<JobVerificationDto> JsonJobs { get; set; }
 
 		public List<Drug> JsonDrugs { get; set; }
 
 		public String JsonElection { get; set; }
+
+		//RESOURCES
+
+		public List<Election> ListaDeElection { get; set; }
+
+		public List<Relationship> ListaDeRelaciones { get; set; }
+
+		public List<DocumentType> ListaDeIdentificaciones { get; set; }
+
+		public List<DrugType> ListaDeDrogas { get; set; }
+
+		public List<Periodicity> ListaDePeriodicidad { get; set; }
+
+		public List<RegisterType> ListaDeRegisterType { get; set; }
+
 	}
 }
 

@@ -24,6 +24,10 @@
 	    	alert("error catched Iniciate angular function erro==>"+err.message);
 	    }
 	};
+
+	$scope.addNewSource = function(idcase){
+    	window.location.replace('hybrid:Verification/AddVerificationSource?idCase='+idcase);
+    };
    
 });
 
@@ -31,6 +35,8 @@
     	var iner = parseInt(id);
     	window.location.replace('hybrid:Verification/ValidationMeetingBySource?idSource='+iner);
 	}
+
+
 
 </script>
 
@@ -75,6 +81,13 @@
             </h3>
         </div>
     </div>
+    <div id="toolbar2" class="btn-group">
+		<a href="javascript:;">
+			    <button type="button" class="btn btn-default" id="btnAddDomicilio" ng-click="addNewSource(@Model.CaseId);">
+			        <i class="glyphicon glyphicon-plus"></i>
+			    </button>
+		</a>
+	</div>
     <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
      data-pagination="true" data-height="250"
      data-striped="true" data-search="true" 
@@ -167,6 +180,6 @@
     }
 </script>
 	<span class="btn btn-default btn-sm" onclick="cancelari();">
-        Cancelar
+        Regresar
     </span>
 </div>

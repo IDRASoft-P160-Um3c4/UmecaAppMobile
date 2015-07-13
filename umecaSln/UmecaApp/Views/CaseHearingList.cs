@@ -24,7 +24,7 @@ public partial class CaseHearingList : WebViewTemplate
 #line hidden
 
 #line 1 "CaseHearingList.cshtml"
-public System.Collections.Generic.List<UmecaApp.HearingFormatTblDto> Model { get; set; }
+public System.Collections.Generic.List<UmecaApp.CaseHearingFormatTblDto> Model { get; set; }
 
 #line default
 #line hidden
@@ -53,7 +53,7 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-comments-alt \"");
 
-WriteLiteral("></i>&nbsp;&nbsp;Formato de Audiencia</h2>\r\n<br /> \r\n<div");
+WriteLiteral("></i>&nbsp;&nbsp;Casos para formato de audiencia</h2>\r\n<br /> \r\n<div");
 
 WriteLiteral(" id=\"toolbar2\"");
 
@@ -165,7 +165,7 @@ WriteLiteral("       \t\t");
 
 
 #line 45 "CaseHearingList.cshtml"
-       Write(CaseHearing.StatusCode);
+       Write(CaseHearing.Description);
 
 
 #line default
@@ -180,7 +180,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 #line hidden
 
 #line 48 "CaseHearingList.cshtml"
-          if(CaseHearing.StatusCode=="ST_CASE_CONDITIONAL_REPRIEVE") {
+          if(CaseHearing.StatusCode=="ST_CASE_TECHNICAL_REVIEW_COMPLETE") {
 
 
 #line default
@@ -213,7 +213,97 @@ WriteLiteral("></i></a>\r\n");
 
 #line 50 "CaseHearingList.cshtml"
          }
-         else if(CaseHearing.StatusCode=="INCOMPLETE") {
+
+
+#line default
+#line hidden
+WriteLiteral("         ");
+
+
+#line 51 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_NOT_PROSECUTE_OPEN") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Gestionar formatos de audiencia\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "hearing(", true)
+
+#line 52 "CaseHearingList.cshtml"
+                                                                                   , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-plus\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 53 "CaseHearingList.cshtml"
+         }
+
+
+#line default
+#line hidden
+WriteLiteral("         ");
+
+
+#line 54 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_CONDITIONAL_REPRIEVE") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Gestionar formatos de audiencia\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "hearing(", true)
+
+#line 55 "CaseHearingList.cshtml"
+                                                                                   , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-plus\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 56 "CaseHearingList.cshtml"
+         }
+
+
+#line default
+#line hidden
+WriteLiteral("         ");
+
+
+#line 57 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_HEARING_FORMAT_INCOMPLETE") {
 
 
 #line default
@@ -229,7 +319,7 @@ WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hearing(", true)
 
-#line 52 "CaseHearingList.cshtml"
+#line 58 "CaseHearingList.cshtml"
                                                                                     , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
 
 #line default
@@ -244,8 +334,23 @@ WriteLiteral(" class=\"icon-pencil\"");
 WriteLiteral("></span></a>\r\n");
 
 
-#line 53 "CaseHearingList.cshtml"
-         }else{
+#line 59 "CaseHearingList.cshtml"
+         }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n");
+
+
+#line 61 "CaseHearingList.cshtml"
+         
+
+#line default
+#line hidden
+
+#line 61 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_HEARING_FORMAT_END") {
 
 
 #line default
@@ -261,7 +366,7 @@ WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hearing(", true)
 
-#line 54 "CaseHearingList.cshtml"
+#line 62 "CaseHearingList.cshtml"
                                                                                     , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
 
 #line default
@@ -276,7 +381,130 @@ WriteLiteral(" class=\"icon-eye-open\"");
 WriteLiteral("></span></a>\r\n");
 
 
-#line 55 "CaseHearingList.cshtml"
+#line 63 "CaseHearingList.cshtml"
+         }
+
+
+#line default
+#line hidden
+WriteLiteral("         ");
+
+
+#line 64 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_PRE_CLOSED") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "hearing(", true)
+
+#line 65 "CaseHearingList.cshtml"
+                                                                                    , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"icon-eye-open\"");
+
+WriteLiteral("></span></a>\r\n");
+
+
+#line 66 "CaseHearingList.cshtml"
+         }
+
+
+#line default
+#line hidden
+WriteLiteral("         ");
+
+
+#line 67 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_FRAMING_MEETING_INCOMPLETE") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "hearing(", true)
+
+#line 68 "CaseHearingList.cshtml"
+                                                                                    , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"icon-eye-open\"");
+
+WriteLiteral("></span></a>\r\n");
+
+
+#line 69 "CaseHearingList.cshtml"
+         }
+
+
+#line default
+#line hidden
+WriteLiteral("         ");
+
+
+#line 70 "CaseHearingList.cshtml"
+          if(CaseHearing.StatusCode=="ST_CASE_FRAMING_MEETING_COMPLETE") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
+
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "hearing(", true)
+
+#line 71 "CaseHearingList.cshtml"
+                                                                                    , Tuple.Create<string,object,bool> ("", CaseHearing.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"icon-eye-open\"");
+
+WriteLiteral("></span></a>\r\n");
+
+
+#line 72 "CaseHearingList.cshtml"
          }
 
 
@@ -285,7 +513,7 @@ WriteLiteral("></span></a>\r\n");
 WriteLiteral("        </td>\r\n    </tr>\r\n");
 
 
-#line 58 "CaseHearingList.cshtml"
+#line 75 "CaseHearingList.cshtml"
 }
 
 

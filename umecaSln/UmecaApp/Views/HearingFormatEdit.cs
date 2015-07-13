@@ -40,7 +40,481 @@ public override void Execute()
 
 #line default
 #line hidden
-WriteLiteral("\r\n<h2");
+WriteLiteral("\r\n\r\n\r\n<script>\r\napp.controller(\'hearingFormatController\', function ($scope, $time" +
+"out, $http, $q, $sce, $rootScope) {\r\n\r\n        $scope.m = {};\r\n        $scope.a " +
+"= {};\r\n\r\n        $scope.m.errTime;\r\n        $scope.hasError = false;\r\n        $s" +
+"cope.MsgError;\r\n        $scope.MsgErrorContact = \"\";\r\n        $scope.lblTerms = " +
+"\"\";\r\n\r\n        $scope.MsgErrorContact = \"\";\r\n\r\n        $scope.m.labelImpForm = \"" +
+"\";\r\n\r\n        $scope.chnLblFormImp = function (id) {\r\n            if ($scope.m.h" +
+"asPrevHF == false) {\r\n                if (id == 1) {\r\n                    $scope" +
+".m.labelImpForm = $sce.trustAsHtml(\"Fecha de imputaci&oacute;n\");\r\n             " +
+"       $scope.m.impDate = $scope.m.appointmentDate;\r\n                }\r\n        " +
+"        else if (id == 2) {\r\n                    $scope.m.labelImpForm = $sce.tr" +
+"ustAsHtml(\"Nueva fecha de audiencia\");\r\n                    $scope.m.impDate = \"" +
+"\";\r\n                }\r\n            }\r\n\r\n        };\r\n\r\n        $scope.chnExtDate " +
+"= function (id) {\r\n            $scope.chngVincProcess(1);\r\n            if (id ==" +
+" 1) {\r\n                $scope.m.extDate = $scope.myFormatDate(((new Date()).getT" +
+"ime() + (86400000 * 3)));\r\n            }\r\n            else if (id == 2) {\r\n     " +
+"           $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (864" +
+"00000 * 6)));\r\n            }\r\n            else if (id == 3) {\r\n                $" +
+"scope.m.extDate = $scope.m.appointmentDate;\r\n            }\r\n\r\n        };\r\n\r\n    " +
+"    var dlgConfirmAction = $(\'#divConfirm\');\r\n\r\n        $scope.showDlg = functio" +
+"n () {\r\n            var def = $q.defer();\r\n\r\n            $timeout(function () {\r" +
+"\n                dlgConfirmAction.modal(\'show\');\r\n                dlgConfirmActi" +
+"on.on(\'hidden.bs.modal\', function () {\r\n                    if ($scope.IsOk === " +
+"true) {\r\n\r\n                    }\r\n                    else {\r\n\r\n                " +
+"    }\r\n                });\r\n            }, 1);\r\n\r\n            return def.promise" +
+";\r\n        }\r\n\r\n        $scope.hideDlg = function () {\r\n            $scope.WaitF" +
+"or = false;\r\n            dlgConfirmAction.modal(\'hide\');\r\n        }\r\n\r\n        $" +
+"scope.validateSave = function () {\r\n\r\n            $scope.hasError = false;\r\n\r\n  " +
+"          $scope.validateBthDay();\r\n            if ($scope.hasError == true) {\r\n" +
+"                $scope.MsgError = \"No es posible guardar. Debe proporcionar toda" +
+" la informaci&aacute;n requerida.\";\r\n                return false;\r\n            " +
+"}\r\n            $scope.validateArrangementSel();\r\n            if ($scope.hasError" +
+" == true) {\r\n                $scope.MsgError = \"No es posible guardar. Debe prop" +
+"orcionar toda la informaci&aacute;n requerida.\";\r\n                return false;\r" +
+"\n            }\r\n            $scope.validateLstContact();\r\n\r\n            if ($sco" +
+"pe.hasError == true) {\r\n                $scope.MsgError = \"No es posible guardar" +
+". Debe proporcionar toda la informaci&aacute;n requerida.\";\r\n                ret" +
+"urn false;\r\n            }\r\n\r\n            $rootScope.$broadcast(\'valAddCrime\', $s" +
+"cope, \"crimeIsValid\");\r\n\r\n            if ($scope.crimeIsValid == false) {\r\n     " +
+"           $scope.MsgError = \"No es posible guardar. Debe proporcionar toda la i" +
+"nformaci&aacute;n requerida.\";\r\n                return false;\r\n            }\r\n\r\n" +
+"            return true;\r\n        };\r\n\r\n        $scope.validateBthDay = function" +
+" () {\r\n\r\n            if (!$scope.m.impBthDay) {\r\n                $scope.hasError" +
+" = true;\r\n                $scope.m.errBth = \"Fecha de nacimiento es un campo req" +
+"uerido\";\r\n            }\r\n            else {\r\n                $scope.m.errBth = \"" +
+"\";\r\n                if ($scope.m.impAge < 18) {\r\n                    $scope.hasE" +
+"rror = true;\r\n                    $scope.m.errAge = \"No puede registrar a un men" +
+"or de edad\";\r\n                }\r\n                else\r\n                    $scop" +
+"e.m.errAge = \"\";\r\n            }\r\n\r\n\r\n        }\r\n\r\n        $scope.validateInitEnd" +
+" = function () {\r\n\r\n            if (Date.parse(\'01/01/2014 \' + $scope.m.initTime" +
+") >= Date.parse(\'01/01/2014 \' + $scope.m.endTime)) {\r\n                $scope.has" +
+"Error = true;\r\n                $scope.m.errTime = \"La hora de termino debe ser m" +
+"ayor a la hora de inicio\";\r\n                return;\r\n            }\r\n            " +
+"else\r\n                $scope.m.errTime = \"\";\r\n\r\n        };\r\n\r\n        $scope.add" +
+"Contact = function () {\r\n\r\n            if ($scope.validateContact())\r\n          " +
+"      return;\r\n\r\n            var jsonRow = {\r\n                \"NameTxt\": $scope." +
+"m.contactName,\r\n                \"PhoneTxt\": $scope.m.contactPhone,\r\n            " +
+"    \"AddressTxt\": $scope.m.contactAddress\r\n            };\r\n\r\n            $scope." +
+"m.lstContactData.push(jsonRow);\r\n\r\n            $scope.m.contactName = \"\";\r\n     " +
+"       $scope.m.contactPhone = \"\";\r\n            $scope.m.contactAddress = \"\";\r\n " +
+"           $scope.MsgErrorContact = \"\";\r\n\r\n        };\r\n\r\n        $scope.validate" +
+"Contact = function () {\r\n\r\n            $scope.MsgErrorContact = \"\";\r\n\r\n         " +
+"   if ($scope.m.contactName === \"\" || $scope.m.contactPhone === \"\" || $scope.m.c" +
+"ontactAddress === \"\" || !($scope.m.contactName) || !($scope.m.contactPhone) || !" +
+"($scope.m.contactAddress)) {\r\n                $scope.MsgErrorContact = \"Debe pro" +
+"porcionar todos los campos para agregar el contacto.\"\r\n                return tr" +
+"ue;\r\n            }\r\n\r\n            return false\r\n        };\r\n\r\n        $scope.rem" +
+"oveContact = function (index) {\r\n            if ($scope.m.canSave == true)\r\n    " +
+"            $scope.m.lstContactData.splice(index, 1);\r\n        };\r\n\r\n        $sc" +
+"ope.validateLstContact = function () {\r\n            if ($scope.m.lstContactData " +
+"== undefined || $scope.m.lstContactData.length < 1 && $scope.m.vincProcess == 1)" +
+" {\r\n                $scope.hasError = true;\r\n                $scope.MsgErrorCont" +
+"act = \"Debe registrar al menos un dato de contacto.\"\r\n                return;\r\n " +
+"           }\r\n            $scope.hasError = false;\r\n            $scope.MsgErrorC" +
+"ontact = \"\";\r\n        };\r\n\r\n        $scope.validateLinkProc = function () {\r\n\r\n " +
+"           if (!$scope.m.vincProcess) {\r\n                $scope.hasError = true;" +
+"\r\n                $scope.m.errLinkProc = \"Debe seleccionar una opci�n\";\r\n       " +
+"     }\r\n            else\r\n                $scope.m.errLinkProc = \"\";\r\n\r\n        " +
+"    if ($scope.m.vincProcess == 1) {\r\n\r\n                if (!$scope.m.linkageRoo" +
+"m || $scope.m.linkageRoom === \"\") {\r\n                    $scope.hasError = true;" +
+"\r\n                    $scope.m.errLnkRoom = \"Sala es un campo requerido\";\r\n     " +
+"           }\r\n                else {\r\n                    $scope.m.errLnkRoom = " +
+"\"\";\r\n                }\r\n\r\n                if (!$scope.m.linkageDate || $scope.m." +
+"linkageDate === \"\") {\r\n                    $scope.hasError = true;\r\n            " +
+"        $scope.m.errLnkDt = \"Fecha es un campo requerido\";\r\n                }\r\n " +
+"               else {\r\n                    $scope.m.errLnkDt = \"\";\r\n            " +
+"    }\r\n\r\n                if (!$scope.m.linkageTime || $scope.m.linkageTime === \"" +
+"\") {\r\n                    $scope.hasError = true;\r\n                    $scope.m." +
+"errLnkTm = \"Hora es un campo requerido\";\r\n                }\r\n                els" +
+"e {\r\n                    $scope.m.errLnkTm = \"\";\r\n                }\r\n\r\n         " +
+"   }\r\n        };\r\n\r\n        $scope.disableView = function (val) {\r\n\r\n           " +
+" if (val) {\r\n\r\n                $(\"#divAudiencia :input\").attr(\"disabled\", true);" +
+"\r\n                $(\"#divImputado :input\").attr(\"disabled\", true);\r\n            " +
+"    $(\"#divDelitos :input\").attr(\"disabled\", true);\r\n                $(\"#divCtrl" +
+"Det :input\").attr(\"disabled\", true);\r\n                $(\"#divFormImp :input\").at" +
+"tr(\"disabled\", true);\r\n                $(\"#divExt :input\").attr(\"disabled\", true" +
+");\r\n                $(\"#divVincProc :input\").attr(\"disabled\", true);\r\n          " +
+"      $(\"#divMedidas :input\").attr(\"disabled\", true);\r\n                $(\"#divCo" +
+"ntact :input\").attr(\"disabled\", true);\r\n                $(\"#divCitaUmeca :input\"" +
+").attr(\"disabled\", true);\r\n                $(\"#divPreviousHearing :input\").attr(" +
+"\"disabled\", true);\r\n            }\r\n            else {\r\n                $(\"#divAu" +
+"diencia :input\").attr(\"disabled\", false);\r\n                $(\"#divImputado :inpu" +
+"t\").attr(\"disabled\", false);\r\n                $(\"#divDelitos :input\").attr(\"disa" +
+"bled\", false);\r\n                $(\"#divCtrlDet :input\").attr(\"disabled\", false);" +
+"\r\n\r\n                if ($scope.m.hasPrevHF == true) {\r\n                    $(\"#i" +
+"dFolder\").attr(\"disabled\", true);\r\n                    $(\"#idJudicial\").attr(\"di" +
+"sabled\", true);\r\n                    $(\"#divFormImp :input\").attr(\"disabled\", tr" +
+"ue);\r\n                }\r\n                else\r\n                    $(\"#divFormIm" +
+"p :input\").attr(\"disabled\", false);\r\n\r\n                $(\"#divExt :input\").attr(" +
+"\"disabled\", false);\r\n                $(\"#divVincProc :input\").attr(\"disabled\", f" +
+"alse);\r\n                $(\"#divMedidas :input\").attr(\"disabled\", false);\r\n      " +
+"          $(\"#divContact :input\").attr(\"disabled\", false);\r\n            }\r\n\r\n   " +
+"     };\r\n\r\n        $scope.myFormatDate = function (dateMil) {\r\n\r\n            var" +
+" strDt = \"\";\r\n            var date;\r\n\r\n\r\n            console.log(\"dateMil->\"+dat" +
+"eMil);\r\n            if (dateMil && dateMil != \"null\") {\r\n\r\n                date " +
+"= new Date(dateMil);\r\n\r\n                var dd, mm, yyyy;\r\n\r\n                dd " +
+"= date.getDate() < 10 ? \'0\' + date.getDate() : date.getDate();\r\n                " +
+"mm = date.getMonth() < 9 ? \'0\' + (date.getMonth() + 1) : (date.getMonth() + 1);\r" +
+"\n                yyyy = date.getFullYear();\r\n                if(yyyy > 0){\r\n    " +
+"            \tstrDt = yyyy + \"/\" + mm + \"/\" + dd;\r\n                }else{\r\n      " +
+"          \tstrDt = \"\";\r\n                }\r\n            }\r\n            console.lo" +
+"g(\"strDt->\"+strDt);\r\n\r\n            return strDt;\r\n        };\r\n\r\n        $scope.f" +
+"illFormat = function (data) {\r\n\r\n            $scope.m.canSave = data.canSave;\r\n " +
+"           $scope.m.canEdit = data.canEdit;\r\n            $scope.m.disableAll = d" +
+"ata.disableAll;\r\n\r\n            //audiencia\r\n            $scope.m.idCase = data.i" +
+"dCase;\r\n            $scope.m.idFormat = data.idFormat;\r\n            $scope.m.isF" +
+"inished = data.isFinished;\r\n            $scope.m.hasPrevHF = data.hasPrevHF;\r\n  " +
+"          $scope.m.idFolder = data.idFolder;\r\n            $scope.m.idJudicial = " +
+"data.idJudicial;\r\n            $scope.m.room = data.room;\r\n            $scope.m.a" +
+"ppointmentDate = $scope.myFormatDate(data.appointmentDate);\r\n            if ($sc" +
+"ope.m.appointmentDate === \"\") {\r\n                $scope.m.appointmentDate = $sco" +
+"pe.myFormatDate(new Date());\r\n            }\r\n            $scope.m.initTime = dat" +
+"a.initTime;\r\n            $scope.m.endTime = data.endTime;\r\n            $scope.m." +
+"judgeName = data.judgeName;\r\n            $scope.m.mpName = data.mpName;\r\n       " +
+"     $scope.m.defenderName = data.defenderName;\r\n\r\n            //imputado\r\n     " +
+"       $scope.m.imputedName = data.imputedName;\r\n            $scope.m.imputedFLa" +
+"stName = data.imputedFLastName;\r\n            $scope.m.imputedSLastName = data.im" +
+"putedSLastName;\r\n            $scope.m.impBthDay = $scope.myFormatDate(data.imput" +
+"edBirthDate);\r\n            $scope.calcAge();\r\n            $scope.m.imputedTel = " +
+"data.imputedTel;\r\n\r\n            $scope.m.crimes = data.crimes;\r\n            $sco" +
+"pe.m.additionalData = data.additionalData;\r\n            $scope.m.isView = data.i" +
+"sView;\r\n\r\n            //radios\r\n            $scope.m.ctrlDet = data.controlDeten" +
+"tion;\r\n\r\n                $scope.m.ext = data.extension;\r\n            if (data.ex" +
+"tDateStr != undefined && data.extDateStr != null && data.extDateStr != \"\" ) {\r\n " +
+"               $scope.m.extDate = $scope.myFormatDate(data.extDateStr);\r\n       " +
+"     } else {\r\n                $scope.m.extDate = \"\";\r\n            }\r\n\r\n        " +
+"    $scope.m.formImp = data.impForm;\r\n\r\n            if ($scope.m.formImp == 1)\r\n" +
+"                $scope.m.labelImpForm = $sce.trustAsHtml(\"Fecha de imputaci&oacu" +
+"te;n\");\r\n            else if ($scope.m.formImp == 2)\r\n                $scope.m.l" +
+"abelImpForm = $sce.trustAsHtml(\"Nueva fecha de audiencia\");\r\n\r\n            $scop" +
+"e.m.impDate = $scope.myFormatDate(data.imputationDate);\r\n\r\n            $scope.m." +
+"vincProcess = data.vincProcess;\r\n            $scope.m.linkageRoom = data.linkage" +
+"Room;\r\n            $scope.m.linkageDate = $scope.myFormatDate(data.linkageDate);" +
+"\r\n            $scope.m.linkageTime = data.linkageTime;\r\n            $scope.m.arr" +
+"Type = data.arrangementType;\r\n            $scope.m.nationalArrangement = data.na" +
+"tionalArrangement;\r\n            $scope.m.terms = data.terms;\r\n            $scope" +
+".m.comments = data.comments;\r\n\r\n            $scope.m.userName = data.userName;\r\n" +
+"\r\n            $scope.m.hearingTypeId = data.hearingTypeId;\r\n            console." +
+"log(\"htype\"+$scope.m.hearingTypeId);\r\n            $scope.m.imputedPresence = dat" +
+"a.imputedPresence;\r\n            $scope.m.hearingTypeSpecification = data.hearing" +
+"TypeSpecification;\r\n            $scope.m.hearingResult = data.hearingResult;\r\n\r\n" +
+"            $scope.m.umecaDate = $scope.myFormatDate(data.umecaDate);\r\n         " +
+"   $scope.m.umecaTime = data.umecaTime;\r\n            $scope.m.umecaSupervisorId " +
+"= data.umecaSupervisorId;\r\n\r\n            if (data.lstArrangement != undefined)\r\n" +
+"                $scope.m.lstArrangementShow = $.parseJSON(data.lstArrangement);\r" +
+"\n\r\n            if (data.lstContactData != undefined){\r\n                $scope.m." +
+"lstContactData = $.parseJSON(data.lstContactData);\r\n                console.log(" +
+"\"lstContactData+\"+$scope.m.lstContactData);\r\n            }else\r\n                " +
+"$scope.m.lstContactData = [];\r\n\r\n            $scope.m.previousHearing = data.pre" +
+"viousHearing;\r\n\r\n            $scope.chgLblTerms();\r\n\r\n            $scope.$apply(" +
+");\r\n        };\r\n\r\n\r\n        $scope.saveHF = function () {\r\n        askVerificati" +
+"onTerminate.hide();\r\n        \tvar a = $scope.validateSave();\r\n            var b " +
+"= $scope.valAddedCrime();\r\n            if ($(\"#FormFormatId\").valid() == false |" +
+"| a == false || b == false) {\r\n                $scope.Invalid = true;\r\n         " +
+"       $scope.MsgError = $sce.trustAsHtml(\"No es posible terminar. Debe proporci" +
+"onar toda la informaci&oacute;n requerida.\");\r\n                return false;\r\n  " +
+"          }\r\n\r\n            if ($scope.m.vincProcess == 2){\r\n                askC" +
+"loseCredentials.show();\r\n            }else{\r\n            \t\t$scope.m.isFinished =" +
+" true;\r\n\r\n\t\t            $scope.WaitFor = true;\r\n\t\t            $scope.m.listCrime" +
+" = JSON.stringify($scope.listCrime);\r\n\t\t            $scope.m.controlDetention = " +
+"$scope.m.ctrlDet;\r\n\t\t            $scope.m.impForm = $scope.m.formImp;\r\n\t\t       " +
+"     var listaContactos = $scope.m.lstContactData;\r\n\t\t            $scope.m.lstCo" +
+"ntactData = JSON.stringify($scope.m.lstContactData);\r\n\t\t            $scope.m.lst" +
+"Arrangement = JSON.stringify($scope.m.lstArrangementShow);\r\n\t\t            $scope" +
+".m.extension = $scope.m.ext;\r\n\t\t            $scope.m.extDateStr = $scope.m.extDa" +
+"te;\r\n\t\t            $scope.m.imputationDateStr = $scope.m.impDate;\r\n\r\n\t\t         " +
+"   var resultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope." +
+"m));\r\n\t\t            var idformat = TryParseInt(resultado,null);\r\n\t\t            i" +
+"f(resultado!=undefined&&resultado!=null && idformat!=null){\r\n\t\t            \t$sco" +
+"pe.MsgSuccess = $sce.trustAsHtml(\"Se ha registrado el formato de audiencia.\");\r\n" +
+"\t\t            \t$scope.WaitFor = false;\r\n\t\t            \t$scope.m.idFormat = idfor" +
+"mat;\r\n\t\t            \tvar mesage = \"Se ha registrado el formato de audiencia.\";\r\n" +
+"\t\t\t\t \t\tconsole.log(\"regresar del idformat-\"+idformat);\r\n\t\t\t\t\t\r\n\t\t            }el" +
+"se{\r\n\t\t            \t$scope.MsgError = $sce.trustAsHtml(resultado);\r\n\t\t          " +
+"  \t$scope.WaitFor = false;\r\n\t\t            \t$scope.m.isFinished = false;\r\n\t\t     " +
+"       }\r\n\t\t             $scope.m.lstContactData = listaContactos;\r\n\t\t          " +
+"   $scope.$apply();\r\n\t\t    }\r\n        };\r\n\r\n        $scope.saveHFClose = functio" +
+"n () {\r\n            \t\t$scope.m.isFinished = true;\r\n\t\t            $scope.WaitFor " +
+"= true;\r\n\t\t            $scope.m.listCrime = JSON.stringify($scope.listCrime);\r\n\t" +
+"\t            $scope.m.controlDetention = $scope.m.ctrlDet;\r\n\t\t            $scope" +
+".m.impForm = $scope.m.formImp;\r\n\t\t            var listaContactos = $scope.m.lstC" +
+"ontactData;\r\n\t\t            $scope.m.lstContactData = JSON.stringify($scope.m.lst" +
+"ContactData);\r\n\t\t            $scope.m.lstArrangement = JSON.stringify($scope.m.l" +
+"stArrangementShow);\r\n\t\t            $scope.m.extension = $scope.m.ext;\r\n\t\t       " +
+"     $scope.m.extDateStr = $scope.m.extDate;\r\n\t\t            $scope.m.imputationD" +
+"ateStr = $scope.m.impDate;\r\n\r\n\t\t            var resultado = SupervisionService.u" +
+"psertHearingFormat(JSON.stringify($scope.m));\r\n\t\t            var idformat = TryP" +
+"arseInt(resultado,null);\r\n\t\t            if(resultado!=undefined&&resultado!=null" +
+" && idformat!=null){\r\n\t\t            \t$scope.MsgSuccess = $sce.trustAsHtml(\"Se ha" +
+" registrado el formato de audiencia.\");\r\n\t\t            \t$scope.WaitFor = false;\r" +
+"\n\t\t            \t$scope.m.idFormat = idformat;\r\n\t\t            \tvar mesage = \"Se h" +
+"a registrado el formato de audiencia.\";\r\n\t\t\t\t \t\tconsole.log(\"regresar del idform" +
+"at-\"+idformat);\r\n\t\t\t\t\t\twindow.location.replace(\'hybrid:Supervision/HearingFormat" +
+"List?idCase=\'+$scope.m.idCase);\r\n\t\t            }else{\r\n\t\t            \t$scope.Msg" +
+"Error = $sce.trustAsHtml(resultado);\r\n\t\t            \t$scope.WaitFor = false;\r\n\t\t" +
+"            \t$scope.m.isFinished = false;\r\n\t\t            \taskCloseCredentials.hi" +
+"de();\r\n\t\t            }\r\n\t\t             $scope.m.lstContactData = listaContactos;" +
+"\r\n\t\t             $scope.$apply();\r\n        };\r\n\r\n        $scope.submitReloadHF =" +
+" function (formId, urlToPost, validate) {\r\n\r\n            var stVal = true;\r\n\r\n  " +
+"          if (validate != undefined)\r\n                stVal = validate();\r\n\r\n   " +
+"         if (stVal == false) {\r\n                $scope.Invalid = true;\r\n        " +
+"        return false;\r\n            }\r\n\r\n            $scope.WaitFor = true;\r\n    " +
+"        $scope.m.isFinished = true;\r\n\r\n            $scope.WaitFor = true;\r\n     " +
+"       $scope.m.isFinished = true;\r\n\r\n            $timeout(function () {\r\n      " +
+"          $.post(urlToPost, $(formId).serialize())\r\n                    .success" +
+"(function (resp) {\r\n                        if (resp.hasError === undefined) {\r\n" +
+"                            resp = resp.responseMessage;\r\n                      " +
+"  }\r\n\r\n                        if (resp.hasError == false) {\r\n                  " +
+"          window.goToUrlMvcUrl(resp.urlToGo);\r\n                        }\r\n\r\n    " +
+"                    if (resp.hasError == true) {\r\n                            $s" +
+"cope.m.isFinished = false;\r\n                            $scope.MsgError = $sce.t" +
+"rustAsHtml(resp.message);\r\n                            $scope.$apply();\r\n       " +
+"                 }\r\n                    })\r\n                    .error(function " +
+"() {\r\n                        $scope.WaitFor = false;\r\n                        $" +
+"scope.MsgError = $sce.trustAsHtml(\"Error de red. Por favor intente más tarde.\");" +
+"\r\n                        $scope.$apply();\r\n                    });\r\n           " +
+" }, 1);\r\n\r\n        };\r\n\r\n        /**/\r\n\r\n        $scope.submitPartiaSaveHF = fun" +
+"ction () {\r\n            $scope.WaitFor = true;\r\n            $scope.m.listCrime =" +
+" JSON.stringify($scope.listCrime);\r\n            $scope.m.controlDetention = $sco" +
+"pe.m.ctrlDet;\r\n            $scope.m.impForm = $scope.m.formImp;\r\n            var" +
+" listaContactos = $scope.m.lstContactData;\r\n            $scope.m.lstContactData " +
+"= JSON.stringify($scope.m.lstContactData);\r\n            $scope.m.lstArrangement " +
+"= JSON.stringify($scope.m.lstArrangementShow);\r\n\t\t            $scope.m.extension" +
+" = $scope.m.ext;\r\n\t\t            $scope.m.extDateStr = $scope.m.extDate;\r\n\t\t     " +
+"       $scope.m.imputationDateStr = $scope.m.impDate;\r\n\r\n            var resulta" +
+"do = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));\r\n        " +
+"    var idformat = TryParseInt(resultado,null);\r\n            if(resultado!=undef" +
+"ined&&resultado!=null && idformat!=null){\r\n            \t$scope.MsgSuccess = $sce" +
+".trustAsHtml(\"Se ha registrado el formato de audiencia.\");\r\n            \t$scope." +
+"WaitFor = false;\r\n            \t$scope.m.idFormat = idformat;\r\n            \tvar m" +
+"esage = \"Se ha registrado el formato de audiencia.\";\r\n\t\t \t\tconsole.log(\"regresar" +
+" del idformat-\"+idformat);\r\n\t\t\t\r\n            }else{\r\n            \t$scope.MsgErro" +
+"r = $sce.trustAsHtml(resultado);\r\n            \t$scope.WaitFor = false;\r\n        " +
+"    }\r\n             $scope.m.lstContactData = listaContactos;\r\n             //$s" +
+"cope.$apply();\r\n        };\r\n\r\n        /**/\r\n\r\n        $scope.loadArrangements = " +
+"function () {\r\n\r\n            if ($scope.m.arrType == undefined || $scope.m.arrTy" +
+"pe === \'\' || $scope.m.disableAll == true) {\r\n                return;\r\n          " +
+"  }\r\n            if ($scope.m.nationalArrangement == undefined || ($scope.m.nati" +
+"onalArrangement === \'\') || $scope.m.disableAll == true) {\r\n                retur" +
+"n;\r\n            }\r\n            $scope.m.arrangementType = $scope.m.arrType;\r\n   " +
+"         $scope.chgLblTerms();\r\n\r\n            var data = SupervisionService.getA" +
+"rrangmentLst($scope.m.nationalArrangement, $scope.m.arrType);\r\n            if(da" +
+"ta!=undefined&&data!=\"\"){\r\n            \t$scope.m.lstArrangementShow = $.parseJSO" +
+"N(data);\r\n            }\r\n        };\r\n\r\n        $scope.calcAge = function () {\r\n\r" +
+"\n            //yyyy/mm/dd o en milisegundos\r\n            if ($scope.m.impBthDay " +
+"!= null && $scope.m.impBthDay != \"\") {\r\n\r\n                var arrBth = [];\r\n    " +
+"            arrBth = $scope.m.impBthDay.split(\'/\');\r\n\r\n                var dtBth" +
+"Obj;\r\n\r\n                if (arrBth.length > 0)\r\n                    dtBthObj = n" +
+"ew Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1, parseInt(arrBth[2]));\r\n   " +
+"             else\r\n                    dtBthObj = new Date($scope.m.impBthDay);\r" +
+"\n\r\n                var ageDifMs = Date.now() - dtBthObj.getTime();\r\n            " +
+"    var ageDate = new Date(ageDifMs);\r\n                $scope.m.impAge = Math.ab" +
+"s(ageDate.getUTCFullYear() - 1970);\r\n\r\n                if ($scope.m.impAge < 18)" +
+" {\r\n                    $scope.hasError = true;\r\n                    $scope.m.er" +
+"rAge = \"No puede registrar a un menor de edad\";\r\n                }\r\n            " +
+"    else{\r\n                    $scope.m.errAge = \"\";\r\n                    $scope" +
+".m.imputedBirthDateStr = $scope.m.impBthDay;\r\n                    }\r\n           " +
+"     $scope.m.errBth = \"\";\r\n            }\r\n        };\r\n\r\n        $scope.exclusiv" +
+"eSelected = function (idArr) {\r\n            for (var i = 0; i < $scope.m.lstArra" +
+"ngementShow.length; i++) {\r\n                if ($scope.m.lstArrangementShow[i].i" +
+"d != idArr && $scope.m.lstArrangementShow[i].selVal == true && $scope.m.lstArran" +
+"gementShow[i].isExclusive == true) {\r\n                    return $scope.m.lstArr" +
+"angementShow[i].id\r\n                }\r\n            }\r\n\r\n            return -1;\r\n" +
+"        };\r\n\r\n        $scope.clearOthers = function (idExclusive) {\r\n           " +
+" for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {\r\n               " +
+" if ($scope.m.lstArrangementShow[i].id == idExclusive);\r\n                else {\r" +
+"\n                    $scope.m.lstArrangementShow[i].selVal = false;\r\n           " +
+"         $scope.m.lstArrangementShow[i].description = \"\";\r\n                }\r\n  " +
+"          }\r\n        };\r\n\r\n        $scope.selectDefaults = function () {\r\n      " +
+"      for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {\r\n          " +
+"      if ($scope.m.lstArrangementShow[i].isDefault == true) {\r\n                 " +
+"   $scope.m.lstArrangementShow[i].selVal = true;\r\n                    $scope.m.l" +
+"stArrangementShow[i].description = \"\";\r\n                }\r\n            }\r\n      " +
+"  };\r\n\r\n        $scope.validateArrangementSel = function (idx, idArr) {\r\n\r\n     " +
+"       var noSel = 0;\r\n            var noDesc = 0;\r\n\r\n            var idExclusiv" +
+"e = -1;\r\n\r\n            if ($scope.m.vincProcess != 2) {\r\n\r\n                if (!" +
+"$scope.m.lstArrangementShow || $scope.m.disableAll == true)\r\n                   " +
+" return;\r\n\r\n                if (idArr != undefined)\r\n                    idExclu" +
+"sive = $scope.exclusiveSelected(idArr);\r\n\r\n                if (idExclusive > 0) " +
+"{\r\n                    $scope.clearOthers(idExclusive);\r\n                    $sc" +
+"ope.m.errArrmntSel = $sce.trustAsHtml(\"No puede seleccionar otra medida cautelar" +
+". Debe deseleccionar la medida cautelar exclusiva.\");\r\n                    retur" +
+"n;\r\n                }\r\n\r\n                if (idArr != undefined && idx != undefi" +
+"ned)\r\n                    if ($scope.m.lstArrangementShow[idx].isExclusive == tr" +
+"ue) {\r\n                        $scope.clearOthers(idArr);\r\n                    }" +
+"\r\n\r\n                if (idArr != undefined && idx != undefined)\r\n               " +
+"     if ($scope.m.lstArrangementShow[idx].isExclusive == true && $scope.m.lstArr" +
+"angementShow[idx].selVal == false) {\r\n                        $scope.selectDefau" +
+"lts();\r\n                    }\r\n\r\n                for (var i = 0; i < $scope.m.ls" +
+"tArrangementShow.length; i++) {\r\n\r\n                    if ($scope.m.lstArrangeme" +
+"ntShow[i].selVal == true) {\r\n                        noSel++;\r\n                 " +
+"       if ($scope.m.lstArrangementShow[i].description != \"\" && $scope.m.lstArran" +
+"gementShow[i].description != undefined) {\r\n                            noDesc++;" +
+"\r\n                        }\r\n                    } else {\r\n                     " +
+"   $scope.m.lstArrangementShow[i].description = \"\";\r\n                    }\r\n\r\n  " +
+"              }\r\n\r\n                if (noSel < 1) {\r\n                    $scope." +
+"hasError = true;\r\n                    $scope.m.errArrmntSel = $sce.trustAsHtml(\"" +
+"Debe seleccionar al menos una obligaci&oacute;n procesal\");\r\n                   " +
+" return;\r\n                } else if (noSel > noDesc) {\r\n                    $sco" +
+"pe.hasError = true;\r\n                    $scope.m.errArrmntSel = $sce.trustAsHtm" +
+"l(\"Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal sele" +
+"ccionada\");\r\n                    return;\r\n                } else {\r\n            " +
+"        $scope.m.errArrmntSel = $sce.trustAsHtml(\"\");\r\n                }\r\n      " +
+"      }\r\n        };\r\n\r\n        $scope.hasContacts = function (id) {\r\n\r\n         " +
+"   if (id == 2) {\r\n                $scope.m.contactName = \"NO TIENE\";\r\n         " +
+"       $scope.m.contactPhone = \"00000000\";\r\n                $scope.m.contactAddr" +
+"ess = \"NO TIENE\";\r\n            } else {\r\n                $scope.m.contactName = " +
+"\"\";\r\n                $scope.m.contactPhone = \"\";\r\n                $scope.m.conta" +
+"ctAddress = \"\";\r\n            }\r\n        };\r\n\r\n        $scope.chngVincProcess = f" +
+"unction (id) {\r\n            if (id == 1 && $scope.m.ext == 3) {\r\n               " +
+" $scope.m.linkageRoom = $scope.m.room;\r\n                $scope.m.linkageDate = $" +
+"scope.m.appointmentDate;\r\n                $scope.m.linkageTime = $scope.m.initTi" +
+"me;\r\n            } else {\r\n                $scope.m.linkageRoom = \"\";\r\n         " +
+"       $scope.m.linkageDate = \"\";\r\n                $scope.m.linkageTime = \"\";\r\n " +
+"           }\r\n        };\r\n\r\n        $scope.fillSelSupervisor = function () {\r\n\r\n" +
+"            if ($scope.lstSupervisor === undefined || $scope.lstSupervisor.lengt" +
+"h <= 0)\r\n                return;\r\n\r\n            if ($scope.m.umecaSupervisorId =" +
+"== undefined) {\r\n                $scope.m.umecaSupervisor = $scope.lstSupervisor" +
+"[0];\r\n                $scope.m.umecaSupervisorId = $scope.m.umecaSupervisor.id;\r" +
+"\n            }\r\n            else {\r\n                for (var i = 0; i < $scope.l" +
+"stSupervisor.length; i++) {\r\n                    var rel = $scope.lstSupervisor[" +
+"i];\r\n\r\n                    if (rel.id === $scope.m.umecaSupervisorId) {\r\n       " +
+"                 $scope.m.umecaSupervisor = rel;\r\n                        break;" +
+"\r\n                    }\r\n                }\r\n            }\r\n        };\r\n\r\n       " +
+" $scope.fillSelHearingType = function () {\r\n\r\n                if ($scope.lstHear" +
+"ingType === undefined || $scope.lstHearingType.length <= 0)\r\n                   " +
+" return;\r\n\r\n                if ($scope.m.hearingTypeId === undefined) {\r\n       " +
+"             $scope.m.hearingType = $scope.lstHearingType[0];\r\n                 " +
+"   $scope.m.hearingTypeId = $scope.m.hearingType.id;\r\n                }\r\n       " +
+"         else {\r\n                    for (var i = 0; i < $scope.lstHearingType.l" +
+"ength; i++) {\r\n                        var rel = $scope.lstHearingType[i];\r\n\r\n  " +
+"                      if (rel.id === $scope.m.hearingTypeId) {\r\n                " +
+"            $scope.m.hearingType = rel;\r\n                            break;\r\n   " +
+"                     }\r\n                    }\r\n                }\r\n        };\r\n\r\n" +
+"        $scope.lockArrangements = function () {\r\n            if ($scope.m.hearin" +
+"gType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {\r\n      " +
+"          $(\"#divMedidas :input\").attr(\"disabled\", true);\r\n                $(\"#d" +
+"ivMedidasHidden :input\").attr(\"disabled\", false);\r\n            }\r\n            el" +
+"se {\r\n                $(\"#divMedidas :input\").attr(\"disabled\", false);\r\n        " +
+"        $(\"#divMedidasHidden :input\").attr(\"disabled\", true);\r\n            }\r\n  " +
+"          $scope.lockDefaultArrangements();\r\n        };\r\n\r\n        $scope.lockDe" +
+"faultArrangements = function () {\r\n\r\n            if ($scope.m.lstArrangementShow" +
+" != undefined) {\r\n                for (var i = 0; i < $scope.m.lstArrangementSho" +
+"w.length; i++) {\r\n                    if ($scope.m.lstArrangementShow[i].isDefau" +
+"lt == true)\r\n                        $(\"#arrangement\" + $scope.m.lstArrangementS" +
+"how[i].id).attr(\"disabled\", true);\r\n                }\r\n            }\r\n        };" +
+"\r\n\r\n        $scope.init = function () {\r\n        \tvar js = JSON.parse($(\"#hdnJso" +
+"nMtng\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    $scope.lstHearingType = JSON.pars" +
+"e( $(\"#hdnJsonHearing\").val());\r\n\t\t\t    $scope.readonlyBand =$(\"#hdnreadonlyBand" +
+"\").val();\r\n\r\n            $scope.fillFormat($scope.m);\r\n            $scope.fillSe" +
+"lSupervisor();\r\n            $scope.fillSelHearingType();\r\n            $scope.dis" +
+"ableView($scope.m.disableAll);\r\n            $scope.lockArrangements();\r\n        " +
+"    $scope.init2();\r\n        };\r\n\r\n        $scope.chgLblTerms = function () {\r\n " +
+"           if ($scope.m.arrType == 2)\r\n                $scope.lblTerms = $sce.tr" +
+"ustAsHtml(\"Plazo\");\r\n            else if ($scope.m.arrType == 1)\r\n              " +
+"  $scope.lblTerms = $sce.trustAsHtml(\"Plazo de investigaci&oacute;n\");\r\n        " +
+"};\r\n\r\n        $timeout(function () {\r\n            $scope.init();\r\n        }, 0);" +
+"\r\n\r\n        $scope.returnUrlId = function () {\r\n            var urlRet = $(\'#url" +
+"Ret\').attr(\"value\");\r\n            window.goToUrlMvcUrl(urlRet);\r\n        };\r\n\r\n\r" +
+"\n\r\n        //////////\r\n        $scope.c = {};\r\n        $scope.listElection = [];" +
+"\r\n        $scope.c.federal = 0;\r\n        $scope.listCrime = [];\r\n        $scope." +
+"optionsCrime = [];\r\n        $scope.listMsgError = [];\r\n\r\n\r\n        $scope.init2 " +
+"= function () {\r\n            //$(\".chosen-select\").chosen();\r\n            //$(\"." +
+"chosen-single span:nth-child(1)\").text(\"Seleccione una opción\");\r\n            co" +
+"nsole.log(\"before\");\r\n\r\n            console.log(\"$scope.m.listCrime\"+$(\"#hdnJson" +
+"listCrime\").val());\r\n            $scope.listCrime = JSON.parse($(\"#hdnJsonlistCr" +
+"ime\").val());\r\n            console.log(\"$scope.m.optionsCrime\"+$(\"#hdnJsonOption" +
+"sCrime\").val());\r\n            $scope.optionsCrime = JSON.parse($(\"#hdnJsonOption" +
+"sCrime\").val());\r\n            console.log(\"$scope.m.listElection\"+$(\"#hdnJsonlis" +
+"tElection\").val());\r\n            $scope.listElection = JSON.parse($(\"#hdnJsonlis" +
+"tElection\").val());\r\n\r\n            if ($scope.listCrime == undefined) {\r\n       " +
+"         $scope.listCrime = [];\r\n            }\r\n            if ($scope.listElect" +
+"ion === undefined || $scope.listElection.length <= 0)\r\n                return;\r\n" +
+"\r\n            if ($scope.c.federalId === undefined) {\r\n                $scope.c." +
+"federal = $scope.listElection[0];\r\n                $scope.c.federalId = $scope.c" +
+".federal.id;\r\n            }\r\n            $scope.cleanArray();\r\n\r\n        };\r\n\r\n\r" +
+"\n        ");
+
+WriteLiteral("\r\n\r\n        $scope.validateCrime = function () {\r\n            valid = true;\r\n    " +
+"        var strArticle = $scope.c.article + \"\";\r\n            if ($scope.c.crime " +
+"== undefined) {\r\n                $scope.listMsgError.push(\"Debe seleccionar un d" +
+"elito\");\r\n                valid = false;\r\n            }\r\n\r\n            if ($scop" +
+"e.c.article == undefined || (strArticle.length > 100 || strArticle.length < 1)) " +
+"{\r\n                $scope.listMsgError.push(\"La longitud del artículo debe ser e" +
+"ntre 1 y 100 caracteres\");\r\n                valid = false;\r\n            }\r\n     " +
+"       if ($scope.c.comment != undefined && $scope.c.comment.length > 255) {\r\n  " +
+"              $scope.listMsgError.push(\"La longitud del comentario debe ser entr" +
+"e 1 y 255 caracteres\");\r\n                valid = false;\r\n            }\r\n        " +
+"    return valid;\r\n        }\r\n        $scope.addCrime = function () {\r\n         " +
+"   if ($scope.validateCrime() == false) {\r\n                return false;\r\n      " +
+"      }\r\n\r\n            $scope.listMsgError = [];\r\n\r\n            var a = {};\r\n   " +
+"         a.federal = {};\r\n            a.crime = {};\r\n            a.crime = $scop" +
+"e.c.crime;\r\n            a.comment = $scope.c.comment;\r\n            a.federal.id " +
+"= $scope.c.federal.id;\r\n            a.federal.name = $scope.c.federal.name;\r\n   " +
+"         a.article = $scope.c.article;\r\n            $scope.listCrime.push(a);\r\n " +
+"           $scope.c.federal = $scope.listElection[0];\r\n            $scope.c.comm" +
+"ent = undefined;\r\n            $scope.c.article = undefined;\r\n            $scope." +
+"cleanArray();\r\n\r\n        };\r\n\r\n        $scope.deleteCrime = function (index) {\r\n" +
+"            $scope.listCrime.splice(index, 1);\r\n            $scope.cleanArray();" +
+"\r\n\r\n        };\r\n\r\n        $scope.cleanArray = function () {\r\n            var abc" +
+" = $scope.listCrime;\r\n            $scope.crimeString = JSON.stringify(abc);\r\n\r\n " +
+"           /*for(var item in $scope.listSchedule){\r\n             delete item[$$h" +
+"ashKey];\r\n             } */\r\n        }\r\n\r\n        $scope.valAddedCrime = functio" +
+"n () {\r\n            $scope.listMsgError = [];\r\n            valid = true;\r\n      " +
+"      if (!$scope.listCrime || !($scope.listCrime.length > 0)) {\r\n              " +
+"  $scope.listMsgError.push(\"Debe agregar al menos un delito\");\r\n                " +
+"valid = false;\r\n            }\r\n            return valid;\r\n        };\r\n\r\n        " +
+"$rootScope.$on(\'valAddCrime\', function (event,scope,prop) {\r\n            scope[p" +
+"rop]=$scope.valAddedCrime();\r\n        });\r\n        /////////\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n" +
+"\r\n\r\n    }\r\n)\r\n;\r\n</script>\r\n<script>\r\n function regresar(idRef){\r\n \t\tconsole.log" +
+"(\"regresar del edit-\"+idRef);\r\n\t\twindow.location.replace(\'hybrid:Supervision/Hea" +
+"ringFormatList?idCase=\'+idRef);\r\n    }\r\n    function TryParseInt(str,defaultValu" +
+"e) {\r\n     var retValue = defaultValue;\r\n     if(str !== null) {\r\n         if(st" +
+"r.length > 0) {\r\n             if (!isNaN(str)) {\r\n                 retValue = pa" +
+"rseInt(str);\r\n             }\r\n         }\r\n     }\r\n     return retValue;\r\n}\r\n</sc" +
+"ript>\r\n<script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(">\r\n\r\n        jQuery(function ($) {\r\n            $(\'#id-disable-check\').on(\'click\'" +
+", function () {\r\n                var inp = $(\'#form-input-readonly\').get(0);\r\n  " +
+"              if (inp.hasAttribute(\'disabled\')) {\r\n                    inp.setAt" +
+"tribute(\'readonly\', \'true\');\r\n                    inp.removeAttribute(\'disabled\'" +
+");\r\n                    inp.value = \"This text field is readonly!\";\r\n           " +
+"     }\r\n                else {\r\n                    inp.setAttribute(\'disabled\'," +
+" \'disabled\');\r\n                    inp.removeAttribute(\'readonly\');\r\n           " +
+"         inp.value = \"This text field is disabled!\";\r\n                }\r\n       " +
+"     });\r\n\r\n            $(\'.date-picker\').datepicker({autoclose: true}).next().o" +
+"n(ace.click_event, function () {\r\n                $(this).prev().focus();\r\n     " +
+"       });\r\n            $(\'input[name=date-range-picker]\').daterangepicker().pre" +
+"v().on(ace.click_event, function () {\r\n                $(this).next().focus();\r\n" +
+"            });\r\n\r\n            $(\'#modal-form input[type=file]\').ace_file_input(" +
+"{\r\n                style: \'well\',\r\n                btn_choose: \'Drop files here " +
+"or click to choose\',\r\n                btn_change: null,\r\n                no_icon" +
+": \'icon-cloud-upload\',\r\n                droppable: true,\r\n                thumbn" +
+"ail: \'large\'\r\n            })\r\n\r\n            $(\'#modal-form\').on(\'shown.bs.modal\'" +
+", function () {\r\n                $(this).find(\'.chosen-container\').each(function" +
+" () {\r\n                    $(this).find(\'a:first-child\').css(\'width\', \'210px\');\r" +
+"\n                    $(this).find(\'.chosen-drop\').css(\'width\', \'210px\');\r\n      " +
+"              $(this).find(\'.chosen-search input\').css(\'width\', \'200px\');\r\n     " +
+"           });\r\n            })\r\n\r\n            $(\'#initTimeStr\').timepicker({\r\n  " +
+"              minuteStep: 1,\r\n                showSeconds: true,\r\n              " +
+"  showMeridian: false\r\n            }).next().on(ace.click_event, function () {\r\n" +
+"                $(this).prev().focus();\r\n            });\r\n\r\n            $(\'#endT" +
+"imeStr\').timepicker({\r\n                minuteStep: 1,\r\n                showSecon" +
+"ds: true,\r\n                showMeridian: false,\r\n                timeFormat: \'hh" +
+":mm:ss tt\',\r\n                ampm: false\r\n            }).next().on(ace.click_eve" +
+"nt, function () {\r\n                $(this).prev().focus();\r\n            });\r\n\r\n " +
+"           $(\'#linkageTimeStr\').timepicker({\r\n                minuteStep: 1,\r\n  " +
+"              showSeconds: true,\r\n                showMeridian: false\r\n         " +
+"   }).next().on(ace.click_event, function () {\r\n                $(this).prev().f" +
+"ocus();\r\n            });\r\n\r\n            $(\'#umecaTimeStr\').timepicker({\r\n       " +
+"         minuteStep: 1,\r\n                showSeconds: true,\r\n                sho" +
+"wMeridian: false\r\n            }).next().on(ace.click_event, function () {\r\n     " +
+"           $(this).prev().focus();\r\n            });\r\n        });\r\n    </script>\r" +
+"\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<h2");
 
 WriteLiteral(" class=\"element-center\"");
 
@@ -58,35 +532,310 @@ WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral("\r\n      role=\"form\"");
 
-WriteLiteral(" ng-controller=\"upsertController\"");
-
 WriteLiteral(" method=\"post\"");
 
 WriteLiteral(">\r\n    <br/>\r\n\r\n\r\n\r\n    <div");
 
 WriteLiteral(" class=\"container body-content\"");
 
-WriteLiteral(" ng-controller=\"hearingFormatController\"");
+WriteLiteral(" ng-app=\"umecaMobile\"");
 
-WriteLiteral("\r\n         ng-init=\'m=${hfView}; m.rdHasContacts = 1;\'");
+WriteLiteral("  ng-controller=\"hearingFormatController\"");
+
+WriteLiteral("\r\n         ng-init=\'m.rdHasContacts = 1;\'");
 
 WriteLiteral(" style=\"padding:50px;\"");
 
-WriteLiteral(">\r\n\r\n        <div");
+WriteLiteral(">\r\n         <input");
+
+WriteLiteral(" id=\"hdnJsonMtng\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1027 "HearingFormatEdit.cshtml"
+               , Tuple.Create<string,object,bool> ("", Model.model
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(" name=\"jsonString\"");
+
+WriteLiteral(" />\r\n         <input");
+
+WriteLiteral(" id=\"hdnJsonHearing\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1028 "HearingFormatEdit.cshtml"
+                  , Tuple.Create<string,object,bool> ("", Model.lstHearingType
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(" />\r\n         <input");
+
+WriteLiteral(" id=\"hdnJsonlistCrime\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1029 "HearingFormatEdit.cshtml"
+                    , Tuple.Create<string,object,bool> ("", Model.listCrime
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(" />\r\n         <input");
+
+WriteLiteral(" id=\"hdnJsonOptionsCrime\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1030 "HearingFormatEdit.cshtml"
+                       , Tuple.Create<string,object,bool> ("", Model.optionsCrime
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(" />\r\n         <input");
+
+WriteLiteral(" id=\"hdnJsonlistElection\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1031 "HearingFormatEdit.cshtml"
+                       , Tuple.Create<string,object,bool> ("", Model.listElection
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral("/>\r\n         <input");
+
+WriteLiteral(" id=\"hdnreadonlyBand\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1032 "HearingFormatEdit.cshtml"
+                   , Tuple.Create<string,object,bool> ("", Model.readonlyBand
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral("/>\r\n         <input");
+
+WriteLiteral(" id=\"hdnhasPrevHF\"");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteAttribute ("value", " value=\"", "\""
+
+#line 1033 "HearingFormatEdit.cshtml"
+                , Tuple.Create<string,object,bool> ("", Model.hasPrevHF
+
+#line default
+#line hidden
+, false)
+);
+WriteLiteral(@"/>
+
+
+         <!-- TERMINATE CREDENTIALS -->
+    <script>
+var askCloseCredentials  = {};
+
+askCloseCredentials.show = function (){
+	var dlgMsgBox = $('#askCloseCredentialsBoxDlgId');
+	dlgMsgBox.show();
+askVerificationTerminate.hide();
+window.scrollTo(0, 230);
+};
+
+askCloseCredentials.hide = function (){
+	var dlgMsgBox = $('#askCloseCredentialsBoxDlgId');
+	dlgMsgBox.hide();
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0" +
+" 0 -30%;\"");
+
+WriteLiteral(" id=\"askCloseCredentialsBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askCloseCredentialsBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askCloseCredentials.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center\"");
+
+WriteLiteral(">Cerrar caso</h4>\r\n                    <br />Se cerrará el caso por que no existe" +
+" una vinculación a proceso. Debe ingresar sus credenciales para\r\n               " +
+"     confimar esta acción.\r\n                </div>\r\n            </div>\r\n        " +
+"    <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                            <label");
+
+WriteLiteral(" for=\"confirmComment\"");
+
+WriteLiteral(">Comentario</label>\r\n                            <br/>\r\n                         " +
+"   <textarea");
+
+WriteLiteral(" class=\"input-xxlarge form-control limited\"");
+
+WriteLiteral(" id=\"confirmComment\"");
+
+WriteLiteral("\r\n                                      name=\"confirmComment\"");
+
+WriteLiteral("\r\n                                      ng-model=\"m.confirmComment\"");
+
+WriteLiteral(" maxlength=\"980\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral("\r\n                                      data-val-required=\"Comenatario(s) adicion" +
+"ales es un campo requerido\"");
+
+WriteLiteral(">\r\n                                </textarea>\r\n                            <br/>" +
+"\r\n                            <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"confirmComment\"");
+
+WriteLiteral("\r\n                                  data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                        </div>\r\n\r\n                        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"m.confirmComment.length>0\"");
+
+WriteLiteral(">\r\n                            <label");
+
+WriteLiteral(" for=\"credPass\"");
+
+WriteLiteral(">Contrase&ntilde;a</label>\r\n                            <br/>\r\n                  " +
+"          <input");
+
+WriteLiteral(" id=\"credPass\"");
+
+WriteLiteral(" ng-model=\"m.credPass\"");
+
+WriteLiteral(" name=\"credPass\"");
+
+WriteLiteral("\r\n                                   type=\"password\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral(" class=\"input-xlarge\"");
+
+WriteLiteral("\r\n                                   data-val-required=\"Contrase&ntilde;a es un c" +
+"ampo requerido\"");
+
+WriteLiteral("/>\r\n                            <br/>\r\n                            <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"credPass\"");
+
+WriteLiteral("\r\n                                  data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                        </div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" ng-click=\"saveHFClose();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askCloseCredentials.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"blocker\"");
 
-WriteLiteral(" ng-show=\"WaitFor==true\"");
+WriteLiteral(" style=\"z-index:999;\"");
 
-WriteLiteral(">\r\n            <div>\r\n                Cargando...<img");
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
 
-WriteLiteral(" src=\"<c:url value=\'/assets/content/images/ajax_loader.gif\' />\"");
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
 
-WriteLiteral(" alt=\"\"");
+WriteLiteral(" alt=\"no content detected\"");
 
-WriteLiteral(@"/>
+WriteLiteral(@" />
+		    </div>
+		</div>
+    </div>
+    <!-- TERMINATE CREDENTIALS END -->
+
+
+         <!--
+        <div class=""blocker"" ng-show=""WaitFor==true"">
+            <div>
+                Cargando...<img src=""<c:url value='/assets/content/images/ajax_loader.gif' />"" alt=""""/>
             </div>
-        </div>
+        </div>-->
 
         <!--<input type=""hidden"" id=""url3""
                value=""<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>""/>
@@ -101,8 +850,15 @@ WriteLiteral(" id=\"idCase\"");
 
 WriteLiteral(" name=\"idCase\"");
 
-WriteLiteral(" value=\"{{m.idCase}}\"");
+WriteAttribute ("value", " value=\"", "\""
 
+#line 1113 "HearingFormatEdit.cshtml"
+                       , Tuple.Create<string,object,bool> ("", Model.IdCase
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral("/>\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
@@ -111,15 +867,8 @@ WriteLiteral(" name=\"lstArrangement\"");
 
 WriteLiteral(" value=\"{{m.lstArrangementShow}}\"");
 
-WriteLiteral("/>\r\n        <input");
-
-WriteLiteral(" type=\"hidden\"");
-
-WriteLiteral(" name=\"lstContactData\"");
-
-WriteLiteral(" value=\"{{m.lstContactData}}\"");
-
-WriteLiteral("/>\r\n        <input");
+WriteLiteral("/>\r\n        <!--<input type=\"hidden\" name=\"lstContactData\" value=\"{{m.lstContactD" +
+"ata}}\"/>-->\r\n        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
@@ -163,42 +912,42 @@ WriteLiteral(">\r\n                    <small>Nombre del supervisor:</small>\r\n
 
 WriteLiteral(" class=\"col-xs-6 element-right\"");
 
-WriteLiteral(">\r\n                <div");
-
-WriteLiteral(" ng-show=\"m.canSave==false\"");
-
-WriteLiteral(">\r\n        <span");
+WriteLiteral(">\r\n                <div>\r\n                            <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
-WriteLiteral("\r\n              ng-click=\"returnUrlId(\'<c:url value=\'/supervisor/hearingFormat/in" +
-"dexFormats.html\'/>\'+\'?id=\'+m.idCase)\"");
+WriteAttribute ("onclick", " onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "regresar(", true)
 
-WriteLiteral(">\r\n                                Regresar\r\n                            </span>\r" +
-"\n                </div>\r\n                <div");
+#line 1132 "HearingFormatEdit.cshtml"
+                                            , Tuple.Create<string,object,bool> ("", Model.IdCase
 
-WriteLiteral(" ng-show=\"m.canSave==true\"");
-
-WriteLiteral(">\r\n                            <span");
-
-WriteLiteral(" class=\"btn btn-default btn-sm\"");
-
-WriteLiteral("\r\n                                  ng-click=\"returnUrl(\'<c:url value=\'/superviso" +
-"r/hearingFormat/indexFormats.html\'/>\'+\'?id=\'+m.idCase)\"");
-
-WriteLiteral(">\r\n                                Regresar\r\n                            </span>\r" +
-"\n\r\n                            <span");
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(@" >
+                                  <!--ng-click=""returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)"">-->
+                                Regresar
+                            </span>
+                            <span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                                  ng-click=\"submitPartiaSaveHF(\'#FormFormatId\'," +
-"\'<c:url value=\'/supervisor/hearingFormat/doUpsert.json\'/>\');\"");
+WriteLiteral("  ng-click=\"submitPartiaSaveHF();\"");
 
-WriteLiteral(">\r\n                                                  Guardar\r\n                   " +
-"                         </span>\r\n                </div>\r\n            </div>\r\n  " +
-"      </div>\r\n\r\n        <div");
+WriteLiteral(@">
+                                  <!--ng-click=""submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');"">-->
+                                Guardar
+                            </span>
+                </div>
+            </div>
+        </div>
+
+        <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -345,14 +1094,12 @@ WriteLiteral("\r\n                                                              
 WriteLiteral("\r\n                                                                ng-options=\"e.d" +
 "escription for e in lstHearingType\"");
 
-WriteLiteral("\r\n                                                                ng-init=\'lstHea" +
-"ringType = ${lstHearingType};\'");
+WriteLiteral("\r\n                                                                ");
 
-WriteLiteral("\r\n                                                                ng-change=\"lock" +
-"Arrangements();\"");
-
-WriteLiteral("></select>\r\n                                                    </div>\r\n         " +
-"                                           <div");
+WriteLiteral(@"
+                                                                ng-change=""lockArrangements(); m.hearingTypeId = m.hearingType.id;"" ></select>
+                                                    </div>
+                                                    <div");
 
 WriteLiteral(" class=\"col-xs-4\"");
 
@@ -1283,12 +2030,261 @@ WriteLiteral(">\r\n                                                <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
-WriteLiteral("\r\n                                                     ng-init=\"readonlyBand = ${" +
-"readonlyBand == null ? false: readonlyBand};\"");
+WriteLiteral("\r\n                                                     ");
 
-WriteLiteral(@">
+WriteLiteral(@" >
                                                     <br/>
                                                 <!--    <% include file=""/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp"" %> -->
+                                                <!---->
+<style>
+    .chosen-container-single .chosen-search:after {
+        content: """" !important;
+    }
+</style>
+<div");
+
+WriteLiteral(" class=\"row element-center\"");
+
+WriteLiteral(" >\r\n    <div");
+
+WriteLiteral(" class=\"row element-left\"");
+
+WriteLiteral(" >\r\n        <b>Delitos:</b>\r\n    </div>\r\n    <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden ");
+
+WriteLiteral(">\r\n    <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-update-hidden");
+
+WriteLiteral(" ng-model=\"crimeString\"");
+
+WriteLiteral(" name=\'listCrime\'");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral("  ng-show=\"readonlyBand == false\"");
+
+WriteLiteral(">\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-5 element-center\"");
+
+WriteLiteral(">\r\n       Delito<br/><br/>\r\n        <select");
+
+WriteLiteral(" class=\"width-95 element-center\"");
+
+WriteLiteral(" ng-model=\"c.crime\"");
+
+WriteLiteral(" \r\n                ng-options=\"e.name for e in optionsCrime\"");
+
+WriteLiteral("\r\n                ng-change=\"c.crimeId = c.crime.id\"");
+
+WriteLiteral("\r\n                data-placeholder=\"Seleccione una opción\"");
+
+WriteLiteral(" id=\"ms\"");
+
+WriteLiteral("\r\n                ");
+
+WriteLiteral("\r\n                ></select>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-1 element-center\"");
+
+WriteLiteral(">\r\n       Art&iacute;culo<br/><br/>\r\n            <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" ng-model=\"c.article\"");
+
+WriteLiteral("/>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-2 element-center\"");
+
+WriteLiteral(">\r\n        Federal<br/> <label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(Asociado con el local)</label> <br/>\r\n        <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"c.federal\"");
+
+WriteLiteral("\r\n                ng-options=\"e.name for e in listElection\"");
+
+WriteLiteral("\r\n                ng-change=\"c.federalId = c.federal.id\"");
+
+WriteLiteral("\r\n                ");
+
+WriteLiteral("\r\n                ></select>\r\n    </div>\r\n     <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n         Observaciones<br/><br/>\r\n        <textarea");
+
+WriteLiteral(" class=\"width-100\"");
+
+WriteLiteral(" ng-model=\"c.comment\"");
+
+WriteLiteral("></textarea>\r\n     </div>\r\n    <div");
+
+WriteLiteral(" class=\"col-xs-1 element-center\"");
+
+WriteLiteral(">\r\n        Acciones<br/><br/><div");
+
+WriteLiteral(" class=\"space-5\"");
+
+WriteLiteral("></div>\r\n        <i");
+
+WriteLiteral(" class=\"icon-plus-sign orange\"");
+
+WriteLiteral(" style=\"cursor:pointer;\"");
+
+WriteLiteral(" ng-click=\"addCrime()\"");
+
+WriteLiteral("></i>\r\n    </div>\r\n    </div>\r\n        <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"hr hr-6\"");
+
+WriteLiteral("></div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" ng-show=\"listMsgError.length > 0\"");
+
+WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
+
+WriteLiteral(">\r\n            <div  ng-repeat =\"msg in listMsgError\">\r\n                {{msg}}\r\n" +
+"                <br/>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(" ng-show =\"listCrime.length > 0\">\r\n         <div");
+
+WriteLiteral(" class=\"row center\"");
+
+WriteLiteral(">\r\n             <div");
+
+WriteLiteral(" class=\"col-xs-5\"");
+
+WriteLiteral(">\r\n                 <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Delito</h5>\r\n                 <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n             </div>\r\n             <div");
+
+WriteLiteral(" class=\"col-xs-1\"");
+
+WriteLiteral(">\r\n                 <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Art&iacute;culo</h5>\r\n                 <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n             </div>\r\n             <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                 <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Federal</h5>\r\n                 <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n             </div>\r\n             <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                 <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Observaciones</h5>\r\n                 <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n             </div>\r\n             <div");
+
+WriteLiteral(" class=\"col-xs-1\"");
+
+WriteLiteral(" ng-show=\"readonlyBand == false\"");
+
+WriteLiteral(">\r\n                 <h5");
+
+WriteLiteral(" class=\"smaller lighter blue\"");
+
+WriteLiteral(">Acciones</h5>\r\n                 <div");
+
+WriteLiteral(" class=\"hr hr-2\"");
+
+WriteLiteral("></div>\r\n             </div>\r\n         </div>\r\n            <div");
+
+WriteLiteral(" class=\"row center\"");
+
+WriteLiteral(" ng-repeat =\"crime in listCrime\">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-5\"");
+
+WriteLiteral(">\r\n                    {{crime.crime.name}}\r\n                </div>\r\n            " +
+"    <div");
+
+WriteLiteral(" class=\"col-xs-1\"");
+
+WriteLiteral(">\r\n                     {{crime.article}}\r\n                </div>\r\n              " +
+"  <div");
+
+WriteLiteral(" class=\"col-xs-2\"");
+
+WriteLiteral(">\r\n                    {{crime.federal.name}}\r\n                </div>\r\n          " +
+"      <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n                    {{crime.comment}}\r\n                </div>\r\n               " +
+" <div");
+
+WriteLiteral(" class=\"col-xs-1\"");
+
+WriteLiteral(" ng-show=\"readonlyBand == false\"");
+
+WriteLiteral(">\r\n                    <i");
+
+WriteLiteral(" class=\"icon-trash red\"");
+
+WriteLiteral(" style=\"cursor:pointer;\"");
+
+WriteLiteral(" ng-click=\"deleteCrime($index)\"");
+
+WriteLiteral(@"></i>
+                </div>
+            </div>
+         </div>
+
+    </div>
+    <br/>
+</div>
+                                                <!---->
                                                     <br/>
                                                 </div>
                                             </div>
@@ -2258,176 +3254,12 @@ WriteLiteral(@"></span>
                     <br/>
                 </div>
             </div>
-        </div>
+        
         <br/>
 
-        <div");
+        ");
 
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(" ng-show=\"m.vincProcess==1||m.vincProcess==3\"");
-
-WriteLiteral(" id=\"divCitaUmeca\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"widget-box\"");
-
-WriteLiteral(">\r\n                <div");
-
-WriteLiteral(" class=\"widget-header\"");
-
-WriteLiteral(">Cita UMECA para entrevista de encuadre</div>\r\n                <div");
-
-WriteLiteral(" class=\"widget-body\"");
-
-WriteLiteral(">\r\n                    <div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n                        <div");
-
-WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
-
-WriteLiteral(">\r\n                            <br/>\r\n\r\n                            <div row>\r\n  " +
-"                              <div");
-
-WriteLiteral(" class=\"col-xs-3\"");
-
-WriteLiteral(">\r\n                                    <label");
-
-WriteLiteral(" for=\"appointmentDateStr\"");
-
-WriteLiteral(">Cita en la UMECA:</label>\r\n                                    <br/>\r\n\r\n        " +
-"                            <div");
-
-WriteLiteral(" class=\"input-group\"");
-
-WriteLiteral(">\r\n                                        <input");
-
-WriteLiteral(" id=\"umecaDateStr\"");
-
-WriteLiteral(" name=\"umecaDateStr\"");
-
-WriteLiteral("\r\n                                               ng-model=\"m.umecaDate\"");
-
-WriteLiteral("\r\n                                               class=\"form-control date-picker\"" +
-"");
-
-WriteLiteral(" id=\"id-date-picker-umeca\"");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral("\r\n                                               data-date-format=\"yyyy/mm/dd\"");
-
-WriteLiteral(" data-val=\"true\"");
-
-WriteLiteral(" readonly");
-
-WriteLiteral("\r\n                                               data-val-required=\"Cita en la UM" +
-"ECA es un campo requerido\"");
-
-WriteLiteral("/>\r\n                                    <span");
-
-WriteLiteral(" class=\"input-group-addon\"");
-
-WriteLiteral(">\r\n                                        <i");
-
-WriteLiteral(" class=\"icon-calendar bigger-110\"");
-
-WriteLiteral("></i>\r\n                                    </span>\r\n                             " +
-"       </div>\r\n                                <span");
-
-WriteLiteral(" class=\"field-validation-valid\"");
-
-WriteLiteral(" data-valmsg-for=\"umecaDateStr\"");
-
-WriteLiteral("\r\n                                      data-valmsg-replace=\"true\"");
-
-WriteLiteral("></span>\r\n                                </div>\r\n                               " +
-" <div");
-
-WriteLiteral(" class=\"col-xs-3\"");
-
-WriteLiteral(">\r\n                                    <label");
-
-WriteLiteral(" for=\"umecaTimeStr\"");
-
-WriteLiteral(">Hora de la cita UMECA</label>\r\n\r\n                                    <div");
-
-WriteLiteral(" class=\"input-group bootstrap-timepicker\"");
-
-WriteLiteral(">\r\n                                        <input");
-
-WriteLiteral(" id=\"umecaTimeStr\"");
-
-WriteLiteral(" name=\"umecaTimeStr\"");
-
-WriteLiteral(" ng-model=\"m.umecaTime\"");
-
-WriteLiteral("\r\n                                               readonly");
-
-WriteLiteral(" type=\"text\"");
-
-WriteLiteral(" class=\"form-control umeca-time-picker\"");
-
-WriteLiteral("\r\n                                               data-val=\"true\"");
-
-WriteLiteral("\r\n                                               data-val-required=\"Hora de inici" +
-"o es un campo requerido\"");
-
-WriteLiteral("/>\r\n                                                        <span");
-
-WriteLiteral(" class=\"input-group-addon\"");
-
-WriteLiteral("><i\r\n                                                                class=\"icon-" +
-"time bigger-110\"></i></span>\r\n                                        <br/>\r\n   " +
-"                                 </div>\r\n                        <span");
-
-WriteLiteral(" class=\"field-validation-valid\"");
-
-WriteLiteral(" data-valmsg-for=\"umecaTimeStr\"");
-
-WriteLiteral("\r\n                              data-valmsg-replace=\"true\"");
-
-WriteLiteral("></span>\r\n                                </div>\r\n                               " +
-" <div");
-
-WriteLiteral(" class=\"col-xs-5\"");
-
-WriteLiteral(">\r\n                                    <label>Elige el nuevo supervisor para el c" +
-"aso</label>\r\n                                    <br/>\r\n                        " +
-"            <select");
-
-WriteLiteral(" class=\"form-control element-center\"");
-
-WriteLiteral("\r\n                                            ng-model=\"m.umecaSupervisor\"");
-
-WriteLiteral("\r\n                                            ng-options=\"e.description for e in " +
-"lstSupervisor\"");
-
-WriteLiteral("\r\n                                            ng-init=\'lstSupervisor = ${lstSuper" +
-"visor};\'");
-
-WriteLiteral(@"></select>
-                                </div>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <br/>
-
-        <div");
+WriteLiteral("\r\n\r\n        <div");
 
 WriteLiteral(" id=\"divMedidasHidden\"");
 
@@ -2766,7 +3598,7 @@ WriteLiteral("\r\n                                                          ng-m
 WriteLiteral("\r\n                                                          ng-show=\"m.lstArrange" +
 "mentShow[$index].selVal==true\"");
 
-WriteLiteral(@"></textarea>
+WriteLiteral(@">{{m.lstArrangementShow[$index].description}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3041,16 +3873,18 @@ WriteLiteral(">\r\n                                                    <td");
 
 WriteLiteral(" class=\"element-center\"");
 
-WriteLiteral(">{{contact.name}}</td>\r\n                                                    <td");
-
-WriteLiteral(" class=\"element-center\"");
-
-WriteLiteral(">{{contact.phone}}</td>\r\n                                                    <td");
-
-WriteLiteral(" class=\"element-center\"");
-
-WriteLiteral(">{{contact.address}}</td>\r\n                                                    <t" +
+WriteLiteral(">{{contact.NameTxt}}</td>\r\n                                                    <t" +
 "d");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(">{{contact.PhoneTxt}}</td>\r\n                                                    <" +
+"td");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(">{{contact.AddressTxt}}</td>\r\n                                                   " +
+" <td");
 
 WriteLiteral(" class=\"element-center\"");
 
@@ -3168,28 +4002,44 @@ WriteLiteral(">\r\n                    <small>Hora de t&eacute;rmino:</small>\r\
 "  &nbsp;&nbsp;{{m.endTime}}\r\n                </h3>\r\n            </div>\r\n\r\n      " +
 "      <div");
 
-WriteLiteral(" ng-show=\"m.canSave==true\"");
+WriteLiteral(" class=\"col-xs-6 element-right\"");
 
-WriteLiteral(">\r\n                            <span");
+WriteLiteral(">\r\n                <div>\r\n                            <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
-WriteLiteral("\r\n                                  ng-click=\"returnUrl(\'<c:url value=\'/superviso" +
-"r/hearingFormat/indexFormats.html\'/>\'+\'?id=\'+m.idCase)\"");
+WriteAttribute ("onclick", "  onclick=\"", "\""
+, Tuple.Create<string,object,bool> ("", "regresar(", true)
 
-WriteLiteral(">\r\n                                Regresar\r\n                            </span>\r" +
-"\n\r\n                            <span");
+#line 2346 "HearingFormatEdit.cshtml"
+                                             , Tuple.Create<string,object,bool> ("", Model.IdCase
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(@" >
+                                  <!--ng-click=""returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)"">-->
+                                Regresar
+                            </span>
+                            <span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral("\r\n                                  ng-click=\"submitPartiaSaveHF(\'#FormFormatId\'," +
-"\'<c:url value=\'/supervisor/hearingFormat/doUpsert.json\'/>\');\"");
+WriteLiteral("  ng-click=\"submitPartiaSaveHF();\"");
 
-WriteLiteral(">\r\n                                                  Guardar\r\n                   " +
-"                         </span>\r\n            </div>\r\n        </div>\r\n\r\n        " +
-"<div");
+WriteLiteral(@" >
+                                  <!--ng-click=""submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');"">-->
+                                Guardar
+                            </span>
+                </div>
+            </div>
+        </div>
+
+        <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -3207,38 +4057,120 @@ WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 
-WriteLiteral(" ng-confirm-action");
+WriteLiteral(" onclick=\"askVerificationTerminate.show();\"");
 
-WriteLiteral("\r\n                          confirm-message=\"&iquest;Est&aacute; seguro que desea" +
-" terminar el formato de audiencia?\"");
-
-WriteLiteral("\r\n                          confirm-title=\"Terminar formato de audiencia\"");
-
-WriteLiteral(" confirm-type=\"info\"");
-
-WriteLiteral("\r\n                          confirmed-click-action=\"saveHF(\'#FormFormatId\',\'<c:ur" +
-"l value=\'/supervisor/hearingFormat/doUpsert.json\'/>\',validateSave);\"");
-
-WriteLiteral(@">
+WriteLiteral(@" > 
                           Terminar
                     </span>
             </div>
         </div>
 
-
-      <!--  <% include file=""/WEB-INF/jsp/shared/sharedSvc.jsp"" %>
-        <% include file=""/WEB-INF/jsp/shared/footer.jsp"" %> -->
-    </div>
-    </div>
-</form>
-
-<script>
+        <script>
     var date = new Date();
     date.setFullYear(date.getFullYear() - 18);
     $('#imputedBirthDateStr').datepicker({autoclose: true, endDate: date}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
-</script>");
+</script>
+<script>
+var askVerificationTerminate  = {};
+
+askVerificationTerminate.show = function (){
+	var dlgMsgBox = $('#askVerificationTerminateBoxDlgId');
+	dlgMsgBox.show();
+};
+
+askVerificationTerminate.hide = function (){
+	var dlgMsgBox = $('#askVerificationTerminateBoxDlgId');
+	dlgMsgBox.hide();
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0" +
+" -30%;\"");
+
+WriteLiteral(" id=\"askVerificationTerminateBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askVerificationTerminateBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askVerificationTerminate.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(">Terminar formato de audiencia</h4>\r\n                </div>\r\n            </div>\r\n" +
+"            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(">¿Está seguro que desea terminar el formato de audiencia?</div>\r\n            </di" +
+"v>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" ng-click=\"saveHF();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askVerificationTerminate.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n      <!--  <% include file=\"/WEB-" +
+"INF/jsp/shared/sharedSvc.jsp\" %>\r\n        <% include file=\"/WEB-INF/jsp/shared/f" +
+"ooter.jsp\" %> -->\r\n    </div>\r\n</div>\r\n</form>\r\n\r\n");
 
 }
 }

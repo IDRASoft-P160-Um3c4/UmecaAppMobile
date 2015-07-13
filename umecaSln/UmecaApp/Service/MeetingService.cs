@@ -991,21 +991,21 @@ namespace UmecaApp
 
 				db.CreateTable<SocialEnvironment>();
 				var social = db.Table<SocialEnvironment>().Where(s=>s.Id==model.MeetingId).FirstOrDefault();
-				if(social==null){
-					social = new SocialEnvironment();
-					social.MeetingId=model.MeetingId.GetValueOrDefault();
-					social.comment= model.comment;
-					db.Insert(social);
+				if(seCase==null){
+					seCase = new SocialEnvironment();
+					seCase.MeetingId=model.MeetingId.GetValueOrDefault();
+					seCase.comment= model.comment;
+					db.Insert(seCase);
 				}else{
-					social.MeetingId=model.MeetingId.GetValueOrDefault();
-					social.comment= model.comment;
-					db.Update(social);
+					seCase.MeetingId=model.MeetingId.GetValueOrDefault();
+					seCase.comment= model.comment;
+					db.Update(seCase);
 				}
 
 /* validaciones */
 				var validate = new TerminateMeetingMessageDto();
 				validateMeetingImputed(validate, imputado);
-				validateMeetingSocialEnvironment(validate, social);
+				validateMeetingSocialEnvironment(validate, seCase);
 				validateMeetingSchool(validate, meSchool);
 				validateMeetingCountry(validate, meLeaveCountry);
 

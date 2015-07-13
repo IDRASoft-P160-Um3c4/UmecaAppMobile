@@ -28,7 +28,7 @@ namespace UmecaApp
 
 			var webView = FindViewById<WebView>(Resource.Id.webView);
 
-			var loginController = new LoginController (new HybridWebView (webView, this), null);
+			var loginController = new LoginController (new HybridWebView (webView, this), db);
 			RouteHandler.RegisterController ("Login", loginController);
 			var meetingController = new MeetingController (new HybridWebView (webView, this), db);
 			RouteHandler.RegisterController ("Meeting", meetingController);

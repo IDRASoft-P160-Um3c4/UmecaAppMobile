@@ -8,6 +8,7 @@ using System.Linq;
 using Environment = System.Environment;
 using System.Collections.Generic;
 using Umeca.Data;
+using System.Threading.Tasks;
 
 namespace UmecaApp
 {
@@ -17,35 +18,44 @@ namespace UmecaApp
 	{
 
 		public void insertAllCatalogs(Activity act){
-			InsertRelationship (act);
-			InsertDegree (act);
-			InsertActivity (act);
-			InsertCrime (act);
-			InsertDocumentType (act);
-			InsertDrugType (act);
-			InsertElection (act);
-			InsertFieldVerification (act);
-			InsertHearingType (act);
-			InsertHomeType (act);
-			InsertImmigrationDocument (act);
-			InsertMaritalStatus (act);
-			InsertPeriodicity (act);
-			//InserRole (act);
-			InsertStatusCase (act);
-			InsertStatusFieldVerfication (act);
-			InsertStatusMeeting (act);
-			InsertStatusVerification (act);
-			InsertLocationCat (act);
-			//
-			InsertHomeType (act);
-			InsertRegisterType (act);
 
-			InsertArrangement (act);
-			InsertGroupCrime (act);
-			InsertCrimeCatalog (act);
+			var t = Task.Run(() =>
+				{
+					InsertUserRoles (act);
+
+					InsertRelationship (act);
+					InsertDegree (act);
+					InsertActivity (act);
+					InsertDocumentType (act);
+					InsertDrugType (act);
+					InsertElection (act);
+					InsertFieldVerification (act);
+					InsertHearingType (act);
+					InsertHomeType (act);
+					InsertImmigrationDocument (act);
+					InsertMaritalStatus (act);
+					InsertPeriodicity (act);
+
+					InsertStatusCase (act);
+					InsertStatusFieldVerfication (act);
+					InsertStatusMeeting (act);
+					InsertStatusVerification (act);
+					InsertLocationCat (act);
+
+					InsertHomeType (act);
+					InsertRegisterType (act);
+
+					InsertArrangement (act);
+					InsertGroupCrime (act);
+					InsertCrimeCatalog (act);
 
 
-			CreateTablesToConsult ();
+					CreateTablesToConsult ();
+				});
+
+			Task.WaitAll(t);
+
+
 
 		}
 
@@ -73,6 +83,39 @@ namespace UmecaApp
 			db.CreateTable<Job>();
 			db.CreateTable<SourceVerification> ();
 			db.CreateTable<User> ();
+		}
+
+		public void InsertUserRoles(Activity act){
+			//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<Role> ();
+			if (db.Table<Role> ().Count () == 0) {
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/role.txt", act);
+				List<Role> entities=new List<Role>(); 
+				foreach (String[] line in data) {
+					try{
+						Role model = new Role ();
+						model.Id = int.Parse(line [0]);
+						model.role = line [1];
+						model.Description = line [2];
+						entities.Add(model);
+					}catch(Exception e){
+						Console.WriteLine ("RoleCatalog error "+e.Message);
+					}
+				}
+				db.InsertAll (entities);
+				var content = db.Table<Role> ().ToList();
+				Console.WriteLine ("Se inserto en tabla Role:");
+				foreach (Role m in content) {
+					Console.WriteLine ("Id: "+m.Id+" Role:"+m.role);
+				}
+			}
+			db.Close ();
 		}
 
 		public void InsertDegree(Activity act){
@@ -160,65 +203,6 @@ namespace UmecaApp
 				Console.WriteLine ("Se inserto en tabla ActivityCatalog:");
 				foreach (ActivityCatalog m in content) {
 					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
-				}
-			}
-			db.Close ();
-		}
-
-		public void InsertCrime(Activity act){
-//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
-			var db = new SQLiteConnection(
-				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
-				ConstantsDB.DB_PATH,
-				true,
-				null // (can be null in which case you will need to provide tables that only use supported data types)
-			);
-			db.CreateTable<GroupCrime> ();
-			if (db.Table<GroupCrime> ().Count () == 0) {
-			
-				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/group_crime.txt", act);
-				List<GroupCrime> entities=new List<GroupCrime>(); 
-				foreach (String[] line in data) {
-					try{
-						GroupCrime model = new GroupCrime ();
-						model.Id = int.Parse(line [0]);
-						model.Name = line [1];
-						model.IsObsolete = line [2].Equals ("1");
-						entities.Add(model);
-					}catch(Exception e){
-						Console.WriteLine ("GroupCrime error "+e.Message);
-					}
-				}
-				db.InsertAll (entities);
-				IEnumerable<String[]> dataCrime = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/crime.txt", act);
-				List<CrimeCatalog> entitiesCrime=new List<CrimeCatalog>(); 
-				foreach (String[] line in data) {
-					try{
-						CrimeCatalog model = new CrimeCatalog ();
-						model.Id = int.Parse(line [0]);
-						model.Name = line [1];
-						model.Description = line[2];
-						model.IsObsolete = line [3].Equals ("1");
-						model.GroupCrimeId = int.Parse(line[4]);
-						entitiesCrime.Add(model);
-					}catch(Exception e){
-						Console.WriteLine ("CrimeCatalog error "+e.Message);
-					}
-				}
-				db.CreateTable<CrimeCatalog> ();
-				db.InsertAll (entitiesCrime);
-
-				var content = db.Table<GroupCrime> ().ToList();
-				Console.WriteLine ("Se inserto en tabla GroupCrime:");
-				foreach (GroupCrime m in content) {
-					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
-					Console.WriteLine ("    Crime");
-					var CrimeCatalogs = (from c in db.Table<CrimeCatalog>()
-						where c.GroupCrimeId.Equals(m.Id)
-						select c).ToList();
-					foreach (CrimeCatalog d in CrimeCatalogs) {
-						Console.WriteLine ("Id: "+d.Id+" Name:"+d.Name);
-					}
 				}
 			}
 			db.Close ();
@@ -374,7 +358,7 @@ namespace UmecaApp
 			);
 			db.CreateTable<HearingType> ();
 			if (db.Table<HearingType> ().Count () == 0) {
-				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/hearing_format_type.txt", act);
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/hearing_type.txt", act);
 				List<HearingType> entities=new List<HearingType>(); 
 				foreach (String[] line in data) {
 					try{

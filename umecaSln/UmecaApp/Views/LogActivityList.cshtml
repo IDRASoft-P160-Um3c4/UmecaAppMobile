@@ -1,0 +1,93 @@
+﻿@model  UmecaApp.LogActivityListDto
+
+@inherits WebViewTemplate
+@{ 
+	Layout = "UmecaApp.HeadSupervition";
+}
+    <script type="text/javascript">
+    function newLogActivity(fuente){
+		window.location.replace('hybrid:Supervision/AddCaseLog?idCase='+fuente);
+    }
+    </script>
+<h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Bitácora del caso</h2>
+@if(Model.message!=null){
+		<div class="row" onclick="javascript:$(this).hide();">
+            <div class="col-xs-12">
+                <div msg="MsgError"
+                     class="umeca-toast-error element-center">
+                    <p>@Model.message</p>
+                </div>
+            </div>
+        </div>
+}
+<br />
+<table class="tableInfo">
+    <tr>
+        <td class="labelInfo">IMPUTADO</td>
+        <td class="fieldInfo">@Model.imputado</td>
+    </tr>
+    <tr>
+        <td class="labelInfo">Carpeta Judicial</td>
+        <td class="fieldInfo">@Model.folder</td>
+    </tr>
+</table>
+
+<br/>
+<div class="row">
+   <div class="col-xs-6 align-left">
+       <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="newLogActivity(@Model.CaseId)">Agrgar actividad espont&aacute;nea</a>
+   </div>
+</div>
+
+<div class="panel panel-default panel-primary">
+    <div class="panel-heading" ng-init='listLog=${listLog};'>
+        <span class="icon-tasks"></span>&nbsp;&nbsp;LISTADO DE ACTIVIDADES
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="widget-box transparent">
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thin-border-bottom">
+                            <tr>
+                                <th class="col-xs-2 element-center">
+                                    <i class="icon-caret-right blue"></i>
+                                    FECHA Y HORA
+                                </th>
+
+                                <th class="col-xs-2 element-center">
+                                    <i class="icon-caret-right blue"></i>
+                                    ACTIVIDAD
+                                </th>
+                                <th class="col-xs-2 element-center">
+                                    <i class="icon-caret-right blue"></i>
+                                    REALIZADO POR
+                                </th>
+                                <th class="col-xs-6 element-center">
+                                    <i class="icon-caret-right blue"></i>
+                                    DETALLES
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach(var logRow in Model.rows) {
+                            <tr>
+                                <td><span>@logRow.dateString</span></td>
+                                <td><span>@logRow.activity</span>
+                                </td>
+                                <td><span>@logRow.userName</span></td>
+                                <td class="align-left"><strong><span class="text-primary">@logRow.title</span></strong><br/>
+                                    <span>@logRow.resume</span>
+                                </td>
+                            </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

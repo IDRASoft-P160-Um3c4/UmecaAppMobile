@@ -5,6 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
+using Umeca.Data;
+
 namespace UmecaApp
 {
 	public class CatalogServiceController
@@ -58,7 +60,7 @@ namespace UmecaApp
 				newImputed.BirthDate = DateTime.Today.AddYears (-27);
 				caseDetention.Status = statusCasefindByCode (Constants.CASE_STATUS_MEETING);
 				caseDetention.StatusCaseId = statusCasefindByCode (Constants.CASE_STATUS_MEETING).Id;
-				caseDetention.IdFolder = "nuevo Folder example";
+				caseDetention.IdFolder = "meeting Folder example";
 				caseDetention.DateCreate = DateTime.Today;
 				db.InsertWithChildren (caseDetention);
 				Meeting meeting = new Meeting ();
@@ -106,11 +108,13 @@ namespace UmecaApp
 				StatusCase sc = statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
 
 				User reviewer = new User ();
+				reviewer.Id = 1;
 				reviewer.email = "rageofced@gmail.com";
 				reviewer.enabled = true;
-				reviewer.FirstName = "axel";
+				reviewer.password = "AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==";
 				reviewer.fullname = "Uriel Axel Sánchez Pérez";
-				reviewer.username = "rageofce";
+				reviewer.username = "rageofced";
+				reviewer.roles = 2;
 				db.Insert (reviewer);
 
 				Case caseDetention = new Case ();
@@ -123,7 +127,7 @@ namespace UmecaApp
 				newImputed.BirthDate = DateTime.Today.AddYears (-27);
 				caseDetention.Status = statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION);
 				caseDetention.StatusCaseId = statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION).Id;
-				caseDetention.IdFolder = "nuevo Folder example";
+				caseDetention.IdFolder = "verification Folder example";
 				caseDetention.DateCreate = DateTime.Today;
 				db.InsertWithChildren (caseDetention);
 				Meeting meeting = new Meeting ();
@@ -147,8 +151,7 @@ namespace UmecaApp
 				ver.CaseDetention = caseDetention;
 				ver.CaseDetentionId = caseDetention.Id;
 				ver.DateCreate = DateTime.Today;
-				ver.Meeting = meeting;
-				ver.MeetingId = meeting.Id;
+
 				ver.StatusVerification = statusVerification1;
 				ver.StatusVerificationId = statusVerification1.Id;
 				db.Insert (ver);
@@ -158,6 +161,7 @@ namespace UmecaApp
 				cv.Age = 66;
 				cv.DateAuthorized = DateTime.Today;
 				cv.DateComplete = null;
+				cv.StatusString = "Entrevista de verificación incompleta";
 				cv.FullName = "uhj ghjlk fyvgblhjlkñ gfhjkl";
 				cv.IdCase = caseDetention.Id;
 				cv.IsAuthorized = true;
@@ -220,6 +224,27 @@ namespace UmecaApp
 					schedule.Start= "1"+a+":30";
 					schedule.End= "19:"+a+"0";
 					db.Insert (schedule);
+				}
+				var socialNetComent = db.Table<SocialNetwork> ().Where (s => s.MeetingId == meeting.Id).FirstOrDefault ();
+				if (socialNetComent != null) {
+					for (var a = 0; a < 2; a++) {
+						var socialPerson = new PersonSocialNetwork ();
+						socialPerson.Address = "secc 35 # 80 lt. " + a + "4 rio de luz ecatepec";
+						socialPerson.Age = 27 + a;
+						socialPerson.block = false;
+						socialPerson.DependentId = 1;
+						socialPerson.DocumentTypeId = 1;
+						socialPerson.Id = 2 + a;
+						socialPerson.isAccompaniment = false;
+						socialPerson.LivingWithIde = 2;
+						socialPerson.Name = "Axel Rosa";
+						socialPerson.Phone = "2461809";
+						socialPerson.RelationshipId = 18;
+						socialPerson.SocialNetworkId = socialNetComent.Id;
+						socialPerson.SpecificationDocumentType = "documento firmado ante notario";
+						socialPerson.specificationRelationship = "half-blood relative";
+						db.Insert (socialPerson);
+					}
 				}
 
 

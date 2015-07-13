@@ -37,13 +37,6 @@ namespace UmecaApp
 		[Column("date_complete")]
 		public DateTime? DateComplete{ get; set; }
 
-		//meeting verified
-		[ForeignKey(typeof(Meeting)),Column("id_meeting")]
-		public int? MeetingId{ get; set; }
-
-		[OneToOne]
-		public Meeting Meeting { get; set; }
-
 		[Column("date_create")]
 		public DateTime? DateCreate{ get; set; }
 

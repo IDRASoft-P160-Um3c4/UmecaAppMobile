@@ -24,7 +24,7 @@ namespace Umeca.Data
 		public String LastNameM{ get; set; }
 
 		[Column("birth_date")]
-		public DateTime BirthDate{ get; set; }
+		public DateTime? BirthDate{ get; set; }
 
 		[Column("imputed_tel")]
 		public String ImputeTel{ get; set; }

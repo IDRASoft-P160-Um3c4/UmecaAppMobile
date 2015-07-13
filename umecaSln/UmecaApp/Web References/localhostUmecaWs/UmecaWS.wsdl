@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns="http://ws.umeca.com" xmlns:ns1="http://org.apache.axis2/xsd" targetNamespace="http://ws.umeca.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>UmecaWS</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.umeca.com">
+      <xs:element name="getAssignedCaseByAssignmentId">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="guid" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="assignmentId" type="xs:long" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAssignedCaseByAssignmentIdResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAssignmentsByUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="guid" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAssignmentsByUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="loginFromTablet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="encodedPass" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="loginFromTabletResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getAssignmentsByUserRequest">
+    <wsdl:part name="parameters" element="ns:getAssignmentsByUser" />
+  </wsdl:message>
+  <wsdl:message name="getAssignmentsByUserResponse">
+    <wsdl:part name="parameters" element="ns:getAssignmentsByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="loginFromTabletRequest">
+    <wsdl:part name="parameters" element="ns:loginFromTablet" />
+  </wsdl:message>
+  <wsdl:message name="loginFromTabletResponse">
+    <wsdl:part name="parameters" element="ns:loginFromTabletResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAssignedCaseByAssignmentIdRequest">
+    <wsdl:part name="parameters" element="ns:getAssignedCaseByAssignmentId" />
+  </wsdl:message>
+  <wsdl:message name="getAssignedCaseByAssignmentIdResponse">
+    <wsdl:part name="parameters" element="ns:getAssignedCaseByAssignmentIdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UmecaWSPortType">
+    <wsdl:operation name="getAssignmentsByUser">
+      <wsdl:input wsaw:Action="urn:getAssignmentsByUser" message="ns:getAssignmentsByUserRequest" />
+      <wsdl:output wsaw:Action="urn:getAssignmentsByUserResponse" message="ns:getAssignmentsByUserResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="loginFromTablet">
+      <wsdl:input wsaw:Action="urn:loginFromTablet" message="ns:loginFromTabletRequest" />
+      <wsdl:output wsaw:Action="urn:loginFromTabletResponse" message="ns:loginFromTabletResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAssignedCaseByAssignmentId">
+      <wsdl:input wsaw:Action="urn:getAssignedCaseByAssignmentId" message="ns:getAssignedCaseByAssignmentIdRequest" />
+      <wsdl:output wsaw:Action="urn:getAssignedCaseByAssignmentIdResponse" message="ns:getAssignedCaseByAssignmentIdResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UmecaWSSoap11Binding" type="ns:UmecaWSPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAssignmentsByUser">
+      <soap:operation soapAction="urn:getAssignmentsByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loginFromTablet">
+      <soap:operation soapAction="urn:loginFromTablet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAssignedCaseByAssignmentId">
+      <soap:operation soapAction="urn:getAssignedCaseByAssignmentId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="UmecaWSSoap12Binding" type="ns:UmecaWSPortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAssignmentsByUser">
+      <soap12:operation soapAction="urn:getAssignmentsByUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loginFromTablet">
+      <soap12:operation soapAction="urn:loginFromTablet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAssignedCaseByAssignmentId">
+      <soap12:operation soapAction="urn:getAssignedCaseByAssignmentId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="UmecaWSHttpBinding" type="ns:UmecaWSPortType">
+    <http:binding verb="POST" />
+    <wsdl:operation name="getAssignmentsByUser">
+      <http:operation location="UmecaWS/getAssignmentsByUser" />
+      <wsdl:input>
+        <mime:content part="getAssignmentsByUser" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getAssignmentsByUser" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loginFromTablet">
+      <http:operation location="UmecaWS/loginFromTablet" />
+      <wsdl:input>
+        <mime:content part="loginFromTablet" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="loginFromTablet" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAssignedCaseByAssignmentId">
+      <http:operation location="UmecaWS/getAssignedCaseByAssignmentId" />
+      <wsdl:input>
+        <mime:content part="getAssignedCaseByAssignmentId" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getAssignedCaseByAssignmentId" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UmecaWS">
+    <wsdl:port name="UmecaWSHttpSoap11Endpoint" binding="ns:UmecaWSSoap11Binding">
+      <soap:address location="http://192.168.0.6:8080/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/" />
+    </wsdl:port>
+    <wsdl:port name="UmecaWSHttpSoap12Endpoint" binding="ns:UmecaWSSoap12Binding">
+      <soap12:address location="http://192.168.0.6:8080/anelumeca/services/UmecaWS.UmecaWSHttpSoap12Endpoint/" />
+    </wsdl:port>
+    <wsdl:port name="UmecaWSHttpEndpoint" binding="ns:UmecaWSHttpBinding">
+      <http:address location="http://192.168.0.6:8080/anelumeca/services/UmecaWS.UmecaWSHttpEndpoint/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

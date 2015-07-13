@@ -24,6 +24,8 @@ namespace UmecaApp
 			webView.AddJavascriptInterface (new MeetingService(context), "MeetingService");
 			webView.AddJavascriptInterface (new VerificationService(context), "VerificationService");
 			webView.AddJavascriptInterface (new SupervisionService(context), "SupervisionService");
+			webView.AddJavascriptInterface (new SyncService(context), "Sync");
+
 			webView.SetWebChromeClient (new HybridWebChromeClient (webView.Context));
 		}
 

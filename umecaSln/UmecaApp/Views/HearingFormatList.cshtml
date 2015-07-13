@@ -1,4 +1,5 @@
-﻿@model System.Collections.Generic.List<UmecaApp.HearingFormatGrid>
+﻿@model UmecaApp.HearingFormatTblDto
+
 @inherits WebViewTemplate
 @{
 	Layout = "UmecaApp.HeadSupervition";
@@ -7,15 +8,27 @@
     function cancelari(){
 		window.location.replace('hybrid:Login/Index');
     } 
-    function editFormatoAudiencia(fuente){
-		window.location.replace('hybrid:Login/Index');
+    function visualizeFormat(fuente,formato){
+		window.location.replace('hybrid:Supervision/HearingFormatVisualize?idCase='+fuente+'&idFormato='+formato);
     }
-
+    function editFormatoAudiencia(fuente,formato){
+		window.location.replace('hybrid:Supervision/HearingFormatUpsert?idCase='+fuente+'&idFormato='+formato);
+    }
     </script>
 <h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Formato de Audiencia</h2>
+@if(Model.message!=null){
+		<div class="row" onclick="javascript:$(this).hide();">
+            <div class="col-xs-12">
+                <div msg="MsgError"
+                     class="umeca-toast-error element-center">
+                    <p>@Model.message</p>
+                </div>
+            </div>
+        </div>
+}
 <br />
 <div id="toolbar2" class="btn-group">
-    <a href="@Url.Action("HearingFormatEditNew","Meeting")">
+    <a onclick="javascript:newFormatoAudiencia(@Model.CaseId);">
     <button type="button" class="btn btn-default" id="btnAdd">
         <i class="glyphicon glyphicon-plus"></i>
     </button></a>
@@ -39,7 +52,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach(var formatoAudiencia in Model) {
+    @foreach(var formatoAudiencia in Model.rows) {
     <tr id="tr-id-1" class="tr-class-1">
         <td>
         	@formatoAudiencia.IdFolder
@@ -69,7 +82,11 @@
        		@formatoAudiencia.FinishedStr
         </td>
         <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Visualizar formatos de audiencia" onclick="visualizeFormat(@formatoAudiencia.CaseId);"><span class="icon-eye-open"></span></a>
+        @if(formatoAudiencia.IsFinished){
+         	<a href="javascript:;" style="display:inline-block;" title="Visualizar formatos de audiencia" onclick="visualizeFormat(@formatoAudiencia.CaseId,@formatoAudiencia.Id);"><span class="icon-eye-open"></span></a>
+        }else{
+         	<a href="javascript:;" style="display:inline-block;" title="Visualizar formatos de audiencia" onclick="editFormatoAudiencia(@formatoAudiencia.CaseId,@formatoAudiencia.Id);"><span class="icon-pencil"></span></a>
+        }
         </td>
     </tr>
 }

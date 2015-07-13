@@ -3,9 +3,10 @@ using SQLite.Net.Attributes;
 
 namespace UmecaApp
 {
+	[Table("user")]
 	public class User
 	{
-		[PrimaryKey, AutoIncrement, Column("id_user")]
+		[PrimaryKey, Column("id_user")]
 		public int Id { get; set; }
 
 		//		@NotEmpty(message="El usuario es un campo requerido")
@@ -14,7 +15,7 @@ namespace UmecaApp
 
 		//		@NotEmpty(message="Contraseña es un campo requerido")
 		[Column("password"),MaxLength(1000)]
-		public string FirstName { get; set; }
+		public string password { get; set; }
 
 //		@NotEmpty(message="Confirmación es un campo requerido")
 		public string confirm{ get; set; }
@@ -31,6 +32,9 @@ namespace UmecaApp
 		public bool enabled{ get; set; }
 
 		private bool hasChangePass{ get; set; }
+
+		[Column("user_role")]
+		public int roles { get; set; }
 
 		public User ()
 		{

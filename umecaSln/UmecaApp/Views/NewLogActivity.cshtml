@@ -1,0 +1,326 @@
+﻿@model  Umeca.Data.LogCase
+
+@inherits WebViewTemplate
+@{
+	Layout = "UmecaApp.HeadSupervition";
+}
+
+  <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css" />
+  <script src="scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+  <script src="scripts/umeca/date-time/moment.min.js"></script>
+  <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
+<script>
+    	app.controller('newLogActivityController', function($scope, $http, $timeout){
+			$scope.m = {};
+			$scope.v = {};
+			$scope.Wait = false;
+			$scope.lstRel = [];
+			$scope.iden = [];
+
+			$timeout(function() {
+		        $scope.init();
+		    }, 0);
+
+			$scope.init = function(){
+			var relaciones = MeetingService.findAllRelationship();
+		    console.log("relaciones"+relaciones);
+		    $scope.lstRel = JSON.parse(relaciones);
+
+		    var documentos = MeetingService.findAllDocumentType();
+		    console.log("documentos"+documentos);
+		    $scope.lstDoc = JSON.parse(documentos);
+			}
+
+
+
+			$scope.save = function(){
+				$scope.Wait = true;
+
+
+
+				//todos los key del json deben ser igual al modelo cs
+				if($("#frmSubmitValuesCaseLog").valid()==false){
+					$scope.Wait = false;
+					return false;
+				}
+				$scope.m.caseDetentionId = $("#caseDetentionId").val();
+				$scope.m.activity = $("#activity").val();
+				$scope.m.userId = $("#userId").val();
+				$scope.m.activityString = $("#activityString").val();
+				console.log("1");
+				var arrBth = [];
+                arrBth = $scope.v.Start.split('/');
+                console.log("2");
+                var taim = [];
+                taim = $scope.v.TStart.split(':');
+                var d;
+                if (arrBth.length > 0 && taim.length > 0){
+					d = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1, parseInt(arrBth[2]),taim[0],taim[1],"00");
+				}
+				console.log("3");
+				$scope.m.date = d ;
+				if($scope.v.Dirigido!="la Víctima o testigo"||$scope.v.Dirigido!="la Fuente,"){
+					$scope.v.Relationship = "";
+				}else{
+				$scope.v.Relationship += ",";
+				}
+				if($scope.v.Dirigido == "el Imputado,"){
+				$scope.v.Despecify = "";
+				}
+				console.log("4");
+				$scope.m.title = "Visita Domiciliar "+$scope.v.Tipoa+" a "+$scope.v.Dirigido+" "+$scope.v.Relationship+" "+$scope.v.Despecify+" en la dirección: "+$scope.v.Direcci+", con el objetivo de "+$scope.v.Objetivo+".";
+				$scope.m.resume = "Información proporcionada: Observaciones del supervisor: "+$scope.v.Observacion+".Identificación presentada: "+$scope.v.Identity;
+				console.log("title"+$scope.m.title);
+				console.log("resume"+$scope.m.resume);
+				var jsonData = JSON.stringify($scope.m);
+				var resultado = SupervisionService.upsertLogCase(jsonData);
+				if(resultado==undefined||resultado==null||resultado==""){
+					window.location.replace('hybrid:Supervision/LogActivityLst?idCase='+$scope.m.caseDetentionId);
+				}else{
+					alert(resultado);
+				}
+				$scope.Wait = false;
+			};
+
+			$scope.cancel = function(caso){
+				//todos los key del json deben ser igual al modelo cs
+				window.location.replace('hybrid:Supervision/LogActivityLst?idCase='+caso);
+			};
+
+		});
+    </script>
+<form id="frmSubmitValuesCaseLog" ng-app="umecaMobile" ng-controller="newLogActivityController">
+
+   	<div class="alert alert-info ">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="element-center"><i class="icon-asterisk "></i>&nbsp;&nbsp;Agregar actividad espontánea</h4>
+    </div>
+    <br>
+    <input type="hidden" value="@Model.caseDetentionId" id="caseDetentionId">
+    <input type="hidden" value="@Model.activity" id="activity">
+    <input type="hidden" value="@Model.userId" id="userId">
+    <input type="hidden" value="@Model.activityString" id="activityString">
+    <div class="row">
+		<div class="col-xs-6">
+		    <div class="col-xs-4 element-left">
+		        Fecha de la visita:
+		    </div>
+		    <div class="col-xs-8">
+		        <div class="input-group">
+		            <input class="form-control date-picker" id="jdpStartCurrent" type="text"
+		                   data-date-format="yyyy/mm/dd" ng-model="v.Start" readonly="readonly"
+		                   data-val="true" data-val-required="La fecha de la visita es un campo requerido"
+		                   name="start"/>
+		                                                <span class="input-group-addon">
+		                                                    <i class="icon-calendar bigger-110"></i>
+		                                                </span>
+		        </div>
+		        <div class="row">
+		            <div class="col-xs-12">
+		                <span class="field-validation-valid" data-valmsg-for="start"
+		                      data-valmsg-replace="true"></span>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+    <br />
+	<div class="row">
+		<div class="col-xs-6">
+		    <div class="col-xs-4 element-left">
+	        	Hora de la visita:
+	        </div>
+	        <div class="col-xs-8 input-group bootstrap-timepicker">
+	          <input id="timepickerStart" type="text" class="form-control umeca-time-picker tp" ng-model="v.TStart"
+	           data-val="true" data-val-required="La fecha de la visita es un campo requerido" name="tstatr"/>
+	          <span class="input-group-addon">
+	            <i class="icon-time bigger-60"></i>
+	          </span>
+	        </div>
+		    <div class="row">
+		        <div class="col-xs-12">
+		            <span class="field-validation-valid" data-valmsg-for="tstatr"
+		                  data-valmsg-replace="true"></span>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                La actividad es:
+            </div>
+            <div class="col-xs-8">
+                <select class="form-control" ng-model="v.Tipoa" data-val="true" data-val-required="El Tipo de actividad es un campo requerido"
+	                       name="Tipoa" >
+					<option value="programada">Programada</option>
+					<option value="emergente">Emergente</option>
+				</select>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Tipoa" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Dirigido a:
+            </div>
+            <div class="col-xs-8">
+            <select class="form-control" ng-model="v.Dirigido" data-val="true" data-val-required="El Objetivo es un campo requerido"
+                       name="Dirigido" >
+				<option value="el Imputado,">Imputado</option>
+				<option value="la Víctima o testigo">Víctima o testigo</option>
+				<option value="la Fuente,">Fuente</option>
+				<option value="la Institución pública o privada,">Institución pública o privada</option>
+				<option value="otro,">Otro</option>
+			</select>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Dirigido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="col-xs-6" ng-show="v.Dirigido != 'el Imputado,'">
+            <div class="col-xs-4 element-left">
+                Especifique:
+            </div>
+            <div class="col-xs-8">
+            	 <input class="form-control" data-val="true"
+            	 data-val-required="La edad es un campo requerido"
+                 type="text" name="Despecify" ng-model="v.Despecify" >
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Despecify" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" ng-show="v.Dirigido == 'la Víctima o testigo' || v.Dirigido == 'la Fuente,'">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Relaci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+             <select class="form-control element-center" ng-model="rel" name="Relacion"
+                        ng-options="e.Name for e in lstRel"
+                        ng-change="v.Relationship = rel['Name']"
+                       ></select>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Relacion" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+	<div class="row">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Direcci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"
+                       data-val="true"
+                       data-val-required="La Direcci&oacute;n es un campo requerido"
+                       name="Direcci" ng-model="v.Direcci" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Direcci" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Objetivo de la visita:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"
+                       data-val="true"
+                       data-val-required="El Objetivo es un campo requerido"
+                       name="Objetivo" ng-model="v.Objetivo" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Objetivo" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Información proporcionada:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"
+                       data-val="true"
+                       data-val-required="La Información proporcionada es un campo requerido"
+                       name="Info" ng-model="v.Info" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Info" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Observaciones del supervisor:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"
+                       data-val="true"
+                       data-val-required="Las Observaciones es un campo requerido"
+                       name="Observacion" ng-model="v.Observacion" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Observacion" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" ng-show="v.Dirigido == 'la Víctima o testigo' || v.Dirigido == 'la Fuente,'">
+		<div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Identificaci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+             <select class="form-control element-center" ng-model="iden" name="Identity"
+                        ng-options="e.Name for e in lstDoc"
+                        ng-change="v.Identity = iden['Name']"
+                       ></select>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Relacion" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    			<div class="modal-footer">
+                    <span class="btn btn-default btn-sm"  ng-click="cancel(@Model.caseDetentionId)">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm"
+                           ng-click="save();">
+                          Guardar
+                    </span>
+                </div>
+
+
+</form>
+    <script>
+        $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#timepickerStart').timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false
+        }).next().on(ace.click_event, function(){
+                $(this).prev().focus();
+            });
+    </script>

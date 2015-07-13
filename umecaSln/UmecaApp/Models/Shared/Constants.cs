@@ -218,7 +218,10 @@ namespace UmecaApp
 		public static String MSG_ERROR_UPSERT = "Ha ocurrido un error al guardar la información. Intente más tarde.";
 		public static String MSG_ERROR_DELETE = "Ha ocurrido un error al eliminar la información. Intente más tarde.";
 
-
+		//// <summary>
+		/// ////////
+		/// </summary>
+		public static int TABLET_MINIMAL_ID = 1073741824;
 	}
 }
 

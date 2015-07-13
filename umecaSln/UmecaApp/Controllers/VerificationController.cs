@@ -8,7 +8,8 @@ using SQLiteNetExtensions.Extensions;
 using Newtonsoft.Json;
 //listas
 using System.Collections.Generic;
-
+//cript
+using BCrypt;
 
 
 //TODO DONE StatusMeeting, Imputed, Case
@@ -55,17 +56,23 @@ namespace UmecaApp
 
 		public void Index()
 		{	
-
+//			Console.WriteLine ("quesque hasheado---> "+Crypto.HashPassword("99630110"));
+//			Console.WriteLine ("quesque pera---> "+Crypto.HashPassword("pera"));
+//			Console.WriteLine ("quesque hija de puerca---> "+Crypto.HashPassword("hija de puerca"));
+//			Console.WriteLine ("quesque bastardo hijo de puta---> "+Crypto.HashPassword("bastardo hijo de puta"));
+//			Console.WriteLine ("quesque puta la pinche mierda---> "+Crypto.HashPassword("puta la pinche mierda"));
+//			Console.WriteLine ("quesque coñooo---> "+Crypto.HashPassword("coñooo"));
 			services.createVerificationTest();
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.name as 'StatusCode', csm.description as 'Description'"
+				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.description as 'StatusCode', csm.description as 'Description'"
 				+" FROM verification as me "
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+				+" left JOIN meeting as met ON met.id_case = cs.id_case "
+				+" left JOIN imputed as im ON im.id_meeting = met.id_meeting "
 				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				//				+" and me.id_reviewer = 2 "
@@ -84,7 +91,9 @@ namespace UmecaApp
 			var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
 			var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
 			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
-			var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true && sv.IsAuthorized == true && sv.IdCase == idCase && sv.DateComplete == null)).ToList ();
+			var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true 
+//				&& sv.IsAuthorized == true 
+				&& sv.IdCase == idCase && sv.DateComplete == null)).ToList ();
 			var entrevistador = db.Table<User> ().Where (u => u.Id.Equals(meeting.ReviewerId)).FirstOrDefault ();
 			var result = new SourcesTblDto ();
 			result.Age=services.calculateAge(imputado.BirthDate);
@@ -138,33 +147,31 @@ namespace UmecaApp
 
 			result.ageString = services.calculateAge (result.BirthDate);
 
+			var parantesco = db.Table<Relationship> ().ToList ();
+			result.ListaDeRelaciones = parantesco;
+			var elecciones = db.Table<Election> ().ToList ();
+			result.ListaDeElection = elecciones;
+			var documentosIdentificacion = db.Table<DocumentType> ().ToList ();
+			result.ListaDeIdentificaciones = documentosIdentificacion;
+			var drogasCatalog = db.Table<DrugType> ().ToList ();
+			result.ListaDeDrogas = drogasCatalog;
+			var periodoCatalog = db.Table<Periodicity> ().ToList ();
+			result.ListaDePeriodicidad = periodoCatalog;
+			var registerCatalog = db.Table<RegisterType> ().ToList ();
+			result.ListaDeRegisterType = registerCatalog;
+
 			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
-			if(domiciliosImputado!=null){
-				result.JsonDomicilios = domiciliosImputado;
-//				foreach(ImputedHome e in domiciliosImputado){
-//					var dto = new ImputedHomeVerification ();
-//					dto.addressString = e.addressString;
-//					dto.Description = e.Description;
-//					dto.HomeTypeId = e.HomeTypeId;
-//					dto.Id = e.Id;
-//					dto.InnNum = e.InnNum;
-//					dto.Lat = e.Lat;
-//					dto.Lng = e.Lng;
-//					dto.LocationId = e.LocationId;
-//					dto.MeetingId = e.MeetingId;
-//					dto.OutNum = e.OutNum;
-//					dto.Phone = e.Phone;
-//					dto.ReasonChange = e.ReasonChange;
-//					dto.ReasonSecondary = e.ReasonSecondary;
-//					dto.RegisterTypeId = e.RegisterTypeId;
-//					dto.Specification = e.Specification;
-//					dto.Street = e.Street;
-//					dto.TimeLive = e.TimeLive;
-//					result.JsDomicilios.Add (dto);
-//				}
+			if(domiciliosImputado!=null && domiciliosImputado.Count>0){
+				var domVerified = new List<DomiciliosVerificationDto> ();
+				foreach (ImputedHome i in domiciliosImputado) {
+					var home = new DomiciliosVerificationDto (i);
+					home.ScheduleList = db.Table<Schedule> ().Where (sc => sc.ImputedHomeId == home.Id).ToList ();
+					domVerified.Add (home);
+				}
+				result.JsonDomicilios = domVerified;
 			}
 
-			foreach(ImputedHome h in result.JsonDomicilios){
+			foreach(DomiciliosVerificationDto h in result.JsonDomicilios){
 				h.Schedule = "";
 				var horario = db.Table<Schedule> ().Where (sche=>sche.ImputedHomeId==h.Id).ToList ();
 				if (horario != null && horario.Count > 0) {
@@ -200,26 +207,73 @@ namespace UmecaApp
 
 			//PersonSocialNetwork
 			var personsSocNet = db.Table<PersonSocialNetwork> ().Where (sn=>sn.SocialNetworkId==socialNetComent.Id).ToList ();
-			if(personsSocNet!=null){
-				result.JsonPersonSN = personsSocNet;
+			if(personsSocNet!=null&&personsSocNet.Count>0){
+				var socialList = new List<PersonSocialNetworkVerificationDto> ();
+				foreach(PersonSocialNetwork psn in personsSocNet){
+					var nuev = new PersonSocialNetworkVerificationDto (psn);
+					socialList.Add (nuev);
+				}
+				result.JsonPersonSN = socialList;
 			}else{
 				result.JsonPersonSN = null;
 			}
 
 			//Reference
 			var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
-			if(references!=null){
+			if(references!=null && references.Count>0){
 				result.JsonReferences = references;
 			}else{
 				result.JsonReferences = null;
+				/////DELETE
+				result.JsonReferences = new List<Reference>();
+				for (var a = 0; a < 2; a++) {
+					var socialPerson = new Reference ();
+					socialPerson.Address = "secc 3" + a + " # 8" + a + " lt. " + a + "4 rio de luz ecatepec";
+					socialPerson.Age = 27 + a;
+					socialPerson.block = true;
+					socialPerson.DocumentTypeId = 1;
+					socialPerson.Id = 2 + a;
+					socialPerson.FullName = "Axel Rosa";
+					socialPerson.Phone = "2461809"+a;
+					socialPerson.RelationshipId = 18;
+					socialPerson.SpecificationDocumentType = "documento firmado ante notario";
+					socialPerson.SpecificationRelationship = "relative";
+					result.JsonReferences.Add(socialPerson);
+				}
+				/////DELETE
 			}
 
 			//Laboral History
 			var trabajos = db.Table<Job> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
-			if(trabajos!=null){
-				result.JsonJobs = trabajos;
+			if(trabajos!=null && trabajos.Count>0){
+				var dtojob = new List<JobVerificationDto> ();
+				foreach(Job j in trabajos){
+					var trabajo = new JobVerificationDto (j);
+					trabajo.ScheduleList = db.Table<Schedule> ().Where (sc => sc.JobId == trabajo.Id).ToList ()??new List<Schedule>();
+					dtojob.Add (trabajo);
+				}
+				result.JsonJobs = dtojob;
 			}else{
 				result.JsonJobs = null;
+				/////DELETE
+				result.JsonJobs = new List<JobVerificationDto>();
+				for (var a = 0; a < 2; a++) {
+					var socialPerson = new JobVerificationDto ();
+					socialPerson.block = true;
+					socialPerson.RegisterTypeId = 1;
+					socialPerson.Id = 2 + a;
+					socialPerson.Start = DateTime.Today;
+					socialPerson.End = DateTime.Today;
+					socialPerson.MeetingId = result.MeetingId??0;
+					socialPerson.Address = "22";
+					socialPerson.Company = "compañiera";
+					socialPerson.NameHead = "18";
+					socialPerson.Phone = "white kush";
+					socialPerson.Post = "wgwhwhw";
+					socialPerson.StartPrev = DateTime.Today;
+					result.JsonJobs.Add(socialPerson);
+				}
+				/////DELETE
 			}
 
 			//school history
@@ -233,16 +287,6 @@ namespace UmecaApp
 				result.SchoolSpecification = escuelaUtlActual.Specification;
 			}
 
-
-			//DROGAS
-			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
-			if(drogas!=null){
-				result.JsonDrugs = drogas;
-			}else{
-				result.JsonDrugs = null;
-			}
-
-
 			if(escuelaUtlActual!=null){
 				result.SchoolId = escuelaUtlActual.Id;
 				var schedule = db.Table<Schedule>().Where(sc=>sc.SchoolId==escuelaUtlActual.Id).ToList();
@@ -250,6 +294,33 @@ namespace UmecaApp
 					result.ScheduleSchool = schedule;
 				}
 			}
+
+			//DROGAS
+			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
+			if(drogas!=null && drogas.Count>0){
+				result.JsonDrugs = drogas;
+			}else{
+//				result.JsonDrugs = null;
+				/////DELETE
+				result.JsonDrugs = new List<Drug>();
+				for (var a = 0; a < 2; a++) {
+					var socialPerson = new Drug ();
+					socialPerson.block = true;
+					socialPerson.DrugTypeId = 1;
+					socialPerson.Id = 2 + a;
+					socialPerson.LastUse = DateTime.Today;
+					socialPerson.MeetingId = result.MeetingId??0;
+					socialPerson.OnsetAge = "22";
+					socialPerson.PeriodicityId = 2;
+					socialPerson.Quantity = "18";
+					socialPerson.Specification = "white kush";
+					socialPerson.SpecificationPeriodicity = "cuando lo puedo pagar";
+					result.JsonDrugs.Add(socialPerson);
+				}
+				/////DELETE
+			}
+
+
 
 			//leave country
 			var leaveActual = db.Table<LeaveCountry> ().Where (lv => lv.MeetingId == result.MeetingId).FirstOrDefault ();
@@ -295,7 +366,7 @@ namespace UmecaApp
 			} else {
 				result.SourceRelationshipString = SourceRelationship.Name;
 			}
-
+			Console.WriteLine (JsonConvert.SerializeObject (result));
 			var temp = new VerificacionInterview{Model = result };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
@@ -303,37 +374,36 @@ namespace UmecaApp
 			webView.LoadHtmlString (pagestring);
 		}
 
-
-
-		public void IndexVerificacion()
+		public void  AddVerificationSource(int idCase)
 		{
-
-			services.createVerificationTest();
-			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
-			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
-			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
-
-			var result = db.Query<MeetingTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-				+" WHERE me.id_status in (?,?) "
-				//				+" and me.id_reviewer = 2 "
-				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
-
-			Console.WriteLine ("carga de casos "+result.Count);
-
-			var temp = new MeetingList{Model = result};
-			var pagestring = "nada que ver";
-			pagestring = temp.GenerateString ();
-			webView.LoadHtmlString (pagestring);
+			try{
+				var casoId = int.Parse (idCase.ToString ());
+				var caso = db.Table<Case>().Where(cs=>cs.Id==casoId).FirstOrDefault();
+//				var usuario = db.Table<User>().FirstOrDefault();
+				var verificacion = db.Table<Verification>().Where(s=>s.CaseDetentionId == casoId
+//					&& s.ReviewerId==usuario.Id
+				).FirstOrDefault();
+				var dto = new ModelContainer ();
+				dto.Reference = idCase.ToString ();
+				SourceVerification mdl = new SourceVerification ();
+				mdl.IdCase = casoId;
+				mdl.IsAuthorized = false;
+				mdl.Visible = true;
+				mdl.VerificationId = verificacion.Id;
+				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+				var temp = new NewVerificationSource{ Model = dto };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine("Exception message :::>"+e.Message);
+			}
+			finally{
+				db.Commit ();
+			}
 		}
-
-
-
 
 	}
 }

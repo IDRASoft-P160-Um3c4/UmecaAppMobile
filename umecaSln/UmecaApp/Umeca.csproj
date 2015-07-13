@@ -65,6 +65,9 @@
       <HintPath>..\Components\sqlite-net-1.0.8.3\lib\android\SQLite.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="BCrypt.Net">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -157,12 +160,6 @@
     <Compile Include="Views\NewMeeting.cs">
       <DependentUpon>NewMeeting.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CaseHearingList.cs">
-      <DependentUpon>CaseHearingList.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\HearingFormatList.cs">
-      <DependentUpon>HearingFormatList.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Supervicion\HearingFormatGrid.cs" />
     <Compile Include="Views\HearingFormatEdit.cs">
       <DependentUpon>HearingFormatEdit.cshtml</DependentUpon>
@@ -170,6 +167,94 @@
     <Compile Include="Models\Supervicion\HearingFormatEditDto.cs" />
     <Compile Include="Models\Supervicion\HearingFormatView.cs" />
     <Compile Include="Models\Supervicion\LocationDto.cs" />
+    <Compile Include="Models\Supervicion\CrimeDto.cs" />
+    <Compile Include="Models\Supervicion\SelectList.cs" />
+    <Compile Include="Models\Supervicion\StateDto.cs" />
+    <Compile Include="Models\Supervicion\AddressDto.cs" />
+    <Compile Include="Models\Verification\DomiciliosVerificationDto.cs" />
+    <Compile Include="Models\Verification\ScheduleDto.cs" />
+    <Compile Include="Models\Verification\PersonSocialNetworkVerificationDto.cs" />
+    <Compile Include="Models\Verification\JobVerificationDto.cs" />
+    <Compile Include="Models\Crypto.cs" />
+    <Compile Include="Views\NewVerificationSource.cs">
+      <DependentUpon>NewVerificationSource.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supervicion\CaseHearingFormatTblDto.cs" />
+    <Compile Include="Models\Supervicion\HFDtoSave.cs" />
+    <Compile Include="Models\Sincronizacion\TabletCaseDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletStatusCaseDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletMeetingDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletStatusMeetingDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletUserDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletImputedDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletMaritalStatusDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletCountryDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletLocationDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletMunicipalityDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletStateDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletSocialNetworkDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletPersonSocialNetworkDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletAcademicLevelDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletActivityDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletArrangementDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletCrimeCatalogDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletDegreeDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletDocumentTypeDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletDrugTypeDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletElectionDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletFieldVerificationDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletGroupCrimeDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletHomeTypeDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletImmigrationDocumentDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletPeriodicityDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletRegisterTypeDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletRelationshipDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletStatusFieldVerificationDto.cs" />
+    <Compile Include="Models\Sincronizacion\Catalog\TabletStatusVerificationDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletAddressDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletAssignedArrangementDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletContactDataDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletCrimeDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletDrugDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletFieldMeetingSourceDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletHearingFormatDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletHearingFormatImputedDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletHearingFormatSpecsDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletHearingTypeDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletJobDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletLeaveCountryDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletReferenceDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletRelSocialEnvironmentActivityDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletScheduleDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletSchoolDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletSocialEnvironmentDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletSourceVerificationDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletVerificationDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletVerificationMethodDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletLogCaseDto.cs" />
+    <Compile Include="Models\Sincronizacion\TabletImputedHomeDto.cs" />
+    <Compile Include="Views\CaseLogList.cs">
+      <DependentUpon>CaseLogList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supervicion\LogActivityListDto.cs" />
+    <Compile Include="Views\NewLogActivity.cs">
+      <DependentUpon>NewLogActivity.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supervicion\NewLogCaseDto.cs" />
+    <Compile Include="Views\HearingFormatList.cs">
+      <DependentUpon>HearingFormatList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CaseHearingList.cs">
+      <DependentUpon>CaseHearingList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogActivityList.cs">
+      <DependentUpon>LogActivityList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Service\SyncService.cs" />
+    <Compile Include="Web References\localhostUmecaWs\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sincronizacion\ResponseMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -259,6 +344,28 @@
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>HearingFormatEdit.cs</LastGenOutput>
     </None>
+    <None Include="LICENSE.txt" />
+    <None Include="Views\NewVerificationSource.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>NewVerificationSource.cs</LastGenOutput>
+    </None>
+    <None Include="Views\LogActivityList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>LogActivityList.cs</LastGenOutput>
+    </None>
+    <None Include="Views\CaseLogList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>CaseLogList.cs</LastGenOutput>
+    </None>
+    <None Include="Views\NewLogActivity.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>NewLogActivity.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\localhostUmecaWs\UmecaWS.wsdl" />
+    <None Include="Web References\localhostUmecaWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -285,6 +392,8 @@
     <Folder Include="Service\" />
     <Folder Include="Models\Verification\" />
     <Folder Include="Models\Supervicion\" />
+    <Folder Include="Models\Sincronizacion\" />
+    <Folder Include="Models\Sincronizacion\Catalog\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap-table\bootstrap.min.css" />
@@ -1283,5 +1392,15 @@
       <Project>{DA9A2633-1F50-4FAB-90D8-0E843F8B8F59}</Project>
       <Name>Umeca.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:8080/anelumeca/services/UmecaWS?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\localhostUmecaWs</RelPath>
+      <UpdateFromURL>http://localhost:8080/anelumeca/services/UmecaWS?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
   </ItemGroup>
 </Project>

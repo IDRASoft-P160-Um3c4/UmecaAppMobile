@@ -157,11 +157,7 @@ WriteLiteral("></script>\r\n\r\n\r\n    <script");
 
 WriteLiteral(" src=\"scripts/app/shared/dateTimePickerCursor.js\"");
 
-WriteLiteral("></script>\r\n\r\n\r\n    \t<script");
-
-WriteLiteral(" src=\"scripts/umeca/ace-extra.js\"");
-
-WriteLiteral("></script>\r\n\r\n    <script");
+WriteLiteral("></script>\r\n\r\n\r\n    <script");
 
 WriteLiteral(" src=\"scripts/app/shared/mainApp.js\"");
 
@@ -231,8 +227,8 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" href=\"content/selectize.bootstrap3.css\"");
 
-WriteLiteral("/>\r\n    //dasdsa\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<!--<script src=\"scripts/app/shared/menu" +
-"Ctrl.js\"></script>-->\r\n<div");
+WriteLiteral("/>\r\n\t</head>\r\n\t<body>\r\n\r\n\r\n<!--<script src=\"scripts/app/shared/menuCtrl.js\"></scr" +
+"ipt>-->\r\n<div");
 
 WriteLiteral(" ng-controller=\"menuController\"");
 
@@ -261,7 +257,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 114 "HeadSupervition.cshtml"
+#line 111 "HeadSupervition.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -292,8 +288,8 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 119 "HeadSupervition.cshtml"
-      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
+#line 116 "HeadSupervition.cshtml"
+      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Supervision")
 
 #line default
 #line hidden
@@ -308,22 +304,13 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 121 "HeadSupervition.cshtml"
-      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
+#line 118 "HeadSupervition.cshtml"
+      , Tuple.Create<string,object,bool> ("", Url.Action("Visita","Supervision")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-check\"></i>&nbsp;&nbsp;Verificaci&oacute;n</" +
-"a>\r\n            </li>\r\n            <li");
-
-WriteLiteral(" class=\"nav-li-blue\"");
-
-WriteLiteral("><a");
-
-WriteLiteral(" href=\"javascript;\"");
-
 WriteLiteral("><i\r\n                    class=\"icon-cloud-download\"></i>&nbsp;&nbsp;Visita domic" +
 "iliar</a>\r\n            </li>\r\n            <li");
 
@@ -340,7 +327,7 @@ WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp
 WriteLiteral("\t\t");
 
 
-#line 152 "HeadSupervition.cshtml"
+#line 146 "HeadSupervition.cshtml"
    Write(RenderBody());
 
 

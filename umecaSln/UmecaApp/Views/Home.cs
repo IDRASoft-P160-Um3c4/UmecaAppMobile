@@ -37,24 +37,85 @@ WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n
 
 WriteLiteral(" src=\"scripts/jquery-1.10.2.min.js\"");
 
-WriteLiteral("></script>\r\n                <div");
+WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" class=\"header\"");
+WriteLiteral(" src=\"scripts/umeca/bootstrap.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/jquery.validate.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"scripts/jquery.validate.unobtrusive.min.js\"");
+
+WriteLiteral("></script>\r\n    <link");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" href=\"content/bootstrap.css\"");
+
+WriteLiteral(@"/>
+    <script>
+    $(""#divMsgError"").hide();
+    var signarse = function (){
+    $(""#divMsgError"").hide();
+    	if($(""#lgnForm"").valid() == false){
+        	return false;
+        }else{
+        	var user=$(""#j_username"").val();
+        	var pass=$(""#j_password"").val();
+        	var result = Sync.userUpsert(user, pass);
+        	var response = JSON.parse(result);
+        	console.log(""result->""+result);
+        	if(response[""error""]){
+        	$(""#divMsgError"").show();
+        	$(""#divMsgError"").text(response[""response""]);
+        	}else{
+				window.location.replace('hybrid:'+response[""response""]+'/Index');
+        	}
+        	console.log(""response->""+response[""response""]);
+        }
+    }
+    </script>
+                <div");
+
+WriteLiteral(" class=\"modal-header\"");
 
 WriteLiteral(">\r\n                    <h2");
 
 WriteLiteral(" class=\"modal-title element-center\"");
 
-WriteLiteral(">");
+WriteLiteral(">Ingresar al sistema</h2>\r\n                    <div");
 
+WriteLiteral(" class=\"element-center\"");
 
-#line 11 "Home.cshtml"
-                                                      Write(Model.Title);
+WriteLiteral(">\r\n                        <h4>\r\n                            <i");
 
+WriteLiteral(" class=\"glyphicon glyphicon-cog\"");
 
-#line default
-#line hidden
-WriteLiteral("</h2>\r\n                </div>\r\n                <div");
+WriteLiteral("></i>\r\n                            &nbsp;&nbsp;&nbsp;<i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-cloud\"");
+
+WriteLiteral("></i>\r\n                            &nbsp;&nbsp;&nbsp;<i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-home\"");
+
+WriteLiteral("></i>\r\n                            &nbsp;&nbsp;&nbsp;<i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-phone\"");
+
+WriteLiteral("></i>\r\n                            &nbsp;&nbsp;&nbsp;<i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-tasks\"");
+
+WriteLiteral("></i>&nbsp;&nbsp;&nbsp;\r\n                        </h4>\r\n                    </div" +
+">\r\n                </div>\r\n<form");
+
+WriteLiteral(" id=\"lgnForm\"");
+
+WriteLiteral(">\r\n                <div");
 
 WriteLiteral(" class=\"modal-body\"");
 
@@ -67,11 +128,60 @@ WriteLiteral(">Ingrese los datos para acceder al portal</h4>\r\n                
 
 WriteLiteral(" class=\"row\"");
 
+WriteLiteral(">\r\n                    \t<div");
+
+WriteLiteral(" class=\"col-xs-6\"");
+
+WriteLiteral(">\r\n                            <div");
+
+WriteLiteral(" class=\"input-group\"");
+
+WriteLiteral(">\r\n                                <span");
+
+WriteLiteral(" class=\"input-group-addon\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-user\"");
+
+WriteLiteral("></i></span>\r\n                                <input");
+
+WriteLiteral(" name=\"UserName\"");
+
+WriteLiteral(" class=\"form-control ng-valid ng-dirty\"");
+
+WriteLiteral(" id=\"j_username\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" placeholder=\"Usuario\"");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral(" ng-model=\"m.username\"");
+
+WriteLiteral(" data-val-required=\"No ha ingresado el usuario\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral(">\r\n                            </div>\r\n                            <div");
+
+WriteLiteral(" class=\"input-group error-font\"");
+
+WriteLiteral(">\r\n                                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-replace=\"true\"");
+
+WriteLiteral(" data-valmsg-for=\"UserName\"");
+
+WriteLiteral("></span>\r\n                            </div>\r\n                        </div>\r\n   " +
+"                 </div>\r\n                    <br />\r\n                    <div");
+
+WriteLiteral(" class=\"row\"");
+
 WriteLiteral(">\r\n                        <div");
-
-WriteLiteral(" class=\"col-xs-3\"");
-
-WriteLiteral(">&nbsp;</div>\r\n                        <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
@@ -89,7 +199,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-lock\"");
 
 WriteLiteral("></i></span>\r\n                                <input");
 
-WriteLiteral(" name=\"j_password\"");
+WriteLiteral(" name=\"Password\"");
 
 WriteLiteral(" class=\"form-control ng-valid ng-dirty\"");
 
@@ -117,48 +227,47 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 
 WriteLiteral(" data-valmsg-for=\"Password\"");
 
-WriteLiteral("></span>\r\n                            </div>\r\n                        </div>\r\n\t\t\t" +
-"\t\t<div");
+WriteLiteral("></span>\r\n                            </div>\r\n                    \t</div>\r\n      " +
+"              </div>\r\n                    <br>\r\n                </div>\r\n\r\n      " +
+"          <div");
 
-WriteLiteral(" class=\"col-xs-3\"");
+WriteLiteral(" style=\"display:none\"");
 
-WriteLiteral(">&nbsp;</div>\r\n                    </div>\r\n                    <br>\r\n            " +
-"    </div>\r\n                <div");
+WriteLiteral(" class=\"alert alert-danger element-center error-font ng-binding\"");
+
+WriteLiteral(" id=\"divMsgError\"");
+
+WriteLiteral(" onclick=\" $(\'#divMsgError\').hide();\"");
+
+WriteLiteral(">\r\n\t\t            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n\t\t                <div");
+
+WriteLiteral(" class=\"umeca-toast-error element-center\"");
+
+WriteLiteral(">\r\n\t\t                    <p");
+
+WriteLiteral(" id=\"MsgError\"");
+
+WriteLiteral("></p>\r\n\t\t                </div>\r\n\t\t            </div>\r\n\t\t        </div>\r\n\r\n      " +
+"          <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
-WriteLiteral(">\r\n                <a");
+WriteLiteral(">\r\n                \t<a");
 
-WriteAttribute ("href", " href=\"", "\""
+WriteLiteral(" href=\"javascript:;\"");
 
-#line 32 "Home.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
+WriteLiteral(" onclick=\"signarse();\"");
 
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">\r\n                    <button");
+WriteLiteral(" >\r\n                    <label");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
-WriteLiteral(" >Ingresar</button>\r\n                </a>\r\n                <a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 35 "Home.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("Index","Supervision")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">\r\n                    <button");
-
-WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
-
-WriteLiteral(" >Supervisar</button>\r\n                </a>\r\n                </div></body>\r\n</htm" +
-"l>");
+WriteLiteral(" >Ingresar</label>\r\n                    </a>\r\n         \t\t</div>\r\n</form>\r\n      <" +
+"/body>\r\n</html>");
 
 }
 }

@@ -33,6 +33,7 @@ namespace UmecaApp
 
 		public String address{ get; set; }
 
+		public String model{ get; set; }
 	}
 }
 

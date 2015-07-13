@@ -2,7 +2,7 @@
 
 namespace UmecaApp
 {
-	public class FieldVerified
+		public class FieldVerified
 	{
 
 		public String name{ get; set;}

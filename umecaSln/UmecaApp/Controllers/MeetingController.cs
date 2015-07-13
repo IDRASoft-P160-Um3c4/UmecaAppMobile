@@ -66,11 +66,8 @@ namespace UmecaApp
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
-//				+" and me.id_reviewer = 2 "
-				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
-
-			Console.WriteLine ("carga de casos "+result.Count);
-
+				+" and me.id_reviewer = ? "
+				+" AND cs.id_status = ?; ", , statusMeeting1.Id,statusMeeting2.Id, sc.Id);
 			var temp = new MeetingList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();

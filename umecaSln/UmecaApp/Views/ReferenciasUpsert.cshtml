@@ -34,12 +34,8 @@ app.controller('ReferencesController', function($scope, $timeout) {
 		    	alert("Init erro==>"+err.message);
 		    }
 
-		    if($scope.m.block == undefined ||$scope.m.block == false ){
-		    	$scope.fillModel();
-		    }
-		    else{
 		    	$scope.m.block = true;
-		    }
+		    
 		    if($scope.m.RelationshipId!=undefined){
 		    	for(var i= 0; i < $scope.lstRel.length ; i++){
 	                if($scope.lstRel[i].Id == $scope.m.RelationshipId){
@@ -131,6 +127,7 @@ app.controller('ReferencesController', function($scope, $timeout) {
             $scope.m.Address="";
         }
     };
+
 });
 </script>
 <div>
@@ -178,7 +175,6 @@ app.controller('ReferencesController', function($scope, $timeout) {
     </div>
     <br/>
     <div class="row">
-
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">
                 Nombre:
@@ -227,7 +223,7 @@ app.controller('ReferencesController', function($scope, $timeout) {
         </div>
     </div>
     <br/>
-    <div class="row" ng-show="m.RelationshipId['Specification'] == true">
+    <div class="row" ng-show="rel['Specification'] == true">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
                 Especif&iacute;que<br/>relaci&oacute;n:

@@ -137,7 +137,7 @@ WriteLiteral(" type=\"hidden\"");
 WriteAttribute ("value", " value=\"", "\""
 
 #line 148 "JobUpsert.cshtml"
-                     , Tuple.Create<string,object,bool> ("", Model.JsonModel
+                        , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
 #line hidden
@@ -154,7 +154,7 @@ WriteLiteral(" type=\"hidden\"");
 WriteAttribute ("value", " value=\"", "\""
 
 #line 149 "JobUpsert.cshtml"
-                       , Tuple.Create<string,object,bool> ("", Model.Reference
+                          , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
 #line hidden

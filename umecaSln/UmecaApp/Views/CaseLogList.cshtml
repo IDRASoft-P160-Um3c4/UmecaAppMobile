@@ -1,0 +1,43 @@
+﻿@model System.Collections.Generic.List<UmecaApp.CaseHearingFormatTblDto>
+@inherits WebViewTemplate
+@{
+	Layout = "UmecaApp.HeadSupervition";
+}
+    <script type="text/javascript">
+    function LogActivities(idCase){
+		window.location.replace('hybrid:Supervision/LogActivityLst?idCase='+idCase);
+    }
+    </script>
+<h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Consulta de casos</h2>
+<br />
+    <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="250"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbar2">
+    <thead>
+    <tr>
+        <th>Carpeta de investigaci&oacute;n</th>
+        <th>Carpeta Judicial</th>
+        <th>Nombre Completo</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var CaseHearing in Model) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td>
+        	@CaseHearing.IdFolder
+        </td>
+        <td>
+        	@CaseHearing.IdMP
+        </td>
+        <td>
+        	@(CaseHearing.Name+" "+CaseHearing.LastNameP+" "+CaseHearing.LastNameM)
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Bitácora del caso" onclick="LogActivities(@CaseHearing.CaseId);"><span class="icon-book"></span></a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

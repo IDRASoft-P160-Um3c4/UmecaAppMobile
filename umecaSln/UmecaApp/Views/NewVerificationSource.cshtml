@@ -1,0 +1,299 @@
+﻿@model UmecaApp.ModelContainer
+@inherits WebViewTemplate
+@{
+Layout = "UmecaApp.headUm";
+}
+<script>
+app.controller('ReferencesController', function($scope, $timeout) {
+	$scope.m = {};
+	$scope.p = {};
+    $scope.lstRel = [];
+    $scope.lstDoc = [];
+    $scope.lstLiv = [];
+    $scope.lstDep = [];
+    $scope.rel = {};
+    $scope.doc = {};
+    $scope.m.RelationshipId = {};
+    $scope.m.DocumentTypeId = {};
+    $scope.liv = {};
+    $scope.dep = {};
+    $scope.MsgError = "";
+
+    $scope.init = function(){
+			var relaciones = MeetingService.findAllRelationship();
+		    console.log("relaciones"+relaciones);
+		    $scope.lstRel = JSON.parse(relaciones);
+		    var documentos = MeetingService.findAllDocumentType();
+		    console.log("documentos"+documentos);
+		    $scope.lstDoc = JSON.parse(documentos);
+		    try{
+		    	console.log("modelContainer"+$("#hdnJsonModelContainer").val());
+		    	var js = JSON.parse($("#hdnJsonModelContainer").val());
+			    $scope.m = js;
+			} catch(err){
+		    	alert("Init erro==>"+err.message);
+		    }
+
+
+		    	$scope.m.block = true;
+		    
+		    if($scope.m.RelationshipId!=undefined){
+		    	for(var i= 0; i < $scope.lstRel.length ; i++){
+	                if($scope.lstRel[i].Id == $scope.m.RelationshipId){
+	    				$scope.rel = $scope.lstRel[i];
+	                    break;
+	                }
+	            }
+		    }
+		    if($scope.m.DocumentTypeId!=undefined){
+		    	for(var i= 0; i < $scope.lstDoc.length ; i++){
+	                if($scope.lstDoc[i].Id == $scope.m.DocumentTypeId){
+	    				$scope.doc = $scope.lstDoc[i];
+	                    break;
+	                }
+	            }
+		    }
+    };
+
+    $timeout(function() {
+        $scope.init();
+    }, 0);
+
+    $scope.save = function(){
+    if($("#FormCatId").valid() == false){
+         return false;
+         }else{
+    		console.log("save"+$("#hdnMeetingCaseReference").val());
+	   		var jsonData = JSON.stringify($scope.m);
+			$scope.msgError = VerificationService.upsertVerificationSource(JSON.stringify($scope.m));
+			if($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==""){
+				$scope.cancel($("#hdnMeetingCaseReference").val());
+			}
+		}
+	   };
+
+    $scope.cancel = function (idCase) {
+    console.log("cancel"+idCase);
+        window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCase);
+    };
+
+    $scope.fillModel = function(){
+        var template= "NO TIENE";
+        var template2 = "Ninguno";
+        if($scope.m.block === false){
+            $scope.m.FullName = template;
+            $scope.m.Address = template;
+            for(var i= 0; i < $scope.lstRel.length ; i++){
+                if($scope.lstRel[i].Name == template2){
+    				$scope.rel = $scope.lstRel[i];
+                    $scope.m.RelationshipId = $scope.lstRel[i].Id;
+                    break;
+                }
+            }
+            $scope.m.Phone = template;
+            for(var i= 0; i < $scope.lstDoc.length ; i++){
+                if($scope.lstDoc[i].Name == template2){
+                	$scope.doc = $scope.lstDoc[i];
+                    $scope.m.DocumentTypeId = $scope.lstDoc[i].Id;
+                    break;
+                }
+            }
+
+            $scope.m.Age = 0;
+            $scope.m.isAccompaniment = false;
+            for(var i= 0; i < $scope.lstDep.length ; i++){
+                if($scope.lstDep[i].Name == "No"){
+                    $scope.dep = $scope.lstDep[i];
+                    $scope.m.DependentId = $scope.lstDep[i].Id;
+                    break;
+                }
+            }
+            for(var i= 0; i < $scope.lstLiv.length ; i++){
+                if($scope.lstLiv[i].Name == "Si"){
+                    $scope.liv = $scope.lstLiv[i];
+                    $scope.m.LivingWithIde = $scope.lstLiv[i].Id;
+                    break;
+                }
+            }
+        }else{
+            $scope.m.FullName = "";
+            $scope.rel = $scope.lstRel[0];
+            $scope.m.RelationshipId = $scope.lstRel[0].Id;
+            $scope.m.Phone = "";
+            		$scope.doc = $scope.lstDoc[0];
+                    $scope.m.DocumentTypeId = $scope.lstDoc[0].Id;
+            $scope.m.Age = "";
+            $scope.m.Phone = "";
+            $scope.m.isAccompaniment = false;
+            $scope.m.Address="";
+        }
+    };
+});
+</script>
+<div>
+    <div id="dlgUpModalId" ng-app="umecaMobile" ng-controller="ReferencesController" >
+    <div>
+        <div class="alert alert-info ">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="element-center"><i class="icon-list"></i>&nbsp;&nbsp;Referencia personal</h4>
+        </div>
+    </div>
+           
+<div>
+	<div>
+	    <input id="hdnJsonModelContainer" type="hidden" value="@Model.JsonModel" name="jsonString" />
+	    <input id="hdnMeetingCaseReference" type="hidden" value="@Model.Reference" name="wasd"/>
+	</div>
+	<form id="FormCatId" name="FormCatId" >
+    <div class="row">
+        <div class="hr hr-3"></div>
+    </div>
+    <br/>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">
+                Nombre:
+            </div>
+            <div class="col-xs-10">
+                <input class="width-100" type="text"
+                       data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+                       data-val-length-max="150" data-val-length-min="3"   ng-readonly="!m.block"
+                       data-val-required="El Nombre es un campo requerido"
+                       name="name" id="name" ng-model="m.FullName">
+                <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Relaci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+                <select class="form-control element-center" ng-model="rel"
+                        ng-options="e.Name for e in lstRel"
+                        ng-change="m.RelationshipId = rel['Id']"   ng-readonly="!m.block"
+                       ></select>
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="lastName1" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Tel&eacute;fono:
+            </div>
+            <div class="col-xs-8">
+                <textarea class="form-control" type="text"  ng-readonly="!m.block"
+                       data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                       data-val-length-max="200" data-val-length-min="5"
+                       data-val-required="El tel&eacute;fono es un campo requerido"
+                       name="Phone" id="Phone" ng-model="m.Phone" ></textarea>
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="Phone" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row" ng-show="rel['Specification'] == true">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Especif&iacute;que<br/>relaci&oacute;n:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="m.specificationRelationship" 
+                       id="specificationRelationship" name="specificationRelationship">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="specificationRelationship" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Edad:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 2 n&uacute;mero"
+                       data-val-regex-pattern="([0-9]+)"    ng-readonly="!m.block"
+                       data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
+                       data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
+                       type="text" name="age" ng-model="m.Age" >
+            </div>
+            <div class="col-xs-12">
+                <span class="field-validation-valid" data-valmsg-for="age" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row" ng-show="m.DocumentTypeId['Specification'] == true">
+        <div class="col-xs-6">
+            <div class="col-xs-4 element-left">
+                Especif&iacute;que:
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control" data-val="true"
+                       data-val-length="Debe tener al menos 2 y m&aacute;ximo 255 caracteres"
+                       data-val-length-max="255" data-val-length-min="2"
+                       data-val-required="La especificaci&oacute;n es un campo requerido"
+                       type="text" ng-model="m.SpecificationDocumentType"
+                       id="specification" name="specification">
+            </div>
+            <div class="col-xs-9 col-xs-offset-3">
+                <span class="field-validation-valid" data-valmsg-for="specification" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row" >
+        <div class="col-xs-12">
+            <div class="col-xs-2 element-left">Direcci&oacute;n:</div>
+            <div class="col-xs-10">
+                <textarea id="address" class="form-control" name="address" ng-model="m.Address" ng-readonly="!m.block"
+                          data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
+                          data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
+                          data-val-length-max="500" data-val-length-min="6"></textarea>
+            </div>
+        </div>
+        <div class="col-xs-10 col-xs-offset-2">
+            <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    </form>
+</div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-show="MsgError" class="alert alert-danger element-center">
+                                {{MsgError}}
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="modal-footer">
+                    <span class="btn btn-default btn-sm"  ng-click="cancel('@Model.Reference')">
+                        Cancelar
+                    </span>
+                    <span class="btn btn-default btn-primary btn-sm"
+                           ng-click="save();">
+                          Guardar
+                    </span>
+                </div>
+                </div>
+            </div>
+

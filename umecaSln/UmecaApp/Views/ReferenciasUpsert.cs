@@ -52,50 +52,49 @@ WriteLiteral("\r\n<script>\r\napp.controller(\'ReferencesController\', function(
 "se(documentos);\r\n\t\t    try{\r\n\t\t    \tconsole.log(\"modelContainer\"+$(\"#hdnJsonMode" +
 "lContainer\").val());\r\n\t\t    \tvar js = JSON.parse($(\"#hdnJsonModelContainer\").val" +
 "());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t} catch(err){\r\n\t\t    \talert(\"Init erro==>\"+err.m" +
-"essage);\r\n\t\t    }\r\n\r\n\t\t    if($scope.m.block == undefined ||$scope.m.block == fa" +
-"lse ){\r\n\t\t    \t$scope.fillModel();\r\n\t\t    }\r\n\t\t    else{\r\n\t\t    \t$scope.m.block " +
-"= true;\r\n\t\t    }\r\n\t\t    if($scope.m.RelationshipId!=undefined){\r\n\t\t    \tfor(var " +
-"i= 0; i < $scope.lstRel.length ; i++){\r\n\t                if($scope.lstRel[i].Id " +
-"== $scope.m.RelationshipId){\r\n\t    \t\t\t\t$scope.rel = $scope.lstRel[i];\r\n\t        " +
-"            break;\r\n\t                }\r\n\t            }\r\n\t\t    }\r\n\t\t    if($scope" +
-".m.DocumentTypeId!=undefined){\r\n\t\t    \tfor(var i= 0; i < $scope.lstDoc.length ; " +
-"i++){\r\n\t                if($scope.lstDoc[i].Id == $scope.m.DocumentTypeId){\r\n\t  " +
-"  \t\t\t\t$scope.doc = $scope.lstDoc[i];\r\n\t                    break;\r\n\t            " +
-"    }\r\n\t            }\r\n\t\t    }\r\n    };\r\n\r\n    $timeout(function() {\r\n        $sc" +
-"ope.init();\r\n    }, 0);\r\n\r\n    $scope.save = function(){\r\n    if($(\"#FormCatId\")" +
-".valid() == false){\r\n         return false;\r\n         }else{\r\n    \t\tconsole.log(" +
-"\"save\"+$(\"#hdnMeetingCaseReference\").val());\r\n\t   \t\tvar jsonData = JSON.stringif" +
-"y($scope.m);\r\n\t\t\t$scope.msgError = MeetingService.upsertRefrerencia(JSON.stringi" +
-"fy($scope.m));\r\n\t\t\tif($scope.msgError==undefined||$scope.msgError==null||$scope." +
-"msgError==\"\"){\r\n\t\t\t\t$scope.cancel($(\"#hdnMeetingCaseReference\").val());\r\n\t\t\t}\r\n\t" +
-"\t}\r\n\t   };\r\n\r\n    $scope.cancel = function (idCase) {\r\n    console.log(\"cancel\"+" +
-"idCase);\r\n        window.location.replace(\'hybrid:Meeting/MeetingDatosPersonales" +
-"?idCase=\'+idCase);\r\n    };\r\n\r\n    $scope.fillModel = function(){\r\n        var te" +
-"mplate= \"NO TIENE\";\r\n        var template2 = \"Ninguno\";\r\n        if($scope.m.blo" +
-"ck === false){\r\n            $scope.m.FullName = template;\r\n            $scope.m." +
-"Address = template;\r\n            for(var i= 0; i < $scope.lstRel.length ; i++){\r" +
-"\n                if($scope.lstRel[i].Name == template2){\r\n    \t\t\t\t$scope.rel = $" +
-"scope.lstRel[i];\r\n                    $scope.m.RelationshipId = $scope.lstRel[i]" +
-".Id;\r\n                    break;\r\n                }\r\n            }\r\n            " +
-"$scope.m.Phone = template;\r\n            for(var i= 0; i < $scope.lstDoc.length ;" +
-" i++){\r\n                if($scope.lstDoc[i].Name == template2){\r\n               " +
-" \t$scope.doc = $scope.lstDoc[i];\r\n                    $scope.m.DocumentTypeId = " +
-"$scope.lstDoc[i].Id;\r\n                    break;\r\n                }\r\n           " +
-" }\r\n\r\n            $scope.m.Age = 0;\r\n            $scope.m.isAccompaniment = fals" +
-"e;\r\n            for(var i= 0; i < $scope.lstDep.length ; i++){\r\n                " +
-"if($scope.lstDep[i].Name == \"No\"){\r\n                    $scope.dep = $scope.lstD" +
-"ep[i];\r\n                    $scope.m.DependentId = $scope.lstDep[i].Id;\r\n       " +
-"             break;\r\n                }\r\n            }\r\n            for(var i= 0;" +
-" i < $scope.lstLiv.length ; i++){\r\n                if($scope.lstLiv[i].Name == \"" +
-"Si\"){\r\n                    $scope.liv = $scope.lstLiv[i];\r\n                    $" +
-"scope.m.LivingWithIde = $scope.lstLiv[i].Id;\r\n                    break;\r\n      " +
-"          }\r\n            }\r\n        }else{\r\n            $scope.m.FullName = \"\";\r" +
-"\n            $scope.rel = $scope.lstRel[0];\r\n            $scope.m.RelationshipId" +
-" = $scope.lstRel[0].Id;\r\n            $scope.m.Phone = \"\";\r\n            \t\t$scope." +
-"doc = $scope.lstDoc[0];\r\n                    $scope.m.DocumentTypeId = $scope.ls" +
-"tDoc[0].Id;\r\n            $scope.m.Age = \"\";\r\n            $scope.m.Phone = \"\";\r\n " +
-"           $scope.m.isAccompaniment = false;\r\n            $scope.m.Address=\"\";\r\n" +
-"        }\r\n    };\r\n});\r\n</script>\r\n<div>\r\n    <div");
+"essage);\r\n\t\t    }\r\n\r\n\t\t    \t$scope.m.block = true;\r\n\t\t    \r\n\t\t    if($scope.m.Re" +
+"lationshipId!=undefined){\r\n\t\t    \tfor(var i= 0; i < $scope.lstRel.length ; i++){" +
+"\r\n\t                if($scope.lstRel[i].Id == $scope.m.RelationshipId){\r\n\t    \t\t\t" +
+"\t$scope.rel = $scope.lstRel[i];\r\n\t                    break;\r\n\t                }" +
+"\r\n\t            }\r\n\t\t    }\r\n\t\t    if($scope.m.DocumentTypeId!=undefined){\r\n\t\t    " +
+"\tfor(var i= 0; i < $scope.lstDoc.length ; i++){\r\n\t                if($scope.lstD" +
+"oc[i].Id == $scope.m.DocumentTypeId){\r\n\t    \t\t\t\t$scope.doc = $scope.lstDoc[i];\r\n" +
+"\t                    break;\r\n\t                }\r\n\t            }\r\n\t\t    }\r\n    };" +
+"\r\n\r\n    $timeout(function() {\r\n        $scope.init();\r\n    }, 0);\r\n\r\n    $scope." +
+"save = function(){\r\n    if($(\"#FormCatId\").valid() == false){\r\n         return f" +
+"alse;\r\n         }else{\r\n    \t\tconsole.log(\"save\"+$(\"#hdnMeetingCaseReference\").v" +
+"al());\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgError = Mee" +
+"tingService.upsertRefrerencia(JSON.stringify($scope.m));\r\n\t\t\tif($scope.msgError=" +
+"=undefined||$scope.msgError==null||$scope.msgError==\"\"){\r\n\t\t\t\t$scope.cancel($(\"#" +
+"hdnMeetingCaseReference\").val());\r\n\t\t\t}\r\n\t\t}\r\n\t   };\r\n\r\n    $scope.cancel = func" +
+"tion (idCase) {\r\n    console.log(\"cancel\"+idCase);\r\n        window.location.repl" +
+"ace(\'hybrid:Meeting/MeetingDatosPersonales?idCase=\'+idCase);\r\n    };\r\n\r\n    $sco" +
+"pe.fillModel = function(){\r\n        var template= \"NO TIENE\";\r\n        var templ" +
+"ate2 = \"Ninguno\";\r\n        if($scope.m.block === false){\r\n            $scope.m.F" +
+"ullName = template;\r\n            $scope.m.Address = template;\r\n            for(v" +
+"ar i= 0; i < $scope.lstRel.length ; i++){\r\n                if($scope.lstRel[i].N" +
+"ame == template2){\r\n    \t\t\t\t$scope.rel = $scope.lstRel[i];\r\n                    " +
+"$scope.m.RelationshipId = $scope.lstRel[i].Id;\r\n                    break;\r\n    " +
+"            }\r\n            }\r\n            $scope.m.Phone = template;\r\n          " +
+"  for(var i= 0; i < $scope.lstDoc.length ; i++){\r\n                if($scope.lstD" +
+"oc[i].Name == template2){\r\n                \t$scope.doc = $scope.lstDoc[i];\r\n    " +
+"                $scope.m.DocumentTypeId = $scope.lstDoc[i].Id;\r\n                " +
+"    break;\r\n                }\r\n            }\r\n\r\n            $scope.m.Age = 0;\r\n " +
+"           $scope.m.isAccompaniment = false;\r\n            for(var i= 0; i < $sco" +
+"pe.lstDep.length ; i++){\r\n                if($scope.lstDep[i].Name == \"No\"){\r\n  " +
+"                  $scope.dep = $scope.lstDep[i];\r\n                    $scope.m.D" +
+"ependentId = $scope.lstDep[i].Id;\r\n                    break;\r\n                }" +
+"\r\n            }\r\n            for(var i= 0; i < $scope.lstLiv.length ; i++){\r\n   " +
+"             if($scope.lstLiv[i].Name == \"Si\"){\r\n                    $scope.liv " +
+"= $scope.lstLiv[i];\r\n                    $scope.m.LivingWithIde = $scope.lstLiv[" +
+"i].Id;\r\n                    break;\r\n                }\r\n            }\r\n        }e" +
+"lse{\r\n            $scope.m.FullName = \"\";\r\n            $scope.rel = $scope.lstRe" +
+"l[0];\r\n            $scope.m.RelationshipId = $scope.lstRel[0].Id;\r\n            $" +
+"scope.m.Phone = \"\";\r\n            \t\t$scope.doc = $scope.lstDoc[0];\r\n             " +
+"       $scope.m.DocumentTypeId = $scope.lstDoc[0].Id;\r\n            $scope.m.Age " +
+"= \"\";\r\n            $scope.m.Phone = \"\";\r\n            $scope.m.isAccompaniment = " +
+"false;\r\n            $scope.m.Address=\"\";\r\n        }\r\n    };\r\n\r\n});\r\n</script>\r\n<" +
+"div>\r\n    <div");
 
 WriteLiteral(" id=\"dlgUpModalId\"");
 
@@ -134,8 +133,8 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 147 "ReferenciasUpsert.cshtml"
-                     , Tuple.Create<string,object,bool> ("", Model.JsonModel
+#line 144 "ReferenciasUpsert.cshtml"
+                        , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
 #line hidden
@@ -151,8 +150,8 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 148 "ReferenciasUpsert.cshtml"
-                       , Tuple.Create<string,object,bool> ("", Model.Reference
+#line 145 "ReferenciasUpsert.cshtml"
+                          , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
 #line hidden
@@ -237,17 +236,8 @@ WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
 WriteLiteral(" ng-show=\"m.block\"");
 
-WriteLiteral(">\r\n\r\n            <!--<input");
-
-WriteLiteral(" type=\"hidden\"");
-
-WriteLiteral(" ng-update-hidden");
-
-WriteLiteral(" name=\"isAccompaniment\"");
-
-WriteLiteral(" ng-model=\"m.isAccompaniment\"");
-
-WriteLiteral(">-->\r\n            <input");
+WriteLiteral(">\r\n\r\n            <!--<input type=\"hidden\" ng-update-hidden name=\"isAccompaniment\"" +
+" ng-model=\"m.isAccompaniment\">-->\r\n            <input");
 
 WriteLiteral(" type=\"checkbox\"");
 
@@ -268,7 +258,7 @@ WriteLiteral("> &iquest;Esta persona acompa&ntilde;ar&aacute; al imputado durant
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n\r\n        <div");
+WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
@@ -405,7 +395,7 @@ WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"m.RelationshipId[\'Specification\'] == true\"");
+WriteLiteral(" ng-show=\"rel[\'Specification\'] == true\"");
 
 WriteLiteral(">\r\n        <div");
 
@@ -671,7 +661,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", "  ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "cancel(\'", true)
 
-#line 328 "ReferenciasUpsert.cshtml"
+#line 324 "ReferenciasUpsert.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

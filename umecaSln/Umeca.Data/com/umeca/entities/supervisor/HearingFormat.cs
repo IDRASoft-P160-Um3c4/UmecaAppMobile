@@ -2,6 +2,9 @@
 using SQLiteNetExtensions.Attributes;
 using SQLite.Net.Attributes;
 
+using UmecaApp;
+
+
 namespace Umeca.Data
 {
 	[Table("hearing_format")]
@@ -63,7 +66,7 @@ namespace Umeca.Data
 		public DateTime? UmecaTime{ get; set; }
 
 		[Column("id_user_umeca")]
-		public int UmecaSupervisor{ get; set; }
+		public int? UmecaSupervisor{ get; set; }
 
 		//HearingType id reference
 		[Column("id_hearing_type")]
@@ -73,26 +76,26 @@ namespace Umeca.Data
 		public String HearingTypeSpecification{ get; set; }
 
 		[Column("imputed_presence")]
-		public int ImputedPresence{ get; set; }
+		public int? ImputedPresence{ get; set; }
 
 		[Column("hearing_result")]
 		public String HearingResult{ get; set; }
 
 		[Column("previous_hearing")]
-		public int PreviousHearing{ get; set; }
+		public int? PreviousHearing{ get; set; }
 
 		[Column("id_format_specs")]
-		public int HearingFormatSpecs{ get; set; }
+		public int? HearingFormatSpecs{ get; set; }
 
 		[Column("id_case")]
-		public int CaseDetention{ get; set; }
+		public int? CaseDetention{ get; set; }
 
 		[Column("id_user")]
-		public int Supervisor{ get; set; }
+		public int? Supervisor{ get; set; }
 
 //		HearingFormatImputed
 		[Column("id_hearing_format_imputed")]
-		public int hearingImputed{ get; set; }
+		public int? hearingImputed{ get; set; }
 
 		[Column("show_notification")]
 		public Boolean ShowNotification{ get; set; }

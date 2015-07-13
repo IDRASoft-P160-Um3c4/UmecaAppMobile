@@ -7,33 +7,87 @@
 </head>
 <body>
     <script src="scripts/jquery-1.10.2.min.js"></script>
-                <div class="header">
-                    <h2 class="modal-title element-center">@Model.Title</h2>
+    <script src="scripts/umeca/bootstrap.min.js"></script>
+    <script src="scripts/jquery.validate.min.js"></script>
+    <script src="scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link rel="stylesheet" href="content/bootstrap.css"/>
+    <script>
+    $("#divMsgError").hide();
+    var signarse = function (){
+    $("#divMsgError").hide();
+    	if($("#lgnForm").valid() == false){
+        	return false;
+        }else{
+        	var user=$("#j_username").val();
+        	var pass=$("#j_password").val();
+        	var result = Sync.userUpsert(user, pass);
+        	var response = JSON.parse(result);
+        	console.log("result->"+result);
+        	if(response["error"]){
+        	$("#divMsgError").show();
+        	$("#divMsgError").text(response["response"]);
+        	}else{
+				window.location.replace('hybrid:'+response["response"]+'/Index');
+        	}
+        	console.log("response->"+response["response"]);
+        }
+    }
+    </script>
+                <div class="modal-header">
+                    <h2 class="modal-title element-center">Ingresar al sistema</h2>
+                    <div class="element-center">
+                        <h4>
+                            <i class="glyphicon glyphicon-cog"></i>
+                            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-cloud"></i>
+                            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-home"></i>
+                            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-phone"></i>
+                            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;&nbsp;
+                        </h4>
+                    </div>
                 </div>
+<form id="lgnForm">
                 <div class="modal-body">
                     <h4 class="element-center">Ingrese los datos para acceder al portal</h4>
                     <hr>
                     <div class="row">
-                        <div class="col-xs-3">&nbsp;</div>
+                    	<div class="col-xs-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="UserName" class="form-control ng-valid ng-dirty" id="j_username" type="text" placeholder="Usuario" value="" ng-model="m.username" data-val-required="No ha ingresado el usuario" data-val="true">
+                            </div>
+                            <div class="input-group error-font">
+                                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="UserName"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input name="j_password" class="form-control ng-valid ng-dirty" id="j_password" type="password" placeholder="Contraseña" ng-model="m.password" data-val-required="No ha ingresado la contraseña" data-val="true">
+                                <input name="Password" class="form-control ng-valid ng-dirty" id="j_password" type="password" placeholder="Contraseña" ng-model="m.password" data-val-required="No ha ingresado la contraseña" data-val="true">
                             </div>
                             <div class="input-group error-font">
                                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Password"></span>
                             </div>
-                        </div>
-					<div class="col-xs-3">&nbsp;</div>
+                    	</div>
                     </div>
                     <br>
                 </div>
+
+                <div style="display:none" class="alert alert-danger element-center error-font ng-binding" id="divMsgError" onclick=" $('#divMsgError').hide();">
+		            <div class="col-xs-12">
+		                <div class="umeca-toast-error element-center">
+		                    <p id="MsgError"></p>
+		                </div>
+		            </div>
+		        </div>
+
                 <div class="modal-footer">
-                <a href="@Url.Action("Index","Meeting")">
-                    <button class="btn btn-default btn-primary btn-sm" >Ingresar</button>
-                </a>
-                <a href="@Url.Action("Index","Supervision")">
-                    <button class="btn btn-default btn-primary btn-sm" >Supervisar</button>
-                </a>
-                </div></body>
+                	<a href="javascript:;" onclick="signarse();" >
+                    <label class="btn btn-default btn-primary btn-sm" >Ingresar</label>
+                    </a>
+         		</div>
+</form>
+      </body>
 </html>

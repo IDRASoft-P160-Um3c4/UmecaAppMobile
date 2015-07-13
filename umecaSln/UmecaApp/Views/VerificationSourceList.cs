@@ -63,6 +63,10 @@ WriteLiteral(@">
 	    	alert(""error catched Iniciate angular function erro==>""+err.message);
 	    }
 	};
+
+	$scope.addNewSource = function(idcase){
+    	window.location.replace('hybrid:Verification/AddVerificationSource?idCase='+idcase);
+    };
    
 });
 
@@ -70,6 +74,8 @@ WriteLiteral(@">
     	var iner = parseInt(id);
     	window.location.replace('hybrid:Verification/ValidationMeetingBySource?idSource='+iner);
 	}
+
+
 
 </script>
 
@@ -103,7 +109,7 @@ WriteLiteral(" >\r\n                <small>Carpeta de investigaci&oacute;n:  </s
 "     &nbsp;");
 
 
-#line 47 "VerificationSourceList.cshtml"
+#line 53 "VerificationSourceList.cshtml"
                 Write(Model.IdFolder);
 
 
@@ -120,7 +126,7 @@ WriteLiteral(" class=\"header smaller lighter blue\"");
 WriteLiteral(">\r\n                <small>Nombre del imputado:  </small>\r\n                &nbsp;");
 
 
-#line 53 "VerificationSourceList.cshtml"
+#line 59 "VerificationSourceList.cshtml"
                  Write(Model.FullnameImputed);
 
 
@@ -137,7 +143,7 @@ WriteLiteral(" class=\"header smaller lighter blue\"");
 WriteLiteral(">\r\n                    <small>Edad:  </small>\r\n                    &nbsp;");
 
 
-#line 59 "VerificationSourceList.cshtml"
+#line 65 "VerificationSourceList.cshtml"
                      Write(Model.Age);
 
 
@@ -150,7 +156,7 @@ WriteLiteral(" class=\"row\"");
 WriteAttribute ("ng-show", " ng-show=\"", "\""
 , Tuple.Create<string,object,bool> ("", "\'", true)
 
-#line 64 "VerificationSourceList.cshtml"
+#line 70 "VerificationSourceList.cshtml"
 , Tuple.Create<string,object,bool> ("", Model.tStart
 
 #line default
@@ -170,7 +176,7 @@ WriteLiteral(">\r\n                <small>Entrevista de riesgos procesales:  </s
 "      &nbsp;");
 
 
-#line 68 "VerificationSourceList.cshtml"
+#line 74 "VerificationSourceList.cshtml"
                  Write(Model.tEnd);
 
 
@@ -187,13 +193,46 @@ WriteLiteral(" class=\"header smaller lighter blue\"");
 WriteLiteral(">\r\n                <small>Evaluador:  </small>\r\n                &nbsp;");
 
 
-#line 74 "VerificationSourceList.cshtml"
+#line 80 "VerificationSourceList.cshtml"
                  Write(Model.reviewerFullname);
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n            </h3>\r\n        </div>\r\n    </div>\r\n    <table");
+WriteLiteral("\r\n            </h3>\r\n        </div>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" id=\"toolbar2\"");
+
+WriteLiteral(" class=\"btn-group\"");
+
+WriteLiteral(">\r\n\t\t<a");
+
+WriteLiteral(" href=\"javascript:;\"");
+
+WriteLiteral(">\r\n\t\t\t    <button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" id=\"btnAddDomicilio\"");
+
+WriteAttribute ("ng-click", " ng-click=\"", "\""
+, Tuple.Create<string,object,bool> ("", "addNewSource(", true)
+
+#line 86 "VerificationSourceList.cshtml"
+                                                                   , Tuple.Create<string,object,bool> ("", Model.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(">\r\n\t\t\t        <i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></i>\r\n\t\t\t    </button>\r\n\t\t</a>\r\n\t</div>\r\n    <table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -217,7 +256,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listSources", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 81 "VerificationSourceList.cshtml"
+#line 94 "VerificationSourceList.cshtml"
                                        , Tuple.Create<string,object,bool> (" ", Model.SourceListJson
 
 #line default
@@ -371,7 +410,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
 WriteLiteral(" onclick=\"cancelari();\"");
 
-WriteLiteral(">\r\n        Cancelar\r\n    </span>\r\n</div>");
+WriteLiteral(">\r\n        Regresar\r\n    </span>\r\n</div>");
 
 }
 }

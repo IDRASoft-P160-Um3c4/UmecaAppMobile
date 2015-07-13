@@ -9,21 +9,21 @@ namespace Umeca.Data
 		{
 		}
 
-		public int Id{ get; set; }
+		public int id{ get; set; }
 
-		public String Name{ get; set; }
+		public String name{ get; set; }
 
-		public String Description{ get; set; }
+		public String description{ get; set; }
 
-		public Boolean SelVal{ get; set; }
+		public Boolean selVal{ get; set; }
 
-		public Boolean IsDefault{ get; set; }
+		public Boolean isDefault{ get; set; }
 
-		public Boolean IsExclusive{ get; set; }
+		public Boolean isExclusive{ get; set; }
 
-		public Boolean IsNational{ get; set; }
+		public Boolean isNational{ get; set; }
 
-		public int Type{ get; set; }
+		public int type{ get; set; }
 
 	}
 }

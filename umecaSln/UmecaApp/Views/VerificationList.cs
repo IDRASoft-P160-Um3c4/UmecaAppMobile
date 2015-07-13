@@ -197,31 +197,16 @@ WriteLiteral("                        <label>Sin proporcionar</label>\r\n");
 #line hidden
 WriteLiteral("        </td>\r\n        <td>\r\n");
 
-WriteLiteral("        \t");
+WriteLiteral("        ");
 
 
 #line 51 "VerificationList.cshtml"
-       Write(Meeting.Description);
+   Write(Meeting.StatusCode);
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
-
-
-#line 54 "VerificationList.cshtml"
-         
-
-#line default
-#line hidden
-
-#line 54 "VerificationList.cshtml"
-          if(Meeting.StatusCode=="AUTHORIZED") {
-
-
-#line default
-#line hidden
-WriteLiteral("         \t<a");
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \r\n         \t<a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
@@ -244,60 +229,10 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-group blue\"");
 
-WriteLiteral("></i></a>\r\n");
-
-
-#line 56 "VerificationList.cshtml"
-         }
-
-
-#line default
-#line hidden
-WriteLiteral("         ");
-
-
-#line 57 "VerificationList.cshtml"
-          if(Meeting.StatusCode=="MEETING_COMPLETE") {
-
-
-#line default
-#line hidden
-WriteLiteral("         \t<a");
-
-WriteLiteral(" href=\"javascript:;\"");
-
-WriteLiteral(" style=\"display:inline-block;\"");
-
-WriteLiteral(" title=\"Verificación final\"");
-
-WriteAttribute ("onclick", " onclick=\"", "\""
-, Tuple.Create<string,object,bool> ("", "editMeeting(", true)
-
-#line 58 "VerificationList.cshtml"
-                                                                          , Tuple.Create<string,object,bool> ("", Meeting.CaseId
-
-#line default
-#line hidden
-, false)
-, Tuple.Create<string,object,bool> ("", ");", true)
-);
-WriteLiteral("><span");
-
-WriteLiteral(" class=\"glyphicon glyphicon-ok-circle\"");
-
-WriteLiteral("></span></a>\r\n");
+WriteLiteral("></i></a>\r\n         \r\n        </td>\r\n    </tr>\r\n");
 
 
 #line 59 "VerificationList.cshtml"
-         }
-
-
-#line default
-#line hidden
-WriteLiteral("        </td>\r\n    </tr>\r\n");
-
-
-#line 62 "VerificationList.cshtml"
 }
 
 

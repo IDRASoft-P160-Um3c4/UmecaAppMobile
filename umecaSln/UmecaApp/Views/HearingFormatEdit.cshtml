@@ -3,31 +3,1116 @@
 @{
 	Layout = "UmecaApp.HeadSupervition";
 }
+
+
+<script>
+app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, $sce, $rootScope) {
+
+        $scope.m = {};
+        $scope.a = {};
+
+        $scope.m.errTime;
+        $scope.hasError = false;
+        $scope.MsgError;
+        $scope.MsgErrorContact = "";
+        $scope.lblTerms = "";
+
+        $scope.MsgErrorContact = "";
+
+        $scope.m.labelImpForm = "";
+
+        $scope.chnLblFormImp = function (id) {
+            if ($scope.m.hasPrevHF == false) {
+                if (id == 1) {
+                    $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
+                    $scope.m.impDate = $scope.m.appointmentDate;
+                }
+                else if (id == 2) {
+                    $scope.m.labelImpForm = $sce.trustAsHtml("Nueva fecha de audiencia");
+                    $scope.m.impDate = "";
+                }
+            }
+
+        };
+
+        $scope.chnExtDate = function (id) {
+            $scope.chngVincProcess(1);
+            if (id == 1) {
+                $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 3)));
+            }
+            else if (id == 2) {
+                $scope.m.extDate = $scope.myFormatDate(((new Date()).getTime() + (86400000 * 6)));
+            }
+            else if (id == 3) {
+                $scope.m.extDate = $scope.m.appointmentDate;
+            }
+
+        };
+
+        var dlgConfirmAction = $('#divConfirm');
+
+        $scope.showDlg = function () {
+            var def = $q.defer();
+
+            $timeout(function () {
+                dlgConfirmAction.modal('show');
+                dlgConfirmAction.on('hidden.bs.modal', function () {
+                    if ($scope.IsOk === true) {
+
+                    }
+                    else {
+
+                    }
+                });
+            }, 1);
+
+            return def.promise;
+        }
+
+        $scope.hideDlg = function () {
+            $scope.WaitFor = false;
+            dlgConfirmAction.modal('hide');
+        }
+
+        $scope.validateSave = function () {
+
+            $scope.hasError = false;
+
+            $scope.validateBthDay();
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
+            $scope.validateArrangementSel();
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
+            $scope.validateLstContact();
+
+            if ($scope.hasError == true) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
+
+            $rootScope.$broadcast('valAddCrime', $scope, "crimeIsValid");
+
+            if ($scope.crimeIsValid == false) {
+                $scope.MsgError = "No es posible guardar. Debe proporcionar toda la informaci&aacute;n requerida.";
+                return false;
+            }
+
+            return true;
+        };
+
+        $scope.validateBthDay = function () {
+
+            if (!$scope.m.impBthDay) {
+                $scope.hasError = true;
+                $scope.m.errBth = "Fecha de nacimiento es un campo requerido";
+            }
+            else {
+                $scope.m.errBth = "";
+                if ($scope.m.impAge < 18) {
+                    $scope.hasError = true;
+                    $scope.m.errAge = "No puede registrar a un menor de edad";
+                }
+                else
+                    $scope.m.errAge = "";
+            }
+
+
+        }
+
+        $scope.validateInitEnd = function () {
+
+            if (Date.parse('01/01/2014 ' + $scope.m.initTime) >= Date.parse('01/01/2014 ' + $scope.m.endTime)) {
+                $scope.hasError = true;
+                $scope.m.errTime = "La hora de termino debe ser mayor a la hora de inicio";
+                return;
+            }
+            else
+                $scope.m.errTime = "";
+
+        };
+
+        $scope.addContact = function () {
+
+            if ($scope.validateContact())
+                return;
+
+            var jsonRow = {
+                "NameTxt": $scope.m.contactName,
+                "PhoneTxt": $scope.m.contactPhone,
+                "AddressTxt": $scope.m.contactAddress
+            };
+
+            $scope.m.lstContactData.push(jsonRow);
+
+            $scope.m.contactName = "";
+            $scope.m.contactPhone = "";
+            $scope.m.contactAddress = "";
+            $scope.MsgErrorContact = "";
+
+        };
+
+        $scope.validateContact = function () {
+
+            $scope.MsgErrorContact = "";
+
+            if ($scope.m.contactName === "" || $scope.m.contactPhone === "" || $scope.m.contactAddress === "" || !($scope.m.contactName) || !($scope.m.contactPhone) || !($scope.m.contactAddress)) {
+                $scope.MsgErrorContact = "Debe proporcionar todos los campos para agregar el contacto."
+                return true;
+            }
+
+            return false
+        };
+
+        $scope.removeContact = function (index) {
+            if ($scope.m.canSave == true)
+                $scope.m.lstContactData.splice(index, 1);
+        };
+
+        $scope.validateLstContact = function () {
+            if ($scope.m.lstContactData == undefined || $scope.m.lstContactData.length < 1 && $scope.m.vincProcess == 1) {
+                $scope.hasError = true;
+                $scope.MsgErrorContact = "Debe registrar al menos un dato de contacto."
+                return;
+            }
+            $scope.hasError = false;
+            $scope.MsgErrorContact = "";
+        };
+
+        $scope.validateLinkProc = function () {
+
+            if (!$scope.m.vincProcess) {
+                $scope.hasError = true;
+                $scope.m.errLinkProc = "Debe seleccionar una opci�n";
+            }
+            else
+                $scope.m.errLinkProc = "";
+
+            if ($scope.m.vincProcess == 1) {
+
+                if (!$scope.m.linkageRoom || $scope.m.linkageRoom === "") {
+                    $scope.hasError = true;
+                    $scope.m.errLnkRoom = "Sala es un campo requerido";
+                }
+                else {
+                    $scope.m.errLnkRoom = "";
+                }
+
+                if (!$scope.m.linkageDate || $scope.m.linkageDate === "") {
+                    $scope.hasError = true;
+                    $scope.m.errLnkDt = "Fecha es un campo requerido";
+                }
+                else {
+                    $scope.m.errLnkDt = "";
+                }
+
+                if (!$scope.m.linkageTime || $scope.m.linkageTime === "") {
+                    $scope.hasError = true;
+                    $scope.m.errLnkTm = "Hora es un campo requerido";
+                }
+                else {
+                    $scope.m.errLnkTm = "";
+                }
+
+            }
+        };
+
+        $scope.disableView = function (val) {
+
+            if (val) {
+
+                $("#divAudiencia :input").attr("disabled", true);
+                $("#divImputado :input").attr("disabled", true);
+                $("#divDelitos :input").attr("disabled", true);
+                $("#divCtrlDet :input").attr("disabled", true);
+                $("#divFormImp :input").attr("disabled", true);
+                $("#divExt :input").attr("disabled", true);
+                $("#divVincProc :input").attr("disabled", true);
+                $("#divMedidas :input").attr("disabled", true);
+                $("#divContact :input").attr("disabled", true);
+                $("#divCitaUmeca :input").attr("disabled", true);
+                $("#divPreviousHearing :input").attr("disabled", true);
+            }
+            else {
+                $("#divAudiencia :input").attr("disabled", false);
+                $("#divImputado :input").attr("disabled", false);
+                $("#divDelitos :input").attr("disabled", false);
+                $("#divCtrlDet :input").attr("disabled", false);
+
+                if ($scope.m.hasPrevHF == true) {
+                    $("#idFolder").attr("disabled", true);
+                    $("#idJudicial").attr("disabled", true);
+                    $("#divFormImp :input").attr("disabled", true);
+                }
+                else
+                    $("#divFormImp :input").attr("disabled", false);
+
+                $("#divExt :input").attr("disabled", false);
+                $("#divVincProc :input").attr("disabled", false);
+                $("#divMedidas :input").attr("disabled", false);
+                $("#divContact :input").attr("disabled", false);
+            }
+
+        };
+
+        $scope.myFormatDate = function (dateMil) {
+
+            var strDt = "";
+            var date;
+
+
+            console.log("dateMil->"+dateMil);
+            if (dateMil && dateMil != "null") {
+
+                date = new Date(dateMil);
+
+                var dd, mm, yyyy;
+
+                dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+                mm = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+                yyyy = date.getFullYear();
+                if(yyyy > 0){
+                	strDt = yyyy + "/" + mm + "/" + dd;
+                }else{
+                	strDt = "";
+                }
+            }
+            console.log("strDt->"+strDt);
+
+            return strDt;
+        };
+
+        $scope.fillFormat = function (data) {
+
+            $scope.m.canSave = data.canSave;
+            $scope.m.canEdit = data.canEdit;
+            $scope.m.disableAll = data.disableAll;
+
+            //audiencia
+            $scope.m.idCase = data.idCase;
+            $scope.m.idFormat = data.idFormat;
+            $scope.m.isFinished = data.isFinished;
+            $scope.m.hasPrevHF = data.hasPrevHF;
+            $scope.m.idFolder = data.idFolder;
+            $scope.m.idJudicial = data.idJudicial;
+            $scope.m.room = data.room;
+            $scope.m.appointmentDate = $scope.myFormatDate(data.appointmentDate);
+            if ($scope.m.appointmentDate === "") {
+                $scope.m.appointmentDate = $scope.myFormatDate(new Date());
+            }
+            $scope.m.initTime = data.initTime;
+            $scope.m.endTime = data.endTime;
+            $scope.m.judgeName = data.judgeName;
+            $scope.m.mpName = data.mpName;
+            $scope.m.defenderName = data.defenderName;
+
+            //imputado
+            $scope.m.imputedName = data.imputedName;
+            $scope.m.imputedFLastName = data.imputedFLastName;
+            $scope.m.imputedSLastName = data.imputedSLastName;
+            $scope.m.impBthDay = $scope.myFormatDate(data.imputedBirthDate);
+            $scope.calcAge();
+            $scope.m.imputedTel = data.imputedTel;
+
+            $scope.m.crimes = data.crimes;
+            $scope.m.additionalData = data.additionalData;
+            $scope.m.isView = data.isView;
+
+            //radios
+            $scope.m.ctrlDet = data.controlDetention;
+
+                $scope.m.ext = data.extension;
+            if (data.extDateStr != undefined && data.extDateStr != null && data.extDateStr != "" ) {
+                $scope.m.extDate = $scope.myFormatDate(data.extDateStr);
+            } else {
+                $scope.m.extDate = "";
+            }
+
+            $scope.m.formImp = data.impForm;
+
+            if ($scope.m.formImp == 1)
+                $scope.m.labelImpForm = $sce.trustAsHtml("Fecha de imputaci&oacute;n");
+            else if ($scope.m.formImp == 2)
+                $scope.m.labelImpForm = $sce.trustAsHtml("Nueva fecha de audiencia");
+
+            $scope.m.impDate = $scope.myFormatDate(data.imputationDate);
+
+            $scope.m.vincProcess = data.vincProcess;
+            $scope.m.linkageRoom = data.linkageRoom;
+            $scope.m.linkageDate = $scope.myFormatDate(data.linkageDate);
+            $scope.m.linkageTime = data.linkageTime;
+            $scope.m.arrType = data.arrangementType;
+            $scope.m.nationalArrangement = data.nationalArrangement;
+            $scope.m.terms = data.terms;
+            $scope.m.comments = data.comments;
+
+            $scope.m.userName = data.userName;
+
+            $scope.m.hearingTypeId = data.hearingTypeId;
+            console.log("htype"+$scope.m.hearingTypeId);
+            $scope.m.imputedPresence = data.imputedPresence;
+            $scope.m.hearingTypeSpecification = data.hearingTypeSpecification;
+            $scope.m.hearingResult = data.hearingResult;
+
+            $scope.m.umecaDate = $scope.myFormatDate(data.umecaDate);
+            $scope.m.umecaTime = data.umecaTime;
+            $scope.m.umecaSupervisorId = data.umecaSupervisorId;
+
+            if (data.lstArrangement != undefined)
+                $scope.m.lstArrangementShow = $.parseJSON(data.lstArrangement);
+
+            if (data.lstContactData != undefined){
+                $scope.m.lstContactData = $.parseJSON(data.lstContactData);
+                console.log("lstContactData+"+$scope.m.lstContactData);
+            }else
+                $scope.m.lstContactData = [];
+
+            $scope.m.previousHearing = data.previousHearing;
+
+            $scope.chgLblTerms();
+
+            $scope.$apply();
+        };
+
+
+        $scope.saveHF = function () {
+        askVerificationTerminate.hide();
+        	var a = $scope.validateSave();
+            var b = $scope.valAddedCrime();
+            if ($("#FormFormatId").valid() == false || a == false || b == false) {
+                $scope.Invalid = true;
+                $scope.MsgError = $sce.trustAsHtml("No es posible terminar. Debe proporcionar toda la informaci&oacute;n requerida.");
+                return false;
+            }
+
+            if ($scope.m.vincProcess == 2){
+                askCloseCredentials.show();
+            }else{
+            		$scope.m.isFinished = true;
+
+		            $scope.WaitFor = true;
+		            $scope.m.listCrime = JSON.stringify($scope.listCrime);
+		            $scope.m.controlDetention = $scope.m.ctrlDet;
+		            $scope.m.impForm = $scope.m.formImp;
+		            var listaContactos = $scope.m.lstContactData;
+		            $scope.m.lstContactData = JSON.stringify($scope.m.lstContactData);
+		            $scope.m.lstArrangement = JSON.stringify($scope.m.lstArrangementShow);
+		            $scope.m.extension = $scope.m.ext;
+		            $scope.m.extDateStr = $scope.m.extDate;
+		            $scope.m.imputationDateStr = $scope.m.impDate;
+
+		            var resultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));
+		            var idformat = TryParseInt(resultado,null);
+		            if(resultado!=undefined&&resultado!=null && idformat!=null){
+		            	$scope.MsgSuccess = $sce.trustAsHtml("Se ha registrado el formato de audiencia.");
+		            	$scope.WaitFor = false;
+		            	$scope.m.idFormat = idformat;
+		            	var mesage = "Se ha registrado el formato de audiencia.";
+				 		console.log("regresar del idformat-"+idformat);
+					
+		            }else{
+		            	$scope.MsgError = $sce.trustAsHtml(resultado);
+		            	$scope.WaitFor = false;
+		            	$scope.m.isFinished = false;
+		            }
+		             $scope.m.lstContactData = listaContactos;
+		             $scope.$apply();
+		    }
+        };
+
+        $scope.saveHFClose = function () {
+            		$scope.m.isFinished = true;
+		            $scope.WaitFor = true;
+		            $scope.m.listCrime = JSON.stringify($scope.listCrime);
+		            $scope.m.controlDetention = $scope.m.ctrlDet;
+		            $scope.m.impForm = $scope.m.formImp;
+		            var listaContactos = $scope.m.lstContactData;
+		            $scope.m.lstContactData = JSON.stringify($scope.m.lstContactData);
+		            $scope.m.lstArrangement = JSON.stringify($scope.m.lstArrangementShow);
+		            $scope.m.extension = $scope.m.ext;
+		            $scope.m.extDateStr = $scope.m.extDate;
+		            $scope.m.imputationDateStr = $scope.m.impDate;
+
+		            var resultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));
+		            var idformat = TryParseInt(resultado,null);
+		            if(resultado!=undefined&&resultado!=null && idformat!=null){
+		            	$scope.MsgSuccess = $sce.trustAsHtml("Se ha registrado el formato de audiencia.");
+		            	$scope.WaitFor = false;
+		            	$scope.m.idFormat = idformat;
+		            	var mesage = "Se ha registrado el formato de audiencia.";
+				 		console.log("regresar del idformat-"+idformat);
+						window.location.replace('hybrid:Supervision/HearingFormatList?idCase='+$scope.m.idCase);
+		            }else{
+		            	$scope.MsgError = $sce.trustAsHtml(resultado);
+		            	$scope.WaitFor = false;
+		            	$scope.m.isFinished = false;
+		            	askCloseCredentials.hide();
+		            }
+		             $scope.m.lstContactData = listaContactos;
+		             $scope.$apply();
+        };
+
+        $scope.submitReloadHF = function (formId, urlToPost, validate) {
+
+            var stVal = true;
+
+            if (validate != undefined)
+                stVal = validate();
+
+            if (stVal == false) {
+                $scope.Invalid = true;
+                return false;
+            }
+
+            $scope.WaitFor = true;
+            $scope.m.isFinished = true;
+
+            $scope.WaitFor = true;
+            $scope.m.isFinished = true;
+
+            $timeout(function () {
+                $.post(urlToPost, $(formId).serialize())
+                    .success(function (resp) {
+                        if (resp.hasError === undefined) {
+                            resp = resp.responseMessage;
+                        }
+
+                        if (resp.hasError == false) {
+                            window.goToUrlMvcUrl(resp.urlToGo);
+                        }
+
+                        if (resp.hasError == true) {
+                            $scope.m.isFinished = false;
+                            $scope.MsgError = $sce.trustAsHtml(resp.message);
+                            $scope.$apply();
+                        }
+                    })
+                    .error(function () {
+                        $scope.WaitFor = false;
+                        $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
+                        $scope.$apply();
+                    });
+            }, 1);
+
+        };
+
+        /**/
+
+        $scope.submitPartiaSaveHF = function () {
+            $scope.WaitFor = true;
+            $scope.m.listCrime = JSON.stringify($scope.listCrime);
+            $scope.m.controlDetention = $scope.m.ctrlDet;
+            $scope.m.impForm = $scope.m.formImp;
+            var listaContactos = $scope.m.lstContactData;
+            $scope.m.lstContactData = JSON.stringify($scope.m.lstContactData);
+            $scope.m.lstArrangement = JSON.stringify($scope.m.lstArrangementShow);
+		            $scope.m.extension = $scope.m.ext;
+		            $scope.m.extDateStr = $scope.m.extDate;
+		            $scope.m.imputationDateStr = $scope.m.impDate;
+
+            var resultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));
+            var idformat = TryParseInt(resultado,null);
+            if(resultado!=undefined&&resultado!=null && idformat!=null){
+            	$scope.MsgSuccess = $sce.trustAsHtml("Se ha registrado el formato de audiencia.");
+            	$scope.WaitFor = false;
+            	$scope.m.idFormat = idformat;
+            	var mesage = "Se ha registrado el formato de audiencia.";
+		 		console.log("regresar del idformat-"+idformat);
+			
+            }else{
+            	$scope.MsgError = $sce.trustAsHtml(resultado);
+            	$scope.WaitFor = false;
+            }
+             $scope.m.lstContactData = listaContactos;
+             //$scope.$apply();
+        };
+
+        /**/
+
+        $scope.loadArrangements = function () {
+
+            if ($scope.m.arrType == undefined || $scope.m.arrType === '' || $scope.m.disableAll == true) {
+                return;
+            }
+            if ($scope.m.nationalArrangement == undefined || ($scope.m.nationalArrangement === '') || $scope.m.disableAll == true) {
+                return;
+            }
+            $scope.m.arrangementType = $scope.m.arrType;
+            $scope.chgLblTerms();
+
+            var data = SupervisionService.getArrangmentLst($scope.m.nationalArrangement, $scope.m.arrType);
+            if(data!=undefined&&data!=""){
+            	$scope.m.lstArrangementShow = $.parseJSON(data);
+            }
+        };
+
+        $scope.calcAge = function () {
+
+            //yyyy/mm/dd o en milisegundos
+            if ($scope.m.impBthDay != null && $scope.m.impBthDay != "") {
+
+                var arrBth = [];
+                arrBth = $scope.m.impBthDay.split('/');
+
+                var dtBthObj;
+
+                if (arrBth.length > 0)
+                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1, parseInt(arrBth[2]));
+                else
+                    dtBthObj = new Date($scope.m.impBthDay);
+
+                var ageDifMs = Date.now() - dtBthObj.getTime();
+                var ageDate = new Date(ageDifMs);
+                $scope.m.impAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+                if ($scope.m.impAge < 18) {
+                    $scope.hasError = true;
+                    $scope.m.errAge = "No puede registrar a un menor de edad";
+                }
+                else{
+                    $scope.m.errAge = "";
+                    $scope.m.imputedBirthDateStr = $scope.m.impBthDay;
+                    }
+                $scope.m.errBth = "";
+            }
+        };
+
+        $scope.exclusiveSelected = function (idArr) {
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].id != idArr && $scope.m.lstArrangementShow[i].selVal == true && $scope.m.lstArrangementShow[i].isExclusive == true) {
+                    return $scope.m.lstArrangementShow[i].id
+                }
+            }
+
+            return -1;
+        };
+
+        $scope.clearOthers = function (idExclusive) {
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].id == idExclusive);
+                else {
+                    $scope.m.lstArrangementShow[i].selVal = false;
+                    $scope.m.lstArrangementShow[i].description = "";
+                }
+            }
+        };
+
+        $scope.selectDefaults = function () {
+            for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                if ($scope.m.lstArrangementShow[i].isDefault == true) {
+                    $scope.m.lstArrangementShow[i].selVal = true;
+                    $scope.m.lstArrangementShow[i].description = "";
+                }
+            }
+        };
+
+        $scope.validateArrangementSel = function (idx, idArr) {
+
+            var noSel = 0;
+            var noDesc = 0;
+
+            var idExclusive = -1;
+
+            if ($scope.m.vincProcess != 2) {
+
+                if (!$scope.m.lstArrangementShow || $scope.m.disableAll == true)
+                    return;
+
+                if (idArr != undefined)
+                    idExclusive = $scope.exclusiveSelected(idArr);
+
+                if (idExclusive > 0) {
+                    $scope.clearOthers(idExclusive);
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("No puede seleccionar otra medida cautelar. Debe deseleccionar la medida cautelar exclusiva.");
+                    return;
+                }
+
+                if (idArr != undefined && idx != undefined)
+                    if ($scope.m.lstArrangementShow[idx].isExclusive == true) {
+                        $scope.clearOthers(idArr);
+                    }
+
+                if (idArr != undefined && idx != undefined)
+                    if ($scope.m.lstArrangementShow[idx].isExclusive == true && $scope.m.lstArrangementShow[idx].selVal == false) {
+                        $scope.selectDefaults();
+                    }
+
+                for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+
+                    if ($scope.m.lstArrangementShow[i].selVal == true) {
+                        noSel++;
+                        if ($scope.m.lstArrangementShow[i].description != "" && $scope.m.lstArrangementShow[i].description != undefined) {
+                            noDesc++;
+                        }
+                    } else {
+                        $scope.m.lstArrangementShow[i].description = "";
+                    }
+
+                }
+
+                if (noSel < 1) {
+                    $scope.hasError = true;
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("Debe seleccionar al menos una obligaci&oacute;n procesal");
+                    return;
+                } else if (noSel > noDesc) {
+                    $scope.hasError = true;
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal seleccionada");
+                    return;
+                } else {
+                    $scope.m.errArrmntSel = $sce.trustAsHtml("");
+                }
+            }
+        };
+
+        $scope.hasContacts = function (id) {
+
+            if (id == 2) {
+                $scope.m.contactName = "NO TIENE";
+                $scope.m.contactPhone = "00000000";
+                $scope.m.contactAddress = "NO TIENE";
+            } else {
+                $scope.m.contactName = "";
+                $scope.m.contactPhone = "";
+                $scope.m.contactAddress = "";
+            }
+        };
+
+        $scope.chngVincProcess = function (id) {
+            if (id == 1 && $scope.m.ext == 3) {
+                $scope.m.linkageRoom = $scope.m.room;
+                $scope.m.linkageDate = $scope.m.appointmentDate;
+                $scope.m.linkageTime = $scope.m.initTime;
+            } else {
+                $scope.m.linkageRoom = "";
+                $scope.m.linkageDate = "";
+                $scope.m.linkageTime = "";
+            }
+        };
+
+        $scope.fillSelSupervisor = function () {
+
+            if ($scope.lstSupervisor === undefined || $scope.lstSupervisor.length <= 0)
+                return;
+
+            if ($scope.m.umecaSupervisorId === undefined) {
+                $scope.m.umecaSupervisor = $scope.lstSupervisor[0];
+                $scope.m.umecaSupervisorId = $scope.m.umecaSupervisor.id;
+            }
+            else {
+                for (var i = 0; i < $scope.lstSupervisor.length; i++) {
+                    var rel = $scope.lstSupervisor[i];
+
+                    if (rel.id === $scope.m.umecaSupervisorId) {
+                        $scope.m.umecaSupervisor = rel;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.fillSelHearingType = function () {
+
+                if ($scope.lstHearingType === undefined || $scope.lstHearingType.length <= 0)
+                    return;
+
+                if ($scope.m.hearingTypeId === undefined) {
+                    $scope.m.hearingType = $scope.lstHearingType[0];
+                    $scope.m.hearingTypeId = $scope.m.hearingType.id;
+                }
+                else {
+                    for (var i = 0; i < $scope.lstHearingType.length; i++) {
+                        var rel = $scope.lstHearingType[i];
+
+                        if (rel.id === $scope.m.hearingTypeId) {
+                            $scope.m.hearingType = rel;
+                            break;
+                        }
+                    }
+                }
+        };
+
+        $scope.lockArrangements = function () {
+            if ($scope.m.hearingType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {
+                $("#divMedidas :input").attr("disabled", true);
+                $("#divMedidasHidden :input").attr("disabled", false);
+            }
+            else {
+                $("#divMedidas :input").attr("disabled", false);
+                $("#divMedidasHidden :input").attr("disabled", true);
+            }
+            $scope.lockDefaultArrangements();
+        };
+
+        $scope.lockDefaultArrangements = function () {
+
+            if ($scope.m.lstArrangementShow != undefined) {
+                for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
+                    if ($scope.m.lstArrangementShow[i].isDefault == true)
+                        $("#arrangement" + $scope.m.lstArrangementShow[i].id).attr("disabled", true);
+                }
+            }
+        };
+
+        $scope.init = function () {
+        	var js = JSON.parse($("#hdnJsonMtng").val());
+			    $scope.m = js;
+			    $scope.lstHearingType = JSON.parse( $("#hdnJsonHearing").val());
+			    $scope.readonlyBand =$("#hdnreadonlyBand").val();
+
+            $scope.fillFormat($scope.m);
+            $scope.fillSelSupervisor();
+            $scope.fillSelHearingType();
+            $scope.disableView($scope.m.disableAll);
+            $scope.lockArrangements();
+            $scope.init2();
+        };
+
+        $scope.chgLblTerms = function () {
+            if ($scope.m.arrType == 2)
+                $scope.lblTerms = $sce.trustAsHtml("Plazo");
+            else if ($scope.m.arrType == 1)
+                $scope.lblTerms = $sce.trustAsHtml("Plazo de investigaci&oacute;n");
+        };
+
+        $timeout(function () {
+            $scope.init();
+        }, 0);
+
+        $scope.returnUrlId = function () {
+            var urlRet = $('#urlRet').attr("value");
+            window.goToUrlMvcUrl(urlRet);
+        };
+
+
+
+        //////////
+        $scope.c = {};
+        $scope.listElection = [];
+        $scope.c.federal = 0;
+        $scope.listCrime = [];
+        $scope.optionsCrime = [];
+        $scope.listMsgError = [];
+
+
+        $scope.init2 = function () {
+            //$(".chosen-select").chosen();
+            //$(".chosen-single span:nth-child(1)").text("Seleccione una opción");
+            console.log("before");
+
+            console.log("$scope.m.listCrime"+$("#hdnJsonlistCrime").val());
+            $scope.listCrime = JSON.parse($("#hdnJsonlistCrime").val());
+            console.log("$scope.m.optionsCrime"+$("#hdnJsonOptionsCrime").val());
+            $scope.optionsCrime = JSON.parse($("#hdnJsonOptionsCrime").val());
+            console.log("$scope.m.listElection"+$("#hdnJsonlistElection").val());
+            $scope.listElection = JSON.parse($("#hdnJsonlistElection").val());
+
+            if ($scope.listCrime == undefined) {
+                $scope.listCrime = [];
+            }
+            if ($scope.listElection === undefined || $scope.listElection.length <= 0)
+                return;
+
+            if ($scope.c.federalId === undefined) {
+                $scope.c.federal = $scope.listElection[0];
+                $scope.c.federalId = $scope.c.federal.id;
+            }
+            $scope.cleanArray();
+
+        };
+
+
+        @*$timeout(function () {
+            $scope.init2();
+        }, 0);*@
+
+        $scope.validateCrime = function () {
+            valid = true;
+            var strArticle = $scope.c.article + "";
+            if ($scope.c.crime == undefined) {
+                $scope.listMsgError.push("Debe seleccionar un delito");
+                valid = false;
+            }
+
+            if ($scope.c.article == undefined || (strArticle.length > 100 || strArticle.length < 1)) {
+                $scope.listMsgError.push("La longitud del artículo debe ser entre 1 y 100 caracteres");
+                valid = false;
+            }
+            if ($scope.c.comment != undefined && $scope.c.comment.length > 255) {
+                $scope.listMsgError.push("La longitud del comentario debe ser entre 1 y 255 caracteres");
+                valid = false;
+            }
+            return valid;
+        }
+        $scope.addCrime = function () {
+            if ($scope.validateCrime() == false) {
+                return false;
+            }
+
+            $scope.listMsgError = [];
+
+            var a = {};
+            a.federal = {};
+            a.crime = {};
+            a.crime = $scope.c.crime;
+            a.comment = $scope.c.comment;
+            a.federal.id = $scope.c.federal.id;
+            a.federal.name = $scope.c.federal.name;
+            a.article = $scope.c.article;
+            $scope.listCrime.push(a);
+            $scope.c.federal = $scope.listElection[0];
+            $scope.c.comment = undefined;
+            $scope.c.article = undefined;
+            $scope.cleanArray();
+
+        };
+
+        $scope.deleteCrime = function (index) {
+            $scope.listCrime.splice(index, 1);
+            $scope.cleanArray();
+
+        };
+
+        $scope.cleanArray = function () {
+            var abc = $scope.listCrime;
+            $scope.crimeString = JSON.stringify(abc);
+
+            /*for(var item in $scope.listSchedule){
+             delete item[$$hashKey];
+             } */
+        }
+
+        $scope.valAddedCrime = function () {
+            $scope.listMsgError = [];
+            valid = true;
+            if (!$scope.listCrime || !($scope.listCrime.length > 0)) {
+                $scope.listMsgError.push("Debe agregar al menos un delito");
+                valid = false;
+            }
+            return valid;
+        };
+
+        $rootScope.$on('valAddCrime', function (event,scope,prop) {
+            scope[prop]=$scope.valAddedCrime();
+        });
+        /////////
+
+
+
+
+
+
+
+
+
+
+
+    }
+)
+;
+</script>
+<script>
+ function regresar(idRef){
+ 		console.log("regresar del edit-"+idRef);
+		window.location.replace('hybrid:Supervision/HearingFormatList?idCase='+idRef);
+    }
+    function TryParseInt(str,defaultValue) {
+     var retValue = defaultValue;
+     if(str !== null) {
+         if(str.length > 0) {
+             if (!isNaN(str)) {
+                 retValue = parseInt(str);
+             }
+         }
+     }
+     return retValue;
+}
+</script>
+<script type="text/javascript">
+
+        jQuery(function ($) {
+            $('#id-disable-check').on('click', function () {
+                var inp = $('#form-input-readonly').get(0);
+                if (inp.hasAttribute('disabled')) {
+                    inp.setAttribute('readonly', 'true');
+                    inp.removeAttribute('disabled');
+                    inp.value = "This text field is readonly!";
+                }
+                else {
+                    inp.setAttribute('disabled', 'disabled');
+                    inp.removeAttribute('readonly');
+                    inp.value = "This text field is disabled!";
+                }
+            });
+
+            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+            $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
+                $(this).next().focus();
+            });
+
+            $('#modal-form input[type=file]').ace_file_input({
+                style: 'well',
+                btn_choose: 'Drop files here or click to choose',
+                btn_change: null,
+                no_icon: 'icon-cloud-upload',
+                droppable: true,
+                thumbnail: 'large'
+            })
+
+            $('#modal-form').on('shown.bs.modal', function () {
+                $(this).find('.chosen-container').each(function () {
+                    $(this).find('a:first-child').css('width', '210px');
+                    $(this).find('.chosen-drop').css('width', '210px');
+                    $(this).find('.chosen-search input').css('width', '200px');
+                });
+            })
+
+            $('#initTimeStr').timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
+            $('#endTimeStr').timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false,
+                timeFormat: 'hh:mm:ss tt',
+                ampm: false
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
+            $('#linkageTimeStr').timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
+            $('#umecaTimeStr').timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+        });
+    </script>
+
+
+
+
+
+
+
 <h2 class="element-center"><i class="icon-archive"></i>&nbsp;&nbsp;Formato de audiencia</h2>
 
 <form id="FormFormatId" name="FormFormatId" class="form-horizontal"
-      role="form" ng-controller="upsertController" method="post">
+      role="form" method="post">
     <br/>
 
 
 
-    <div class="container body-content" ng-controller="hearingFormatController"
-         ng-init='m=${hfView}; m.rdHasContacts = 1;' style="padding:50px;">
+    <div class="container body-content" ng-app="umecaMobile"  ng-controller="hearingFormatController"
+         ng-init='m.rdHasContacts = 1;' style="padding:50px;">
+         <input id="hdnJsonMtng" type="hidden" value="@Model.model" name="jsonString" />
+         <input id="hdnJsonHearing" type="hidden" value="@Model.lstHearingType" />
+         <input id="hdnJsonlistCrime" type="hidden" value="@Model.listCrime" />
+         <input id="hdnJsonOptionsCrime" type="hidden" value="@Model.optionsCrime" />
+         <input id="hdnJsonlistElection" type="hidden" value="@Model.listElection"/>
+         <input id="hdnreadonlyBand" type="hidden" value="@Model.readonlyBand"/>
+         <input id="hdnhasPrevHF" type="hidden" value="@Model.hasPrevHF"/>
 
+
+         <!-- TERMINATE CREDENTIALS -->
+    <script>
+var askCloseCredentials  = {};
+
+askCloseCredentials.show = function (){
+	var dlgMsgBox = $('#askCloseCredentialsBoxDlgId');
+	dlgMsgBox.show();
+askVerificationTerminate.hide();
+window.scrollTo(0, 230);
+};
+
+askCloseCredentials.hide = function (){
+	var dlgMsgBox = $('#askCloseCredentialsBoxDlgId');
+	dlgMsgBox.hide();
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0 0 -30%;" id="askCloseCredentialsBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="askCloseCredentialsBoxDlgXclose" type="button" class="close" onclick="javascript:askCloseCredentials.hide();">×</button>
+                    <h4 class="modal-title element-center">Cerrar caso</h4>
+                    <br />Se cerrará el caso por que no existe una vinculación a proceso. Debe ingresar sus credenciales para
+                    confimar esta acción.
+                </div>
+            </div>
+            <div class="modal-body">
+                        <div class="row">
+                            <label for="confirmComment">Comentario</label>
+                            <br/>
+                            <textarea class="input-xxlarge form-control limited" id="confirmComment"
+                                      name="confirmComment"
+                                      ng-model="m.confirmComment" maxlength="980" data-val="true"
+                                      data-val-required="Comenatario(s) adicionales es un campo requerido">
+                                </textarea>
+                            <br/>
+                            <span class="field-validation-valid" data-valmsg-for="confirmComment"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+
+                        <div class="row" ng-show="m.confirmComment.length>0">
+                            <label for="credPass">Contrase&ntilde;a</label>
+                            <br/>
+                            <input id="credPass" ng-model="m.credPass" name="credPass"
+                                   type="password" data-val="true" class="input-xlarge"
+                                   data-val-required="Contrase&ntilde;a es un campo requerido"/>
+                            <br/>
+                            <span class="field-validation-valid" data-valmsg-for="credPass"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" ng-click="saveHFClose();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askCloseCredentials.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+    <!-- TERMINATE CREDENTIALS END -->
+
+
+         <!--
         <div class="blocker" ng-show="WaitFor==true">
             <div>
                 Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
             </div>
-        </div>
+        </div>-->
 
         <!--<input type="hidden" id="url3"
                value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
         <input type="hidden" id="urlRet"
                value="<c:url value='/supervisor/hearingFormat/indexFormats.html'/>?id={{m.idCase}}&returnId={{returnId}}"/>
                -->
-        <input type="hidden" id="idCase" name="idCase" value="{{m.idCase}}"/>
+        <input type="hidden" id="idCase" name="idCase" value="@Model.IdCase"/>
         <input type="hidden" name="lstArrangement" value="{{m.lstArrangementShow}}"/>
-        <input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>
+        <!--<input type="hidden" name="lstContactData" value="{{m.lstContactData}}"/>-->
         <input type="hidden" ng-model="m.isFinished" name="isFinished" ng-update-hidden />
         <input type="hidden" name="idFormat" value="{{m.idFormat}}"/>
         <input type="hidden" id="umecaSupervisorId" name="umecaSupervisorId" value="{{m.umecaSupervisor.id}}"/>
@@ -43,22 +1128,15 @@
             </div>
 
             <div class="col-xs-6 element-right">
-                <div ng-show="m.canSave==false">
-        <span class="btn btn-default btn-sm"
-              ng-click="returnUrlId('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
+                <div>
+                            <span class="btn btn-default btn-sm" onclick="regresar(@Model.IdCase);" >
+                                  <!--ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">-->
                                 Regresar
                             </span>
-                </div>
-                <div ng-show="m.canSave==true">
-                            <span class="btn btn-default btn-sm"
-                                  ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
-                                Regresar
+                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"  ng-click="submitPartiaSaveHF();">
+                                  <!--ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">-->
+                                Guardar
                             </span>
-
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">
-                                                  Guardar
-                                            </span>
                 </div>
             </div>
         </div>
@@ -111,8 +1189,8 @@
                                                         <select class="form-control element-center"
                                                                 ng-model="m.hearingType"
                                                                 ng-options="e.description for e in lstHearingType"
-                                                                ng-init='lstHearingType = ${lstHearingType};'
-                                                                ng-change="lockArrangements();"></select>
+                                                                @*ng-init='lstHearingType = ${lstHearingType};'*@
+                                                                ng-change="lockArrangements(); m.hearingTypeId = m.hearingType.id;" ></select>
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <label>&iquest;Se present&oacute; el imputado a la
@@ -464,9 +1542,109 @@
                                         <div class="widget-body">
                                             <div class="row">
                                                 <div class="col-xs-10 col-xs-offset-1"
-                                                     ng-init="readonlyBand = ${readonlyBand == null ? false: readonlyBand};">
+                                                     @*ng-init="readonlyBand = ${readonlyBand == null ? false: readonlyBand};" *@ >
                                                     <br/>
                                                 <!--    <% include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %> -->
+                                                <!---->
+<style>
+    .chosen-container-single .chosen-search:after {
+        content: "" !important;
+    }
+</style>
+<div class="row element-center" >
+    <div class="row element-left" >
+        <b>Delitos:</b>
+    </div>
+    <input type="hidden" ng-update-hidden @*ng-init='listCrime = ${(listCrime == null) ? '[]': listCrime};'*@>
+    <input type="hidden" ng-update-hidden ng-model="crimeString" name='listCrime'>
+    <div class="col-xs-12">
+
+        <div class="row"  ng-show="readonlyBand == false">
+    <div class="col-xs-5 element-center">
+       Delito<br/><br/>
+        <select class="width-95 element-center" ng-model="c.crime" 
+                ng-options="e.name for e in optionsCrime"
+                ng-change="c.crimeId = c.crime.id"
+                data-placeholder="Seleccione una opción" id="ms"
+                @*multiple="multiple" id="ms"*@
+                ></select>
+    </div>
+    <div class="col-xs-1 element-center">
+       Art&iacute;culo<br/><br/>
+            <input type="text" class="form-control" ng-model="c.article"/>
+    </div>
+    <div class="col-xs-2 element-center">
+        Federal<br/> <label class="info-example">(Asociado con el local)</label> <br/>
+        <select class="form-control element-center" ng-model="c.federal"
+                ng-options="e.name for e in listElection"
+                ng-change="c.federalId = c.federal.id"
+                @*ng-init='listElection = ${listElection};'*@
+                ></select>
+    </div>
+     <div class="col-xs-3">
+         Observaciones<br/><br/>
+        <textarea class="width-100" ng-model="c.comment"></textarea>
+     </div>
+    <div class="col-xs-1 element-center">
+        Acciones<br/><br/><div class="space-5"></div>
+        <i class="icon-plus-sign orange" style="cursor:pointer;" ng-click="addCrime()"></i>
+    </div>
+    </div>
+        <div class="row" >
+        <div class="hr hr-6"></div>
+        </div>
+        <div ng-show="listMsgError.length > 0" class="alert alert-danger element-center error-font">
+            <div  ng-repeat ="msg in listMsgError">
+                {{msg}}
+                <br/>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show ="listCrime.length > 0">
+         <div class="row center">
+             <div class="col-xs-5">
+                 <h5 class="smaller lighter blue">Delito</h5>
+                 <div class="hr hr-2"></div>
+             </div>
+             <div class="col-xs-1">
+                 <h5 class="smaller lighter blue">Art&iacute;culo</h5>
+                 <div class="hr hr-2"></div>
+             </div>
+             <div class="col-xs-2">
+                 <h5 class="smaller lighter blue">Federal</h5>
+                 <div class="hr hr-2"></div>
+             </div>
+             <div class="col-xs-3">
+                 <h5 class="smaller lighter blue">Observaciones</h5>
+                 <div class="hr hr-2"></div>
+             </div>
+             <div class="col-xs-1" ng-show="readonlyBand == false">
+                 <h5 class="smaller lighter blue">Acciones</h5>
+                 <div class="hr hr-2"></div>
+             </div>
+         </div>
+            <div class="row center" ng-repeat ="crime in listCrime">
+                <div class="col-xs-5">
+                    {{crime.crime.name}}
+                </div>
+                <div class="col-xs-1">
+                     {{crime.article}}
+                </div>
+                <div class="col-xs-2">
+                    {{crime.federal.name}}
+                </div>
+                <div class="col-xs-3">
+                    {{crime.comment}}
+                </div>
+                <div class="col-xs-1" ng-show="readonlyBand == false">
+                    <i class="icon-trash red" style="cursor:pointer;" ng-click="deleteCrime($index)"></i>
+                </div>
+            </div>
+         </div>
+
+    </div>
+    <br/>
+</div>
+                                                <!---->
                                                     <br/>
                                                 </div>
                                             </div>
@@ -798,10 +1976,10 @@
                     <br/>
                 </div>
             </div>
-        </div>
+        
         <br/>
 
-        <div class="row" ng-show="m.vincProcess==1||m.vincProcess==3" id="divCitaUmeca">
+        @*<div class="row" ng-show="m.vincProcess==1||m.vincProcess==3" id="divCitaUmeca">
             <div class="widget-box">
                 <div class="widget-header">Cita UMECA para entrevista de encuadre</div>
                 <div class="widget-body">
@@ -848,7 +2026,8 @@
                                     <select class="form-control element-center"
                                             ng-model="m.umecaSupervisor"
                                             ng-options="e.description for e in lstSupervisor"
-                                            ng-init='lstSupervisor = ${lstSupervisor};'></select>
+                                            ng-init='lstSupervisor = ${lstSupervisor};' 
+                                            ></select>
                                 </div>
                                 <br/>
                                 <br/>
@@ -864,7 +2043,7 @@
             </div>
         </div>
 
-        <br/>
+        <br/>*@
 
         <div id="divMedidasHidden">
             <input type="hidden" name="nationalArrangement" value="{{m.nationalArrangement}}"/>
@@ -972,7 +2151,7 @@
                                                           ng-blur="validateArrangementSel()"
                                                           maxlength="980"
                                                           ng-model="m.lstArrangementShow[$index].description"
-                                                          ng-show="m.lstArrangementShow[$index].selVal==true"></textarea>
+                                                          ng-show="m.lstArrangementShow[$index].selVal==true">{{m.lstArrangementShow[$index].description}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1095,9 +2274,9 @@
                                             <tbody>
                                             <div>
                                                 <tr ng-repeat="contact in m.lstContactData track by $index">
-                                                    <td class="element-center">{{contact.name}}</td>
-                                                    <td class="element-center">{{contact.phone}}</td>
-                                                    <td class="element-center">{{contact.address}}</td>
+                                                    <td class="element-center">{{contact.NameTxt}}</td>
+                                                    <td class="element-center">{{contact.PhoneTxt}}</td>
+                                                    <td class="element-center">{{contact.AddressTxt}}</td>
                                                     <td class="element-center"><a href="javascript:;"
                                                                                   style="display:inline-block;"
                                                                                   title="Quitar de la lista"
@@ -1162,41 +2341,76 @@
                 </h3>
             </div>
 
-            <div ng-show="m.canSave==true">
-                            <span class="btn btn-default btn-sm"
-                                  ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">
+            <div class="col-xs-6 element-right">
+                <div>
+                            <span class="btn btn-default btn-sm"  onclick="regresar(@Model.IdCase);" >
+                                  <!--ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">-->
                                 Regresar
                             </span>
-
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                  ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">
-                                                  Guardar
-                                            </span>
+                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"  ng-click="submitPartiaSaveHF();" >
+                                  <!--ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">-->
+                                Guardar
+                            </span>
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div id="finishConfirm" class="modal-footer" ng-show="m.canSave==true">
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
-                          confirm-message="&iquest;Est&aacute; seguro que desea terminar el formato de audiencia?"
-                          confirm-title="Terminar formato de audiencia" confirm-type="info"
-                          confirmed-click-action="saveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>',validateSave);">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" onclick="askVerificationTerminate.show();" > 
                           Terminar
                     </span>
             </div>
         </div>
 
-
-      <!--  <% include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
-        <% include file="/WEB-INF/jsp/shared/footer.jsp" %> -->
-    </div>
-    </div>
-</form>
-
-<script>
+        <script>
     var date = new Date();
     date.setFullYear(date.getFullYear() - 18);
     $('#imputedBirthDateStr').datepicker({autoclose: true, endDate: date}).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
 </script>
+<script>
+var askVerificationTerminate  = {};
+
+askVerificationTerminate.show = function (){
+	var dlgMsgBox = $('#askVerificationTerminateBoxDlgId');
+	dlgMsgBox.show();
+};
+
+askVerificationTerminate.hide = function (){
+	var dlgMsgBox = $('#askVerificationTerminateBoxDlgId');
+	dlgMsgBox.hide();
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askVerificationTerminateBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="askVerificationTerminateBoxDlgXclose" type="button" class="close" onclick="javascript:askVerificationTerminate.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding">Terminar formato de audiencia</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding">¿Está seguro que desea terminar el formato de audiencia?</div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" ng-click="saveHF();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askVerificationTerminate.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
+
+
+      <!--  <% include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
+        <% include file="/WEB-INF/jsp/shared/footer.jsp" %> -->
+    </div>
+</div>
+</form>
+

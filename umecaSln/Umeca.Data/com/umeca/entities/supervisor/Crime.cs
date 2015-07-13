@@ -2,6 +2,8 @@
 using SQLiteNetExtensions.Attributes;
 using SQLite.Net.Attributes;
 
+using UmecaApp;
+
 namespace Umeca.Data
 {
 	[Table("crime")]
@@ -11,7 +13,7 @@ namespace Umeca.Data
 		{
 		}
 
-		[PrimaryKey, Column("id_crime")]
+		[PrimaryKey,AutoIncrement, Column("id_crime")]
 		public int Id{ get; set; }
 
 		[Column("comment")]
