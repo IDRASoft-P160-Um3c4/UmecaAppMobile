@@ -27,18 +27,52 @@ namespace UmecaApp
 			this.nickname = nickname;
 		}
 
+		public Imputed ImputedDtoToObject(){
+			Imputed imp = new Imputed();
+			imp.BirthCountry = this.birthCountry==null?null:this.birthCountry.id;
+			if(this.birthDate!=null){
+				imp.BirthDate = DateTime.ParseExact(this.birthDate, "yyyy/MM/dd",
+					System.Globalization.CultureInfo.InvariantCulture);
+			}
+			imp.BirthLocation = this.birthLocation;
+			imp.BirthMunicipality = this.birthMunicipality;
+			imp.BirthState = this.birthState;
+			if(this.boys!=null){
+				imp.Boys = this.boys;
+			}
+			imp.CelPhone = this.celPhone;
+			if(this.dependentBoys!=null){
+				imp.DependentBoys = this.dependentBoys;
+			}
+			imp.FoneticString = this.foneticString;
+			if(this.gender!=null){
+				imp.Gender = this.gender;
+			}
+			imp.LastNameM = this.lastNameM;
+			imp.LastNameP = this.lastNameP;
+			imp.LocationId = this.location==null?null:this.location.id;
+			if(this.maritalStatus!=null){
+				imp.MaritalStatusId = this.maritalStatus.id;
+			}
+			imp.Name = this.name;
+			imp.Nickname = this.nickname;
+			imp.WebId = this.webId;
+			imp.YearsMaritalStatus = this.yearsMaritalStatus;
+			return imp;
+		}
+
 		public int webId{ get; set; }
 		public int id{ get; set; }
 		public String name{ get; set; }
 		public String lastNameP{ get; set; }
 		public String lastNameM{ get; set; }
 		public String foneticString{ get; set; }
-		public Boolean gender{ get; set; }
+		public Boolean? gender{ get; set; }
 		public String birthDate{ get; set; }
 		public String celPhone{ get; set; }
-		public int yearsMaritalStatus{ get; set; }
-		public int boys{ get; set; }
-		public int dependentBoys{ get; set; }
+		public int? yearsMaritalStatus{ get; set; }
+		public int? boys{ get; set; }
+		public int? dependentBoys{ get; set; }
 		public String birthMunicipality{ get; set; }
 		public String birthState{ get; set; }
 		public String birthLocation{ get; set; }

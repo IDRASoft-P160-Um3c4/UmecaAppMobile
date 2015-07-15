@@ -13,6 +13,9 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_imputed")]
 		public int Id{ get; set; }
 
+		[Column("id_web")]
+		public long? WebId{ get; set; }
+
 		[Column("name"),MaxLength(50)]
 		public String Name{ get; set; }
 

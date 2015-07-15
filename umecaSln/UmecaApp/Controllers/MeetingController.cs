@@ -58,6 +58,15 @@ namespace UmecaApp
 			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
 
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id!=null) {
+				revId = reviewer.Id;
+			}
+
+
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
 				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
@@ -67,7 +76,7 @@ namespace UmecaApp
 				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				+" and me.id_reviewer = ? "
-				+" AND cs.id_status = ?; ", , statusMeeting1.Id,statusMeeting2.Id, sc.Id);
+				+" AND cs.id_status = ?; ",revId , statusMeeting1.Id,statusMeeting2.Id, sc.Id);
 			var temp = new MeetingList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();

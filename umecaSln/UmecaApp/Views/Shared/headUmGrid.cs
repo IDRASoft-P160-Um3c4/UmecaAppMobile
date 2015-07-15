@@ -25,8 +25,20 @@ public partial class headUmGrid : WebViewTemplate
 
 public override void Execute()
 {
-WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n\t<head>\r\n\t\t<title>Umeca</title>\r\n\t\t<!--LAOYUT para meeti" +
-"ng index solo muestra el bostrap table -->\r\n    <link");
+WriteLiteral(@"<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umeca</title>
+
+		<script>
+		function DownloadVerification(){
+		var respuesta = Sync.downloadVerificacion(""99630110"");
+		alert(respuesta);
+		}
+		</script>
+
+		<!--LAOYUT para meeting index solo muestra el bostrap table -->
+    <link");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -190,7 +202,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 83 "headUmGrid.cshtml"
+#line 91 "headUmGrid.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -226,7 +238,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 92 "headUmGrid.cshtml"
+#line 100 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -242,7 +254,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 94 "headUmGrid.cshtml"
+#line 102 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
@@ -256,7 +268,7 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
-WriteLiteral(" href=\"javascript;\"");
+WriteLiteral(" href=\"javascript:DownloadVerification();\"");
 
 WriteLiteral("><i\r\n                    class=\"icon-cloud-download\"></i>&nbsp;&nbsp;Descargar In" +
 "formaci&oacute;n</a>\r\n            </li>\r\n            <li");
@@ -323,7 +335,7 @@ WriteLiteral(">\r\n        <!--</sec:authorize>-->\r\n        <!--<sec:authorize
 WriteLiteral("\t\t");
 
 
-#line 178 "headUmGrid.cshtml"
+#line 186 "headUmGrid.cshtml"
    Write(RenderBody());
 
 

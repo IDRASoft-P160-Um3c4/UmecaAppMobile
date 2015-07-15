@@ -24,6 +24,31 @@ namespace UmecaApp
 			this.dateTerminate = dateTerminate == null ? null : String.Format("{0:yyyy/MM/dd}", dateTerminate);
 		}
 
+		public Meeting MeetingToObject(){
+			Meeting me = new Meeting ();
+			me.CommentCountry = this.commentCountry;
+			me.CommentDrug = this.commentDrug;
+			me.CommentHome = this.commentHome;
+			me.CommentJob = this.commentJob;
+			me.CommentReference = this.commentReference;
+			me.CommentSchool = this.commentSchool;
+			if(this.dateCreate!=null){
+			me.DateCreate =  DateTime.ParseExact(this.dateCreate, "yyyy/MM/dd",
+				System.Globalization.CultureInfo.InvariantCulture);
+			}
+			if(this.dateTerminate!=null){
+				me.DateTerminate = DateTime.ParseExact(this.dateTerminate, "yyyy/MM/dd",
+					System.Globalization.CultureInfo.InvariantCulture);
+			}
+			if (this.meetingType != null) {
+				me.MeetingType = this.meetingType ?? 0;
+			}
+			me.StatusMeetingId = this.status.id;
+			me.WebId = this.webId;
+			return me;
+		}
+
+
 		public int? webId{ get; set; }
 		public int? id{ get; set; }
 		public int? meetingType{ get; set; }

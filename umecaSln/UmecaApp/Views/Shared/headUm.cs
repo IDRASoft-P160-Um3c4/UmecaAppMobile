@@ -25,7 +25,9 @@ public partial class headUm : WebViewTemplate
 
 public override void Execute()
 {
-WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n\t<head>\r\n\t\t<title>Umeca</title>\r\n    <link");
+WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n\t<head>\r\n\t\t<title>Umeca</title>\r\n\t\t<script>\r\n\t\tfunction " +
+"DownloadVerification(){\r\n\t\tvar respuesta = Sync.downloadVerificacion(\"99630110\")" +
+";\r\n\t\talert(respuesta);\r\n\t\t}\r\n\t\t</script>\r\n\r\n\r\n    <link");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -261,7 +263,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 113 "headUm.cshtml"
+#line 121 "headUm.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -297,7 +299,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 122 "headUm.cshtml"
+#line 130 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -313,7 +315,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 124 "headUm.cshtml"
+#line 132 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
@@ -327,7 +329,7 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
-WriteLiteral(" href=\"javascript;\"");
+WriteLiteral(" href=\"javascript:DownloadVerification();\"");
 
 WriteLiteral("><i\r\n                    class=\"icon-cloud-download\"></i>&nbsp;&nbsp;Descargar In" +
 "formaci&oacute;n</a>\r\n            </li>\r\n            <li");
@@ -446,7 +448,7 @@ WriteLiteral(">\r\n                          Continuar\r\n                    </
 WriteLiteral("\t\t");
 
 
-#line 234 "headUm.cshtml"
+#line 242 "headUm.cshtml"
    Write(RenderBody());
 
 

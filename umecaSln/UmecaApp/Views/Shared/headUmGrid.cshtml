@@ -3,6 +3,14 @@
 <html>
 	<head>
 		<title>Umeca</title>
+
+		<script>
+		function DownloadVerification(){
+		var respuesta = Sync.downloadVerificacion("99630110");
+		alert(respuesta);
+		}
+		</script>
+
 		<!--LAOYUT para meeting index solo muestra el bostrap table -->
     <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css"/>
     <link rel="stylesheet" href="content/themes/umeca/datepicker.css"/>
@@ -94,7 +102,7 @@
             <li class="nav-li-blue"><a href="@Url.Action("Index","Verification")"><i
                     class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
             </li>
-            <li class="nav-li-blue"><a href="javascript;"><i
+            <li class="nav-li-blue"><a href="javascript:DownloadVerification();"><i
                     class="icon-cloud-download"></i>&nbsp;&nbsp;Descargar Informaci&oacute;n</a>
             </li>
             <li class="nav-li-blue"><a href="javascript;"><i

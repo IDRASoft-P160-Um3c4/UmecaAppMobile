@@ -8,6 +8,7 @@ namespace UmecaApp
 		public String fullname{ get; set; }
 		public String hPassword{ get; set; }
 		public String roleCode{ get; set; }
+		public String guid{ get; set; }
 
 		public TabletUserDto() {
 

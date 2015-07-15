@@ -26,7 +26,7 @@ namespace UmecaApp.localhostUmecaWs {
         
         /// <remarks/>
         public UmecaWS() {
-			this.Url = "http://192.168.1.9:8080/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/";
+            this.Url = "http://192.168.1.9:8080/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/";
         }
         
         public UmecaWS(string url) {
@@ -36,11 +36,11 @@ namespace UmecaApp.localhostUmecaWs {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:getAssignmentsByUser", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public string getAssignmentsByUser([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid) {
+        public ResponseMessage getAssignmentsByUser([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid) {
             object[] results = this.Invoke("getAssignmentsByUser", new object[] {
                         user,
                         guid});
-            return ((string)(results[0]));
+            return ((ResponseMessage)(results[0]));
         }
         
         /// <remarks/>
@@ -51,19 +51,48 @@ namespace UmecaApp.localhostUmecaWs {
         }
         
         /// <remarks/>
-        public string EndgetAssignmentsByUser(System.IAsyncResult asyncResult) {
+        public ResponseMessage EndgetAssignmentsByUser(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:synchronizeMeeting", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
+        public ResponseMessage synchronizeMeeting([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool assignmentIdSpecified, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
+            object[] results = this.Invoke("synchronizeMeeting", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified,
+                        jsonCase});
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginsynchronizeMeeting(string user, string guid, long assignmentId, bool assignmentIdSpecified, string jsonCase, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("synchronizeMeeting", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified,
+                        jsonCase}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public ResponseMessage EndsynchronizeMeeting(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((ResponseMessage)(results[0]));
         }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:loginFromTablet", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public string loginFromTablet([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string encodedPass) {
+        public ResponseMessage loginFromTablet([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string encodedPass) {
             object[] results = this.Invoke("loginFromTablet", new object[] {
                         user,
                         encodedPass});
-            return ((string)(results[0]));
+            return ((ResponseMessage)(results[0]));
         }
         
         /// <remarks/>
@@ -74,21 +103,106 @@ namespace UmecaApp.localhostUmecaWs {
         }
         
         /// <remarks/>
-        public string EndloginFromTablet(System.IAsyncResult asyncResult) {
+        public ResponseMessage EndloginFromTablet(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:synchronizeHearingFormat", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
+        public ResponseMessage synchronizeHearingFormat([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool assignmentIdSpecified, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
+            object[] results = this.Invoke("synchronizeHearingFormat", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified,
+                        jsonCase});
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginsynchronizeHearingFormat(string user, string guid, long assignmentId, bool assignmentIdSpecified, string jsonCase, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("synchronizeHearingFormat", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified,
+                        jsonCase}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public ResponseMessage EndsynchronizeHearingFormat(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:synchronizeSourcesVerification", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
+        public ResponseMessage synchronizeSourcesVerification([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool assignmentIdSpecified, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
+            object[] results = this.Invoke("synchronizeSourcesVerification", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified,
+                        jsonCase});
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginsynchronizeSourcesVerification(string user, string guid, long assignmentId, bool assignmentIdSpecified, string jsonCase, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("synchronizeSourcesVerification", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified,
+                        jsonCase}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public ResponseMessage EndsynchronizeSourcesVerification(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:confirmReceivedAssignment", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
+        public ResponseMessage confirmReceivedAssignment([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool assignmentIdSpecified) {
+            object[] results = this.Invoke("confirmReceivedAssignment", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified});
+            return ((ResponseMessage)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginconfirmReceivedAssignment(string user, string guid, long assignmentId, bool assignmentIdSpecified, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("confirmReceivedAssignment", new object[] {
+                        user,
+                        guid,
+                        assignmentId,
+                        assignmentIdSpecified}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public ResponseMessage EndconfirmReceivedAssignment(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((ResponseMessage)(results[0]));
         }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:getAssignedCaseByAssignmentId", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public string getAssignedCaseByAssignmentId([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool assignmentIdSpecified) {
+        public ResponseMessage getAssignedCaseByAssignmentId([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool assignmentIdSpecified) {
             object[] results = this.Invoke("getAssignedCaseByAssignmentId", new object[] {
                         user,
                         guid,
                         assignmentId,
                         assignmentIdSpecified});
-            return ((string)(results[0]));
+            return ((ResponseMessage)(results[0]));
         }
         
         /// <remarks/>
@@ -101,9 +215,41 @@ namespace UmecaApp.localhostUmecaWs {
         }
         
         /// <remarks/>
-        public string EndgetAssignedCaseByAssignmentId(System.IAsyncResult asyncResult) {
+        public ResponseMessage EndgetAssignedCaseByAssignmentId(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
+            return ((ResponseMessage)(results[0]));
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XamarinStudio", "4.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://model.infrastructure.umeca.com/xsd")]
+    public partial class ResponseMessage {
+        
+        /// <remarks/>
+        public bool hasError;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hasErrorSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string message;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public object returnData;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string title;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string urlToGo;
     }
 }

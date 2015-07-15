@@ -14,6 +14,9 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_meeting")]
 		public int Id{ get; set; }
 
+		[Column("id_web")]
+		public long? WebId{ get; set; }
+
 		[ForeignKey(typeof(User)),Column("id_reviewer")]
 		public int? ReviewerId{ get; set; }
 

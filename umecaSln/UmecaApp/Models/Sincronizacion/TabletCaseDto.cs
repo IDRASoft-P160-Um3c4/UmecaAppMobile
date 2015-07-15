@@ -22,11 +22,34 @@ namespace UmecaApp
 
 		}
 
+		public Case CaseToObject(){
+			Case cs = new Case ();
+			if (this.dateCreate != null) {
+				cs.DateCreate = DateTime.ParseExact (this.dateCreate, "yyyy/MM/dd",
+					System.Globalization.CultureInfo.InvariantCulture);
+			}
+			if(this.dateNotProsecute != null){
+				cs.DateNotProsecute = DateTime.ParseExact (this.dateNotProsecute, "yyyy/MM/dd",
+					System.Globalization.CultureInfo.InvariantCulture);
+			}
+			if(this.dateObsolete!=null){
+				cs.DateObsolete = DateTime.ParseExact(this.dateObsolete, "yyyy/MM/dd",
+					System.Globalization.CultureInfo.InvariantCulture);
+			}
+			cs.IdFolder = this.idFolder;
+			cs.IdMP = this.idMP;
+			if (this.recidivist != null) {
+				cs.Recidivist = this.recidivist??false;
+			}
+			cs.StatusCaseId = this.status.id;
+			return cs;
+		}
+
 		public int webId{ get; set; }
 		public int id{ get; set; }
 		public String idFolder{ get; set; }
 		public String idMP{ get; set; }
-		public Boolean recidivist{ get; set; }
+		public Boolean? recidivist{ get; set; }
 		public String dateNotProsecute;
 		public String dateObsolete{ get; set; }
 		public String dateCreate{ get; set; }

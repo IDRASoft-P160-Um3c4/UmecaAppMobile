@@ -251,10 +251,11 @@
       <DependentUpon>LogActivityList.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Service\SyncService.cs" />
+    <Compile Include="Models\Sincronizacion\ResponseMessage.cs" />
+    <Compile Include="Models\Sincronizacion\TabletAssignmentInfo.cs" />
     <Compile Include="Web References\localhostUmecaWs\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Models\Sincronizacion\ResponseMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

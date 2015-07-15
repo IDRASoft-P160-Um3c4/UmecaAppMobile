@@ -14,6 +14,9 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_case")]
 		public int Id{ get; set; }
 
+		[Column("id_web")]
+		public long? WebId{ get; set; }
+
 		[Column("id_folder"),MaxLength(35)]
 		public String IdFolder{ get; set; }
 
@@ -39,7 +42,7 @@ namespace UmecaApp
 		public StatusCase Status { get; set; }
 
 		[Column("date_create")]
-		public DateTime DateCreate{ get; set; }
+		public DateTime? DateCreate{ get; set; }
 
 	}
 }
