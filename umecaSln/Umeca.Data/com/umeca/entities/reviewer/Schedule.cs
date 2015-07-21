@@ -14,6 +14,9 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_schedule")]
 		public int Id{ get; set; }
 
+		[Column("id_web")]
+		public long? webId{ get; set; }
+
 		[Column("day"),MaxLength(50)]
 		public String Day{ get; set; }
 

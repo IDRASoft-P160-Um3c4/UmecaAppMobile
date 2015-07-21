@@ -20,3 +20,4 @@
 19|ST_CASE_PRISON_CLOSED|Cerrado por prisión preventiva / promesa del imputado.
 20|ST_CASE_OBSOLETE_SUPERVISION|Caso eliminado en supervisión
 21|ST_CASE_REQUEST_SUPERVISION|En solicitud pendiente
+22|ST_CASE_TABLET_ASSIGNED|Asignado a tableta.

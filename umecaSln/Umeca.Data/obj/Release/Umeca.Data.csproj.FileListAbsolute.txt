@@ -1,0 +1,16 @@
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.pdb
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.apk
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data-Signed.apk
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Newtonsoft.Json.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\SQLite.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\SQLite.Net.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\SQLite.Net.Platform.XamarinAndroid.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\SQLiteNetExtensions.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Newtonsoft.Json.xml
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\Umeca.Data.dll
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\Umeca.Data.pdb
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\android\bin\Umeca.Data.apk
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\res\values\strings.xml
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\R.cs.flag
+C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\uploadflags.txt

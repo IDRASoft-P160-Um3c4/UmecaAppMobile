@@ -1,22 +1,14 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Views\VerificacionInterview.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Service\SyncService.cs">
     <Files>
-      <File FileName="UmecaApp\Service\VerificationService.cs" Line="220" Column="52" />
-      <File FileName="UmecaApp\Controllers\VerificationController.cs" Line="273" Column="35" />
-      <File FileName="UmecaApp\Models\reviewer\VerificationMeetingSourceDto.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Service\MeetingService.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="2133" Column="1" />
-      <File FileName="Umeca.Data\com\umeca\entities\reviewer\Schedule.cs" Line="33" Column="23" />
-      <File FileName="UmecaApp\Controllers\CatalogServiceController.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Service\SyncService.cs" Line="511" Column="54" />
       <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Controllers\SupervisionController.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Views\AddressUpsert.cshtml" Line="1" Column="1" />
-      <File FileName="UmecaApp\Assets\scripts\app\reviewer\scheduleCtrl.js" Line="1" Column="1" />
-      <File FileName="Umeca.Data\com\umeca\entities\reviewer\ImputedHome.cs" Line="69" Column="30" />
-      <File FileName="UmecaApp\Assets\dbCatalogs\register_type.txt" Line="1" Column="1" />
-      <File FileName="UmecaApp\Views\VerificacionInterview.cshtml" Line="2953" Column="35" />
-      <File FileName="UmecaApp\Views\VerificacionInterview.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Controllers\VerificationController.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Controllers\CatalogServiceController.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Models\Sincronizacion\TabletCaseDto.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Models\Shared\Constants.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Assets\dbCatalogs\status_case.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -30,6 +22,10 @@
       <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="129" column="15" />
       <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="76" column="20" />
       <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\VerificationService.cs" line="77" column="18" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="575" column="14" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="198" column="16" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="196" column="21" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="508" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

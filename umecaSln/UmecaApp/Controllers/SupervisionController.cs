@@ -543,14 +543,14 @@ namespace UmecaApp
 				foreach (Crime c in crimes) {
 					var parsedCrime = new CrimeDto();
 					var crimen = new CatalogDto ();
-					crimen.id = c.IdCrimeCat;
+					crimen.id = c.IdCrimeCat??0;
 					crimen.name = db.Table<CrimeCatalog> ().Where (cct=>cct.Id==c.IdCrimeCat).FirstOrDefault ().Name??"";
 					parsedCrime.crime = crimen;
 					parsedCrime.comment = c.Comment;
 					CatalogDto aux = new CatalogDto();
 					var federal = db.Table<Election> ().Where (ele => ele.Id == c.Federal).FirstOrDefault ();
 					aux.name = federal.Name;
-					aux.id = c.Federal;
+					aux.id = c.Federal??0;
 					parsedCrime.federal = aux;
 					parsedCrime.article = c.Article;
 					crimeList.Add (parsedCrime);
@@ -567,7 +567,7 @@ namespace UmecaApp
 
 
 
-		public List<ArrangementView> getArrangmentLst(Boolean national, int idTipo, int idFormato) {
+		public List<ArrangementView> getArrangmentLst(Boolean? national, int? idTipo, int? idFormato) {
 			List<ArrangementView> lstArrmntView = new List<ArrangementView>();
 			var lstArrmnt = db.Table<Arrangement>().Where(Arr=>Arr.IsNational == national && Arr.Type == idTipo).ToList();
 

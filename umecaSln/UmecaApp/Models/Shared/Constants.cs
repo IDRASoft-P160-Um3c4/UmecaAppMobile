@@ -27,6 +27,7 @@ namespace UmecaApp
 		public static String RESPONSE_OBSOLETE_CASE_SUPERVISION = "Respuesta a solicitud de eliminar un caso";
 		public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
 		public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
+		public static String ST_CASE_TABLET_ASSIGNED = "ST_CASE_TABLET_ASSIGNED";
 		public static String S_MEETING_COMPLETE = "COMPLETE";
 		public static String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
 		public static Boolean GENDER_FEMALE = true;

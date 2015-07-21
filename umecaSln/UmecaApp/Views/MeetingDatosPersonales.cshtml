@@ -103,7 +103,15 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 			    }
 			}
 			else{
-	    		$scope.SeceltedCountry = $scope.listCountry[0];
+	    		
+	    		for(x=0;x<$scope.listCountry.length;x++){
+			    	if($scope.listCountry[x].Id==1){
+			    		$scope.SeceltedCountry = $scope.listCountry[x];
+			    		$scope.m.BirthCountry = $scope.SeceltedCountry['Id'];
+			    		$scope.InitMunicipalityDP();
+			    		break;
+			    	}
+			    }
 			}
 		};
 

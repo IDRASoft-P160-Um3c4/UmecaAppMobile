@@ -44,6 +44,9 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_source_verification")]
 		public int Id{ get; set; }
 
+		[Column("id_web")]
+		public long? webId{ get; set; }
+
 		[Column("name"),MaxLength(150)]
 		public String FullName{ get; set; }
 

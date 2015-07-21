@@ -42,6 +42,7 @@ namespace UmecaApp
 				cs.Recidivist = this.recidivist??false;
 			}
 			cs.StatusCaseId = this.status.id;
+			cs.webId = this.webId;
 			return cs;
 		}
 

@@ -52,7 +52,7 @@ namespace UmecaApp
 		public int? MeetingId{ get; set; }
 
 		[Column("blcok")]
-		public Boolean block{ get; set; }
+		public Boolean? block{ get; set; }
 
 		public String Schedule{ get; set; }
 	}

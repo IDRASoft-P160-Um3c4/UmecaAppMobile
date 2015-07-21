@@ -15,19 +15,19 @@ namespace Umeca.Data
 		public int Id{ get; set; }
 
 		[Column("control_detention")]
-		public int ControlDetention{ get; set; }
+		public int? ControlDetention{ get; set; }
 
 		[Column("extension")]
-		public int Extension{ get; set; }
+		public int? Extension{ get; set; }
 
 		[Column("imputation_formulation")]
-		public int ImputationFormulation{ get; set; }
+		public int? ImputationFormulation{ get; set; }
 
 		[Column("imputation_date")]
 		public DateTime? ImputationDate{ get; set; }
 
 		[Column("linkage_process")]
-		public int LinkageProcess{ get; set; }
+		public int? LinkageProcess{ get; set; }
 
 		[Column("linkage_room")]
 		public String LinkageRoom{ get; set; }
@@ -42,10 +42,10 @@ namespace Umeca.Data
 		public DateTime? LinkageTime{ get; set; }
 
 		[Column("arrangement_type")]
-		public int ArrangementType{ get; set; }
+		public int? ArrangementType{ get; set; }
 
 		[Column("national_arrangement")]
-		public Boolean NationalArrangement{ get; set; }
+		public Boolean? NationalArrangement{ get; set; }
 
 	}
 }

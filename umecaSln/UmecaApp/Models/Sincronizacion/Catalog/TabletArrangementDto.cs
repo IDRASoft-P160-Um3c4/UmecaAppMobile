@@ -19,14 +19,14 @@ namespace UmecaApp
 			this.isExclusive = isExclusive;
 		}
 
-		private int id{ get; set ; }
-		private String description{ get; set ; }
-		private int type{ get; set ; }
-		private Boolean? isNational{ get; set ; }
-		private int index{ get; set ; }
-		private Boolean? isObsolete{ get; set ; }
-		private Boolean? isDefault{ get; set ; }
-		private Boolean? isExclusive{ get; set ; }
+		public int id{ get; set ; }
+		public String description{ get; set ; }
+		public int type{ get; set ; }
+		public Boolean? isNational{ get; set ; }
+		public int index{ get; set ; }
+		public Boolean? isObsolete{ get; set ; }
+		public Boolean? isDefault{ get; set ; }
+		public Boolean? isExclusive{ get; set ; }
 
 	}
 }

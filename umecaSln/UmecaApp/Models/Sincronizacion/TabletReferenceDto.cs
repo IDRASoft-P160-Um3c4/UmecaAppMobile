@@ -31,18 +31,18 @@ namespace UmecaApp
 			}
 		}
 
-		private int? webId{ get; set; }
-		private int? id{ get; set; }
-		private String fullName{ get; set; }
-		private int? age{ get; set; }
-		private String address{ get; set; }
-		private String phone{ get; set; }
-		private String specification{ get; set; }
-		private Boolean? isAccompaniment{ get; set; }
-		private String specificationRelationship{ get; set; }
-		private Boolean? block{ get; set; }
-		private TabletDocumentTypeDto documentType{ get; set; }
-		private TabletRelationshipDto relationship{ get; set; }
+		public int? webId{ get; set; }
+		public int? id{ get; set; }
+		public String fullName{ get; set; }
+		public int? age{ get; set; }
+		public String address{ get; set; }
+		public String phone{ get; set; }
+		public String specification{ get; set; }
+		public Boolean? isAccompaniment{ get; set; }
+		public String specificationRelationship{ get; set; }
+		public Boolean? block{ get; set; }
+		public TabletDocumentTypeDto documentType{ get; set; }
+		public TabletRelationshipDto relationship{ get; set; }
 
 	}
 }

@@ -34,6 +34,10 @@ namespace UmecaApp
 			this.db = dbConection;
 			services = new CatalogServiceController (db);
 
+		}
+
+		public void init ()
+		{
 			services.CreateStatusCaseCatalog ();
 			services.CreateStatusMeetingCatalog ();
 			services.CreateElection ();
@@ -50,13 +54,15 @@ namespace UmecaApp
 
 		}
 
+
 		public void Index()
 		{
-
+			init ();
 			services.createMeetingTest();
 			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
+			StatusCase sc1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
 
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
@@ -76,7 +82,7 @@ namespace UmecaApp
 				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				+" and me.id_reviewer = ? "
-				+" AND cs.id_status = ?; ",revId , statusMeeting1.Id,statusMeeting2.Id, sc.Id);
+				+" AND cs.id_status in (?,?); ",revId , statusMeeting1.Id,statusMeeting2.Id, sc.Id, sc1.Id);
 			var temp = new MeetingList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
@@ -86,7 +92,7 @@ namespace UmecaApp
 		public void  MeetingEditNew()
 		{
 			var temp = new NewMeeting{Model = new NewMeetingDto() };
-//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
+			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
@@ -139,7 +145,7 @@ namespace UmecaApp
 
 				}
 				if(repeated>0){
-						return "El número de carpeta de investigación y el imputado ya se encuentran registrados.";
+					return "El número de carpeta de investigación y el imputado ya se encuentran registrados.";
 				}
 			} else {
 				return "Favor de ingresar el número de carpeta de investigación para continuar";
@@ -219,12 +225,12 @@ namespace UmecaApp
 				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
 				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
 				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
-//				+", csm.status as 'StatusCode', csm.description as 'Description'"
+				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
 				+" FROM meeting as me "
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-//				+" and me.id_reviewer = 2 "
+				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+				//				+" and me.id_reviewer = 2 "
 				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
 			result.CaseId = idCase;
 
@@ -279,7 +285,7 @@ namespace UmecaApp
 			}else{
 				result.JsonJobs = null;
 			}
-				
+
 			//school history
 			var escuelaUtlActual = db.Table<School> ().Where (sc=>sc.MeetingId == result.MeetingId).FirstOrDefault ();
 			if (escuelaUtlActual != null) {
@@ -357,7 +363,7 @@ namespace UmecaApp
 			imputado.CelPhone = model.CelPhone;
 			imputado.YearsMaritalStatus = model.YearsMaritalStatus;
 			imputado.MaritalStatusId = model.MaritalStatusId;
-//			imputado.MaritalStatus = db.Get<MaritalStatus>(model.MaritalStatusId);
+			//			imputado.MaritalStatus = db.Get<MaritalStatus>(model.MaritalStatusId);
 			imputado.Boys = model.Boys;
 			imputado.DependentBoys = model.DependentBoys;
 			imputado.BirthCountry = model.BirthCountry;
@@ -388,8 +394,8 @@ namespace UmecaApp
 			var dto = new ModelContainer ();
 			dto.Reference = db.Table<Meeting>().Where(s=>s.Id == MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
 			ImputedHome mdl = new ImputedHome ();
-				mdl.MeetingId = idMeeting;
-				dto.JsonModel = JsonConvert.SerializeObject (mdl);
+			mdl.MeetingId = idMeeting;
+			dto.JsonModel = JsonConvert.SerializeObject (mdl);
 			var temp = new AddressUpsert{ Model = dto };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();

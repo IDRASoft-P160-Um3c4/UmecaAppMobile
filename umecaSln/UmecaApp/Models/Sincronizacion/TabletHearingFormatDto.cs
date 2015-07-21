@@ -10,7 +10,7 @@ namespace UmecaApp
 		}
 
 		public TabletHearingFormatDto(int id, DateTime? registerTime, String idFolder, String idJudicial, String room, DateTime? appointmentDateTime, DateTime? initTime, DateTime? endTime,
-			String judgeName, String mpName, String defenderName, String terms, String confirmComment, Boolean? isFinished, String comments, DateTime? umecaDateTime, DateTime? umecaTime, String hearingTypeSpecification, int imputedPresence, String hearingResult, int previousHearing, Boolean? showNotification,
+			String judgeName, String mpName, String defenderName, String terms, String confirmComment, Boolean? isFinished, String comments, DateTime? umecaDate, DateTime? umecaTime, String hearingTypeSpecification, int imputedPresence, String hearingResult, int previousHearing, Boolean? showNotification,
 			int idHT, String descriptionHT, Boolean? isObsoleteHT, Boolean? lockHT, Boolean? specificationHT,
 			int idHFS, int controlDetentionHFS, int extensionHFS, int imputationFormulationHFS, DateTime? imputationDateTimeHFS, int linkageProcessHFS, String linkageRoomHFS, DateTime? linkageDateTimeHFS, DateTime? extDateTimeHFS, DateTime? linkageTimeHFS, int arrangementTypeHFS, Boolean? nationalArrangementHFS,
 			int idI, String nameI, String lastNamePI, String lastNameMI, DateTime? birthDateTimeI, String imputeTelI,
@@ -32,7 +32,7 @@ namespace UmecaApp
 			this.confirmComment = confirmComment;
 			this.isFinished = isFinished;
 			this.comments = comments;
-			this.umecaDateTime = umecaDateTime == null ? null : String.Format("{0:yyyy/MM/dd}", umecaDateTime);
+			this.umecaDate = umecaDate == null ? null : String.Format("{0:yyyy/MM/dd}", umecaDate);
 			this.umecaTime = umecaTime == null ? null : String.Format("{0:HH:mm:ss}", umecaTime);
 			this.hearingTypeSpecification = hearingTypeSpecification;
 			this.imputedPresence = imputedPresence;
@@ -84,7 +84,7 @@ namespace UmecaApp
 		public String confirmComment{ get; set; }
 		public Boolean? isFinished{ get; set; }
 		public String comments{ get; set; }
-		public String umecaDateTime{ get; set; }
+		public String umecaDate{ get; set; }
 		public String umecaTime{ get; set; }
 		public String hearingTypeSpecification{ get; set; }
 		public int imputedPresence{ get; set; }

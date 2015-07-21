@@ -24,21 +24,21 @@ namespace Umeca.Data
 
 		//		CrimeCatalog
 		[Column("id_crime_cat")]
-		public int IdCrimeCat{ get; set; }
+		public int? IdCrimeCat{ get; set; }
 
 		//		Election si/no
 		[Column("id_federal")]
-		public int Federal{ get; set; }
+		public int? Federal{ get; set; }
 
 
 		//UN CRIMEN PUEDE PERTENECER A CRIMINAL PROCEDING O HEARING FORMAT
 		//		CurrentCriminalProceeding 
 		[Column("id_criminal_proceeding")]
-		public int CriminalProceeding{ get; set; }
+		public int? CriminalProceeding{ get; set; }
 
 		//		HearingFormat
 		[Column("hearingFormat")]
-		public int HearingFormat{ get; set; }
+		public int? HearingFormat{ get; set; }
 
 		public String HashKey{ get; set; }
 
