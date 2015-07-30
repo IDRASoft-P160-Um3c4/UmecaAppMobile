@@ -16,7 +16,7 @@ namespace UmecaApp
 			this.comment = comment;
 		}
 
-		public  int?  webId{ get; set; }
+		public  long?  webId{ get; set; }
 		public  int?  id{ get; set; }
 		public String physicalCondition{ get; set; }
 		public String comment{ get; set; }

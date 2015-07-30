@@ -33,7 +33,7 @@ namespace UmecaApp
 			}
 		}
 
-		public int? webId{ get; set; }
+		public long? webId{ get; set; }
 		public int id{ get; set; }
 		public String post{ get; set; }
 		public String nameHead{ get; set; }
@@ -41,7 +41,7 @@ namespace UmecaApp
 		public String phone{ get; set; }
 		public String startPrev{ get; set; }
 		public String start{ get; set; }
-		public float salaryWeek{ get; set; }
+		public float? salaryWeek{ get; set; }
 		public String end{ get; set; }
 		public String reasonChange{ get; set; }
 		public String address{ get; set; }

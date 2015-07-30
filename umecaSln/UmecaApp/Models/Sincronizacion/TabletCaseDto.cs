@@ -46,12 +46,12 @@ namespace UmecaApp
 			return cs;
 		}
 
-		public int webId{ get; set; }
+		public long? webId{ get; set; }
 		public int id{ get; set; }
 		public String idFolder{ get; set; }
 		public String idMP{ get; set; }
 		public Boolean? recidivist{ get; set; }
-		public String dateNotProsecute;
+		public String dateNotProsecute{ get; set; }
 		public String dateObsolete{ get; set; }
 		public String dateCreate{ get; set; }
 		public TabletStatusCaseDto status{ get; set; }

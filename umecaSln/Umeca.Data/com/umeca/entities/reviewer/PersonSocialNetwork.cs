@@ -18,10 +18,10 @@ namespace UmecaApp
 		public String Name{ get; set; }
 
 		[Column("id_relationship")]
-		public int RelationshipId{ get; set; }
+		public int? RelationshipId{ get; set; }
 
 		[Column("age")]
-		public int Age{ get; set; }
+		public int? Age{ get; set; }
 
 		[Column("phone"),MaxLength(200)]
 		public String Phone{ get; set; }
@@ -30,28 +30,28 @@ namespace UmecaApp
 		public String Address{ get; set; }
 
 		[Column("id_document_type")]
-		public int DocumentTypeId{ get; set; }
+		public int? DocumentTypeId{ get; set; }
 
 		[Column("specification_document_type"),MaxLength(250)]
 		public String SpecificationDocumentType{ get; set; }
 
 		[Column("id_dependent")]
-		public int DependentId{ get; set; }
+		public int? DependentId{ get; set; }
 
 		[Column("id_living_with")]
-		public int LivingWithIde{ get; set; }
+		public int? LivingWithIde{ get; set; }
 
 		[Column("id_social_network")]
-		public int SocialNetworkId{ get; set; }
+		public int? SocialNetworkId{ get; set; }
 	
 		[Column("is_accompaniment")]
-		public Boolean isAccompaniment{ get; set; }
+		public Boolean? isAccompaniment{ get; set; }
 
 		[Column("specification_relationship"),MaxLength(255)]
 		public String specificationRelationship{ get; set; }
 
 		[Column("block")]
-		public Boolean block{ get; set; }
+		public Boolean? block{ get; set; }
 
 	}
 }

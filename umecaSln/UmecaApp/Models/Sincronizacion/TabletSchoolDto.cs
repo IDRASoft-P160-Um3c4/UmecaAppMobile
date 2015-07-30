@@ -19,7 +19,7 @@ namespace UmecaApp
 			this.block = block;
 		}
 
-		public  int?  webId{ get; set; }
+		public  long?  webId{ get; set; }
 		public  int?  id{ get; set; }
 		public String name{ get; set; }
 		public String phone{ get; set; }

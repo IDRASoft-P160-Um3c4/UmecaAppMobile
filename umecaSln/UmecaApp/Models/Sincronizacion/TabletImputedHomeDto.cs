@@ -36,7 +36,7 @@ namespace UmecaApp
 			}
 		}
 
-		public  int?  webId{ get; set; }
+		public  long?  webId{ get; set; }
 		public  int?  id{ get; set; }
 		public String timeLive{ get; set; }
 		public String reasonChange{ get; set; }

@@ -8,7 +8,7 @@ namespace UmecaApp
 		{
 		}
 
-		public TabletCountryDto(int? id, String name, String alpha2, String alpha3, int? latitude, int? longitude) {
+		public TabletCountryDto(int? id, String name, String alpha2, String alpha3, long? latitude, long? longitude) {
 			this.id = id;
 			this.name = name;
 			this.alpha2 = alpha2;
@@ -21,8 +21,8 @@ namespace UmecaApp
 		public String name{ get; set; }
 		public String alpha2{ get; set; }
 		public String alpha3{ get; set; }
-		public int? latitude{ get; set; }
-		public int? longitude{ get; set; }
+		public Double? latitude{ get; set; }
+		public Double? longitude{ get; set; }
 
 
 	}

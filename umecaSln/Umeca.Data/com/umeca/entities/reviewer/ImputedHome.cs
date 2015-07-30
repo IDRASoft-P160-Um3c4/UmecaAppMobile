@@ -17,6 +17,9 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id")]
 		public int Id{ get; set; }
 
+		[Column("id_web")]
+		public long? webId{ get; set; }
+
 		[Column("id_address")]
 			public int? AddressId{ get; set; }
 

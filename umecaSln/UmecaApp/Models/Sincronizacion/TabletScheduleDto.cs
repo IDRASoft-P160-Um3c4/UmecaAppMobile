@@ -8,16 +8,16 @@ namespace UmecaApp
 		{
 		}
 
-		public TabletScheduleDto(int id, String day, String start, String end) {
+		public TabletScheduleDto(int id, long? webId, String day, String start, String end) {
 
 			this.id = id;
-			this.webId = id;
+			this.webId = webId;
 			this.day = day;
 			this.start = start;
 			this.end = end;
 		}
 
-		public int webId{ get; set; }
+		public long? webId{ get; set; }
 		public int id{ get; set; }
 		public String day{ get; set; }
 		public String start{ get; set; }

@@ -66,6 +66,7 @@ namespace UmecaApp
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
+			StatusCase sc1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
 				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.description as 'StatusCode', csm.description as 'Description'"
@@ -76,7 +77,7 @@ namespace UmecaApp
 				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				//				+" and me.id_reviewer = 2 "
-				+" AND cs.id_status = ?; ", statusVerification1.Id, statusVerification2.Id, sc.Id);
+				+" AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, sc.Id,sc1.Id );
 
 			Console.WriteLine ("result.count> {0}", result.Count);
 			var temp = new VerificationList{Model = result};
@@ -93,7 +94,7 @@ namespace UmecaApp
 			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
 			var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true 
 //				&& sv.IsAuthorized == true 
-				&& sv.IdCase == idCase && sv.DateComplete == null)).ToList ();
+				&& sv.CaseRequestId == idCase && sv.DateComplete == null)).ToList ();
 			var entrevistador = db.Table<User> ().Where (u => u.Id.Equals(meeting.ReviewerId)).FirstOrDefault ();
 			var result = new SourcesTblDto ();
 			result.Age=services.calculateAge(imputado.BirthDate);
@@ -118,31 +119,67 @@ namespace UmecaApp
 		public void ValidationMeetingBySource(int idSource)
 		{
 			var source = db.Table<SourceVerification> ().Where (sv => sv.Id==idSource ).FirstOrDefault ();
-			int idCase = source.IdCase;
+			int idCase = (int)source.CaseRequestId;
+			User Reviewer = db.Table<User> ().First ();
+			Case cs = db.Table<Case> ().Where(cas=>cas.Id==idCase).ToList ().First ();
+			Meeting baseMe = db.Table<Meeting> ().Where (meet => meet.CaseDetentionId == cs.Id).First ();
+			Imputed baseImp = db.Table<Imputed> ().Where (imput => imput.MeetingId == baseMe.Id).First ();
 			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
+			var result = new VerificationMeetingSourceDto ();
+			result.IdFolder = cs.IdFolder;
+			result.ImputedId = baseImp.Id;
+			result.Name = baseImp.Name;
+			result.LastNameP = baseImp.LastNameP;
+			result.LastNameM = baseImp.LastNameM;
+			result.BirthDate = baseImp.BirthDate;
+			result.Gender = baseImp.Gender;
+			result.FoneticString = baseImp.FoneticString;
+			result.CelPhone = baseImp.CelPhone;
+			result.YearsMaritalStatus = baseImp.YearsMaritalStatus;
+			result.MaritalStatusId = baseImp.MaritalStatusId;
+			result.Boys = baseImp.Boys;
+			result.DependentBoys = baseImp.DependentBoys;
+			result.Location = baseImp.Location;
+			result.LocationId = baseImp.LocationId;
+			result.BirthLocation = baseImp.BirthLocation;
+			result.BirthCountry = baseImp.BirthCountry;
+			result.BirthState = baseImp.BirthState;
+			result.BirthMunicipality = baseImp.BirthMunicipality;
+			result.Nickname = baseImp.Nickname;
+			result.MeetingId = baseMe.Id;
+			result.ReviewerId = Reviewer.Id;
+			result.StatusMeetingId = baseMe.StatusMeetingId;
+			result.CommentReference = baseMe.CommentReference;
+			result.CommentCountry = baseMe.CommentCountry;
+			result.CommentDrug = baseMe.CommentDrug;
+			result.CommentHome = baseMe.CommentHome;
+			result.CommentJob = baseMe.CommentJob;
+			result.CommentSchool = baseMe.CommentSchool;
+			result.DateCreate = baseMe.DateCreate;
+			result.DateTerminate = baseMe.DateTerminate;
 
-			var result = db.Query<VerificationMeetingSourceDto> (
-				"SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
-				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
-				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
-				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
-				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
-				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
-				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
-				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
-				+" ,me.id_meeting as 'MeetingId'"
-				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
-				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
-				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
-				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
-				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
-				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-				//				+" and me.id_reviewer = 2 "
-				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
+//			var result = db.Query<VerificationMeetingSourceDto> (
+//				"SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
+//				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
+//				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
+//				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
+//				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
+//				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
+//				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
+//				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
+//				+" ,me.id_meeting as 'MeetingId'"
+//				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
+//				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
+//				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
+//				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
+//				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
+//				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
+//				+" FROM meeting as me "
+//				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
+//				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+//				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+//				//				+" and me.id_reviewer = 2 "
+//				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
 			result.CaseId = idCase;
 
 			result.ageString = services.calculateAge (result.BirthDate);
@@ -160,6 +197,7 @@ namespace UmecaApp
 			var registerCatalog = db.Table<RegisterType> ().ToList ();
 			result.ListaDeRegisterType = registerCatalog;
 
+			result.JsonDomicilios = new List<DomiciliosVerificationDto> ();
 			var domiciliosImputado= db.Table<ImputedHome> ().Where (im => im.MeetingId == result.MeetingId).ToList ();
 			if(domiciliosImputado!=null && domiciliosImputado.Count>0){
 				var domVerified = new List<DomiciliosVerificationDto> ();

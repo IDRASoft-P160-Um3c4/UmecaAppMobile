@@ -35,7 +35,7 @@ namespace UmecaApp
 			}
 		}
 
-		public  int?  webId{ get; set; }
+		public  long?  webId{ get; set; }
 		public  int?  id{ get; set; }
 		public String fullName{ get; set; }
 		public  int?  age{ get; set; }

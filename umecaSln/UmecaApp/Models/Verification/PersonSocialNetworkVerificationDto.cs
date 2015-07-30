@@ -30,16 +30,16 @@ namespace UmecaApp
 		}
 
 
-		public int Id{ get; set; }
+		public int? Id{ get; set; }
 
 
 		public String Name{ get; set; }
 
 
-		public int RelationshipId{ get; set; }
+		public int? RelationshipId{ get; set; }
 
 
-		public int Age{ get; set; }
+		public int? Age{ get; set; }
 
 
 		public String Phone{ get; set; }
@@ -48,28 +48,28 @@ namespace UmecaApp
 		public String Address{ get; set; }
 
 
-		public int DocumentTypeId{ get; set; }
+		public int? DocumentTypeId{ get; set; }
 
 
 		public String SpecificationDocumentType{ get; set; }
 
 
-		public int DependentId{ get; set; }
+		public int? DependentId{ get; set; }
 
 
-		public int LivingWithIde{ get; set; }
+		public int? LivingWithIde{ get; set; }
 
 
-		public int SocialNetworkId{ get; set; }
+		public int? SocialNetworkId{ get; set; }
 
 
-		public Boolean isAccompaniment{ get; set; }
+		public Boolean? isAccompaniment{ get; set; }
 
 
 		public String specificationRelationship{ get; set; }
 
 
-		public Boolean block{ get; set; }
+		public Boolean? block{ get; set; }
 	}
 }
 
