@@ -37,6 +37,9 @@ namespace UmecaApp
 			var supervisionController = new SupervisionController (new HybridWebView (webView, this), db);
 			RouteHandler.RegisterController ("Supervision", supervisionController);
 
+			var syncController = new SyncController (new HybridWebView (webView, this), db);
+			RouteHandler.RegisterController ("Sync", syncController);
+
 			loginController.Index ();
 		}
 	}

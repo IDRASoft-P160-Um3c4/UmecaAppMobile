@@ -56,17 +56,20 @@ namespace UmecaApp
 
 		public void Index()
 		{	
-//			Console.WriteLine ("quesque hasheado---> "+Crypto.HashPassword("99630110"));
-//			Console.WriteLine ("quesque pera---> "+Crypto.HashPassword("pera"));
-//			Console.WriteLine ("quesque hija de puerca---> "+Crypto.HashPassword("hija de puerca"));
-//			Console.WriteLine ("quesque bastardo hijo de puta---> "+Crypto.HashPassword("bastardo hijo de puta"));
-//			Console.WriteLine ("quesque puta la pinche mierda---> "+Crypto.HashPassword("puta la pinche mierda"));
-//			Console.WriteLine ("quesque coñooo---> "+Crypto.HashPassword("coñooo"));
 			services.createVerificationTest();
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
 			StatusCase sc1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
+
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id!=null) {
+				revId = reviewer.Id;
+			}
+
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
 				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.description as 'StatusCode', csm.description as 'Description'"
@@ -76,8 +79,8 @@ namespace UmecaApp
 				+" left JOIN imputed as im ON im.id_meeting = met.id_meeting "
 				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
-				//				+" and me.id_reviewer = 2 "
-				+" AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, sc.Id,sc1.Id );
+				+" and me.id_reviewer = ? "
+				+" AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId , sc.Id,sc1.Id );
 
 			Console.WriteLine ("result.count> {0}", result.Count);
 			var temp = new VerificationList{Model = result};

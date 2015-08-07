@@ -1222,7 +1222,9 @@ namespace UmecaApp
 			}else{
 				result.Add(t.template.Replace(e, "El pa&iacute;s de nacimiento"));
 			}
-			t.groupMessage.Add(new GroupMessageMeetingDto("personalData", result));
+			if (result != null && result.Count > 0) {
+				t.groupMessage.Add (new GroupMessageMeetingDto ("personalData", result));
+			}
 			return t;
 		}
 
@@ -1267,7 +1269,9 @@ namespace UmecaApp
 			if (Sc.DegreeId == null||Sc.DegreeId.Equals(0)) {
 				r.Add(t.template.Replace(e, "El grado escolar"));
 			}
-			t.groupMessage.Add(new GroupMessageMeetingDto("school", r));
+			if (r != null && r.Count > 0) {
+				t.groupMessage.Add (new GroupMessageMeetingDto ("school", r));
+			}
 			return t;
 		}
 
@@ -1319,7 +1323,9 @@ namespace UmecaApp
 					}
 				}
 			}
-			t.groupMessage.Add(new GroupMessageMeetingDto("leavingCountry", r));
+			if (r != null && r.Count > 0) {
+				t.groupMessage.Add (new GroupMessageMeetingDto ("leavingCountry", r));
+			}
 			return t;
 		}
 

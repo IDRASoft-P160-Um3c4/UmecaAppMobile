@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace UmecaApp
 {
-	public class MeetingController : Java.Lang.Object//: ControllerBase
+	public class SyncController : Java.Lang.Object//: ControllerBase
 	{
 
 		IHybridWebView webView;
@@ -28,29 +28,16 @@ namespace UmecaApp
 		String jsonElection;
 		String jsonActivities;
 
-		public MeetingController(IHybridWebView webView, SQLiteConnection dbConection)
+		public SyncController(IHybridWebView webView, SQLiteConnection dbConection)
 		{
 			this.webView = webView;
 			this.db = dbConection;
 			services = new CatalogServiceController (db);
-
 		}
 
 		public void init ()
 		{
-			services.CreateStatusCaseCatalog ();
-			services.CreateStatusMeetingCatalog ();
-			services.CreateElection ();
-
-			services.CreateCountryCatalog ();
-			services.CreateStateCatalog ();
-			services.CreateMunicipalityCatalog ();
-			db.Commit ();
-			this.jsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
-			this.jsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
-			this.jsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
-			this.jsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
-			this.jsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
+			//inicializacion 
 
 		}
 
@@ -58,11 +45,6 @@ namespace UmecaApp
 		public void Index()
 		{
 			init ();
-			services.createMeetingTest();
-			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
-			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
-			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
-			StatusCase sc1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
 
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
@@ -72,6 +54,10 @@ namespace UmecaApp
 				revId = reviewer.Id;
 			}
 
+			//estatus de meeting terminados
+			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
+			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
+			StatusCase sc1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
 
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
@@ -80,10 +66,59 @@ namespace UmecaApp
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+				+" WHERE me.id_status =? "
+				+" and me.id_reviewer = ? "
+				+" AND cs.id_status in (?,?); ",statusMeeting2.Id, revId, sc.Id, sc1.Id);
+			var c1 = 0;
+			if(result!=null){
+				for(c1=0 ; c1<result.Count;c1++){
+					result [c1].Action = "meeting";
+				}
+			}
+			foreach (MeetingTblDto mtd in result) {
+				mtd.Action = "Meeting";
+			}
+
+			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
+			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
+			StatusCase scv = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
+			StatusCase scv1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
+
+			var result2 = db.Query<MeetingTblDto> (
+				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.description as 'StatusCode', csm.description as 'Description' "
+				+" , me.id_verification as 'MeetingStatusId' "
+				+" FROM verification as me "
+				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
+				+" left JOIN meeting as met ON met.id_case = cs.id_case "
+				+" left JOIN imputed as im ON im.id_meeting = met.id_meeting "
+				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				+" and me.id_reviewer = ? "
-				+" AND cs.id_status in (?,?); ", statusMeeting1.Id,statusMeeting2.Id,revId, sc.Id, sc1.Id);
-			var temp = new MeetingList{Model = result};
+				+" AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId , scv.Id,scv1.Id );
+			var c2 = 0;
+			try{
+				if(result2!=null){
+					for(c2=0 ; c2<result2.Count;c2++){
+						var id = result2[c2].MeetingStatusId;
+						var expected = db.Table<SourceVerification> ().Where (sv => sv.VerificationId == id).ToList ();
+						var finished = db.Table<SourceVerification> ().Where (sv => sv.VerificationId == id && sv.DateComplete != null).ToList ();
+						if (expected.Count == finished.Count) {
+							result2 [c2].Action = "verification";
+						} else {
+							result2 [c2].Action = "verificationIncomplete";
+						}
+					}
+				}
+			}catch(Exception e){
+				Console.WriteLine("excepcion en sincronizacion ");
+				Console.WriteLine(e.Message);
+			}
+			
+			
+			result.AddRange (result2);
+
+ 			var temp = new SyncCaseList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
@@ -451,7 +486,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -474,7 +509,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -498,7 +533,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -520,7 +555,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -543,7 +578,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -565,7 +600,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -588,7 +623,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{
@@ -610,7 +645,7 @@ namespace UmecaApp
 				webView.LoadHtmlString (pagestring);
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine ("catched exception in MeetingController method PersonSocialNetwork");
+				Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
 				Console.WriteLine("Exception message :::>"+e.Message);
 			}
 			finally{

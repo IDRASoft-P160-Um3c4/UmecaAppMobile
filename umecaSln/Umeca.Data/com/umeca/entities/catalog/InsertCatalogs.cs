@@ -51,6 +51,10 @@ namespace UmecaApp
 
 
 					CreateTablesToConsult ();
+
+
+					InsertVerMethod (act);
+
 				});
 
 			Task.WaitAll(t);
@@ -827,6 +831,39 @@ namespace UmecaApp
 			db.Close ();
 		}
 
+
+		public void InsertVerMethod(Activity act){
+			//			var db = new SQLiteConnection (ConstantsDB.DB_PATH);
+			var db = new SQLiteConnection(
+				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
+				ConstantsDB.DB_PATH,
+				true,
+				null // (can be null in which case you will need to provide tables that only use supported data types)
+			);
+			db.CreateTable<VerificationMethod> ();
+			if (db.Table<VerificationMethod> ().Count () == 0) {
+				IEnumerable<String[]> data = GetDataOfFile (ConstantsDB.CONTENT_FOLDER_CATALOG+"/verification_method.txt", act);
+				List<VerificationMethod> entities=new List<VerificationMethod>(); 
+				foreach (String[] line in data) {
+					try{
+						VerificationMethod model = new VerificationMethod ();
+						model.Id = int.Parse(line [0]);
+						model.Name = line [1];
+						model.IsObsolete = line [2].Equals ("1");
+						entities.Add(model);
+					}catch(Exception e){
+						Console.WriteLine ("error "+e.Message);
+					}
+				}
+				db.InsertAll (entities);
+				var content = db.Table<VerificationMethod> ().ToList();
+				Console.WriteLine ("Se inserto en tabla StatusCase:");
+				foreach (VerificationMethod m in content) {
+					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
+				}
+			}
+			db.Close ();
+		}
 
 
 		public void InsertLocationCat(Activity act){

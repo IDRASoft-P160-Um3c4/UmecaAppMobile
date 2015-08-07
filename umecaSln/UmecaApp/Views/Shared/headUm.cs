@@ -338,8 +338,15 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
-WriteLiteral(" href=\"javascript;\"");
+WriteAttribute ("href", " href=\"", "\""
 
+#line 138 "headUm.cshtml"
+      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></l" +
 "i>\r\n            <li");
 

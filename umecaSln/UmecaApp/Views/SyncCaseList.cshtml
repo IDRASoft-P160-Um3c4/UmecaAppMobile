@@ -1,0 +1,70 @@
+﻿@model System.Collections.Generic.List<UmecaApp.MeetingTblDto>
+@inherits WebViewTemplate
+@{
+	Layout = "UmecaApp.headUmGrid";
+}
+    <script type="text/javascript">
+    function legal(err){
+    	alert("legal>>"+err);
+    }
+    function syncronizar(idMeet){
+    var casos = "["+idMeet+"]";
+    	var result = Sync.sincrinozeCase(casos, "99630110");
+    }
+    function cancelari(){
+		window.location.replace('hybrid:Login/Index');
+    }
+    </script>
+<h2 class="element-center"><i class="icon-comments-alt "></i>&nbsp;&nbsp;Entrevistas de evaluaci&oacute;n de riesgos procesales</h2>
+<br />
+<div id="toolbar2" class="btn-group">
+    <a href="@Url.Action("MeetingEditNew","Meeting")">
+    <button type="button" class="btn btn-default" id="btnAdd">
+        <i class="glyphicon glyphicon-plus"></i>
+    </button></a>
+    <!--<button type="button" class="btn btn-default" id="btnRefresh">
+        <i class="glyphicon glyphicon-refresh"></i>
+    </button>-->
+</div>
+    <table data-toggle="table" data-page-size="10" data-page-list="[10, 20, 30]"
+     data-pagination="true" data-height="250"
+     data-striped="true" data-search="true" 
+     data-search-align="right" data-toolbar="#toolbar2">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th data-width="900">Carpeta de Investigaci&oacute;n</th>
+        <th>Nombre completo</th>
+        <th>Estatus</th>
+        <th>sincronization Type</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+    </thead>
+    <tbody> 
+    @foreach(var Meeting in Model) {
+    <tr id="tr-id-1" class="tr-class-1">
+        <td id="td-id-1" class="td-class-1">
+            @Meeting.CaseId
+        </td>
+        <td>
+        	@Meeting.IdFolder
+        </td>
+        <td>
+        	@(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM)
+        </td>
+        <td>
+       		@Meeting.StatusCode
+        </td>
+        <td>
+        	@Meeting.Action
+        </td>
+        <td>
+         	<a href="javascript:;" style="display:inline-block;" title="Sincronizar" onclick="syncronizar(@Meeting.CaseId);"><i class="icon-exchange"></i></a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+	<!--<span class="btn btn-default btn-sm" onclick="cancelari();">
+        Cancelar
+    </span>-->

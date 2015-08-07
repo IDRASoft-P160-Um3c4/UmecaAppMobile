@@ -121,6 +121,7 @@
     <Compile Include="com\umeca\entities\supervisor\ArrangementView.cs" />
     <Compile Include="com\umeca\entities\supervisor\LogCase.cs" />
     <Compile Include="com\umeca\entities\account\Role.cs" />
+    <Compile Include="com\umeca\entities\catalog\VerificationMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

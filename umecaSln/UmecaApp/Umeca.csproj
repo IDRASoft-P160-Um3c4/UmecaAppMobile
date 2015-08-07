@@ -253,7 +253,11 @@
     <Compile Include="Service\SyncService.cs" />
     <Compile Include="Models\Sincronizacion\ResponseMessage.cs" />
     <Compile Include="Models\Sincronizacion\TabletAssignmentInfo.cs" />
-    <Compile Include="Web References\localhostUmecaWs\Reference.cs">
+    <Compile Include="Controllers\SyncController.cs" />
+    <Compile Include="Views\SyncCaseList.cs">
+      <DependentUpon>SyncCaseList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebUmecaService\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -362,8 +366,12 @@
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>NewLogActivity.cs</LastGenOutput>
     </None>
-    <None Include="Web References\localhostUmecaWs\UmecaWS.wsdl" />
-    <None Include="Web References\localhostUmecaWs\Reference.map">
+    <None Include="Views\SyncCaseList.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>SyncCaseList.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebUmecaService\UmecaWS.wsdl" />
+    <None Include="Web References\WebUmecaService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -1398,10 +1406,10 @@
     <WebReferences Include="Web References" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:8080/anelumeca/services/UmecaWS?wsdl">
+    <WebReferenceUrl Include="http://localhost:8081/anelumeca/services/UmecaWS?wsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\localhostUmecaWs</RelPath>
-      <UpdateFromURL>http://localhost:8080/anelumeca/services/UmecaWS?wsdl</UpdateFromURL>
+      <RelPath>Web References\WebUmecaService</RelPath>
+      <UpdateFromURL>http://localhost:8081/anelumeca/services/UmecaWS?wsdl</UpdateFromURL>
     </WebReferenceUrl>
   </ItemGroup>
 </Project>

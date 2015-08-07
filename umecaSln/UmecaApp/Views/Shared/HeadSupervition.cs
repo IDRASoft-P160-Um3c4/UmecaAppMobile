@@ -318,16 +318,27 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
-WriteLiteral(" href=\"javascript;\"");
+WriteAttribute ("href", " href=\"", "\""
 
+#line 121 "HeadSupervition.cshtml"
+      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
+
+#line default
+#line hidden
+, false)
+);
 WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></l" +
-"i>\r\n    </ul>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r" +
-"\n\r\n");
+"i>\r\n            <li");
+
+WriteLiteral(" class=\"dropdown nav-li-blue\"");
+
+WriteLiteral(">\r\n    </ul>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r" +
+"\n");
 
 WriteLiteral("\t\t");
 
 
-#line 146 "HeadSupervition.cshtml"
+#line 147 "HeadSupervition.cshtml"
    Write(RenderBody());
 
 

@@ -52,7 +52,7 @@ namespace UmecaApp
 
 		[Export("userUpsert")]
 		public Java.Lang.String userUpsert(Java.Lang.String user,Java.Lang.String pass){
-			localhostUmecaWs.UmecaWS uwsl = new UmecaApp.localhostUmecaWs.UmecaWS ();
+			WebUmecaService.UmecaWS uwsl = new UmecaApp.WebUmecaService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			var usuario = user.ToString ();
 			try{
@@ -88,6 +88,7 @@ namespace UmecaApp
 				db.Rollback ();
 				Console.WriteLine ("exception in userUpsert()");
 				Console.WriteLine("Exception message :::>"+e.Message);
+				return new Java.Lang.String ("{\"error\":true, \"response\":\"Fallo en la conexion con el servicio revise su conexion e intente nuevamente\"}");
 			}finally{
 				db.Commit ();
 			}
@@ -118,7 +119,7 @@ namespace UmecaApp
 		public Java.Lang.String downloadVerificacion(Java.Lang.String pass){
 			String guid = "";
 			User revisor = new User();
-			localhostUmecaWs.UmecaWS uwsl = new UmecaApp.localhostUmecaWs.UmecaWS ();
+			WebUmecaService.UmecaWS uwsl = new UmecaApp.WebUmecaService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
@@ -732,7 +733,7 @@ namespace UmecaApp
 		public Java.Lang.String sincronizeCase(Java.Lang.String listCases, Java.Lang.String pass){
 			String guid = "";
 			User revisor = new User();
-			localhostUmecaWs.UmecaWS uwsl = new UmecaApp.localhostUmecaWs.UmecaWS ();
+			WebUmecaService.UmecaWS uwsl = new UmecaApp.WebUmecaService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
@@ -770,8 +771,14 @@ namespace UmecaApp
 					db.Commit ();
 				}
 				//obtencion de asignaciones
-				var listSynchro = JsonConvert.DeserializeObject<List<int>>(listCases.ToString());
+				var listSynchro = new List<int>();
 				try{
+					listSynchro = JsonConvert.DeserializeObject<List<int>>(listCases.ToString());
+				}catch(Exception e){
+					Console.WriteLine ("exception in downloadVerificacion() asigments");
+					Console.WriteLine("Exception message :::>"+e.Message);
+					return new Java.Lang.String ("{\"error\":true, \"response\":\"Conexion fallida intente nuevamente.\"}");
+				}
 					foreach(int i in listSynchro){
 						Case cs = db.Table<Case>().Where(caso=>caso.Id==i).FirstOrDefault();
 						if(cs!=null){
@@ -797,6 +804,129 @@ namespace UmecaApp
 								dtoStCase.name = stCase.Name;
 								caseSync.status = dtoStCase;
 							}
+
+						var verify = db.Table<Verification> ().Where (verf=>verf.CaseDetentionId == cs.Id).FirstOrDefault ();
+						if (verify != null) {
+							var verificacion = new TabletVerificationDto ();
+							verificacion.dateComplete = String.Format("{0:yyyy/MM/dd}", verify.DateComplete);
+							verificacion.dateCreate = String.Format("{0:yyyy/MM/dd}", verify.DateCreate);
+							verificacion.id = verify.Id;
+							var reviuer = new TabletUserDto();
+							var rlcode = db.Table<Role>().Where(rlc=>rlc.Id == revisor.roles).FirstOrDefault();
+							if(rlcode!=null){
+								reviuer.roleCode = rlcode.role;
+							}
+							reviuer.fullname = revisor.fullname;
+							reviuer.guid = guid;
+							reviuer.hPassword = ecodedPass;
+							reviuer.id = revisor.Id;
+							verificacion.reviewer = reviuer;
+
+							var stVerify = db.Table<StatusVerification>().Where(stVer=>stVer.Id == verify.StatusVerificationId).FirstOrDefault();
+							if(stVerify!=null){
+								var dtostVerify = new TabletStatusVerificationDto();
+								dtostVerify.id = stVerify.Id;
+								dtostVerify.description = stVerify.Description;
+								dtostVerify.name = stVerify.Name;
+								verificacion.status = dtostVerify;
+							}
+
+							var fuentes = db.Table<SourceVerification> ().Where (svr=>svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id).ToList ();
+							if (fuentes != null && fuentes.Count > 0) {
+								var dtoFuentes = new List<TabletSourceVerificationDto> ();
+								foreach (SourceVerification svt in fuentes) {
+									var dtoSource = new TabletSourceVerificationDto ();
+									dtoSource.address = svt.Address;
+									dtoSource.age = svt.Age;
+									dtoSource.dateAuthorized = String.Format("{0:yyyy/MM/dd}", svt.DateAuthorized);
+									dtoSource.dateComplete = String.Format("{0:yyyy/MM/dd}", svt.DateComplete);
+									dtoSource.fullName = svt.FullName;
+									dtoSource.id = svt.Id;
+									dtoSource.isAuthorized = svt.IsAuthorized;
+									dtoSource.phone = svt.Phone;
+									dtoSource.specification = svt.Specification;
+									dtoSource.visible = svt.Visible;
+									dtoSource.webId = svt.webId;
+
+									if(svt.RelationshipId !=null && svt.RelationshipId !=0){
+										var inm = db.Table<Relationship>().Where(tis=>tis.Id == svt.RelationshipId).FirstOrDefault();
+										if(inm!=null){
+											var nElect = new TabletRelationshipDto();
+											nElect.id= inm.Id;
+											nElect.name = inm.Name;
+											nElect.isObsolete= inm.IsObsolete;
+											nElect.specification = inm.Specification;
+											dtoSource.relationship = nElect;
+										}
+									}
+
+									if(svt.VerificationMethodId !=null && svt.VerificationMethodId !=0){
+										var inm = db.Table<VerificationMethod>().Where(tis=>tis.Id == svt.VerificationMethodId).FirstOrDefault();
+										if(inm!=null){
+											var nElect = new TabletVerificationMethodDto();
+											nElect.id= inm.Id;
+											nElect.name = inm.Name;
+											nElect.isObsolete= inm.IsObsolete;
+											dtoSource.verificationMethod = nElect;
+										}
+									}
+
+									var efemeses = db.Table<FieldMeetingSource> ().Where (efem=>efem.SourceVerificationId == svt.Id).ToList ();
+									if(efemeses!=null && efemeses.Count > 0){
+										var fields = new List<TabletFieldMeetingSourceDto> ();
+										foreach (FieldMeetingSource field in efemeses) {
+											var drofield = new TabletFieldMeetingSourceDto ();
+											if(field.FieldVerificationId!=null && field.FieldVerificationId!=0){
+												db.CreateTable<FieldVerification> ();
+												var fieldverification = db.Table<FieldVerification> ().Where (fv=>fv.Id == field.FieldVerificationId).FirstOrDefault ();
+												if(fieldverification!= null){
+													var nfv = new TabletFieldVerificationDto ();
+													nfv.code = fieldverification.Code;
+													nfv.fieldName = fieldverification.FieldName;
+													nfv.id = fieldverification.Id;
+													nfv.idSubsection = fieldverification.IdSubsection;
+													nfv.indexField = fieldverification.IndexField;
+													nfv.isObsolete = fieldverification.IsObsolete;
+													nfv.section = fieldverification.Section;
+													nfv.sectionCode = fieldverification.SectionCode;
+													nfv.type = fieldverification.Type;
+
+													drofield.fieldVerification = nfv;
+												}
+											}//end fieldverification not null
+											drofield.id = field.Id;
+											drofield.idFieldList = field.IdFieldList??0;
+											drofield.isFinal = field.IsFinal??false;
+											drofield.jsonValue = field.JsonValue;
+											drofield.reason = field.Reason;
+											drofield.value = field.Value;
+											if(field.StatusFieldVerificationId != null && field.StatusFieldVerificationId != 0){
+												var statusfield = db.Table<StatusFieldVerification> ().Where ( statfv => statfv.Id == field.StatusFieldVerificationId ).FirstOrDefault ();
+												if(statusfield!=null){
+													var stfvDto = new TabletStatusFieldVerificationDto ();
+													stfvDto.description = statusfield.Description;
+													stfvDto.id = statusfield.Id;
+													stfvDto.name = statusfield.Name;
+													drofield.statusFieldVerification = stfvDto;
+												}
+											}//and asignacion estatus field
+										
+											fields.Add (drofield);
+
+										}//end foreach}
+										dtoSource.fieldMeetingSourceList = fields;
+									}//end de lista de fms no vacia
+									dtoFuentes.Add(dtoSource);
+								}//end de foreach sourceverification
+								verificacion.sourceVerifications = dtoFuentes;
+							}//end validacion de lista de fuentes no vacia 
+
+							caseSync.verification = verificacion;
+
+						}// end of verification
+
+
+
 							//TODO: meeting dto axel
 							var me = db.Table<Meeting>().Where(dme=>dme.CaseDetentionId == cs.Id).FirstOrDefault();
 							if(me!=null){
@@ -921,22 +1051,23 @@ namespace UmecaApp
 										var nhome = new TabletImputedHomeDto();	
 										//address
 										if(imh.AddressId!=null && imh.AddressId!=0){
+											db.CreateTable<Address>();
 											var adres = db.Table<Address>().Where(adt=>adt.Id == imh.AddressId).FirstOrDefault();
 											var nad = new TabletAddressDto();
 											nad.addressString = imh.addressString;
 											if(String.IsNullOrEmpty(nad.addressString)){
 												nad.addressString = imh.addressString;
 											}
-											nad.id = adres.Id;
-											nad.innNum = adres.InnNum;
-											nad.lat = adres.Lat;
-											nad.lng = adres.Lng;
-											nad.outNum = adres.OutNum;
-											nad.street = adres.Street;
+											nad.id = imh.AddressId;
+											nad.innNum = imh.InnNum;
+											nad.lat = imh.Lat;
+											nad.lng = imh.Lng;
+											nad.outNum = imh.OutNum;
+											nad.street = imh.Street;
 											//location
 
-											if(adres.LocationId!=null && adres.LocationId != 0){
-												var tloc = db.Table<Location>().Where(tl=>tl.Id==adres.LocationId).FirstOrDefault();
+										if(imh.LocationId!=null && imh.LocationId != 0){
+											var tloc = db.Table<Location>().Where(tl=>tl.Id==imh.LocationId).FirstOrDefault();
 												if(tloc != null){
 													var locdto = new TabletLocationDto();
 													locdto.abbreviation = tloc.Abbreviation;
@@ -1232,7 +1363,7 @@ namespace UmecaApp
 											if(inm!=null){
 												var nElect = new TabletRelationshipDto();
 												nElect.id= inm.Id;
-												nElect.name = inm.Name;
+												nElect.name = inm.Name; 
 												nElect.isObsolete= inm.IsObsolete;
 												nElect.specification = inm.Specification;
 												dtoMeeting.leaveCountry.relationship = nElect;
@@ -1353,18 +1484,57 @@ namespace UmecaApp
 											var nPersn = new TabletPersonSocialNetworkDto();
 											nPersn.address = per.Address;
 											nPersn.age = per.Age;
-											/////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
-											/// /////////////////////////////////////////
+											nPersn.block = per.block;
+											nPersn.id = per.Id;
+											nPersn.isAccompaniment = per.isAccompaniment;
+											nPersn.name = per.Name;
+											nPersn.phone = per.Phone;
+											nPersn.specification = per.SpecificationDocumentType;
+											nPersn.specificationRelationship = per.specificationRelationship;
+											nPersn.webId = per.webId;
+
+											if(per.DocumentTypeId != null && per.DocumentTypeId != 0){
+												var docuTyp = db.Table<DocumentType>().Where(tis=>tis.Id == per.DocumentTypeId).FirstOrDefault();
+												if(docuTyp!=null){
+													nPersn.documentType = new TabletDocumentTypeDto();
+													nPersn.documentType.id = docuTyp.Id;
+													nPersn.documentType.name = docuTyp.Name;
+													nPersn.documentType.isObsolete = docuTyp.IsObsolete;
+													nPersn.documentType.specification = docuTyp.Specification;
+												}
+											}
+
+											if(per.DependentId !=null && per.DependentId !=0){
+												var fotherc = db.Table<Election>().Where(tis=>tis.Id == per.DependentId).FirstOrDefault();
+												if(fotherc!=null){
+													var nElect = new TabletElectionDto();
+													nElect.id= fotherc.Id;
+													nElect.name = fotherc.Name;
+													nPersn.dependent = nElect;
+												}
+											}
+
+											if(per.LivingWithIde !=null && per.LivingWithIde !=0){
+												var fotherc = db.Table<Election>().Where(tis=>tis.Id == per.LivingWithIde).FirstOrDefault();
+												if(fotherc!=null){
+													var nElect = new TabletElectionDto();
+													nElect.id= fotherc.Id;
+													nElect.name = fotherc.Name;
+													nPersn.livingWith = nElect;
+												}
+											}
+
+											if(per.RelationshipId !=null && per.RelationshipId !=0){
+												var inm = db.Table<Relationship>().Where(tis=>tis.Id == per.RelationshipId).FirstOrDefault();
+												if(inm!=null){
+													var nElect = new TabletRelationshipDto();
+													nElect.id= inm.Id;
+													nElect.name = inm.Name;
+													nElect.isObsolete= inm.IsObsolete;
+													nElect.specification = inm.Specification;
+													nPersn.relationship = nElect;
+												}
+											}
 											persons.Add(nPersn);
 										}//end de foreach
 										dtoMeeting.socialNetwork.peopleSocialNetwork = persons;
@@ -1373,10 +1543,10 @@ namespace UmecaApp
 								}// end of environment
 
 
-
-
 							}
 
+
+						db.CreateTable<HearingFormat> ();
 							var formats = db.Table<HearingFormat>().Where(hf=>hf.CaseDetention == cs.Id && hf.IsFinished == true).ToList();
 							if(formats!=null && formats.Count > 0){
 								var formatList = new List<TabletHearingFormatDto>();
@@ -1580,14 +1750,11 @@ namespace UmecaApp
 								}
 								caseSync.hearingFormats = formatList;
 							}
+						Console.WriteLine(JsonConvert.SerializeObject(caseSync));
 						}
 					}// end foreach listSynchro
+
 					return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
-				}catch(Exception e){
-					Console.WriteLine ("exception in downloadVerificacion() asigments");
-					Console.WriteLine("Exception message :::>"+e.Message);
-					return new Java.Lang.String ("{\"error\":true, \"response\":\"Conexion fallida intente nuevamente.\"}");
-				}
 			} else {
 				return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado\"}");
 			}
