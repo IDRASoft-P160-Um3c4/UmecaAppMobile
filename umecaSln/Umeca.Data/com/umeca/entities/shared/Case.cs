@@ -17,6 +17,9 @@ namespace UmecaApp
 		[Column("id_web")]
 		public long? webId{ get; set; }
 
+		[Column("tac")]
+		public long? tac{ get; set; }
+
 		[Column("id_folder"),MaxLength(35)]
 		public String IdFolder{ get; set; }
 

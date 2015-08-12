@@ -52,7 +52,7 @@ namespace UmecaApp
 
 		[Export("userUpsert")]
 		public Java.Lang.String userUpsert(Java.Lang.String user,Java.Lang.String pass){
-			WebUmecaService.UmecaWS uwsl = new UmecaApp.WebUmecaService.UmecaWS ();
+			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			var usuario = user.ToString ();
 			try{
@@ -119,7 +119,7 @@ namespace UmecaApp
 		public Java.Lang.String downloadVerificacion(Java.Lang.String pass){
 			String guid = "";
 			User revisor = new User();
-			WebUmecaService.UmecaWS uwsl = new UmecaApp.WebUmecaService.UmecaWS ();
+			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
@@ -191,6 +191,7 @@ namespace UmecaApp
 							Case cs = new Case();
 							Verification ve = new Verification();
 							cs = getData1.CaseToObject();
+							cs.tac = tbltAi.id;
 							//se salva al caso
 							var anterior = db.Table<Case>().Where(cas=>cas.webId == cs.webId).FirstOrDefault();
 							if(anterior!=null){
@@ -730,10 +731,10 @@ namespace UmecaApp
 		}
 
 		[Export("sincrinozeCase")]
-		public Java.Lang.String sincronizeCase(Java.Lang.String listCases, Java.Lang.String pass){
+		public Java.Lang.String sincronizeCase(Java.Lang.String listCases, Java.Lang.String pass, Java.Lang.String Method){
 			String guid = "";
 			User revisor = new User();
-			WebUmecaService.UmecaWS uwsl = new UmecaApp.WebUmecaService.UmecaWS ();
+			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
@@ -831,7 +832,7 @@ namespace UmecaApp
 								verificacion.status = dtostVerify;
 							}
 
-							var fuentes = db.Table<SourceVerification> ().Where (svr=>svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id).ToList ();
+							var fuentes = db.Table<SourceVerification> ().Where (svr=>svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id &&  && svr.DateComplete != null && svr.Visible == true).ToList ();
 							if (fuentes != null && fuentes.Count > 0) {
 								var dtoFuentes = new List<TabletSourceVerificationDto> ();
 								foreach (SourceVerification svt in fuentes) {
@@ -893,26 +894,27 @@ namespace UmecaApp
 
 													drofield.fieldVerification = nfv;
 												}
-											}//end fieldverification not null
-											drofield.id = field.Id;
-											drofield.idFieldList = field.IdFieldList??0;
-											drofield.isFinal = field.IsFinal??false;
-											drofield.jsonValue = field.JsonValue;
-											drofield.reason = field.Reason;
-											drofield.value = field.Value;
-											if(field.StatusFieldVerificationId != null && field.StatusFieldVerificationId != 0){
-												var statusfield = db.Table<StatusFieldVerification> ().Where ( statfv => statfv.Id == field.StatusFieldVerificationId ).FirstOrDefault ();
-												if(statusfield!=null){
-													var stfvDto = new TabletStatusFieldVerificationDto ();
-													stfvDto.description = statusfield.Description;
-													stfvDto.id = statusfield.Id;
-													stfvDto.name = statusfield.Name;
-													drofield.statusFieldVerification = stfvDto;
-												}
-											}//and asignacion estatus field
-										
-											fields.Add (drofield);
 
+												drofield.id = field.Id;
+												drofield.idFieldList = field.IdFieldList??0;
+												drofield.isFinal = field.IsFinal??false;
+												drofield.jsonValue = field.JsonValue;
+												drofield.reason = field.Reason;
+												drofield.value = field.Value;
+												if(field.StatusFieldVerificationId != null && field.StatusFieldVerificationId != 0){
+													var statusfield = db.Table<StatusFieldVerification> ().Where ( statfv => statfv.Id == field.StatusFieldVerificationId ).FirstOrDefault ();
+													if(statusfield!=null){
+														var stfvDto = new TabletStatusFieldVerificationDto ();
+														stfvDto.description = statusfield.Description;
+														stfvDto.id = statusfield.Id;
+														stfvDto.name = statusfield.Name;
+														drofield.statusFieldVerification = stfvDto;
+													}
+												}//and asignacion estatus field
+
+												fields.Add (drofield);
+
+											}//end fieldverification not null
 										}//end foreach}
 										dtoSource.fieldMeetingSourceList = fields;
 									}//end de lista de fms no vacia
@@ -1541,8 +1543,7 @@ namespace UmecaApp
 									}//end de rel activities
 
 								}// end of environment
-
-
+							caseSync.meeting = dtoMeeting;
 							}
 
 
@@ -1751,7 +1752,25 @@ namespace UmecaApp
 								caseSync.hearingFormats = formatList;
 							}
 						Console.WriteLine(JsonConvert.SerializeObject(caseSync));
+						//aqui el caso esta lleno y se puede sincronizar
+						try{
+							if(Method.ToString()=="verificacion"){
+								var strng = JsonConvert.SerializeObject(caseSync);
+								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??0,strng);
+								Console.WriteLine(sincronizacionMsg.message);
+							}
+							if(Method.ToString()=="meeting"){
+								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??0,true,JsonConvert.SerializeObject(caseSync));
+								Console.WriteLine(sincronizacionMsg.message);
+							}
+							return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
+						}catch(Exception e){
+							Console.WriteLine ("excepcion al sincronizar el objeto :>>>");
+							Console.WriteLine (e.Message);
+							return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
 						}
+
+						}//end de si el caso no es nulo
 					}// end foreach listSynchro
 
 					return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");

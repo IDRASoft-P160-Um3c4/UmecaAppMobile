@@ -257,7 +257,7 @@
     <Compile Include="Views\SyncCaseList.cs">
       <DependentUpon>SyncCaseList.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Web References\WebUmecaService\Reference.cs">
+    <Compile Include="Web References\UmecaWebService\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -370,8 +370,8 @@
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>SyncCaseList.cs</LastGenOutput>
     </None>
-    <None Include="Web References\WebUmecaService\UmecaWS.wsdl" />
-    <None Include="Web References\WebUmecaService\Reference.map">
+    <None Include="Web References\UmecaWebService\UmecaWS.wsdl" />
+    <None Include="Web References\UmecaWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -1408,7 +1408,7 @@
   <ItemGroup>
     <WebReferenceUrl Include="http://localhost:8081/anelumeca/services/UmecaWS?wsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WebUmecaService</RelPath>
+      <RelPath>Web References\UmecaWebService</RelPath>
       <UpdateFromURL>http://localhost:8081/anelumeca/services/UmecaWS?wsdl</UpdateFromURL>
     </WebReferenceUrl>
   </ItemGroup>

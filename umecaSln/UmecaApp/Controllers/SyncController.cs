@@ -75,9 +75,6 @@ namespace UmecaApp
 					result [c1].Action = "meeting";
 				}
 			}
-			foreach (MeetingTblDto mtd in result) {
-				mtd.Action = "Meeting";
-			}
 
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
@@ -101,8 +98,8 @@ namespace UmecaApp
 				if(result2!=null){
 					for(c2=0 ; c2<result2.Count;c2++){
 						var id = result2[c2].MeetingStatusId;
-						var expected = db.Table<SourceVerification> ().Where (sv => sv.VerificationId == id).ToList ();
-						var finished = db.Table<SourceVerification> ().Where (sv => sv.VerificationId == id && sv.DateComplete != null).ToList ();
+						var expected = db.Table<SourceVerification> ().Where (sv => sv.VerificationId == id && sv.Visible == true).ToList ();
+						var finished = db.Table<SourceVerification> ().Where (sv => sv.VerificationId == id && sv.DateComplete != null && sv.Visible == true).ToList ();
 						if (expected.Count == finished.Count) {
 							result2 [c2].Action = "verification";
 						} else {

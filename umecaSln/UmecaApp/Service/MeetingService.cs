@@ -1305,7 +1305,7 @@ namespace UmecaApp
 					r.Add(t.template.Replace(e,"El estado donde ha vivido"));
 				}
 			}
-			var social = db.Table<SocialEnvironment>().Where(s=>s.Id==Lc.MeetingId).FirstOrDefault();
+			var social = db.Table<SocialEnvironment>().Where(s=>s.MeetingId==Lc.MeetingId).FirstOrDefault();
 			if(social==null||social.comment==null||social.comment.Equals("")){
 				r.Add(t.template.Replace(e,"Los comentarios"));
 			}

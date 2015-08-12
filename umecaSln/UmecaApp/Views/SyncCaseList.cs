@@ -40,7 +40,383 @@ public override void Execute()
 
 #line default
 #line hidden
-WriteLiteral("\r\n    <script");
+WriteLiteral(@"
+
+
+
+ <script>
+var askSyncIncomplete  = {};
+askSyncIncomplete.idCase = 0;
+
+askSyncIncomplete.show = function (caso){
+	var dlgMsgBox = $('#askSyncIncompleteBoxDlgId');
+	askSyncIncomplete.idCase = caso;
+	dlgMsgBox.show();
+};
+
+
+askSyncIncomplete.hide = function (){
+	askSyncIncomplete.idCase = 0;
+	var dlgMsgBox = $('#askSyncIncompleteBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askSyncIncomplete.yes = function (){
+	var password = $(""#askSyncIncompletecontainerPassword"").val();
+	$(""#askSyncIncompletecontainerPassword"").val("""");
+	var result = Sync.sincrinozeCase(""[""+askSyncIncomplete.idCase+""]"", password,""verificacion"");
+	alert(result);
+askSyncIncomplete.idCase = 0;
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 " +
+"0 0 -30%;\"");
+
+WriteLiteral(" id=\"askSyncIncompleteBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askSyncIncompleteBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncIncomplete.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Confirmación para Sincronizar</h4>\r\n                </div>\r\n            </div>\r\n" +
+"            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">Por favor ingrese la contrasea:<br><input");
+
+WriteLiteral(" type=\"password\"");
+
+WriteLiteral(" name=\"usrPassword\"");
+
+WriteLiteral(" id=\"askSyncIncompletecontainerPassword\"");
+
+WriteLiteral("/>\r\n                <br><b> Una vez sincronizada se eliminaran del dispositivo la" +
+"s fuentes que no se terminaron y el caso que las contiene.</b></div>\r\n          " +
+"  </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncIncomplete.yes();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncIncomplete.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(@" />
+		    </div>
+		</div>
+    </div>
+
+
+
+     <script>
+var askSyncMeeting  = {};
+askSyncMeeting.idCase = 0;
+
+askSyncMeeting.show = function (caso){
+	var dlgMsgBox = $('#askSyncMeetingBoxDlgId');
+	askSyncMeeting.idCase = caso;
+	dlgMsgBox.show();
+};
+
+askSyncMeeting.hide = function (){
+	askSyncMeeting.idCase = 0;
+	var dlgMsgBox = $('#askSyncMeetingBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askSyncMeeting.yes = function (){
+	var password = $(""#askSyncMeetingcontainerPassword"").val();
+	$(""#askSyncMeetingcontainerPassword"").val("""");
+	var result = Sync.sincrinozeCase(""[""+askSyncMeeting.idCase+""]"", password,""meeting"");
+	alert(result);
+askSyncMeeting .idCase = 0;
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 " +
+"0 0 -30%;\"");
+
+WriteLiteral(" id=\"askSyncMeetingBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askSyncMeetingBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncMeeting.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Confirmación para Sincronizar</h4>\r\n                </div>\r\n            </div>\r\n" +
+"            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">Por favor ingrese la contrasea:<br><input");
+
+WriteLiteral(" type=\"password\"");
+
+WriteLiteral(" name=\"usrPassword\"");
+
+WriteLiteral(" id=\"askSyncMeetingcontainerPassword\"");
+
+WriteLiteral("/>\r\n                <br><b> Una vez termine se eliminaran el caso del dispositivo" +
+".</b></div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncMeeting.yes();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncMeeting.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(@" />
+		    </div>
+		</div>
+    </div>
+
+
+     <script>
+var askSyncVerification  = {};
+askSyncVerification.idCase = 0;
+
+askSyncVerification.show = function (caso){
+	var dlgMsgBox = $('#askSyncVerificationBoxDlgId');
+	askSyncVerification.idCase = caso;
+	dlgMsgBox.show();
+};
+
+askSyncVerification.hide = function (){
+	askSyncVerification.idCase = 0;
+	var dlgMsgBox = $('#askSyncVerificationBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askSyncVerification.yes = function (){
+	var password = $(""#askSyncVerificationcontainerPassword"").val();
+	$(""#askSyncVerificationcontainerPassword"").val("""");
+	var result = Sync.sincrinozeCase(""[""+askSyncVerification.idCase+""]"", password,""verificacion"");
+	alert(result);
+askSyncPAssword.idCase = 0;
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 " +
+"0 0 -30%;\"");
+
+WriteLiteral(" id=\"askSyncVerificationBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askSyncVerificationBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncVerification.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Confirmación para Sincronizar</h4>\r\n                </div>\r\n            </div>\r\n" +
+"            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">Por favor ingrese la contrasea:<br><input");
+
+WriteLiteral(" type=\"password\"");
+
+WriteLiteral(" name=\"usrPassword\"");
+
+WriteLiteral(" id=\"askSyncVerificationcontainerPassword\"");
+
+WriteLiteral("/>\r\n                <br><b> Una vez termine se eliminaran el caso del dispositivo" +
+".</b></div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncVerification.yes();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askSyncVerification.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -50,7 +426,7 @@ WriteLiteral(@">
     }
     function syncronizar(idMeet){
     var casos = ""[""+idMeet+""]"";
-    	var result = Sync.sincrinozeCase(casos, ""99630110"");
+    	var result = Sync.sincrinozeCase(""[""+casos+""]"", ""99630110"");
     }
     function cancelari(){
 		window.location.replace('hybrid:Login/Index');
@@ -75,7 +451,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 21 "SyncCaseList.cshtml"
+#line 185 "SyncCaseList.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
 
 #line default
@@ -125,13 +501,13 @@ WriteLiteral(">Carpeta de Investigaci&oacute;n</th>\r\n        <th>Nombre comple
 "n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody> \r\n");
 
 
-#line 44 "SyncCaseList.cshtml"
+#line 208 "SyncCaseList.cshtml"
     
 
 #line default
 #line hidden
 
-#line 44 "SyncCaseList.cshtml"
+#line 208 "SyncCaseList.cshtml"
      foreach(var Meeting in Model) {
 
 
@@ -154,7 +530,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 47 "SyncCaseList.cshtml"
+#line 211 "SyncCaseList.cshtml"
        Write(Meeting.CaseId);
 
 
@@ -165,7 +541,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 50 "SyncCaseList.cshtml"
+#line 214 "SyncCaseList.cshtml"
        Write(Meeting.IdFolder);
 
 
@@ -176,7 +552,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 53 "SyncCaseList.cshtml"
+#line 217 "SyncCaseList.cshtml"
         Write(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM);
 
 
@@ -187,7 +563,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("       \t\t");
 
 
-#line 56 "SyncCaseList.cshtml"
+#line 220 "SyncCaseList.cshtml"
        Write(Meeting.StatusCode);
 
 
@@ -198,46 +574,152 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 59 "SyncCaseList.cshtml"
+#line 223 "SyncCaseList.cshtml"
        Write(Meeting.Action);
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n         \t<a");
+WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
-WriteLiteral(" href=\"javascript:;\"");
 
-WriteLiteral(" style=\"display:inline-block;\"");
+#line 226 "SyncCaseList.cshtml"
+        
 
-WriteLiteral(" title=\"Sincronizar\"");
+#line default
+#line hidden
 
-WriteAttribute ("onclick", " onclick=\"", "\""
-, Tuple.Create<string,object,bool> ("", "syncronizar(", true)
+#line 226 "SyncCaseList.cshtml"
+         if(Meeting.Action=="verificationIncomplete") {
 
-#line 62 "SyncCaseList.cshtml"
-                                                                   , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncIncomplete.show(", true)
+
+#line 227 "SyncCaseList.cshtml"
+                , Tuple.Create<string,object,bool> ("", Meeting.CaseId
 
 #line default
 #line hidden
 , false)
 , Tuple.Create<string,object,bool> ("", ");", true)
 );
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
 WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-exchange\"");
 
-WriteLiteral("></i></a>\r\n        </td>\r\n    </tr>\r\n");
+WriteLiteral("></i></a>\r\n");
 
 
-#line 65 "SyncCaseList.cshtml"
+#line 228 "SyncCaseList.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        ");
+
+
+#line 229 "SyncCaseList.cshtml"
+         if(Meeting.Action=="verification") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncVerification.show(", true)
+
+#line 230 "SyncCaseList.cshtml"
+                  , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-exchange\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 231 "SyncCaseList.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        ");
+
+
+#line 232 "SyncCaseList.cshtml"
+         if(Meeting.Action=="meeting") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncMeeting.show(", true)
+
+#line 233 "SyncCaseList.cshtml"
+             , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-exchange\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 234 "SyncCaseList.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        </td>\r\n    </tr>\r\n");
+
+
+#line 237 "SyncCaseList.cshtml"
 }
 
 
 #line default
 #line hidden
 WriteLiteral("    </tbody>\r\n</table>\r\n\t<!--<span class=\"btn btn-default btn-sm\" onclick=\"cancel" +
-"ari();\">\r\n        Cancelar\r\n    </span>-->");
+"ari();\">\r\n        Cancelar\r\n    </span>-->\r\n\r\n\r\n\r\n");
 
 }
 }

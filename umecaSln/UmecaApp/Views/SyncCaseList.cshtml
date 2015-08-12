@@ -3,13 +3,177 @@
 @{
 	Layout = "UmecaApp.headUmGrid";
 }
+
+
+
+ <script>
+var askSyncIncomplete  = {};
+askSyncIncomplete.idCase = 0;
+
+askSyncIncomplete.show = function (caso){
+	var dlgMsgBox = $('#askSyncIncompleteBoxDlgId');
+	askSyncIncomplete.idCase = caso;
+	dlgMsgBox.show();
+};
+
+
+askSyncIncomplete.hide = function (){
+	askSyncIncomplete.idCase = 0;
+	var dlgMsgBox = $('#askSyncIncompleteBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askSyncIncomplete.yes = function (){
+	var password = $("#askSyncIncompletecontainerPassword").val();
+	$("#askSyncIncompletecontainerPassword").val("");
+	var result = Sync.sincrinozeCase("["+askSyncIncomplete.idCase+"]", password,"verificacion");
+	alert(result);
+askSyncIncomplete.idCase = 0;
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askSyncIncompleteBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="askSyncIncompleteBoxDlgXclose" type="button" class="close" onclick="javascript:askSyncIncomplete.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Confirmación para Sincronizar</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncIncompletecontainerPassword"/>
+                <br><b> Una vez sincronizada se eliminaran del dispositivo las fuentes que no se terminaron y el caso que las contiene.</b></div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncIncomplete.yes();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askSyncIncomplete.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
+
+
+     <script>
+var askSyncMeeting  = {};
+askSyncMeeting.idCase = 0;
+
+askSyncMeeting.show = function (caso){
+	var dlgMsgBox = $('#askSyncMeetingBoxDlgId');
+	askSyncMeeting.idCase = caso;
+	dlgMsgBox.show();
+};
+
+askSyncMeeting.hide = function (){
+	askSyncMeeting.idCase = 0;
+	var dlgMsgBox = $('#askSyncMeetingBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askSyncMeeting.yes = function (){
+	var password = $("#askSyncMeetingcontainerPassword").val();
+	$("#askSyncMeetingcontainerPassword").val("");
+	var result = Sync.sincrinozeCase("["+askSyncMeeting.idCase+"]", password,"meeting");
+	alert(result);
+askSyncMeeting .idCase = 0;
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askSyncMeetingBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="askSyncMeetingBoxDlgXclose" type="button" class="close" onclick="javascript:askSyncMeeting.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Confirmación para Sincronizar</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncMeetingcontainerPassword"/>
+                <br><b> Una vez termine se eliminaran el caso del dispositivo.</b></div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncMeeting.yes();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askSyncMeeting.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
+
+     <script>
+var askSyncVerification  = {};
+askSyncVerification.idCase = 0;
+
+askSyncVerification.show = function (caso){
+	var dlgMsgBox = $('#askSyncVerificationBoxDlgId');
+	askSyncVerification.idCase = caso;
+	dlgMsgBox.show();
+};
+
+askSyncVerification.hide = function (){
+	askSyncVerification.idCase = 0;
+	var dlgMsgBox = $('#askSyncVerificationBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askSyncVerification.yes = function (){
+	var password = $("#askSyncVerificationcontainerPassword").val();
+	$("#askSyncVerificationcontainerPassword").val("");
+	var result = Sync.sincrinozeCase("["+askSyncVerification.idCase+"]", password,"verificacion");
+	alert(result);
+askSyncPAssword.idCase = 0;
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askSyncVerificationBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="askSyncVerificationBoxDlgXclose" type="button" class="close" onclick="javascript:askSyncVerification.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Confirmación para Sincronizar</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncVerificationcontainerPassword"/>
+                <br><b> Una vez termine se eliminaran el caso del dispositivo.</b></div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncVerification.yes();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askSyncVerification.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script type="text/javascript">
     function legal(err){
     	alert("legal>>"+err);
     }
     function syncronizar(idMeet){
     var casos = "["+idMeet+"]";
-    	var result = Sync.sincrinozeCase(casos, "99630110");
+    	var result = Sync.sincrinozeCase("["+casos+"]", "99630110");
     }
     function cancelari(){
 		window.location.replace('hybrid:Login/Index');
@@ -59,7 +223,15 @@
         	@Meeting.Action
         </td>
         <td>
-         	<a href="javascript:;" style="display:inline-block;" title="Sincronizar" onclick="syncronizar(@Meeting.CaseId);"><i class="icon-exchange"></i></a>
+        @if(Meeting.Action=="verificationIncomplete") {
+         	<a href="javascript:askSyncIncomplete.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+        }
+        @if(Meeting.Action=="verification") {
+         	<a href="javascript:askSyncVerification.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+        }
+        @if(Meeting.Action=="meeting") {
+         	<a href="javascript:askSyncMeeting.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+        }
         </td>
     </tr>
 }
@@ -68,3 +240,6 @@
 	<!--<span class="btn btn-default btn-sm" onclick="cancelari();">
         Cancelar
     </span>-->
+
+
+
