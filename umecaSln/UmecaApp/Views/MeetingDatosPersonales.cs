@@ -2950,8 +2950,8 @@ WriteLiteral(" class=\"icon-ban-circle gray icon-only bigger-120\"");
 
 WriteLiteral(" ng-show=\"verification\"");
 
-WriteLiteral("\r\n\t\t\t\t\t\t\t\t               ng-click=\"doConfirmVerifNotKnow(\'socialEnvironment.aciti" +
-"vies\')\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t               ng-click=\"doConfirmVerifNotKnow(\'socialEnvironment.activ" +
+"ities\')\"");
 
 WriteLiteral("></i>\r\n\t\t\t\t\t\t\t\t            <i");
 

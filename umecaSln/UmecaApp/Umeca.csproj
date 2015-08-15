@@ -254,11 +254,14 @@
     <Compile Include="Models\Sincronizacion\ResponseMessage.cs" />
     <Compile Include="Models\Sincronizacion\TabletAssignmentInfo.cs" />
     <Compile Include="Controllers\SyncController.cs" />
-    <Compile Include="Views\SyncCaseList.cs">
-      <DependentUpon>SyncCaseList.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Web References\UmecaWebService\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SyncCaseListSup.cs">
+      <DependentUpon>SyncCaseListSup.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SyncCaseList.cs">
+      <DependentUpon>SyncCaseList.cshtml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +377,10 @@
     <None Include="Web References\UmecaWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Views\SyncCaseListSup.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>SyncCaseListSup.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

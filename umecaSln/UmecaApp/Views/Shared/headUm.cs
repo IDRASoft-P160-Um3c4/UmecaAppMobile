@@ -25,9 +25,138 @@ public partial class headUm : WebViewTemplate
 
 public override void Execute()
 {
-WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n\t<head>\r\n\t\t<title>Umeca</title>\r\n\t\t<script>\r\n\t\tfunction " +
-"DownloadVerification(){\r\n\t\tvar respuesta = Sync.downloadVerificacion(\"99630110\")" +
-";\r\n\t\talert(respuesta);\r\n\t\t}\r\n\t\t</script>\r\n\r\n\r\n    <link");
+WriteLiteral(@"<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umeca</title>
+		<script>
+		function DownloadVerification(){
+		var rep = Sync.downloadVerificacion(""99630110"");
+		}
+		</script>
+
+		 <script>
+var askPasswordKeySync  = {};
+
+askPasswordKeySync.show = function (caso){
+	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
+	dlgMsgBox.show();
+}; 
+
+
+askPasswordKeySync.hide = function (){
+	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askPasswordKeySync.yes = function (){
+	var password = $(""#askPasswordKeySynccontainerPassword"").val();
+	$(""#askPasswordKeySynccontainerPassword"").val("""");
+	var rep = Sync.downloadVerificacion(password);
+	var respuesta = $.parseJSON( rep );
+			if(respuesta.error=""true""){
+				alert(respuesta.response);
+			}else{
+				location.reload();
+			}
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 " +
+"0 0 -30%;\"");
+
+WriteLiteral(" id=\"askPasswordKeySyncBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askPasswordKeySyncBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askPasswordKeySync.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Confirmación para Descargar información</h4>\r\n                </div>\r\n          " +
+"  </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">Por favor ingrese la contrasea para continuar:<br><input");
+
+WriteLiteral(" type=\"password\"");
+
+WriteLiteral(" name=\"usrPassword\"");
+
+WriteLiteral(" id=\"askPasswordKeySynccontainerPassword\"");
+
+WriteLiteral("/>\r\n                <br /><b>Al continuar descargaran los casos asignados al usua" +
+"rio.</b></div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" onclick=\"javascript:askPasswordKeySync.yes();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askPasswordKeySync.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n    <link");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -263,7 +392,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 121 "headUm.cshtml"
+#line 174 "headUm.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -299,7 +428,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 130 "headUm.cshtml"
+#line 183 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -315,7 +444,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 132 "headUm.cshtml"
+#line 185 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
@@ -329,7 +458,7 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
-WriteLiteral(" href=\"javascript:DownloadVerification();\"");
+WriteLiteral(" href=\"javascript:askPasswordKeySync.show();\"");
 
 WriteLiteral("><i\r\n                    class=\"icon-cloud-download\"></i>&nbsp;&nbsp;Descargar In" +
 "formaci&oacute;n</a>\r\n            </li>\r\n            <li");
@@ -340,7 +469,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 138 "headUm.cshtml"
+#line 191 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
 
 #line default
@@ -455,7 +584,7 @@ WriteLiteral(">\r\n                          Continuar\r\n                    </
 WriteLiteral("\t\t");
 
 
-#line 242 "headUm.cshtml"
+#line 295 "headUm.cshtml"
    Write(RenderBody());
 
 

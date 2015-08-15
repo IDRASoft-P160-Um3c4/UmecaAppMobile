@@ -83,18 +83,20 @@ namespace UmecaApp
 						if(key == null)
 							Console.WriteLine("no se encontro el key ----- inx->"+inx+" ...model[inx]->"+model[inx]);
 						
-						var fmsToDelete = new FieldMeetingSource();
+						var fmsToDelete = new List<FieldMeetingSource>();
 						//busca con id list o campo solo
 						if (listId != 0) {
 							fmsToDelete = db.Table<FieldMeetingSource> ().Where (fms => fms.SourceVerificationId == fuente.Id
 								&& fms.FieldVerificationId == key.Id
-								&& fms.IdFieldList == listId).FirstOrDefault ();
+								&& fms.IdFieldList == listId).ToList ();
 						} else {
 							fmsToDelete = db.Table<FieldMeetingSource> ().Where (fms => fms.SourceVerificationId == fuente.Id
-								&& fms.FieldVerificationId == key.Id).FirstOrDefault ();
+								&& fms.FieldVerificationId == key.Id).ToList ();
 						}
-						if (fmsToDelete != null) {
-							db.Delete (fmsToDelete);
+						if (fmsToDelete != null && fmsToDelete.Count > 0) {
+							foreach(FieldMeetingSource fmtd in fmsToDelete){
+								db.Delete (fmtd);
+							}
 						}
 					}
 					//inserta los nuevos valores
@@ -129,7 +131,7 @@ namespace UmecaApp
 							insertions++;
 						}
 					}
-					if (insertions <= 0) {
+					if (insertions <= 0) { 
 						output = new Java.Lang.String("Ha ocurrido un error al crear la lista.");
 						db.Rollback ();
 						return output;
@@ -312,7 +314,14 @@ namespace UmecaApp
 				}
 				break;
 			case "BooleanG":
-				Boolean gender = value == "0";
+				Boolean gender = false;
+				if (value == "true") {
+					gender = true;
+				} else if (value == "false") {
+					gender = false;
+				} else {
+					gender = value == "0" ;
+				}
 				String genderString;
 				if (gender == Constants.GENDER_FEMALE)
 					genderString = "Femenino";
@@ -448,7 +457,7 @@ namespace UmecaApp
 				output = new Java.Lang.String("");
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine("catched exception in VerificationService method Example invoked javascript calling -> VerificationService.saveFieldVerification() Exception message :::>"+e.Message);
+				Console.WriteLine("catched exception in VerificationService method Example invoked javascript calling -> VerificationService.saveActivitiesVerification() Exception message :::>"+e.Message);
 				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
 			}
 			finally{
@@ -528,7 +537,7 @@ namespace UmecaApp
 				output = new Java.Lang.String("");
 			}catch(Exception e){
 				db.Rollback ();
-				Console.WriteLine("catched exception in VerificationService method Example invoked javascript calling -> VerificationService.saveFieldVerification() Exception message :::>"+e.Message);
+				Console.WriteLine("catched exception in VerificationService method Example invoked javascript calling -> VerificationService.saveScheduleVerification() Exception message :::>"+e.Message);
 				output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
 			}
 			finally{
@@ -810,7 +819,7 @@ namespace UmecaApp
 				}
 				var fuente = db.Table<SourceVerification> ().Where (sv => sv.Id == sourceId).FirstOrDefault ();
 
-				if(fuente.IdCase!=caseId){
+				if(fuente.CaseRequestId!=caseId){
 					output = new Java.Lang.String ("Esta fuente no pertenece al caso");
 					return output;
 				}
@@ -848,6 +857,8 @@ namespace UmecaApp
 				if(me==null){
 					me = new SourceVerification();
 					me = model;
+					me.CaseRequestId = me.IdCase;
+					me.Visible = true;
 					me.DateComplete=null;
 					me.StatusString = "Entrevista de verificaci&oacute;n incompleta";
 					db.Insert(me);

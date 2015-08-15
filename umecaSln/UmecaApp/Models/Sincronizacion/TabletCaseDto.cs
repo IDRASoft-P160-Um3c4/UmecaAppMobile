@@ -59,7 +59,7 @@ namespace UmecaApp
 		public TabletVerificationDto verification{ get; set; }
 		public List<TabletHearingFormatDto> hearingFormats{ get; set; }
 		public List<TabletLogCaseDto> logCase{ get; set; }
-
+		public String previousStateCode{ get; set; }
 	}
 }
 

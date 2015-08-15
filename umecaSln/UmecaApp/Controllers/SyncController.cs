@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 //listas
 using System.Collections.Generic;
 
+using Umeca.Data;
 
 
 //TODO DONE StatusMeeting, Imputed, Case
@@ -61,7 +62,7 @@ namespace UmecaApp
 
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
+				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
 				+" FROM meeting as me "
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
@@ -82,13 +83,11 @@ namespace UmecaApp
 			StatusCase scv1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
 
 			var result2 = db.Query<MeetingTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.description as 'StatusCode', csm.description as 'Description' "
+				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', "
+				+" csm.description as 'StatusCode', csm.description as 'Description'  , me.id_reviewer as 'ReviewerId' "
 				+" , me.id_verification as 'MeetingStatusId' "
 				+" FROM verification as me "
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN meeting as met ON met.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = met.id_meeting "
 				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				+" and me.id_reviewer = ? "
@@ -105,6 +104,18 @@ namespace UmecaApp
 						} else {
 							result2 [c2].Action = "verificationIncomplete";
 						}
+						var caseis = result2 [c2].CaseId;
+						var me = db.Table<Meeting> ().Where (met => met.CaseDetentionId == caseis).FirstOrDefault ();
+						if (me != null) {
+							var imp = db.Table<Imputed> ().Where (iputad=>iputad.MeetingId == me.Id).FirstOrDefault ();
+							if (imp != null) {
+								result2 [c2].Name = imp.Name;
+								result2 [c2].LastNameP = imp.LastNameP;
+								result2 [c2].LastNameM = imp.LastNameM;
+								result2 [c2].Gender = imp.Gender;
+							}
+						}
+
 					}
 				}
 			}catch(Exception e){
@@ -120,6 +131,58 @@ namespace UmecaApp
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
+
+
+		public void IndexSuperv()
+		{
+			init ();
+
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id!=null) {
+				revId = reviewer.Id;
+			}
+
+			//estatus para supervicion
+			db.CreateTable<HearingFormatImputed>();
+			db.CreateTable<HearingFormat>();
+			StatusCase statusCaseSupervition1 = services.statusCasefindByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+			StatusCase statusCaseSupervition2 = services.statusCasefindByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
+			StatusCase statusCaseSupervition3 = services.statusCasefindByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE);
+			StatusCase statusCaseSupervition4 = services.statusCasefindByCode(Constants.CASE_STATUS_CONDITIONAL_REPRIEVE);
+			StatusCase statusCaseSupervition5 = services.statusCasefindByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+			StatusCase statusCaseSupervition6 = services.statusCasefindByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
+			StatusCase statusCaseSupervition7 = services.statusCasefindByCode(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN);
+			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
+
+			var result = db.Query<MeetingTblDto> (
+				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
+				+" FROM meeting as me "
+				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
+				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+				+" Where cs.id_status in (?,?,?,?,?,?,?) "
+				+" and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
+				statusCaseSupervition3.Id, statusCaseSupervition4.Id,
+				statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id,revId);
+			Console.WriteLine ("result.count supervition index> {0}", result.Count);
+			var c1 = 0;
+			if(result!=null){
+				for(c1=0 ; c1<result.Count;c1++){
+					result [c1].Action = "hearing";
+				}
+			}
+
+			var temp = new SyncCaseListSup{Model = result};
+			var pagestring = "nada que ver";
+			pagestring = temp.GenerateString ();
+			webView.LoadHtmlString (pagestring);
+		}
+
+
 
 		public void  MeetingEditNew()
 		{

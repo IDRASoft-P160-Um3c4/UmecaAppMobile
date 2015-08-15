@@ -53,48 +53,15 @@ namespace UmecaApp
 
 		public void Index()
 		{
-			var espontaneaExample = new LogCase ();
-			espontaneaExample.activity="Actividad espont&aacute;nea";
-			espontaneaExample.activityString="Actividad espont&aacute;nea";
-			espontaneaExample.caseDetentionId=1;
-			espontaneaExample.date=DateTime.Now;
-			espontaneaExample.dateString=String.Format("{0:yyyy/MM/dd}", DateTime.Now);
-			espontaneaExample.id = 2;
-			espontaneaExample.resume = "Información proporcionada: Confirma la dirección del anexo.\n\tObservaciones del supervisor: Se deben cancelar las actividades de psicología esta semana por anexo del imputado.\n";
-			espontaneaExample.title = "Visita Domiciliar planeada a fuente José Contreras Linares  en la dirección: Av. Insurgentes 125 Col. Pedregal Lindavista, con el objetivo de verificar.";
-			espontaneaExample.userId=35;
-			espontaneaExample.userName = "Uriel Axel Sánchez Pérez";
-			var logAct2 = new LogCase ();
-			logAct2.activity="Actividad espont&aacute;nea";
-			logAct2.activityString="Actividad espont&aacute;nea";
-			logAct2.caseDetentionId=1;
-			logAct2.date=DateTime.Now;
-			logAct2.dateString=String.Format("{0:yyyy/MM/dd}", DateTime.Now);
-			logAct2.id = 3;
-			logAct2.resume = "Información proporcionada: Se confirma que hay al menos 1 persona viviendo en el domicilio.\n\tObservaciones del supervisor: La persona que atendio en el domicilio se nego salir y presentar identificación vigente\n";
-			logAct2.title = "Visita Domiciliar emergente a Imputado en la dirección: Av. Juan de Dios Bátiz esq. Av. Miguel Othón de Mendizába, Gustavo A. Madero, Lindavista, 07738 Ciudad de Mexico, D.F., con el objetivo de realizar una visita sorpresa en casa del imputado.";
-			logAct2.userId=35;
-			logAct2.userName = "Uriel Axel Sánchez Pérez";
-			var logAct3 = new LogCase ();
-			logAct3.activity="Actividad espont&aacute;nea";
-			logAct3.activityString="Actividad espont&aacute;nea";
-			logAct3.caseDetentionId=1;
-			logAct3.date=DateTime.Now;
-			logAct3.dateString=String.Format("{0:yyyy/MM/dd}", DateTime.Now);
-			logAct3.id = 4;
-			logAct3.resume = "Información proporcionada: La victima sigue en tratamiento con anti-depresivos.\n\tObservaciones del supervisor: La victima se nota bien de salud y sin problemas para respirar.\n";
-			logAct3.title = "Visita Domiciliar emergente a Víctima o testigo, Relacion Ninguno, Hernandez Mendez Fernando en la dirección: Secc. 35 #80 Lt. 34 Col. Rio de Luz, Ecatepec de Morelos, con el objetivo de revisar el estado animico de la victima.";
-			logAct3.userId=35;
-			logAct3.userName = "Uriel Axel Sánchez Pérez";
-			var listoski = new List<LogCase>();
-			listoski.Add(espontaneaExample);
-			listoski.Add(logAct2);
-			listoski.Add(logAct3);
-			String nosense = JsonConvert.SerializeObject (listoski);
-			Console.WriteLine("json de LogCase"+nosense);
+			
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id!=null) {
+				revId = reviewer.Id;
+			}
 
-
-			services.createMeetingTest();
 			db.CreateTable<HearingFormatImputed>();
 			db.CreateTable<HearingFormat>();
 			StatusCase statusCaseSupervition1 = services.statusCasefindByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW);
@@ -113,9 +80,10 @@ namespace UmecaApp
 				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				+" left JOIN cat_status_case as scs ON scs.id_status = cs.id_status "
 //				+" WHERE me.id_status in (?,?,?,?,?,?,?) "
-				+" Where cs.id_status in (?,?,?,?,?,?,?); ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
+				+" Where cs.id_status in (?,?,?,?,?,?,?) "
+				+" and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
 				statusCaseSupervition3.Id, statusCaseSupervition4.Id,
-				statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id);
+				statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id,revId);
 			Console.WriteLine ("result.count supervition index> {0}", result.Count);
 			var temp = new CaseHearingList{Model = result};
 			var pagestring = "nada que ver";
@@ -189,6 +157,15 @@ namespace UmecaApp
 		public int? createCaseConditionalReprieve(NewMeetingDto imputed) {
 			int? result = null;
 			try {
+
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null ) {
+					revId = reviewer.Id;
+				}
+
 				Case caseDetention = new Case();
 				Imputed newImputed = new Imputed();
 				newImputed.Name=imputed.Name.Trim();
@@ -225,16 +202,14 @@ namespace UmecaApp
 				StatusMeeting statusMeeting = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 				meeting.StatusMeetingId=statusMeeting.Id;
 				meeting.StatusMeeting=statusMeeting;
-				//				meeting.ReviewerId=LoggedUserId(); TODO agrega al usuario asociado al dispositivo
+				meeting.ReviewerId=revId;
 				meeting.DateCreate=DateTime.Today;
-				//				meeting = meetingRepository.save(meeting);
 				db.InsertWithChildren (meeting);
 				newImputed.MeetingId=meeting.Id;
 				newImputed.Meeting = meeting;
 				db.InsertWithChildren (newImputed);
 				db.UpdateWithChildren (meeting);
 				db.UpdateWithChildren (caseDetention);
-				//				imputedRepository.save(imputed);
 				result = caseDetention.Id;
 			} catch (Exception e) {
 				Console.WriteLine("e.Message>"+e.Message+"<< createMeeting");
@@ -597,13 +572,23 @@ namespace UmecaApp
 
 		public void Visita()
 		{
+
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id!=null) {
+				revId = reviewer.Id;
+			}
+
 			var result = db.Query<CaseHearingFormatTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', scs.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				+" left JOIN cat_status_case as scs ON scs.id_status = cs.id_status ");
+				             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+				             + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', scs.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+				             + " FROM meeting as me "
+				             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+				             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+				             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status ");
+//				" where me.id_reviewer = ? ", revId);	
 			Console.WriteLine ("result.count supervition index> {0}", result.Count);
 			var temp = new CaseLogList{Model = result};
 			var pagestring = "nada que ver";

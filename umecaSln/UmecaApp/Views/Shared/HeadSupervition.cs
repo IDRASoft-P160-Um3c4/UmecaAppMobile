@@ -321,7 +321,7 @@ WriteLiteral("><a");
 WriteAttribute ("href", " href=\"", "\""
 
 #line 121 "HeadSupervition.cshtml"
-      , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
+      , Tuple.Create<string,object,bool> ("", Url.Action("IndexSuperv","Sync")
 
 #line default
 #line hidden

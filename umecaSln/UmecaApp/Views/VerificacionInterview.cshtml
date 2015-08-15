@@ -7,6 +7,13 @@ Layout = "UmecaApp.headUm";
 <input id="hdnVerificationSourceId" type="hidden" value="@Model.SourceId" name="jsonString" />
 
 <script>
+function genderBend(bol){
+	 $("#divElementVerif #verHdnGennder").val(bol);
+}
+</script>
+
+
+<script>
 var SingleVerify  = {};
 SingleVerify.code = "";
 SingleVerify.case = 0;
@@ -51,6 +58,7 @@ SingleVerify.show = function (element){
 	$("#divElementVerif input").prop("disabled",false).attr('readonly', false).val("");
 	$("#divElementVerif textarea").prop("disabled",false).attr('readonly', false).val("");
 	$("#divElementVerif select").prop("disabled",false).attr('readonly', false).val("");
+	$('#divElementVerif :radio').attr('checked', false);  
 
 	var InformacionAnterior = VerificationService.searchFieldVerification(element.getAttribute("code"), SingleVerify.case, SingleVerify.source, SingleVerify.listid);
 	console.log("InformacionAnterior-->"+InformacionAnterior);
@@ -2503,9 +2511,10 @@ console.log("here5");
                                                         <div class="col-xs-6">
                                                             <div class="radio">
                                                                 <label>
+                                                                	<input type="text" name="imputed.genero"  id="verHdnGennder" style="display:none" />
                                                                     <input class="ace" type="radio" ng-checked="m.Gender==true" name="imputed.gender"
-                                                                    data-val-required="El g?nero es un campo requerido" id="genero" value="true"
-                                                                    ng-model="m.Gender">
+                                                                    data-val-required="El g?nero es un campo requerido" id="genero" value="true" ng-value="true	"
+                                                                    ng-model="m.Gender" onmouseup="genderBend(true);" onselect="genderBend(true);">
                                                                     <span class="lbl">Femenino</span>
                                                                 </label>
                                                             </div>
@@ -2513,8 +2522,8 @@ console.log("here5");
                                                         <div class="col-xs-6">
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input class="ace" type="radio" value="false" ng-model="m.Gender" ng-checked="m.Gender==false"
-                                                                    name="imputed.gender">
+                                                                    <input class="ace" type="radio" value="false" ng-model="m.Gender" ng-value="false" ng-checked="m.Gender==false"
+                                                                    name="imputed.gender" onmouseup="genderBend(false);" onselect="genderBend(false);">
                                                                     <span class="lbl">Masculino</span>
                                                                 </label>
                                                             </div>
@@ -2614,7 +2623,7 @@ console.log("here5");
                                                     onclick="askEqualsImp.show('imputed.maritalStatus.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="4" ng-show="verification"
                                                     code="imputed.maritalStatus.id"  onclick="MaritalStatusVerify.show(this);" ></i>
-                                                    <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
+                                                    <i class="icon-ban-circle inverse icon-only bigger-1 220"  ng-show="verification"
                                                     onclick="askDontKnow.show('imputed.maritalStatus.id')"></i>
                                                     <i class="purple icon-list icon-only bigger-220"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
                                                 </div>
@@ -2904,7 +2913,7 @@ console.log("here5");
 								            <i class="icon-remove-circle red  icon-only bigger-220" onclick="ImputedActivitiesVerify.show();" ng-show="verification"
 								               code="socialEnvironment.activities"></i>
 								            <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"
-								               onclick="askDontKnow.show('socialEnvironment.acitivies')"></i>
+								               onclick="askDontKnow.show('socialEnvironment.activities')"></i>
 								            <i class="purple icon-list icon-only bigger-220"   ng-show="selectSource" ng-click="showChoices('socialEnvironment.activities')"></i>
 								            &iquest;Qu&eacute; actividades realiza?:  <br/>
 								            <label class="info-example">(deportivas, educativas, voluntariado, etc.)</label>
@@ -3423,7 +3432,7 @@ e="hide";
             </div>
             <div class="col-xs-8">
                 <input type="hidden" ng-model="p.relId" ng-update-hidden name="socialNetwork.relationship.id">
-                <select class="form-control element-center" value="@Jpsn.RelationshipId" onchange="enableBySelectOptionUniqueSnglVrf(this,19,'parenting');" >
+                <select class="form-control element-center" name="socialNetwork.relationship.id" value="@Jpsn.RelationshipId" onchange="enableBySelectOptionUniqueSnglVrf(this,19,'parenting');" >
                     
                         @foreach(var rela in Model.ListaDeRelaciones){
 	                        if(@Jpsn.RelationshipId==@rela.Id){
@@ -3833,7 +3842,11 @@ e="hide";
 
             <div id="jobHistory" class="tab-pane"><!-- Begin of Historial laboral -->
 <div class="row element-center">
-        <h2><i class="red icon-list bigger-100"></i> &nbsp;Referencias personales</h2>
+ <div class="col-xs-10">
+                                       <br/>
+                                        <label class="info-example">&Uacute;ltimos 3-5 empleos</label>
+                                    </div>
+        <h2><i class="pink icon-briefcase  bigger-100"></i>Historia laboral</h2>
         <br/>
         <div class="row">
 		    <div class="col-xs-10 col-xs-offset-1 element-left">
@@ -5071,6 +5084,10 @@ function validateVerif(formSerialize) {
         e.name = psEqual[0];
         if (psEqual[0] == "imputedHomes.timeLive1"||psEqual[0] == "imputedHome.timeLive") {
             e.name = "imputedHomes.timeLive";
+        }
+
+        if (psEqual[0] == "imputed.gender"||psEqual[0] == "imputed.genero") {
+            e.name = "imputed.gender";
         }
 
 

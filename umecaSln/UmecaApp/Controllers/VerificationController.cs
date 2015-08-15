@@ -56,7 +56,7 @@ namespace UmecaApp
 
 		public void Index()
 		{	
-			services.createVerificationTest();
+//			services.createVerificationTest();
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
@@ -71,18 +71,31 @@ namespace UmecaApp
 			}
 
 			var result = db.Query<MeetingTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.description as 'StatusCode', csm.description as 'Description'"
+				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',"
+				+" csm.description as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
 				+" FROM verification as me "
 				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN meeting as met ON met.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = met.id_meeting "
 				+" left JOIN cat_status_verification as csm ON csm.id_status = me.id_status "
 				+" WHERE me.id_status in (?,?) "
 				+" and me.id_reviewer = ? "
 				+" AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId , sc.Id,sc1.Id );
 
 			Console.WriteLine ("result.count> {0}", result.Count);
+			var counter = 0;
+			for (counter = 0; counter < result.Count; counter++) {
+				var caseis = result [counter].CaseId;
+				var me = db.Table<Meeting> ().Where (met => met.CaseDetentionId == caseis).FirstOrDefault ();
+				if (me != null) {
+					var imp = db.Table<Imputed> ().Where (iputad=>iputad.MeetingId == me.Id).FirstOrDefault ();
+					if (imp != null) {
+						result [counter].Name = imp.Name;
+						result [counter].LastNameP = imp.LastNameP;
+						result [counter].LastNameM = imp.LastNameM;
+						result [counter].Gender = imp.Gender;
+					}
+				}
+			}
+
 			var temp = new VerificationList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
@@ -91,13 +104,23 @@ namespace UmecaApp
 
 		public void IndexFuentes(int idCase)
 		{
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id!=null) {
+				revId = reviewer.Id;
+			}
+
 			var caso = db.Table<Case> ().Where(cs => cs .Id == idCase).FirstOrDefault ();
 			var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
 			var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
-			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase).FirstOrDefault ();
+			var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase && ver.ReviewerId == revId).FirstOrDefault ();
 			var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true 
 //				&& sv.IsAuthorized == true 
 				&& sv.CaseRequestId == idCase && sv.DateComplete == null)).ToList ();
+
+			var alls = db.Table<SourceVerification> ().ToList ();
 			var entrevistador = db.Table<User> ().Where (u => u.Id.Equals(meeting.ReviewerId)).FirstOrDefault ();
 			var result = new SourcesTblDto ();
 			result.Age=services.calculateAge(imputado.BirthDate);
@@ -418,12 +441,20 @@ namespace UmecaApp
 		public void  AddVerificationSource(int idCase)
 		{
 			try{
+
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null && reviewer.Id!=null) {
+					revId = reviewer.Id;
+				}
+
 				var casoId = int.Parse (idCase.ToString ());
 				var caso = db.Table<Case>().Where(cs=>cs.Id==casoId).FirstOrDefault();
 //				var usuario = db.Table<User>().FirstOrDefault();
 				var verificacion = db.Table<Verification>().Where(s=>s.CaseDetentionId == casoId
-//					&& s.ReviewerId==usuario.Id
-				).FirstOrDefault();
+					&& s.ReviewerId==revId).FirstOrDefault();
 				var dto = new ModelContainer ();
 				dto.Reference = idCase.ToString ();
 				SourceVerification mdl = new SourceVerification ();

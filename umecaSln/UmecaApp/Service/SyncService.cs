@@ -88,7 +88,7 @@ namespace UmecaApp
 				db.Rollback ();
 				Console.WriteLine ("exception in userUpsert()");
 				Console.WriteLine("Exception message :::>"+e.Message);
-				return new Java.Lang.String ("{\"error\":true, \"response\":\"Fallo en la conexion con el servicio revise su conexion e intente nuevamente\"}");
+//				return new Java.Lang.String ("{\"error\":true, \"response\":\"Fallo en la conexion con el servicio revise su conexion e intente nuevamente\"}");
 			}finally{
 				db.Commit ();
 			}
@@ -191,6 +191,10 @@ namespace UmecaApp
 							Case cs = new Case();
 							Verification ve = new Verification();
 							cs = getData1.CaseToObject();
+							StatusCase stcase = db.Table<StatusCase>().Where(stc=>stc.Name == getData1.previousStateCode).FirstOrDefault();
+							if(stcase!=null && stcase.Id!=0){
+								cs.StatusCaseId = stcase.Id;
+							}
 							cs.tac = tbltAi.id;
 							//se salva al caso
 							var anterior = db.Table<Case>().Where(cas=>cas.webId == cs.webId).FirstOrDefault();
@@ -363,7 +367,7 @@ namespace UmecaApp
 							if(getData1.meeting!=null){
 								TabletMeetingDto tme = getData1.meeting;
 								me = tme.MeetingToObject();
-								if(me.ReviewerId==null||me.ReviewerId==0){
+								if(tme.reviewer!=null&&tme.reviewer.id!=0){
 									me.ReviewerId = revisor.Id;
 								}
 								me.CaseDetentionId = cs.Id;
@@ -405,6 +409,18 @@ namespace UmecaApp
 										ImputedHome ih = new ImputedHome();
 										if(thome.address!=null){
 											ih.AddressId = thome.address.id;
+
+											String result = "";
+											if (!String.IsNullOrEmpty(thome.address.street)) {
+												result = "Calle: " + thome.address.street + " No Ext: " + thome.address.outNum;
+											}
+											if (!String.IsNullOrEmpty(thome.address.innNum)) {
+												result = result + " No Int:" + thome.address.innNum;
+											}
+											if (thome.address.location != null && thome.address.location.municipality!=null && thome.address.location.municipality.state!=null) {
+												result = result + "," + thome.address.location.name + ". CP: " + thome.address.location.zipCode + ". " + thome.address.location.municipality.name + ", " + thome.address.location.municipality.state.name + ".";
+											}
+											ih.addressString = result;
 										}
 										ih.Description = thome.description;
 										if(thome.homeType!=null){
@@ -806,7 +822,7 @@ namespace UmecaApp
 								caseSync.status = dtoStCase;
 							}
 
-						var verify = db.Table<Verification> ().Where (verf=>verf.CaseDetentionId == cs.Id).FirstOrDefault ();
+						var verify = db.Table<Verification> ().Where (verf=>verf.CaseDetentionId == cs.Id && verf.ReviewerId==revisor.Id).FirstOrDefault ();
 						if (verify != null) {
 							var verificacion = new TabletVerificationDto ();
 							verificacion.dateComplete = String.Format("{0:yyyy/MM/dd}", verify.DateComplete);
@@ -832,7 +848,7 @@ namespace UmecaApp
 								verificacion.status = dtostVerify;
 							}
 
-							var fuentes = db.Table<SourceVerification> ().Where (svr=>svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id &&  && svr.DateComplete != null && svr.Visible == true).ToList ();
+							var fuentes = db.Table<SourceVerification> ().Where (svr=>svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id && svr.DateComplete != null && svr.Visible == true).ToList ();
 							if (fuentes != null && fuentes.Count > 0) {
 								var dtoFuentes = new List<TabletSourceVerificationDto> ();
 								foreach (SourceVerification svt in fuentes) {
@@ -929,7 +945,6 @@ namespace UmecaApp
 
 
 
-							//TODO: meeting dto axel
 							var me = db.Table<Meeting>().Where(dme=>dme.CaseDetentionId == cs.Id).FirstOrDefault();
 							if(me!=null){
 								var dtoMeeting = new TabletMeetingDto();
@@ -1750,25 +1765,48 @@ namespace UmecaApp
 
 								}
 								caseSync.hearingFormats = formatList;
+							}//end of hearing formats not null
+
+						db.CreateTable<LogCase> ();
+						var espontaneas = db.Table<LogCase> ().Where (espo=>espo.caseDetentionId == cs.Id ).ToList ();
+						if (espontaneas != null && espontaneas.Count > 0) {
+							var actEspontaneas = new List<TabletLogCaseDto> ();
+							foreach (LogCase lc in espontaneas) {
+								var caseLog = new TabletLogCaseDto ();
+								caseLog.activity = lc.activity;
+								caseLog.activityString = lc.activityString;
+								caseLog.caseDetentionId = lc.caseDetentionId;
+								caseLog.date = lc.date;
+								caseLog.dateString = lc.dateString;
+								caseLog.id = lc.id;
+								caseLog.resume = lc.resume;
+								caseLog.title = lc.title;
+								caseLog.userId = lc.userId;
+								caseLog.userName = lc.userName;
+								actEspontaneas.Add (caseLog);
 							}
+							caseSync.logCase = actEspontaneas;
+						}
+
+						var strngEncode = JsonConvert.SerializeObject(caseSync);
 						Console.WriteLine(JsonConvert.SerializeObject(caseSync));
 						//aqui el caso esta lleno y se puede sincronizar
-						try{
-							if(Method.ToString()=="verificacion"){
-								var strng = JsonConvert.SerializeObject(caseSync);
-								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??0,strng);
-								Console.WriteLine(sincronizacionMsg.message);
-							}
-							if(Method.ToString()=="meeting"){
-								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??0,true,JsonConvert.SerializeObject(caseSync));
-								Console.WriteLine(sincronizacionMsg.message);
-							}
-							return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
-						}catch(Exception e){
-							Console.WriteLine ("excepcion al sincronizar el objeto :>>>");
-							Console.WriteLine (e.Message);
-							return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
-						}
+//						try{
+//							if(Method.ToString()=="verificacion"){
+//								var strng = JsonConvert.SerializeObject(caseSync);
+//								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??0,strng);
+//								Console.WriteLine(sincronizacionMsg.message);
+//							}
+//							if(Method.ToString()=="meeting"){
+//								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??0,JsonConvert.SerializeObject(caseSync));
+//								Console.WriteLine(sincronizacionMsg.message);
+//							}
+//							return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
+//						}catch(Exception e){
+//							Console.WriteLine ("excepcion al sincronizar el objeto :>>>");
+//							Console.WriteLine (e.Message);
+//							return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
+//						}
 
 						}//end de si el caso no es nulo
 					}// end foreach listSynchro

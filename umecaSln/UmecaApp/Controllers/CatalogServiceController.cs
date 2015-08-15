@@ -28,6 +28,50 @@ namespace UmecaApp
 			);
 		}
 
+		public void tablesInit(){
+			db.BeginTransaction ();
+			db.CreateTable<Case> ();
+			db.CreateTable<Meeting> ();
+			db.CreateTable<Imputed> ();
+			db.CreateTable<User> ();
+			db.CreateTable<Verification> ();
+			db.CreateTable<StatusVerification> ();
+			db.CreateTable<SourceVerification> ();
+			db.CreateTable<SocialEnvironment> ();
+			db.CreateTable<RelActivity> ();
+			db.CreateTable<HearingFormatImputed> ();
+			db.CreateTable<HearingFormat> ();
+			db.CreateTable<Arrangement> ();
+			db.CreateTable<AssignedArrangement> ();
+			db.CreateTable<ContactData> ();
+			db.CreateTable<Crime> ();
+			db.CreateTable<CrimeCatalog> ();
+			db.CreateTable<HearingFormatSpecs> ();
+			db.CreateTable<HearingType> ();
+			db.CreateTable<LogCase> ();
+			db.CreateTable<FieldVerification> ();
+			db.CreateTable<Address> ();
+			db.CreateTable<FieldMeetingSource> ();
+			db.CreateTable<SocialNetwork> ();
+			db.CreateTable<PersonSocialNetwork> ();
+			db.CreateTable<Reference> ();
+			db.CreateTable<School> ();
+			db.CreateTable<Drug> ();
+			db.CreateTable<Schedule> ();
+			db.CreateTable<LeaveCountry> ();
+			db.CreateTable<ImputedHome> ();
+			db.CreateTable<Job> ();
+			db.CreateTable<Role> ();
+			db.CreateTable<AcademicLevel> ();
+			db.CreateTable<Degree> ();
+			db.CreateTable<ActivityCatalog> ();
+			db.CreateTable<DocumentType> ();
+			db.CreateTable<Election> ();
+			db.CreateTable<StatusCase> ();
+			db.CreateTable<StatusMeeting> ();
+			db.Commit ();
+		}
+
 		public bool TableExists<T> ()
 		{    
 			const string cmdText = "SELECT name FROM sqlite_master WHERE type='table' AND name=?";
@@ -139,7 +183,7 @@ namespace UmecaApp
 				meeting.StatusMeeting = statusMeeting;
 				meeting.DateCreate = DateTime.Today;
 				meeting.DateTerminate = DateTime.Now.AddDays(2);
-				meeting.ReviewerId = int.Parse(reviewer.Id.ToString());
+				meeting.ReviewerId = int.Parse("1");
 				db.InsertWithChildren (meeting);
 				newImputed.MeetingId = meeting.Id;
 				newImputed.Meeting = meeting;
