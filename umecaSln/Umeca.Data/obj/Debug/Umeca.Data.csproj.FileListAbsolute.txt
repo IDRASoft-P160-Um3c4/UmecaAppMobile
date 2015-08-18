@@ -8,7 +8,6 @@ C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Dat
 C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\SQLite.Net.Platform.XamarinAndroid.dll
 C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\SQLiteNetExtensions.dll
 C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.csprojResolveAssemblyReference.cache
 C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.dll
 C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.pdb
 C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\android\bin\Umeca.Data.apk

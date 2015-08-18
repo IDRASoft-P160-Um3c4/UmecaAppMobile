@@ -135,9 +135,6 @@
     </Compile>
     <Compile Include="Models\reviewer\SourcesTblDto.cs" />
     <Compile Include="Models\reviewer\VerificationMeetingSourceDto.cs" />
-    <Compile Include="Views\HearingFormatNew.cs">
-      <DependentUpon>HearingFormatNew.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\SupervisionController.cs" />
     <Compile Include="Service\SupervisionService.cs" />
     <Compile Include="Models\Verification\CatalogDto.cs" />
@@ -327,10 +324,6 @@
     <None Include="Views\HearingFormatList.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>HearingFormatList.cs</LastGenOutput>
-    </None>
-    <None Include="Views\HearingFormatNew.cshtml">
-      <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>HearingFormatNew.cs</LastGenOutput>
     </None>
     <None Include="Views\VerificacionInterview.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>

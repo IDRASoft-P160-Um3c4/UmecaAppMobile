@@ -587,8 +587,8 @@ namespace UmecaApp
 				             + " FROM meeting as me "
 				             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
 				             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status ");
-//				" where me.id_reviewer = ? ", revId);	
+				             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status " +
+				" where me.id_reviewer = ? ", revId);	
 			Console.WriteLine ("result.count supervition index> {0}", result.Count);
 			var temp = new CaseLogList{Model = result};
 			var pagestring = "nada que ver";
@@ -652,41 +652,6 @@ namespace UmecaApp
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
-
-
-
-
-//		public void AddCaseConditionalReprieve([Bind]NewMeetingDto model) {
-//			Console.WriteLine ("AddCaseConditionalReprieve");
-//			String validateCreateMsg = validateCaseConditionalReprieve(model);
-//			if (validateCreateMsg != null) {
-//				model.ResponseMessage = validateCreateMsg;
-//				var temp = new NewConditionalReprieve{ Model = model };
-//				var pagestring = "nada que ver";
-//				pagestring = temp.GenerateString ();
-//				webView.LoadHtmlString (pagestring);
-//			} else {
-//				int? idCase = createCaseConditionalReprieve(model);
-//				int az = idCase.GetValueOrDefault ();
-//				Index();
-//			}
-//		}
-
-//		@RequestMapping(value = "/shared/logCase/doNewLogSpontaneous", method = RequestMethod.POST)
-//		public
-//		@ResponseBody
-//		ResponseMessage doNewLogSpontaneous(@ModelAttribute LogCase logCase, @RequestParam Long id) {
-//			try{
-//				logCaseService.addLog(ConstantsLogCase.SPONTANEOUS_ACTIVITY,id,logCase);
-//				String message= logCaseService.getLogCase(id);
-//				return new ResponseMessage(false,message);
-//			}catch (Exception e){
-//				logException.Write(e, this.getClass(), "addLog", sharedUserService);
-//				return new ResponseMessage(true,"Ha ocurrido un error al guardar la actividad.");
-//			}
-//		}
-
-
 
 		public void  HearingFormatVisualize(int idCase,int idFormato)
 		{
