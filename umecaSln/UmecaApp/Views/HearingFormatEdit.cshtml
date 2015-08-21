@@ -5,6 +5,8 @@
 }
 
 
+
+
 <script>
 app.controller('hearingFormatController', function ($scope, $timeout, $http, $q, $sce, $rootScope) {
 
@@ -32,7 +34,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                     $scope.m.impDate = "";
                 }
             }
-
         };
 
         $scope.chnExtDate = function (id) {
@@ -46,14 +47,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             else if (id == 3) {
                 $scope.m.extDate = $scope.m.appointmentDate;
             }
-
         };
 
         var dlgConfirmAction = $('#divConfirm');
 
         $scope.showDlg = function () {
             var def = $q.defer();
-
             $timeout(function () {
                 dlgConfirmAction.modal('show');
                 dlgConfirmAction.on('hidden.bs.modal', function () {
@@ -61,7 +60,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
                     }
                     else {
-
                     }
                 });
             }, 1);
@@ -106,7 +104,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         };
 
         $scope.validateBthDay = function () {
-
             if (!$scope.m.impBthDay) {
                 $scope.hasError = true;
                 $scope.m.errBth = "Fecha de nacimiento es un campo requerido";
@@ -120,12 +117,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 else
                     $scope.m.errAge = "";
             }
-
-
         }
 
         $scope.validateInitEnd = function () {
-
             if (Date.parse('01/01/2014 ' + $scope.m.initTime) >= Date.parse('01/01/2014 ' + $scope.m.endTime)) {
                 $scope.hasError = true;
                 $scope.m.errTime = "La hora de termino debe ser mayor a la hora de inicio";
@@ -133,7 +127,6 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             }
             else
                 $scope.m.errTime = "";
-
         };
 
         $scope.addContact = function () {
@@ -157,14 +150,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         };
 
         $scope.validateContact = function () {
-
             $scope.MsgErrorContact = "";
-
             if ($scope.m.contactName === "" || $scope.m.contactPhone === "" || $scope.m.contactAddress === "" || !($scope.m.contactName) || !($scope.m.contactPhone) || !($scope.m.contactAddress)) {
                 $scope.MsgErrorContact = "Debe proporcionar todos los campos para agregar el contacto."
                 return true;
             }
-
             return false
         };
 
@@ -187,11 +177,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opci�n";
+                $scope.m.errLinkProc = "Debe seleccionar una opción";
             }
             else
                 $scope.m.errLinkProc = "";
-
             if ($scope.m.vincProcess == 1) {
 
                 if (!$scope.m.linkageRoom || $scope.m.linkageRoom === "") {
@@ -758,6 +747,24 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         };
 
         $scope.init = function () {
+
+        $scope.locationInit();
+
+            	    console.log("scope.hdnJsonAddress"+$("#hdnJsonAddress").val());
+            var adressDto = JSON.parse($("#hdnJsonAddress").val());
+           
+            console.log("scope m ->"+$scope.m);
+
+            $scope.m.idAddres = adressDto.id;
+            $scope.m.innNum = adressDto.innNum;
+            $scope.m.outNum = adressDto.outNum;
+            $scope.m.street = adressDto.street;
+            $scope.zipCode = adressDto.zipCode;
+            $scope.m.location.id = adressDto.locationId;
+
+            console.log("aqui aparece el"+$scope.m.location);
+
+
         	var js = JSON.parse($("#hdnJsonMtng").val());
 			    $scope.m = js;
 			    $scope.lstHearingType = JSON.parse( $("#hdnJsonHearing").val());
@@ -903,9 +910,84 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
 
 
+        /////Address
+        $scope.zipCode = "";
+    $scope.Reference = 0;
+    $scope.listState=[];
+    $scope.state = {};
+    $scope.listMunicipality=[];
+    $scope.municipality = {};
+    $scope.listLocation=[];
+    $scope.m.location = {};
+
+    $scope.ZipCodeSearch = function(){
+    	$scope.msgZipCode = undefined;
+    	if($scope.listState==undefined || $scope.listState.length<=0){
+    	var asx = MeetingService.findAllStates();
+    	console.log ("axs o estados string"+asx);
+		    $scope.listState = JSON.parse(asx);
+    	}
+		    console.log("ZipCodeSearch"+$scope.zipCode);
+    		if(($scope.zipCode+"").length>=5){
+    		console.log(MeetingService.findAddressByCp($scope.zipCode));
+    			var jsonStrngData = MeetingService.findAddressByCp($scope.zipCode);
+    			if(jsonStrngData==""){
+    				$scope.msgZipCode = "El código postal "+$scope.zipCode+" no existe.";
+    			}
+    			else{
+    				var domicilioData = JSON.parse(jsonStrngData);
+    				$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
+    				console.log("estados "+$scope.state	);
+    				$scope.listMunicipality = domicilioData.Municipios;
+    				console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
+    				$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
+    				$scope.listLocation = domicilioData.Locaciones;
+    				console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
+    			}
+    		}
+    	};
+
+    	    $scope.locationInit = function(){
+    	if($scope.listState==undefined){
+    	var asx = MeetingService.findAllStates();
+		    $scope.listState = JSON.parse(asx);
+    	}
+    		if($scope.m.LocationId!=undefined &&  $scope.m.LocationId!=null){
+    			var jsonStrngData = MeetingService.findAddressByLocation($scope.m.LocationId);
+    			if(jsonStrngData==""){
+    				$scope.msgZipCode = "El código postal "+$scope.zipCode+" no existe.";
+    			}
+    			else{
+    				var domicilioData = JSON.parse(jsonStrngData);
+    				$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
+    				$scope.listMunicipality = domicilioData.Municipios;
+    				console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
+    				$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
+    				$scope.listLocation = domicilioData.Locaciones;
+    				    $scope.m.location = $scope.itemListById($scope.m.LocationId , $scope.listLocation);
+    				console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
+    				$scope.zipCode = domicilioData.zipCode;
+    			}
+    		}
+    	};
+
+	
+
+		$scope.itemListById = function(idObj, list){
+    console.log("idObj="+idObj);
+    	if(idObj!=undefined&&idObj!=null){
+		    for(x=0;x<list.length;x++){
+		    	if(list[x].Id==idObj){
+		    		return list[x];
+		    		break;
+		    	}
+		    }
+		}
+		return undefined;
+	};
 
 
-
+        /////Address End
 
 
 
@@ -1031,6 +1113,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
          <input id="hdnJsonlistElection" type="hidden" value="@Model.listElection"/>
          <input id="hdnreadonlyBand" type="hidden" value="@Model.readonlyBand"/>
          <input id="hdnhasPrevHF" type="hidden" value="@Model.hasPrevHF"/>
+         <input id="hdnJsonAddress" type="hidden" value="@Model.address"/>
 
 
          <!-- TERMINATE CREDENTIALS -->
@@ -1518,6 +1601,89 @@ askCloseCredentials.hide = function (){
                   data-valmsg-replace="true"></span>
 
                                                 </div>
+
+                                                <!--componente adress by cp-->
+                <div class="row">
+				  <div class="col-xs-5">
+				    <label for="zipCode">C&oacute;digo postal:</label>
+				    <input type="text" id="zipCode" name="zipCode" class="input-xxlarge" ng-model="zipCode"
+				    data-val="true" data-val-required="El c&oacute;digo postal es un campo requerido"
+				    placeholder="Escriba su C.P. para buscar.."
+				    data-val-length-max="6" data-val-length-min="1"
+				    data-val-length="Debe tener al menos 1 y m&aacute;ximo 6 caracteres."
+				    ng-change="m.location.ZipCode = zipCode;ZipCodeSearch();" />
+				    <br>
+				    <span class="field-validation-valid" data-valmsg-for="zipCode" data-valmsg-replace="true"></span>
+				  </div>
+				  <div class="col-xs-7">
+				    <br/>
+				    <div ng-show="msgZipCode" class="alert-danger element-center">
+				      {{msgZipCode}}
+				    </div>
+				     
+				  </div>
+				</div>
+
+				<div class="row">
+				  <div class="col-xs-6">
+				    <label>Estado:</label>
+				    <select class="form-control element-center" ng-model="state" 
+				    ng-options="e.Name for e in listState" ></select><br/>
+				  </div>
+				  <div class="col-xs-6">
+				    <label>Municipio:</label>
+				    <select class="form-control element-center" ng-model="municipality"
+				    ng-options="e.Name for e in listMunicipality" ng-init='listMunicipaliti = ""'
+				    ng-change="municipalityId = municipality.id;"></select><br/>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-xs-12">
+				    <label>Localidad/Colonia:</label>
+				    <br/>
+				    <select class="form-control" ng-model="location"
+				    ng-options="e.Name for e in listLocation" ng-init='listLocation = ""'
+				    ng-change="m.LocationId = location['Id'];m.location.id = location['Id'];"></select>
+				  </div>
+				</div>
+				<br/>
+				<div class="row">
+					  	<div class="col-xs-6">
+						    Calle <br/>
+						    <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
+						    data-val-length-max="100" data-val-length-min="1"
+						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 100 caracteres."
+						    type="text" value="" ng-model="m.street" name="streetComponent" id="streetComponent">
+						    <span class="field-validation-valid" data-valmsg-for="streetComponent"
+						    data-valmsg-replace="true"></span>
+						  </div>
+						  <div class="col-xs-3">
+						    No Ext <br/>
+						    <input class="form-control" data-val="true"
+						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
+						    data-val-length-max="10" data-val-length-min="1"
+						    data-val-required="El n&uacute;mero exterior es un campo requerido"
+						    type="text" ng-model="m.outNum"
+						    id="outNumComponent"
+						    name="outNumComponent">
+						    <span class="field-validation-valid" data-valmsg-for="outNumComponent"
+						    data-valmsg-replace="true"></span>
+						  </div>
+						  <div class="col-xs-3">
+						    No Int <br/>
+						    <input class="with-100" data-val="true"
+						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
+						    data-val-length-max="10" data-val-length-min="1"
+						    type="text" ng-model="m.innNum"
+						    id="innNumComponent"
+						    name="innNumComponent">
+						    <span class="field-validation-valid" data-valmsg-for="innNumComponent"
+						    data-valmsg-replace="true"></span>
+						  </div>
+				</div>
+				<br/>
+				<!--END componente adress by cp-->
+
 
                                             </div>
 

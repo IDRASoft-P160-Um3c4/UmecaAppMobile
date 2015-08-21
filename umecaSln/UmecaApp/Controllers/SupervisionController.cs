@@ -1,4 +1,4 @@
-﻿using System;
+﻿	using System;
 using PortableRazor;
 using System.IO;
 using SQLite.Net;
@@ -191,6 +191,7 @@ namespace UmecaApp
 				caseDetention.IdFolder = "SIN EVALUACIÓN REGISTRADA";
 
 				caseDetention.DateCreate=DateTime.Today;
+
 				//caseDetention.setChangeArrangementType(false);
 				// se agrega para poder contar si un caso cambia de MC a SCPP en algun formato de audiencia
 				//caseDetention = caseRepository.save(caseDetention);
@@ -202,9 +203,10 @@ namespace UmecaApp
 				StatusMeeting statusMeeting = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 				meeting.StatusMeetingId=statusMeeting.Id;
 				meeting.StatusMeeting=statusMeeting;
-				meeting.ReviewerId=revId;
 				meeting.DateCreate=DateTime.Today;
 				db.InsertWithChildren (meeting);
+				meeting.ReviewerId=revId;
+				meeting.Reviewer=reviewer;
 				newImputed.MeetingId=meeting.Id;
 				newImputed.Meeting = meeting;
 				db.InsertWithChildren (newImputed);

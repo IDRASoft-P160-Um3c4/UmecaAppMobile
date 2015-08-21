@@ -3,6 +3,8 @@
   <wsdl:documentation>UmecaWS</wsdl:documentation>
   <wsdl:types>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://model.infrastructure.umeca.com/xsd">
+      <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xs:import namespace="http://schemas.xmlsoap.org/wsdl/" />
       <xs:complexType name="ResponseMessage">
         <xs:sequence>
           <xs:element minOccurs="0" name="hasError" type="xs:boolean" />
@@ -15,6 +17,8 @@
     </xs:schema>
     <xs:schema xmlns:ax22="http://model.infrastructure.umeca.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.umeca.com">
       <xs:import namespace="http://model.infrastructure.umeca.com/xsd" />
+      <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xs:import namespace="http://schemas.xmlsoap.org/wsdl/" />
       <xs:element name="confirmReceivedAssignment">
         <xs:complexType>
           <xs:sequence>
@@ -402,13 +406,13 @@
   </wsdl:binding>
   <wsdl:service name="UmecaWS">
     <wsdl:port name="UmecaWSHttpSoap11Endpoint" binding="ns:UmecaWSSoap11Binding">
-      <soap:address location="http://192.168.1.9:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/" />
+      <soap:address location="http://192.168.1.19:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/" />
     </wsdl:port>
     <wsdl:port name="UmecaWSHttpSoap12Endpoint" binding="ns:UmecaWSSoap12Binding">
-      <soap12:address location="http://192.168.1.9:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap12Endpoint/" />
+      <soap12:address location="http://192.168.1.19:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap12Endpoint/" />
     </wsdl:port>
     <wsdl:port name="UmecaWSHttpEndpoint" binding="ns:UmecaWSHttpBinding">
-      <http:address location="http://192.168.1.9:8081/anelumeca/services/UmecaWS.UmecaWSHttpEndpoint/" />
+      <http:address location="http://192.168.1.19:8081/anelumeca/services/UmecaWS.UmecaWSHttpEndpoint/" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

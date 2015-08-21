@@ -54,6 +54,9 @@ WriteLiteral(@">
     function editFormatoAudiencia(fuente,formato){
 		window.location.replace('hybrid:Supervision/HearingFormatUpsert?idCase='+fuente+'&idFormato='+formato);
     }
+    function newFormatoAudiencia(fuente){
+		window.location.replace('hybrid:Supervision/HearingFormatUpsert?idCase='+fuente+'&idFormato=0');
+    }
     </script>
 <h2");
 
@@ -66,7 +69,7 @@ WriteLiteral(" class=\"icon-comments-alt \"");
 WriteLiteral("></i>&nbsp;&nbsp;Formato de Audiencia</h2>\r\n");
 
 
-#line 19 "HearingFormatList.cshtml"
+#line 22 "HearingFormatList.cshtml"
  if(Model.message!=null){
 
 
@@ -91,16 +94,16 @@ WriteLiteral("\r\n                     class=\"umeca-toast-error element-center\
 WriteLiteral(">\r\n                    <p>");
 
 
-#line 24 "HearingFormatList.cshtml"
+#line 27 "HearingFormatList.cshtml"
                   Write(Model.message);
 
 
 #line default
 #line hidden
-WriteLiteral("</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n");
+WriteLiteral("</p>\r\n                </div> \r\n            </div>\r\n        </div>\r\n");
 
 
-#line 28 "HearingFormatList.cshtml"
+#line 31 "HearingFormatList.cshtml"
 }
 
 
@@ -117,7 +120,7 @@ WriteLiteral(">\r\n    <a");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "javascript:newFormatoAudiencia(", true)
 
-#line 31 "HearingFormatList.cshtml"
+#line 34 "HearingFormatList.cshtml"
         , Tuple.Create<string,object,bool> ("", Model.CaseId
 
 #line default
@@ -176,13 +179,13 @@ WriteLiteral(@">
 ");
 
 
-#line 55 "HearingFormatList.cshtml"
+#line 58 "HearingFormatList.cshtml"
     
 
 #line default
 #line hidden
 
-#line 55 "HearingFormatList.cshtml"
+#line 58 "HearingFormatList.cshtml"
      foreach(var formatoAudiencia in Model.rows) {
 
 
@@ -199,7 +202,7 @@ WriteLiteral(">\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 58 "HearingFormatList.cshtml"
+#line 61 "HearingFormatList.cshtml"
        Write(formatoAudiencia.IdFolder);
 
 
@@ -210,7 +213,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 61 "HearingFormatList.cshtml"
+#line 64 "HearingFormatList.cshtml"
        Write(formatoAudiencia.IdMP);
 
 
@@ -221,7 +224,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 64 "HearingFormatList.cshtml"
+#line 67 "HearingFormatList.cshtml"
        Write(formatoAudiencia.Fullname);
 
 
@@ -232,7 +235,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 67 "HearingFormatList.cshtml"
+#line 70 "HearingFormatList.cshtml"
        Write(formatoAudiencia.RegisterTime);
 
 
@@ -243,7 +246,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 70 "HearingFormatList.cshtml"
+#line 73 "HearingFormatList.cshtml"
        Write(formatoAudiencia.UserName);
 
 
@@ -254,7 +257,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 73 "HearingFormatList.cshtml"
+#line 76 "HearingFormatList.cshtml"
        Write(formatoAudiencia.HearingType);
 
 
@@ -265,7 +268,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 76 "HearingFormatList.cshtml"
+#line 79 "HearingFormatList.cshtml"
        Write(formatoAudiencia.Extension);
 
 
@@ -276,7 +279,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 79 "HearingFormatList.cshtml"
+#line 82 "HearingFormatList.cshtml"
        Write(formatoAudiencia.ProcessVinc);
 
 
@@ -287,7 +290,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("       \t\t");
 
 
-#line 82 "HearingFormatList.cshtml"
+#line 85 "HearingFormatList.cshtml"
        Write(formatoAudiencia.FinishedStr);
 
 
@@ -296,13 +299,13 @@ WriteLiteral("       \t\t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 85 "HearingFormatList.cshtml"
+#line 88 "HearingFormatList.cshtml"
         
 
 #line default
 #line hidden
 
-#line 85 "HearingFormatList.cshtml"
+#line 88 "HearingFormatList.cshtml"
          if(formatoAudiencia.IsFinished){
 
 
@@ -319,7 +322,7 @@ WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "visualizeFormat(", true)
 
-#line 86 "HearingFormatList.cshtml"
+#line 89 "HearingFormatList.cshtml"
                                                                                             , Tuple.Create<string,object,bool> ("", formatoAudiencia.CaseId
 
 #line default
@@ -327,7 +330,7 @@ WriteAttribute ("onclick", " onclick=\"", "\""
 , false)
 , Tuple.Create<string,object,bool> ("", ",", true)
 
-#line 86 "HearingFormatList.cshtml"
+#line 89 "HearingFormatList.cshtml"
                                                                                                                      , Tuple.Create<string,object,bool> ("", formatoAudiencia.Id
 
 #line default
@@ -342,7 +345,7 @@ WriteLiteral(" class=\"icon-eye-open\"");
 WriteLiteral("></span></a>\r\n");
 
 
-#line 87 "HearingFormatList.cshtml"
+#line 90 "HearingFormatList.cshtml"
         }else{
 
 
@@ -359,7 +362,7 @@ WriteLiteral(" title=\"Visualizar formatos de audiencia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "editFormatoAudiencia(", true)
 
-#line 88 "HearingFormatList.cshtml"
+#line 91 "HearingFormatList.cshtml"
                                                                                                  , Tuple.Create<string,object,bool> ("", formatoAudiencia.CaseId
 
 #line default
@@ -367,7 +370,7 @@ WriteAttribute ("onclick", " onclick=\"", "\""
 , false)
 , Tuple.Create<string,object,bool> ("", ",", true)
 
-#line 88 "HearingFormatList.cshtml"
+#line 91 "HearingFormatList.cshtml"
                                                                                                                           , Tuple.Create<string,object,bool> ("", formatoAudiencia.Id
 
 #line default
@@ -382,7 +385,7 @@ WriteLiteral(" class=\"icon-pencil\"");
 WriteLiteral("></span></a>\r\n");
 
 
-#line 89 "HearingFormatList.cshtml"
+#line 92 "HearingFormatList.cshtml"
         }
 
 
@@ -391,7 +394,7 @@ WriteLiteral("></span></a>\r\n");
 WriteLiteral("        </td>\r\n    </tr>\r\n");
 
 
-#line 92 "HearingFormatList.cshtml"
+#line 95 "HearingFormatList.cshtml"
 }
 
 
