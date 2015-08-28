@@ -57,7 +57,7 @@ askPasswordKeySync.yes = function (){
 	$(""#askPasswordKeySynccontainerPassword"").val("""");
 	var rep = Sync.downloadVerificacion(password);
 	var respuesta = $.parseJSON( rep );
-			if(respuesta.error=""true""){
+			if(respuesta.error==""true""){
 				alert(respuesta.response);
 			}else{
 				location.reload();
@@ -114,7 +114,7 @@ WriteLiteral(" class=\"element-center ng-binding\"");
 
 WriteLiteral(" ng-bind-html=\"Message\"");
 
-WriteLiteral(">Por favor ingrese la contrasea para continuar:<br><input");
+WriteLiteral(">Por favor ingrese la contraseña para continuar:<br><input");
 
 WriteLiteral(" type=\"password\"");
 
@@ -351,8 +351,7 @@ WriteLiteral(">\r\n        <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
-WriteLiteral("></li>\r\n        <!--<sec:authorize access=\"hasRole(\'ROLE_REVIEWER\')\">-->\r\n       " +
-"     <li");
+WriteLiteral("></li>\r\n            <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
@@ -360,7 +359,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 152 "headUmGrid.cshtml"
+#line 151 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -376,7 +375,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 154 "headUmGrid.cshtml"
+#line 153 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
@@ -401,7 +400,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 160 "headUmGrid.cshtml"
+#line 159 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
 
 #line default
@@ -409,62 +408,13 @@ WriteAttribute ("href", " href=\"", "\""
 , false)
 );
 WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></l" +
-"i>\r\n            <li");
-
-WriteLiteral(" class=\"dropdown nav-li-blue\"");
-
-WriteLiteral(">\r\n        <!--</sec:authorize>-->\r\n        <!--<sec:authorize access=\"hasRole(\'R" +
-"OLE_SUPERVISOR\')\">\r\n            <li class=\"nav-li-blue\"><a href=\"<c:url value=\'/" +
-"supervisor/hearingFormat/index.html\' />\"><i\r\n                    class=\"glyphico" +
-"n glyphicon-file\"></i>&nbsp;&nbsp;Formato de audiencia</a>\r\n            </li>\r\n " +
-"           <li class=\"nav-li-blue\"><a href=\"<c:url value=\'/supervisor/scheduleHe" +
-"arings/index.html\'/>\">\r\n                <i class=\"icon icon-calendar\"></i>&nbsp;" +
-"&nbsp;Agenda de audiencias</a>\r\n            </li>\r\n            <li class=\"nav-li" +
-"-blue\"><a href=\"<c:url value=\'/supervisor/framingMeeting/index.html\' />\"><i\r\n   " +
-"                 class=\"glyphicon glyphicon-bullhorn\"></i>&nbsp;&nbsp;Entrevista" +
-" de encuadre</a></li>\r\n            <li class=\"dropdown nav-li-blue\">\r\n          " +
-"      <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i\r\n           " +
-"             class=\"glyphicon glyphicon-tasks\"></i>&nbsp;&nbsp;Plan de supervisi" +
-"&oacute;n\r\n                    <i class=\"icon-caret-down\"></i> </a>\r\n           " +
-"     <ul class=\"dropdown-menu\">\r\n                    <li><a href=\"<c:url value=\'" +
-"/supervisor/generateMonitoringPlan/index.html\' />\"><i\r\n                         " +
-"   class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;&nbsp;Generar/Modificar</a>" +
-"\r\n                    </li>\r\n                    <li><a href=\"<c:url value=\'/sup" +
-"ervisor/trackMonitoringPlan/index.html\' />\"><i\r\n                            clas" +
-"s=\"glyphicon glyphicon-thumbs-up\"></i>&nbsp;&nbsp;Dar seguimiento</a></li>\r\n    " +
-"                <li><a href=\"<c:url value=\'/supervisor/manageMonitoringPlan/inde" +
-"x.html\' />\"><i\r\n                            class=\"glyphicon glyphicon-list\"></i" +
-">&nbsp;&nbsp;Manejar casos y planes</a></li>\r\n                </ul>\r\n           " +
-" </li>\r\n            <li class=\"dropdown nav-li-blue\">\r\n                <a href=\"" +
-"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i\r\n                        cl" +
-"ass=\"glyphicon glyphicon-folder-close\"></i>\r\n                        <%--&nbsp;&" +
-"nbsp;Bit&aacute;coras--%>\r\n                        <%--<i class=\"icon-caret-down" +
-"\"></i>--%>\r\n                    &nbsp;&nbsp;Historiales\r\n                    <i " +
-"class=\"icon-caret-down\"></i>\r\n                </a>\r\n                <ul class=\"d" +
-"ropdown-menu\">\r\n                        <%--<li><a href=\"<c:url value=\'/supervis" +
-"or/log/index.html\'/>\"><i--%>\r\n                        <%--class=\"glyphicon glyph" +
-"icon-folder-open\"></i>&nbsp;&nbsp;Bit&aacute;coras de--%>\r\n                     " +
-"   <%--supervisi&oacute;n y cumplimiento</a></li>--%>\r\n                    <li><" +
-"a href=\"<c:url value=\'/supervisor/log/index.html\'/>\"><i\r\n                       " +
-"     class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;&nbsp;Historial de\r\n     " +
-"                   supervisi&oacute;n y cumplimiento</a></li>\r\n                 " +
-"   <li><a\r\n                            href=\"<c:url value=\'/shared/messageHistor" +
-"y/index.html\' />\"><i\r\n                            class=\"icon icon-envelope\"></i" +
-">&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>\r\n                    </li>\r\n      " +
-"          </ul>\r\n            </li>\r\n            <li class=\"nav-li-blue\"><a href=" +
-"\"<c:url value=\'/supervisor/showCaseSupervision/index.html\'/>\">\r\n                " +
-"<i class=\"glyphicon glyphicon-bullhorn\"></i>&nbsp;&nbsp;Consultar casos en\r\n    " +
-"            supervisi&oacute;n</a>\r\n            </li>\r\n            <li class=\"na" +
-"v-li-blue\"><a href=\"<c:url value=\'/supervisor/caseNotProsecute/index.html\'/>\">\r\n" +
-"                <i class=\"icon icon-folder-close\"></i>&nbsp;&nbsp;Casos no judic" +
-"ializados</a>\r\n            </li>\r\n\r\n        </sec:authorize>-->\r\n    </ul>\r\n    " +
-"<!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>\r\n<!-- /.container -" +
-"->\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
+"i>\r\n    </ul>\r\n    <!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>\r" +
+"\n<!-- /.container -->\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
 
 WriteLiteral("\t\t");
 
 
-#line 238 "headUmGrid.cshtml"
+#line 182 "headUmGrid.cshtml"
    Write(RenderBody());
 
 

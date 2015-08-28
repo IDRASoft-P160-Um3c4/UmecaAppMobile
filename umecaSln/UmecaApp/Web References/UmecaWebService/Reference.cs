@@ -15,8 +15,8 @@ namespace UmecaApp.UmecaWebService {
     using System.Web.Services.Protocols;
     using System.Xml.Serialization;
     using System.ComponentModel;
-    
-    
+
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XamarinStudio", "4.0.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -26,7 +26,7 @@ namespace UmecaApp.UmecaWebService {
         
         /// <remarks/>
         public UmecaWS() {
-            this.Url = "http://192.168.1.14:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/";
+            this.Url = "http://192.168.1.2:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/";
         }
         
         public UmecaWS(string url) {
@@ -138,7 +138,7 @@ namespace UmecaApp.UmecaWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:synchronizeSourcesVerification", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public ResponseMessage synchronizeSourcesVerification([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
+        public ResponseMessage synchronizeSourcesVerification([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long? assignmentId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
             object[] results = this.Invoke("synchronizeSourcesVerification", new object[] {
                         user,
                         guid,

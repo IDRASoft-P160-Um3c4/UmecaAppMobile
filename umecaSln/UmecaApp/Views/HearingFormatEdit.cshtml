@@ -225,6 +225,10 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $("#divContact :input").attr("disabled", true);
                 $("#divCitaUmeca :input").attr("disabled", true);
                 $("#divPreviousHearing :input").attr("disabled", true);
+
+                $("#crimeAdder").remove();
+                $(".notAviable").remove();
+
             }
             else {
                 $("#divAudiencia :input").attr("disabled", false);
@@ -402,14 +406,14 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 		            	$scope.m.idFormat = idformat;
 		            	var mesage = "Se ha registrado el formato de audiencia.";
 				 		console.log("regresar del idformat-"+idformat);
-					
+				 		var casoReferencia =$("#idCase").val();
+				 		regresar(casoReferencia);
 		            }else{
 		            	$scope.MsgError = $sce.trustAsHtml(resultado);
 		            	$scope.WaitFor = false;
 		            	$scope.m.isFinished = false;
 		            }
 		             $scope.m.lstContactData = listaContactos;
-		             $scope.$apply();
 		    }
         };
 
@@ -747,24 +751,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         };
 
         $scope.init = function () {
-
-        $scope.locationInit();
-
-            	    console.log("scope.hdnJsonAddress"+$("#hdnJsonAddress").val());
-            var adressDto = JSON.parse($("#hdnJsonAddress").val());
-           
-            console.log("scope m ->"+$scope.m);
-
-            $scope.m.idAddres = adressDto.id;
-            $scope.m.innNum = adressDto.innNum;
-            $scope.m.outNum = adressDto.outNum;
-            $scope.m.street = adressDto.street;
-            $scope.zipCode = adressDto.zipCode;
-            $scope.m.location.id = adressDto.locationId;
-
-            console.log("aqui aparece el"+$scope.m.location);
-
-
+  
         	var js = JSON.parse($("#hdnJsonMtng").val());
 			    $scope.m = js;
 			    $scope.lstHearingType = JSON.parse( $("#hdnJsonHearing").val());
@@ -776,6 +763,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.disableView($scope.m.disableAll);
             $scope.lockArrangements();
             $scope.init2();
+
+            $scope.locationInit();
+
         };
 
         $scope.chgLblTerms = function () {
@@ -947,28 +937,58 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
     		}
     	};
 
-    	    $scope.locationInit = function(){
-    	if($scope.listState==undefined){
-    	var asx = MeetingService.findAllStates();
-		    $scope.listState = JSON.parse(asx);
-    	}
-    		if($scope.m.LocationId!=undefined &&  $scope.m.LocationId!=null){
-    			var jsonStrngData = MeetingService.findAddressByLocation($scope.m.LocationId);
-    			if(jsonStrngData==""){
-    				$scope.msgZipCode = "El código postal "+$scope.zipCode+" no existe.";
-    			}
-    			else{
-    				var domicilioData = JSON.parse(jsonStrngData);
-    				$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
-    				$scope.listMunicipality = domicilioData.Municipios;
-    				console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
-    				$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
-    				$scope.listLocation = domicilioData.Locaciones;
-    				    $scope.m.location = $scope.itemListById($scope.m.LocationId , $scope.listLocation);
-    				console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
-    				$scope.zipCode = domicilioData.zipCode;
-    			}
-    		}
+    	$scope.locationInit = function(){
+		    console.log("scope.hdnJsonAddress"+$("#hdnJsonAddress").val());
+	        var adrs =$("#hdnJsonAddress").val();
+	        $scope.m.location = {};
+	        console.log("adrs"+adrs);
+
+	       	if(adrs != undefined && adrs != "" ){
+	        var adressDto = JSON.parse(adrs);
+	        console.log("adressDto"+adressDto);
+	        console.log("scope m ->"+$scope.m);
+	        $scope.m.idAddres = adressDto.id;
+	        $scope.m.innNum = adressDto.innNum;
+	        $scope.m.outNum = adressDto.outNum;
+	        $scope.m.street = adressDto.street;
+	        $scope.zipCode = adressDto.zipCode;
+	        $scope.m.location = {};
+	        $scope.m.location.id = adressDto.locationId;
+
+	        $("#innNum").val($scope.m.innNum);
+	        $("#street").val($scope.m.street);
+	        $("#outNum").val($scope.m.outNum);
+
+
+
+	        console.log("scope.idAddres"+$scope.m.idAddres);
+	        console.log("scope.innNum"+$scope.m.innNum);
+	        console.log("scope.outNum"+$scope.m.outNum);
+	        console.log("scope.street"+$scope.m.street);
+	        console.log("scope.zipCode"+$scope.zipCode);
+	        console.log("scope.location.id"+$scope.m.location.id);
+	        }
+
+	   		var asx = MeetingService.findAllStates();
+			$scope.listState = JSON.parse(asx);
+	    	
+			if($scope.m.location.id!=undefined &&  $scope.m.location.id!=null){
+				var jsonStrngData = MeetingService.findAddressByLocation($scope.m.location.id);
+				if(jsonStrngData==""){
+					$scope.msgZipCode = "El código postal "+$scope.zipCode+" no existe.";
+				}
+				else{
+					var domicilioData = JSON.parse(jsonStrngData);
+					$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
+					$scope.listMunicipality = domicilioData.Municipios;
+					console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
+					$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
+					$scope.listLocation = domicilioData.Locaciones;
+					$scope.location = $scope.itemListById($scope.m.location.id , $scope.listLocation);
+					console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
+					$scope.zipCode = domicilioData.zipCode;
+				}
+			}
     	};
 
 	
@@ -1216,7 +1236,7 @@ askCloseCredentials.hide = function (){
                                   <!--ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">-->
                                 Regresar
                             </span>
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"  ng-click="submitPartiaSaveHF();">
+                            <span class="btn btn-default btn-primary btn-sm notAviable" ng-disabled="WaitFor==true"  ng-click="submitPartiaSaveHF();">
                                   <!--ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">-->
                                 Guardar
                             </span>
@@ -1602,6 +1622,10 @@ askCloseCredentials.hide = function (){
 
                                                 </div>
 
+
+
+
+
                                                 <!--componente adress by cp-->
                 <div class="row">
 				  <div class="col-xs-5">
@@ -1627,7 +1651,7 @@ askCloseCredentials.hide = function (){
 				<div class="row">
 				  <div class="col-xs-6">
 				    <label>Estado:</label>
-				    <select class="form-control element-center" ng-model="state" 
+				    <select class="form-control element-center" ng-model="state" 	
 				    ng-options="e.Name for e in listState" ></select><br/>
 				  </div>
 				  <div class="col-xs-6">
@@ -1651,10 +1675,10 @@ askCloseCredentials.hide = function (){
 					  	<div class="col-xs-6">
 						    Calle <br/>
 						    <input class="form-control" data-val="true" data-val-required="La calle es un campo requerido"
-						    data-val-length-max="100" data-val-length-min="1"
+						    data-val-length-max="100" data-val-length-min="1" 
 						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 100 caracteres."
-						    type="text" value="" ng-model="m.street" name="streetComponent" id="streetComponent">
-						    <span class="field-validation-valid" data-valmsg-for="streetComponent"
+						    type="text" value="" ng-model="m.street" name="m.street" id="street">
+						    <span class="field-validation-valid" data-valmsg-for="m.street"
 						    data-valmsg-replace="true"></span>
 						  </div>
 						  <div class="col-xs-3">
@@ -1664,9 +1688,9 @@ askCloseCredentials.hide = function (){
 						    data-val-length-max="10" data-val-length-min="1"
 						    data-val-required="El n&uacute;mero exterior es un campo requerido"
 						    type="text" ng-model="m.outNum"
-						    id="outNumComponent"
-						    name="outNumComponent">
-						    <span class="field-validation-valid" data-valmsg-for="outNumComponent"
+						    id="outNum"
+						    name="m.outNum">
+						    <span class="field-validation-valid" data-valmsg-for="m.outNum"
 						    data-valmsg-replace="true"></span>
 						  </div>
 						  <div class="col-xs-3">
@@ -1675,9 +1699,9 @@ askCloseCredentials.hide = function (){
 						    data-val-length="Debe tener al menos 1 y m&aacute;ximo 10 caracteres"
 						    data-val-length-max="10" data-val-length-min="1"
 						    type="text" ng-model="m.innNum"
-						    id="innNumComponent"
-						    name="innNumComponent">
-						    <span class="field-validation-valid" data-valmsg-for="innNumComponent"
+						    id="innNum"
+						    name="m.innNum">
+						    <span class="field-validation-valid" data-valmsg-for="m.innNum"
 						    data-valmsg-replace="true"></span>
 						  </div>
 				</div>
@@ -1725,7 +1749,7 @@ askCloseCredentials.hide = function (){
     <input type="hidden" ng-update-hidden ng-model="crimeString" name='listCrime'>
     <div class="col-xs-12">
 
-        <div class="row"  ng-show="readonlyBand == false">
+        <div class="row" id="crimeAdder" ng-show="readonlyBand == false">
     <div class="col-xs-5 element-center">
        Delito<br/><br/>
         <select class="width-95 element-center" ng-model="c.crime" 
@@ -2513,7 +2537,7 @@ askCloseCredentials.hide = function (){
                                   <!--ng-click="returnUrl('<c:url value='/supervisor/hearingFormat/indexFormats.html'/>'+'?id='+m.idCase)">-->
                                 Regresar
                             </span>
-                            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"  ng-click="submitPartiaSaveHF();" >
+                            <span class="btn btn-default btn-primary btn-sm notAviable" ng-disabled="WaitFor==true"  ng-click="submitPartiaSaveHF();" >
                                   <!--ng-click="submitPartiaSaveHF('#FormFormatId','<c:url value='/supervisor/hearingFormat/doUpsert.json'/>');">-->
                                 Guardar
                             </span>

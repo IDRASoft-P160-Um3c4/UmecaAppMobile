@@ -97,6 +97,8 @@ namespace UmecaApp
 		public List<TabletAssignedArrangementDto> assignedArrangements{ get; set; }
 		public List<TabletContactDataDto> contacts{ get; set; }
 		public List<TabletCrimeDto> crimeList{ get; set; }
+		public TabletUserDto umecaSupervisor{ get; set; }
+		public TabletUserDto supervisor{ get; set; }
 
 	}
 }

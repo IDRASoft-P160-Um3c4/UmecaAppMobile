@@ -258,11 +258,16 @@ namespace UmecaApp
 											hfs.LinkageDate = DateTime.ParseExact (spec.linkageDate, "yyyy/MM/dd",
 												System.Globalization.CultureInfo.InvariantCulture);
 										}
+										else{
+											hfs.LinkageDate = null;
+										}
 										hfs.LinkageProcess = spec.linkageProcess;
 										hfs.LinkageRoom = spec.linkageRoom;
 										if(!string.IsNullOrEmpty (spec.linkageTime)){
 											hfs.LinkageTime = DateTime.ParseExact (spec.linkageTime, "HH:mm:ss",
 												System.Globalization.CultureInfo.InvariantCulture);
+										}else{
+											hfs.LinkageTime = null;
 										}
 										hfs.NationalArrangement = spec.nationalArrangement;
 										db.Insert(hfs);
@@ -954,8 +959,12 @@ namespace UmecaApp
 								dtoMeeting.commentJob = me.CommentJob;
 								dtoMeeting.commentReference = me.CommentReference;
 								dtoMeeting.commentSchool = me.CommentSchool;
+							if(me.DateCreate!= null){
 								dtoMeeting.dateCreate = String.Format("{0:yyyy/MM/dd}", me.DateCreate);
+							}
+							if(me.DateTerminate != null){
 								dtoMeeting.dateTerminate = String.Format("{0:yyyy/MM/dd}", me.DateTerminate);
+							}
 								dtoMeeting.id = me.Id;
 								dtoMeeting.meetingType = me.MeetingType;
 								dtoMeeting.webId = me.WebId;
@@ -1576,7 +1585,7 @@ namespace UmecaApp
 									thf.confirmComment = hf.ConfirmComment;
 									thf.defenderName = hf.DefenderName;
 									if(hf.EndTime!=null){
-										thf.endTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", hf.EndTime);
+										thf.endTime = String.Format("{0:HH:mm:ss}", hf.EndTime);
 									}
 									thf.hearingResult = hf.HearingResult;
 									var thtype = db.Table<HearingType>().Where(hearty=>hearty.Id == hf.HearingType).FirstOrDefault();
@@ -1596,7 +1605,7 @@ namespace UmecaApp
 										thf.imputedPresence = hf.ImputedPresence??0;
 									}
 									if(hf.InitTime!=null){
-										thf.initTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", hf.InitTime);
+										thf.initTime = String.Format("{0:HH:mm:ss}", hf.InitTime);
 									}
 									thf.isFinished = hf.IsFinished;
 									thf.judgeName = hf.JudgeName;
@@ -1606,6 +1615,22 @@ namespace UmecaApp
 										thf.registerTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", hf.RegisterTime);
 									}
 									thf.room = hf.Room;
+
+
+								var reviuer = new TabletUserDto();
+								var rlcode = db.Table<Role>().Where(rlc=>rlc.Id == revisor.roles).FirstOrDefault();
+								if(rlcode!=null){
+									reviuer.roleCode = rlcode.role;
+								}
+								reviuer.fullname = revisor.fullname;
+								reviuer.guid = guid;
+								reviuer.hPassword = ecodedPass;
+								reviuer.id = revisor.Id;
+								thf.supervisor = reviuer;
+								thf.umecaSupervisor = reviuer;
+
+
+
 									thf.showNotification = hf.ShowNotification;
 									thf.terms = hf.Terms;
 									if(hf.UmecaDate!=null){
@@ -1625,10 +1650,18 @@ namespace UmecaApp
 										nSpecs.id = spcs.Id;
 										nSpecs.imputationDate = String.Format("{0:yyyy/MM/dd HH:mm:ss}", spcs.ImputationDate);
 										nSpecs.imputationFormulation = spcs.ImputationFormulation;
-										nSpecs.linkageDate = String.Format("{0:yyyy/MM/dd HH:mm:ss}", spcs.LinkageDate);
+									if (spcs.LinkageDate != null) {
+										nSpecs.linkageDate = String.Format ("{0:yyyy/MM/dd}", spcs.LinkageDate);
+									} else {
+										nSpecs.linkageDate = null;
+									}
 										nSpecs.linkageProcess = spcs.LinkageProcess;
 										nSpecs.linkageRoom = spcs.LinkageRoom;
-											nSpecs.linkageTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", spcs.LinkageTime);
+									if (spcs.LinkageTime != null) {
+										nSpecs.linkageTime = String.Format("{0:HH:mm:ss}", spcs.LinkageTime);
+									} else {
+										nSpecs.linkageTime = null;
+									}
 										nSpecs.nationalArrangement = spcs.NationalArrangement??false;
 										thf.hearingFormatSpecs = nSpecs;
 									}
@@ -1753,16 +1786,26 @@ namespace UmecaApp
 											if(crim.Federal!=null && crim.Federal!=0){
 												var fed = new TabletElectionDto();
 												fed.id = crim.Federal;
+											var electionFederal = db.Table<Election> ().Where (federa=> federa.Id == crim.Federal).FirstOrDefault ();
+											fed.id = electionFederal.Id;
+											fed.name = electionFederal.Name;
+											ncrime.federal = fed;
 											}
 											if(crim.IdCrimeCat!=null && crim.IdCrimeCat!=0){
 												var cat = new TabletCrimeCatalogDto();
 												cat.id = crim.IdCrimeCat??0;
+											var catCrim = db.Table<CrimeCatalog> ().Where (cct=>cct.Id == crim.IdCrimeCat).FirstOrDefault ();
+											cat.description = catCrim.Description;
+											cat.id = catCrim.Id;
+											cat.name = catCrim.Name;
+											cat.obsolete = catCrim.IsObsolete;
+											ncrime.crime = cat;
 											}
 											crimesFormato.Add(ncrime);
 										}
 										thf.crimeList = crimesFormato;
 									}
-
+								formatList.Add (thf);
 								}
 								caseSync.hearingFormats = formatList;
 							}//end of hearing formats not null
@@ -1791,22 +1834,26 @@ namespace UmecaApp
 						var strngEncode = JsonConvert.SerializeObject(caseSync);
 						Console.WriteLine(JsonConvert.SerializeObject(caseSync));
 						//aqui el caso esta lleno y se puede sincronizar
-//						try{
-//							if(Method.ToString()=="verificacion"){
-//								var strng = JsonConvert.SerializeObject(caseSync);
-//								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??0,strng);
-//								Console.WriteLine(sincronizacionMsg.message);
-//							}
-//							if(Method.ToString()=="meeting"){
-//								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??0,JsonConvert.SerializeObject(caseSync));
-//								Console.WriteLine(sincronizacionMsg.message);
-//							}
-//							return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
-//						}catch(Exception e){
-//							Console.WriteLine ("excepcion al sincronizar el objeto :>>>");
-//							Console.WriteLine (e.Message);
-//							return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
-//						}
+						try{
+							if(Method.ToString()=="verificacion"){
+								var strng = JsonConvert.SerializeObject(caseSync);
+								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??0,strng);
+								Console.WriteLine(sincronizacionMsg.message);
+							}
+							if(Method.ToString()=="meeting"){
+								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??0,JsonConvert.SerializeObject(caseSync));
+								Console.WriteLine(sincronizacionMsg.message);
+							}
+							if(Method.ToString()=="hearing"){
+								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??null,JsonConvert.SerializeObject(caseSync));
+								Console.WriteLine(sincronizacionMsg.message);
+							}
+							return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
+						}catch(Exception e){
+							Console.WriteLine ("excepcion al sincronizar el objeto :>>>");
+							Console.WriteLine (e.Message);
+							return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
+						}
 
 						}//end de si el caso no es nulo
 					}// end foreach listSynchro

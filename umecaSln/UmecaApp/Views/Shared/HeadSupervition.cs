@@ -328,17 +328,13 @@ WriteAttribute ("href", " href=\"", "\""
 , false)
 );
 WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></l" +
-"i>\r\n            <li");
-
-WriteLiteral(" class=\"dropdown nav-li-blue\"");
-
-WriteLiteral(">\r\n    </ul>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r" +
-"\n");
+"i>\r\n    </ul>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r" +
+"\n\r\n");
 
 WriteLiteral("\t\t");
 
 
-#line 147 "HeadSupervition.cshtml"
+#line 146 "HeadSupervition.cshtml"
    Write(RenderBody());
 
 

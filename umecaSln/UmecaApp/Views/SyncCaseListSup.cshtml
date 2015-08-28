@@ -27,7 +27,12 @@ askSyncIncomplete.yes = function (){
 	var password = $("#askSyncIncompletecontainerPassword").val();
 	$("#askSyncIncompletecontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncIncomplete.idCase+"]", password,"verificacion");
-	alert(result);
+	var resultado = $.parseJSON(result);
+	if(resultado.error){
+		alert(resultado.response);
+	}else{
+		window.location.refresh();
+	}
 askSyncIncomplete.idCase = 0;
 };
     	</script>

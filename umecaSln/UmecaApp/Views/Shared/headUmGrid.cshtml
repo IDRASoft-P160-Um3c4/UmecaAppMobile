@@ -31,7 +31,7 @@ askPasswordKeySync.yes = function (){
 	$("#askPasswordKeySynccontainerPassword").val("");
 	var rep = Sync.downloadVerificacion(password);
 	var respuesta = $.parseJSON( rep );
-			if(respuesta.error="true"){
+			if(respuesta.error=="true"){
 				alert(respuesta.response);
 			}else{
 				location.reload();
@@ -47,7 +47,7 @@ askPasswordKeySync.yes = function (){
                 </div>
             </div>
             <div class="modal-body">
-                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea para continuar:<br><input type="password" name="usrPassword" id="askPasswordKeySynccontainerPassword"/>
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña para continuar:<br><input type="password" name="usrPassword" id="askPasswordKeySynccontainerPassword"/>
                 <br /><b>Al continuar descargaran los casos asignados al usuario.</b></div>
             </div>
             <div class="modal-footer">
@@ -148,7 +148,6 @@ askPasswordKeySync.yes = function (){
 <div class="navbar-header pull-right" role="navigation">
     <ul class="nav ace-nav">
         <li class="nav-li-blue"></li>
-        <!--<sec:authorize access="hasRole('ROLE_REVIEWER')">-->
             <li class="nav-li-blue"><a href="@Url.Action("Index","Meeting")"><i
                     class="icon-comments-alt"></i>&nbsp;&nbsp;Entrevista</a></li>
             <li class="nav-li-blue"><a href="@Url.Action("Index","Verification")"><i
@@ -159,61 +158,6 @@ askPasswordKeySync.yes = function (){
             </li>
             <li class="nav-li-blue"><a href="@Url.Action("Index","Sync")"><i
                     class="icon-exchange"></i>&nbsp;&nbsp;Sincronizar</a></li>
-            <li class="dropdown nav-li-blue">
-        <!--</sec:authorize>-->
-        <!--<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/hearingFormat/index.html' />"><i
-                    class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Formato de audiencia</a>
-            </li>
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/scheduleHearings/index.html'/>">
-                <i class="icon icon-calendar"></i>&nbsp;&nbsp;Agenda de audiencias</a>
-            </li>
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/framingMeeting/index.html' />"><i
-                    class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre</a></li>
-            <li class="dropdown nav-li-blue">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                        class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Plan de supervisi&oacute;n
-                    <i class="icon-caret-down"></i> </a>
-                <ul class="dropdown-menu">
-                    <li><a href="<c:url value='/supervisor/generateMonitoringPlan/index.html' />"><i
-                            class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Generar/Modificar</a>
-                    </li>
-                    <li><a href="<c:url value='/supervisor/trackMonitoringPlan/index.html' />"><i
-                            class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Dar seguimiento</a></li>
-                    <li><a href="<c:url value='/supervisor/manageMonitoringPlan/index.html' />"><i
-                            class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Manejar casos y planes</a></li>
-                </ul>
-            </li>
-            <li class="dropdown nav-li-blue">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                        class="glyphicon glyphicon-folder-close"></i>
-                        <%--&nbsp;&nbsp;Bit&aacute;coras--%>
-                        <%--<i class="icon-caret-down"></i>--%>
-                    &nbsp;&nbsp;Historiales
-                    <i class="icon-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu">
-                        <%--<li><a href="<c:url value='/supervisor/log/index.html'/>"><i--%>
-                        <%--class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Bit&aacute;coras de--%>
-                        <%--supervisi&oacute;n y cumplimiento</a></li>--%>
-                    <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
-                            class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
-                        supervisi&oacute;n y cumplimiento</a></li>
-                    <li><a
-                            href="<c:url value='/shared/messageHistory/index.html' />"><i
-                            class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
-                <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
-                supervisi&oacute;n</a>
-            </li>
-            <li class="nav-li-blue"><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
-                <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
-            </li>
-
-        </sec:authorize>-->
     </ul>
     <!-- /.ace-nav -->
 </div>
