@@ -3,6 +3,9 @@
 namespace UmecaApp
 {
 	public class Constants {
+
+		public static String UMECA_SERVICE_ROUTE = "http://192.168.1.2:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/";
+
 		public static long ELECTION_YES = 1L;
 		public static long ELECTION_NO = 2L;
 		public static String VERIFICATION_STATUS_NEW_SOURCE = "NEW_SOURCE";

@@ -76,7 +76,7 @@ WriteLiteral(" data-toolbar=\"#toolbar2\"");
 WriteLiteral(@">
     <thead>	
     <tr>
-        <th>ID</th>
+        <!--<th>ID</th>-->
         <th>Carpeta de Investigaci&oacute;n</th>
         <th>Nombre completo</th>
         <th>G&eacute;nero</th>
@@ -106,13 +106,7 @@ WriteLiteral(" id=\"tr-id-1\"");
 
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
-
-WriteLiteral(" id=\"td-id-1\"");
-
-WriteLiteral(" class=\"td-class-1\"");
-
-WriteLiteral(">\r\n");
+WriteLiteral(">\r\n        <!--<td id=\"td-id-1\" class=\"td-class-1\">\r\n");
 
 WriteLiteral("            ");
 
@@ -123,7 +117,7 @@ WriteLiteral("            ");
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+WriteLiteral("\r\n        </td>-->\r\n        <td>\r\n");
 
 WriteLiteral("        \t");
 

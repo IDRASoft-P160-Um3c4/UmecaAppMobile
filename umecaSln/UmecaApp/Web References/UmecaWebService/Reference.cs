@@ -26,7 +26,7 @@ namespace UmecaApp.UmecaWebService {
         
         /// <remarks/>
         public UmecaWS() {
-            this.Url = "http://192.168.1.2:8081/anelumeca/services/UmecaWS.UmecaWSHttpSoap11Endpoint/";
+			this.Url = Constants.UMECA_SERVICE_ROUTE;
         }
         
         public UmecaWS(string url) {

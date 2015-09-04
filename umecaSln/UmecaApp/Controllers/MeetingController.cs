@@ -72,7 +72,6 @@ namespace UmecaApp
 				revId = reviewer.Id;
 			}
 
-
 			var result = db.Query<MeetingTblDto> (
 				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
 				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
@@ -156,6 +155,15 @@ namespace UmecaApp
 		public int? createMeeting(NewMeetingDto imputed) {
 			int? result = null;
 			try {
+
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null && reviewer.Id!=null) {
+					revId = reviewer.Id;
+				}
+
 				Case caseDetention = new Case();
 				Imputed newImputed = new Imputed();
 				newImputed.Name=imputed.Name.Trim();
@@ -189,7 +197,8 @@ namespace UmecaApp
 				StatusMeeting statusMeeting = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 				meeting.StatusMeetingId=statusMeeting.Id;
 				meeting.StatusMeeting=statusMeeting;
-				//				meeting.ReviewerId=LoggedUserId(); TODO agrega al usuario asociado al dispositivo
+				meeting.ReviewerId=revId;
+				meeting.Reviewer = reviewer;
 				meeting.DateCreate=DateTime.Today;
 				db.InsertWithChildren (meeting);
 				newImputed.MeetingId=meeting.Id;

@@ -646,13 +646,13 @@ WriteLiteral(" \r\n     data-search-align=\"right\"");
 
 WriteLiteral(" data-toolbar=\"#toolbar2\"");
 
-WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <th>ID</th>\r\n        <th");
+WriteLiteral(">\r\n    <thead>\r\n    <tr>\r\n        <!--<th>ID</th>-->\r\n        <th");
 
 WriteLiteral(" data-width=\"900\"");
 
 WriteLiteral(">Carpeta de Investigaci&oacute;n</th>\r\n        <th>Nombre completo</th>\r\n        " +
-"<th>Estatus</th>\r\n        <th>sincronization Type</th>\r\n        <th>Acci&oacute;" +
-"n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody> \r\n");
+"<th>Estatus</th>\r\n        <!--<th>sincronization Type</th>-->\r\n        <th>Acci&" +
+"oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody> \r\n");
 
 
 #line 281 "SyncCaseListSup.cshtml"
@@ -673,13 +673,7 @@ WriteLiteral(" id=\"tr-id-1\"");
 
 WriteLiteral(" class=\"tr-class-1\"");
 
-WriteLiteral(">\r\n        <td");
-
-WriteLiteral(" id=\"td-id-1\"");
-
-WriteLiteral(" class=\"td-class-1\"");
-
-WriteLiteral(">\r\n");
+WriteLiteral(">\r\n        <!--<td id=\"td-id-1\" class=\"td-class-1\">\r\n");
 
 WriteLiteral("            ");
 
@@ -690,7 +684,7 @@ WriteLiteral("            ");
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+WriteLiteral("\r\n        </td>-->\r\n        <td>\r\n");
 
 WriteLiteral("        \t");
 
@@ -723,7 +717,7 @@ WriteLiteral("       \t\t");
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+WriteLiteral("\r\n        </td>\r\n        <!--<td>\r\n");
 
 WriteLiteral("        \t");
 
@@ -734,7 +728,7 @@ WriteLiteral("        \t");
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
+WriteLiteral("\r\n        </td>-->\r\n        <td>\r\n");
 
 
 #line 299 "SyncCaseListSup.cshtml"

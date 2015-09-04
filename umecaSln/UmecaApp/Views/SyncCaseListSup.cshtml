@@ -269,20 +269,20 @@ askSyncHearingFormat .idCase = 0;
      data-search-align="right" data-toolbar="#toolbar2">
     <thead>
     <tr>
-        <th>ID</th>
+        <!--<th>ID</th>-->
         <th data-width="900">Carpeta de Investigaci&oacute;n</th>
         <th>Nombre completo</th>
         <th>Estatus</th>
-        <th>sincronization Type</th>
+        <!--<th>sincronization Type</th>-->
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
     <tbody> 
     @foreach(var Meeting in Model) {
     <tr id="tr-id-1" class="tr-class-1">
-        <td id="td-id-1" class="td-class-1">
+        <!--<td id="td-id-1" class="td-class-1">
             @Meeting.CaseId
-        </td>
+        </td>-->
         <td>
         	@Meeting.IdFolder
         </td>
@@ -292,9 +292,9 @@ askSyncHearingFormat .idCase = 0;
         <td>
        		@Meeting.StatusCode
         </td>
-        <td>
+        <!--<td>
         	@Meeting.Action
-        </td>
+        </td>-->
         <td>
         @if(Meeting.Action=="verificationIncomplete") {
          	<a href="javascript:askSyncIncomplete.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>

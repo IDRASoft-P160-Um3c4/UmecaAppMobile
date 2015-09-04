@@ -85,7 +85,16 @@ askSyncMeeting.yes = function (){
 	var password = $("#askSyncMeetingcontainerPassword").val();
 	$("#askSyncMeetingcontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncMeeting.idCase+"]", password,"meeting");
-	alert(result);
+	var respuesta = $.parseJSON( result );
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askSyncMeeting.hide();
+				$("#Resp2Value").text(respuesta.response);
+				$("#mesageResp2").show();
+			}else{
+				window.location.replace('hybrid:Sync/Index');
+			}
+askSyncMeeting.idCase = 0;
 askSyncMeeting .idCase = 0;
 };
     	</script>
@@ -134,7 +143,16 @@ askSyncVerification.yes = function (){
 	var password = $("#askSyncVerificationcontainerPassword").val();
 	$("#askSyncVerificationcontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncVerification.idCase+"]", password,"verificacion");
-	alert(result);
+	var respuesta = $.parseJSON( result );
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askSyncPAssword.hide();
+				$("#Resp2Value").text(respuesta.response);
+				$("#mesageResp2").show();
+			}else{
+				window.location.replace('hybrid:Sync/Index');
+			}
+askSyncPAssword.idCase = 0;
 askSyncPAssword.idCase = 0;
 };
     	</script>
@@ -182,7 +200,16 @@ askSyncHearingFormat.yes = function (){
 	var password = $("#askSyncHearingFormatcontainerPassword").val();
 	$("#askSyncHearingFormatcontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncHearingFormat.idCase+"]", password,"hearing");
-	alert(result);
+	var respuesta = $.parseJSON( result );
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askSyncHearingFormat.hide();
+				$("#Resp2Value").text(respuesta.response);
+				$("#mesageResp2").show();
+			}else{
+				window.location.replace('hybrid:Sync/Index');
+			}
+askSyncHearingFormat.idCase = 0;
 askSyncHearingFormat .idCase = 0;
 };
     	</script>
@@ -263,20 +290,20 @@ askSyncHearingFormat .idCase = 0;
      data-search-align="right" data-toolbar="#toolbar2">
     <thead>
     <tr>
-        <th>ID</th>
+        <!--<th>ID</th>-->
         <th data-width="900">Carpeta de Investigaci&oacute;n</th>
         <th>Nombre completo</th>
         <th>Estatus</th>
-        <th>sincronization Type</th>
+        <!--<th>sincronization Type</th>-->
         <th>Acci&oacute;n</th>
     </tr>
     </thead>
     <tbody> 
     @foreach(var Meeting in Model) {
     <tr id="tr-id-1" class="tr-class-1">
-        <td id="td-id-1" class="td-class-1">
+        <!--<td id="td-id-1" class="td-class-1">
             @Meeting.CaseId
-        </td>
+        </td>-->
         <td>
         	@Meeting.IdFolder
         </td>
@@ -286,9 +313,9 @@ askSyncHearingFormat .idCase = 0;
         <td>
        		@Meeting.StatusCode
         </td>
-        <td>
+        <!--<td>
         	@Meeting.Action
-        </td>
+        </td>-->
         <td>
         @if(Meeting.Action=="verificationIncomplete") {
          	<a href="javascript:askSyncIncomplete.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>

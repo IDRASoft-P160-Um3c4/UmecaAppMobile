@@ -1927,7 +1927,9 @@ namespace UmecaApp
 						foreach(ImputedHome imh in casas){
 							if(imh.AddressId!=null && imh.AddressId!=0){
 								var adres = db.Table<Address>().Where(adt=>adt.Id == imh.AddressId).FirstOrDefault();
-								db.Delete (adres);
+								if (adres != null) {
+									db.Delete (adres);
+								}
 							}
 							var horario = db.Table<Schedule>().Where(hr=>hr.ImputedHomeId == imh.Id).ToList();
 							if(horario != null && horario.Count > 0){
