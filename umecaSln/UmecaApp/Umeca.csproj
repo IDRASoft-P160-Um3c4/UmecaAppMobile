@@ -94,9 +94,6 @@
     <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Models\Shared\Constants.cs" />
     <Compile Include="Models\reviewer\NewMeetingDto.cs" />
-    <Compile Include="Views\Shared\headUmGrid.cs">
-      <DependentUpon>headUmGrid.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Models\reviewer\MeetingTblDto.cs" />
     <Compile Include="Views\MeetingDatosPersonales.cs">
       <DependentUpon>MeetingDatosPersonales.cshtml</DependentUpon>
@@ -260,6 +257,9 @@
     <Compile Include="Web References\UmecaWebService\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\headUmGrid.cs">
+      <DependentUpon>headUmGrid.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -283,10 +283,6 @@
     <None Include="Views\Shared\headUm.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>headUm.cs</LastGenOutput>
-    </None>
-    <None Include="Views\Shared\headUmGrid.cshtml">
-      <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>headUmGrid.cs</LastGenOutput>
     </None>
     <None Include="lib\Newtonsoft.Json.dll" />
     <None Include="Views\MeetingDatosPersonales.cshtml">
@@ -374,6 +370,10 @@
     <None Include="Web References\UmecaWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Views\Shared\headUmGrid.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>headUmGrid.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

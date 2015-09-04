@@ -79,7 +79,7 @@
         </td>-->
         <td>
          @if(Meeting.StatusCode=="INCOMPLETE_LEGAL") {
-         	<a href="javascript:;" style="display:inline-block;" title="Procesos legales usuario" onclick="legal(@Meeting.CaseId);"><i class="icon-legal"></i></a>
+         	<a href="javascript:;" style="display:inline-block;" title="Procesos legales usuario (solo version en linea)" ><i class="icon-legal"></i></a>
          }
          else if(Meeting.StatusCode=="INCOMPLETE") {
          	<a href="javascript:;" style="display:inline-block;" title="Continuar entrevista" onclick="editMeeting(@Meeting.CaseId);"><span class="glyphicon glyphicon-pencil"></span></a>

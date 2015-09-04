@@ -809,6 +809,15 @@ namespace UmecaApp
 			Console.WriteLine ("TerminateMeeting json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
 			db.BeginTransaction ();
+			db.CreateTable<User> ();
+			var usrList = db.Table<User> ().ToList ();
+			User reviewer = usrList.FirstOrDefault ();
+			int revId = 0;
+			if (reviewer != null && reviewer.Id>0) {
+				revId = reviewer.Id;
+			}
+			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
+			StatusCase stcc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
 			try{
 
 /*save de imputado sin validacion*/
@@ -1060,13 +1069,15 @@ namespace UmecaApp
 				if(validate.groupMessage.Count<=0){
 				output = new Java.Lang.String("");
 					var casoMeeting = db.Table<Case>().Where(cm=>cm.Id==me.CaseDetentionId).FirstOrDefault();
-					StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
-					StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
-					casoMeeting.StatusCaseId = sc.Id;
-					casoMeeting.Status = sc;
+					casoMeeting.StatusCaseId = stcc.Id;
+					casoMeeting.Status = stcc;
 					me.StatusMeetingId = statusMeeting2.Id;
 					me.StatusMeeting = statusMeeting2;
 					me.DateTerminate = DateTime.Today;
+					if(me.ReviewerId ==null || me.ReviewerId==0){
+						me.ReviewerId = revId;
+						me.Reviewer = reviewer;
+					}
 					db.Update(casoMeeting);
 					db.Update(me);
 				}

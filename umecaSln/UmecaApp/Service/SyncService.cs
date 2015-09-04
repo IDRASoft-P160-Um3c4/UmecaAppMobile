@@ -15,6 +15,8 @@ using Android.Content;
 using BCrypt;
 
 using Umeca.Data;
+using UmecaApp.UmecaWebService;
+
 
 namespace UmecaApp
 {
@@ -122,6 +124,8 @@ namespace UmecaApp
 			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
+			var ServiceResult = new ResponseMessage ();
+			ServiceResult.hasError = false;
 			var usrList = db.Table<User> ().ToList ();
 			if (usrList != null && usrList.Count > 0) {
 				//login tablet
@@ -182,7 +186,8 @@ namespace UmecaApp
 						db.BeginTransaction();
 						var caseAsignResponse = uwsl.getAssignedCaseByAssignmentId(revisor.username,guid,tbltAi.id,true);
 						if(caseAsignResponse.hasError){
-							return new Java.Lang.String ("{\"error\":true, \"response\":\""+caseAsignResponse.message+"\"}");
+							ServiceResult.message += "El Caso "+tbltAi.id+" no se pudo descargar: " +caseAsignResponse.message+ " \n" ;
+							ServiceResult.hasError = true;
 						}else{
 							var dataString1 =  (System.Xml.XmlNode[])  caseAsignResponse.returnData;
 							var getData1 = JsonConvert.DeserializeObject<TabletCaseDto>(dataString1[0].Value.ToString());
@@ -191,6 +196,11 @@ namespace UmecaApp
 							Case cs = new Case();
 							Verification ve = new Verification();
 							cs = getData1.CaseToObject();
+							var already = db.Table<Case>().Where(alr=> alr.webId == cs.webId && alr.webId !=null ).ToList();
+							foreach(Case cais in already){
+								caseDeleteCascade(cais.Id, revisor.Id);
+							}
+
 							StatusCase stcase = db.Table<StatusCase>().Where(stc=>stc.Name == getData1.previousStateCode).FirstOrDefault();
 							if(stcase!=null && stcase.Id!=0){
 								cs.StatusCaseId = stcase.Id;
@@ -578,7 +588,7 @@ namespace UmecaApp
 									nskul.MeetingId = me.Id;
 									nskul.Name = tme.school.name;
 									nskul.Phone = tme.school.phone;
-									nskul.Specification = tme.school.specification;
+									nskul.Specification = tme.school.specification??"";
 									db.Insert(nskul);
 									if(tme.school.schedule!=null && tme.school.schedule.Count>0){
 										foreach(TabletScheduleDto tsch in tme.school.schedule){
@@ -704,7 +714,7 @@ namespace UmecaApp
 												}
 												fms.IdFieldList = tfms.idFieldList;
 												fms.IsFinal = tfms.isFinal;
-												fms.JsonValue = tfms.jsonValue;
+												fms.JsonValue = tfms.jsonValue??"";
 												fms.Reason = tfms.reason;
 												fms.SourceVerificationId = sv.Id;
 												if(tfms.statusFieldVerification!=null){
@@ -721,8 +731,10 @@ namespace UmecaApp
 
 
 							var confirm = uwsl.confirmReceivedAssignment(revisor.username,guid,tbltAi.id,true);
-							if(caseAsignResponse.hasError){
-								return new Java.Lang.String ("{\"error\":true, \"response\":\""+caseAsignResponse.message+"\"}");
+							if(confirm.hasError){
+								db.Rollback ();
+								ServiceResult.message += "El Caso "+tbltAi.id+" no se pudo descargar: '" +caseAsignResponse.message+ "' \n" ;
+								ServiceResult.hasError = true;
 							}else{
 								exitos++;
 							}
@@ -733,17 +745,17 @@ namespace UmecaApp
 						db.Rollback ();
 						Console.WriteLine ("exception in downloadVerificacion() getAssignedCaseByAssignmentId");
 						Console.WriteLine("Exception message :::>"+e.Message);
-						return new Java.Lang.String ("{\"error\":true, \"response\":\"Conexion fallida intente nuevamente.\"}");
+						ServiceResult.message += "El Caso "+tbltAi.id+" no se pudo descargar: 'Conexion terminada intente nuevamente.' \n" ;
+						ServiceResult.hasError = true;
 					}finally{
 						db.Commit ();
 					}
 				} // end for each get asigned case
-
-				return new Java.Lang.String ("{\"error\":false, \"response\":\"fin de descarga se descargaron "+exitos+" casos\"}");
+				ServiceResult.message += "Se descargaron "+exitos+" casos \n" ;
+				return new Java.Lang.String (JsonConvert.SerializeObject(ServiceResult));
 			} else {
 				return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado\"}");
 			}
-
 		}
 
 		static TabletImputedHomeDto NewMethod (TabletImputedHomeDto nhome)
@@ -799,8 +811,9 @@ namespace UmecaApp
 				}catch(Exception e){
 					Console.WriteLine ("exception in downloadVerificacion() asigments");
 					Console.WriteLine("Exception message :::>"+e.Message);
-					return new Java.Lang.String ("{\"error\":true, \"response\":\"Conexion fallida intente nuevamente.\"}");
+					return new Java.Lang.String ("{\"error\":true, \"response\":\"error al crear los objetos\"}");
 				}
+				db.BeginTransaction ();
 					foreach(int i in listSynchro){
 						Case cs = db.Table<Case>().Where(caso=>caso.Id==i).FirstOrDefault();
 						if(cs!=null){
@@ -919,7 +932,7 @@ namespace UmecaApp
 												drofield.id = field.Id;
 												drofield.idFieldList = field.IdFieldList??0;
 												drofield.isFinal = field.IsFinal??false;
-												drofield.jsonValue = field.JsonValue;
+												drofield.jsonValue = field.JsonValue??"";
 												drofield.reason = field.Reason;
 												drofield.value = field.Value;
 												if(field.StatusFieldVerificationId != null && field.StatusFieldVerificationId != 0){
@@ -940,12 +953,11 @@ namespace UmecaApp
 										dtoSource.fieldMeetingSourceList = fields;
 									}//end de lista de fms no vacia
 									dtoFuentes.Add(dtoSource);
+
 								}//end de foreach sourceverification
 								verificacion.sourceVerifications = dtoFuentes;
 							}//end validacion de lista de fuentes no vacia 
-
 							caseSync.verification = verificacion;
-
 						}// end of verification
 
 
@@ -990,16 +1002,16 @@ namespace UmecaApp
 											paisDto.alpha2 = paisNacimiento.Alpha2;
 											paisDto.alpha3 = paisNacimiento.Alpha3;
 											paisDto.id = paisNacimiento.Id;
-											paisDto.latitude = paisNacimiento.Latitude;
-											paisDto.longitude = paisNacimiento.Longitude;
+//											paisDto.latitude = paisNacimiento.Latitude;
+//											paisDto.longitude = paisNacimiento.Longitude;
 											paisDto.name = paisNacimiento.Name;
 											dtoImp.birthCountry = paisDto;
 										}
 									}//end de country
 									dtoImp.birthDate = String.Format("{0:yyyy/MM/dd}", input.BirthDate);
-									dtoImp.birthLocation = input.BirthLocation;
-									dtoImp.birthMunicipality = input.BirthMunicipality;
-									dtoImp.birthState = input.BirthState;
+									dtoImp.birthLocation = input.BirthLocation??"";
+									dtoImp.birthMunicipality = input.BirthMunicipality??"";
+									dtoImp.birthState = input.BirthState??"";
 									dtoImp.boys = input.Boys;
 									dtoImp.celPhone = input.CelPhone;
 									dtoImp.dependentBoys = input.DependentBoys;
@@ -1040,8 +1052,8 @@ namespace UmecaApp
 														ncoun.id = cntry.Id;
 														ncoun.alpha2 = cntry.Alpha2;
 														ncoun.alpha3 = cntry.Alpha3;
-														ncoun.latitude = cntry.Latitude;
-														ncoun.longitude = cntry.Longitude;
+//														ncoun.latitude = cntry.Latitude;
+//														ncoun.longitude = cntry.Longitude;
 														ncoun.name = cntry.Name;
 														nstt.country = ncoun;
 													}//end de pais
@@ -1075,19 +1087,19 @@ namespace UmecaApp
 									var meHomes = new List<TabletImputedHomeDto>();
 									foreach(ImputedHome imh in casas){
 										var nhome = new TabletImputedHomeDto();	
-										//address
-										if(imh.AddressId!=null && imh.AddressId!=0){
-											db.CreateTable<Address>();
-											var adres = db.Table<Address>().Where(adt=>adt.Id == imh.AddressId).FirstOrDefault();
+											
 											var nad = new TabletAddressDto();
 											nad.addressString = imh.addressString;
 											if(String.IsNullOrEmpty(nad.addressString)){
 												nad.addressString = imh.addressString;
 											}
+									if(imh.AddressId!=null && imh.AddressId > 0){
+										nad.id = imh.AddressId;
+											}
 											nad.id = imh.AddressId;
 											nad.innNum = imh.InnNum;
-											nad.lat = imh.Lat;
-											nad.lng = imh.Lng;
+//											nad.lat = imh.Lat;
+//											nad.lng = imh.Lng;
 											nad.outNum = imh.OutNum;
 											nad.street = imh.Street;
 											//location
@@ -1123,8 +1135,8 @@ namespace UmecaApp
 																ncoun.id = cntry.Id;
 																ncoun.alpha2 = cntry.Alpha2;
 																ncoun.alpha3 = cntry.Alpha3;
-																ncoun.latitude = cntry.Latitude;
-																ncoun.longitude = cntry.Longitude;
+//																ncoun.latitude = cntry.Latitude;
+//																ncoun.longitude = cntry.Longitude;
 																ncoun.name = cntry.Name;
 																nstt.country = ncoun;
 															}//end de pais
@@ -1138,7 +1150,6 @@ namespace UmecaApp
 
 											//END location
 											nhome.address = nad;
-										}
 										nhome.description = imh.Description;
 										nhome.id = imh.Id;
 
@@ -1303,8 +1314,8 @@ namespace UmecaApp
 											ncoun.id = cntry.Id;
 											ncoun.alpha2 = cntry.Alpha2;
 											ncoun.alpha3 = cntry.Alpha3;
-											ncoun.latitude = cntry.Latitude;
-											ncoun.longitude = cntry.Longitude;
+//											ncoun.latitude = cntry.Latitude;
+//											ncoun.longitude = cntry.Longitude;
 											ncoun.name = cntry.Name;
 											dtoMeeting.leaveCountry.country = ncoun;
 										}//end de pais
@@ -1364,7 +1375,6 @@ namespace UmecaApp
 											dtoMeeting.leaveCountry.relationship = nElect;
 										}
 									}
-
 								}// end leave country
 
 								var referencias = db.Table<Reference>().Where(rfs=>rfs.MeetingId == me.Id).ToList();
@@ -1392,7 +1402,7 @@ namespace UmecaApp
 												nElect.name = inm.Name; 
 												nElect.isObsolete= inm.IsObsolete;
 												nElect.specification = inm.Specification;
-												dtoMeeting.leaveCountry.relationship = nElect;
+												nRef.relationship = nElect;
 											}
 										}
 
@@ -1444,7 +1454,7 @@ namespace UmecaApp
 									dtoMeeting.school.id = escuela.Id;
 									dtoMeeting.school.name = escuela.Name;
 									dtoMeeting.school.phone = escuela.Phone;
-									dtoMeeting.school.specification = escuela.Specification;
+									dtoMeeting.school.specification = escuela.Specification??"";
 									dtoMeeting.school.webId = escuela.webId;
 									//schedule
 									var horario = db.Table<Schedule>().Where(hr=>hr.SchoolId == escuela.Id).ToList();
@@ -1492,7 +1502,6 @@ namespace UmecaApp
 										}//end de foreach
 										dtoMeeting.socialEnvironment.relSocialEnvironmentActivities = actividades;
 									}//end de rel activities
-
 								}// end of environment
 
 								var social = db.Table<SocialNetwork>().Where(socia=>socia.MeetingId == me.Id).FirstOrDefault();
@@ -1565,8 +1574,7 @@ namespace UmecaApp
 										}//end de foreach
 										dtoMeeting.socialNetwork.peopleSocialNetwork = persons;
 									}//end de rel activities
-
-								}// end of environment
+								}// end of social
 							caseSync.meeting = dtoMeeting;
 							}
 
@@ -1708,8 +1716,8 @@ namespace UmecaApp
 																ncoun.id = cntry.Id;
 																ncoun.alpha2 = cntry.Alpha2;
 																ncoun.alpha3 = cntry.Alpha3;
-																ncoun.latitude = cntry.Latitude;
-																ncoun.longitude = cntry.Longitude;
+//																ncoun.latitude = cntry.Latitude;
+//																ncoun.longitude = cntry.Longitude;
 																ncoun.name = cntry.Name;
 																nstt.country = ncoun;
 															}//end de pais
@@ -1786,20 +1794,20 @@ namespace UmecaApp
 											if(crim.Federal!=null && crim.Federal!=0){
 												var fed = new TabletElectionDto();
 												fed.id = crim.Federal;
-											var electionFederal = db.Table<Election> ().Where (federa=> federa.Id == crim.Federal).FirstOrDefault ();
-											fed.id = electionFederal.Id;
-											fed.name = electionFederal.Name;
-											ncrime.federal = fed;
+												var electionFederal = db.Table<Election> ().Where (federa=> federa.Id == crim.Federal).FirstOrDefault ();
+												fed.id = electionFederal.Id;
+												fed.name = electionFederal.Name;
+												ncrime.federal = fed;
 											}
 											if(crim.IdCrimeCat!=null && crim.IdCrimeCat!=0){
 												var cat = new TabletCrimeCatalogDto();
 												cat.id = crim.IdCrimeCat??0;
-											var catCrim = db.Table<CrimeCatalog> ().Where (cct=>cct.Id == crim.IdCrimeCat).FirstOrDefault ();
-											cat.description = catCrim.Description;
-											cat.id = catCrim.Id;
-											cat.name = catCrim.Name;
-											cat.obsolete = catCrim.IsObsolete;
-											ncrime.crime = cat;
+												var catCrim = db.Table<CrimeCatalog> ().Where (cct=>cct.Id == crim.IdCrimeCat).FirstOrDefault ();
+												cat.description = catCrim.Description;
+												cat.id = catCrim.Id;
+												cat.name = catCrim.Name;
+												cat.obsolete = catCrim.IsObsolete;
+												ncrime.crime = cat;
 											}
 											crimesFormato.Add(ncrime);
 										}
@@ -1835,35 +1843,207 @@ namespace UmecaApp
 						Console.WriteLine(JsonConvert.SerializeObject(caseSync));
 						//aqui el caso esta lleno y se puede sincronizar
 						try{
+							var sincronizacionError=false;
+							var mensaje = "";
 							if(Method.ToString()=="verificacion"){
 								var strng = JsonConvert.SerializeObject(caseSync);
-								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??0,strng);
+								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??null,strng);
+								sincronizacionError = sincronizacionMsg.hasError;
+								mensaje = sincronizacionMsg.message;
 								Console.WriteLine(sincronizacionMsg.message);
 							}
 							if(Method.ToString()=="meeting"){
-								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??0,JsonConvert.SerializeObject(caseSync));
+								var sincronizacionMsg = uwsl.synchronizeMeeting(revisor.username,guid,cs.tac??null,JsonConvert.SerializeObject(caseSync));
+								sincronizacionError = sincronizacionMsg.hasError;
+								mensaje = sincronizacionMsg.message;
 								Console.WriteLine(sincronizacionMsg.message);
 							}
 							if(Method.ToString()=="hearing"){
 								var sincronizacionMsg = uwsl.synchronizeSourcesVerification(revisor.username,guid,cs.tac??null,JsonConvert.SerializeObject(caseSync));
+								sincronizacionError = sincronizacionMsg.hasError;
+								mensaje = sincronizacionMsg.message;
 								Console.WriteLine(sincronizacionMsg.message);
 							}
-							return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
+
+							if(sincronizacionError){
+								db.Rollback ();
+								return new Java.Lang.String ("{\"error\":true, \"response\":\""+mensaje+"\"}");
+							}else{
+								caseDeleteCascade(cs.Id , revisor.Id);
+							}
 						}catch(Exception e){
+							db.Rollback ();
+							db.Commit ();
 							Console.WriteLine ("excepcion al sincronizar el objeto :>>>");
 							Console.WriteLine (e.Message);
 							return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
+						}finally{
+							db.Commit ();
 						}
 
 						}//end de si el caso no es nulo
 					}// end foreach listSynchro
 
-					return new Java.Lang.String ("{\"error\":false, \"response\":\"se termino la sincronización.\"}");
+				return new Java.Lang.String ("{\"error\":false, \"response\":\"El caso se ha sincronizado con éxito.\"}");
 			} else {
 				return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado\"}");
 			}
 
 		}
+
+
+
+
+
+
+		public void caseDeleteCascade(int i,int revisor){
+				Case cs = db.Table<Case>().Where(caso=>caso.Id==i).FirstOrDefault();
+
+				var verify = db.Table<Verification> ().Where (verf=>verf.CaseDetentionId == cs.Id && verf.ReviewerId==revisor).FirstOrDefault ();
+				if (verify != null) {
+					var fuentes = db.Table<SourceVerification> ().Where (svr=>svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id && svr.DateComplete != null && svr.Visible == true).ToList ();
+					if (fuentes != null && fuentes.Count > 0) {
+						foreach (SourceVerification svt in fuentes) {
+							var efemeses = db.Table<FieldMeetingSource> ().Where (efem=>efem.SourceVerificationId == svt.Id).ToList ();
+							if(efemeses!=null && efemeses.Count > 0){
+								db.DeleteAll (efemeses);
+							}//end de lista de fms no vacia
+						}//end de foreach sourceverification
+						db.DeleteAll(fuentes);
+					}//end validacion de lista de fuentes no vacia 
+					db.Delete(verify);
+				}// end of verification
+
+
+				var me = db.Table<Meeting>().Where(dme=>dme.CaseDetentionId == cs.Id).FirstOrDefault();
+				if(me!=null){
+					var input = db.Table<Imputed>().Where(inpu=> inpu.MeetingId == me.Id).FirstOrDefault();
+					if(input!=null){
+						db.Delete (input);
+					}//end of imputado para meeting
+
+					var casas = db.Table<ImputedHome>().Where(imph=>imph.MeetingId == me.Id).ToList();
+					if(casas!=null && casas.Count > 0){
+						foreach(ImputedHome imh in casas){
+							if(imh.AddressId!=null && imh.AddressId!=0){
+								var adres = db.Table<Address>().Where(adt=>adt.Id == imh.AddressId).FirstOrDefault();
+								db.Delete (adres);
+							}
+							var horario = db.Table<Schedule>().Where(hr=>hr.ImputedHomeId == imh.Id).ToList();
+							if(horario != null && horario.Count > 0){
+								db.DeleteAll (horario);
+							}
+						}//end foreach
+						db.DeleteAll (casas);
+					}//end casas
+
+					var drogas = db.Table<Drug>().Where(drgs=>drgs.MeetingId == me.Id).ToList();
+					if(drogas!=null && drogas.Count > 0){
+						db.DeleteAll (drogas);
+					}//end drugs
+
+
+					var trabajos = db.Table<Job>().Where(drgs=>drgs.MeetingId == me.Id).ToList();
+					if(trabajos!=null && trabajos.Count > 0){
+						foreach(Job j in trabajos){
+							var horario = db.Table<Schedule>().Where(hr=>hr.JobId == j.Id).ToList();
+							if(horario != null && horario.Count > 0){
+								db.DeleteAll (horario);	
+							}
+						}//end foreach
+						db.DeleteAll (trabajos);
+					}//end Jobs
+
+					var dejarElPais = db.Table<LeaveCountry>().Where(lc=>lc.MeetingId == me.Id).FirstOrDefault();
+					if(dejarElPais!=null){
+						db.Delete (dejarElPais);
+					}// end leave country
+
+					var referencias = db.Table<Reference>().Where(rfs=>rfs.MeetingId == me.Id).ToList();
+					if(referencias!=null && referencias.Count > 0){
+						db.DeleteAll (referencias);
+					}//end Jobs
+
+					var escuela = db.Table<School>().Where(escul=>escul.MeetingId == me.Id).FirstOrDefault();
+					if(escuela!=null){
+						var horario = db.Table<Schedule>().Where(hr=>hr.SchoolId == escuela.Id).ToList();
+						if(horario != null && horario.Count > 0){
+							db.DeleteAll (horario);
+						}
+						db.Delete (escuela);
+					}// end of school
+
+					var environment = db.Table<SocialEnvironment>().Where(escul=>escul.MeetingId == me.Id).FirstOrDefault();
+					if(environment!=null){
+						var relactivities = db.Table<RelActivity>().Where(ractiv => ractiv.SocialEnvironmentId == environment.Id).ToList();
+						if(relactivities != null && relactivities.Count > 0 ){
+							db.DeleteAll (relactivities);
+						}//end de rel activities
+						db.Delete(environment);
+					}// end of environment
+
+					var social = db.Table<SocialNetwork>().Where(socia=>socia.MeetingId == me.Id).FirstOrDefault();
+					if(social!=null){
+						var personsNetwork = db.Table<PersonSocialNetwork>().Where(psn => psn.SocialNetworkId == social.Id).ToList();
+						if(personsNetwork != null && personsNetwork.Count > 0 ){
+							db.DeleteAll (personsNetwork);
+						}//end de rel activities
+						db.Delete(social);
+					}// end of social
+					db.Delete(me);
+				}
+
+
+
+				var formats = db.Table<HearingFormat>().Where(hf=>hf.CaseDetention == cs.Id && hf.IsFinished == true).ToList();
+				if(formats!=null && formats.Count > 0){
+					var formatList = new List<TabletHearingFormatDto>();
+					foreach(HearingFormat hf in formats){
+						var spcs = db.Table<HearingFormatSpecs>().Where(hfsp=>hfsp.Id==hf.HearingFormatSpecs).FirstOrDefault();
+						if( spcs!=null ){
+							db.Delete (spcs);
+						}
+
+						var himputed = db.Table<HearingFormatImputed>().Where(hfsp=>hfsp.Id==hf.hearingImputed).FirstOrDefault();
+						if( himputed!=null ){
+							if(himputed.Address!=null && himputed.Address!=0){
+								var adrss = db.Table<Address>().Where(adrs=>adrs.Id == himputed.Address).FirstOrDefault();
+								db.Delete (adrss);
+							}//end del if adres no es nulo
+							db.Delete (himputed);
+						}
+
+						//asigned arrangments del case
+						var arrangmentsAsigned = db.Table<AssignedArrangement>().Where(asar => asar.HearingFormat == hf.Id).ToList();
+						if(arrangmentsAsigned!=null && arrangmentsAsigned.Count > 0){
+							db.DeleteAll (arrangmentsAsigned);
+						}
+
+						//contactos
+						var contcts = db.Table<ContactData>().Where(cntac=>cntac.HearingFormat == hf.Id).ToList();
+						if(contcts!=null && contcts.Count > 0){
+							db.DeleteAll (contcts);
+						}
+
+						//crimes
+						var crms = db.Table<Crime>().Where(cry=>cry.HearingFormat == hf.Id).ToList();
+						if(crms!=null && crms.Count > 0){
+							db.DeleteAll (crms);
+						}
+					}
+					db.DeleteAll (formats);
+				}//end of hearing formats not null
+
+				db.CreateTable<LogCase> ();
+				var espontaneas = db.Table<LogCase> ().Where (espo=>espo.caseDetentionId == cs.Id ).ToList ();
+				if (espontaneas != null && espontaneas.Count > 0) {
+					db.DeleteAll (espontaneas);
+				}
+				db.Delete(cs);
+		}
+
+
+
 
 
 	}//class end

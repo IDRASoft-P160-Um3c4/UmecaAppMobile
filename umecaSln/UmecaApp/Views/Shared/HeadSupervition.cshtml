@@ -3,6 +3,27 @@
 <html>
 	<head>
 		<title>Umeca</title>
+
+<script>
+var blokedPleaseWait  = {};
+blokedPleaseWait.show = function (caso){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.show();
+};
+
+blokedPleaseWait.hide = function (){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.hide();
+};
+</script>
+<div class="modal-dialog" style="display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0 0 0;" id="blokedPleaseWaitBoxDlgId" >
+    <div class="blocker" style="z-index:999;">
+	    <div>
+	        Cargando...<img src="content/images/ajax_loader.gif" alt="por favor espere" />
+	    </div>
+	</div>
+</div>
+
     <link rel="stylesheet" href="content/themes/umeca/bootstrap-timepicker.css"/>
     <link rel="stylesheet" href="content/themes/umeca/datepicker.css"/>
     <link rel="stylesheet" href="content/themes/umeca/font-awesome.min.css"/>
@@ -113,12 +134,12 @@
 </div>
 <div class="navbar-header pull-right" role="navigation">
     <ul class="nav ace-nav">
-            <li class="nav-li-blue"><a href="@Url.Action("Index","Supervision")"><i
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Supervision")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-comments-alt"></i>&nbsp;&nbsp;Formato de audiencia</a></li>
-            <li class="nav-li-blue"><a href="@Url.Action("Visita","Supervision")"><i
+            <li class="nav-li-blue"><a href="@Url.Action("Visita","Supervision")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-cloud-download"></i>&nbsp;&nbsp;Visita domiciliar</a>
             </li>
-            <li class="nav-li-blue"><a href="@Url.Action("IndexSuperv","Sync")"><i
+            <li class="nav-li-blue"><a href="@Url.Action("IndexSuperv","Sync")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-exchange"></i>&nbsp;&nbsp;Sincronizar</a></li>
     </ul>
 </div>

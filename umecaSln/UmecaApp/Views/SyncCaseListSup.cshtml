@@ -28,11 +28,13 @@ askSyncIncomplete.yes = function (){
 	$("#askSyncIncompletecontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncIncomplete.idCase+"]", password,"verificacion");
 	var resultado = $.parseJSON(result);
-	if(resultado.error){
-		alert(resultado.response);
-	}else{
-		window.location.refresh();
-	}
+			if(resultado.error){
+				askSyncIncomplete.hide();
+				$("#Resp1Value").text(resultado.response);
+				$("#mesageResp1").show();
+			}else{
+				window.location.replace('hybrid:Sync/IndexSuperv');
+			}
 askSyncIncomplete.idCase = 0;
 };
     	</script>
@@ -60,7 +62,14 @@ askSyncIncomplete.idCase = 0;
 		</div>
     </div>
 
-
+     <div class="row" onclick="javascript:$(this).hide();" id="mesageResp1" style="display:none">
+            <div class="col-xs-12">
+                <div msg="MsgError"
+                     class="umeca-toast-error element-center">
+                    <p id="Resp1Value"></p>
+                </div> 
+            </div>
+        </div>
 
      <script>
 var askSyncMeeting  = {};

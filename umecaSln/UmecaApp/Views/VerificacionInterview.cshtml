@@ -1886,7 +1886,12 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 	    	$scope.m.OfficialDocumentationId=2;
 	    }
 	    $scope.Edocumento = $scope.itemListById($scope.m.OfficialDocumentationId, $scope.listElection);
+
 	    $scope.ImmigrationDoc = $scope.itemListById($scope.m.ImmigrationDocumentId, $scope.listImmigrationDoc);
+
+	    console.log("$scope.ImmigrationDoc"+JSON.stringify($scope.ImmigrationDoc));
+	    console.log("$scope.listImmigrationDoc"+JSON.stringify($scope.listImmigrationDoc));
+
 	    if($scope.m.LivedCountryId==undefined){
 	    	$scope.m.LivedCountryId=2;
 	    }
@@ -1914,7 +1919,7 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 		    try{
 			    var js = JSON.parse($("#hdnJsonMtng").val());
 			    $scope.m = js;
-			    //alert("m valu>>"+JSON.stringify($scope.m));
+			    //alert("js valu>>"+$("#hdnJsonMtng").val());
 			    //Birthplace iniciation
 			    $scope.InitCountryPD();
 			    //activities iniciation
@@ -1966,10 +1971,11 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCaso);
 
 
     $scope.itemListById = function(idObj, list){
-    console.log("idObj="+idObj);
+    console.log("idObj="+idObj+" list[length]"+list.length);
     	if(idObj!=undefined&&idObj!=null){
 		    for(x=0;x<list.length;x++){
 		    	if(list[x].Id==idObj){
+		    		console.log("idObj="+idObj+" list[x]"+list[x].Name);
 		    		return list[x];
 		    		break;
 		    	}
@@ -4740,7 +4746,7 @@ e="hide";
             </div>
             <div class="col-xs-3"  >
                 <select class="form-control element-center" ng-model="ImmigrationDoc" name="leaveCountry.immigrationDocument.id"
-                        ng-options="e.Id as e.Name for e in listImmigrationDoc" value=""
+                        ng-options="e.Name for e in listImmigrationDoc"
                         onchange="documentacionOtherOficial(this);" id="oficialDocuRowSlc"
                         ng-init='documentosMigratoriosFill();'></select>
             </div>

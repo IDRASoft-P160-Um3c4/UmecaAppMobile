@@ -30,13 +30,43 @@ WriteLiteral(@"<!DOCTYPE html>
 	<head>
 		<title>Umeca</title>
 
-		<script>
-		function DownloadVerification(){
-		var respuesta = Sync.downloadVerificacion(""99630110"");
-		alert(respuesta);
-		}
-		</script>
+<script>
+var blokedPleaseWait  = {};
+blokedPleaseWait.show = function (caso){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.show();
+};
 
+blokedPleaseWait.hide = function (){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.hide();
+};
+</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0" +
+" 0 0;\"");
+
+WriteLiteral(" id=\"blokedPleaseWaitBoxDlgId\"");
+
+WriteLiteral(" >\r\n    <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t    <div>\r\n\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"por favor espere\"");
+
+WriteLiteral(@" />
+	    </div>
+	</div>
+</div>
 
 		<script>
 var askPasswordKeySync  = {};
@@ -45,7 +75,6 @@ askPasswordKeySync.show = function (caso){
 	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
 	dlgMsgBox.show();
 }; 
-
 
 askPasswordKeySync.hide = function (){
 	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
@@ -56,11 +85,17 @@ askPasswordKeySync.yes = function (){
 	var password = $(""#askPasswordKeySynccontainerPassword"").val();
 	$(""#askPasswordKeySynccontainerPassword"").val("""");
 	var rep = Sync.downloadVerificacion(password);
+	console.log(""rep-----------""+rep);
 	var respuesta = $.parseJSON( rep );
-			if(respuesta.error==""true""){
-				alert(respuesta.response);
+	console.log(respuesta.message);
+			if(respuesta.hasError){
+				askPasswordKeySync.hide();
+				$(""#Resp2Value"").text(respuesta.message);
+				$(""#mesageResp2"").show();
 			}else{
-				location.reload();
+				askPasswordKeySync.hide();
+				$(""#RespSuccessDownload"").text(respuesta.message);
+				$(""#mesageSuccessDownload"").show();
 			}
 };
     	</script>
@@ -159,8 +194,53 @@ WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
 
 WriteLiteral(" alt=\"no content detected\"");
 
-WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\t\t<!--LAOYUT para meeting index solo" +
-" muestra el bostrap table -->\r\n    <link");
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n       <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:$(this).hide();\"");
+
+WriteLiteral(" id=\"mesageResp2\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"umeca-toast-error element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"Resp2Value\"");
+
+WriteLiteral("></p>\r\n                </div> \r\n            </div>\r\n       </div>\r\n\r\n         <di" +
+"v");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:window.location.replace(\'hybrid:Meeting/Index\');\"");
+
+WriteLiteral(" id=\"mesageSuccessDownload\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"umeca-toast-success element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"RespSuccessDownload\"");
+
+WriteLiteral("></p>\r\n                </div> \r\n            </div>\r\n        </div>\r\n\r\n\t\t<!--LAOYU" +
+"T para meeting index solo muestra el bostrap table -->\r\n    <link");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -288,7 +368,7 @@ WriteLiteral(" src=\"scripts/umeca/ace-elements.min.js\"");
 
 WriteLiteral("></script>\r\n    \t<script");
 
-WriteLiteral(" src=\"scripts/umeca/ace-extra.js\"");
+WriteLiteral(" src=\"scripts/umeca/ace-extra.min.js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
@@ -324,7 +404,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 143 "headUmGrid.cshtml"
+#line 175 "headUmGrid.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -359,15 +439,17 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 151 "headUmGrid.cshtml"
+#line 183 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-comments-alt\"></i>&nbsp;&nbsp;Entrevista</a>" +
-"</li>\r\n            <li");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
+
+WriteLiteral(" ><i\r\n                    class=\"icon-comments-alt\"></i>&nbsp;&nbsp;Entrevista</a" +
+"></li>\r\n            <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
@@ -375,15 +457,17 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 153 "headUmGrid.cshtml"
+#line 185 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-check\"></i>&nbsp;&nbsp;Verificaci&oacute;n</" +
-"a>\r\n            </li>\r\n            <li");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
+
+WriteLiteral(" ><i\r\n                    class=\"icon-check\"></i>&nbsp;&nbsp;Verificaci&oacute;n<" +
+"/a>\r\n            </li>\r\n            <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
@@ -400,21 +484,23 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 159 "headUmGrid.cshtml"
+#line 191 "headUmGrid.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></l" +
-"i>\r\n    </ul>\r\n    <!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>\r" +
-"\n<!-- /.container -->\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
+
+WriteLiteral(" ><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></" +
+"li>\r\n    </ul>\r\n    <!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>" +
+"\r\n<!-- /.container -->\r\n</div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
 
 WriteLiteral("\t\t");
 
 
-#line 182 "headUmGrid.cshtml"
+#line 214 "headUmGrid.cshtml"
    Write(RenderBody());
 
 

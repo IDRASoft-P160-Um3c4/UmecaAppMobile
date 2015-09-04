@@ -3,11 +3,31 @@
 <html>
 	<head>
 		<title>Umeca</title>
+
+<script>
+var blokedPleaseWait  = {};
+blokedPleaseWait.show = function (caso){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.show();
+};
+
+blokedPleaseWait.hide = function (){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.hide();
+};
+</script>
+<div class="modal-dialog" style="display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0 0 0;" id="blokedPleaseWaitBoxDlgId" >
+    <div class="blocker" style="z-index:999;">
+	    <div>
+	        Cargando...<img src="content/images/ajax_loader.gif" alt="por favor espere" />
+	    </div>
+	</div>
+</div>
+
 		 <script>
 var askPasswordKeySync  = {};
 
 askPasswordKeySync.show = function (caso){
-	console.log("wl="+window.location);
 	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
 	dlgMsgBox.show();
 }; 
@@ -23,10 +43,13 @@ askPasswordKeySync.yes = function (){
 	$("#askPasswordKeySynccontainerPassword").val("");
 	var rep = Sync.downloadVerificacion(password);
 	var respuesta = $.parseJSON( rep );
-			if(respuesta.error=="true"){
-				alert(respuesta.response);
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askPasswordKeySync.hide();
+				$("#Resp1Value").text(respuesta.response);
+				$("#mesageResp1").show();
 			}else{
-				console.log("wl="+window.location);
+				window.location.replace('hybrid:Meeting/Index');
 			}
 };
     	</script>
@@ -54,6 +77,16 @@ askPasswordKeySync.yes = function (){
 		</div>
     </div>
 
+    <div class="row" onclick="javascript:$(this).hide();" id="mesageResp1" style="display:none">
+            <div class="col-xs-12">
+                <div msg="MsgError"
+                     class="umeca-toast-error element-center">
+                    <p id="Resp1Value"></p>
+                </div> 
+            </div>
+        </div>
+
+		
 
 
 
@@ -101,7 +134,7 @@ askPasswordKeySync.yes = function (){
     <script src="scripts/app/shared/dateTimePickerCursor.js"></script>
 
 
-    	<script src="scripts/umeca/ace-extra.js"></script>
+    	<script src="scripts/umeca/ace-extra.min.js"></script>
 
     <script src="scripts/app/shared/mainApp.js"></script>
 
@@ -175,15 +208,15 @@ askPasswordKeySync.yes = function (){
     <ul class="nav ace-nav">
         <li class="nav-li-blue"></li>
 
-            <li class="nav-li-blue"><a href="@Url.Action("Index","Meeting")"><i
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Meeting")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-comments-alt"></i>&nbsp;&nbsp;Entrevista</a></li>
-            <li class="nav-li-blue"><a href="@Url.Action("Index","Verification")"><i
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Verification")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
             </li>
             <li class="nav-li-blue"><a href="javascript:askPasswordKeySync.show();"><i
                     class="icon-cloud-download"></i>&nbsp;&nbsp;Descargar Informaci&oacute;n</a>
             </li>
-            <li class="nav-li-blue"><a href="@Url.Action("Index","Sync")"><i
+            <li class="nav-li-blue"><a href="@Url.Action("Index","Sync")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-exchange"></i>&nbsp;&nbsp;Sincronizar</a></li>
     </ul>
     <!-- /.ace-nav -->

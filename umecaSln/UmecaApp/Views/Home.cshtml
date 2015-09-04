@@ -6,6 +6,29 @@
    <title>UMECA</title>
 </head>
 <body>
+    <link rel="stylesheet" href="content/Site.css"/>
+
+<script>
+var blokedPleaseWait  = {};
+blokedPleaseWait.show = function (caso){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.show();
+	signarse();
+};
+
+blokedPleaseWait.hide = function (){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.hide();
+};
+</script>
+<div class="modal-dialog" style="display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0 0 0;" id="blokedPleaseWaitBoxDlgId" >
+    <div class="blocker" style="z-index:999;">
+	    <div>
+	        Cargando...<img src="content/images/ajax_loader.gif" alt="por favor espere" />
+	    </div>
+	</div>
+</div>
+
     <script src="scripts/jquery-1.10.2.min.js"></script>
     <script src="scripts/umeca/bootstrap.min.js"></script>
     <script src="scripts/jquery.validate.min.js"></script>
@@ -13,9 +36,11 @@
     <link rel="stylesheet" href="content/bootstrap.css"/>
     <script>
     $("#divMsgError").hide();
+
     var signarse = function (){
-    $("#divMsgError").hide();
+    	$("#divMsgError").hide();
     	if($("#lgnForm").valid() == false){
+    		blokedPleaseWait.hide();
         	return false;
         }else{
         	var user=$("#j_username").val();
@@ -31,6 +56,7 @@
         	}
         	console.log("response->"+response["response"]);
         }
+        blokedPleaseWait.hide();
     }
     </script>
                 <div class="modal-header">
@@ -84,7 +110,7 @@
 		        </div>
 
                 <div class="modal-footer">
-                	<a href="javascript:;" onclick="signarse();" >
+                	<a href="javascript:;" onclick="blokedPleaseWait.show();" >
                     <label class="btn btn-default btn-primary btn-sm" >Ingresar</label>
                     </a>
          		</div>

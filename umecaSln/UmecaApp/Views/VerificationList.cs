@@ -74,7 +74,7 @@ WriteLiteral(" \r\n     data-search-align=\"right\"");
 WriteLiteral(" data-toolbar=\"#toolbar2\"");
 
 WriteLiteral(@">
-    <thead>
+    <thead>	
     <tr>
         <th>ID</th>
         <th>Carpeta de Investigaci&oacute;n</th>

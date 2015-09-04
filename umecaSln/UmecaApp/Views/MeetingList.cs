@@ -93,19 +93,9 @@ WriteLiteral(">\r\n        <i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></i>\r\n    </button></a>\r\n    <!--<button");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" class=\"btn btn-default\"");
-
-WriteLiteral(" id=\"btnRefresh\"");
-
-WriteLiteral(">\r\n        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-refresh\"");
-
-WriteLiteral("></i>\r\n    </button>-->\r\n</div>\r\n    <table");
+WriteLiteral("></i>\r\n    </button></a>\r\n    <!--<button type=\"button\" class=\"btn btn-default\" i" +
+"d=\"btnRefresh\">\r\n        <i class=\"glyphicon glyphicon-refresh\"></i>\r\n    </butt" +
+"on>-->\r\n</div>\r\n    <table");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -184,7 +174,7 @@ WriteLiteral("        \t");
 
 
 #line 52 "MeetingList.cshtml"
-    Write(Meeting.IdFolder);
+       Write(Meeting.IdFolder);
 
 
 #line default
@@ -195,7 +185,7 @@ WriteLiteral("        \t");
 
 
 #line 55 "MeetingList.cshtml"
-     Write(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM);
+        Write(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM);
 
 
 #line default
@@ -206,7 +196,7 @@ WriteLiteral("        \t");
 
 
 #line 58 "MeetingList.cshtml"
-     Write(((DateTime) Meeting.DateBirth).ToString("yyyy/MM/dd"));
+        Write(((DateTime) Meeting.DateBirth).ToString("yyyy/MM/dd"));
 
 
 #line default
@@ -267,7 +257,7 @@ WriteLiteral("        \t");
 
 
 #line 72 "MeetingList.cshtml"
-    Write(Meeting.Description);
+       Write(Meeting.Description);
 
 
 #line default
@@ -278,7 +268,7 @@ WriteLiteral("       \t\t");
 
 
 #line 75 "MeetingList.cshtml"
-    Write(Meeting.StatusCode);
+       Write(Meeting.StatusCode);
 
 
 #line default
@@ -289,7 +279,7 @@ WriteLiteral("        \t");
 
 
 #line 78 "MeetingList.cshtml"
-    Write(Meeting.ReviewerId);
+       Write(Meeting.ReviewerId);
 
 
 #line default
@@ -315,20 +305,9 @@ WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" style=\"display:inline-block;\"");
 
-WriteLiteral(" title=\"Procesos legales usuario\"");
+WriteLiteral(" title=\"Procesos legales usuario (solo version en linea)\"");
 
-WriteAttribute ("onclick", " onclick=\"", "\""
-, Tuple.Create<string,object,bool> ("", "legal(", true)
-
-#line 82 "MeetingList.cshtml"
-                                                                        , Tuple.Create<string,object,bool> ("", Meeting.CaseId
-
-#line default
-#line hidden
-, false)
-, Tuple.Create<string,object,bool> ("", ");", true)
-);
-WriteLiteral("><i");
+WriteLiteral(" ><i");
 
 WriteLiteral(" class=\"icon-legal\"");
 
@@ -354,7 +333,7 @@ WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "editMeeting(", true)
 
 #line 85 "MeetingList.cshtml"
-                                                                          , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+                                                                            , Tuple.Create<string,object,bool> ("", Meeting.CaseId
 
 #line default
 #line hidden
@@ -383,13 +362,8 @@ WriteLiteral("        </td>\r\n    </tr>\r\n");
 
 #line default
 #line hidden
-WriteLiteral("    </tbody>\r\n</table>\r\n\t<!--<span");
-
-WriteLiteral(" class=\"btn btn-default btn-sm\"");
-
-WriteLiteral(" onclick=\"cancelari();\"");
-
-WriteLiteral(">\r\n        Cancelar\r\n    </span>-->");
+WriteLiteral("    </tbody>\r\n</table>\r\n\t<!--<span class=\"btn btn-default btn-sm\" onclick=\"cancel" +
+"ari();\">\r\n        Cancelar\r\n    </span>-->");
 
 }
 }

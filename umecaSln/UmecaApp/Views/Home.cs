@@ -32,8 +32,50 @@ public UmecaApp.Models.PageModel Model { get; set; }
 
 public override void Execute()
 {
-WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n</head>\r\n<body>\r\n    <s" +
-"cript");
+WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n   <title>UMECA</title>\r\n</head>\r\n<body>\r\n    <l" +
+"ink");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" href=\"content/Site.css\"");
+
+WriteLiteral(@"/>
+
+<script>
+var blokedPleaseWait  = {};
+blokedPleaseWait.show = function (caso){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.show();
+	signarse();
+};
+
+blokedPleaseWait.hide = function (){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.hide();
+};
+</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0" +
+" 0 0;\"");
+
+WriteLiteral(" id=\"blokedPleaseWaitBoxDlgId\"");
+
+WriteLiteral(" >\r\n    <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t    <div>\r\n\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"por favor espere\"");
+
+WriteLiteral(" />\r\n\t    </div>\r\n\t</div>\r\n</div>\r\n\r\n    <script");
 
 WriteLiteral(" src=\"scripts/jquery-1.10.2.min.js\"");
 
@@ -58,9 +100,11 @@ WriteLiteral(" href=\"content/bootstrap.css\"");
 WriteLiteral(@"/>
     <script>
     $(""#divMsgError"").hide();
+
     var signarse = function (){
-    $(""#divMsgError"").hide();
+    	$(""#divMsgError"").hide();
     	if($(""#lgnForm"").valid() == false){
+    		blokedPleaseWait.hide();
         	return false;
         }else{
         	var user=$(""#j_username"").val();
@@ -76,6 +120,7 @@ WriteLiteral(@"/>
         	}
         	console.log(""response->""+response[""response""]);
         }
+        blokedPleaseWait.hide();
     }
     </script>
                 <div");
@@ -260,7 +305,7 @@ WriteLiteral(">\r\n                \t<a");
 
 WriteLiteral(" href=\"javascript:;\"");
 
-WriteLiteral(" onclick=\"signarse();\"");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
 
 WriteLiteral(" >\r\n                    <label");
 

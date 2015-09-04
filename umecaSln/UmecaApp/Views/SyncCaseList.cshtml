@@ -27,7 +27,15 @@ askSyncIncomplete.yes = function (){
 	var password = $("#askSyncIncompletecontainerPassword").val();
 	$("#askSyncIncompletecontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncIncomplete.idCase+"]", password,"verificacion");
-	alert(result);
+	var respuesta = $.parseJSON( result );
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askSyncIncomplete.hide();
+				$("#Resp2Value").text(respuesta.response);
+				$("#mesageResp2").show();
+			}else{
+				window.location.replace('hybrid:Sync/Index');
+			}
 askSyncIncomplete.idCase = 0;
 };
     	</script>

@@ -29,11 +29,49 @@ WriteLiteral(@"<!DOCTYPE html>
 <html>
 	<head>
 		<title>Umeca</title>
+
+<script>
+var blokedPleaseWait  = {};
+blokedPleaseWait.show = function (caso){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.show();
+};
+
+blokedPleaseWait.hide = function (){
+	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
+	dlgMsgBox.hide();
+};
+</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0" +
+" 0 0;\"");
+
+WriteLiteral(" id=\"blokedPleaseWaitBoxDlgId\"");
+
+WriteLiteral(" >\r\n    <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t    <div>\r\n\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"por favor espere\"");
+
+WriteLiteral(@" />
+	    </div>
+	</div>
+</div>
+
 		 <script>
 var askPasswordKeySync  = {};
 
 askPasswordKeySync.show = function (caso){
-	console.log(""wl=""+window.location);
 	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
 	dlgMsgBox.show();
 }; 
@@ -49,10 +87,13 @@ askPasswordKeySync.yes = function (){
 	$(""#askPasswordKeySynccontainerPassword"").val("""");
 	var rep = Sync.downloadVerificacion(password);
 	var respuesta = $.parseJSON( rep );
-			if(respuesta.error==""true""){
-				alert(respuesta.response);
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askPasswordKeySync.hide();
+				$(""#Resp1Value"").text(respuesta.response);
+				$(""#mesageResp1"").show();
 			}else{
-				console.log(""wl=""+window.location);
+				window.location.replace('hybrid:Meeting/Index');
 			}
 };
     	</script>
@@ -151,7 +192,32 @@ WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
 
 WriteLiteral(" alt=\"no content detected\"");
 
-WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n    <link");
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:$(this).hide();\"");
+
+WriteLiteral(" id=\"mesageResp1\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" msg=\"MsgError\"");
+
+WriteLiteral("\r\n                     class=\"umeca-toast-error element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"Resp1Value\"");
+
+WriteLiteral("></p>\r\n                </div> \r\n            </div>\r\n        </div>\r\n\r\n\t\t\r\n\r\n\r\n\r\n\r" +
+"\n\r\n    <link");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -285,7 +351,7 @@ WriteLiteral(" src=\"scripts/app/shared/dateTimePickerCursor.js\"");
 
 WriteLiteral("></script>\r\n\r\n\r\n    \t<script");
 
-WriteLiteral(" src=\"scripts/umeca/ace-extra.js\"");
+WriteLiteral(" src=\"scripts/umeca/ace-extra.min.js\"");
 
 WriteLiteral("></script>\r\n\r\n    <script");
 
@@ -387,7 +453,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 169 "headUm.cshtml"
+#line 202 "headUm.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -422,15 +488,17 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 178 "headUm.cshtml"
+#line 211 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-comments-alt\"></i>&nbsp;&nbsp;Entrevista</a>" +
-"</li>\r\n            <li");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
+
+WriteLiteral(" ><i\r\n                    class=\"icon-comments-alt\"></i>&nbsp;&nbsp;Entrevista</a" +
+"></li>\r\n            <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
@@ -438,15 +506,17 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 180 "headUm.cshtml"
+#line 213 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-check\"></i>&nbsp;&nbsp;Verificaci&oacute;n</" +
-"a>\r\n            </li>\r\n            <li");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
+
+WriteLiteral(" ><i\r\n                    class=\"icon-check\"></i>&nbsp;&nbsp;Verificaci&oacute;n<" +
+"/a>\r\n            </li>\r\n            <li");
 
 WriteLiteral(" class=\"nav-li-blue\"");
 
@@ -463,16 +533,18 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 186 "headUm.cshtml"
+#line 219 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
 
 #line default
 #line hidden
 , false)
 );
-WriteLiteral("><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></l" +
-"i>\r\n    </ul>\r\n    <!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>\r" +
-"\n<!-- /.container -->\r\n</div>\r\n\r\n<div");
+WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
+
+WriteLiteral(" ><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbsp;Sincronizar</a></" +
+"li>\r\n    </ul>\r\n    <!-- /.ace-nav -->\r\n</div>\r\n<!-- /.navbar-header -->\r\n</div>" +
+"\r\n<!-- /.container -->\r\n</div>\r\n\r\n<div");
 
 WriteLiteral(" id=\"ConfirmBoxDialogSession\"");
 
@@ -529,7 +601,7 @@ WriteLiteral(">\r\n                          Continuar\r\n                    </
 WriteLiteral("\t\t");
 
 
-#line 235 "headUm.cshtml"
+#line 268 "headUm.cshtml"
    Write(RenderBody());
 
 
