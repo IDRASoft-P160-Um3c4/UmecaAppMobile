@@ -449,7 +449,7 @@ namespace UmecaApp
 				fmsToInsert.StatusFieldVerificationId = estatusCampoVerificacionNotEq.Id;
 				fmsToInsert.Value = val.ToString();
 				db.Insert (fmsToInsert);
-				if (fmsToInsert.Id == null || fmsToInsert.Id == 0) {
+				if (fmsToInsert == null || fmsToInsert.Id == 0) {
 					output = new Java.Lang.String("Ha ocurrido un error al crear la lista.");
 					db.Rollback ();
 					return output;
@@ -529,7 +529,7 @@ namespace UmecaApp
 					fmsToInsert.IdFieldList = listId;
 				}
 				db.Insert (fmsToInsert);
-				if (fmsToInsert.Id == null || fmsToInsert.Id == 0) {
+				if (fmsToInsert == null || fmsToInsert.Id == 0) {
 					output = new Java.Lang.String("Ha ocurrido un error al crear la lista.");
 					db.Rollback ();
 					return output;

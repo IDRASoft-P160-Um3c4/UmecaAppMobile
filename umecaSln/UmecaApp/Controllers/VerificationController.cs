@@ -66,7 +66,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id > 0) {
 				revId = reviewer.Id;
 			}
 
@@ -108,7 +108,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id > 0) {
 				revId = reviewer.Id;
 			}
 
@@ -184,28 +184,6 @@ namespace UmecaApp
 			result.DateCreate = baseMe.DateCreate;
 			result.DateTerminate = baseMe.DateTerminate;
 
-//			var result = db.Query<VerificationMeetingSourceDto> (
-//				"SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
-//				+" ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
-//				+" ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
-//				+" ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
-//				+" ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
-//				+" ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
-//				+" ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
-//				+" ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
-//				+" ,me.id_meeting as 'MeetingId'"
-//				+" ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
-//				+" ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
-//				+" ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
-//				+" ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
-//				+" ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
-//				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
-//				+" FROM meeting as me "
-//				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-//				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-//				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-//				//				+" and me.id_reviewer = 2 "
-//				+" where cs.id_case = ?; ", idCase).FirstOrDefault();
 			result.CaseId = idCase;
 
 			result.ageString = services.calculateAge (result.BirthDate);
@@ -288,23 +266,6 @@ namespace UmecaApp
 				result.JsonReferences = references;
 			}else{
 				result.JsonReferences = null;
-				/////DELETE
-				result.JsonReferences = new List<Reference>();
-				for (var a = 0; a < 2; a++) {
-					var socialPerson = new Reference ();
-					socialPerson.Address = "secc 3" + a + " # 8" + a + " lt. " + a + "4 rio de luz ecatepec";
-					socialPerson.Age = 27 + a;
-					socialPerson.block = true;
-					socialPerson.DocumentTypeId = 1;
-					socialPerson.Id = 2 + a;
-					socialPerson.FullName = "Axel Rosa";
-					socialPerson.Phone = "2461809"+a;
-					socialPerson.RelationshipId = 18;
-					socialPerson.SpecificationDocumentType = "documento firmado ante notario";
-					socialPerson.SpecificationRelationship = "relative";
-					result.JsonReferences.Add(socialPerson);
-				}
-				/////DELETE
 			}
 
 			//Laboral History
@@ -319,25 +280,6 @@ namespace UmecaApp
 				result.JsonJobs = dtojob;
 			}else{
 				result.JsonJobs = null;
-				/////DELETE
-				result.JsonJobs = new List<JobVerificationDto>();
-				for (var a = 0; a < 2; a++) {
-					var socialPerson = new JobVerificationDto ();
-					socialPerson.block = true;
-					socialPerson.RegisterTypeId = 1;
-					socialPerson.Id = 2 + a;
-					socialPerson.Start = DateTime.Today;
-					socialPerson.End = DateTime.Today;
-					socialPerson.MeetingId = result.MeetingId??0;
-					socialPerson.Address = "22";
-					socialPerson.Company = "compañiera";
-					socialPerson.NameHead = "18";
-					socialPerson.Phone = "white kush";
-					socialPerson.Post = "wgwhwhw";
-					socialPerson.StartPrev = DateTime.Today;
-					result.JsonJobs.Add(socialPerson);
-				}
-				/////DELETE
 			}
 
 			//school history
@@ -364,24 +306,7 @@ namespace UmecaApp
 			if(drogas!=null && drogas.Count>0){
 				result.JsonDrugs = drogas;
 			}else{
-//				result.JsonDrugs = null;
-				/////DELETE
-				result.JsonDrugs = new List<Drug>();
-				for (var a = 0; a < 2; a++) {
-					var socialPerson = new Drug ();
-					socialPerson.block = true;
-					socialPerson.DrugTypeId = 1;
-					socialPerson.Id = 2 + a;
-					socialPerson.LastUse = DateTime.Today;
-					socialPerson.MeetingId = result.MeetingId??0;
-					socialPerson.OnsetAge = "22";
-					socialPerson.PeriodicityId = 2;
-					socialPerson.Quantity = "18";
-					socialPerson.Specification = "white kush";
-					socialPerson.SpecificationPeriodicity = "cuando lo puedo pagar";
-					result.JsonDrugs.Add(socialPerson);
-				}
-				/////DELETE
+				result.JsonDrugs = null;
 			}
 
 
@@ -446,7 +371,7 @@ namespace UmecaApp
 				var usrList = db.Table<User> ().ToList ();
 				User reviewer = usrList.FirstOrDefault ();
 				int revId = 0;
-				if (reviewer != null && reviewer.Id!=null) {
+				if (reviewer != null && reviewer.Id > 0) {
 					revId = reviewer.Id;
 				}
 

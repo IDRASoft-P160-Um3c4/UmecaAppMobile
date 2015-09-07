@@ -16,11 +16,11 @@ namespace UmecaApp
 			this.comment = comment;
 			this.article = article;
 
-			if (idE != null) {
+			if (idE != 0) {
 				this.federal = new TabletElectionDto(idE, nameE);
 			}
 
-			if (idC != null) {
+			if (idC != 0) {
 				this.crime = new TabletCrimeCatalogDto(idC, nameC, descriptionC, obsoleteC);
 			}
 		}

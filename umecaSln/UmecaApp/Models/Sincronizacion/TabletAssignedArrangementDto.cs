@@ -13,7 +13,7 @@ namespace UmecaApp
 			this.id = id;
 			this.description = description;
 
-			if(idA!=null){
+			if(idA!=0){
 				this.arrangement = new TabletArrangementDto(idA, descriptionA, typeA, isNationalA, indexA, isObsoleteA, isDefaultA, isExclusiveA);
 			}
 		}

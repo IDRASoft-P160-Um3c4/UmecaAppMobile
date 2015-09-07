@@ -883,7 +883,7 @@ namespace UmecaApp
 									dtoSource.visible = svt.Visible;
 									dtoSource.webId = svt.webId;
 
-									if(svt.RelationshipId !=null && svt.RelationshipId !=0){
+									if(svt !=null && svt.RelationshipId > 0){
 										var inm = db.Table<Relationship>().Where(tis=>tis.Id == svt.RelationshipId).FirstOrDefault();
 										if(inm!=null){
 											var nElect = new TabletRelationshipDto();
@@ -1487,7 +1487,7 @@ namespace UmecaApp
 											var nRelAct = new TabletRelSocialEnvironmentActivityDto();
 											nRelAct.id = rel.ActivityId;
 											nRelAct.specification = rel.specification;
-											if(rel.ActivityId!=null && rel.ActivityId != 0){
+											if(rel!=null && rel.ActivityId > 0){
 												var ac = db.Table<ActivityCatalog>().Where(act=>act.Id == rel.ActivityId).FirstOrDefault();
 												if(ac!= null){
 													nRelAct.activity = new TabletActivityDto();
@@ -1677,7 +1677,7 @@ namespace UmecaApp
 									var himputed = db.Table<HearingFormatImputed>().Where(hfsp=>hfsp.Id==hf.hearingImputed).FirstOrDefault();
 									if( himputed!=null ){
 										var nhImputed = new TabletHearingFormatImputedDto();
-										if(himputed.Address!=null && himputed.Address!=0){
+										if(himputed !=null && himputed.Address > 0){
 											var adrss = db.Table<Address>().Where(adrs=>adrs.Id == himputed.Address).FirstOrDefault();
 											var nAdrss = new TabletAddressDto();
 											nAdrss.addressString = adrss.addressString;
@@ -2008,7 +2008,7 @@ namespace UmecaApp
 
 						var himputed = db.Table<HearingFormatImputed>().Where(hfsp=>hfsp.Id==hf.hearingImputed).FirstOrDefault();
 						if( himputed!=null ){
-							if(himputed.Address!=null && himputed.Address!=0){
+							if(himputed !=null && himputed.Address > 0){
 								var adrss = db.Table<Address>().Where(adrs=>adrs.Id == himputed.Address).FirstOrDefault();
 								db.Delete (adrss);
 							}//end del if adres no es nulo

@@ -40,15 +40,15 @@ namespace UmecaApp
 			this.previousHearing = previousHearing;
 			this.showNotification = showNotification;
 
-			if (idHT != null) {
+			if (idHT != 0) {
 				this.hearingType = new TabletHearingTypeDto(idHT, descriptionHT, isObsoleteHT, lockHT, specificationHT);
 			}
 
-			if (idHFS != null) {
+			if (idHFS != 0) {
 				this.hearingFormatSpecs = new TabletHearingFormatSpecsDto(idHFS, controlDetentionHFS, extensionHFS, imputationFormulationHFS, imputationDateTimeHFS, linkageProcessHFS, linkageRoomHFS, linkageDateTimeHFS, extDateTimeHFS, linkageTimeHFS, arrangementTypeHFS, nationalArrangementHFS??false);
 			}
 
-			if (idI != null) {
+			if (idI != 0) {
 				this.hearingImputed = new TabletHearingFormatImputedDto(idI, nameI, lastNamePI, lastNameMI, birthDateTimeI, imputeTelI,
 					idA, streetA, outNumA, innNumA, latA, lngA, addressStringA,
 					idL, nameL, abbreviationL, descriptionL, zipCodeL);

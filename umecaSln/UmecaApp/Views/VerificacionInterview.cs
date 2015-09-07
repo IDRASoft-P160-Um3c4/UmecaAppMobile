@@ -12719,7 +12719,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "col-xs-6", true)
 
 #line 4571 "VerificacionInterview.cshtml"
-            , Tuple.Create<string,object,bool> (" ", jaid
+            , Tuple.Create<string,object,bool> (" ", c
 
 #line default
 #line hidden
@@ -12744,7 +12744,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "form-control", true)
 
 #line 4576 "VerificacionInterview.cshtml"
-                          , Tuple.Create<string,object,bool> (" ", jaid
+                          , Tuple.Create<string,object,bool> (" ", c
 
 #line default
 #line hidden
@@ -12755,7 +12755,7 @@ WriteLiteral(" data-val=\"true\"");
 WriteAttribute ("value", " value=\"", "\""
 
 #line 4576 "VerificacionInterview.cshtml"
-                                                         , Tuple.Create<string,object,bool> ("", Jdrg.SpecificationPeriodicity
+                                                      , Tuple.Create<string,object,bool> ("", Jdrg.SpecificationPeriodicity
 
 #line default
 #line hidden

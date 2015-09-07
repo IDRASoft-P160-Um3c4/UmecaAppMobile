@@ -68,7 +68,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id!=0) {
 				revId = reviewer.Id;
 			}
 
@@ -160,7 +160,7 @@ namespace UmecaApp
 				var usrList = db.Table<User> ().ToList ();
 				User reviewer = usrList.FirstOrDefault ();
 				int revId = 0;
-				if (reviewer != null && reviewer.Id!=null) {
+				if (reviewer != null && reviewer.Id!=0) {
 					revId = reviewer.Id;
 				}
 

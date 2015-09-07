@@ -23,11 +23,7 @@ namespace UmecaApp
 		readonly SQLiteConnection db;
 		CatalogServiceController services;
 
-		String jsonCountrys;
-		String jsonStates;
-		String jsonMunycipality;
-		String jsonElection;
-		String jsonActivities;
+
 
 		public SyncController(IHybridWebView webView, SQLiteConnection dbConection)
 		{
@@ -51,7 +47,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id > 0) {
 				revId = reviewer.Id;
 			}
 
@@ -141,7 +137,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id > 0) {
 				revId = reviewer.Id;
 			}
 
@@ -435,11 +431,7 @@ namespace UmecaApp
 			result.JsonMeeting = output;
 
 
-			result.JsonCountrys = this.jsonCountrys;
-			result.JsonStates = this.jsonStates;
-			result.JsonMunycipality = this.jsonMunycipality;
-			result.JsonElection = this.jsonElection;
-			result.JsonActivities = this.jsonActivities;
+
 
 			var temp = new MeetingDatosPersonales{Model = result };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
@@ -471,11 +463,7 @@ namespace UmecaApp
 			db.Update(imputado);
 			string output = JsonConvert.SerializeObject(model);
 			model.JsonMeeting = output;
-			model.JsonCountrys = this.jsonCountrys;
-			model.JsonStates = this.jsonStates;
-			model.JsonMunycipality = this.jsonMunycipality;
-			model.JsonElection = this.jsonElection;
-			model.JsonActivities = this.jsonActivities;
+
 
 			var temp = new MeetingDatosPersonales{Model = model };
 			var pagestring = "nada que ver";

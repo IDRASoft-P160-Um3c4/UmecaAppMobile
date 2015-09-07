@@ -28,7 +28,7 @@ namespace UmecaApp
 			this.address = address;
 			this.block = block;
 
-			if (idRT != null) {
+			if (idRT != 0) {
 				this.registerType = new TabletRegisterTypeDto(idRT, nameRT);
 			}
 		}

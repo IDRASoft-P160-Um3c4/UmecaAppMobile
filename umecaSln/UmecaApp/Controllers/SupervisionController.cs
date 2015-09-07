@@ -23,7 +23,7 @@ namespace UmecaApp
 		String JsonStates;
 		String JsonMunycipality;
 		String JsonElection;
-		String JsonActivities;
+
 
 		public SupervisionController(IHybridWebView webView, SQLiteConnection dbConection)
 		{	
@@ -46,7 +46,7 @@ namespace UmecaApp
 			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
 			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
 			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
-			this.JsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
+
 		}
 
 
@@ -58,7 +58,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id > 0) {
 				revId = reviewer.Id;
 			}
 
@@ -579,7 +579,7 @@ namespace UmecaApp
 			var usrList = db.Table<User> ().ToList ();
 			User reviewer = usrList.FirstOrDefault ();
 			int revId = 0;
-			if (reviewer != null && reviewer.Id!=null) {
+			if (reviewer != null && reviewer.Id > 0) {
 				revId = reviewer.Id;
 			}
 
@@ -617,7 +617,7 @@ namespace UmecaApp
 			if (usuarioAct != null && usuarioAct.Count > 0) {
 				superviser = usuarioAct[0];
 			}
-			if (superviser != null && superviser.Id != null && superviser.Id > 0) {
+			if (superviser != null && superviser.Id > 0) {
 				var logs = db.Table<LogCase> ().Where (lc => lc.caseDetentionId == idCase
 				                       && lc.userId == superviser.Id).ToList ();
 				model.rows = new List<LogCase> ();

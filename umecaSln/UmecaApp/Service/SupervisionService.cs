@@ -308,7 +308,7 @@ namespace UmecaApp
 			try{
 				hearingImputed.ImputeTel = viewFormat.imputedTel;
 
-				if (viewFormat.location != null && viewFormat.location.Id != null && viewFormat.location.Id >0 ) {
+				if (viewFormat.location != null &&  viewFormat.location.Id > 0 ) {
 					Address address = db.Table<Address>().Where(ad=>ad.Id==hearingImputed.Address).FirstOrDefault();
 					if (address == null)
 						address = new Address();
@@ -455,7 +455,7 @@ namespace UmecaApp
 						}
 
 						var oldContacts = new List<ContactData> ();
-						if (hearingFormat.Id != null && hearingFormat.Id > 0) {
+						if (hearingFormat != null && hearingFormat.Id > 0) {
 							var prevContacts = db.Table<ContactData> ().Where (cont => cont.HearingFormat == hearingFormat.Id).ToList ();
 							if (prevContacts != null && prevContacts.Count > 0) {
 								oldContacts = prevContacts;
@@ -473,7 +473,7 @@ namespace UmecaApp
 						result.lstContactDataView = lstNewContactData;
 					} else {
 						var oldContacts = new List<ContactData> ();
-						if (hearingFormat.Id != null && hearingFormat.Id > 0) {
+						if (hearingFormat != null && hearingFormat.Id > 0) {
 							var prevContacts = db.Table<ContactData> ().Where (cont => cont.HearingFormat == hearingFormat.Id).ToList ();
 							if (prevContacts != null && prevContacts.Count > 0) {
 								oldContacts = prevContacts;
@@ -530,7 +530,7 @@ namespace UmecaApp
 			String idJudicial = caso.IdMP;
 			int idCase = caso.Id;
 
-			if (model.hearingFormat.IsFinished != null && model.hearingFormat.IsFinished == true) {
+			if (model.hearingFormat != null && model.hearingFormat.IsFinished == true) {
 				model.hearingFormat.EndTime = DateTime.Now;
 				if (idJudicial == null || idJudicial.Trim() == "") {
 					caso.IdMP = model.hearingFormat.IdJudicial;
@@ -539,11 +539,11 @@ namespace UmecaApp
 			} else {
 				caso.StatusCaseId = db.Table<StatusCase> ().Where (stsc=>stsc.Name==Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE).FirstOrDefault ().Id;
 			}
-			if (model.hearingFormat.IsFinished != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null && model.newHearingFormatSpecs.LinkageProcess != null &&
+			if (model.hearingFormat != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null && model.newHearingFormatSpecs.LinkageProcess != null &&
 				model.newHearingFormatSpecs.LinkageProcess ==Constants.PROCESS_VINC_NO) {
 				caso.StatusCaseId = db.Table<StatusCase> ().Where (stsc => stsc.Name == Constants.CASE_STATUS_PRE_CLOSED).FirstOrDefault ().Id;
 			}
-			if (model.hearingFormat.IsFinished != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null &&
+			if (model.hearingFormat != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null &&
 				model.newHearingFormatSpecs.LinkageProcess != null &&
 				(model.newHearingFormatSpecs.LinkageProcess == Constants.PROCESS_VINC_YES
 					|| model.newHearingFormatSpecs.LinkageProcess ==Constants.PROCESS_VINC_NO_REGISTER)) {
