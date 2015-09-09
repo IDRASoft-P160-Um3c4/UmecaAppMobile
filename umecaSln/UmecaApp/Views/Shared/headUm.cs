@@ -86,14 +86,17 @@ askPasswordKeySync.yes = function (){
 	var password = $(""#askPasswordKeySynccontainerPassword"").val();
 	$(""#askPasswordKeySynccontainerPassword"").val("""");
 	var rep = Sync.downloadVerificacion(password);
+	console.log(""rep-----------""+rep);
 	var respuesta = $.parseJSON( rep );
-	console.log(respuesta.response);
-			if(respuesta.error){
+	console.log(respuesta.message);
+			if(respuesta.hasError){
 				askPasswordKeySync.hide();
-				$(""#Resp1Value"").text(respuesta.response);
-				$(""#mesageResp1"").show();
+				$(""#Resp2Value"").text(respuesta.message);
+				$(""#mesageResp2"").show();
 			}else{
-				window.location.replace('hybrid:Meeting/Index');
+				askPasswordKeySync.hide();
+				$(""#RespSuccessDownload"").text(respuesta.message);
+				$(""#mesageSuccessDownload"").show();
 			}
 };
     	</script>
@@ -453,7 +456,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 202 "headUm.cshtml"
+#line 205 "headUm.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -488,7 +491,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 211 "headUm.cshtml"
+#line 214 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -506,7 +509,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 213 "headUm.cshtml"
+#line 216 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
@@ -533,7 +536,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 219 "headUm.cshtml"
+#line 222 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
 
 #line default
@@ -601,7 +604,7 @@ WriteLiteral(">\r\n                          Continuar\r\n                    </
 WriteLiteral("\t\t");
 
 
-#line 268 "headUm.cshtml"
+#line 271 "headUm.cshtml"
    Write(RenderBody());
 
 

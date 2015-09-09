@@ -87,6 +87,7 @@ namespace UmecaApp
 			db.CreateTable<Job>();
 			db.CreateTable<SourceVerification> ();
 			db.CreateTable<User> ();
+			db.CreateTable<Configuracion> ();
 		}
 
 		public void InsertUserRoles(Activity act){

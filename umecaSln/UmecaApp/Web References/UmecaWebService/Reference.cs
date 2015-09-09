@@ -26,7 +26,7 @@ namespace UmecaApp.UmecaWebService {
         
         /// <remarks/>
         public UmecaWS() {
-			this.Url = Constants.UMECA_SERVICE_ROUTE;
+			this.Url = "http://www.umeca.com/context";
         }
         
         public UmecaWS(string url) {

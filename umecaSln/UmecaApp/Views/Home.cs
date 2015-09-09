@@ -41,12 +41,175 @@ WriteLiteral(" href=\"content/Site.css\"");
 
 WriteLiteral(@"/>
 
+
+<script>
+var urlConfig  = {};
+urlConfig.reference = {};
+
+urlConfig.show = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.show();
+};
+
+urlConfig.hide = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.hide();
+ $(""#HomeUrl"").val("""");
+};
+
+urlConfig.yes = function (){
+var nuevoContexto = $(""#HomeUrl"").val();
+if(nuevoContexto != """"){
+	Sync.updateAplicationUrl(nuevoContexto);
+}
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.hide();
+ $(""#HomeUrl"").val("""");
+};
+
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0" +
+" 0 -30%;\"");
+
+WriteLiteral(" id=\"MessageBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"MessageBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:urlConfig.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Actialización de URL</h4>\r\n                </div>\r\n            </div>\r\n         " +
+"   <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">¿Cambiar URL de la aplicación?</div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                    <div");
+
+WriteLiteral(" class=\"input-group\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"input-group-addon\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"glyphicon glyphicon-globe\"");
+
+WriteLiteral("></i></span>\r\n                        <input");
+
+WriteLiteral(" name=\"HomeUrl\"");
+
+WriteLiteral(" class=\"form-control ng-valid ng-dirty\"");
+
+WriteLiteral(" id=\"HomeUrl\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" placeholder=\"www.dominio.com/contexto\"");
+
+WriteLiteral(">\r\n                    </div>\r\n                    <div");
+
+WriteLiteral(" class=\"input-group error-font\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-replace=\"true\"");
+
+WriteLiteral(" data-valmsg-for=\"HomeUrl\"");
+
+WriteLiteral("></span>\r\n                    </div>\r\n            \t</div>\r\n            </div>\r\n  " +
+"          <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-danger\"");
+
+WriteLiteral(" onclick=\"javascript:urlConfig.yes();\"");
+
+WriteLiteral(" >Actualizar</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:urlConfig.hide();\"");
+
+WriteLiteral(" >Cancelar</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(@" />
+		    </div>
+		</div>
+    </div>
+
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
 	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
 	dlgMsgBox.show();
-	signarse();
+	setTimeout(signarse(), 1000);
 };
 
 blokedPleaseWait.hide = function (){
@@ -154,6 +317,8 @@ WriteLiteral(" class=\"glyphicon glyphicon-phone\"");
 WriteLiteral("></i>\r\n                            &nbsp;&nbsp;&nbsp;<i");
 
 WriteLiteral(" class=\"glyphicon glyphicon-tasks\"");
+
+WriteLiteral(" onclick=\"urlConfig.show();\"");
 
 WriteLiteral("></i>&nbsp;&nbsp;&nbsp;\r\n                        </h4>\r\n                    </div" +
 ">\r\n                </div>\r\n<form");
@@ -273,8 +438,8 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 WriteLiteral(" data-valmsg-for=\"Password\"");
 
 WriteLiteral("></span>\r\n                            </div>\r\n                    \t</div>\r\n      " +
-"              </div>\r\n                    <br>\r\n                </div>\r\n\r\n      " +
-"          <div");
+"              </div>\r\n\r\n                    <br>\r\n                </div>\r\n\r\n    " +
+"            <div");
 
 WriteLiteral(" style=\"display:none\"");
 
@@ -307,12 +472,12 @@ WriteLiteral(" href=\"javascript:;\"");
 
 WriteLiteral(" onclick=\"blokedPleaseWait.show();\"");
 
-WriteLiteral(" >\r\n                    <label");
+WriteLiteral(" >\r\n                    \t<label");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
-WriteLiteral(" >Ingresar</label>\r\n                    </a>\r\n         \t\t</div>\r\n</form>\r\n      <" +
-"/body>\r\n</html>");
+WriteLiteral(" >Ingresar</label>\r\n                    </a>\r\n         \t\t</div>\r\n</form>\r\n\r\n\r\n   " +
+"   </body>\r\n</html>");
 
 }
 }

@@ -8,12 +8,73 @@
 <body>
     <link rel="stylesheet" href="content/Site.css"/>
 
+
+<script>
+var urlConfig  = {};
+urlConfig.reference = {};
+
+urlConfig.show = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.show();
+};
+
+urlConfig.hide = function (){
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.hide();
+ $("#HomeUrl").val("");
+};
+
+urlConfig.yes = function (){
+var nuevoContexto = $("#HomeUrl").val();
+if(nuevoContexto != ""){
+	Sync.updateAplicationUrl(nuevoContexto);
+}
+var dlgMsgBox = $('#MessageBoxDlgId');
+dlgMsgBox.hide();
+ $("#HomeUrl").val("");
+};
+
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0 0 -30%;" id="MessageBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="MessageBoxDlgXclose" type="button" class="close" onclick="javascript:urlConfig.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Actialización de URL</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">¿Cambiar URL de la aplicación?</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <input name="HomeUrl" class="form-control ng-valid ng-dirty" id="HomeUrl" type="text" placeholder="www.dominio.com/contexto">
+                    </div>
+                    <div class="input-group error-font">
+                        <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="HomeUrl"></span>
+                    </div>
+            	</div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-danger" onclick="javascript:urlConfig.yes();" >Actualizar</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:urlConfig.hide();" >Cancelar</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
 	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
 	dlgMsgBox.show();
-	signarse();
+	setTimeout(signarse(), 1000);
 };
 
 blokedPleaseWait.hide = function (){
@@ -67,7 +128,7 @@ blokedPleaseWait.hide = function (){
                             &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-cloud"></i>
                             &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-home"></i>
                             &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-phone"></i>
-                            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-tasks" onclick="urlConfig.show();"></i>&nbsp;&nbsp;&nbsp;
                         </h4>
                     </div>
                 </div>
@@ -98,6 +159,7 @@ blokedPleaseWait.hide = function (){
                             </div>
                     	</div>
                     </div>
+
                     <br>
                 </div>
 
@@ -111,9 +173,11 @@ blokedPleaseWait.hide = function (){
 
                 <div class="modal-footer">
                 	<a href="javascript:;" onclick="blokedPleaseWait.show();" >
-                    <label class="btn btn-default btn-primary btn-sm" >Ingresar</label>
+                    	<label class="btn btn-default btn-primary btn-sm" >Ingresar</label>
                     </a>
          		</div>
 </form>
+
+
       </body>
 </html>

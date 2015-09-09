@@ -54,9 +54,16 @@ namespace UmecaApp
 
 		[Export("userUpsert")]
 		public Java.Lang.String userUpsert(Java.Lang.String user,Java.Lang.String pass){
-			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
+			UmecaWebService.UmecaWS uwsl;
+			var everything = db.Table<Configuracion>().FirstOrDefault();
+			if (everything != null && !String.IsNullOrEmpty (everything.url)) {
+				uwsl = new UmecaApp.UmecaWebService.UmecaWS (everything.url);
+			} else {
+				uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
+			}
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			var usuario = user.ToString ();
+			var extraCode = "";
 			try{
 				db.BeginTransaction();
 				db.CreateTable<User> ();
@@ -90,6 +97,7 @@ namespace UmecaApp
 				db.Rollback ();
 				Console.WriteLine ("exception in userUpsert()");
 				Console.WriteLine("Exception message :::>"+e.Message);
+				extraCode = "Fallo en la conexion con el servicio: "+e.Message;
 //				return new Java.Lang.String ("{\"error\":true, \"response\":\"Fallo en la conexion con el servicio revise su conexion e intente nuevamente\"}");
 			}finally{
 				db.Commit ();
@@ -108,11 +116,36 @@ namespace UmecaApp
 					return new Java.Lang.String ("{\"error\":false, \"response\":\""+direct+"\"}");
 				} else {
 					
-					return new Java.Lang.String ("{\"error\":true, \"response\":\"El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente\"}");
+					return new Java.Lang.String ("{\"error\":true, \"response\":\"El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente. \\n"+extraCode+"  \"}");
 				}
 			} else {
-				return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado\"}");
+				return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado. \\n"+extraCode+"  \"}");
 			}
+		}
+
+		[Export("updateAplicationUrl")]
+		public Java.Lang.String updateAplicationUrl(Java.Lang.String newUrl){
+			var response = "false";
+			try{
+				db.BeginTransaction();
+				var contexto = newUrl.ToString ();
+				db.CreateTable<Configuracion> ();
+				var everything = db.Table<Configuracion>().ToList();
+				db.DeleteAll(everything);
+				var nuevaRuta = Constants.UMECA_SERVICE_PROTOCOL + contexto + Constants.UMECA_SERVICE_END_POINT;
+				var config = new Configuracion();
+				config.Description = "cambio de url para web service";
+				config.url = nuevaRuta;
+				db.Insert(config);
+			}catch(Exception e){
+				db.Rollback ();
+				Console.WriteLine("exception in updateAplicationUrl()");
+				Console.WriteLine("Exception message :::>"+e.Message);
+				response = "true";
+			}finally{
+				db.Commit ();
+			}
+			return new Java.Lang.String(response);
 		}
 
 
@@ -122,6 +155,10 @@ namespace UmecaApp
 			String guid = "";
 			User revisor = new User();
 			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
+			var everything = db.Table<Configuracion>().FirstOrDefault();
+			if (everything != null && !String.IsNullOrEmpty (everything.url)) {
+				uwsl.Url = everything.url;
+			}
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
 			var ServiceResult = new ResponseMessage ();
@@ -133,7 +170,7 @@ namespace UmecaApp
 					var savedUsr = usrList [0];
 					var respuesta = uwsl.loginFromTablet (savedUsr.username, ecodedPass);
 					if(respuesta.hasError){
-						return new Java.Lang.String ("{\"error\":true, \"response\":\""+respuesta.message+"\"}");
+						return new Java.Lang.String ("{\"hasError\":true, \"message\":\""+respuesta.message+"\"}");
 					}else{
 						var usuarios = db.Table<User>().ToList();
 						foreach(User u in usuarios){
@@ -156,7 +193,7 @@ namespace UmecaApp
 					db.Rollback ();
 					Console.WriteLine ("exception in downloadVerificacion() login");
 					Console.WriteLine("Exception message :::>"+e.Message);
-					return new Java.Lang.String ("{\"error\":true, \"response\":\"Conexion fallida intente nuevamente.\"}");
+					return new Java.Lang.String ("{\"hasError\":true, \"message\":\"Conexion fallida intente nuevamente.\"}");
 				}finally{
 					db.Commit ();
 				}
@@ -165,7 +202,7 @@ namespace UmecaApp
 				try{
 					var asigmentsResponse = uwsl.getAssignmentsByUser(revisor.username,guid);
 					if(asigmentsResponse.hasError){
-						return new Java.Lang.String ("{\"error\":true, \"response\":\""+asigmentsResponse.message+"\"}");
+						return new Java.Lang.String ("{\"hasError\":true, \"message\":\""+asigmentsResponse.message+"\"}");
 					}else{
 						var dataString =  (System.Xml.XmlNode[]) asigmentsResponse.returnData;
 						var getData = JsonConvert.DeserializeObject<List<TabletAssignmentInfo>>(dataString[0].Value.ToString());
@@ -176,7 +213,7 @@ namespace UmecaApp
 				}catch(Exception e){
 					Console.WriteLine ("exception in downloadVerificacion() asigments");
 					Console.WriteLine("Exception message :::>"+e.Message);
-					return new Java.Lang.String ("{\"error\":true, \"response\":\"Conexion fallida intente nuevamente.\"}");
+					return new Java.Lang.String ("{\"hasError\":true, \"message\":\"Conexion fallida intente nuevamente.\"}");
 				}
 
 				//obtencion de cada asignacion de la lista obtenida
@@ -754,7 +791,7 @@ namespace UmecaApp
 				ServiceResult.message += "Se descargaron "+exitos+" casos \n" ;
 				return new Java.Lang.String (JsonConvert.SerializeObject(ServiceResult));
 			} else {
-				return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado\"}");
+				return new Java.Lang.String ("{\"hasError\":true, \"message\":\"No se encontro ningun usuario asociado\"}");
 			}
 		}
 
@@ -768,6 +805,10 @@ namespace UmecaApp
 			String guid = "";
 			User revisor = new User();
 			UmecaWebService.UmecaWS uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
+			var everything = db.Table<Configuracion>().FirstOrDefault();
+			if (everything != null && !String.IsNullOrEmpty (everything.url)) {
+				uwsl.Url = everything.url;
+			}
 			var ecodedPass = Crypto.HashPassword (pass.ToString());
 			db.CreateTable<User> ();
 			var usrList = db.Table<User> ().ToList ();
