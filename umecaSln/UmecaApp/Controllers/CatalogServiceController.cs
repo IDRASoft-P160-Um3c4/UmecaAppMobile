@@ -121,10 +121,7 @@ namespace UmecaApp
 				db.InsertWithChildren (newImputed);
 				db.UpdateWithChildren (meeting);
 				db.UpdateWithChildren (caseDetention);
-				Console.WriteLine ("caseDetention.Id> {0}", caseDetention.Id);
 				var ese = db.GetWithChildren<Meeting> (meeting.Id);
-				Console.WriteLine ("done execution>");
-				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
 			}
 		}
 
@@ -137,7 +134,6 @@ namespace UmecaApp
 			if (db.Table<Verification> ().Count() > 0) {
 				Console.WriteLine ("Verification existe!!!!");
 			}else {
-				Console.WriteLine ("CREATING !!!!!!!!!! Verification !!!!");
 				db.CreateTable<Case> ();
 				db.CreateTable<Meeting> ();
 				db.CreateTable<Imputed> ();
@@ -216,10 +212,7 @@ namespace UmecaApp
 				cv.Visible = true;
 				db.Insert (cv);
 
-				Console.WriteLine ("caseDetention.Id> {0}", caseDetention.Id);
 				var ese = db.GetWithChildren<Verification> (ver.Id);
-				Console.WriteLine ("done execution>");
-				Console.WriteLine ("ese.Id>" + ese.Id + "  _ese.CaseDetentionId=>" + ese.CaseDetentionId);
 
 				//school history
 				var escuelaUtlActual = new School ();

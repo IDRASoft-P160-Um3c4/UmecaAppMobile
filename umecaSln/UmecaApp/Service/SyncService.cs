@@ -881,6 +881,10 @@ namespace UmecaApp
 								caseSync.status = dtoStCase;
 							}
 
+						if (String.IsNullOrEmpty (caseSync.previousStateCode)) {
+							caseSync.previousStateCode = stCase.Name;
+						}
+
 						var verify = db.Table<Verification> ().Where (verf=>verf.CaseDetentionId == cs.Id && verf.ReviewerId==revisor.Id).FirstOrDefault ();
 						if (verify != null) {
 							var verificacion = new TabletVerificationDto ();
@@ -975,7 +979,7 @@ namespace UmecaApp
 												drofield.isFinal = field.IsFinal??false;
 												drofield.jsonValue = field.JsonValue??"";
 												drofield.reason = field.Reason;
-												drofield.value = field.Value;
+												drofield.value = field.Value??"";	//TODO CRITICO: al salvar con resouesta igual a la proporcionada por el imputado no encuentra el fms de la fuente 
 												if(field.StatusFieldVerificationId != null && field.StatusFieldVerificationId != 0){
 													var statusfield = db.Table<StatusFieldVerification> ().Where ( statfv => statfv.Id == field.StatusFieldVerificationId ).FirstOrDefault ();
 													if(statusfield!=null){
@@ -1881,7 +1885,6 @@ namespace UmecaApp
 						}
 
 						var strngEncode = JsonConvert.SerializeObject(caseSync);
-						Console.WriteLine(JsonConvert.SerializeObject(caseSync));
 						//aqui el caso esta lleno y se puede sincronizar
 						try{
 							var sincronizacionError=false;

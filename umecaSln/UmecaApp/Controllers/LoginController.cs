@@ -24,13 +24,12 @@ namespace UmecaApp
 			services = new CatalogServiceController (dataAccess);	
 		}
 
-		public void Index()
+		public void Index(String msg)
 		{
-//			services.createVerificationTest ();
 			services. tablesInit();
 			//TODO:Remove test verification
 			var template = new Home {
-				Model = new PageModel {Title = "Umeca"}
+				Model = new PageModel {Title = "Umeca", StatusMsg=msg}
 			};
 			var page = template.GenerateString();
 
@@ -52,11 +51,7 @@ namespace UmecaApp
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
-
-		public void AddMeeting([Bind]NewMeetingDto model) {
-			Console.WriteLine ("AddMeeting");
-			Console.WriteLine ("EntrevistaTabla....."+model.ResponseMessage);
-		}
+			
 	}
 
 

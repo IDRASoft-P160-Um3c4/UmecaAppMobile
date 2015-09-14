@@ -49,12 +49,9 @@ namespace UmecaApp
 					InsertGroupCrime (act);
 					InsertCrimeCatalog (act);
 
-
 					CreateTablesToConsult ();
 
-
 					InsertVerMethod (act);
-
 				});
 
 			Task.WaitAll(t);
@@ -70,6 +67,49 @@ namespace UmecaApp
 				true,
 				null // (can be null in which case you will need to provide tables that only use supported data types)
 			);
+
+			db.BeginTransaction ();
+			db.CreateTable<Case> ();
+			db.CreateTable<Meeting> ();	
+			db.CreateTable<Imputed> ();
+			db.CreateTable<User> ();
+			db.CreateTable<Verification> ();
+			db.CreateTable<StatusVerification> ();
+			db.CreateTable<SourceVerification> ();
+			db.CreateTable<SocialEnvironment> ();
+			db.CreateTable<RelActivity> ();
+			db.CreateTable<HearingFormatImputed> ();
+			db.CreateTable<HearingFormat> ();
+			db.CreateTable<Arrangement> ();
+			db.CreateTable<AssignedArrangement> ();
+			db.CreateTable<ContactData> ();
+			db.CreateTable<Crime> ();
+			db.CreateTable<CrimeCatalog> ();
+			db.CreateTable<HearingFormatSpecs> ();
+			db.CreateTable<HearingType> ();
+			db.CreateTable<LogCase> ();
+			db.CreateTable<FieldVerification> ();
+			db.CreateTable<Address> ();
+			db.CreateTable<FieldMeetingSource> ();
+			db.CreateTable<SocialNetwork> ();
+			db.CreateTable<PersonSocialNetwork> ();
+			db.CreateTable<Reference> ();
+			db.CreateTable<School> ();
+			db.CreateTable<Drug> ();
+			db.CreateTable<Schedule> ();
+			db.CreateTable<LeaveCountry> ();
+			db.CreateTable<ImputedHome> ();
+			db.CreateTable<Job> ();
+			db.CreateTable<Role> ();
+			db.CreateTable<AcademicLevel> ();
+			db.CreateTable<Degree> ();
+			db.CreateTable<ActivityCatalog> ();
+			db.CreateTable<DocumentType> ();
+			db.CreateTable<Election> ();
+			db.CreateTable<StatusCase> ();
+			db.CreateTable<StatusMeeting> ();
+			db.Commit ();
+
 			db.CreateTable<FieldVerification>();
 			db.CreateTable<FieldMeetingSource>();
 			db.CreateTable<SocialEnvironment>();
@@ -88,6 +128,9 @@ namespace UmecaApp
 			db.CreateTable<SourceVerification> ();
 			db.CreateTable<User> ();
 			db.CreateTable<Configuracion> ();
+
+
+
 		}
 
 		public void InsertUserRoles(Activity act){

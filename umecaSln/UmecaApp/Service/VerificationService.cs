@@ -80,8 +80,8 @@ namespace UmecaApp
 						var codigo = model[inx].name;
 						var key = db.Table<FieldVerification>().Where(ky=>ky.Code==codigo).FirstOrDefault();
 						//var fieldVerificationTarget =  db.Table<FieldVerification>().Where (fvt => fvt.Code==field.name.Trim()).FirstOrDefault();
-						if(key == null)
-							Console.WriteLine("no se encontro el key ----- inx->"+inx+" ...model[inx]->"+model[inx]);
+//						if(key == null)
+//							Console.WriteLine("no se encontro el key ----- inx->"+inx+" ...model[inx]->"+model[inx]);
 						
 						var fmsToDelete = new List<FieldMeetingSource>();
 						//busca con id list o campo solo
@@ -611,8 +611,8 @@ namespace UmecaApp
 						var codigo = model[inx];
 						var key = db.Table<FieldVerification>().Where(ky=>ky.Code==codigo).FirstOrDefault();
 						//var fieldVerificationTarget =  db.Table<FieldVerification>().Where (fvt => fvt.Code==field.name.Trim()).FirstOrDefault();
-						if(key == null)
-							Console.WriteLine("inx->"+inx+" ...model[inx]->"+model[inx]);
+//						if(key == null)
+//							Console.WriteLine("inx->"+inx+" ...model[inx]->"+model[inx]);
 
 						var fmsToDelete = new FieldMeetingSource();
 						//busca con id list o campo solo
@@ -716,8 +716,8 @@ namespace UmecaApp
 						var codigo = model[inx];
 						var key = db.Table<FieldVerification>().Where(ky=>ky.Code==codigo).FirstOrDefault();
 						//var fieldVerificationTarget =  db.Table<FieldVerification>().Where (fvt => fvt.Code==field.name.Trim()).FirstOrDefault();
-						if(key == null)
-							Console.WriteLine("inx->"+inx+" ...model[inx]->"+model[inx]);
+//						if(key == null)
+//							Console.WriteLine("inx->"+inx+" ...model[inx]->"+model[inx]);
 						var fmsToDelete = new FieldMeetingSource();
 						//busca con id list o campo solo
 						if (listId != 0) {
@@ -742,12 +742,15 @@ namespace UmecaApp
 						var sourceImputado = db.Table<SourceVerification>().Where(soVe=>soVe.VerificationId==verifcacion.Id&&soVe.Visible==false).FirstOrDefault();
 
 
+
 						if(sourceImputado==null){
 							fmsToInsert.JsonValue = " \t\n\t ";
 							fmsToInsert.Value = " \t\n\t ";
 						}else if(listId != 0 && sourceImputado!=null){
 							FMSimputado = db.Table<FieldMeetingSource>().Where(fmsi=>fmsi.FieldVerificationId==fieldVerificationTarget.Id
-								&& fmsi.SourceVerificationId == sourceImputado.Id && fmsi.IdFieldList == listId).FirstOrDefault();
+								&& fmsi.SourceVerificationId == sourceImputado.Id
+								&& fmsi.IdFieldList == listId
+							).FirstOrDefault();
 							if(FMSimputado!=null){
 								fmsToInsert.JsonValue = FMSimputado.JsonValue;
 								fmsToInsert.Value = FMSimputado.Value;
@@ -848,7 +851,6 @@ namespace UmecaApp
 		[Export("upsertVerificationSource")]
 		public Java.Lang.String upsertVerificationSource(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertRefrerencia json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<SourceVerification> (modelJson.ToString());
 			db.BeginTransaction ();
 			try{

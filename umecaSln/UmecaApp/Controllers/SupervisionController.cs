@@ -101,7 +101,6 @@ namespace UmecaApp
 		}
 
 		public void AddCaseConditionalReprieve([Bind]NewMeetingDto model) {
-			Console.WriteLine ("AddCaseConditionalReprieve");
 			String validateCreateMsg = validateCaseConditionalReprieve(model);
 			if (validateCreateMsg != null) {
 				model.ResponseMessage = validateCreateMsg;
@@ -248,7 +247,6 @@ namespace UmecaApp
 				}
 			}
 
-			Console.WriteLine ("source--"+result.rows.Count);
 			var temp = new HearingFormatList{Model = result};
 			var pagestring = "nada que ver";  
 			pagestring = temp.GenerateString ();
@@ -283,7 +281,6 @@ namespace UmecaApp
 					result.rows.Add (parsing);
 				}
 			}
-			Console.WriteLine ("source--"+result.rows.Count);
 			result.message = mesage;
 			var temp = new HearingFormatList{Model = result};
 			var pagestring = "nada que ver";  
@@ -591,7 +588,7 @@ namespace UmecaApp
 				             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status " +
 				" where me.id_reviewer = ? ", revId);	
-			Console.WriteLine ("result.count supervition index> {0}", result.Count);
+			
 			var temp = new CaseLogList{Model = result};
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();

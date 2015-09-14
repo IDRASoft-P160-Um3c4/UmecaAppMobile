@@ -4,6 +4,7 @@ using Android.OS;
 using SQLiteNetExtensions;
 using SQLite.Net;
 using SQLite.Net.Platform;
+using System;
 
 namespace UmecaApp
 {
@@ -13,9 +14,15 @@ namespace UmecaApp
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate(bundle);
-			InsertCatalogs CatalogInserter = new InsertCatalogs ();
-			CatalogInserter.insertAllCatalogs (this);
-
+			string condition = null;
+			try{
+				InsertCatalogs CatalogInserter = new InsertCatalogs ();
+				CatalogInserter.insertAllCatalogs (this);
+			}catch(Exception e){
+				Console.WriteLine ("catched error at Main activity, InsertCatalogs.insertAllCatalogs() ");
+				Console.WriteLine ("Error ::> "+e.Message);
+				condition = "Se detectó un error al crear las tablas y catálogos de la base de datos, la información está corrupta por favor instale de nuevo esta aplicación o contacte a soporte técnico.";
+			}
 //			var db = new SQLiteConnection(ConstantsDB.DB_PATH);
 			var db = new SQLiteConnection(
 				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
@@ -40,7 +47,7 @@ namespace UmecaApp
 			var syncController = new SyncController (new HybridWebView (webView, this), db);
 			RouteHandler.RegisterController ("Sync", syncController);
 
-			loginController.Index ();
+			loginController.Index (condition);
 		}
 	}
 }

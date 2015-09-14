@@ -58,7 +58,6 @@ namespace UmecaApp
 		public void Index()
 		{
 			init ();
-			services.createMeetingTest();
 			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
@@ -98,7 +97,7 @@ namespace UmecaApp
 		}
 
 		public void AddMeeting([Bind]NewMeetingDto model) {
-			Console.WriteLine ("AddMeeting");
+//			Console.WriteLine ("AddMeeting");
 			String validateCreateMsg = validateCreateMeeting(model);
 			if (validateCreateMsg != null) {
 				model.ResponseMessage = validateCreateMsg;
@@ -430,7 +429,6 @@ namespace UmecaApp
 				mdl.MeetingId = idHome;
 				dto.JsonModel = JsonConvert.SerializeObject (mdl);
 			}
-			Console.WriteLine ("saved imputed home-->"+dto.JsonModel);
 			var temp = new AddressUpsert{ Model = dto };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
@@ -631,8 +629,6 @@ namespace UmecaApp
 
 		public void IndexVerificacion()
 		{
-
-			services.createMeetingTest();
 			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
 			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
@@ -647,8 +643,6 @@ namespace UmecaApp
 				+" WHERE me.id_status in (?,?) "
 				//				+" and me.id_reviewer = 2 "
 				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
-
-			Console.WriteLine ("carga de casos "+result.Count);
 
 			var temp = new MeetingList{Model = result};
 			var pagestring = "nada que ver";

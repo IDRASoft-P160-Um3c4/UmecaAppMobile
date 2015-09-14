@@ -56,7 +56,6 @@ namespace UmecaApp
 
 		public void Index()
 		{	
-//			services.createVerificationTest();
 			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
 			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
 			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
@@ -80,7 +79,6 @@ namespace UmecaApp
 				+" and me.id_reviewer = ? "
 				+" AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId , sc.Id,sc1.Id );
 
-			Console.WriteLine ("result.count> {0}", result.Count);
 			var counter = 0;
 			for (counter = 0; counter < result.Count; counter++) {
 				var caseis = result [counter].CaseId;
@@ -135,7 +133,6 @@ namespace UmecaApp
 			} else {
 				result.reviewerFullname = entrevistador.fullname;
 			}
-			Console.WriteLine ("source--"+result.SourceListJson);
 			var temp = new VerificationSourceList{Model = result};
 			var pagestring = "nada que ver";  
 			pagestring = temp.GenerateString ();
@@ -207,6 +204,9 @@ namespace UmecaApp
 				var domVerified = new List<DomiciliosVerificationDto> ();
 				foreach (ImputedHome i in domiciliosImputado) {
 					var home = new DomiciliosVerificationDto (i);
+					if (i.webId != null && i.webId != 0L) {
+						home.Id = (int) i.webId;
+					}
 					home.ScheduleList = db.Table<Schedule> ().Where (sc => sc.ImputedHomeId == home.Id).ToList ();
 					domVerified.Add (home);
 				}
@@ -253,6 +253,10 @@ namespace UmecaApp
 				var socialList = new List<PersonSocialNetworkVerificationDto> ();
 				foreach(PersonSocialNetwork psn in personsSocNet){
 					var nuev = new PersonSocialNetworkVerificationDto (psn);
+					if (psn.webId != null && psn.webId != 0L) {
+						nuev.Id = (int) psn.webId;
+					}
+
 					socialList.Add (nuev);
 				}
 				result.JsonPersonSN = socialList;
@@ -263,6 +267,11 @@ namespace UmecaApp
 			//Reference
 			var references = db.Table<Reference> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(references!=null && references.Count>0){
+				for (var cont = 0; cont < references.Count; cont++) {
+					if (references[cont].webId != null && references[cont].webId != 0L) {
+						references[cont].Id = (int) references[cont].webId;
+					}
+				}
 				result.JsonReferences = references;
 			}else{
 				result.JsonReferences = null;
@@ -274,6 +283,9 @@ namespace UmecaApp
 				var dtojob = new List<JobVerificationDto> ();
 				foreach(Job j in trabajos){
 					var trabajo = new JobVerificationDto (j);
+					if (j.webId != null && j.webId != 0L) {
+						trabajo.Id = (int) j.webId;
+					}
 					trabajo.ScheduleList = db.Table<Schedule> ().Where (sc => sc.JobId == trabajo.Id).ToList ()??new List<Schedule>();
 					dtojob.Add (trabajo);
 				}
@@ -304,6 +316,11 @@ namespace UmecaApp
 			//DROGAS
 			var drogas = db.Table<Drug> ().Where (sn=>sn.MeetingId==result.MeetingId).ToList ();
 			if(drogas!=null && drogas.Count>0){
+				for (var cont2 = 0; cont2 < drogas.Count; cont2++) {
+					if (drogas[cont2].webId != null && drogas[cont2].webId != 0L) {
+						drogas[cont2].Id = (int) drogas[cont2].webId;
+					}
+				}
 				result.JsonDrugs = drogas;
 			}else{
 				result.JsonDrugs = null;
@@ -355,7 +372,7 @@ namespace UmecaApp
 			} else {
 				result.SourceRelationshipString = SourceRelationship.Name;
 			}
-			Console.WriteLine (JsonConvert.SerializeObject (result));
+
 			var temp = new VerificacionInterview{Model = result };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";

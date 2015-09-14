@@ -333,8 +333,44 @@ WriteLiteral(">\r\n                    <h4");
 
 WriteLiteral(" class=\"element-center\"");
 
-WriteLiteral(">Ingrese los datos para acceder al portal</h4>\r\n                    <hr>\r\n       " +
-"             <div");
+WriteLiteral(">Ingrese los datos para acceder al portal</h4>\r\n");
+
+
+#line 138 "Home.cshtml"
+                    
+
+#line default
+#line hidden
+
+#line 138 "Home.cshtml"
+                     if(Model.StatusMsg!= null){
+
+
+#line default
+#line hidden
+WriteLiteral("                    \t<div");
+
+WriteLiteral(" class=\"umeca-toast-error element-center\"");
+
+WriteLiteral(">\r\n\t\t                    <p >");
+
+
+#line 140 "Home.cshtml"
+                           Write(Model.StatusMsg);
+
+
+#line default
+#line hidden
+WriteLiteral("</p>\r\n\t\t                </div>\r\n");
+
+
+#line 142 "Home.cshtml"
+                    }
+
+
+#line default
+#line hidden
+WriteLiteral("\r\n                    <hr>\r\n                    <div");
 
 WriteLiteral(" class=\"row\"");
 

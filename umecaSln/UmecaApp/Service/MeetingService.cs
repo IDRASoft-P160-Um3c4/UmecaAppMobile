@@ -47,7 +47,6 @@ namespace UmecaApp
 		[Export("upsertPersonalData")]
 		public Java.Lang.String Example(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
-			Console.WriteLine ("json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
 			db.BeginTransaction ();
 			try{
@@ -221,7 +220,6 @@ namespace UmecaApp
 		[Export("upsertDomicilioComment")]
 		public Java.Lang.String upsertDomicilioComment(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
-			Console.WriteLine (" upsertDomicilioComment json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
 			db.BeginTransaction ();
 			try{
@@ -244,7 +242,6 @@ namespace UmecaApp
 		[Export("upsertImputedHome")]
 		public Java.Lang.String upsertImputedHome(Java.Lang.String modelJson){
 			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
 			var model = JsonConvert.DeserializeObject<ImputedHome> (modelJson.ToString());
 			db.BeginTransaction ();
 			try{
@@ -307,7 +304,6 @@ namespace UmecaApp
 					}
 				}
 				output = new Java.Lang.String("");
-				Console.WriteLine ("saved imputed home-->"+me.MeetingId);
 			}catch(Exception e){
 				db.Rollback ();
 				Console.WriteLine ("catched exception in MeetingService method upsertImputedHome invoked javascript calling -> MeetingService.upsertImputedHome()");
@@ -334,7 +330,6 @@ namespace UmecaApp
 					db.Delete(sch);
 				}
 				db.Delete(mdl);
-				Console.WriteLine ("erased imputed home-->"+idHome);
 			}catch(Exception e){
 				db.Rollback ();
 				Console.WriteLine ("catched exception in MeetingService method eraseImputedHome invoked javascript calling -> MeetingService.eraseImputedHome("+idHome+")");

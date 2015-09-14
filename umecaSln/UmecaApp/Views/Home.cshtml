@@ -135,6 +135,12 @@ blokedPleaseWait.hide = function (){
 <form id="lgnForm">
                 <div class="modal-body">
                     <h4 class="element-center">Ingrese los datos para acceder al portal</h4>
+                    @if(Model.StatusMsg!= null){
+                    	<div class="umeca-toast-error element-center">
+		                    <p >@Model.StatusMsg</p>
+		                </div>
+                    }
+
                     <hr>
                     <div class="row">
                     	<div class="col-xs-6">
