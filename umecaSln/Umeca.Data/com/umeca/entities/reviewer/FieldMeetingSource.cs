@@ -35,7 +35,7 @@ namespace UmecaApp
 			this.IdFieldList = idFieldList;
 		}
 
-		[PrimaryKey, AutoIncrement, Column("id_field_meeting_source\t")]
+		[PrimaryKey, AutoIncrement, Column("id_field_meeting_source")]
 		public int Id{ get; set; }
 
 		[ForeignKey(typeof(SourceVerification)),Column("id_source_verification")]

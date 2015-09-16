@@ -13,7 +13,7 @@ using BCrypt;
 
 
 //TODO DONE StatusMeeting, Imputed, Case
-
+	
 namespace UmecaApp
 {
 	public class VerificationController : Java.Lang.Object//: ControllerBase

@@ -138,7 +138,7 @@ askSyncVerification.hide = function (){
 	var dlgMsgBox = $('#askSyncVerificationBoxDlgId');
 	dlgMsgBox.hide();
 };
-
+  
 askSyncVerification.yes = function (){
 	var password = $("#askSyncVerificationcontainerPassword").val();
 	$("#askSyncVerificationcontainerPassword").val("");
@@ -146,14 +146,12 @@ askSyncVerification.yes = function (){
 	var respuesta = $.parseJSON( result );
 	console.log(respuesta.response);
 			if(respuesta.error){
-				askSyncPAssword.hide();
+				askSyncVerification.hide();
 				$("#Resp2Value").text(respuesta.response);
 				$("#mesageResp2").show();
 			}else{
 				window.location.replace('hybrid:Sync/Index');
 			}
-askSyncPAssword.idCase = 0;
-askSyncPAssword.idCase = 0;
 };
     	</script>
 <div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askSyncVerificationBoxDlgId" >

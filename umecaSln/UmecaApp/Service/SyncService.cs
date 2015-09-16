@@ -452,6 +452,7 @@ namespace UmecaApp
 										d.Quantity = tdrug.quantity;
 										d.Specification = tdrug.specificationType;
 										d.SpecificationPeriodicity = tdrug.specificationPeriodicity;
+										d.webId = tdrug.webId;
 										db.Insert(d);
 									}
 								}// end of drugs
@@ -540,6 +541,7 @@ namespace UmecaApp
 											j.StartPrev = DateTime.ParseExact (tjob.startPrev, "yyyy/MM/dd",
 												System.Globalization.CultureInfo.InvariantCulture);
 										}
+										j.webId = tjob.webId;
 										db.Insert(j);
 										if(tjob.schedule!=null && tjob.schedule.Count>0){
 											foreach(TabletScheduleDto tsch in tjob.schedule){
@@ -626,6 +628,7 @@ namespace UmecaApp
 									nskul.Name = tme.school.name;
 									nskul.Phone = tme.school.phone;
 									nskul.Specification = tme.school.specification??"";
+									nskul.webId = tme.webId;
 									db.Insert(nskul);
 									if(tme.school.schedule!=null && tme.school.schedule.Count>0){
 										foreach(TabletScheduleDto tsch in tme.school.schedule){
@@ -690,6 +693,7 @@ namespace UmecaApp
 											psn.SocialNetworkId = nsoc.Id;
 											psn.SpecificationDocumentType = tpsn.specification;
 											psn.specificationRelationship = tpsn.specificationRelationship;
+											psn.webId = tpsn.webId;
 											db.Insert(psn);
 										}
 									}
