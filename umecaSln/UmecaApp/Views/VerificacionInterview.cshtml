@@ -712,6 +712,7 @@ ImputedActivitiesVerify.show = function (element){
 	}
 	$("#divActivitySpecificationList").html("");
 	$('#slctMultipleActivitiesVerify').empty();
+	$('#slctMultipleActivitiesVerify').append("<option value=''> </option>");
 	//llenado del select
 	for(var indx=0;indx<ImputedActivitiesVerify.actList.length;indx++){
 		console.log("val->"+ImputedActivitiesVerify.actList[indx].Id);
@@ -727,7 +728,12 @@ ImputedActivitiesVerify.show = function (element){
         selectAll : false,
         allSelected : 'Todas las opciones',
         minimumCountSelected : 7,
-        countSelected : '# de % seleccionados'
+        countSelected : '# de % seleccionados',
+        styler: function(value) {
+                if (value == '') {
+                    return 'display:none;';
+                }
+            }
     });
 	var InformacionAnterior = VerificationService.searchFieldVerification("socialEnvironment.activities", caso, fuente, 0);
 	console.log("InformacionAnterior-->"+InformacionAnterior);
@@ -748,7 +754,7 @@ ImputedActivitiesVerify.hide = function (){
 };
 
 ImputedActivitiesVerify.save = function (){
-	var ids = $('#slctMultipleActivitiesVerify').val();
+	var ids = $('#slctMultipleActivitiesVerify').multipleSelect('getSelects');
 	var data =[];
 	var JsonVal = "";
 	var caso = $("#hdnVerificationCaseId").val();
@@ -765,7 +771,7 @@ ImputedActivitiesVerify.save = function (){
 	    		actividad["activity"].id = ImputedActivitiesVerify.actList[actInd].Id;
 	    		JsonVal += ImputedActivitiesVerify.actList[actInd].Name;
 	    		if(ImputedActivitiesVerify.actList[actInd].Specification){
-	    			var complete = $("#specification"+ImputedActivitiesVerify.actList[actInd].Name).val();
+	    			var complete = $("#specification"+ImputedActivitiesVerify.actList[actInd].Id).val();
 	    			console.log("complete"+complete);
 	    			if(complete!=undefined&&complete!=null&&complete!=""){
 		    			actividad["specification"] = complete;
@@ -792,26 +798,32 @@ ImputedActivitiesVerify.save = function (){
 	}else{
 		$("#MaritalStatusVerifyBoxDlgIderrorMsg").text(saveStatus);
 		return 0;
-	}
+	}	
     ImputedActivitiesVerify.hide();
 };
 
 ImputedActivitiesVerify.drawActivityEspecifications = function (){
-    var ids = $('#slctMultipleActivitiesVerify').val();
+    var ids = $('#slctMultipleActivitiesVerify','#ImputedActivitiesVerifyBoxDlgId').multipleSelect('getSelects');
+console.log("html="+$('#slctMultipleActivitiesVerify','#ImputedActivitiesVerifyBoxDlgId'));
+console.log("ids="+ids);
     if(ids==undefined||ids==null||ids.length<=0){
     	$("#divActivitySpecificationList").html("");
     }
+    console.log("ImputedActivitiesVerify.actList.json="+JSON.stringify(ImputedActivitiesVerify.actList));
     for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;actInd++){
     	if($.inArray(ImputedActivitiesVerify.actList[actInd].Id.toString(), ids)=="-1"){
-    		$("#divSpecification"+ImputedActivitiesVerify.actList[actInd].Name).remove();
+    		$("#divSpecification"+ImputedActivitiesVerify.actList[actInd].Id,"#ImputedActivitiesVerifyBoxDlgId").remove();
+console.log("not in array");
     	}else{
-    		var already = $("#specification"+ImputedActivitiesVerify.actList[actInd].Name).val();
+    		var already = $("#specification"+ImputedActivitiesVerify.actList[actInd].Id,"#ImputedActivitiesVerifyBoxDlgId").val();
     		if(already==undefined||already==""){
-    			$("#divSpecification"+ImputedActivitiesVerify.actList[actInd].Name).remove();
+    			$("#divSpecification"+ImputedActivitiesVerify.actList[actInd].Id,"#ImputedActivitiesVerifyBoxDlgId").remove();
     			if(ImputedActivitiesVerify.actList[actInd].Specification){
-    				$("#divActivitySpecificationList").append(ImputedActivitiesVerify.specificationHtml.replace(/entity/g,""+ImputedActivitiesVerify.actList[actInd].Name));
+    				$("#divActivitySpecificationList","#ImputedActivitiesVerifyBoxDlgId").append(ImputedActivitiesVerify.specificationHtml.replace(/Idntity/g,""+ImputedActivitiesVerify.actList[actInd].Id).replace(/entity/g,""+ImputedActivitiesVerify.actList[actInd].Name));
+    				console.log("agregando => "+ImputedActivitiesVerify.actList[actInd].Name);
     			}
     		}
+    		console.log("already => "+already);
     	}
     }
 };
@@ -860,12 +872,13 @@ ImputedActivitiesVerify.drawActivityEspecifications = function (){
                             <select onchange="ImputedActivitiesVerify.drawActivityEspecifications();"
                                     id="slctMultipleActivitiesVerify" style="width:450px;heigth: 100%;"
                                     multiple >
+                                    <option value="">Selecciona un delito</option>
                             </select>
                         </div>
                     </div>
                     <br/>
                     <div class="row" id="divActivitySpecificationList">
-                          <div id="divSpecificationentity">
+                          <div id="divSpecificationIdntity">
                               <div class="col-xs-3">
                                   Especif&iacute;que actividades entity:
                               </div>
@@ -875,9 +888,9 @@ ImputedActivitiesVerify.drawActivityEspecifications = function (){
                                          data-val-length-max="255" data-val-length-min="3"
                                          data-val-required="La especificaci&oacute;n de actividades entity es un campo requerido"
                                          type="text" value="" 
-                                         id="specificationentity" name="specificationentity"
+                                         id="specificationIdntity" name="specificationIdntity"
                                          onchange="matchActivities()"><br/>
-                                    <span class="field-validation-valid" data-valmsg-for="specificationentity"
+                                    <span class="field-validation-valid" data-valmsg-for="specificationIdntity"
                                           data-valmsg-replace="true"></span>
                                   <br/>
                               </div>
@@ -2622,7 +2635,7 @@ console.log("here5");
                                         </div>
                                         <div class="col-xs-6">
                                             <div class="widget-box">
-                                                <div class="widget-header"
+                                                <div class="widget-header row"
                                                 ng-init="maritalStatus = (m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id)">
                                                 <div class="col-xs-3">
                                                     <i class="icon-ok-circle green  icon-only bigger-220"  ng-show="verification"
@@ -5070,7 +5083,12 @@ $(function() {
 				selectAll : false,
 				allSelected : 'Todas las opciones',
 				minimumCountSelected : 7,
-				countSelected : '# de % seleccionados'
+				countSelected : '# de % seleccionados',
+        styler: function(value) {
+                if (value == '') {
+                    return 'display:none;';
+                }
+            }
         });
 });
 $("input").prop( "disabled", true );

@@ -310,6 +310,9 @@
             var selects = this.getSelects(),
                 $span = this.$choice.find('>span');
 
+            var source = this.getSelects('text');
+
+
             if (selects.length === 0) {
                 $span.addClass('placeholder').html(this.options.placeholder);
             } else if (this.options.countSelected && selects.length < this.options.minimumCountSelected) {
@@ -374,8 +377,10 @@
                 texts = [],
                 values = [];
             this.$drop.find('input[' + this.selectItemName + ']:checked').each(function () {
+            if($(this).val()!=undefined && $(this).val()!=""){
                 texts.push($(this).parents('li').first().text());
                 values.push($(this).val());
+                }
             });
 
             if (type === 'text' && this.$selectGroups.length) {

@@ -1182,67 +1182,78 @@ WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n<!--n
 "rop(\"disabled\",false).attr(\'readonly\', false).val(\"\");\r\n\t    ImputedActivitiesVe" +
 "rify.specificationHtml = $(\"#divActivitySpecificationList\").html();\r\n\t}\r\n\t$(\"#di" +
 "vActivitySpecificationList\").html(\"\");\r\n\t$(\'#slctMultipleActivitiesVerify\').empt" +
-"y();\r\n\t//llenado del select\r\n\tfor(var indx=0;indx<ImputedActivitiesVerify.actLis" +
-"t.length;indx++){\r\n\t\tconsole.log(\"val->\"+ImputedActivitiesVerify.actList[indx].I" +
-"d);\r\n\t\tconsole.log(\"text->\"+ImputedActivitiesVerify.actList[indx].Name);\r\n\t    $" +
-"(\'#slctMultipleActivitiesVerify\').append(\"<option value=\'\"+ImputedActivitiesVeri" +
-"fy.actList[indx].Id+\"\' >\"+ImputedActivitiesVerify.actList[indx].Name+\"</option>\"" +
-");\r\n\t}\r\n\t$(\'#slctMultipleActivitiesVerify\').prop(\"disabled\",false).attr(\'readonl" +
-"y\', false).val(\"\");\r\n\t$(\'#slctMultipleActivitiesVerify\').change(function() {\r\n  " +
-"  \tconsole.log($(this).val());\r\n    }).multipleSelect({\r\n    \twidth: \'100%\',\r\n  " +
-"      filter:true,\r\n        selectAll : false,\r\n        allSelected : \'Todas las" +
-" opciones\',\r\n        minimumCountSelected : 7,\r\n        countSelected : \'# de % " +
-"seleccionados\'\r\n    });\r\n\tvar InformacionAnterior = VerificationService.searchFi" +
-"eldVerification(\"socialEnvironment.activities\", caso, fuente, 0);\r\n\tconsole.log(" +
-"\"InformacionAnterior-->\"+InformacionAnterior);\r\n\t$(\"#ImputedActivitiesVerifyBoxD" +
-"lgIdsearch\").html(InformacionAnterior);\r\n    var dlgMsgBox = $(\'#ImputedActiviti" +
-"esVerifyBoxDlgId\');\r\n    window.scrollTo(0, 0);\r\n    dlgMsgBox.show();\r\n    cons" +
-"ole.log($(\"#FormImputedActivitiesVerify\").html());\r\n};\r\n\r\nImputedActivitiesVerif" +
-"y.hide = function (){\r\n    var dlgMsgBox = $(\'#ImputedActivitiesVerifyBoxDlgId\')" +
-";\r\n    dlgMsgBox.hide();\r\n    ImputedActivitiesVerify.modelList = [];\r\n    $(\"#d" +
-"ivActivitySpecificationList\").html(\"\");\r\n    $(\'#slctMultipleActivitiesVerify\')." +
-"empty();\r\n    $(\"#ImputedActivitiesVerifyBoxDlgIderrorMsg\").html(\"\");\r\n};\r\n\r\nImp" +
-"utedActivitiesVerify.save = function (){\r\n\tvar ids = $(\'#slctMultipleActivitiesV" +
-"erify\').val();\r\n\tvar data =[];\r\n\tvar JsonVal = \"\";\r\n\tvar caso = $(\"#hdnVerificat" +
-"ionCaseId\").val();\r\n\tvar fuente = $(\"#hdnVerificationSourceId\").val();\r\n\tif(ids=" +
-"=undefined||ids==null||ids.length<=0){\r\n    \t$(\"#ImputedActivitiesVerifyBoxDlgId" +
-"errorMsg\").html(\"Las actividades que realiza el imputado es un campo requerido.\"" +
-");\r\n    \treturn false;\r\n    }else{\r\n    \tfor(var actInd=0;actInd<ImputedActiviti" +
-"esVerify.actList.length;actInd++){\r\n    \tvar actividad = { \"activity\":{\"id\":0}, " +
-"\"specification\":\"\"};\r\n\t\t    console.log(\"ImputedActivitiesVerify.actList[actInd]" +
-".Id\"+ImputedActivitiesVerify.actList[actInd].Id);\r\n\t    \tif($.inArray(ImputedAct" +
-"ivitiesVerify.actList[actInd].Id.toString(), ids)!=\"-1\"){\r\n\t    \t\t//si esta en l" +
-"os elejidos\r\n\t    \t\tactividad[\"activity\"].id = ImputedActivitiesVerify.actList[a" +
-"ctInd].Id;\r\n\t    \t\tJsonVal += ImputedActivitiesVerify.actList[actInd].Name;\r\n\t  " +
-"  \t\tif(ImputedActivitiesVerify.actList[actInd].Specification){\r\n\t    \t\t\tvar comp" +
-"lete = $(\"#specification\"+ImputedActivitiesVerify.actList[actInd].Name).val();\r\n" +
-"\t    \t\t\tconsole.log(\"complete\"+complete);\r\n\t    \t\t\tif(complete!=undefined&&compl" +
-"ete!=null&&complete!=\"\"){\r\n\t\t    \t\t\tactividad[\"specification\"] = complete;\r\n\t\t  " +
-"  \t\t\tJsonVal +=\": \"+complete+\";\";\r\n\t\t    \t\t}\r\n\t\t    \t\telse{\r\n\t\t    \t\t\t$(\"#Impute" +
-"dActivitiesVerifyBoxDlgIderrorMsg\").html(\"Debe agregar las especificaciones de c" +
-"ada actividad requerida.\");\r\n\t\t    \t\t\treturn false;\r\n\t\t    \t\t}\r\n\t    \t\t}//end de" +
-" especificacion\r\n\t    \t\telse{\r\n\t    \t\tJsonVal += \";\";\r\n\t    \t\t}\r\n\t    \t\tdata.pus" +
-"h(actividad);\r\n\t    \t}//end dentro \r\n\t    }//end de iteracion de actividades\r\n  " +
-"  }//end else donde si hay actividades \r\n    console.log(\"encoded object list>\"+" +
-"data);\r\n    console.log(\"encoded=json=>\"+JSON.stringify(data));\r\n     console.lo" +
-"g(\"JsonVal value to display=>\"+JsonVal);\r\n    var saveStatus = VerificationServi" +
-"ce.saveActivitiesVerification(JsonVal, JSON.stringify(data), caso, fuente);\r\n\tif" +
-"(saveStatus==\"\"){\r\n\t\t$(\"#MaritalStatusVerifyBoxDlgIderrorMsg\").text(\"\");\r\n\t}else" +
-"{\r\n\t\t$(\"#MaritalStatusVerifyBoxDlgIderrorMsg\").text(saveStatus);\r\n\t\treturn 0;\r\n\t" +
-"}\r\n    ImputedActivitiesVerify.hide();\r\n};\r\n\r\nImputedActivitiesVerify.drawActivi" +
-"tyEspecifications = function (){\r\n    var ids = $(\'#slctMultipleActivitiesVerify" +
-"\').val();\r\n    if(ids==undefined||ids==null||ids.length<=0){\r\n    \t$(\"#divActivi" +
-"tySpecificationList\").html(\"\");\r\n    }\r\n    for(var actInd=0;actInd<ImputedActiv" +
-"itiesVerify.actList.length;actInd++){\r\n    \tif($.inArray(ImputedActivitiesVerify" +
-".actList[actInd].Id.toString(), ids)==\"-1\"){\r\n    \t\t$(\"#divSpecification\"+Impute" +
-"dActivitiesVerify.actList[actInd].Name).remove();\r\n    \t}else{\r\n    \t\tvar alread" +
-"y = $(\"#specification\"+ImputedActivitiesVerify.actList[actInd].Name).val();\r\n   " +
-" \t\tif(already==undefined||already==\"\"){\r\n    \t\t\t$(\"#divSpecification\"+ImputedAct" +
-"ivitiesVerify.actList[actInd].Name).remove();\r\n    \t\t\tif(ImputedActivitiesVerify" +
-".actList[actInd].Specification){\r\n    \t\t\t\t$(\"#divActivitySpecificationList\").app" +
-"end(ImputedActivitiesVerify.specificationHtml.replace(/entity/g,\"\"+ImputedActivi" +
-"tiesVerify.actList[actInd].Name));\r\n    \t\t\t}\r\n    \t\t}\r\n    \t}\r\n    }\r\n};\r\n</scri" +
-"pt>\r\n\r\n<div");
+"y();\r\n\t$(\'#slctMultipleActivitiesVerify\').append(\"<option value=\'\'> </option>\");" +
+"\r\n\t//llenado del select\r\n\tfor(var indx=0;indx<ImputedActivitiesVerify.actList.le" +
+"ngth;indx++){\r\n\t\tconsole.log(\"val->\"+ImputedActivitiesVerify.actList[indx].Id);\r" +
+"\n\t\tconsole.log(\"text->\"+ImputedActivitiesVerify.actList[indx].Name);\r\n\t    $(\'#s" +
+"lctMultipleActivitiesVerify\').append(\"<option value=\'\"+ImputedActivitiesVerify.a" +
+"ctList[indx].Id+\"\' >\"+ImputedActivitiesVerify.actList[indx].Name+\"</option>\");\r\n" +
+"\t}\r\n\t$(\'#slctMultipleActivitiesVerify\').prop(\"disabled\",false).attr(\'readonly\', " +
+"false).val(\"\");\r\n\t$(\'#slctMultipleActivitiesVerify\').change(function() {\r\n    \tc" +
+"onsole.log($(this).val());\r\n    }).multipleSelect({\r\n    \twidth: \'100%\',\r\n      " +
+"  filter:true,\r\n        selectAll : false,\r\n        allSelected : \'Todas las opc" +
+"iones\',\r\n        minimumCountSelected : 7,\r\n        countSelected : \'# de % sele" +
+"ccionados\',\r\n        styler: function(value) {\r\n                if (value == \'\')" +
+" {\r\n                    return \'display:none;\';\r\n                }\r\n            " +
+"}\r\n    });\r\n\tvar InformacionAnterior = VerificationService.searchFieldVerificati" +
+"on(\"socialEnvironment.activities\", caso, fuente, 0);\r\n\tconsole.log(\"InformacionA" +
+"nterior-->\"+InformacionAnterior);\r\n\t$(\"#ImputedActivitiesVerifyBoxDlgIdsearch\")." +
+"html(InformacionAnterior);\r\n    var dlgMsgBox = $(\'#ImputedActivitiesVerifyBoxDl" +
+"gId\');\r\n    window.scrollTo(0, 0);\r\n    dlgMsgBox.show();\r\n    console.log($(\"#F" +
+"ormImputedActivitiesVerify\").html());\r\n};\r\n\r\nImputedActivitiesVerify.hide = func" +
+"tion (){\r\n    var dlgMsgBox = $(\'#ImputedActivitiesVerifyBoxDlgId\');\r\n    dlgMsg" +
+"Box.hide();\r\n    ImputedActivitiesVerify.modelList = [];\r\n    $(\"#divActivitySpe" +
+"cificationList\").html(\"\");\r\n    $(\'#slctMultipleActivitiesVerify\').empty();\r\n   " +
+" $(\"#ImputedActivitiesVerifyBoxDlgIderrorMsg\").html(\"\");\r\n};\r\n\r\nImputedActivitie" +
+"sVerify.save = function (){\r\n\tvar ids = $(\'#slctMultipleActivitiesVerify\').multi" +
+"pleSelect(\'getSelects\');\r\n\tvar data =[];\r\n\tvar JsonVal = \"\";\r\n\tvar caso = $(\"#hd" +
+"nVerificationCaseId\").val();\r\n\tvar fuente = $(\"#hdnVerificationSourceId\").val();" +
+"\r\n\tif(ids==undefined||ids==null||ids.length<=0){\r\n    \t$(\"#ImputedActivitiesVeri" +
+"fyBoxDlgIderrorMsg\").html(\"Las actividades que realiza el imputado es un campo r" +
+"equerido.\");\r\n    \treturn false;\r\n    }else{\r\n    \tfor(var actInd=0;actInd<Imput" +
+"edActivitiesVerify.actList.length;actInd++){\r\n    \tvar actividad = { \"activity\":" +
+"{\"id\":0}, \"specification\":\"\"};\r\n\t\t    console.log(\"ImputedActivitiesVerify.actLi" +
+"st[actInd].Id\"+ImputedActivitiesVerify.actList[actInd].Id);\r\n\t    \tif($.inArray(" +
+"ImputedActivitiesVerify.actList[actInd].Id.toString(), ids)!=\"-1\"){\r\n\t    \t\t//si" +
+" esta en los elejidos\r\n\t    \t\tactividad[\"activity\"].id = ImputedActivitiesVerify" +
+".actList[actInd].Id;\r\n\t    \t\tJsonVal += ImputedActivitiesVerify.actList[actInd]." +
+"Name;\r\n\t    \t\tif(ImputedActivitiesVerify.actList[actInd].Specification){\r\n\t    \t" +
+"\t\tvar complete = $(\"#specification\"+ImputedActivitiesVerify.actList[actInd].Id)." +
+"val();\r\n\t    \t\t\tconsole.log(\"complete\"+complete);\r\n\t    \t\t\tif(complete!=undefine" +
+"d&&complete!=null&&complete!=\"\"){\r\n\t\t    \t\t\tactividad[\"specification\"] = complet" +
+"e;\r\n\t\t    \t\t\tJsonVal +=\": \"+complete+\";\";\r\n\t\t    \t\t}\r\n\t\t    \t\telse{\r\n\t\t    \t\t\t$(" +
+"\"#ImputedActivitiesVerifyBoxDlgIderrorMsg\").html(\"Debe agregar las especificacio" +
+"nes de cada actividad requerida.\");\r\n\t\t    \t\t\treturn false;\r\n\t\t    \t\t}\r\n\t    \t\t}" +
+"//end de especificacion\r\n\t    \t\telse{\r\n\t    \t\tJsonVal += \";\";\r\n\t    \t\t}\r\n\t    \t\t" +
+"data.push(actividad);\r\n\t    \t}//end dentro \r\n\t    }//end de iteracion de activid" +
+"ades\r\n    }//end else donde si hay actividades \r\n    console.log(\"encoded object" +
+" list>\"+data);\r\n    console.log(\"encoded=json=>\"+JSON.stringify(data));\r\n     co" +
+"nsole.log(\"JsonVal value to display=>\"+JsonVal);\r\n    var saveStatus = Verificat" +
+"ionService.saveActivitiesVerification(JsonVal, JSON.stringify(data), caso, fuent" +
+"e);\r\n\tif(saveStatus==\"\"){\r\n\t\t$(\"#MaritalStatusVerifyBoxDlgIderrorMsg\").text(\"\");" +
+"\r\n\t}else{\r\n\t\t$(\"#MaritalStatusVerifyBoxDlgIderrorMsg\").text(saveStatus);\r\n\t\tretu" +
+"rn 0;\r\n\t}\t\r\n    ImputedActivitiesVerify.hide();\r\n};\r\n\r\nImputedActivitiesVerify.d" +
+"rawActivityEspecifications = function (){\r\n    var ids = $(\'#slctMultipleActivit" +
+"iesVerify\',\'#ImputedActivitiesVerifyBoxDlgId\').multipleSelect(\'getSelects\');\r\nco" +
+"nsole.log(\"html=\"+$(\'#slctMultipleActivitiesVerify\',\'#ImputedActivitiesVerifyBox" +
+"DlgId\'));\r\nconsole.log(\"ids=\"+ids);\r\n    if(ids==undefined||ids==null||ids.lengt" +
+"h<=0){\r\n    \t$(\"#divActivitySpecificationList\").html(\"\");\r\n    }\r\n    console.lo" +
+"g(\"ImputedActivitiesVerify.actList.json=\"+JSON.stringify(ImputedActivitiesVerify" +
+".actList));\r\n    for(var actInd=0;actInd<ImputedActivitiesVerify.actList.length;" +
+"actInd++){\r\n    \tif($.inArray(ImputedActivitiesVerify.actList[actInd].Id.toStrin" +
+"g(), ids)==\"-1\"){\r\n    \t\t$(\"#divSpecification\"+ImputedActivitiesVerify.actList[a" +
+"ctInd].Id,\"#ImputedActivitiesVerifyBoxDlgId\").remove();\r\nconsole.log(\"not in arr" +
+"ay\");\r\n    \t}else{\r\n    \t\tvar already = $(\"#specification\"+ImputedActivitiesVeri" +
+"fy.actList[actInd].Id,\"#ImputedActivitiesVerifyBoxDlgId\").val();\r\n    \t\tif(alrea" +
+"dy==undefined||already==\"\"){\r\n    \t\t\t$(\"#divSpecification\"+ImputedActivitiesVeri" +
+"fy.actList[actInd].Id,\"#ImputedActivitiesVerifyBoxDlgId\").remove();\r\n    \t\t\tif(I" +
+"mputedActivitiesVerify.actList[actInd].Specification){\r\n    \t\t\t\t$(\"#divActivityS" +
+"pecificationList\",\"#ImputedActivitiesVerifyBoxDlgId\").append(ImputedActivitiesVe" +
+"rify.specificationHtml.replace(/Idntity/g,\"\"+ImputedActivitiesVerify.actList[act" +
+"Ind].Id).replace(/entity/g,\"\"+ImputedActivitiesVerify.actList[actInd].Name));\r\n " +
+"   \t\t\t\tconsole.log(\"agregando => \"+ImputedActivitiesVerify.actList[actInd].Name)" +
+";\r\n    \t\t\t}\r\n    \t\t}\r\n    \t\tconsole.log(\"already => \"+already);\r\n    \t}\r\n    }\r\n" +
+"};\r\n</script>\r\n\r\n<div");
 
 WriteLiteral(" class=\"modal-dialog\"");
 
@@ -1347,7 +1358,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 847 "VerificacionInterview.cshtml"
+#line 859 "VerificacionInterview.cshtml"
                                          , Tuple.Create<string,object,bool> ("", Model.JsonActivities
 
 #line default
@@ -1400,9 +1411,14 @@ WriteLiteral("\r\n                                    id=\"slctMultipleActivitie
 
 WriteLiteral(" style=\"width:450px;heigth: 100%;\"");
 
-WriteLiteral("\r\n                                    multiple >\r\n                            </s" +
-"elect>\r\n                        </div>\r\n                    </div>\r\n            " +
-"        <br/>\r\n                    <div");
+WriteLiteral("\r\n                                    multiple >\r\n                               " +
+"     <option");
+
+WriteLiteral(" value=\"\"");
+
+WriteLiteral(">Selecciona un delito</option>\r\n                            </select>\r\n          " +
+"              </div>\r\n                    </div>\r\n                    <br/>\r\n   " +
+"                 <div");
 
 WriteLiteral(" class=\"row\"");
 
@@ -1410,7 +1426,7 @@ WriteLiteral(" id=\"divActivitySpecificationList\"");
 
 WriteLiteral(">\r\n                          <div");
 
-WriteLiteral(" id=\"divSpecificationentity\"");
+WriteLiteral(" id=\"divSpecificationIdntity\"");
 
 WriteLiteral(">\r\n                              <div");
 
@@ -1441,9 +1457,9 @@ WriteLiteral("\r\n                                         type=\"text\"");
 
 WriteLiteral(" value=\"\"");
 
-WriteLiteral(" \r\n                                         id=\"specificationentity\"");
+WriteLiteral(" \r\n                                         id=\"specificationIdntity\"");
 
-WriteLiteral(" name=\"specificationentity\"");
+WriteLiteral(" name=\"specificationIdntity\"");
 
 WriteLiteral("\r\n                                         onchange=\"matchActivities()\"");
 
@@ -1451,7 +1467,7 @@ WriteLiteral("><br/>\r\n                                    <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"specificationentity\"");
+WriteLiteral(" data-valmsg-for=\"specificationIdntity\"");
 
 WriteLiteral("\r\n                                          data-valmsg-replace=\"true\"");
 
@@ -2723,7 +2739,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 2036 "VerificacionInterview.cshtml"
+#line 2049 "VerificacionInterview.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -2933,7 +2949,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 2124 "VerificacionInterview.cshtml"
+#line 2137 "VerificacionInterview.cshtml"
                Write(Model.DateCreate);
 
 
@@ -2953,7 +2969,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 2131 "VerificacionInterview.cshtml"
+#line 2144 "VerificacionInterview.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -3027,7 +3043,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                 ");
 
 
-#line 2159 "VerificacionInterview.cshtml"
+#line 2172 "VerificacionInterview.cshtml"
                             Write(Model.SourceName);
 
 
@@ -3052,7 +3068,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                ");
 
 
-#line 2167 "VerificacionInterview.cshtml"
+#line 2180 "VerificacionInterview.cshtml"
                            Write(Model.SourceRelationshipString);
 
 
@@ -3081,7 +3097,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                               ");
 
 
-#line 2177 "VerificacionInterview.cshtml"
+#line 2190 "VerificacionInterview.cshtml"
                           Write(Model.SourceAge);
 
 
@@ -3106,7 +3122,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                ");
 
 
-#line 2185 "VerificacionInterview.cshtml"
+#line 2198 "VerificacionInterview.cshtml"
                            Write(Model.SourcePhone);
 
 
@@ -3135,7 +3151,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                                ");
 
 
-#line 2195 "VerificacionInterview.cshtml"
+#line 2208 "VerificacionInterview.cshtml"
                            Write(Model.SourceAddress);
 
 
@@ -3691,7 +3707,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 2406 "VerificacionInterview.cshtml"
+#line 2419 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -4513,7 +4529,7 @@ WriteLiteral(" class=\"widget-box\"");
 
 WriteLiteral(">\r\n                                                <div");
 
-WriteLiteral(" class=\"widget-header\"");
+WriteLiteral(" class=\"widget-header row\"");
 
 WriteLiteral("\r\n                                                ng-init=\"maritalStatus = (m.imp" +
 "uted.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id)\"");
@@ -5115,7 +5131,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2811 "VerificacionInterview.cshtml"
+#line 2824 "VerificacionInterview.cshtml"
                                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
@@ -5197,7 +5213,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2829 "VerificacionInterview.cshtml"
+#line 2842 "VerificacionInterview.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
@@ -5567,7 +5583,7 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2930 "VerificacionInterview.cshtml"
+#line 2943 "VerificacionInterview.cshtml"
                                    , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
@@ -5695,13 +5711,13 @@ WriteLiteral(" class=\"text-primary\"");
 WriteLiteral(">Observaciones: <b>{{m.CommentHome}}</b></label>\r\n\t\t    </div>\r\n\t\t</div>\r\n");
 
 
-#line 2991 "VerificacionInterview.cshtml"
+#line 3004 "VerificacionInterview.cshtml"
 	
 
 #line default
 #line hidden
 
-#line 2991 "VerificacionInterview.cshtml"
+#line 3004 "VerificacionInterview.cshtml"
       int i = 0;
 
 #line default
@@ -5709,13 +5725,13 @@ WriteLiteral(">Observaciones: <b>{{m.CommentHome}}</b></label>\r\n\t\t    </div>
 WriteLiteral("\r\n");
 
 
-#line 2992 "VerificacionInterview.cshtml"
+#line 3005 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2992 "VerificacionInterview.cshtml"
+#line 3005 "VerificacionInterview.cshtml"
      foreach(var Dmcl in Model.JsonDomicilios) {
     i++;
 
@@ -5755,7 +5771,7 @@ WriteLiteral("\r\n                   data-icon-show=\"icon-angle-right\"");
 WriteLiteral("></i>\r\n                Domicilio <span>");
 
 
-#line 3001 "VerificacionInterview.cshtml"
+#line 3014 "VerificacionInterview.cshtml"
                            Write(i);
 
 
@@ -5778,7 +5794,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n\t           onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'imputedHomes.address\',", true)
 
-#line 3008 "VerificacionInterview.cshtml"
+#line 3021 "VerificacionInterview.cshtml"
                           , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5800,7 +5816,7 @@ WriteLiteral("\r\n\t           id-code=\"imputedHomes.address\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3010 "VerificacionInterview.cshtml"
+#line 3023 "VerificacionInterview.cshtml"
                    , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5809,7 +5825,7 @@ WriteAttribute ("id-element", " id-element=\"", "\""
 );
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3010 "VerificacionInterview.cshtml"
+#line 3023 "VerificacionInterview.cshtml"
                                          , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5825,7 +5841,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n\t           onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'imputedHomes.address\',", true)
 
-#line 3012 "VerificacionInterview.cshtml"
+#line 3025 "VerificacionInterview.cshtml"
                          , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5842,7 +5858,7 @@ WriteLiteral(" ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", "\r\n\t           ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'imputedHomes.address\',", true)
 
-#line 3014 "VerificacionInterview.cshtml"
+#line 3027 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5859,7 +5875,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t        ");
 
 
-#line 3018 "VerificacionInterview.cshtml"
+#line 3031 "VerificacionInterview.cshtml"
        Write(Dmcl.addressString);
 
 
@@ -5882,7 +5898,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n\t           onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'imputedHomes.phone\',", true)
 
-#line 3025 "VerificacionInterview.cshtml"
+#line 3038 "VerificacionInterview.cshtml"
                         , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5904,7 +5920,7 @@ WriteLiteral("\r\n\t           code=\"imputedHomes.phone\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3027 "VerificacionInterview.cshtml"
+#line 3040 "VerificacionInterview.cshtml"
               , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5920,7 +5936,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n\t           onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'imputedHomes.phone\',", true)
 
-#line 3029 "VerificacionInterview.cshtml"
+#line 3042 "VerificacionInterview.cshtml"
                        , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5937,7 +5953,7 @@ WriteLiteral(" ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", "\r\n\t           ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'imputedHomes.phone\',", true)
 
-#line 3031 "VerificacionInterview.cshtml"
+#line 3044 "VerificacionInterview.cshtml"
                    , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -5975,7 +5991,7 @@ WriteLiteral("\r\n\t               data-val-required=\"El tel&eacute;efono es un
 WriteLiteral(">");
 
 
-#line 3040 "VerificacionInterview.cshtml"
+#line 3053 "VerificacionInterview.cshtml"
                                                                             Write(Dmcl.Phone);
 
 
@@ -6006,7 +6022,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n\t               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'imputedHomes.homeType.id\',", true)
 
-#line 3051 "VerificacionInterview.cshtml"
+#line 3064 "VerificacionInterview.cshtml"
                                   , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6028,7 +6044,7 @@ WriteLiteral("\r\n\t               code=\"imputedHomes.homeType.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3053 "VerificacionInterview.cshtml"
+#line 3066 "VerificacionInterview.cshtml"
                         , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6044,7 +6060,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n\t               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'imputedHomes.homeType.id\',", true)
 
-#line 3055 "VerificacionInterview.cshtml"
+#line 3068 "VerificacionInterview.cshtml"
                                  , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6061,7 +6077,7 @@ WriteLiteral(" ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", "\r\n\t               ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'imputedHomes.homeType.id\',", true)
 
-#line 3057 "VerificacionInterview.cshtml"
+#line 3070 "VerificacionInterview.cshtml"
                              , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6081,7 +6097,7 @@ WriteLiteral(" name=\"imputedHomes.homeType.id\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3061 "VerificacionInterview.cshtml"
+#line 3074 "VerificacionInterview.cshtml"
                                                             , Tuple.Create<string,object,bool> ("", Dmcl.HomeTypeId
 
 #line default
@@ -6093,7 +6109,7 @@ WriteLiteral(" onchange=\"singleVerifyhometype(this);\"");
 WriteLiteral(">\r\n");
 
 
-#line 3062 "VerificacionInterview.cshtml"
+#line 3075 "VerificacionInterview.cshtml"
   switch(@Dmcl.HomeTypeId)
     {
         case 1:
@@ -6126,7 +6142,7 @@ WriteLiteral(" value=\"4\"");
 WriteLiteral(">Otro</option>\r\n");
 
 
-#line 3066 "VerificacionInterview.cshtml"
+#line 3079 "VerificacionInterview.cshtml"
             break;
         case 2:
 
@@ -6158,7 +6174,7 @@ WriteLiteral(" value=\"1\"");
 WriteLiteral(">Propia</option>\r\n");
 
 
-#line 3069 "VerificacionInterview.cshtml"
+#line 3082 "VerificacionInterview.cshtml"
             break;
         case 3:
 
@@ -6190,7 +6206,7 @@ WriteLiteral(" value=\"2\"");
 WriteLiteral(">Rentada</option>\r\n");
 
 
-#line 3072 "VerificacionInterview.cshtml"
+#line 3085 "VerificacionInterview.cshtml"
         	break;
     	case 4:
 
@@ -6222,7 +6238,7 @@ WriteLiteral(" value=\"3\"");
 WriteLiteral(">Prestada</option>\r\n");
 
 
-#line 3075 "VerificacionInterview.cshtml"
+#line 3088 "VerificacionInterview.cshtml"
         	break;
         default:
 
@@ -6254,7 +6270,7 @@ WriteLiteral(" value=\"4\"");
 WriteLiteral(">Otro</option>\r\n");
 
 
-#line 3078 "VerificacionInterview.cshtml"
+#line 3091 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -6264,13 +6280,13 @@ WriteLiteral(">Otro</option>\r\n");
 WriteLiteral("\r\n\t            \r\n\t            </select>\r\n\t        </div>\r\n\t    </div>\r\n");
 
 
-#line 3085 "VerificacionInterview.cshtml"
+#line 3098 "VerificacionInterview.cshtml"
 	    
 
 #line default
 #line hidden
 
-#line 3085 "VerificacionInterview.cshtml"
+#line 3098 "VerificacionInterview.cshtml"
          if(Dmcl.HomeTypeId==4){
 
 
@@ -6305,7 +6321,7 @@ WriteLiteral("\r\n\t\t                   data-val=\"true\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3093 "VerificacionInterview.cshtml"
+#line 3106 "VerificacionInterview.cshtml"
            , Tuple.Create<string,object,bool> ("", Dmcl.Specification
 
 #line default
@@ -6330,7 +6346,7 @@ WriteLiteral("\r\n\t\t               data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n\t\t        </div>\r\n\t\t    </div>\r\n");
 
 
-#line 3100 "VerificacionInterview.cshtml"
+#line 3113 "VerificacionInterview.cshtml"
 		}else{
 
 
@@ -6367,7 +6383,7 @@ WriteLiteral("\r\n\t                   data-val=\"true\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3108 "VerificacionInterview.cshtml"
+#line 3121 "VerificacionInterview.cshtml"
        , Tuple.Create<string,object,bool> ("", Dmcl.Specification
 
 #line default
@@ -6395,7 +6411,7 @@ WriteLiteral("\r\n\t               data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n\t        </div>\r\n\t    </div>\r\n");
 
 
-#line 3116 "VerificacionInterview.cshtml"
+#line 3129 "VerificacionInterview.cshtml"
 		}
 
 
@@ -6418,7 +6434,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'imputedHomes.registerType.id\',", true)
 
-#line 3125 "VerificacionInterview.cshtml"
+#line 3138 "VerificacionInterview.cshtml"
                                   , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6438,7 +6454,7 @@ WriteLiteral("\r\n               code=\"imputedHomes.registerType.id\"");
 
 WriteAttribute ("id-element", "  id-element=\"", "\""
 
-#line 3127 "VerificacionInterview.cshtml"
+#line 3140 "VerificacionInterview.cshtml"
                          , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6456,7 +6472,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'imputedHomes.registerType.id\',", true)
 
-#line 3129 "VerificacionInterview.cshtml"
+#line 3142 "VerificacionInterview.cshtml"
                                  , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6473,7 +6489,7 @@ WriteLiteral(" ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", "\r\n               ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'imputedHomes.registerType.id\',", true)
 
-#line 3131 "VerificacionInterview.cshtml"
+#line 3144 "VerificacionInterview.cshtml"
                              , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6498,7 +6514,7 @@ WriteLiteral(" onchange=\"singleVerifyregistertype(this);\"");
 WriteLiteral(" >\r\n");
 
 
-#line 3136 "VerificacionInterview.cshtml"
+#line 3149 "VerificacionInterview.cshtml"
   switch(@Dmcl.RegisterTypeId)
     {
         case 1:
@@ -6525,7 +6541,7 @@ WriteLiteral(" value=\"3\"");
 WriteLiteral(">Anterior</option>\r\n");
 
 
-#line 3140 "VerificacionInterview.cshtml"
+#line 3153 "VerificacionInterview.cshtml"
             break;
         case 2:
 
@@ -6551,7 +6567,7 @@ WriteLiteral(" value=\"3\"");
 WriteLiteral(">Anterior</option>\r\n");
 
 
-#line 3143 "VerificacionInterview.cshtml"
+#line 3156 "VerificacionInterview.cshtml"
             break;
         case 3:
 
@@ -6577,7 +6593,7 @@ WriteLiteral(" value=\"2\"");
 WriteLiteral(">Secundario</option>\r\n");
 
 
-#line 3146 "VerificacionInterview.cshtml"
+#line 3159 "VerificacionInterview.cshtml"
         	break;
         default:
 
@@ -6603,7 +6619,7 @@ WriteLiteral(" value=\"3\"");
 WriteLiteral(">Anterior</option>\r\n");
 
 
-#line 3149 "VerificacionInterview.cshtml"
+#line 3162 "VerificacionInterview.cshtml"
             break;                   
     }
 
@@ -6613,7 +6629,7 @@ WriteLiteral(">Anterior</option>\r\n");
 WriteLiteral("\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <br/>\r\n\r\n");
 
 
-#line 3157 "VerificacionInterview.cshtml"
+#line 3170 "VerificacionInterview.cshtml"
   string e = "hide";
 
 #line default
@@ -6621,7 +6637,7 @@ WriteLiteral("\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <
 WriteLiteral("\r\n");
 
 
-#line 3158 "VerificacionInterview.cshtml"
+#line 3171 "VerificacionInterview.cshtml"
  if(@Dmcl.RegisterTypeId==1||@Dmcl.RegisterTypeId==2){
 e = "";
 }else{
@@ -6636,7 +6652,7 @@ WriteLiteral("    <div");
 WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "row", true)
 
-#line 3163 "VerificacionInterview.cshtml"
+#line 3176 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> (" ", e
 
 #line default
@@ -6705,7 +6721,7 @@ WriteLiteral("\r\n                                       data-val-required=\"El 
 
 WriteAttribute ("value", "\r\n                                       value=\"", "\""
 
-#line 3183 "VerificacionInterview.cshtml"
+#line 3196 "VerificacionInterview.cshtml"
        , Tuple.Create<string,object,bool> ("", Dmcl.TimeLive
 
 #line default
@@ -6764,7 +6780,7 @@ WriteLiteral("\r\n                                          data-val-required=\"
 WriteLiteral(">");
 
 
-#line 3201 "VerificacionInterview.cshtml"
+#line 3214 "VerificacionInterview.cshtml"
                                                                                                      Write(Dmcl.Description);
 
 
@@ -6784,13 +6800,13 @@ WriteLiteral("></span>\r\n                            </div>\r\n                
 "                     <br/>\r\n");
 
 
-#line 3208 "VerificacionInterview.cshtml"
+#line 3221 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 3208 "VerificacionInterview.cshtml"
+#line 3221 "VerificacionInterview.cshtml"
                          if(@Dmcl.RegisterTypeId==2){
 							e = "";
 						}else{
@@ -6805,7 +6821,7 @@ WriteLiteral("                        \t<div");
 WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "row", true)
 
-#line 3213 "VerificacionInterview.cshtml"
+#line 3226 "VerificacionInterview.cshtml"
     , Tuple.Create<string,object,bool> (" ", e
 
 #line default
@@ -6846,7 +6862,7 @@ WriteLiteral("\r\n                        \t                  data-val-required=
 WriteLiteral(">");
 
 
-#line 3222 "VerificacionInterview.cshtml"
+#line 3235 "VerificacionInterview.cshtml"
                                                                                                    Write(Dmcl.ReasonSecondary);
 
 
@@ -6888,7 +6904,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n                                               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'imputedHomes.schedule\',", true)
 
-#line 3235 "VerificacionInterview.cshtml"
+#line 3248 "VerificacionInterview.cshtml"
                                                            , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6903,7 +6919,7 @@ WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-220\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "DisponibilidadVerify.show(\'imputedHomes.schedule\',", true)
 
-#line 3236 "VerificacionInterview.cshtml"
+#line 3249 "VerificacionInterview.cshtml"
                                                                                                                          , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6917,7 +6933,7 @@ WriteLiteral(" id-code=\"imputedHomes.schedule\"");
 
 WriteAttribute ("id-element", "\r\n                                                id-element=\"", "\""
 
-#line 3238 "VerificacionInterview.cshtml"
+#line 3251 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6933,7 +6949,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n                                               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'imputedHomes.schedule\',", true)
 
-#line 3240 "VerificacionInterview.cshtml"
+#line 3253 "VerificacionInterview.cshtml"
                                                           , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -6950,7 +6966,7 @@ WriteLiteral(" ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", "\r\n                                               ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'imputedHomes.schedule\',", true)
 
-#line 3242 "VerificacionInterview.cshtml"
+#line 3255 "VerificacionInterview.cshtml"
                                                       , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -7009,13 +7025,13 @@ WriteLiteral(" class=\"castable\"");
 WriteLiteral(">\r\n");
 
 
-#line 3265 "VerificacionInterview.cshtml"
+#line 3278 "VerificacionInterview.cshtml"
                                             
 
 #line default
 #line hidden
 
-#line 3265 "VerificacionInterview.cshtml"
+#line 3278 "VerificacionInterview.cshtml"
                                              if(Dmcl.ScheduleList!=null){
 	                                            foreach(var sche in Dmcl.ScheduleList) {
 
@@ -7032,7 +7048,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t\t\t\t\t\t\t\t\t        ");
 
 
-#line 3269 "VerificacionInterview.cshtml"
+#line 3282 "VerificacionInterview.cshtml"
                                                    Write(sche.Day);
 
 
@@ -7047,7 +7063,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t\t\t\t\t\t\t\t\t       ");
 
 
-#line 3272 "VerificacionInterview.cshtml"
+#line 3285 "VerificacionInterview.cshtml"
                                                   Write(sche.Start);
 
 
@@ -7062,7 +7078,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t\t\t\t\t\t\t\t\t      ");
 
 
-#line 3275 "VerificacionInterview.cshtml"
+#line 3288 "VerificacionInterview.cshtml"
                                                  Write(sche.End);
 
 
@@ -7071,7 +7087,7 @@ WriteLiteral("\t\t\t\t\t\t\t\t\t\t\t\t      ");
 WriteLiteral("\r\n\t\t\t\t\t\t\t\t\t\t\t\t    </td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t    </tr>\r\n");
 
 
-#line 3278 "VerificacionInterview.cshtml"
+#line 3291 "VerificacionInterview.cshtml"
 	                                            }
 	                                        }
 
@@ -7095,13 +7111,13 @@ WriteLiteral(@"                                            </div>
 ");
 
 
-#line 3294 "VerificacionInterview.cshtml"
+#line 3307 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 3294 "VerificacionInterview.cshtml"
+#line 3307 "VerificacionInterview.cshtml"
      if(@Dmcl.RegisterTypeId==3){
 		e = "";
 	}else{
@@ -7116,7 +7132,7 @@ WriteLiteral("    <div");
 WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "row", true)
 
-#line 3299 "VerificacionInterview.cshtml"
+#line 3312 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> (" ", e
 
 #line default
@@ -7190,7 +7206,7 @@ WriteLiteral("\r\n                                           name=\"imputedHomes
 
 WriteAttribute ("value", "\r\n                                           value=\"", "\""
 
-#line 3321 "VerificacionInterview.cshtml"
+#line 3334 "VerificacionInterview.cshtml"
            , Tuple.Create<string,object,bool> ("", Dmcl.TimeLive
 
 #line default
@@ -7233,7 +7249,7 @@ WriteLiteral("\r\n                                              data-val=\"true\
 
 WriteAttribute ("value", "\r\n                                              value=\"", "\""
 
-#line 3335 "VerificacionInterview.cshtml"
+#line 3348 "VerificacionInterview.cshtml"
               , Tuple.Create<string,object,bool> ("", Dmcl.ReasonChange
 
 #line default
@@ -7253,7 +7269,7 @@ WriteLiteral("\r\n                                              data-val-require
 WriteLiteral(">");
 
 
-#line 3338 "VerificacionInterview.cshtml"
+#line 3351 "VerificacionInterview.cshtml"
                                                                                                              Write(Dmcl.ReasonChange);
 
 
@@ -7286,7 +7302,7 @@ WriteLiteral(@"></span>
 ");
 
 
-#line 3356 "VerificacionInterview.cshtml"
+#line 3369 "VerificacionInterview.cshtml"
     }
 
 #line default
@@ -7331,7 +7347,7 @@ WriteLiteral(" class=\"text-primary\"");
 WriteLiteral(">Observaciones: <b>");
 
 
-#line 3384 "VerificacionInterview.cshtml"
+#line 3397 "VerificacionInterview.cshtml"
                                                          Write(Model.CommentSocialNetwork);
 
 
@@ -7340,13 +7356,13 @@ WriteLiteral(">Observaciones: <b>");
 WriteLiteral("</b></label>\r\n\t\t    </div>\r\n\t\t</div>\r\n        <br/>\r\n</div>\r\n");
 
 
-#line 3389 "VerificacionInterview.cshtml"
+#line 3402 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 3389 "VerificacionInterview.cshtml"
+#line 3402 "VerificacionInterview.cshtml"
      if(Model.JsonPersonSN==null){
     }
     else{
@@ -7380,7 +7396,7 @@ WriteLiteral("\r\n                   data-icon-show=\"icon-angle-right\"");
 WriteLiteral("></i>\r\n                Red social (persona <span>");
 
 
-#line 3402 "VerificacionInterview.cshtml"
+#line 3415 "VerificacionInterview.cshtml"
                                      Write(prsnN);
 
 
@@ -7416,7 +7432,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.name\',", true)
 
-#line 3415 "VerificacionInterview.cshtml"
+#line 3428 "VerificacionInterview.cshtml"
                                                                                                      , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7436,7 +7452,7 @@ WriteLiteral(" code=\"socialNetwork.name\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3416 "VerificacionInterview.cshtml"
+#line 3429 "VerificacionInterview.cshtml"
                                                                                                              , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7454,7 +7470,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.name\',", true)
 
-#line 3417 "VerificacionInterview.cshtml"
+#line 3430 "VerificacionInterview.cshtml"
                                                                                                      , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7490,7 +7506,7 @@ WriteLiteral(" ng-init=\"name = p.name\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3424 "VerificacionInterview.cshtml"
+#line 3437 "VerificacionInterview.cshtml"
                                                    , Tuple.Create<string,object,bool> ("", Jpsn.Name
 
 #line default
@@ -7526,7 +7542,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.relationship.id\',", true)
 
-#line 3434 "VerificacionInterview.cshtml"
+#line 3447 "VerificacionInterview.cshtml"
                                                                                                                  , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7548,7 +7564,7 @@ WriteLiteral(" code=\"socialNetwork.relationship.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3435 "VerificacionInterview.cshtml"
+#line 3448 "VerificacionInterview.cshtml"
                                                                                                                                                             , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7564,7 +7580,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.relationship.id\',", true)
 
-#line 3436 "VerificacionInterview.cshtml"
+#line 3449 "VerificacionInterview.cshtml"
                                                                                                                 , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7594,7 +7610,7 @@ WriteLiteral(" name=\"socialNetwork.relationship.id\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3441 "VerificacionInterview.cshtml"
+#line 3454 "VerificacionInterview.cshtml"
                                                                  , Tuple.Create<string,object,bool> ("", Jpsn.RelationshipId
 
 #line default
@@ -7606,13 +7622,13 @@ WriteLiteral(" onchange=\"enableBySelectOptionUniqueSnglVrf(this,19,\'parenting\
 WriteLiteral(" >\r\n                    \r\n");
 
 
-#line 3443 "VerificacionInterview.cshtml"
+#line 3456 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 3443 "VerificacionInterview.cshtml"
+#line 3456 "VerificacionInterview.cshtml"
                          foreach(var rela in Model.ListaDeRelaciones){
 	                        if(@Jpsn.RelationshipId==@rela.Id){
 
@@ -7623,7 +7639,7 @@ WriteLiteral("\t                        \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3445 "VerificacionInterview.cshtml"
+#line 3458 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", rela.Id
 
 #line default
@@ -7635,7 +7651,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3445 "VerificacionInterview.cshtml"
+#line 3458 "VerificacionInterview.cshtml"
                                                                          Write(rela.Name);
 
 
@@ -7644,7 +7660,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 3446 "VerificacionInterview.cshtml"
+#line 3459 "VerificacionInterview.cshtml"
 	                        }else{
 
 
@@ -7654,7 +7670,7 @@ WriteLiteral("\t                         \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3447 "VerificacionInterview.cshtml"
+#line 3460 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", rela.Id
 
 #line default
@@ -7664,7 +7680,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 3447 "VerificacionInterview.cshtml"
+#line 3460 "VerificacionInterview.cshtml"
                                                     Write(rela.Name);
 
 
@@ -7673,7 +7689,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 3448 "VerificacionInterview.cshtml"
+#line 3461 "VerificacionInterview.cshtml"
 	                        }
                         }
 
@@ -7691,13 +7707,13 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 
 
-#line 3454 "VerificacionInterview.cshtml"
+#line 3467 "VerificacionInterview.cshtml"
         
 
 #line default
 #line hidden
 
-#line 3454 "VerificacionInterview.cshtml"
+#line 3467 "VerificacionInterview.cshtml"
           string c = "hide";
 
 #line default
@@ -7705,13 +7721,13 @@ WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 WriteLiteral("\r\n");
 
 
-#line 3455 "VerificacionInterview.cshtml"
+#line 3468 "VerificacionInterview.cshtml"
              	
 
 #line default
 #line hidden
 
-#line 3455 "VerificacionInterview.cshtml"
+#line 3468 "VerificacionInterview.cshtml"
                  if(@Jpsn.RelationshipId!=null&&@Jpsn.RelationshipId==19){
 					c = "";
 				}else{
@@ -7728,7 +7744,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "parenting", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-6", true)
 
-#line 3460 "VerificacionInterview.cshtml"
+#line 3473 "VerificacionInterview.cshtml"
           , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -7753,7 +7769,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "parenting", true)
 , Tuple.Create<string,object,bool> (" ", "form-control", true)
 
-#line 3465 "VerificacionInterview.cshtml"
+#line 3478 "VerificacionInterview.cshtml"
                         , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -7764,7 +7780,7 @@ WriteLiteral(" data-val=\"true\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3465 "VerificacionInterview.cshtml"
+#line 3478 "VerificacionInterview.cshtml"
                                                     , Tuple.Create<string,object,bool> ("", Jpsn.specificationRelationship
 
 #line default
@@ -7822,7 +7838,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.phone\',", true)
 
-#line 3482 "VerificacionInterview.cshtml"
+#line 3495 "VerificacionInterview.cshtml"
                                                                                                        , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7844,7 +7860,7 @@ WriteLiteral(" code=\"socialNetwork.phone\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3483 "VerificacionInterview.cshtml"
+#line 3496 "VerificacionInterview.cshtml"
                                                                                                                                                   , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7860,7 +7876,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.phone\',", true)
 
-#line 3484 "VerificacionInterview.cshtml"
+#line 3497 "VerificacionInterview.cshtml"
                                                                                                       , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7880,7 +7896,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3488 "VerificacionInterview.cshtml"
+#line 3501 "VerificacionInterview.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Jpsn.Phone
 
 #line default
@@ -7904,7 +7920,7 @@ WriteLiteral(" id=\"phone\"");
 WriteLiteral(" >");
 
 
-#line 3491 "VerificacionInterview.cshtml"
+#line 3504 "VerificacionInterview.cshtml"
                                                             Write(Jpsn.Phone);
 
 
@@ -7939,7 +7955,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.documentType.id\',", true)
 
-#line 3501 "VerificacionInterview.cshtml"
+#line 3514 "VerificacionInterview.cshtml"
                                                                                                                  , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7961,7 +7977,7 @@ WriteLiteral(" code=\"socialNetwork.documentType.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3502 "VerificacionInterview.cshtml"
+#line 3515 "VerificacionInterview.cshtml"
                                                                                                                                                             , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -7977,7 +7993,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.documentType.id\',", true)
 
-#line 3503 "VerificacionInterview.cshtml"
+#line 3516 "VerificacionInterview.cshtml"
                                                                                                                 , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8000,7 +8016,7 @@ WriteLiteral("  onchange=\"enableBySelectOptionUniqueSnglVrf(this,9,\'specDocu\'
 
 WriteAttribute ("value", "\r\n                 value=\"", "\""
 
-#line 3508 "VerificacionInterview.cshtml"
+#line 3521 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jpsn.DocumentTypeId
 
 #line default
@@ -8010,13 +8026,13 @@ WriteAttribute ("value", "\r\n                 value=\"", "\""
 WriteLiteral(" >\r\n");
 
 
-#line 3509 "VerificacionInterview.cshtml"
+#line 3522 "VerificacionInterview.cshtml"
                   
 
 #line default
 #line hidden
 
-#line 3509 "VerificacionInterview.cshtml"
+#line 3522 "VerificacionInterview.cshtml"
                    foreach(var docuTyp in Model.ListaDeIdentificaciones){
                         if(@Jpsn.DocumentTypeId==@docuTyp.Id){
 
@@ -8027,7 +8043,7 @@ WriteLiteral("                        <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3511 "VerificacionInterview.cshtml"
+#line 3524 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", docuTyp.Id
 
 #line default
@@ -8039,7 +8055,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3511 "VerificacionInterview.cshtml"
+#line 3524 "VerificacionInterview.cshtml"
                                                                     Write(docuTyp.Name);
 
 
@@ -8048,7 +8064,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 3512 "VerificacionInterview.cshtml"
+#line 3525 "VerificacionInterview.cshtml"
                         }else{
 
 
@@ -8058,7 +8074,7 @@ WriteLiteral("                         <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3513 "VerificacionInterview.cshtml"
+#line 3526 "VerificacionInterview.cshtml"
  , Tuple.Create<string,object,bool> ("", docuTyp.Id
 
 #line default
@@ -8068,7 +8084,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 3513 "VerificacionInterview.cshtml"
+#line 3526 "VerificacionInterview.cshtml"
                                                 Write(docuTyp.Name);
 
 
@@ -8077,7 +8093,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 3514 "VerificacionInterview.cshtml"
+#line 3527 "VerificacionInterview.cshtml"
                         }
                         }
 
@@ -8087,13 +8103,13 @@ WriteLiteral("</option>\r\n");
 WriteLiteral("                 </select>\r\n                <br/>\r\n            </div>\r\n");
 
 
-#line 3519 "VerificacionInterview.cshtml"
+#line 3532 "VerificacionInterview.cshtml"
              	
 
 #line default
 #line hidden
 
-#line 3519 "VerificacionInterview.cshtml"
+#line 3532 "VerificacionInterview.cshtml"
                  if(@Jpsn.DocumentTypeId!=0&&@Jpsn.DocumentTypeId==9){
 					c = "";
 				}else{
@@ -8110,7 +8126,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "specDocu", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-4", true)
 
-#line 3524 "VerificacionInterview.cshtml"
+#line 3537 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -8126,7 +8142,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "specDocu", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-8", true)
 
-#line 3527 "VerificacionInterview.cshtml"
+#line 3540 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -8143,7 +8159,7 @@ WriteLiteral(" data-val-length=\"Debe tener al menos 2 y m&aacute;ximo 255 carac
 
 WriteAttribute ("value", " \r\n                        \t   value=\"", "\""
 
-#line 3529 "VerificacionInterview.cshtml"
+#line 3542 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jpsn.SpecificationDocumentType
 
 #line default
@@ -8187,7 +8203,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.age\',", true)
 
-#line 3537 "VerificacionInterview.cshtml"
+#line 3550 "VerificacionInterview.cshtml"
                                                                                                      , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8209,7 +8225,7 @@ WriteLiteral(" code=\"socialNetwork.age\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3538 "VerificacionInterview.cshtml"
+#line 3551 "VerificacionInterview.cshtml"
                                                                                                                                                 , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8225,7 +8241,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.age\',", true)
 
-#line 3539 "VerificacionInterview.cshtml"
+#line 3552 "VerificacionInterview.cshtml"
                                                                                                     , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8242,7 +8258,7 @@ WriteLiteral("   ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'socialNetwork.age\',", true)
 
-#line 3540 "VerificacionInterview.cshtml"
+#line 3553 "VerificacionInterview.cshtml"
                                                                                              , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8280,7 +8296,7 @@ WriteLiteral(" ng-init=\"age = p.age\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3547 "VerificacionInterview.cshtml"
+#line 3560 "VerificacionInterview.cshtml"
                                                   , Tuple.Create<string,object,bool> ("", Jpsn.Age
 
 #line default
@@ -8316,7 +8332,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.livingWith.id\',", true)
 
-#line 3557 "VerificacionInterview.cshtml"
+#line 3570 "VerificacionInterview.cshtml"
                                                                                                                , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8338,7 +8354,7 @@ WriteLiteral(" code=\"socialNetwork.livingWith.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3558 "VerificacionInterview.cshtml"
+#line 3571 "VerificacionInterview.cshtml"
                                                                                                                                                           , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8354,7 +8370,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.livingWith.id\',", true)
 
-#line 3559 "VerificacionInterview.cshtml"
+#line 3572 "VerificacionInterview.cshtml"
                                                                                                               , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8371,7 +8387,7 @@ WriteLiteral("   ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'socialNetwork.livingWith.id\',", true)
 
-#line 3560 "VerificacionInterview.cshtml"
+#line 3573 "VerificacionInterview.cshtml"
                                                                                                        , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8389,7 +8405,7 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3564 "VerificacionInterview.cshtml"
+#line 3577 "VerificacionInterview.cshtml"
                             , Tuple.Create<string,object,bool> ("", Jpsn.LivingWithIde
 
 #line default
@@ -8404,13 +8420,13 @@ WriteLiteral("\r\n                onchange=\"enableBySelectOptionUniqueSnglVrf(t
 WriteLiteral(" >\r\n");
 
 
-#line 3566 "VerificacionInterview.cshtml"
+#line 3579 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 3566 "VerificacionInterview.cshtml"
+#line 3579 "VerificacionInterview.cshtml"
                          foreach(var ele in @Model.ListaDeElection){
 	                        if(@Jpsn.LivingWithIde==@ele.Id){
 
@@ -8421,7 +8437,7 @@ WriteLiteral("\t                        \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3568 "VerificacionInterview.cshtml"
+#line 3581 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", ele.Id
 
 #line default
@@ -8433,7 +8449,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3568 "VerificacionInterview.cshtml"
+#line 3581 "VerificacionInterview.cshtml"
                                                                         Write(ele.Name);
 
 
@@ -8442,7 +8458,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 3569 "VerificacionInterview.cshtml"
+#line 3582 "VerificacionInterview.cshtml"
 	                        }else{
 
 
@@ -8452,7 +8468,7 @@ WriteLiteral("\t                         \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3570 "VerificacionInterview.cshtml"
+#line 3583 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", ele.Id
 
 #line default
@@ -8462,7 +8478,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 3570 "VerificacionInterview.cshtml"
+#line 3583 "VerificacionInterview.cshtml"
                                                    Write(ele.Name);
 
 
@@ -8471,7 +8487,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 3571 "VerificacionInterview.cshtml"
+#line 3584 "VerificacionInterview.cshtml"
 	                        }
                         }
 
@@ -8489,13 +8505,13 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n                <br/>\r\n            </div>\r\n");
 
 
-#line 3577 "VerificacionInterview.cshtml"
+#line 3590 "VerificacionInterview.cshtml"
             
 
 #line default
 #line hidden
 
-#line 3577 "VerificacionInterview.cshtml"
+#line 3590 "VerificacionInterview.cshtml"
              if(@Jpsn.LivingWithIde!=null&&@Jpsn.LivingWithIde==2){
 					c = "";
 				}else{
@@ -8513,7 +8529,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "col-xs-4", true)
 , Tuple.Create<string,object,bool> (" ", "element-left", true)
 
-#line 3582 "VerificacionInterview.cshtml"
+#line 3595 "VerificacionInterview.cshtml"
                                      , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -8527,7 +8543,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "viviendoCon", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-8", true)
 
-#line 3583 "VerificacionInterview.cshtml"
+#line 3596 "VerificacionInterview.cshtml"
                         , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -8551,7 +8567,7 @@ WriteLiteral("\r\n                                  data-val-length=\"Debe tener
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3586 "VerificacionInterview.cshtml"
+#line 3599 "VerificacionInterview.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jpsn.Address
 
 #line default
@@ -8565,7 +8581,7 @@ WriteLiteral(" data-val-length-min=\"6\"");
 WriteLiteral(">");
 
 
-#line 3587 "VerificacionInterview.cshtml"
+#line 3600 "VerificacionInterview.cshtml"
                                                                                Write(Jpsn.Address);
 
 
@@ -8596,7 +8612,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'socialNetwork.dependent.id\',", true)
 
-#line 3593 "VerificacionInterview.cshtml"
+#line 3606 "VerificacionInterview.cshtml"
                                                                                                               , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8618,7 +8634,7 @@ WriteLiteral(" code=\"socialNetwork.dependent.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3594 "VerificacionInterview.cshtml"
+#line 3607 "VerificacionInterview.cshtml"
                                                                                                                                                          , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8634,7 +8650,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'socialNetwork.dependent.id\',", true)
 
-#line 3595 "VerificacionInterview.cshtml"
+#line 3608 "VerificacionInterview.cshtml"
                                                                                                              , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8651,7 +8667,7 @@ WriteLiteral("   ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'socialNetwork.dependent.id\',", true)
 
-#line 3596 "VerificacionInterview.cshtml"
+#line 3609 "VerificacionInterview.cshtml"
                                                                                                       , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -8673,13 +8689,13 @@ WriteLiteral(" name=\"socialNetwork.dependent.id\"");
 WriteLiteral(" >\r\n");
 
 
-#line 3601 "VerificacionInterview.cshtml"
+#line 3614 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 3601 "VerificacionInterview.cshtml"
+#line 3614 "VerificacionInterview.cshtml"
                          foreach(var ele in Model.ListaDeElection){
 	                        if(@Jpsn.DependentId==@ele.Id){
 
@@ -8690,7 +8706,7 @@ WriteLiteral("\t                        \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3603 "VerificacionInterview.cshtml"
+#line 3616 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", ele.Id
 
 #line default
@@ -8702,7 +8718,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3603 "VerificacionInterview.cshtml"
+#line 3616 "VerificacionInterview.cshtml"
                                                                         Write(ele.Name);
 
 
@@ -8711,7 +8727,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 3604 "VerificacionInterview.cshtml"
+#line 3617 "VerificacionInterview.cshtml"
 	                        }else{
 
 
@@ -8721,7 +8737,7 @@ WriteLiteral("\t                         \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3605 "VerificacionInterview.cshtml"
+#line 3618 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", ele.Id
 
 #line default
@@ -8731,7 +8747,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 3605 "VerificacionInterview.cshtml"
+#line 3618 "VerificacionInterview.cshtml"
                                                    Write(ele.Name);
 
 
@@ -8740,7 +8756,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 3606 "VerificacionInterview.cshtml"
+#line 3619 "VerificacionInterview.cshtml"
 	                        }
                         }
 
@@ -8751,7 +8767,7 @@ WriteLiteral("                        </select>\r\n            </div>\r\n       
 "\r\n    <br/>\r\n</div>\r\n    <!--ACORDEON CONTENT END-->\r\n</div>\r\n");
 
 
-#line 3616 "VerificacionInterview.cshtml"
+#line 3629 "VerificacionInterview.cshtml"
 	    }
     }
 
@@ -8788,7 +8804,7 @@ WriteLiteral(" class=\"text-primary\"");
 WriteLiteral(">Observaciones: <b>");
 
 
-#line 3638 "VerificacionInterview.cshtml"
+#line 3651 "VerificacionInterview.cshtml"
                                                          Write(Model.CommentReference);
 
 
@@ -8797,13 +8813,13 @@ WriteLiteral(">Observaciones: <b>");
 WriteLiteral("</b></label>\r\n\t\t    </div>\r\n\t\t</div>\r\n        <br/>\r\n</div>\r\n");
 
 
-#line 3643 "VerificacionInterview.cshtml"
+#line 3656 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 3643 "VerificacionInterview.cshtml"
+#line 3656 "VerificacionInterview.cshtml"
      if(Model.JsonReferences==null){
     }
     else{
@@ -8837,7 +8853,7 @@ WriteLiteral("\r\n                   data-icon-show=\"icon-angle-right\"");
 WriteLiteral("></i>\r\n                Referencia personal <span>");
 
 
-#line 3656 "VerificacionInterview.cshtml"
+#line 3669 "VerificacionInterview.cshtml"
                                      Write(pRfr);
 
 
@@ -8873,7 +8889,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'references.fullName\',", true)
 
-#line 3670 "VerificacionInterview.cshtml"
+#line 3683 "VerificacionInterview.cshtml"
                                                                                                       , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -8893,7 +8909,7 @@ WriteLiteral(" code=\"references.fullName\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3671 "VerificacionInterview.cshtml"
+#line 3684 "VerificacionInterview.cshtml"
                                                                                                               , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -8911,7 +8927,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'references.fullName\',", true)
 
-#line 3672 "VerificacionInterview.cshtml"
+#line 3685 "VerificacionInterview.cshtml"
                                                                                                       , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -8947,7 +8963,7 @@ WriteLiteral(" ng-init=\"name = p.name\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3679 "VerificacionInterview.cshtml"
+#line 3692 "VerificacionInterview.cshtml"
                                                     , Tuple.Create<string,object,bool> ("", Jrfr.FullName
 
 #line default
@@ -8983,7 +8999,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'references.relationship.id\',", true)
 
-#line 3689 "VerificacionInterview.cshtml"
+#line 3702 "VerificacionInterview.cshtml"
                                                                                                               , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9005,7 +9021,7 @@ WriteLiteral(" code=\"references.relationship.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3690 "VerificacionInterview.cshtml"
+#line 3703 "VerificacionInterview.cshtml"
                                                                                                                                                          , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9021,7 +9037,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'references.relationship.id\',", true)
 
-#line 3691 "VerificacionInterview.cshtml"
+#line 3704 "VerificacionInterview.cshtml"
                                                                                                              , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9039,7 +9055,7 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3695 "VerificacionInterview.cshtml"
+#line 3708 "VerificacionInterview.cshtml"
                             , Tuple.Create<string,object,bool> ("", Jrfr.RelationshipId
 
 #line default
@@ -9054,13 +9070,13 @@ WriteLiteral(" \r\n                        name=\"references.relationship.id\"")
 WriteLiteral(">\r\n          \r\n");
 
 
-#line 3699 "VerificacionInterview.cshtml"
+#line 3712 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 3699 "VerificacionInterview.cshtml"
+#line 3712 "VerificacionInterview.cshtml"
                          foreach(var rela in Model.ListaDeRelaciones){
 	                        if(@Jrfr.RelationshipId==@rela.Id){
 
@@ -9071,7 +9087,7 @@ WriteLiteral("\t                        \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3701 "VerificacionInterview.cshtml"
+#line 3714 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", rela.Id
 
 #line default
@@ -9083,7 +9099,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3701 "VerificacionInterview.cshtml"
+#line 3714 "VerificacionInterview.cshtml"
                                                                          Write(rela.Name);
 
 
@@ -9092,7 +9108,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 3702 "VerificacionInterview.cshtml"
+#line 3715 "VerificacionInterview.cshtml"
 	                        }else{
 
 
@@ -9102,7 +9118,7 @@ WriteLiteral("\t                         \t<option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3703 "VerificacionInterview.cshtml"
+#line 3716 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", rela.Id
 
 #line default
@@ -9112,7 +9128,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 3703 "VerificacionInterview.cshtml"
+#line 3716 "VerificacionInterview.cshtml"
                                                     Write(rela.Name);
 
 
@@ -9121,7 +9137,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 3704 "VerificacionInterview.cshtml"
+#line 3717 "VerificacionInterview.cshtml"
 	                        }
                         }
 
@@ -9139,13 +9155,13 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 
 
-#line 3710 "VerificacionInterview.cshtml"
+#line 3723 "VerificacionInterview.cshtml"
         
 
 #line default
 #line hidden
 
-#line 3710 "VerificacionInterview.cshtml"
+#line 3723 "VerificacionInterview.cshtml"
           string c = "hide";
 
 #line default
@@ -9153,13 +9169,13 @@ WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 WriteLiteral("\r\n");
 
 
-#line 3711 "VerificacionInterview.cshtml"
+#line 3724 "VerificacionInterview.cshtml"
              	
 
 #line default
 #line hidden
 
-#line 3711 "VerificacionInterview.cshtml"
+#line 3724 "VerificacionInterview.cshtml"
                  if(@Jrfr.RelationshipId!=null&&@Jrfr.RelationshipId==19){
 					c = "";
 				}else{
@@ -9176,7 +9192,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "parenting", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-6", true)
 
-#line 3716 "VerificacionInterview.cshtml"
+#line 3729 "VerificacionInterview.cshtml"
           , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -9201,7 +9217,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "parenting", true)
 , Tuple.Create<string,object,bool> (" ", "form-control", true)
 
-#line 3721 "VerificacionInterview.cshtml"
+#line 3734 "VerificacionInterview.cshtml"
                         , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -9212,7 +9228,7 @@ WriteLiteral(" data-val=\"true\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3721 "VerificacionInterview.cshtml"
+#line 3734 "VerificacionInterview.cshtml"
                                                     , Tuple.Create<string,object,bool> ("", Jrfr.SpecificationRelationship
 
 #line default
@@ -9270,7 +9286,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'references.phone\',", true)
 
-#line 3738 "VerificacionInterview.cshtml"
+#line 3751 "VerificacionInterview.cshtml"
                                                                                                     , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9292,7 +9308,7 @@ WriteLiteral(" code=\"references.phone\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3739 "VerificacionInterview.cshtml"
+#line 3752 "VerificacionInterview.cshtml"
                                                                                                                                                , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9308,7 +9324,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'references.phone\',", true)
 
-#line 3740 "VerificacionInterview.cshtml"
+#line 3753 "VerificacionInterview.cshtml"
                                                                                                    , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9328,7 +9344,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3744 "VerificacionInterview.cshtml"
+#line 3757 "VerificacionInterview.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Jrfr.Phone
 
 #line default
@@ -9352,7 +9368,7 @@ WriteLiteral(" id=\"phone\"");
 WriteLiteral(" >");
 
 
-#line 3747 "VerificacionInterview.cshtml"
+#line 3760 "VerificacionInterview.cshtml"
                                                          Write(Jrfr.Phone);
 
 
@@ -9387,7 +9403,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'references.documentType.id\',", true)
 
-#line 3757 "VerificacionInterview.cshtml"
+#line 3770 "VerificacionInterview.cshtml"
                                                                                                               , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9409,7 +9425,7 @@ WriteLiteral(" code=\"references.documentType.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3758 "VerificacionInterview.cshtml"
+#line 3771 "VerificacionInterview.cshtml"
                                                                                                                                                          , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9425,7 +9441,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'references.documentType.id\',", true)
 
-#line 3759 "VerificacionInterview.cshtml"
+#line 3772 "VerificacionInterview.cshtml"
                                                                                                              , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9448,7 +9464,7 @@ WriteLiteral("  onchange=\"enableBySelectOptionUniqueSnglVrf(this,9,\'specDocu\'
 
 WriteAttribute ("value", "\r\n                 value=\"", "\""
 
-#line 3764 "VerificacionInterview.cshtml"
+#line 3777 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jrfr.DocumentTypeId
 
 #line default
@@ -9458,13 +9474,13 @@ WriteAttribute ("value", "\r\n                 value=\"", "\""
 WriteLiteral(" >\r\n");
 
 
-#line 3765 "VerificacionInterview.cshtml"
+#line 3778 "VerificacionInterview.cshtml"
                   
 
 #line default
 #line hidden
 
-#line 3765 "VerificacionInterview.cshtml"
+#line 3778 "VerificacionInterview.cshtml"
                    foreach(var docuTyp in Model.ListaDeIdentificaciones){
                         if(@Jrfr.DocumentTypeId==@docuTyp.Id){
 
@@ -9475,7 +9491,7 @@ WriteLiteral("                        <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3767 "VerificacionInterview.cshtml"
+#line 3780 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", docuTyp.Id
 
 #line default
@@ -9487,7 +9503,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3767 "VerificacionInterview.cshtml"
+#line 3780 "VerificacionInterview.cshtml"
                                                                     Write(docuTyp.Name);
 
 
@@ -9496,7 +9512,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 3768 "VerificacionInterview.cshtml"
+#line 3781 "VerificacionInterview.cshtml"
                         }else{
 
 
@@ -9506,7 +9522,7 @@ WriteLiteral("                         <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3769 "VerificacionInterview.cshtml"
+#line 3782 "VerificacionInterview.cshtml"
  , Tuple.Create<string,object,bool> ("", docuTyp.Id
 
 #line default
@@ -9516,7 +9532,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 3769 "VerificacionInterview.cshtml"
+#line 3782 "VerificacionInterview.cshtml"
                                                 Write(docuTyp.Name);
 
 
@@ -9525,7 +9541,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 3770 "VerificacionInterview.cshtml"
+#line 3783 "VerificacionInterview.cshtml"
                         }
                         }
 
@@ -9535,13 +9551,13 @@ WriteLiteral("</option>\r\n");
 WriteLiteral("                 </select>\r\n                <br/>\r\n            </div>\r\n");
 
 
-#line 3775 "VerificacionInterview.cshtml"
+#line 3788 "VerificacionInterview.cshtml"
              	
 
 #line default
 #line hidden
 
-#line 3775 "VerificacionInterview.cshtml"
+#line 3788 "VerificacionInterview.cshtml"
                  if(@Jrfr.DocumentTypeId!=0&&@Jrfr.DocumentTypeId==9){
 					c = "";
 				}else{
@@ -9558,7 +9574,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "specDocu", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-4", true)
 
-#line 3780 "VerificacionInterview.cshtml"
+#line 3793 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -9574,7 +9590,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "specDocu", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-8", true)
 
-#line 3783 "VerificacionInterview.cshtml"
+#line 3796 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -9591,7 +9607,7 @@ WriteLiteral(" data-val-length=\"Debe tener al menos 2 y m&aacute;ximo 255 carac
 
 WriteAttribute ("value", " \r\n                        \t   value=\"", "\""
 
-#line 3785 "VerificacionInterview.cshtml"
+#line 3798 "VerificacionInterview.cshtml"
 , Tuple.Create<string,object,bool> ("", Jrfr.SpecificationDocumentType
 
 #line default
@@ -9635,7 +9651,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'references.age\',", true)
 
-#line 3793 "VerificacionInterview.cshtml"
+#line 3806 "VerificacionInterview.cshtml"
                                                                                                   , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9657,7 +9673,7 @@ WriteLiteral(" code=\"references.age\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3794 "VerificacionInterview.cshtml"
+#line 3807 "VerificacionInterview.cshtml"
                                                                                                                                              , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9673,7 +9689,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'references.age\',", true)
 
-#line 3795 "VerificacionInterview.cshtml"
+#line 3808 "VerificacionInterview.cshtml"
                                                                                                  , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9690,7 +9706,7 @@ WriteLiteral("   ng-show=\"selectSource\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "showChoices(\'references.age\',", true)
 
-#line 3796 "VerificacionInterview.cshtml"
+#line 3809 "VerificacionInterview.cshtml"
                                                                                           , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9728,7 +9744,7 @@ WriteLiteral(" ng-init=\"age = p.age\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3803 "VerificacionInterview.cshtml"
+#line 3816 "VerificacionInterview.cshtml"
                                                , Tuple.Create<string,object,bool> ("", Jrfr.Age
 
 #line default
@@ -9764,7 +9780,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'references.address\',", true)
 
-#line 3813 "VerificacionInterview.cshtml"
+#line 3826 "VerificacionInterview.cshtml"
                                                                                                               , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9786,7 +9802,7 @@ WriteLiteral(" code=\"references.address\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3814 "VerificacionInterview.cshtml"
+#line 3827 "VerificacionInterview.cshtml"
                                                                                                                                                          , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9802,7 +9818,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'references.address\',", true)
 
-#line 3815 "VerificacionInterview.cshtml"
+#line 3828 "VerificacionInterview.cshtml"
                                                                                                              , Tuple.Create<string,object,bool> ("", Jrfr.Id
 
 #line default
@@ -9831,7 +9847,7 @@ WriteLiteral("\r\n                                  data-val-length=\"Debe tener
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3820 "VerificacionInterview.cshtml"
+#line 3833 "VerificacionInterview.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jrfr.Address
 
 #line default
@@ -9845,7 +9861,7 @@ WriteLiteral(" data-val-length-min=\"6\"");
 WriteLiteral(">");
 
 
-#line 3821 "VerificacionInterview.cshtml"
+#line 3834 "VerificacionInterview.cshtml"
                                                                                Write(Jrfr.Address);
 
 
@@ -9863,7 +9879,7 @@ WriteLiteral("></span>\r\n                    </div>\r\n        </div>\r\n    </
 "div>\r\n    <!--ACORDEON CONTENT END-->\r\n</div>\r\n");
 
 
-#line 3831 "VerificacionInterview.cshtml"
+#line 3844 "VerificacionInterview.cshtml"
 	    }
     }
 
@@ -9910,7 +9926,7 @@ WriteLiteral(" class=\"text-primary\"");
 WriteLiteral(">Observaciones: <b>");
 
 
-#line 3859 "VerificacionInterview.cshtml"
+#line 3872 "VerificacionInterview.cshtml"
                                                          Write(Model.CommentJob);
 
 
@@ -9919,13 +9935,13 @@ WriteLiteral(">Observaciones: <b>");
 WriteLiteral("</b></label>\r\n\t\t    </div>\r\n\t\t</div>\r\n        <br/>\r\n</div>\r\n");
 
 
-#line 3864 "VerificacionInterview.cshtml"
+#line 3877 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 3864 "VerificacionInterview.cshtml"
+#line 3877 "VerificacionInterview.cshtml"
      if(Model.JsonJobs==null){
     }
     else{
@@ -9959,7 +9975,7 @@ WriteLiteral("\r\n                   data-icon-show=\"icon-angle-right\"");
 WriteLiteral("></i>\r\n                Referencia personal <span>");
 
 
-#line 3877 "VerificacionInterview.cshtml"
+#line 3890 "VerificacionInterview.cshtml"
                                      Write(pJob);
 
 
@@ -9995,7 +10011,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.company\',", true)
 
-#line 3891 "VerificacionInterview.cshtml"
+#line 3904 "VerificacionInterview.cshtml"
                                                                                                , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10015,7 +10031,7 @@ WriteLiteral(" code=\"jobs.company\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3892 "VerificacionInterview.cshtml"
+#line 3905 "VerificacionInterview.cshtml"
                                                                                                        , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10033,7 +10049,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.company\',", true)
 
-#line 3893 "VerificacionInterview.cshtml"
+#line 3906 "VerificacionInterview.cshtml"
                                                                                                , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10067,7 +10083,7 @@ WriteLiteral(" id=\"name\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3900 "VerificacionInterview.cshtml"
+#line 3913 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Jjob.Company
 
 #line default
@@ -10103,7 +10119,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.post\',", true)
 
-#line 3909 "VerificacionInterview.cshtml"
+#line 3922 "VerificacionInterview.cshtml"
                                                                                             , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10123,7 +10139,7 @@ WriteLiteral(" code=\"jobs.post\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3910 "VerificacionInterview.cshtml"
+#line 3923 "VerificacionInterview.cshtml"
                                                                                                     , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10141,7 +10157,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.post\',", true)
 
-#line 3911 "VerificacionInterview.cshtml"
+#line 3924 "VerificacionInterview.cshtml"
                                                                                             , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10177,7 +10193,7 @@ WriteLiteral(" ng-init=\"name = p.name\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3918 "VerificacionInterview.cshtml"
+#line 3931 "VerificacionInterview.cshtml"
                                           , Tuple.Create<string,object,bool> ("", Jjob.Post
 
 #line default
@@ -10213,7 +10229,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.phone\',", true)
 
-#line 3927 "VerificacionInterview.cshtml"
+#line 3940 "VerificacionInterview.cshtml"
                                                                                              , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10233,7 +10249,7 @@ WriteLiteral(" code=\"jobs.phone\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3928 "VerificacionInterview.cshtml"
+#line 3941 "VerificacionInterview.cshtml"
                                                                                                      , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10251,7 +10267,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.phone\',", true)
 
-#line 3929 "VerificacionInterview.cshtml"
+#line 3942 "VerificacionInterview.cshtml"
                                                                                              , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10287,7 +10303,7 @@ WriteLiteral(" ng-init=\"name = p.name\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3936 "VerificacionInterview.cshtml"
+#line 3949 "VerificacionInterview.cshtml"
                                            , Tuple.Create<string,object,bool> ("", Jjob.Phone
 
 #line default
@@ -10323,7 +10339,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.nameHead\',", true)
 
-#line 3945 "VerificacionInterview.cshtml"
+#line 3958 "VerificacionInterview.cshtml"
                                                                                                 , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10343,7 +10359,7 @@ WriteLiteral(" code=\"jobs.nameHead\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3946 "VerificacionInterview.cshtml"
+#line 3959 "VerificacionInterview.cshtml"
                                                                                                         , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10361,7 +10377,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.nameHead\',", true)
 
-#line 3947 "VerificacionInterview.cshtml"
+#line 3960 "VerificacionInterview.cshtml"
                                                                                                 , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10398,7 +10414,7 @@ WriteLiteral(" ng-init=\"name = p.name\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3954 "VerificacionInterview.cshtml"
+#line 3967 "VerificacionInterview.cshtml"
                                               , Tuple.Create<string,object,bool> ("", Jjob.NameHead
 
 #line default
@@ -10434,7 +10450,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.address\',", true)
 
-#line 3964 "VerificacionInterview.cshtml"
+#line 3977 "VerificacionInterview.cshtml"
                                                                                                 , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10456,7 +10472,7 @@ WriteLiteral(" code=\"jobs.address\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 3965 "VerificacionInterview.cshtml"
+#line 3978 "VerificacionInterview.cshtml"
                                                                                                                                            , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10472,7 +10488,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.address\',", true)
 
-#line 3966 "VerificacionInterview.cshtml"
+#line 3979 "VerificacionInterview.cshtml"
                                                                                                , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10492,7 +10508,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3970 "VerificacionInterview.cshtml"
+#line 3983 "VerificacionInterview.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Jjob.Phone
 
 #line default
@@ -10516,7 +10532,7 @@ WriteLiteral(" id=\"phone\"");
 WriteLiteral(" >");
 
 
-#line 3973 "VerificacionInterview.cshtml"
+#line 3986 "VerificacionInterview.cshtml"
                                                      Write(Jjob.Address);
 
 
@@ -10548,7 +10564,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.registerType.id\',", true)
 
-#line 3988 "VerificacionInterview.cshtml"
+#line 4001 "VerificacionInterview.cshtml"
                           , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10568,7 +10584,7 @@ WriteLiteral("\r\n               code=\"jobs.registerType.id\"");
 
 WriteAttribute ("id-element", "  id-element=\"", "\""
 
-#line 3990 "VerificacionInterview.cshtml"
+#line 4003 "VerificacionInterview.cshtml"
                  , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10586,7 +10602,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.registerType.id\',", true)
 
-#line 3992 "VerificacionInterview.cshtml"
+#line 4005 "VerificacionInterview.cshtml"
                          , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -10611,7 +10627,7 @@ WriteLiteral(" onchange=\"enableBySelectOptionGroupSnglVrf(this,\'1-2\',\'active
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3996 "VerificacionInterview.cshtml"
+#line 4009 "VerificacionInterview.cshtml"
                                                                                                                                                                                            , Tuple.Create<string,object,bool> ("", Jjob.RegisterTypeId
 
 #line default
@@ -10621,13 +10637,13 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">\r\n");
 
 
-#line 3997 "VerificacionInterview.cshtml"
+#line 4010 "VerificacionInterview.cshtml"
                       
 
 #line default
 #line hidden
 
-#line 3997 "VerificacionInterview.cshtml"
+#line 4010 "VerificacionInterview.cshtml"
                        foreach(var regisTyp in Model.ListaDeRegisterType){
                         if(@Jjob.RegisterTypeId==@regisTyp.Id){
 
@@ -10638,7 +10654,7 @@ WriteLiteral("                          <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 3999 "VerificacionInterview.cshtml"
+#line 4012 "VerificacionInterview.cshtml"
   , Tuple.Create<string,object,bool> ("", regisTyp.Id
 
 #line default
@@ -10650,7 +10666,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 3999 "VerificacionInterview.cshtml"
+#line 4012 "VerificacionInterview.cshtml"
                                                                        Write(regisTyp.Name);
 
 
@@ -10659,7 +10675,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 4000 "VerificacionInterview.cshtml"
+#line 4013 "VerificacionInterview.cshtml"
                         }else{
 
 
@@ -10669,7 +10685,7 @@ WriteLiteral("                          <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4001 "VerificacionInterview.cshtml"
+#line 4014 "VerificacionInterview.cshtml"
   , Tuple.Create<string,object,bool> ("", regisTyp.Id
 
 #line default
@@ -10679,7 +10695,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 4001 "VerificacionInterview.cshtml"
+#line 4014 "VerificacionInterview.cshtml"
                                                   Write(regisTyp.Name);
 
 
@@ -10688,7 +10704,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 4002 "VerificacionInterview.cshtml"
+#line 4015 "VerificacionInterview.cshtml"
                         }
                       }
 
@@ -10739,13 +10755,13 @@ WriteLiteral(" class=\"row widget-main\"");
 WriteLiteral(">\r\n");
 
 
-#line 4023 "VerificacionInterview.cshtml"
+#line 4036 "VerificacionInterview.cshtml"
                                   
 
 #line default
 #line hidden
 
-#line 4023 "VerificacionInterview.cshtml"
+#line 4036 "VerificacionInterview.cshtml"
                                     string hlaboral = "hide";
 
 #line default
@@ -10753,13 +10769,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
 
-#line 4024 "VerificacionInterview.cshtml"
+#line 4037 "VerificacionInterview.cshtml"
                                   
 
 #line default
 #line hidden
 
-#line 4024 "VerificacionInterview.cshtml"
+#line 4037 "VerificacionInterview.cshtml"
                                    if(@Jjob.RegisterTypeId==1||@Jjob.RegisterTypeId==2){
                                   hlaboral = "";
                                   }else{
@@ -10775,7 +10791,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4029 "VerificacionInterview.cshtml"
+#line 4042 "VerificacionInterview.cshtml"
                            , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10790,7 +10806,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4032 "VerificacionInterview.cshtml"
+#line 4045 "VerificacionInterview.cshtml"
                            , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10808,7 +10824,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4034 "VerificacionInterview.cshtml"
+#line 4047 "VerificacionInterview.cshtml"
                                      , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10827,7 +10843,7 @@ WriteLiteral("\r\n                                                 data-date-for
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4036 "VerificacionInterview.cshtml"
+#line 4049 "VerificacionInterview.cshtml"
                                                , Tuple.Create<string,object,bool> ("", Jjob.Start
 
 #line default
@@ -10856,7 +10872,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4043 "VerificacionInterview.cshtml"
+#line 4056 "VerificacionInterview.cshtml"
                            , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10871,7 +10887,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4046 "VerificacionInterview.cshtml"
+#line 4059 "VerificacionInterview.cshtml"
                            , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10885,7 +10901,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4047 "VerificacionInterview.cshtml"
+#line 4060 "VerificacionInterview.cshtml"
                                  , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10911,7 +10927,7 @@ WriteLiteral("\r\n                                         type=\"text\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4051 "VerificacionInterview.cshtml"
+#line 4064 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Jjob.SalaryWeek
 
 #line default
@@ -10929,7 +10945,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "activeJob", true)
 
-#line 4054 "VerificacionInterview.cshtml"
+#line 4067 "VerificacionInterview.cshtml"
                            , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10950,13 +10966,13 @@ WriteLiteral("></span>\r\n                                  </div>\r\n          
 "     <br/>\r\n");
 
 
-#line 4058 "VerificacionInterview.cshtml"
+#line 4071 "VerificacionInterview.cshtml"
                                   
 
 #line default
 #line hidden
 
-#line 4058 "VerificacionInterview.cshtml"
+#line 4071 "VerificacionInterview.cshtml"
                                    if(@Jjob.RegisterTypeId==3){
                                       hlaboral = "";
                                   }else{
@@ -10972,7 +10988,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4063 "VerificacionInterview.cshtml"
+#line 4076 "VerificacionInterview.cshtml"
                              , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -10987,7 +11003,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4066 "VerificacionInterview.cshtml"
+#line 4079 "VerificacionInterview.cshtml"
                              , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11005,7 +11021,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4068 "VerificacionInterview.cshtml"
+#line 4081 "VerificacionInterview.cshtml"
                                        , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11024,7 +11040,7 @@ WriteLiteral("\r\n                                                 data-date-for
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4070 "VerificacionInterview.cshtml"
+#line 4083 "VerificacionInterview.cshtml"
                                                , Tuple.Create<string,object,bool> ("", Jjob.StartPrev
 
 #line default
@@ -11053,7 +11069,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4077 "VerificacionInterview.cshtml"
+#line 4090 "VerificacionInterview.cshtml"
                              , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11068,7 +11084,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4080 "VerificacionInterview.cshtml"
+#line 4093 "VerificacionInterview.cshtml"
                              , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11086,7 +11102,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4082 "VerificacionInterview.cshtml"
+#line 4095 "VerificacionInterview.cshtml"
                                        , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11103,7 +11119,7 @@ WriteLiteral("\r\n                                                 data-date-for
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4083 "VerificacionInterview.cshtml"
+#line 4096 "VerificacionInterview.cshtml"
                                                , Tuple.Create<string,object,bool> ("", Jjob.End
 
 #line default
@@ -11135,7 +11151,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4094 "VerificacionInterview.cshtml"
+#line 4107 "VerificacionInterview.cshtml"
                          , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11159,7 +11175,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4097 "VerificacionInterview.cshtml"
+#line 4110 "VerificacionInterview.cshtml"
                                                          , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11173,7 +11189,7 @@ WriteLiteral("\r\n                                                data-val=\"tru
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4099 "VerificacionInterview.cshtml"
+#line 4112 "VerificacionInterview.cshtml"
                                 , Tuple.Create<string,object,bool> ("", Jjob.ReasonChange
 
 #line default
@@ -11186,7 +11202,7 @@ WriteLiteral("\r\n                                                data-val-requi
 WriteLiteral(">");
 
 
-#line 4100 "VerificacionInterview.cshtml"
+#line 4113 "VerificacionInterview.cshtml"
                                                                                                          Write(Jjob.ReasonChange);
 
 
@@ -11198,7 +11214,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> ("", "hidenStart", true)
 , Tuple.Create<string,object,bool> (" ", "unactiveJob", true)
 
-#line 4101 "VerificacionInterview.cshtml"
+#line 4114 "VerificacionInterview.cshtml"
                                   , Tuple.Create<string,object,bool> (" ", hlaboral
 
 #line default
@@ -11239,7 +11255,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n                                               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'jobs.schedule\',", true)
 
-#line 4116 "VerificacionInterview.cshtml"
+#line 4129 "VerificacionInterview.cshtml"
                                                    , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -11254,7 +11270,7 @@ WriteLiteral(" class=\"icon-remove-circle red  icon-only bigger-220\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "DisponibilidadVerify.show(\'jobs.schedule\',", true)
 
-#line 4117 "VerificacionInterview.cshtml"
+#line 4130 "VerificacionInterview.cshtml"
                                                                                                                  , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -11268,7 +11284,7 @@ WriteLiteral(" id-code=\"jobs.registerType.id\"");
 
 WriteAttribute ("id-element", "\r\n                                                id-element=\"", "\""
 
-#line 4119 "VerificacionInterview.cshtml"
+#line 4132 "VerificacionInterview.cshtml"
                      , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -11284,7 +11300,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "\r\n                                               onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'jobs.schedule\',", true)
 
-#line 4121 "VerificacionInterview.cshtml"
+#line 4134 "VerificacionInterview.cshtml"
                                                   , Tuple.Create<string,object,bool> ("", Jjob.Id
 
 #line default
@@ -11343,13 +11359,13 @@ WriteLiteral(" class=\"castable\"");
 WriteLiteral(">\r\n");
 
 
-#line 4144 "VerificacionInterview.cshtml"
+#line 4157 "VerificacionInterview.cshtml"
                                             
 
 #line default
 #line hidden
 
-#line 4144 "VerificacionInterview.cshtml"
+#line 4157 "VerificacionInterview.cshtml"
                                              if(Jjob.ScheduleList!=null){
 	                                            foreach(var sche in Jjob.ScheduleList) {
 
@@ -11366,7 +11382,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t                                                ");
 
 
-#line 4148 "VerificacionInterview.cshtml"
+#line 4161 "VerificacionInterview.cshtml"
                                                Write(sche.Day);
 
 
@@ -11382,7 +11398,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t                                                ");
 
 
-#line 4151 "VerificacionInterview.cshtml"
+#line 4164 "VerificacionInterview.cshtml"
                                                Write(sche.Start);
 
 
@@ -11398,7 +11414,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t                                                ");
 
 
-#line 4154 "VerificacionInterview.cshtml"
+#line 4167 "VerificacionInterview.cshtml"
                                                Write(sche.End);
 
 
@@ -11408,7 +11424,7 @@ WriteLiteral("\r\n\t                                              </td>\r\n\t   
 "                    </tr>\r\n");
 
 
-#line 4157 "VerificacionInterview.cshtml"
+#line 4170 "VerificacionInterview.cshtml"
 	                                            }
                                             }
 
@@ -11445,7 +11461,7 @@ WriteLiteral(@"                                            </div>
 ");
 
 
-#line 4186 "VerificacionInterview.cshtml"
+#line 4199 "VerificacionInterview.cshtml"
 	    }
 
 #line default
@@ -11453,7 +11469,7 @@ WriteLiteral(@"                                            </div>
 WriteLiteral("<!--End of foreach -->\r\n");
 
 
-#line 4187 "VerificacionInterview.cshtml"
+#line 4200 "VerificacionInterview.cshtml"
     }
 
 #line default
@@ -11957,13 +11973,13 @@ WriteLiteral("></span>\r\n                </div>\r\n            </div>\r\n      
 "</div>\r\n    </div>\r\n</div>\r\n\r\n\r\n\r\n\r\n");
 
 
-#line 4371 "VerificacionInterview.cshtml"
+#line 4384 "VerificacionInterview.cshtml"
  
 
 #line default
 #line hidden
 
-#line 4371 "VerificacionInterview.cshtml"
+#line 4384 "VerificacionInterview.cshtml"
   if(Model.ScheduleSchool==null){
     }
     else{
@@ -12060,13 +12076,13 @@ WriteLiteral(">\r\n                            Hora de fin\r\n                  
 "\r\n");
 
 
-#line 4409 "VerificacionInterview.cshtml"
+#line 4422 "VerificacionInterview.cshtml"
                       	
 
 #line default
 #line hidden
 
-#line 4409 "VerificacionInterview.cshtml"
+#line 4422 "VerificacionInterview.cshtml"
                          foreach(var Schedul in Model.ScheduleSchool) {
 
 
@@ -12081,7 +12097,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t                            ");
 
 
-#line 4412 "VerificacionInterview.cshtml"
+#line 4425 "VerificacionInterview.cshtml"
                            Write(Schedul.Day);
 
 
@@ -12096,7 +12112,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t                             ");
 
 
-#line 4415 "VerificacionInterview.cshtml"
+#line 4428 "VerificacionInterview.cshtml"
                             Write(Schedul.Start);
 
 
@@ -12111,7 +12127,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t                             ");
 
 
-#line 4418 "VerificacionInterview.cshtml"
+#line 4431 "VerificacionInterview.cshtml"
                             Write(Schedul.End);
 
 
@@ -12120,7 +12136,7 @@ WriteLiteral("\t                             ");
 WriteLiteral("\r\n\t                        </td>\r\n                    \t</tr>\r\n");
 
 
-#line 4421 "VerificacionInterview.cshtml"
+#line 4434 "VerificacionInterview.cshtml"
     					}
 
 
@@ -12130,7 +12146,7 @@ WriteLiteral("                    </tbody>\r\n                </table>\r\n      
 "   </div>\r\n    </div>\r\n</div>\r\n");
 
 
-#line 4428 "VerificacionInterview.cshtml"
+#line 4441 "VerificacionInterview.cshtml"
 }
 
 
@@ -12167,7 +12183,7 @@ WriteLiteral(" class=\"text-primary\"");
 WriteLiteral(">Observaciones: <b>");
 
 
-#line 4464 "VerificacionInterview.cshtml"
+#line 4477 "VerificacionInterview.cshtml"
                                                          Write(Model.CommentDrug);
 
 
@@ -12176,13 +12192,13 @@ WriteLiteral(">Observaciones: <b>");
 WriteLiteral("</b></label>\r\n            </div>\r\n        </div>\r\n        <br/>\r\n</div>\r\n");
 
 
-#line 4469 "VerificacionInterview.cshtml"
+#line 4482 "VerificacionInterview.cshtml"
     
 
 #line default
 #line hidden
 
-#line 4469 "VerificacionInterview.cshtml"
+#line 4482 "VerificacionInterview.cshtml"
      if(Model.JsonDrugs==null){
     }
     else{
@@ -12216,7 +12232,7 @@ WriteLiteral("\r\n                   data-icon-show=\"icon-angle-right\"");
 WriteLiteral("></i>\r\n                Sustancia <span>");
 
 
-#line 4482 "VerificacionInterview.cshtml"
+#line 4495 "VerificacionInterview.cshtml"
                            Write(pRfr);
 
 
@@ -12252,7 +12268,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'drugs.drugType.id\',", true)
 
-#line 4495 "VerificacionInterview.cshtml"
+#line 4508 "VerificacionInterview.cshtml"
                                                                                                      , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12274,7 +12290,7 @@ WriteLiteral(" code=\"drugs.drugType.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 4496 "VerificacionInterview.cshtml"
+#line 4509 "VerificacionInterview.cshtml"
                                                                                                                                                 , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12290,7 +12306,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'drugs.drugType.id\',", true)
 
-#line 4497 "VerificacionInterview.cshtml"
+#line 4510 "VerificacionInterview.cshtml"
                                                                                                     , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12308,7 +12324,7 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4501 "VerificacionInterview.cshtml"
+#line 4514 "VerificacionInterview.cshtml"
                             , Tuple.Create<string,object,bool> ("", Jdrg.DrugTypeId
 
 #line default
@@ -12323,13 +12339,13 @@ WriteLiteral(" \r\n                        name=\"drugs.drugType.id\"");
 WriteLiteral(">\r\n");
 
 
-#line 4504 "VerificacionInterview.cshtml"
+#line 4517 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 4504 "VerificacionInterview.cshtml"
+#line 4517 "VerificacionInterview.cshtml"
                          foreach(var rela in Model.ListaDeDrogas){
                             if(@Jdrg.DrugTypeId==@rela.Id){
 
@@ -12340,7 +12356,7 @@ WriteLiteral("                                <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4506 "VerificacionInterview.cshtml"
+#line 4519 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", rela.Id
 
 #line default
@@ -12352,7 +12368,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 4506 "VerificacionInterview.cshtml"
+#line 4519 "VerificacionInterview.cshtml"
                                                                          Write(rela.Name);
 
 
@@ -12361,7 +12377,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 4507 "VerificacionInterview.cshtml"
+#line 4520 "VerificacionInterview.cshtml"
                             }else{
 
 
@@ -12371,7 +12387,7 @@ WriteLiteral("                                <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4508 "VerificacionInterview.cshtml"
+#line 4521 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", rela.Id
 
 #line default
@@ -12381,7 +12397,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 4508 "VerificacionInterview.cshtml"
+#line 4521 "VerificacionInterview.cshtml"
                                                     Write(rela.Name);
 
 
@@ -12390,7 +12406,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 4509 "VerificacionInterview.cshtml"
+#line 4522 "VerificacionInterview.cshtml"
                             }
                         }
 
@@ -12408,13 +12424,13 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 
 
-#line 4515 "VerificacionInterview.cshtml"
+#line 4528 "VerificacionInterview.cshtml"
         
 
 #line default
 #line hidden
 
-#line 4515 "VerificacionInterview.cshtml"
+#line 4528 "VerificacionInterview.cshtml"
           string jaid = "hide";
 
 #line default
@@ -12422,13 +12438,13 @@ WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 WriteLiteral("\r\n");
 
 
-#line 4516 "VerificacionInterview.cshtml"
+#line 4529 "VerificacionInterview.cshtml"
                 
 
 #line default
 #line hidden
 
-#line 4516 "VerificacionInterview.cshtml"
+#line 4529 "VerificacionInterview.cshtml"
                  if(@Jdrg.DrugTypeId==14||Jdrg.DrugTypeId==7){
                     jaid = "";
                 }else{
@@ -12445,7 +12461,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "drugspecific", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-6", true)
 
-#line 4521 "VerificacionInterview.cshtml"
+#line 4534 "VerificacionInterview.cshtml"
              , Tuple.Create<string,object,bool> (" ", jaid
 
 #line default
@@ -12470,7 +12486,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "drugspecific", true)
 , Tuple.Create<string,object,bool> (" ", "form-control", true)
 
-#line 4526 "VerificacionInterview.cshtml"
+#line 4539 "VerificacionInterview.cshtml"
                            , Tuple.Create<string,object,bool> (" ", jaid
 
 #line default
@@ -12481,7 +12497,7 @@ WriteLiteral(" data-val=\"true\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4526 "VerificacionInterview.cshtml"
+#line 4539 "VerificacionInterview.cshtml"
                                                           , Tuple.Create<string,object,bool> ("", Jdrg.Specification
 
 #line default
@@ -12539,7 +12555,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'drugs.periodicity.id\',", true)
 
-#line 4543 "VerificacionInterview.cshtml"
+#line 4556 "VerificacionInterview.cshtml"
                                                                                                         , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12561,7 +12577,7 @@ WriteLiteral(" code=\"drugs.periodicity.id\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 4544 "VerificacionInterview.cshtml"
+#line 4557 "VerificacionInterview.cshtml"
                                                                                                                                                    , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12577,7 +12593,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'drugs.periodicity.id\',", true)
 
-#line 4545 "VerificacionInterview.cshtml"
+#line 4558 "VerificacionInterview.cshtml"
                                                                                                        , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12595,7 +12611,7 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4549 "VerificacionInterview.cshtml"
+#line 4562 "VerificacionInterview.cshtml"
                             , Tuple.Create<string,object,bool> ("", Jdrg.PeriodicityId
 
 #line default
@@ -12610,13 +12626,13 @@ WriteLiteral("\r\n                        name=\"drugs.periodicity.id\"");
 WriteLiteral(">\r\n                        \r\n");
 
 
-#line 4553 "VerificacionInterview.cshtml"
+#line 4566 "VerificacionInterview.cshtml"
                         
 
 #line default
 #line hidden
 
-#line 4553 "VerificacionInterview.cshtml"
+#line 4566 "VerificacionInterview.cshtml"
                          foreach(var peri in Model.ListaDePeriodicidad){
                             if(@Jdrg.PeriodicityId==@peri.Id){
 
@@ -12627,7 +12643,7 @@ WriteLiteral("                                <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4555 "VerificacionInterview.cshtml"
+#line 4568 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", peri.Id
 
 #line default
@@ -12639,7 +12655,7 @@ WriteLiteral(" selected=\"selected\"");
 WriteLiteral(" >");
 
 
-#line 4555 "VerificacionInterview.cshtml"
+#line 4568 "VerificacionInterview.cshtml"
                                                                          Write(peri.Name);
 
 
@@ -12648,7 +12664,7 @@ WriteLiteral(" >");
 WriteLiteral("</option>\r\n");
 
 
-#line 4556 "VerificacionInterview.cshtml"
+#line 4569 "VerificacionInterview.cshtml"
                             }else{
 
 
@@ -12658,7 +12674,7 @@ WriteLiteral("                                <option");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4557 "VerificacionInterview.cshtml"
+#line 4570 "VerificacionInterview.cshtml"
         , Tuple.Create<string,object,bool> ("", peri.Id
 
 #line default
@@ -12668,7 +12684,7 @@ WriteAttribute ("value", " value=\"", "\""
 WriteLiteral(">");
 
 
-#line 4557 "VerificacionInterview.cshtml"
+#line 4570 "VerificacionInterview.cshtml"
                                                     Write(peri.Name);
 
 
@@ -12677,7 +12693,7 @@ WriteLiteral(">");
 WriteLiteral("</option>\r\n");
 
 
-#line 4558 "VerificacionInterview.cshtml"
+#line 4571 "VerificacionInterview.cshtml"
                             }
                         }
 
@@ -12695,13 +12711,13 @@ WriteLiteral(" data-valmsg-replace=\"true\"");
 WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 
 
-#line 4564 "VerificacionInterview.cshtml"
+#line 4577 "VerificacionInterview.cshtml"
         
 
 #line default
 #line hidden
 
-#line 4564 "VerificacionInterview.cshtml"
+#line 4577 "VerificacionInterview.cshtml"
           string c = "hide";
 
 #line default
@@ -12709,13 +12725,13 @@ WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n");
 WriteLiteral("\r\n");
 
 
-#line 4565 "VerificacionInterview.cshtml"
+#line 4578 "VerificacionInterview.cshtml"
                 
 
 #line default
 #line hidden
 
-#line 4565 "VerificacionInterview.cshtml"
+#line 4578 "VerificacionInterview.cshtml"
                  if(@Jdrg.PeriodicityId==2||@Jdrg.PeriodicityId==4){
                     c = "";
                 }else{
@@ -12732,7 +12748,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "periodicity", true)
 , Tuple.Create<string,object,bool> (" ", "col-xs-6", true)
 
-#line 4570 "VerificacionInterview.cshtml"
+#line 4583 "VerificacionInterview.cshtml"
             , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -12757,7 +12773,7 @@ WriteAttribute ("class", " class=\"", "\""
 , Tuple.Create<string,object,bool> (" ", "periodicity", true)
 , Tuple.Create<string,object,bool> (" ", "form-control", true)
 
-#line 4575 "VerificacionInterview.cshtml"
+#line 4588 "VerificacionInterview.cshtml"
                           , Tuple.Create<string,object,bool> (" ", c
 
 #line default
@@ -12768,7 +12784,7 @@ WriteLiteral(" data-val=\"true\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4575 "VerificacionInterview.cshtml"
+#line 4588 "VerificacionInterview.cshtml"
                                                       , Tuple.Create<string,object,bool> ("", Jdrg.SpecificationPeriodicity
 
 #line default
@@ -12826,7 +12842,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'drugs.quantity\',", true)
 
-#line 4592 "VerificacionInterview.cshtml"
+#line 4605 "VerificacionInterview.cshtml"
                                                                                                   , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12848,7 +12864,7 @@ WriteLiteral(" code=\"drugs.quantity\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 4593 "VerificacionInterview.cshtml"
+#line 4606 "VerificacionInterview.cshtml"
                                                                                                                                              , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12864,7 +12880,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'drugs.quantity\',", true)
 
-#line 4594 "VerificacionInterview.cshtml"
+#line 4607 "VerificacionInterview.cshtml"
                                                                                                  , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12884,7 +12900,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4598 "VerificacionInterview.cshtml"
+#line 4611 "VerificacionInterview.cshtml"
                                   , Tuple.Create<string,object,bool> ("", Jdrg.Quantity
 
 #line default
@@ -12930,7 +12946,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'drugs.lastUse\',", true)
 
-#line 4607 "VerificacionInterview.cshtml"
+#line 4620 "VerificacionInterview.cshtml"
                                                                                                  , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12952,7 +12968,7 @@ WriteLiteral(" code=\"drugs.lastUse\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 4608 "VerificacionInterview.cshtml"
+#line 4621 "VerificacionInterview.cshtml"
                                                                                                                                             , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -12968,7 +12984,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'drugs.lastUse\',", true)
 
-#line 4609 "VerificacionInterview.cshtml"
+#line 4622 "VerificacionInterview.cshtml"
                                                                                                 , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -13005,7 +13021,7 @@ WriteLiteral(" data-val-required=\"La &uacute;ltima fecha de consumo es un campo
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4615 "VerificacionInterview.cshtml"
+#line 4628 "VerificacionInterview.cshtml"
                                                                                             , Tuple.Create<string,object,bool> ("", Jdrg.LastUse
 
 #line default
@@ -13052,7 +13068,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askEqualsImp.show(\'drugs.onsetAge\',", true)
 
-#line 4629 "VerificacionInterview.cshtml"
+#line 4642 "VerificacionInterview.cshtml"
                                                                                                           , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -13074,7 +13090,7 @@ WriteLiteral(" code=\"drugs.onsetAge\"");
 
 WriteAttribute ("id-element", " id-element=\"", "\""
 
-#line 4630 "VerificacionInterview.cshtml"
+#line 4643 "VerificacionInterview.cshtml"
                                                                                                                                                      , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -13090,7 +13106,7 @@ WriteLiteral(" ng-show=\"verification\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "askDontKnow.show(\'drugs.onsetAge\',", true)
 
-#line 4631 "VerificacionInterview.cshtml"
+#line 4644 "VerificacionInterview.cshtml"
                                                                                                          , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -13119,7 +13135,7 @@ WriteLiteral("\r\n                                  data-val-length=\"Debe tener
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 4636 "VerificacionInterview.cshtml"
+#line 4649 "VerificacionInterview.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jdrg.OnsetAge
 
 #line default
@@ -13142,7 +13158,7 @@ WriteLiteral("></span>\r\n                    </div>\r\n        </div>\r\n    </
 "v>\r\n    <!--ACORDEON CONTENT END-->\r\n</div>\r\n");
 
 
-#line 4646 "VerificacionInterview.cshtml"
+#line 4659 "VerificacionInterview.cshtml"
         }
     }
 
@@ -13339,7 +13355,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 4736 "VerificacionInterview.cshtml"
+#line 4749 "VerificacionInterview.cshtml"
                                                    , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -14193,7 +14209,7 @@ WriteLiteral(">\r\n    <a");
 WriteAttribute ("href", " href=\"", "\""
 , Tuple.Create<string,object,bool> ("", "javascript:window.location.replace(\'hybrid:Verification/IndexFuentes?idCase=\'+", true)
 
-#line 5050 "VerificacionInterview.cshtml"
+#line 5063 "VerificacionInterview.cshtml"
                                                     , Tuple.Create<string,object,bool> ("", Model.CaseId
 
 #line default
@@ -14217,207 +14233,209 @@ WriteLiteral(">\r\n        Terminar Entrevista\r\n    \t</span>\r\n\r\n</div>\r\
 "ipt>\r\n$(function() {\r\n        $(\"#ms\").change(function() {\r\n            console." +
 "log($(this).val());\r\n        }).multipleSelect({\r\n            \twidth: \'100%\',\r\n " +
 "   \t\t\tfilter:true,\r\n\t\t\t\tselectAll : false,\r\n\t\t\t\tallSelected : \'Todas las opcione" +
-"s\',\r\n\t\t\t\tminimumCountSelected : 7,\r\n\t\t\t\tcountSelected : \'# de % seleccionados\'\r\n" +
-"        });\r\n});\r\n$(\"input\").prop( \"disabled\", true );\r\n$(\"select\").prop( \"disab" +
-"led\", true );\r\n$(\"textarea\").prop( \"disabled\", true );\r\n\r\n//funcion para convert" +
-"ir serialize en objetos \r\nfunction validateVerif(formSerialize) {\r\n    debugger;" +
-"\r\n    var hasError = false;\r\n    var submitElement = [];\r\n    var vars = formSer" +
-"ialize.split(\"&\");\r\n    for (var i = 0; i < vars.length; i++) {\r\n        var psE" +
-"qual = vars[i].split(\"=\");\r\n        var e = {};\r\n        e.name = psEqual[0];\r\n " +
-"       if (psEqual[0] == \"imputedHomes.timeLive1\"||psEqual[0] == \"imputedHome.ti" +
-"meLive\") {\r\n            e.name = \"imputedHomes.timeLive\";\r\n        }\r\n\r\n        " +
-"if (psEqual[0] == \"imputed.gender\"||psEqual[0] == \"imputed.genero\") {\r\n         " +
-"   e.name = \"imputed.gender\";\r\n        }\r\n\r\n\r\n        e.value = decodeURICompone" +
-"nt(psEqual[1].replace(/\\+/g, \' \'));\r\n\r\n        console.log(\"psEqual[0] ->\"+psEqu" +
-"al[0]);\r\n        console.log(\"psEqual[1] ->\"+psEqual[1].replace(/\\+/g, \' \'));\r\n " +
-"       console.log(\"e.name ->\"+e.name);\r\n        console.log(\"e.value ->\"+decode" +
-"URIComponent(psEqual[1]));\r\n        console.log(\"e.value ->\"+e.value);\r\n\r\n      " +
-"  if (psEqual[0] == \"imputed.birthDate\") {\r\n        \t//console.log(\"text ->\"+$(\'" +
-"#FormVerifUpsertId #dateBirthV\').text()+\"   ...Val->\"+$(\'#FormVerifUpsertId #dat" +
-"eBirthV\').val());\r\n            e.value = $(\'#FormVerifUpsertId #dateBirthV\').val" +
-"();\r\n        }\r\n\r\n       \tif (psEqual[0] == \"leaveCountry.officialDocumentation." +
-"id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n            e.value = parseIn" +
-"t(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leaveCountry.immigrati" +
-"onDocument.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n            e.valu" +
-"e = parseInt(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leaveCountr" +
-"y.livedCountry.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n            e." +
-"value = parseInt(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leaveCo" +
-"untry.familyAnotherCountry.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n  " +
-"          e.value = parseInt(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0]" +
-" == \"leaveCountry.communicationFamily.id\" && psEqual[1]!=undefined && psEqual[1]" +
-"!=\"\") {\r\n            e.value = parseInt(psEqual[1]) + 1;\r\n        }\r\n\r\n\r\n       " +
-" var allElement = $(\"[name=\'\" + psEqual[0] + \"\']\");\r\n        if(e.value!=undefin" +
-"ed && e.value!=\"\" && e.name!=undefined && e.name!=\"\"){\r\n        submitElement.pu" +
-"sh(e);\r\n        }else{\r\n\r\n\t\t        $(\"#divElementVerif\").find(allElement).each(" +
-"function () {\r\n\t\t            var message = \"\";\r\n\t\t            var adding = true;" +
-"\r\n\r\n\t\t            var elementAux = $(this);\r\n\t\t            var isHide = false;\r\n" +
-"\t\t            var isParent = false;\r\n\t\t            do {\r\n\t\t                isHid" +
-"e = elementAux.hasClass(\"ng-hide\");\r\n\t\t                isParent = (elementAux.at" +
-"tr(\"id\") == \"divElementVerif\");\r\n\t\t                elementAux = elementAux.paren" +
-"t();\r\n\t\t            } while (!isHide && !isParent);\r\n\t\t            if (isHide) {" +
-"\r\n\t\t                adding = false;\r\n\t\t            }\r\n\t\t            if (e.value " +
-"== undefined || e.value == \"\") {\r\n\t\t                if (!isHide && isParent) {\r\n" +
-"\t\t                    message = $(this).attr(\"data-val-required\");\r\n\t\t          " +
-"      }\r\n\t\t            } else {\r\n\t\t                var valMax = $(this).attr(\"da" +
-"ta-val-length-max\");\r\n\t\t                var valMin = $(this).attr(\"data-val-leng" +
-"th-min\");\r\n\t\t                var pattern = $(this).attr(\"data-val-regex-pattern\"" +
-");\r\n\t\t                if (valMax != undefined && valMin != undefined && ($(this)" +
-".val().length > parseInt(valMax) || $(this).val().length < parseInt(valMin))) {\r" +
-"\n\t\t                    message = $(this).attr(\"data-val-length\")\r\n\t\t            " +
-"    }\r\n\t\t                if (pattern != undefined && $(this).val().match(\"^[0-9]" +
-"+$\") == null) {\r\n\t\t                    message = $(this).attr(\"data-val-regex\");" +
-"\r\n\t\t                }\r\n\t\t            }\r\n\t\t            var spanVal = $(this).sibl" +
-"ings(\"span\");\r\n\t\t            if (spanVal.hasClass(\"input-group-addon\")) {\r\n\t\t   " +
-"             spanVal = $(this).parent().siblings(\'span\');\r\n\t\t            }\r\n\t\t  " +
-"          var c = $(this).is(\"input:text\");\r\n\t\t            if (message != \"\") {\r" +
-"\n\t\t                spanVal.css(\"display\", \"block\");\r\n\t\t                spanVal.a" +
-"ddClass(\"field-validation-error\");\r\n\t\t                spanVal.removeClass(\"field" +
-"-validation-valid\");\r\n\t\t                spanVal.text(message);\r\n\t\t              " +
-"  hasError = true;\r\n\t\t            } else {\r\n\t\t                if ($(this).is(\"in" +
-"put:text\") || $(this).is(\"textarea\")) {\r\n\t\t                    spanVal.css(\"disp" +
-"lay\", \"none\");\r\n\t\t                    spanVal.addClass(\"field-validation-valid\")" +
-";\r\n\t\t                    spanVal.removeClass(\"field-validation-error\");\r\n\t\t     " +
-"           }\r\n\t\t                if (e.value != \"\") {\r\n\r\n\t\t                    if" +
-" ($(this).is(\"input:radio\")) {\r\n\t\t                        for (var z = 0; z < su" +
-"bmitElement.length; z++) {\r\n\t\t                            if (submitElement[z].n" +
-"ame == e.name) {\r\n\t\t                                adding = false;\r\n\t\t         " +
-"                   }\r\n\t\t                        }\r\n\t\t                    }\r\n\t\t  " +
-"                  if (adding) {\r\n\t\t                        submitElement.push(e)" +
-";\r\n\t\t                    }\r\n\t\t                }\r\n\t\t            }\r\n\t\t        });\r" +
-"\n\r\n        }\r\n    }\r\n    //if (hasError)\r\n    //    return null;\r\n    return sub" +
-"mitElement;\r\n}\r\n\r\n///TODOTODOTODO\r\n\tfunction gradeByNivel (este){\r\n\t\tvar vga = p" +
-"arseInt($(este).val())+1;\r\n\t\tconsole.log(\"id grado academico>>\"+vga);\r\n\t\tif(vga=" +
-"=7){\r\n\t\t$(\"#otherDegreBox\",\"#divElementVerif\").removeClass(\"ng-hide\");\r\n\t\t}else{" +
-"\r\n\t\t$(\"#otherDegreBox\",\"#divElementVerif\").addClass(\"ng-hide\");\r\n\t\t}\r\n\t\t$(\"#slcD" +
-"egreVer\",\"#divElementVerif\").prop(\"disabled\",false).attr(\'readonly\', false).val(" +
-"\"\").empty();\r\n\t\tvar lstofDegree = JSON.parse(MeetingService.gradeByNivel( vga ))" +
-";\r\n\t\tfor(var indx=0;indx<lstofDegree.length;indx++){\r\n\t\t\tconsole.log(\"val->\"+lst" +
-"ofDegree[indx].Id);\r\n\t\t\tconsole.log(\"text->\"+lstofDegree.Name);\r\n\t\t    $(\"#slcDe" +
-"greVer\",\"#divElementVerif\").append(\"<option value=\'\"+lstofDegree[indx].Id+\"\' >\"+" +
-"lstofDegree[indx].Name+\"</option>\");\r\n\t\t}\r\n    \t//var degrees=JSON.parse(Meeting" +
-"Service.gradeByNivel( $scope.school.level[\'Id\']));\r\n   \t}\r\n   \tfunction singleVe" +
-"rifyhometype (self){\r\n   \t\tconsole.log(\"self\"+self);\r\n\t\tif(self.value==4){\r\n\t\t\t$" +
-"(\"#hometypeSpecificationVerify\" , \"#FormVerifUpsertId\").show();\r\n\t\t}else{\r\n\t\t\t$(" +
-"\"#hometypeSpecificationVerify\" , \"#FormVerifUpsertId\").hide();\r\n\t\t\t$(\"#hometypeS" +
-"pecificationVerify input\" , \"#FormVerifUpsertId\").val(\"\")\r\n\t\t}\r\n\t}\r\n\r\n\tfunction " +
-"singleVerifyregistertype (self){\r\n   \t\tconsole.log(\"self register type ->\"+self." +
-"value);\r\n\t\tif(self.value==1){\r\n\t\t$(\".register1\" , \"#FormVerifUpsertId\").addClass" +
-"(\"hide\");\r\n\t\t$(\".register2\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".reg" +
-"ister3\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t\t$(\".register1\" , \"#FormVer" +
-"ifUpsertId\").removeClass(\"hide\");\r\n\t\t}\r\n\t\tif(self.value==2){\r\n\t\t$(\".register1\" ," +
-" \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".register2\" , \"#FormVerifUpsertId" +
-"\").addClass(\"hide\");\r\n\t\t$(\".register3\" , \"#FormVerifUpsertId\").addClass(\"hide\");" +
-"\r\n\t\t\t$(\".register2\" , \"#FormVerifUpsertId\").removeClass(\"hide\");\r\n\t\t}\r\n\t\tif(self" +
-".value==3){\r\n\t\t$(\".register1\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".r" +
-"egister2\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".register3\" , \"#FormVe" +
-"rifUpsertId\").addClass(\"hide\");\r\n\t\t\t$(\".register3\" , \"#FormVerifUpsertId\").remov" +
-"eClass(\"hide\");\r\n\t\t}\r\n\t\tconsole.log(\"html->\"+$(\"FormVerifUpsertId\").html());\r\n\r\n" +
-"\t}\r\n\tfunction removeDisponibility (){\r\n   \t\tconsole.log(\"removeDisponibility->\")" +
-";\r\n\t\t$(\".registerDisponibilidad\" , \"#FormVerifUpsertId\").hide().remove();\r\n\t}\r\n\r" +
-"\n\tfunction disponibilityHtml(){\r\n\t\t$(\".castable\").each(function(){\r\n\t\t console.l" +
-"og(\"disp table ->\"+$(this).html());\r\n\t\t  console.log(\"disp table ->\"+$(this).tex" +
-"t());\r\n\t       $(this).html($(this).text());\r\n\t       console.log(\"disp table ->" +
-"\"+$(this).html());\r\n\t    });\r\n\t    $(\"table\").bootstrapTable();\r\n    }\r\n\r\n\r\n    " +
-"///////////////////////////para facilidad de abandonar el pais documentacion\r\n  " +
-"  function documentacionOficial (self){\r\n   \t\tconsole.log(\"self register type ->" +
-"\"+self.value);\r\n\t\tif(self.value==0){//si\r\n\t\t$(\"#oficialDocuRow\" , \"#FormVerifUps" +
-"ertId\").removeClass(\"ng-hide\");\r\n\r\n\t\t$(\"#oficialDocuRowSlc\" , \"#FormVerifUpsertI" +
-"d\").val(\"0\");\r\n\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").addClass(\"ng" +
-"-hide\");\r\n\t\t}\r\n\t\tif(self.value==1){//no\r\n\t\t$(\"#oficialDocuRow\" , \"#FormVerifUpse" +
-"rtId\").addClass(\"ng-hide\");\r\n\r\n\t\t$(\"#oficialDocuRowSlc\" , \"#FormVerifUpsertId\")." +
-"val(\"\");\r\n\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").addClass(\"ng-hide" +
-"\");\r\n\t\t}\r\n\t\tconsole.log(\"html->\"+$(\"FormVerifUpsertId\").html());\r\n\t}\r\n\r\n\tfunctio" +
-"n documentacionOtherOficial (self){\r\n   \t\tconsole.log(\"self register type ->\"+se" +
-"lf.value);\r\n\t\tif(self.value==2){//si\r\n\t\t$(\"#oficialDocuRowImmigranDoc\" , \"#FormV" +
-"erifUpsertId\").val(\"\");\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").remo" +
-"veClass(\"ng-hide\");\r\n\t\t}\r\n\t\telse{//no\r\n\t\t$(\"#oficialDocuRowImmigranDoc\" , \"#Form" +
-"VerifUpsertId\").val(\"\");\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").add" +
-"Class(\"ng-hide\");\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t///////////////////////////para facilidad de ab" +
-"andonar el pais vivido\r\n    function imputedLivedOtherCountry (self){\r\n   \t\tcons" +
-"ole.log(\"self register type ->\"+self.value);\r\n   \t\timputedLivedOtherCountryFillI" +
-"n ();\r\n\t\tif(self.value==0){//si\r\n\t\t$(\".residenciaExtranjera\" , \"#FormVerifUpsert" +
-"Id\").removeClass(\"ng-hide\");\r\n\r\n\t\t$(\".residenciaExtranjera input\" , \"#FormVerifU" +
-"psertId\").val(\"\");\r\n\t\t$(\".residenciaExtranjera select\" , \"#FormVerifUpsertId\").v" +
-"al(\"\");\r\n\t\t$(\".residenciaExtranjera textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n" +
-"\t\t}\r\n\t\tif(self.value==1){//no\r\n\t\t$(\".residenciaExtranjera\" , \"#FormVerifUpsertId" +
-"\").addClass(\"ng-hide\");\r\n\t\t$(\".residenciaExtranjera input\" , \"#FormVerifUpsertId" +
-"\").val(\"\");\r\n\t\t$(\".residenciaExtranjera select\" , \"#FormVerifUpsertId\").val(\"\");" +
-"\r\n\t\t$(\".residenciaExtranjera textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\t" +
-"console.log(\"html->\"+$(\"FormVerifUpsertId\").html());\r\n\t}\r\n\r\n\tfunction imputedLiv" +
-"edOtherCountryFillIn (){\r\n\t\t$(\"#countryInnerLivedCountry\" , \"#FormVerifUpsertId\"" +
-").empty();\r\n\t\tvar paisesinsert = $.parseJSON(MeetingService.findAllCountry());\r\n" +
-"\t\tfor(var indx=0;indx<paisesinsert.length;indx++){\r\n                console.log(" +
-"\"id pais val->\"+paisesinsert[indx].Id);\r\n                console.log(\"name pais " +
-"text->\"+paisesinsert[indx].Name);\r\n              $(\"#countryInnerLivedCountry\" ," +
-" \"#FormVerifUpsertId\").append(\"<option value=\'\"+paisesinsert[indx].Id+\"\' >\"+pais" +
-"esinsert[indx].Name+\"</option>\");\r\n        }\r\n\t\t$(\"#countryInnerLivedCountry\" , " +
-"\"#FormVerifUpsertId\").val(\"\");\r\n\t}\r\n\r\n\r\n\t///////////////////////////para facilid" +
-"ad de abandonar el pais familiares\r\n    function imputedFamilyOtherCountry (self" +
-"){\r\n   \t\tconsole.log(\"self register type ->\"+self.value);\r\n   \t\timputedRelationO" +
-"therCountryFillIn();\r\n\t\tif(self.value==0){//si\r\n\t\t$(\".familiaresExtranjeros\" , \"" +
-"#FormVerifUpsertId\").removeClass(\"ng-hide\");\r\n\t\t$(\".otraRelacion\" , \"#FormVerifU" +
-"psertId\").addClass(\"ng-hide\");\r\n\r\n\t\t$(\".familiaresExtranjeros input\" , \"#FormVer" +
-"ifUpsertId\").val(\"\");\r\n\t\t$(\".otraRelacion input\" , \"#FormVerifUpsertId\").val(\"\")" +
-";\r\n\t\t$(\".familiaresExtranjeros select\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".f" +
-"amiliaresExtranjeros textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\tif(self." +
-"value==1){//no\r\n\t\t$(\".familiaresExtranjeros\" , \"#FormVerifUpsertId\").addClass(\"n" +
-"g-hide\");\r\n\t\t$(\".otraRelacion\" , \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r\n\r\n\t" +
-"\t$(\".familiaresExtranjeros input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".otraRe" +
-"lacion input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".familiaresExtranjeros sele" +
-"ct\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".familiaresExtranjeros textarea\" , \"#" +
-"FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\tconsole.log(\"html->\"+$(\"FormVerifUpsertId\")" +
-".html());\r\n\t}\r\n\r\n\tfunction imputedRelationOtherCountryFillIn (){\r\n\t\t$(\"#slcVerif" +
-"yRelationship\" , \"#FormVerifUpsertId\").empty();\r\n\t\tvar relacionPersonal = $.pars" +
-"eJSON(MeetingService.findAllRelationship());\r\n\t\tfor(var indx=0;indx<relacionPers" +
-"onal.length;indx++){\r\n                console.log(\"id relacion val->\"+relacionPe" +
-"rsonal[indx].Id);\r\n                console.log(\"name relacion text->\"+relacionPe" +
-"rsonal[indx].Name);\r\n              $(\"#slcVerifyRelationship\" , \"#FormVerifUpser" +
-"tId\").append(\"<option value=\'\"+relacionPersonal[indx].Id+\"\' >\"+relacionPersonal[" +
-"indx].Name+\"</option>\");\r\n        }\r\n\t\t$(\"#slcVerifyRelationship\" , \"#FormVerifU" +
-"psertId\").val(\"\");\r\n\t}\r\n\r\n\r\n\tfunction otherRelationship (self){\r\n   \t\tconsole.lo" +
-"g(\"otherRelationship type ->\"+self.value);\r\n\t\tif(self.value==19){//si\r\n\t\t$(\".otr" +
-"aRelacion\" , \"#FormVerifUpsertId\").removeClass(\"ng-hide\");\r\n\r\n\t\t$(\".otraRelacion" +
-" input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\telse{//no\r\n\t\t$(\".otraRelacion\" " +
-", \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r\n\r\n\t\t$(\".otraRelacion input\" , \"#Fo" +
-"rmVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t}\r\n\r\n\t//////////generic function enable by sel" +
-"ect\r\n\tfunction enableBySelectOptionUniqueSnglVrf (self,optionId,selectorDeClase)" +
-"{\r\n   \t\tconsole.log(\"enableBySelectOptionUnique select value ->\"+self.value+\"  i" +
-"doption ->\"+optionId);\r\n\t\tif(self.value==optionId){//si\r\n\t\t\t$(\".\"+selectorDeClas" +
-"e, \"#FormVerifUpsertId\").removeClass(\"ng-hide\");\r\n\r\n\t\t\t$(\".\"+selectorDeClase+\" i" +
-"nput\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" select\" , \"#F" +
-"ormVerifUpsertId\").val(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" textarea\" , \"#FormVerifU" +
-"psertId\").val(\"\");\r\n\t\t}\r\n\t\telse{//no\r\n\t\t\t$(\".\"+selectorDeClase, \"#FormVerifUpser" +
-"tId\").addClass(\"ng-hide\");\r\n\r\n\t\t\t$(\".\"+selectorDeClase+\" input\" , \"#FormVerifUps" +
-"ertId\").val(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" select\" , \"#FormVerifUpsertId\").val" +
-"(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t" +
-"}\r\n\t}\r\n\r\n\r\n\tfunction enableBySelectOptionGroupSnglVrf (self,optionId,selectorDeC" +
-"lase){\r\n   \t\tconsole.log(\"enableBySelectOptionGroupSnglVrf select value ->\"+self" +
-".value);\r\n\t\t$(\".\"+selectorDeClase, \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r\n\r" +
-"\n\t\t$(\".\"+selectorDeClase+\" input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".\"+sele" +
-"ctorDeClase+\" select\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".\"+selectorDeClase+" +
-"\" textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\tvar values = optionId.split(\"-\")" +
-";\r\n\t\tconsole.log(\"values type \"+typeof values+\" log--\"+values);\r\n\t\tfor(x in valu" +
-"es){\r\n\t\t\tif(self.value==values[x]){//si\r\n\t\t\t\t$(\".\"+selectorDeClase, \"#FormVerifU" +
-"psertId\").removeClass(\"ng-hide\");\r\n\r\n\t\t\t\t$(\".\"+selectorDeClase+\" input\" , \"#Form" +
-"VerifUpsertId\").val(\"\");\r\n\t\t\t\t$(\".\"+selectorDeClase+\" select\" , \"#FormVerifUpser" +
-"tId\").val(\"\");\r\n\t\t\t\t$(\".\"+selectorDeClase+\" textarea\" , \"#FormVerifUpsertId\").va" +
-"l(\"\");\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\r\n</script>\r\n\r\n\r\n<script>\r\nvar askDontKnow  = {};\r\n\taskDo" +
-"ntKnow.reference = \"\";\r\n\taskDontKnow.idlist = 0;\r\n\r\naskDontKnow.show = function " +
-"(code){\r\n\taskDontKnow.idlist = 0;\r\n\tif(code!=undefined&&code!=\"\"){\r\n\t\taskDontKno" +
-"w.reference = code;\r\n\t}\r\n\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\');\r\n\tdlgMsgBox" +
-".show();\r\n};\r\n\r\naskDontKnow.show = function (code,idlist){\r\n\tif(idlist!=undefine" +
-"d&&idlist!=0){\r\n\taskDontKnow.idlist = idlist;\r\n\t}\r\n\tif(code!=undefined&&code!=\"\"" +
-"){\r\n\taskDontKnow.reference = code;\r\n\t}\r\n\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId" +
-"\');\r\n\tdlgMsgBox.show();\r\n};\r\naskDontKnow.hide = function (){\r\n\taskDontKnow.refer" +
-"ence = \"\";\r\n\taskDontKnow.idlist = 0;\r\n\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\')" +
-";\r\n\tdlgMsgBox.hide();\r\n};\r\naskDontKnow.yes = function (code,idlist){\r\n\tvar caso " +
-"= $(\"#hdnVerificationCaseId\").val();\r\n\tvar fuente = $(\"#hdnVerificationSourceId\"" +
-").val();\r\n\r\n\tconsole.log(\"codigo->\"+code);\r\n\tconsole.log(\"idlist->\"+idlist);\r\n\tc" +
-"onsole.log(\"caso->\"+caso);\r\n\tconsole.log(\"fuente->\"+fuente);\r\n\r\n\tvar respuesta =" +
-" VerificationService.saveFieldDontKnow(code,caso,fuente,idlist);\r\n\tif(respuesta=" +
-"=undefined || respuesta==\"\"){\r\n\t\taskDontKnow.reference = \"\";\r\n\t\taskDontKnow.idli" +
-"st = 0;\r\n\t\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\');\r\n\t\tdlgMsgBox.hide();\r\n\t}el" +
-"se{\r\n\talert(respuesta);\r\n\t}\r\n};\r\n    \t</script>\r\n<div");
+"s\',\r\n\t\t\t\tminimumCountSelected : 7,\r\n\t\t\t\tcountSelected : \'# de % seleccionados\',\r" +
+"\n        styler: function(value) {\r\n                if (value == \'\') {\r\n        " +
+"            return \'display:none;\';\r\n                }\r\n            }\r\n        }" +
+");\r\n});\r\n$(\"input\").prop( \"disabled\", true );\r\n$(\"select\").prop( \"disabled\", tru" +
+"e );\r\n$(\"textarea\").prop( \"disabled\", true );\r\n\r\n//funcion para convertir serial" +
+"ize en objetos \r\nfunction validateVerif(formSerialize) {\r\n    debugger;\r\n    var" +
+" hasError = false;\r\n    var submitElement = [];\r\n    var vars = formSerialize.sp" +
+"lit(\"&\");\r\n    for (var i = 0; i < vars.length; i++) {\r\n        var psEqual = va" +
+"rs[i].split(\"=\");\r\n        var e = {};\r\n        e.name = psEqual[0];\r\n        if" +
+" (psEqual[0] == \"imputedHomes.timeLive1\"||psEqual[0] == \"imputedHome.timeLive\") " +
+"{\r\n            e.name = \"imputedHomes.timeLive\";\r\n        }\r\n\r\n        if (psEqu" +
+"al[0] == \"imputed.gender\"||psEqual[0] == \"imputed.genero\") {\r\n            e.name" +
+" = \"imputed.gender\";\r\n        }\r\n\r\n\r\n        e.value = decodeURIComponent(psEqua" +
+"l[1].replace(/\\+/g, \' \'));\r\n\r\n        console.log(\"psEqual[0] ->\"+psEqual[0]);\r\n" +
+"        console.log(\"psEqual[1] ->\"+psEqual[1].replace(/\\+/g, \' \'));\r\n        co" +
+"nsole.log(\"e.name ->\"+e.name);\r\n        console.log(\"e.value ->\"+decodeURICompon" +
+"ent(psEqual[1]));\r\n        console.log(\"e.value ->\"+e.value);\r\n\r\n        if (psE" +
+"qual[0] == \"imputed.birthDate\") {\r\n        \t//console.log(\"text ->\"+$(\'#FormVeri" +
+"fUpsertId #dateBirthV\').text()+\"   ...Val->\"+$(\'#FormVerifUpsertId #dateBirthV\')" +
+".val());\r\n            e.value = $(\'#FormVerifUpsertId #dateBirthV\').val();\r\n    " +
+"    }\r\n\r\n       \tif (psEqual[0] == \"leaveCountry.officialDocumentation.id\" && ps" +
+"Equal[1]!=undefined && psEqual[1]!=\"\") {\r\n            e.value = parseInt(psEqual" +
+"[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leaveCountry.immigrationDocumen" +
+"t.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n            e.value = parse" +
+"Int(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leaveCountry.livedCo" +
+"untry.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n            e.value = p" +
+"arseInt(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leaveCountry.fam" +
+"ilyAnotherCountry.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n           " +
+" e.value = parseInt(psEqual[1]) + 1;\r\n        }\r\n        if (psEqual[0] == \"leav" +
+"eCountry.communicationFamily.id\" && psEqual[1]!=undefined && psEqual[1]!=\"\") {\r\n" +
+"            e.value = parseInt(psEqual[1]) + 1;\r\n        }\r\n\r\n\r\n        var allE" +
+"lement = $(\"[name=\'\" + psEqual[0] + \"\']\");\r\n        if(e.value!=undefined && e.v" +
+"alue!=\"\" && e.name!=undefined && e.name!=\"\"){\r\n        submitElement.push(e);\r\n " +
+"       }else{\r\n\r\n\t\t        $(\"#divElementVerif\").find(allElement).each(function " +
+"() {\r\n\t\t            var message = \"\";\r\n\t\t            var adding = true;\r\n\r\n\t\t   " +
+"         var elementAux = $(this);\r\n\t\t            var isHide = false;\r\n\t\t       " +
+"     var isParent = false;\r\n\t\t            do {\r\n\t\t                isHide = eleme" +
+"ntAux.hasClass(\"ng-hide\");\r\n\t\t                isParent = (elementAux.attr(\"id\") " +
+"== \"divElementVerif\");\r\n\t\t                elementAux = elementAux.parent();\r\n\t\t " +
+"           } while (!isHide && !isParent);\r\n\t\t            if (isHide) {\r\n\t\t     " +
+"           adding = false;\r\n\t\t            }\r\n\t\t            if (e.value == undefi" +
+"ned || e.value == \"\") {\r\n\t\t                if (!isHide && isParent) {\r\n\t\t       " +
+"             message = $(this).attr(\"data-val-required\");\r\n\t\t                }\r\n" +
+"\t\t            } else {\r\n\t\t                var valMax = $(this).attr(\"data-val-le" +
+"ngth-max\");\r\n\t\t                var valMin = $(this).attr(\"data-val-length-min\");" +
+"\r\n\t\t                var pattern = $(this).attr(\"data-val-regex-pattern\");\r\n\t\t   " +
+"             if (valMax != undefined && valMin != undefined && ($(this).val().le" +
+"ngth > parseInt(valMax) || $(this).val().length < parseInt(valMin))) {\r\n\t\t      " +
+"              message = $(this).attr(\"data-val-length\")\r\n\t\t                }\r\n\t\t" +
+"                if (pattern != undefined && $(this).val().match(\"^[0-9]+$\") == n" +
+"ull) {\r\n\t\t                    message = $(this).attr(\"data-val-regex\");\r\n\t\t     " +
+"           }\r\n\t\t            }\r\n\t\t            var spanVal = $(this).siblings(\"spa" +
+"n\");\r\n\t\t            if (spanVal.hasClass(\"input-group-addon\")) {\r\n\t\t            " +
+"    spanVal = $(this).parent().siblings(\'span\');\r\n\t\t            }\r\n\t\t           " +
+" var c = $(this).is(\"input:text\");\r\n\t\t            if (message != \"\") {\r\n\t\t      " +
+"          spanVal.css(\"display\", \"block\");\r\n\t\t                spanVal.addClass(\"" +
+"field-validation-error\");\r\n\t\t                spanVal.removeClass(\"field-validati" +
+"on-valid\");\r\n\t\t                spanVal.text(message);\r\n\t\t                hasErro" +
+"r = true;\r\n\t\t            } else {\r\n\t\t                if ($(this).is(\"input:text\"" +
+") || $(this).is(\"textarea\")) {\r\n\t\t                    spanVal.css(\"display\", \"no" +
+"ne\");\r\n\t\t                    spanVal.addClass(\"field-validation-valid\");\r\n\t\t    " +
+"                spanVal.removeClass(\"field-validation-error\");\r\n\t\t              " +
+"  }\r\n\t\t                if (e.value != \"\") {\r\n\r\n\t\t                    if ($(this)" +
+".is(\"input:radio\")) {\r\n\t\t                        for (var z = 0; z < submitEleme" +
+"nt.length; z++) {\r\n\t\t                            if (submitElement[z].name == e." +
+"name) {\r\n\t\t                                adding = false;\r\n\t\t                  " +
+"          }\r\n\t\t                        }\r\n\t\t                    }\r\n\t\t           " +
+"         if (adding) {\r\n\t\t                        submitElement.push(e);\r\n\t\t    " +
+"                }\r\n\t\t                }\r\n\t\t            }\r\n\t\t        });\r\n\r\n      " +
+"  }\r\n    }\r\n    //if (hasError)\r\n    //    return null;\r\n    return submitElemen" +
+"t;\r\n}\r\n\r\n///TODOTODOTODO\r\n\tfunction gradeByNivel (este){\r\n\t\tvar vga = parseInt($" +
+"(este).val())+1;\r\n\t\tconsole.log(\"id grado academico>>\"+vga);\r\n\t\tif(vga==7){\r\n\t\t$" +
+"(\"#otherDegreBox\",\"#divElementVerif\").removeClass(\"ng-hide\");\r\n\t\t}else{\r\n\t\t$(\"#o" +
+"therDegreBox\",\"#divElementVerif\").addClass(\"ng-hide\");\r\n\t\t}\r\n\t\t$(\"#slcDegreVer\"," +
+"\"#divElementVerif\").prop(\"disabled\",false).attr(\'readonly\', false).val(\"\").empty" +
+"();\r\n\t\tvar lstofDegree = JSON.parse(MeetingService.gradeByNivel( vga ));\r\n\t\tfor(" +
+"var indx=0;indx<lstofDegree.length;indx++){\r\n\t\t\tconsole.log(\"val->\"+lstofDegree[" +
+"indx].Id);\r\n\t\t\tconsole.log(\"text->\"+lstofDegree.Name);\r\n\t\t    $(\"#slcDegreVer\",\"" +
+"#divElementVerif\").append(\"<option value=\'\"+lstofDegree[indx].Id+\"\' >\"+lstofDegr" +
+"ee[indx].Name+\"</option>\");\r\n\t\t}\r\n    \t//var degrees=JSON.parse(MeetingService.g" +
+"radeByNivel( $scope.school.level[\'Id\']));\r\n   \t}\r\n   \tfunction singleVerifyhomet" +
+"ype (self){\r\n   \t\tconsole.log(\"self\"+self);\r\n\t\tif(self.value==4){\r\n\t\t\t$(\"#homety" +
+"peSpecificationVerify\" , \"#FormVerifUpsertId\").show();\r\n\t\t}else{\r\n\t\t\t$(\"#hometyp" +
+"eSpecificationVerify\" , \"#FormVerifUpsertId\").hide();\r\n\t\t\t$(\"#hometypeSpecificat" +
+"ionVerify input\" , \"#FormVerifUpsertId\").val(\"\")\r\n\t\t}\r\n\t}\r\n\r\n\tfunction singleVer" +
+"ifyregistertype (self){\r\n   \t\tconsole.log(\"self register type ->\"+self.value);\r\n" +
+"\t\tif(self.value==1){\r\n\t\t$(\".register1\" , \"#FormVerifUpsertId\").addClass(\"hide\");" +
+"\r\n\t\t$(\".register2\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".register3\" ," +
+" \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t\t$(\".register1\" , \"#FormVerifUpsertI" +
+"d\").removeClass(\"hide\");\r\n\t\t}\r\n\t\tif(self.value==2){\r\n\t\t$(\".register1\" , \"#FormVe" +
+"rifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".register2\" , \"#FormVerifUpsertId\").addCla" +
+"ss(\"hide\");\r\n\t\t$(\".register3\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t\t$(\"." +
+"register2\" , \"#FormVerifUpsertId\").removeClass(\"hide\");\r\n\t\t}\r\n\t\tif(self.value==3" +
+"){\r\n\t\t$(\".register1\" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".register2\"" +
+" , \"#FormVerifUpsertId\").addClass(\"hide\");\r\n\t\t$(\".register3\" , \"#FormVerifUpsert" +
+"Id\").addClass(\"hide\");\r\n\t\t\t$(\".register3\" , \"#FormVerifUpsertId\").removeClass(\"h" +
+"ide\");\r\n\t\t}\r\n\t\tconsole.log(\"html->\"+$(\"FormVerifUpsertId\").html());\r\n\r\n\t}\r\n\tfunc" +
+"tion removeDisponibility (){\r\n   \t\tconsole.log(\"removeDisponibility->\");\r\n\t\t$(\"." +
+"registerDisponibilidad\" , \"#FormVerifUpsertId\").hide().remove();\r\n\t}\r\n\r\n\tfunctio" +
+"n disponibilityHtml(){\r\n\t\t$(\".castable\").each(function(){\r\n\t\t console.log(\"disp " +
+"table ->\"+$(this).html());\r\n\t\t  console.log(\"disp table ->\"+$(this).text());\r\n\t " +
+"      $(this).html($(this).text());\r\n\t       console.log(\"disp table ->\"+$(this)" +
+".html());\r\n\t    });\r\n\t    $(\"table\").bootstrapTable();\r\n    }\r\n\r\n\r\n    /////////" +
+"//////////////////para facilidad de abandonar el pais documentacion\r\n    functio" +
+"n documentacionOficial (self){\r\n   \t\tconsole.log(\"self register type ->\"+self.va" +
+"lue);\r\n\t\tif(self.value==0){//si\r\n\t\t$(\"#oficialDocuRow\" , \"#FormVerifUpsertId\").r" +
+"emoveClass(\"ng-hide\");\r\n\r\n\t\t$(\"#oficialDocuRowSlc\" , \"#FormVerifUpsertId\").val(\"" +
+"0\");\r\n\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r" +
+"\n\t\t}\r\n\t\tif(self.value==1){//no\r\n\t\t$(\"#oficialDocuRow\" , \"#FormVerifUpsertId\").ad" +
+"dClass(\"ng-hide\");\r\n\r\n\t\t$(\"#oficialDocuRowSlc\" , \"#FormVerifUpsertId\").val(\"\");\r" +
+"\n\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r\n\t\t}\r" +
+"\n\t\tconsole.log(\"html->\"+$(\"FormVerifUpsertId\").html());\r\n\t}\r\n\r\n\tfunction documen" +
+"tacionOtherOficial (self){\r\n   \t\tconsole.log(\"self register type ->\"+self.value)" +
+";\r\n\t\tif(self.value==2){//si\r\n\t\t$(\"#oficialDocuRowImmigranDoc\" , \"#FormVerifUpser" +
+"tId\").val(\"\");\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").removeClass(\"" +
+"ng-hide\");\r\n\t\t}\r\n\t\telse{//no\r\n\t\t$(\"#oficialDocuRowImmigranDoc\" , \"#FormVerifUpse" +
+"rtId\").val(\"\");\r\n\t\t$(\".oficialDocuRowOther\" , \"#FormVerifUpsertId\").addClass(\"ng" +
+"-hide\");\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t///////////////////////////para facilidad de abandonar e" +
+"l pais vivido\r\n    function imputedLivedOtherCountry (self){\r\n   \t\tconsole.log(\"" +
+"self register type ->\"+self.value);\r\n   \t\timputedLivedOtherCountryFillIn ();\r\n\t\t" +
+"if(self.value==0){//si\r\n\t\t$(\".residenciaExtranjera\" , \"#FormVerifUpsertId\").remo" +
+"veClass(\"ng-hide\");\r\n\r\n\t\t$(\".residenciaExtranjera input\" , \"#FormVerifUpsertId\")" +
+".val(\"\");\r\n\t\t$(\".residenciaExtranjera select\" , \"#FormVerifUpsertId\").val(\"\");\r\n" +
+"\t\t$(\".residenciaExtranjera textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\tif" +
+"(self.value==1){//no\r\n\t\t$(\".residenciaExtranjera\" , \"#FormVerifUpsertId\").addCla" +
+"ss(\"ng-hide\");\r\n\t\t$(\".residenciaExtranjera input\" , \"#FormVerifUpsertId\").val(\"\"" +
+");\r\n\t\t$(\".residenciaExtranjera select\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".r" +
+"esidenciaExtranjera textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\tconsole.l" +
+"og(\"html->\"+$(\"FormVerifUpsertId\").html());\r\n\t}\r\n\r\n\tfunction imputedLivedOtherCo" +
+"untryFillIn (){\r\n\t\t$(\"#countryInnerLivedCountry\" , \"#FormVerifUpsertId\").empty()" +
+";\r\n\t\tvar paisesinsert = $.parseJSON(MeetingService.findAllCountry());\r\n\t\tfor(var" +
+" indx=0;indx<paisesinsert.length;indx++){\r\n                console.log(\"id pais " +
+"val->\"+paisesinsert[indx].Id);\r\n                console.log(\"name pais text->\"+p" +
+"aisesinsert[indx].Name);\r\n              $(\"#countryInnerLivedCountry\" , \"#FormVe" +
+"rifUpsertId\").append(\"<option value=\'\"+paisesinsert[indx].Id+\"\' >\"+paisesinsert[" +
+"indx].Name+\"</option>\");\r\n        }\r\n\t\t$(\"#countryInnerLivedCountry\" , \"#FormVer" +
+"ifUpsertId\").val(\"\");\r\n\t}\r\n\r\n\r\n\t///////////////////////////para facilidad de aba" +
+"ndonar el pais familiares\r\n    function imputedFamilyOtherCountry (self){\r\n   \t\t" +
+"console.log(\"self register type ->\"+self.value);\r\n   \t\timputedRelationOtherCount" +
+"ryFillIn();\r\n\t\tif(self.value==0){//si\r\n\t\t$(\".familiaresExtranjeros\" , \"#FormVeri" +
+"fUpsertId\").removeClass(\"ng-hide\");\r\n\t\t$(\".otraRelacion\" , \"#FormVerifUpsertId\")" +
+".addClass(\"ng-hide\");\r\n\r\n\t\t$(\".familiaresExtranjeros input\" , \"#FormVerifUpsertI" +
+"d\").val(\"\");\r\n\t\t$(\".otraRelacion input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\"." +
+"familiaresExtranjeros select\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".familiares" +
+"Extranjeros textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\tif(self.value==1)" +
+"{//no\r\n\t\t$(\".familiaresExtranjeros\" , \"#FormVerifUpsertId\").addClass(\"ng-hide\");" +
+"\r\n\t\t$(\".otraRelacion\" , \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r\n\r\n\t\t$(\".fami" +
+"liaresExtranjeros input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".otraRelacion in" +
+"put\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".familiaresExtranjeros select\" , \"#F" +
+"ormVerifUpsertId\").val(\"\");\r\n\t\t$(\".familiaresExtranjeros textarea\" , \"#FormVerif" +
+"UpsertId\").val(\"\");\r\n\t\t}\r\n\t\tconsole.log(\"html->\"+$(\"FormVerifUpsertId\").html());" +
+"\r\n\t}\r\n\r\n\tfunction imputedRelationOtherCountryFillIn (){\r\n\t\t$(\"#slcVerifyRelation" +
+"ship\" , \"#FormVerifUpsertId\").empty();\r\n\t\tvar relacionPersonal = $.parseJSON(Mee" +
+"tingService.findAllRelationship());\r\n\t\tfor(var indx=0;indx<relacionPersonal.leng" +
+"th;indx++){\r\n                console.log(\"id relacion val->\"+relacionPersonal[in" +
+"dx].Id);\r\n                console.log(\"name relacion text->\"+relacionPersonal[in" +
+"dx].Name);\r\n              $(\"#slcVerifyRelationship\" , \"#FormVerifUpsertId\").app" +
+"end(\"<option value=\'\"+relacionPersonal[indx].Id+\"\' >\"+relacionPersonal[indx].Nam" +
+"e+\"</option>\");\r\n        }\r\n\t\t$(\"#slcVerifyRelationship\" , \"#FormVerifUpsertId\")" +
+".val(\"\");\r\n\t}\r\n\r\n\r\n\tfunction otherRelationship (self){\r\n   \t\tconsole.log(\"otherR" +
+"elationship type ->\"+self.value);\r\n\t\tif(self.value==19){//si\r\n\t\t$(\".otraRelacion" +
+"\" , \"#FormVerifUpsertId\").removeClass(\"ng-hide\");\r\n\r\n\t\t$(\".otraRelacion input\" ," +
+" \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t\telse{//no\r\n\t\t$(\".otraRelacion\" , \"#FormV" +
+"erifUpsertId\").addClass(\"ng-hide\");\r\n\r\n\t\t$(\".otraRelacion input\" , \"#FormVerifUp" +
+"sertId\").val(\"\");\r\n\t\t}\r\n\t}\r\n\r\n\t//////////generic function enable by select\r\n\tfun" +
+"ction enableBySelectOptionUniqueSnglVrf (self,optionId,selectorDeClase){\r\n   \t\tc" +
+"onsole.log(\"enableBySelectOptionUnique select value ->\"+self.value+\"  idoption -" +
+">\"+optionId);\r\n\t\tif(self.value==optionId){//si\r\n\t\t\t$(\".\"+selectorDeClase, \"#Form" +
+"VerifUpsertId\").removeClass(\"ng-hide\");\r\n\r\n\t\t\t$(\".\"+selectorDeClase+\" input\" , \"" +
+"#FormVerifUpsertId\").val(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" select\" , \"#FormVerifU" +
+"psertId\").val(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" textarea\" , \"#FormVerifUpsertId\")" +
+".val(\"\");\r\n\t\t}\r\n\t\telse{//no\r\n\t\t\t$(\".\"+selectorDeClase, \"#FormVerifUpsertId\").add" +
+"Class(\"ng-hide\");\r\n\r\n\t\t\t$(\".\"+selectorDeClase+\" input\" , \"#FormVerifUpsertId\").v" +
+"al(\"\");\r\n\t\t\t$(\".\"+selectorDeClase+\" select\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t" +
+"\t$(\".\"+selectorDeClase+\" textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t}\r\n\t}\r\n\r\n" +
+"\r\n\tfunction enableBySelectOptionGroupSnglVrf (self,optionId,selectorDeClase){\r\n " +
+"  \t\tconsole.log(\"enableBySelectOptionGroupSnglVrf select value ->\"+self.value);\r" +
+"\n\t\t$(\".\"+selectorDeClase, \"#FormVerifUpsertId\").addClass(\"ng-hide\");\r\n\r\n\t\t$(\".\"+" +
+"selectorDeClase+\" input\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".\"+selectorDeCla" +
+"se+\" select\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\t$(\".\"+selectorDeClase+\" textare" +
+"a\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t\tvar values = optionId.split(\"-\");\r\n\t\tcons" +
+"ole.log(\"values type \"+typeof values+\" log--\"+values);\r\n\t\tfor(x in values){\r\n\t\t\t" +
+"if(self.value==values[x]){//si\r\n\t\t\t\t$(\".\"+selectorDeClase, \"#FormVerifUpsertId\")" +
+".removeClass(\"ng-hide\");\r\n\r\n\t\t\t\t$(\".\"+selectorDeClase+\" input\" , \"#FormVerifUpse" +
+"rtId\").val(\"\");\r\n\t\t\t\t$(\".\"+selectorDeClase+\" select\" , \"#FormVerifUpsertId\").val" +
+"(\"\");\r\n\t\t\t\t$(\".\"+selectorDeClase+\" textarea\" , \"#FormVerifUpsertId\").val(\"\");\r\n\t" +
+"\t\t}\r\n\t\t}\r\n\t}\r\n\r\n</script>\r\n\r\n\r\n<script>\r\nvar askDontKnow  = {};\r\n\taskDontKnow.re" +
+"ference = \"\";\r\n\taskDontKnow.idlist = 0;\r\n\r\naskDontKnow.show = function (code){\r\n" +
+"\taskDontKnow.idlist = 0;\r\n\tif(code!=undefined&&code!=\"\"){\r\n\t\taskDontKnow.referen" +
+"ce = code;\r\n\t}\r\n\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\');\r\n\tdlgMsgBox.show();\r" +
+"\n};\r\n\r\naskDontKnow.show = function (code,idlist){\r\n\tif(idlist!=undefined&&idlist" +
+"!=0){\r\n\taskDontKnow.idlist = idlist;\r\n\t}\r\n\tif(code!=undefined&&code!=\"\"){\r\n\taskD" +
+"ontKnow.reference = code;\r\n\t}\r\n\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\');\r\n\tdlg" +
+"MsgBox.show();\r\n};\r\naskDontKnow.hide = function (){\r\n\taskDontKnow.reference = \"\"" +
+";\r\n\taskDontKnow.idlist = 0;\r\n\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\');\r\n\tdlgMs" +
+"gBox.hide();\r\n};\r\naskDontKnow.yes = function (code,idlist){\r\n\tvar caso = $(\"#hdn" +
+"VerificationCaseId\").val();\r\n\tvar fuente = $(\"#hdnVerificationSourceId\").val();\r" +
+"\n\r\n\tconsole.log(\"codigo->\"+code);\r\n\tconsole.log(\"idlist->\"+idlist);\r\n\tconsole.lo" +
+"g(\"caso->\"+caso);\r\n\tconsole.log(\"fuente->\"+fuente);\r\n\r\n\tvar respuesta = Verifica" +
+"tionService.saveFieldDontKnow(code,caso,fuente,idlist);\r\n\tif(respuesta==undefine" +
+"d || respuesta==\"\"){\r\n\t\taskDontKnow.reference = \"\";\r\n\t\taskDontKnow.idlist = 0;\r\n" +
+"\t\tvar dlgMsgBox = $(\'#askDontKnowBoxDlgId\');\r\n\t\tdlgMsgBox.hide();\r\n\t}else{\r\n\tale" +
+"rt(respuesta);\r\n\t}\r\n};\r\n    \t</script>\r\n<div");
 
 WriteLiteral(" class=\"modal-dialog\"");
 
