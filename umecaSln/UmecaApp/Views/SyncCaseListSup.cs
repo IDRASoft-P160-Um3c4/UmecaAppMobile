@@ -593,39 +593,8 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-comments-alt \"");
 
-WriteLiteral("></i>&nbsp;&nbsp;Entrevistas de evaluaci&oacute;n de riesgos procesales</h2>\r\n<br" +
-" />\r\n<div");
-
-WriteLiteral(" id=\"toolbar2\"");
-
-WriteLiteral(" class=\"btn-group\"");
-
-WriteLiteral(">\r\n    <a");
-
-WriteAttribute ("href", " href=\"", "\""
-
-#line 257 "SyncCaseListSup.cshtml"
-, Tuple.Create<string,object,bool> ("", Url.Action("MeetingEditNew","Meeting")
-
-#line default
-#line hidden
-, false)
-);
-WriteLiteral(">\r\n    <button");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" class=\"btn btn-default\"");
-
-WriteLiteral(" id=\"btnAdd\"");
-
-WriteLiteral(">\r\n        <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
-
-WriteLiteral("></i>\r\n    </button></a>\r\n    <!--<button type=\"button\" class=\"btn btn-default\" i" +
-"d=\"btnRefresh\">\r\n        <i class=\"glyphicon glyphicon-refresh\"></i>\r\n    </butt" +
-"on>-->\r\n</div>\r\n    <table");
+WriteLiteral("></i>&nbsp;&nbsp;Sincronizar Casos en Supervisi&oacute;n</h2>\r\n<br />\r\n    <table" +
+"");
 
 WriteLiteral(" data-toggle=\"table\"");
 
@@ -635,7 +604,7 @@ WriteLiteral(" data-page-list=\"[10, 20, 30]\"");
 
 WriteLiteral("\r\n     data-pagination=\"true\"");
 
-WriteLiteral(" data-height=\"250\"");
+WriteLiteral(" data-height=\"350\"");
 
 WriteLiteral("\r\n     data-striped=\"true\"");
 
@@ -654,13 +623,13 @@ WriteLiteral(">Carpeta de Investigaci&oacute;n</th>\r\n        <th>Nombre comple
 "oacute;n</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody> \r\n");
 
 
-#line 280 "SyncCaseListSup.cshtml"
+#line 271 "SyncCaseListSup.cshtml"
     
 
 #line default
 #line hidden
 
-#line 280 "SyncCaseListSup.cshtml"
+#line 271 "SyncCaseListSup.cshtml"
      foreach(var Meeting in Model) {
 
 
@@ -677,7 +646,7 @@ WriteLiteral(">\r\n        <!--<td id=\"td-id-1\" class=\"td-class-1\">\r\n");
 WriteLiteral("            ");
 
 
-#line 283 "SyncCaseListSup.cshtml"
+#line 274 "SyncCaseListSup.cshtml"
        Write(Meeting.CaseId);
 
 
@@ -688,7 +657,7 @@ WriteLiteral("\r\n        </td>-->\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 286 "SyncCaseListSup.cshtml"
+#line 277 "SyncCaseListSup.cshtml"
        Write(Meeting.IdFolder);
 
 
@@ -699,7 +668,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 289 "SyncCaseListSup.cshtml"
+#line 280 "SyncCaseListSup.cshtml"
         Write(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM);
 
 
@@ -710,7 +679,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("       \t\t");
 
 
-#line 292 "SyncCaseListSup.cshtml"
+#line 283 "SyncCaseListSup.cshtml"
        Write(Meeting.StatusCode);
 
 
@@ -721,7 +690,7 @@ WriteLiteral("\r\n        </td>\r\n        <!--<td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 295 "SyncCaseListSup.cshtml"
+#line 286 "SyncCaseListSup.cshtml"
        Write(Meeting.Action);
 
 
@@ -730,13 +699,13 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>-->\r\n        <td>\r\n");
 
 
-#line 298 "SyncCaseListSup.cshtml"
+#line 289 "SyncCaseListSup.cshtml"
         
 
 #line default
 #line hidden
 
-#line 298 "SyncCaseListSup.cshtml"
+#line 289 "SyncCaseListSup.cshtml"
          if(Meeting.Action=="verificationIncomplete") {
 
 
@@ -747,8 +716,131 @@ WriteLiteral("         \t<a");
 WriteAttribute ("href", " href=\"", "\""
 , Tuple.Create<string,object,bool> ("", "javascript:askSyncIncomplete.show(", true)
 
-#line 299 "SyncCaseListSup.cshtml"
+#line 290 "SyncCaseListSup.cshtml"
                 , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-exchange\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 291 "SyncCaseListSup.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        ");
+
+
+#line 292 "SyncCaseListSup.cshtml"
+         if(Meeting.Action=="verification") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncVerification.show(", true)
+
+#line 293 "SyncCaseListSup.cshtml"
+                  , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-exchange\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 294 "SyncCaseListSup.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        ");
+
+
+#line 295 "SyncCaseListSup.cshtml"
+         if(Meeting.Action=="meeting") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncMeeting.show(", true)
+
+#line 296 "SyncCaseListSup.cshtml"
+             , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-exchange\"");
+
+WriteLiteral("></i></a>\r\n");
+
+
+#line 297 "SyncCaseListSup.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        ");
+
+
+#line 298 "SyncCaseListSup.cshtml"
+         if(Meeting.Action=="hearing") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncHearingFormat.show(", true)
+
+#line 299 "SyncCaseListSup.cshtml"
+                   , Tuple.Create<string,object,bool> ("", Meeting.CaseId
 
 #line default
 #line hidden
@@ -774,133 +866,10 @@ WriteLiteral("></i></a>\r\n");
 
 #line default
 #line hidden
-WriteLiteral("        ");
-
-
-#line 301 "SyncCaseListSup.cshtml"
-         if(Meeting.Action=="verification") {
-
-
-#line default
-#line hidden
-WriteLiteral("         \t<a");
-
-WriteAttribute ("href", " href=\"", "\""
-, Tuple.Create<string,object,bool> ("", "javascript:askSyncVerification.show(", true)
-
-#line 302 "SyncCaseListSup.cshtml"
-                  , Tuple.Create<string,object,bool> ("", Meeting.CaseId
-
-#line default
-#line hidden
-, false)
-, Tuple.Create<string,object,bool> ("", ");", true)
-);
-WriteLiteral(" style=\"display:inline-block;\"");
-
-WriteLiteral(" title=\"Sincronizar Caso\"");
-
-WriteLiteral(" onclick=\"\"");
-
-WriteLiteral("><i");
-
-WriteLiteral(" class=\"icon-exchange\"");
-
-WriteLiteral("></i></a>\r\n");
-
-
-#line 303 "SyncCaseListSup.cshtml"
-        }
-
-
-#line default
-#line hidden
-WriteLiteral("        ");
-
-
-#line 304 "SyncCaseListSup.cshtml"
-         if(Meeting.Action=="meeting") {
-
-
-#line default
-#line hidden
-WriteLiteral("         \t<a");
-
-WriteAttribute ("href", " href=\"", "\""
-, Tuple.Create<string,object,bool> ("", "javascript:askSyncMeeting.show(", true)
-
-#line 305 "SyncCaseListSup.cshtml"
-             , Tuple.Create<string,object,bool> ("", Meeting.CaseId
-
-#line default
-#line hidden
-, false)
-, Tuple.Create<string,object,bool> ("", ");", true)
-);
-WriteLiteral(" style=\"display:inline-block;\"");
-
-WriteLiteral(" title=\"Sincronizar Caso\"");
-
-WriteLiteral(" onclick=\"\"");
-
-WriteLiteral("><i");
-
-WriteLiteral(" class=\"icon-exchange\"");
-
-WriteLiteral("></i></a>\r\n");
-
-
-#line 306 "SyncCaseListSup.cshtml"
-        }
-
-
-#line default
-#line hidden
-WriteLiteral("        ");
-
-
-#line 307 "SyncCaseListSup.cshtml"
-         if(Meeting.Action=="hearing") {
-
-
-#line default
-#line hidden
-WriteLiteral("         \t<a");
-
-WriteAttribute ("href", " href=\"", "\""
-, Tuple.Create<string,object,bool> ("", "javascript:askSyncHearingFormat.show(", true)
-
-#line 308 "SyncCaseListSup.cshtml"
-                   , Tuple.Create<string,object,bool> ("", Meeting.CaseId
-
-#line default
-#line hidden
-, false)
-, Tuple.Create<string,object,bool> ("", ");", true)
-);
-WriteLiteral(" style=\"display:inline-block;\"");
-
-WriteLiteral(" title=\"Sincronizar Caso\"");
-
-WriteLiteral(" onclick=\"\"");
-
-WriteLiteral("><i");
-
-WriteLiteral(" class=\"icon-exchange\"");
-
-WriteLiteral("></i></a>\r\n");
-
-
-#line 309 "SyncCaseListSup.cshtml"
-        }
-
-
-#line default
-#line hidden
 WriteLiteral("        </td>\r\n    </tr>\r\n");
 
 
-#line 312 "SyncCaseListSup.cshtml"
+#line 303 "SyncCaseListSup.cshtml"
 }
 
 

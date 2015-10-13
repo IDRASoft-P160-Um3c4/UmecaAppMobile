@@ -4,6 +4,73 @@
 	<head>
 		<title>Umeca</title>
 
+
+		 <script>
+var askPasswordKeySync  = {};
+
+askPasswordKeySync.show = function (caso){
+	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
+	dlgMsgBox.show();
+}; 
+
+
+askPasswordKeySync.hide = function (){
+	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askPasswordKeySync.yes = function (){
+	var password = $("#askPasswordKeySynccontainerPassword").val();
+	$("#askPasswordKeySynccontainerPassword").val("");
+	var rep = Sync.downloadVerificacion(password);
+	console.log("rep-----------"+rep);
+	var respuesta = $.parseJSON( rep );
+	console.log(respuesta.message);
+			if(respuesta.hasError){
+				askPasswordKeySync.hide();
+				$("#Resp2Value").text(respuesta.message);
+				$("#mesageResp2").show();
+			}else{
+				askPasswordKeySync.hide();
+				$("#RespSuccessDownload").text(respuesta.message);
+				$("#mesageSuccessDownload").show();
+			}
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askPasswordKeySyncBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-info">
+                    <button id="askPasswordKeySyncBoxDlgXclose" type="button" class="close" onclick="javascript:askPasswordKeySync.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Confirmación para Descargar información</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña para continuar:<br><input type="password" name="usrPassword" id="askPasswordKeySynccontainerPassword"/>
+                <br /><b>Al continuar descargaran los casos asignados al usuario.</b></div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askPasswordKeySync.yes();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askPasswordKeySync.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
+
+    <div class="row" onclick="javascript:$(this).hide();" id="mesageResp1" style="display:none">
+            <div class="col-xs-12">
+                <div msg="MsgError"
+                     class="umeca-toast-error element-center">
+                    <p id="Resp1Value"></p>
+                </div> 
+            </div>
+        </div>
+
+
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
@@ -139,6 +206,8 @@ blokedPleaseWait.hide = function (){
             <li class="nav-li-blue"><a href="@Url.Action("Visita","Supervision")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-cloud-download"></i>&nbsp;&nbsp;Visita domiciliar</a>
             </li>
+            <li class="nav-li-blue"><a href="javascript:askPasswordKeySync.show();"><i
+                    class="icon-cloud-download"></i>&nbsp;&nbsp;Descargar Informaci&oacute;n</a>
             <li class="nav-li-blue"><a href="@Url.Action("IndexSuperv","Sync")" onclick="blokedPleaseWait.show();" ><i
                     class="icon-exchange"></i>&nbsp;&nbsp;Sincronizar</a></li>
     </ul>

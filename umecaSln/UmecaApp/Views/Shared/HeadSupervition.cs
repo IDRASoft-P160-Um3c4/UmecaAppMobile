@@ -30,6 +30,164 @@ WriteLiteral(@"<!DOCTYPE html>
 	<head>
 		<title>Umeca</title>
 
+
+		 <script>
+var askPasswordKeySync  = {};
+
+askPasswordKeySync.show = function (caso){
+	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
+	dlgMsgBox.show();
+}; 
+
+
+askPasswordKeySync.hide = function (){
+	var dlgMsgBox = $('#askPasswordKeySyncBoxDlgId');
+	dlgMsgBox.hide();
+};
+
+askPasswordKeySync.yes = function (){
+	var password = $(""#askPasswordKeySynccontainerPassword"").val();
+	$(""#askPasswordKeySynccontainerPassword"").val("""");
+	var rep = Sync.downloadVerificacion(password);
+	console.log(""rep-----------""+rep);
+	var respuesta = $.parseJSON( rep );
+	console.log(respuesta.message);
+			if(respuesta.hasError){
+				askPasswordKeySync.hide();
+				$(""#Resp2Value"").text(respuesta.message);
+				$(""#mesageResp2"").show();
+			}else{
+				askPasswordKeySync.hide();
+				$(""#RespSuccessDownload"").text(respuesta.message);
+				$(""#mesageSuccessDownload"").show();
+			}
+};
+    	</script>
+<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 " +
+"0 0 -30%;\"");
+
+WriteLiteral(" id=\"askPasswordKeySyncBoxDlgId\"");
+
+WriteLiteral(" >\r\n        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"alert alert-info\"");
+
+WriteLiteral(">\r\n                    <button");
+
+WriteLiteral(" id=\"askPasswordKeySyncBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" onclick=\"javascript:askPasswordKeySync.hide();\"");
+
+WriteLiteral(">×</button>\r\n                    <h4");
+
+WriteLiteral(" class=\"modal-title element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Title\"");
+
+WriteLiteral(">Confirmación para Descargar información</h4>\r\n                </div>\r\n          " +
+"  </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"element-center ng-binding\"");
+
+WriteLiteral(" ng-bind-html=\"Message\"");
+
+WriteLiteral(">Por favor ingrese la contraseña para continuar:<br><input");
+
+WriteLiteral(" type=\"password\"");
+
+WriteLiteral(" name=\"usrPassword\"");
+
+WriteLiteral(" id=\"askPasswordKeySynccontainerPassword\"");
+
+WriteLiteral("/>\r\n                <br /><b>Al continuar descargaran los casos asignados al usua" +
+"rio.</b></div>\r\n            </div>\r\n            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-primary\"");
+
+WriteLiteral(" onclick=\"javascript:askPasswordKeySync.yes();\"");
+
+WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" onclick=\"javascript:askPasswordKeySync.hide();\"");
+
+WriteLiteral(" >No</button>\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t    <div>\r\n\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:$(this).hide();\"");
+
+WriteLiteral(" id=\"mesageResp1\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" msg=\"MsgError\"");
+
+WriteLiteral("\r\n                     class=\"umeca-toast-error element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"Resp1Value\"");
+
+WriteLiteral(@"></p>
+                </div> 
+            </div>
+        </div>
+
+
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
@@ -295,7 +453,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 132 "HeadSupervition.cshtml"
+#line 199 "HeadSupervition.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -326,7 +484,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 137 "HeadSupervition.cshtml"
+#line 204 "HeadSupervition.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Supervision")
 
 #line default
@@ -344,7 +502,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 139 "HeadSupervition.cshtml"
+#line 206 "HeadSupervition.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Visita","Supervision")
 
 #line default
@@ -360,9 +518,18 @@ WriteLiteral(" class=\"nav-li-blue\"");
 
 WriteLiteral("><a");
 
+WriteLiteral(" href=\"javascript:askPasswordKeySync.show();\"");
+
+WriteLiteral("><i\r\n                    class=\"icon-cloud-download\"></i>&nbsp;&nbsp;Descargar In" +
+"formaci&oacute;n</a>\r\n            <li");
+
+WriteLiteral(" class=\"nav-li-blue\"");
+
+WriteLiteral("><a");
+
 WriteAttribute ("href", " href=\"", "\""
 
-#line 142 "HeadSupervition.cshtml"
+#line 211 "HeadSupervition.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("IndexSuperv","Sync")
 
 #line default
@@ -378,7 +545,7 @@ WriteLiteral(" ><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbs
 WriteLiteral("\t\t");
 
 
-#line 167 "HeadSupervition.cshtml"
+#line 236 "HeadSupervition.cshtml"
    Write(RenderBody());
 
 

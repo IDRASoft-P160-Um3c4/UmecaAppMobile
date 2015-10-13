@@ -1,15 +1,60 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Service\SyncService.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.MZUKFAMJSCN7VOJZ" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Views\SyncCaseList.cshtml">
     <Files>
-      <File FileName="UmecaApp\Service\SyncService.cs" Line="511" Column="54" />
-      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Controllers\VerificationController.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Controllers\CatalogServiceController.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Models\Sincronizacion\TabletCaseDto.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Models\Shared\Constants.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Assets\dbCatalogs\status_case.txt" Line="1" Column="1" />
+      <File FileName="UmecaApp\Views\Shared\HeadSupervition.cshtml" Line="1" Column="1" />
+      <File FileName="UmecaApp\Views\Shared\headUm.cshtml" Line="1" Column="1" />
+      <File FileName="UmecaApp\Views\SyncCaseListSup.cshtml" Line="1" Column="1" />
+      <File FileName="UmecaApp\Views\SyncCaseList.cshtml" Line="270" Column="26" />
+      <File FileName="UmecaApp\Views\VerificationSourceList.cshtml" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="UmecaApp" expanded="True">
+            <Node name="Umeca" expanded="True">
+              <Node name="WebReferences" expanded="True">
+                <Node name="WebReferenceItem" expanded="True">
+                  <Node name="Reference.map" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Supervicion" expanded="True" />
+              </Node>
+              <Node name="Service" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Shared" expanded="True" />
+                <Node name="SyncCaseList.cshtml" selected="True" />
+              </Node>
+            </Node>
+            <Node name="Umeca.Data" expanded="True">
+              <Node name="Packages" expanded="True" />
+              <Node name="com" expanded="True">
+                <Node name="umeca" expanded="True">
+                  <Node name="constants" expanded="True" />
+                  <Node name="entities" expanded="True">
+                    <Node name="reviewer" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State name="__root__">
+          <Node name="UmecaApp" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>content</Value>
+          <Value>db</Value>
+          <Value>e</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -26,6 +71,21 @@
       <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="198" column="16" />
       <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="196" column="21" />
       <Breakpoint file="C:\Users\Israel\Desktop\repoUmecaMobile - Edit\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="508" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\MeetingService.cs" line="831" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\MeetingService.cs" line="835" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\MeetingService.cs" line="836" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\MeetingService.cs" line="832" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="211" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="232" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="794" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="450" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="529" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="543" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="547" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="716" column="48" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="720" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="735" column="1" />
+      <Breakpoint file="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="739" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
