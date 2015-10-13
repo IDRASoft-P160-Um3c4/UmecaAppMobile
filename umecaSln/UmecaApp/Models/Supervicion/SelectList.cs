@@ -1,6 +1,6 @@
 ﻿using System;
-using SQLiteNetExtensions.Attributes;
-using SQLite.Net.Attributes;
+
+ using SQLite;
 using Umeca.Data;
 
 namespace UmecaApp

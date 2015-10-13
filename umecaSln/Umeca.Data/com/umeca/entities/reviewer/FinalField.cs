@@ -1,6 +1,6 @@
 ﻿using System;
-using SQLiteNetExtensions.Attributes;
-using SQLite.Net.Attributes;
+
+ using SQLite;
 
 namespace UmecaApp
 {
@@ -19,26 +19,26 @@ namespace UmecaApp
 		[Column("reason"),MaxLength(500)]
 		public String Reason{ get; set; }
 
-		[ForeignKey(typeof(FieldMeetingSource)),Column("id_meeting")]
+		[Column("id_meeting")]
 		public int? FieldMeetingSourceId{ get; set; }
 
-		[ManyToOne]
+		//[ManyToOne]
 		public Meeting FieldMeetingSource { get; set; }
 
-		[ForeignKey(typeof(Verification)),Column("id_verification")]
+		[Column("id_verification")]
 		public int? VerificationId{ get; set; }
 
-		[ManyToOne]
+		//[ManyToOne]
 		public Verification Verification { get; set; }
 
-//		[ForeignKey(typeof(Case)),Column("id_case")]
-//		public int? CaseDetentionId{ get; set; }
+		[Column("id_case")]
+		public int? CaseDetentionId{ get; set; }
 //
 //		[OneToOne]
 //		public Case CaseDetention { get; set; }
 //
-//		[ForeignKey(typeof(Case)),Column("id_meeting")]
-//		public int? MeetingId{ get; set; }
+		[Column("id_meeting")]
+		public int? MeetingId{ get; set; }
 //
 //		[OneToOne]
 //		public Case Meeting { get; set; }

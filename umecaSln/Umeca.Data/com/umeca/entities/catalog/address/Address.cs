@@ -1,6 +1,6 @@
 ﻿using System;
 
-using SQLite.Net.Attributes;
+ using SQLite;
 
 //listas
 using System.Collections.Generic;

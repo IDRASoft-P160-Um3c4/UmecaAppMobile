@@ -1,6 +1,5 @@
 ﻿using System;
-using SQLiteNetExtensions.Attributes;
-using SQLite.Net.Attributes;
+using SQLite;
 
 namespace UmecaApp
 {
@@ -38,10 +37,10 @@ namespace UmecaApp
 		[PrimaryKey, AutoIncrement, Column("id_field_meeting_source")]
 		public int Id{ get; set; }
 
-		[ForeignKey(typeof(SourceVerification)),Column("id_source_verification")]
+		[Column("id_source_verification")]
 		public int? SourceVerificationId{ get; set; }
 
-		[ForeignKey(typeof(FieldVerification)),Column("id_field")]
+		[Column("id_field")]
 		public int? FieldVerificationId{ get; set; }
 
 		[Column("value"),MaxLength(1000)]
@@ -50,7 +49,7 @@ namespace UmecaApp
 		[Column("value_json"),MaxLength(1000)]
 		public String JsonValue{ get; set; }
 
-		[ForeignKey(typeof(StatusFieldVerification)),Column("id_status")]
+		[Column("id_status")]
 		public int? StatusFieldVerificationId{ get; set; }
 
 		[Column("is_final")]

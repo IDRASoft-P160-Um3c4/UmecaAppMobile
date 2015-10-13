@@ -1,6 +1,6 @@
 ﻿using System;
-using SQLiteNetExtensions.Attributes;
-using SQLite.Net.Attributes;
+
+ using SQLite;
 
 namespace UmecaApp
 {
@@ -17,28 +17,28 @@ namespace UmecaApp
 		[Column("id_web")]
 		public long? WebId{ get; set; }
 
-		[ForeignKey(typeof(User)),Column("id_reviewer")]
+		[Column("id_reviewer")]
 		public int? ReviewerId{ get; set; }
 
-		[ManyToOne]
-		public User Reviewer { get; set; }
+		//[ManyToOne]
+		//public User Reviewer { get; set; }
 
-		[ForeignKey(typeof(Case)),Column("id_case")]
+		[Column("id_case")]
 		public int? CaseDetentionId{ get; set; }
 
-		[OneToOne]
-		public Case CaseDetention { get; set; }
+		//[OneToOne]
+//		public Case CaseDetention { get; set; }
 
 
-		[OneToOne]
-		public Imputed Imputed { get; set; }
+		//[OneToOne]
+//		public Imputed Imputed { get; set; }
 
 
-		[ForeignKey(typeof(StatusMeeting)),Column("id_status")]
+		[Column("id_status")]
 		public int? StatusMeetingId { get; set; }
 
-		[ManyToOne]
-		public StatusMeeting StatusMeeting { get; set; }
+		//[ManyToOne]
+//		public StatusMeeting StatusMeeting { get; set; }
 
 		[Column("meeting_type")]
 		public int MeetingType{ get; set; } 

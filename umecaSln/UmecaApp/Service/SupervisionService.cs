@@ -1,7 +1,7 @@
 ﻿using System;
-using SQLite.Net;
+
 //insert with children etc
-using SQLiteNetExtensions.Extensions;
+
 //query to list
 using System.Linq;
 //listas
@@ -14,6 +14,7 @@ using Android.Content;
 //cript
 using BCrypt;
 
+using SQLite;
 using Umeca.Data;
 
 namespace UmecaApp
@@ -21,7 +22,6 @@ namespace UmecaApp
 	public class SupervisionService  : Java.Lang.Object
 	{
 
-		readonly SQLiteConnection db;
 		readonly CatalogServiceController services;
 
 
@@ -30,23 +30,11 @@ namespace UmecaApp
 		public SupervisionService(Context context)
 		{
 			this.context = context;
-			db = new SQLiteConnection(
-				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
-				ConstantsDB.DB_PATH,
-				true,
-				null // (can be null in which case you will need to provide tables that only use supported data types)
-			);
 			services = new CatalogServiceController ();
 		}
 
 		public SupervisionService ()
 		{
-			db = new SQLiteConnection(
-				new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(),
-				ConstantsDB.DB_PATH,
-				true,
-				null // (can be null in which case you will need to provide tables that only use supported data types)
-			);
 			services = new CatalogServiceController ();
 		}
 
@@ -67,46 +55,65 @@ namespace UmecaApp
 
 		[Export("findAllStates")]
 		public Java.Lang.String findAllStates(){
-			var estados = db.Table<State> ().OrderBy (c=>c.Name).ToList ()??new List<State> ();
+			var estados = new List<State>();
+			using (var db = FactoryConn.GetConn ()) {
+				estados = db.Table<State> ().OrderBy (c => c.Name).ToList () ?? new List<State> ();
+				db.Close ();
+			}
 			return new Java.Lang.String(JsonConvert.SerializeObject(estados));
 		}
 
 		[Export("findMunicipalityByState")]
 		public Java.Lang.String findMunicipalityByState(Java.Lang.String idState){
-			var n = int.Parse (idState.ToString());
-			var municipios = db.Table<Municipality> ().Where (muni => muni.StateId == n).OrderBy (c=>c.Name).ToList ()??new List<Municipality> ();
-			return new Java.Lang.String(JsonConvert.SerializeObject(municipios));
+			using (var db = FactoryConn.GetConn ()) {
+				var n = int.Parse (idState.ToString ());
+				var municipios = db.Table<Municipality> ().Where (muni => muni.StateId == n).OrderBy (c => c.Name).ToList () ?? new List<Municipality> ();
+				db.Close ();
+				return new Java.Lang.String (JsonConvert.SerializeObject (municipios));
+			}
 		}
 
 
 		[Export("findLocationByMunicipality")]
 		public Java.Lang.String findLocationByMunicipality(Java.Lang.String idMun){
-			var n = int.Parse (idMun.ToString());
-			var municipios = db.Table<Location> ().Where (muni => muni.MunicipalityId == n).OrderBy (c=>c.Name).ToList ()??new List<Location> ();
-			return new Java.Lang.String(JsonConvert.SerializeObject(municipios));
+			using (var db = FactoryConn.GetConn ()) {
+				var n = int.Parse (idMun.ToString ());
+				var municipios = db.Table<Location> ().Where (muni => muni.MunicipalityId == n).OrderBy (c => c.Name).ToList () ?? new List<Location> ();
+				db.Close ();
+				return new Java.Lang.String (JsonConvert.SerializeObject (municipios));
+			}
 		}
 
 		[Export("findAllByLocation")]
 		public Java.Lang.String findAllByLocation(Java.Lang.String idLocation){
-			var n = int.Parse (idLocation.ToString());
-			var location = db.Table<Location> ().Where (loc => loc.Id == n).FirstOrDefault();
-			var mnid = location.MunicipalityId;
-			var municipio = db.Table<Municipality> ().Where (muni => muni.Id == mnid).FirstOrDefault();
-			var stid = municipio.StateId;
-			String obj = "{ \"StateId\" : "+stid+", \"MunicipalityId\" : "+mnid+" }";
-			return new Java.Lang.String(obj);
+			using (var db = FactoryConn.GetConn ()) {
+				var n = int.Parse (idLocation.ToString ());
+				var location = db.Table<Location> ().Where (loc => loc.Id == n).FirstOrDefault ();
+				var mnid = location.MunicipalityId;
+				var municipio = db.Table<Municipality> ().Where (muni => muni.Id == mnid).FirstOrDefault ();
+				var stid = municipio.StateId;
+				String obj = "{ \"StateId\" : " + stid + ", \"MunicipalityId\" : " + mnid + " }";
+				db.Close ();
+				return new Java.Lang.String (obj);
+			}
 		}
 
 		[Export("findAllDrugType")]
 		public Java.Lang.String findAllDrugType(){
-			var drogas = db.Table<DrugType> ().OrderBy (c=>c.Name).ToList ()??new List<DrugType> ();
-			return new Java.Lang.String(JsonConvert.SerializeObject(drogas));
+			using (var db = FactoryConn.GetConn ()) {
+				var drogas = db.Table<DrugType> ().OrderBy (c=>c.Name).ToList ()??new List<DrugType> ();
+				db.Close();
+				return new Java.Lang.String(JsonConvert.SerializeObject(drogas));
+			}
 		}
 
 		[Export("findAllPeriodicity")]
 		public Java.Lang.String findAllPeriodicity(){
-			var periodicidad = db.Table<Periodicity> ().OrderBy (c=>c.Name).ToList ()??new List<Periodicity> ();
-			return new Java.Lang.String(JsonConvert.SerializeObject(periodicidad));
+			using (var db = FactoryConn.GetConn ()) {
+				var periodicidad = db.Table<Periodicity> ().OrderBy (c => c.Name).ToList () ?? new List<Periodicity> ();
+				db.Close();
+				return new Java.Lang.String (JsonConvert.SerializeObject (periodicidad));
+			}
 		}
 
 
@@ -114,6 +121,7 @@ namespace UmecaApp
 
 		[Export("getArrangmentLst")]
 		public Java.Lang.String getArrangmentLst(Java.Lang.String national, Java.Lang.String idTipo){
+			using (var db = FactoryConn.GetConn ()) {
 			var n = bool.Parse (national.ToString());
 			var typ = int.Parse (idTipo.ToString());
 			List<ArrangementView> lstArrmntView = new List<ArrangementView> ();
@@ -134,47 +142,52 @@ namespace UmecaApp
 				arVnew.isExclusive = ar.IsExclusive;
 				lstArrmntView.Add (arVnew);
 			}
+				db.Close();
 			return new Java.Lang.String(JsonConvert.SerializeObject(lstArrmntView));
+			}
 		}
 
 
 
 		[Export("upsertHearingFormat")]
 		public Java.Lang.String upsertHearingFormat(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertHearingFormat json model-->"+modelJson);
-			db.BeginTransaction (); 
-			try{
-				var convertable = modelJson.Replace(":null",":''").Replace(":[]",":null").ToString();
-				var model = JsonConvert.DeserializeObject<HearingFormatView> (convertable);
-				var incompleteHf = db.Table<HearingFormat>().Where(hef=>hef.CaseDetention==model.idCase
-					&&hef.IsFinished==false).OrderByDescending(hef=>hef.Id).FirstOrDefault();
-				if (incompleteHf != null && incompleteHf.Id > 0 && incompleteHf.Id != model.idFormat){
-					output = new Java.Lang.String("Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
-				}else if (model.isFinished??false) {
-					if (model.vincProcess != null && model.vincProcess == Constants.PROCESS_VINC_NO) {
-						var renewCred = Crypto.HashPassword(model.credPass);
-						var loggedUsr = db.Table<User>().FirstOrDefault();
-						if(loggedUsr == null || renewCred!=loggedUsr.password){
-							output = new Java.Lang.String("La contraseña es incorrecta, verifique los datos.");
+			using (var db = FactoryConn.GetConn ()) {
+				var output = new Java.Lang.String("");
+				Console.WriteLine ("upsertHearingFormat json model-->"+modelJson);
+				db.BeginTransaction (); 
+				try{
+					var convertable = modelJson.Replace(":null",":''").Replace(":[]",":null").ToString();
+					var model = JsonConvert.DeserializeObject<HearingFormatView> (convertable);
+					var incompleteHf = db.Table<HearingFormat>().Where(hef=>hef.CaseDetention==model.idCase
+						&&hef.IsFinished==false).OrderByDescending(hef=>hef.Id).FirstOrDefault();
+					if (incompleteHf != null && incompleteHf.Id > 0 && incompleteHf.Id != model.idFormat){
+						output = new Java.Lang.String("Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
+					}else if (model.isFinished??false) {
+						if (model.vincProcess != null && model.vincProcess == Constants.PROCESS_VINC_NO) {
+							var renewCred = Crypto.HashPassword(model.credPass);
+							var loggedUsr = db.Table<User>().FirstOrDefault();
+							if(loggedUsr == null || renewCred!=loggedUsr.password){
+								output = new Java.Lang.String("La contraseña es incorrecta, verifique los datos.");
+							}
 						}
 					}
+					if(output.ToString()==""){
+						HFDtoSave salve = new HFDtoSave();
+						salve = fillHearingFormatWithView(model);
+						output = new Java.Lang.String (hearingFormatServiceSave(salve));
+					}
+				}catch(Exception e){
+					db.Rollback ();
+					Console.WriteLine ("exception in upsertHearingFormat()");
+					Console.WriteLine("Exception message :::>"+e.Message);
+					output = new Java.Lang.String ("Ha ocurrido un error, intente nuevamente");
 				}
-				if(output.ToString()==""){
-					HFDtoSave salve = new HFDtoSave();
-					salve = fillHearingFormatWithView(model);
-					output = new Java.Lang.String (hearingFormatServiceSave(salve));
+				finally{
+					db.Commit ();
 				}
-			}catch(Exception e){
-				db.Rollback ();
-				Console.WriteLine ("exception in upsertHearingFormat()");
-				Console.WriteLine("Exception message :::>"+e.Message);
-				output = new Java.Lang.String ("Ha ocurrido un error, intente nuevamente");
+				db.Close();
+				return output;
 			}
-			finally{
-				db.Commit ();
-			}
-			return output;
 		}
 
 
@@ -186,7 +199,7 @@ namespace UmecaApp
 		public HFDtoSave fillHearingFormatWithView(HearingFormatView viewFormat){
 			string testJson = "{'id':1,'idFolder':'1020304050','recidivist':false,'dateCreate':'2015/06/08'}";
 			var objecto = JsonConvert.DeserializeObject<TestTabletCaseDto> (testJson);
-
+			using (var db = FactoryConn.GetConn ()) {
 			HFDtoSave result = new HFDtoSave ();
 			HearingFormat hearingFormat = new HearingFormat ();
 			if (viewFormat.idFormat != null && viewFormat.idFormat > 0) {
@@ -516,140 +529,134 @@ namespace UmecaApp
 
 
 			result.hearingFormat = hearingFormat;
+				db.Close();
 			return result;
+
+			}
 		}
 
 
 
 		public String hearingFormatServiceSave(HFDtoSave model) {
-			var response = "";
-			Console.WriteLine ("hearingFormatServiceSave-->");
+			using (var db = FactoryConn.GetConn ()) {
+				var response = "";
+				Console.WriteLine ("hearingFormatServiceSave-->");
 
-			var caso = db.Table<Case> ().Where (cs=>cs.Id==model.hearingFormat.CaseDetention).FirstOrDefault ();
-			String idFolder = caso.IdFolder;
-			String idJudicial = caso.IdMP;
-			int idCase = caso.Id;
+				var caso = db.Table<Case> ().Where (cs => cs.Id == model.hearingFormat.CaseDetention).FirstOrDefault ();
+				String idFolder = caso.IdFolder;
+				String idJudicial = caso.IdMP;
+				int idCase = caso.Id;
 
-			if (model.hearingFormat != null && model.hearingFormat.IsFinished == true) {
-				model.hearingFormat.EndTime = DateTime.Now;
-				if (idJudicial == null || idJudicial.Trim() == "") {
-					caso.IdMP = model.hearingFormat.IdJudicial;
-				}
-
-			} else {
-				caso.StatusCaseId = db.Table<StatusCase> ().Where (stsc=>stsc.Name==Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE).FirstOrDefault ().Id;
-			}
-			if (model.hearingFormat != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null && model.newHearingFormatSpecs.LinkageProcess != null &&
-				model.newHearingFormatSpecs.LinkageProcess ==Constants.PROCESS_VINC_NO) {
-				caso.StatusCaseId = db.Table<StatusCase> ().Where (stsc => stsc.Name == Constants.CASE_STATUS_PRE_CLOSED).FirstOrDefault ().Id;
-			}
-			if (model.hearingFormat != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null &&
-				model.newHearingFormatSpecs.LinkageProcess != null &&
-				(model.newHearingFormatSpecs.LinkageProcess == Constants.PROCESS_VINC_YES
-					|| model.newHearingFormatSpecs.LinkageProcess ==Constants.PROCESS_VINC_NO_REGISTER)) {
-				model.hearingFormat.ShowNotification = true;
-			}
-
-			//			hearingFormatRepository.save(hearingFormat);//TODO save todo lo que esta en el hearing format
-			try{
-				var imputedAddres = model.addressImputado;
-				if(imputedAddres!=null && imputedAddres.Id>0){
-					db.Update(imputedAddres);
-					model.hearingFormatImputed.Address = imputedAddres.Id;
-				}
-				else if (imputedAddres!=null){
-					db.Insert(imputedAddres);
-					model.hearingFormatImputed.Address = imputedAddres.Id;
-				}
-				var hearingImputed = model.hearingFormatImputed;
-				if(hearingImputed!=null && hearingImputed.Id>0){
-					db.Update(hearingImputed);
-				}
-				else{
-					db.Insert(hearingImputed);
-				}
-				model.hearingFormat.hearingImputed = hearingImputed.Id;
-				var specs = model.newHearingFormatSpecs;
-				if(specs!=null && specs.Id>0){
-					db.Update(specs);
-				}
-				else{
-					db.Insert(specs);
-				}
-				model.hearingFormat.HearingFormatSpecs = specs.Id;
-				HearingFormat formato = model.hearingFormat;
-				if(formato!=null && formato.Id>0){
-					db.Update(formato);
-				}else{
-					db.Insert(formato);
-				}
-
-				var arrangements = model.newArrangments;
-				if(arrangements!= null && arrangements.Count>0){
-					foreach(AssignedArrangement aa in arrangements){
-						aa.HearingFormat = model.hearingFormat.Id;
-						db.Insert(aa);
+				if (model.hearingFormat != null && model.hearingFormat.IsFinished == true) {
+					model.hearingFormat.EndTime = DateTime.Now;
+					if (idJudicial == null || idJudicial.Trim () == "") {
+						caso.IdMP = model.hearingFormat.IdJudicial;
 					}
+
+				} else {
+					caso.StatusCaseId = db.Table<StatusCase> ().Where (stsc => stsc.Name == Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE).FirstOrDefault ().Id;
+				}
+				if (model.hearingFormat != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null && model.newHearingFormatSpecs.LinkageProcess != null &&
+				    model.newHearingFormatSpecs.LinkageProcess == Constants.PROCESS_VINC_NO) {
+					caso.StatusCaseId = db.Table<StatusCase> ().Where (stsc => stsc.Name == Constants.CASE_STATUS_PRE_CLOSED).FirstOrDefault ().Id;
+				}
+				if (model.hearingFormat != null && model.hearingFormat.IsFinished == true && model.newHearingFormatSpecs != null &&
+				    model.newHearingFormatSpecs.LinkageProcess != null &&
+				    (model.newHearingFormatSpecs.LinkageProcess == Constants.PROCESS_VINC_YES
+				    || model.newHearingFormatSpecs.LinkageProcess == Constants.PROCESS_VINC_NO_REGISTER)) {
+					model.hearingFormat.ShowNotification = true;
 				}
 
-				var contacts = model.lstContactDataView;
-				if(contacts!= null && contacts.Count>0){
-					foreach(ContactData cd in contacts){
-						cd.HearingFormat = model.hearingFormat.Id;
-						db.Insert(cd);
+				//			hearingFormatRepository.save(hearingFormat);//TODO save todo lo que esta en el hearing format
+				try {
+					var imputedAddres = model.addressImputado;
+					if (imputedAddres != null && imputedAddres.Id > 0) {
+						db.Update (imputedAddres);
+						model.hearingFormatImputed.Address = imputedAddres.Id;
+					} else if (imputedAddres != null) {
+						db.Insert (imputedAddres);
+						model.hearingFormatImputed.Address = imputedAddres.Id;
 					}
-				}
+					var hearingImputed = model.hearingFormatImputed;
+					if (hearingImputed != null && hearingImputed.Id > 0) {
+						db.Update (hearingImputed);
+					} else {
+						db.Insert (hearingImputed);
+					}
+					model.hearingFormat.hearingImputed = hearingImputed.Id;
+					var specs = model.newHearingFormatSpecs;
+					if (specs != null && specs.Id > 0) {
+						db.Update (specs);
+					} else {
+						db.Insert (specs);
+					}
+					model.hearingFormat.HearingFormatSpecs = specs.Id;
+					HearingFormat formato = model.hearingFormat;
+					if (formato != null && formato.Id > 0) {
+						db.Update (formato);
+					} else {
+						db.Insert (formato);
+					}
 
-				var crimes = model.crimeList;
-				if(crimes!= null && crimes.Count>0){
-					foreach(Crime cr in crimes){
-						cr.HearingFormat = model.hearingFormat.Id;
-//						int idmax = 0;
-//						var cuenta = db.Table<Crime>().Count();
-//						if(cuenta>0){
-//							idmax = db.Table<Crime>().Max(mxi=>mxi.Id);
-//						}else{
-//							idmax = 1;
-//						}
-//						if(idmax<Constants.TABLET_MINIMAL_ID){
-//							idmax = idmax+Constants.TABLET_MINIMAL_ID;
-//						}
-//						cr.Id = idmax;
-						db.Insert(cr);
+					var arrangements = model.newArrangments;
+					if (arrangements != null && arrangements.Count > 0) {
+						foreach (AssignedArrangement aa in arrangements) {
+							aa.HearingFormat = model.hearingFormat.Id;
+							db.Insert (aa);
+						}
 					}
+
+					var contacts = model.lstContactDataView;
+					if (contacts != null && contacts.Count > 0) {
+						foreach (ContactData cd in contacts) {
+							cd.HearingFormat = model.hearingFormat.Id;
+							db.Insert (cd);
+						}
+					}
+
+					var crimes = model.crimeList;
+					if (crimes != null && crimes.Count > 0) {
+						foreach (Crime cr in crimes) {
+							cr.HearingFormat = model.hearingFormat.Id;
+							db.Insert (cr);
+						}
+					}
+					response = "" + formato.Id;
+				} catch (Exception e) {
+					db.Rollback ();
+					Console.WriteLine ("exception in hearingFormatServiceSave()");
+					Console.WriteLine ("Exception message :::>" + e.Message);
+					response = "Ha ocurrido un error al salvar el formato, intente nuevamente";
+				} finally {
+					db.Commit ();
 				}
-				response = ""+formato.Id;
-			}catch(Exception e){
-				db.Rollback ();
-				Console.WriteLine ("exception in hearingFormatServiceSave()");
-				Console.WriteLine("Exception message :::>"+e.Message);
-				response = "Ha ocurrido un error al salvar el formato, intente nuevamente";
+				db.Close ();
+				return response;
 			}
-			finally{
-				db.Commit ();
-			}
-			return response;
 		}
 
 
 		[Export("upsertLogCase")]
 		public Java.Lang.String upsertLogCase(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertLogCase json model-->"+modelJson);
-			db.BeginTransaction ();
-			try{
-				var model = JsonConvert.DeserializeObject<LogCase> (modelJson.ToString());
-				db.Insert(model);
-			}catch(Exception e){
-				db.Rollback ();
-				Console.WriteLine ("exception in upsertLogCase()");
-				Console.WriteLine("Exception message :::>"+e.Message);
-				output = new Java.Lang.String ("Ha ocurrido un error, intente nuevamente");
+			using (var db = FactoryConn.GetConn ()) {
+				var output = new Java.Lang.String("");
+				Console.WriteLine ("upsertLogCase json model-->"+modelJson);
+				db.BeginTransaction ();
+				try{
+					var model = JsonConvert.DeserializeObject<LogCase> (modelJson.ToString());
+					db.Insert(model);
+				}catch(Exception e){
+					db.Rollback ();
+					Console.WriteLine ("exception in upsertLogCase()");
+					Console.WriteLine("Exception message :::>"+e.Message);
+					output = new Java.Lang.String ("Ha ocurrido un error, intente nuevamente");
+				}
+				finally{
+					db.Commit ();
+				}
+				db.Close();
+				return output;
 			}
-			finally{
-				db.Commit ();
-			}
-			return output;
 		}
 
 	}//class end

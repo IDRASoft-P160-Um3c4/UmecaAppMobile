@@ -3,7 +3,7 @@ using PortableRazor;
 using Android.Content;
 using UmecaApp.Models;
 using System.Collections.Generic;
-using SQLite.Net;
+
 
 using Java.Interop;
 using Newtonsoft.Json;
@@ -13,15 +13,25 @@ namespace UmecaApp
 	public class LoginController
 	{
 		IHybridWebView webView;
-		SQLiteConnection dataAccess;
+
 		CatalogServiceController services;
 
-		public LoginController(IHybridWebView webView, SQLiteConnection dataAccess)
+		public LoginController(IHybridWebView webView)
 		{
 			this.webView = webView;
-			this.dataAccess = dataAccess;
+			services = new CatalogServiceController ();	
+		}
 
-			services = new CatalogServiceController (dataAccess);	
+		public void Index()
+		{
+			services. tablesInit();
+			//TODO:Remove test verification
+			var template = new Home {
+				Model = new PageModel {Title = "Umeca", StatusMsg=null}
+			};
+			var page = template.GenerateString();
+
+			webView.LoadHtmlString (page);
 		}
 
 		public void Index(String msg)

@@ -1,6 +1,6 @@
 ﻿using System;
-using SQLiteNetExtensions.Attributes;
-using SQLite.Net.Attributes;
+
+ using SQLite;
 
 
 namespace UmecaApp
@@ -29,8 +29,8 @@ namespace UmecaApp
 		[Column("recidivist")]
 		public Boolean Recidivist{ get; set; }
 
-		[OneToOne]
-		public Meeting Meeting { get; set; }
+		//[OneToOne]
+		//public Meeting Meeting { get; set; }
 
 		[Column("date_not_prosecute")]
 		public DateTime? DateNotProsecute{ get; set; }
@@ -38,11 +38,11 @@ namespace UmecaApp
 		[Column("date_obsolete")]
 		public DateTime? DateObsolete{ get; set; }
 
-		[ForeignKey(typeof(StatusCase)),Column("id_status")]
+		[Column("id_status")]
 		public int StatusCaseId { get; set; }
 
-		[ManyToOne]
-		public StatusCase Status { get; set; }
+		//[ManyToOne]
+		//public StatusCase Status { get; set; }
 
 		[Column("date_create")]
 		public DateTime? DateCreate{ get; set; }

@@ -1,26 +1,20 @@
 ﻿using System;
-using SQLite.Net.Attributes;
-namespace UmecaApp
+ using SQLite;
+namespace Umeca.Data
 {
-	[Table("cat_document_type")]
+
 	public class DocumentType
 	{
-		public DocumentType ()
-		{
-		}
-
-		[AutoIncrement,PrimaryKey]
+		[PrimaryKey, AutoIncrement]
 		public int Id{get;set;}
 
-		[Column("document_type"), MaxLength(255)]
+		[MaxLength(255)]
 		public String Name{get;set;}
 
-		[Column("specification")]
 		public Boolean? Specification{get;set;}
 
-		[Column("is_obsolete")]
 		public Boolean? IsObsolete{get;set;}
 
-		}
+	}
 }
 

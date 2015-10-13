@@ -26,12 +26,6 @@ namespace UmecaApp
 		
 		public static void UpdateIdValues()
 		{
-			global::SQLite.Resource.String.ApplicationName = global::UmecaApp.Resource.String.ApplicationName;
-			global::SQLite.Resource.String.Hello = global::UmecaApp.Resource.String.Hello;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::UmecaApp.Resource.String.ApplicationName;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::UmecaApp.Resource.String.Hello;
-			global::Umeca.Data.Resource.String.ApplicationName = global::UmecaApp.Resource.String.ApplicationName;
-			global::Umeca.Data.Resource.String.Hello = global::UmecaApp.Resource.String.Hello;
 			global::Umeca.Data.Resource.String.library_name = global::UmecaApp.Resource.String.library_name;
 		}
 		
@@ -106,16 +100,10 @@ namespace UmecaApp
 		{
 			
 			// aapt resource value: 0x7f040002
-			public const int ApplicationName = 2130968578;
+			public const int app_name = 2130968578;
 			
 			// aapt resource value: 0x7f040001
-			public const int Hello = 2130968577;
-			
-			// aapt resource value: 0x7f040004
-			public const int app_name = 2130968580;
-			
-			// aapt resource value: 0x7f040003
-			public const int hello = 2130968579;
+			public const int hello = 2130968577;
 			
 			// aapt resource value: 0x7f040000
 			public const int library_name = 2130968576;

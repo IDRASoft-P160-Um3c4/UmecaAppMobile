@@ -177,8 +177,8 @@ WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" class=\"col-xs-6 element-right\"");
 
-WriteLiteral(" >\r\n                &iquest;El imputado cuenta con personas en su red social?\r\n  " +
-"          </div>\r\n            <div");
+WriteLiteral(" >\r\n                &iquest;El imputado cuenta con referencias personales?\r\n     " +
+"       </div>\r\n            <div");
 
 WriteLiteral(" class=\"col-xs-2\"");
 
