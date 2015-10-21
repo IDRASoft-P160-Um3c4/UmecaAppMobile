@@ -151,25 +151,26 @@ namespace UmecaApp
 
 		[Export("upsertHearingFormat")]
 		public Java.Lang.String upsertHearingFormat(Java.Lang.String modelJson){
-			using (var db = FactoryConn.GetConn ()) {
 				var output = new Java.Lang.String("");
 				Console.WriteLine ("upsertHearingFormat json model-->"+modelJson);
-				db.BeginTransaction (); 
 				try{
 					var convertable = modelJson.Replace(":null",":''").Replace(":[]",":null").ToString();
 					var model = JsonConvert.DeserializeObject<HearingFormatView> (convertable);
-					var incompleteHf = db.Table<HearingFormat>().Where(hef=>hef.CaseDetention==model.idCase
-						&&hef.IsFinished==false).OrderByDescending(hef=>hef.Id).FirstOrDefault();
-					if (incompleteHf != null && incompleteHf.Id > 0 && incompleteHf.Id != model.idFormat){
-						output = new Java.Lang.String("Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
-					}else if (model.isFinished??false) {
-						if (model.vincProcess != null && model.vincProcess == Constants.PROCESS_VINC_NO) {
-							var renewCred = Crypto.HashPassword(model.credPass);
-							var loggedUsr = db.Table<User>().FirstOrDefault();
-							if(loggedUsr == null || renewCred!=loggedUsr.password){
-								output = new Java.Lang.String("La contraseña es incorrecta, verifique los datos.");
+					using (var db = FactoryConn.GetConn ()) {
+						var incompleteHf = db.Table<HearingFormat>().Where(hef=>hef.CaseDetention==model.idCase
+							&&hef.IsFinished==false).OrderByDescending(hef=>hef.Id).FirstOrDefault();
+						if (incompleteHf != null && incompleteHf.Id > 0 && incompleteHf.Id != model.idFormat){
+							output = new Java.Lang.String("Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
+						}else if (model.isFinished??false) {
+							if (model.vincProcess != null && model.vincProcess == Constants.PROCESS_VINC_NO) {
+								var renewCred = Crypto.HashPassword(model.credPass);
+								var loggedUsr = db.Table<User>().FirstOrDefault();
+								if(loggedUsr == null || renewCred!=loggedUsr.password){
+									output = new Java.Lang.String("La contraseña es incorrecta, verifique los datos.");
+								}
 							}
 						}
+						db.Close();
 					}
 					if(output.ToString()==""){
 						HFDtoSave salve = new HFDtoSave();
@@ -177,17 +178,11 @@ namespace UmecaApp
 						output = new Java.Lang.String (hearingFormatServiceSave(salve));
 					}
 				}catch(Exception e){
-					db.Rollback ();
 					Console.WriteLine ("exception in upsertHearingFormat()");
 					Console.WriteLine("Exception message :::>"+e.Message);
 					output = new Java.Lang.String ("Ha ocurrido un error, intente nuevamente");
 				}
-				finally{
-					db.Commit ();
-				}
-				db.Close();
 				return output;
-			}
 		}
 
 
@@ -541,7 +536,7 @@ namespace UmecaApp
 			using (var db = FactoryConn.GetConn ()) {
 				var response = "";
 				Console.WriteLine ("hearingFormatServiceSave-->");
-
+				db.BeginTransaction ();
 				var caso = db.Table<Case> ().Where (cs => cs.Id == model.hearingFormat.CaseDetention).FirstOrDefault ();
 				String idFolder = caso.IdFolder;
 				String idJudicial = caso.IdMP;
@@ -628,7 +623,9 @@ namespace UmecaApp
 					Console.WriteLine ("Exception message :::>" + e.Message);
 					response = "Ha ocurrido un error al salvar el formato, intente nuevamente";
 				} finally {
+					
 					db.Commit ();
+
 				}
 				db.Close ();
 				return response;

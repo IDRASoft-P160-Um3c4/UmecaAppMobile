@@ -40,6 +40,9 @@ namespace UmecaApp
 				ProcessVinc = "Si";
 			if (pVinc != null && pVinc==Constants.PROCESS_VINC_NO_REGISTER)
 				ProcessVinc = "Sin registro";
+			if (pVinc == null) {
+				ProcessVinc = "NA";
+			}
 
 			if (ext != null && ext==Constants.EXTENSION_144)
 				Extension = "144 hrs";

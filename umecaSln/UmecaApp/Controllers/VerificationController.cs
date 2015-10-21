@@ -229,7 +229,7 @@ namespace UmecaApp
 						if (i.webId != null && i.webId != 0L) {
 							home.Id = (int)i.webId;
 						}
-						home.ScheduleList = db.Table<Schedule> ().Where (sc => sc.ImputedHomeId == home.Id).ToList ();
+						home.ScheduleList = db.Table<Schedule> ().Where (xywz => xywz.ImputedHomeId == i.Id).ToList ();
 						domVerified.Add (home);
 					}
 					result.JsonDomicilios = domVerified;
@@ -308,7 +308,7 @@ namespace UmecaApp
 						if (j.webId != null && j.webId != 0L) {
 							trabajo.Id = (int)j.webId;
 						}
-						trabajo.ScheduleList = db.Table<Schedule> ().Where (sc => sc.JobId == trabajo.Id).ToList () ?? new List<Schedule> ();
+						trabajo.ScheduleList = db.Table<Schedule> ().Where (trbjao => trbjao.JobId == j.Id).ToList () ?? new List<Schedule> ();
 						dtojob.Add (trabajo);
 					}
 					result.JsonJobs = dtojob;
@@ -329,7 +329,7 @@ namespace UmecaApp
 
 				if (escuelaUtlActual != null) {
 					result.SchoolId = escuelaUtlActual.Id;
-					var schedule = db.Table<Schedule> ().Where (sc => sc.SchoolId == escuelaUtlActual.Id).ToList ();
+					var schedule = db.Table<Schedule> ().Where (scular => scular.SchoolId == escuelaUtlActual.Id).ToList ();
 					if (schedule != null) {
 						result.ScheduleSchool = schedule;
 					}

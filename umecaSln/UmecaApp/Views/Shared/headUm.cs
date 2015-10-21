@@ -25,11 +25,32 @@ public partial class headUm : WebViewTemplate
 
 public override void Execute()
 {
-WriteLiteral(@"<!DOCTYPE html>
-<html>
-	<head>
-		<title>Umeca</title>
+WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n\t<head>\r\n\t\t<title>Umeca</title>\r\n\t\t<div");
 
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:window.location.replace(\'hybrid:Meeting/Index\');\"");
+
+WriteLiteral(" id=\"mesageSuccessDownload\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"umeca-toast-success element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"RespSuccessDownload\"");
+
+WriteLiteral(@"></p>
+                </div> 
+            </div>
+        </div>
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
@@ -456,7 +477,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 205 "headUm.cshtml"
+#line 211 "headUm.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -491,7 +512,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 214 "headUm.cshtml"
+#line 220 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -509,7 +530,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 216 "headUm.cshtml"
+#line 222 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Verification")
 
 #line default
@@ -536,7 +557,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 222 "headUm.cshtml"
+#line 228 "headUm.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Sync")
 
 #line default
@@ -604,7 +625,7 @@ WriteLiteral(">\r\n                          Continuar\r\n                    </
 WriteLiteral("\t\t");
 
 
-#line 271 "headUm.cshtml"
+#line 277 "headUm.cshtml"
    Write(RenderBody());
 
 

@@ -3,7 +3,13 @@
 <html>
 	<head>
 		<title>Umeca</title>
-
+		<div class="row" onclick="javascript:window.location.replace('hybrid:Meeting/Index');" id="mesageSuccessDownload" style="display:none">
+            <div class="col-xs-12">
+                <div class="umeca-toast-success element-center">
+                    <p id="RespSuccessDownload"></p>
+                </div> 
+            </div>
+        </div>
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){

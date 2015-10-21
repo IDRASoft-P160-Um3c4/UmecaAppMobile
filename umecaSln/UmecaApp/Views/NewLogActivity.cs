@@ -83,17 +83,17 @@ WriteLiteral("></script>\r\n<script>\r\n    \tapp.controller(\'newLogActivityCon
 "cope.v.Despecify = \"\";\r\n\t\t\t\t}\r\n\t\t\t\tconsole.log(\"4\");\r\n\t\t\t\t$scope.m.title = \"Visi" +
 "ta Domiciliar \"+$scope.v.Tipoa+\" a \"+$scope.v.Dirigido+\" \"+$scope.v.Relationship" +
 "+\" \"+$scope.v.Despecify+\" en la dirección: \"+$scope.v.Direcci+\", con el objetivo" +
-" de \"+$scope.v.Objetivo+\".\";\r\n\t\t\t\t$scope.m.resume = \"Información proporcionada: " +
-"Observaciones del supervisor: \"+$scope.v.Observacion+\".Identificación presentada" +
-": \"+$scope.v.Identity;\r\n\t\t\t\tconsole.log(\"title\"+$scope.m.title);\r\n\t\t\t\tconsole.lo" +
-"g(\"resume\"+$scope.m.resume);\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\t" +
-"var resultado = SupervisionService.upsertLogCase(jsonData);\r\n\t\t\t\tif(resultado==u" +
-"ndefined||resultado==null||resultado==\"\"){\r\n\t\t\t\t\twindow.location.replace(\'hybrid" +
-":Supervision/LogActivityLst?idCase=\'+$scope.m.caseDetentionId);\r\n\t\t\t\t}else{\r\n\t\t\t" +
-"\t\talert(resultado);\r\n\t\t\t\t}\r\n\t\t\t\t$scope.Wait = false;\r\n\t\t\t};\r\n\r\n\t\t\t$scope.cancel " +
-"= function(caso){\r\n\t\t\t\t//todos los key del json deben ser igual al modelo cs\r\n\t\t" +
-"\t\twindow.location.replace(\'hybrid:Supervision/LogActivityLst?idCase=\'+caso);\r\n\t\t" +
-"\t};\r\n\r\n\t\t});\r\n    </script>\r\n<form");
+" de \"+$scope.v.Objetivo+\".\";\r\n\t\t\t\t$scope.m.resume = \"Información proporcionada:\"" +
+"+$scope.v.Info+\"  Observaciones del supervisor: \"+$scope.v.Observacion+\"  Identi" +
+"ficación presentada: \"+$scope.v.Identity;\r\n\t\t\t\tconsole.log(\"title\"+$scope.m.titl" +
+"e);\r\n\t\t\t\tconsole.log(\"resume\"+$scope.m.resume);\r\n\t\t\t\tvar jsonData = JSON.stringi" +
+"fy($scope.m);\r\n\t\t\t\tvar resultado = SupervisionService.upsertLogCase(jsonData);\r\n" +
+"\t\t\t\tif(resultado==undefined||resultado==null||resultado==\"\"){\r\n\t\t\t\t\twindow.locat" +
+"ion.replace(\'hybrid:Supervision/LogActivityLst?idCase=\'+$scope.m.caseDetentionId" +
+");\r\n\t\t\t\t}else{\r\n\t\t\t\t\talert(resultado);\r\n\t\t\t\t}\r\n\t\t\t\t$scope.Wait = false;\r\n\t\t\t};\r\n" +
+"\r\n\t\t\t$scope.cancel = function(caso){\r\n\t\t\t\t//todos los key del json deben ser igu" +
+"al al modelo cs\r\n\t\t\t\twindow.location.replace(\'hybrid:Supervision/LogActivityLst?" +
+"idCase=\'+caso);\r\n\t\t\t};\r\n\r\n\t\t});\r\n    </script>\r\n<form");
 
 WriteLiteral(" id=\"frmSubmitValuesCaseLog\"");
 

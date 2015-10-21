@@ -69,7 +69,7 @@
 				}
 				console.log("4");
 				$scope.m.title = "Visita Domiciliar "+$scope.v.Tipoa+" a "+$scope.v.Dirigido+" "+$scope.v.Relationship+" "+$scope.v.Despecify+" en la dirección: "+$scope.v.Direcci+", con el objetivo de "+$scope.v.Objetivo+".";
-				$scope.m.resume = "Información proporcionada: Observaciones del supervisor: "+$scope.v.Observacion+".Identificación presentada: "+$scope.v.Identity;
+				$scope.m.resume = "Información proporcionada:"+$scope.v.Info+"  Observaciones del supervisor: "+$scope.v.Observacion+"  Identificación presentada: "+$scope.v.Identity;
 				console.log("title"+$scope.m.title);
 				console.log("resume"+$scope.m.resume);
 				var jsonData = JSON.stringify($scope.m);

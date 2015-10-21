@@ -110,7 +110,7 @@ namespace UmecaApp.UmecaWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:synchronizeHearingFormat", RequestNamespace="http://ws.umeca.com", ResponseNamespace="http://ws.umeca.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public ResponseMessage synchronizeHearingFormat([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long assignmentId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
+        public ResponseMessage synchronizeHearingFormat([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string guid, long? assignmentId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string jsonCase) {
             object[] results = this.Invoke("synchronizeHearingFormat", new object[] {
                         user,
                         guid,

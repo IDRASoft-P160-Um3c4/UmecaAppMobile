@@ -138,306 +138,307 @@ WriteLiteral("\r\n\r\n\r\n\r\n\r\n<script>\r\napp.controller(\'hearingFormatCont
 "\"#divVincProc :input\").attr(\"disabled\", true);\r\n                $(\"#divMedidas :" +
 "input\").attr(\"disabled\", true);\r\n                $(\"#divContact :input\").attr(\"d" +
 "isabled\", true);\r\n                $(\"#divCitaUmeca :input\").attr(\"disabled\", tru" +
-"e);\r\n                $(\"#divPreviousHearing :input\").attr(\"disabled\", true);\r\n\r\n" +
-"                $(\"#crimeAdder\").remove();\r\n                $(\".notAviable\").rem" +
-"ove();\r\n\r\n            }\r\n            else {\r\n                $(\"#divAudiencia :i" +
-"nput\").attr(\"disabled\", false);\r\n                $(\"#divImputado :input\").attr(\"" +
-"disabled\", false);\r\n                $(\"#divDelitos :input\").attr(\"disabled\", fal" +
-"se);\r\n                $(\"#divCtrlDet :input\").attr(\"disabled\", false);\r\n\r\n      " +
-"          if ($scope.m.hasPrevHF == true) {\r\n                    $(\"#idFolder\")." +
-"attr(\"disabled\", true);\r\n                    $(\"#idJudicial\").attr(\"disabled\", t" +
-"rue);\r\n                    $(\"#divFormImp :input\").attr(\"disabled\", true);\r\n    " +
-"            }\r\n                else\r\n                    $(\"#divFormImp :input\")" +
-".attr(\"disabled\", false);\r\n\r\n                $(\"#divExt :input\").attr(\"disabled\"" +
-", false);\r\n                $(\"#divVincProc :input\").attr(\"disabled\", false);\r\n  " +
-"              $(\"#divMedidas :input\").attr(\"disabled\", false);\r\n                " +
-"$(\"#divContact :input\").attr(\"disabled\", false);\r\n            }\r\n\r\n        };\r\n\r" +
-"\n        $scope.myFormatDate = function (dateMil) {\r\n\r\n            var strDt = \"" +
-"\";\r\n            var date;\r\n\r\n\r\n            console.log(\"dateMil->\"+dateMil);\r\n  " +
-"          if (dateMil && dateMil != \"null\") {\r\n\r\n                date = new Date" +
-"(dateMil);\r\n\r\n                var dd, mm, yyyy;\r\n\r\n                dd = date.get" +
-"Date() < 10 ? \'0\' + date.getDate() : date.getDate();\r\n                mm = date." +
-"getMonth() < 9 ? \'0\' + (date.getMonth() + 1) : (date.getMonth() + 1);\r\n         " +
-"       yyyy = date.getFullYear();\r\n                if(yyyy > 0){\r\n              " +
-"  \tstrDt = yyyy + \"/\" + mm + \"/\" + dd;\r\n                }else{\r\n                " +
-"\tstrDt = \"\";\r\n                }\r\n            }\r\n            console.log(\"strDt->" +
-"\"+strDt);\r\n\r\n            return strDt;\r\n        };\r\n\r\n        $scope.fillFormat " +
-"= function (data) {\r\n\r\n            $scope.m.canSave = data.canSave;\r\n           " +
-" $scope.m.canEdit = data.canEdit;\r\n            $scope.m.disableAll = data.disabl" +
-"eAll;\r\n\r\n            //audiencia\r\n            $scope.m.idCase = data.idCase;\r\n  " +
-"          $scope.m.idFormat = data.idFormat;\r\n            $scope.m.isFinished = " +
-"data.isFinished;\r\n            $scope.m.hasPrevHF = data.hasPrevHF;\r\n            " +
-"$scope.m.idFolder = data.idFolder;\r\n            $scope.m.idJudicial = data.idJud" +
-"icial;\r\n            $scope.m.room = data.room;\r\n            $scope.m.appointment" +
-"Date = $scope.myFormatDate(data.appointmentDate);\r\n            if ($scope.m.appo" +
-"intmentDate === \"\") {\r\n                $scope.m.appointmentDate = $scope.myForma" +
-"tDate(new Date());\r\n            }\r\n            $scope.m.initTime = data.initTime" +
-";\r\n            $scope.m.endTime = data.endTime;\r\n            $scope.m.judgeName " +
-"= data.judgeName;\r\n            $scope.m.mpName = data.mpName;\r\n            $scop" +
-"e.m.defenderName = data.defenderName;\r\n\r\n            //imputado\r\n            $sc" +
-"ope.m.imputedName = data.imputedName;\r\n            $scope.m.imputedFLastName = d" +
-"ata.imputedFLastName;\r\n            $scope.m.imputedSLastName = data.imputedSLast" +
-"Name;\r\n            $scope.m.impBthDay = $scope.myFormatDate(data.imputedBirthDat" +
-"e);\r\n            $scope.calcAge();\r\n            $scope.m.imputedTel = data.imput" +
-"edTel;\r\n\r\n            $scope.m.crimes = data.crimes;\r\n            $scope.m.addit" +
-"ionalData = data.additionalData;\r\n            $scope.m.isView = data.isView;\r\n\r\n" +
-"            //radios\r\n            $scope.m.ctrlDet = data.controlDetention;\r\n\r\n " +
-"               $scope.m.ext = data.extension;\r\n            if (data.extDateStr !" +
-"= undefined && data.extDateStr != null && data.extDateStr != \"\" ) {\r\n           " +
-"     $scope.m.extDate = $scope.myFormatDate(data.extDateStr);\r\n            } els" +
-"e {\r\n                $scope.m.extDate = \"\";\r\n            }\r\n\r\n            $scope" +
-".m.formImp = data.impForm;\r\n\r\n            if ($scope.m.formImp == 1)\r\n          " +
-"      $scope.m.labelImpForm = $sce.trustAsHtml(\"Fecha de imputaci&oacute;n\");\r\n " +
-"           else if ($scope.m.formImp == 2)\r\n                $scope.m.labelImpFor" +
-"m = $sce.trustAsHtml(\"Nueva fecha de audiencia\");\r\n\r\n            $scope.m.impDat" +
-"e = $scope.myFormatDate(data.imputationDate);\r\n\r\n            $scope.m.vincProces" +
-"s = data.vincProcess;\r\n            $scope.m.linkageRoom = data.linkageRoom;\r\n   " +
-"         $scope.m.linkageDate = $scope.myFormatDate(data.linkageDate);\r\n        " +
-"    $scope.m.linkageTime = data.linkageTime;\r\n            $scope.m.arrType = dat" +
-"a.arrangementType;\r\n            $scope.m.nationalArrangement = data.nationalArra" +
-"ngement;\r\n            $scope.m.terms = data.terms;\r\n            $scope.m.comment" +
-"s = data.comments;\r\n\r\n            $scope.m.userName = data.userName;\r\n\r\n        " +
-"    $scope.m.hearingTypeId = data.hearingTypeId;\r\n            console.log(\"htype" +
-"\"+$scope.m.hearingTypeId);\r\n            $scope.m.imputedPresence = data.imputedP" +
-"resence;\r\n            $scope.m.hearingTypeSpecification = data.hearingTypeSpecif" +
-"ication;\r\n            $scope.m.hearingResult = data.hearingResult;\r\n\r\n          " +
-"  $scope.m.umecaDate = $scope.myFormatDate(data.umecaDate);\r\n            $scope." +
-"m.umecaTime = data.umecaTime;\r\n            $scope.m.umecaSupervisorId = data.ume" +
-"caSupervisorId;\r\n\r\n            if (data.lstArrangement != undefined)\r\n          " +
-"      $scope.m.lstArrangementShow = $.parseJSON(data.lstArrangement);\r\n\r\n       " +
-"     if (data.lstContactData != undefined){\r\n                $scope.m.lstContact" +
-"Data = $.parseJSON(data.lstContactData);\r\n                console.log(\"lstContac" +
-"tData+\"+$scope.m.lstContactData);\r\n            }else\r\n                $scope.m.l" +
-"stContactData = [];\r\n\r\n            $scope.m.previousHearing = data.previousHeari" +
-"ng;\r\n\r\n            $scope.chgLblTerms();\r\n\r\n            $scope.$apply();\r\n      " +
-"  };\r\n\r\n\r\n        $scope.saveHF = function () {\r\n        askVerificationTerminat" +
-"e.hide();\r\n        \tvar a = $scope.validateSave();\r\n            var b = $scope.v" +
-"alAddedCrime();\r\n            if ($(\"#FormFormatId\").valid() == false || a == fal" +
-"se || b == false) {\r\n                $scope.Invalid = true;\r\n                $sc" +
-"ope.MsgError = $sce.trustAsHtml(\"No es posible terminar. Debe proporcionar toda " +
-"la informaci&oacute;n requerida.\");\r\n                return false;\r\n            " +
-"}\r\n\r\n            if ($scope.m.vincProcess == 2){\r\n                askCloseCreden" +
-"tials.show();\r\n            }else{\r\n            \t\t$scope.m.isFinished = true;\r\n\r\n" +
-"\t\t            $scope.WaitFor = true;\r\n\t\t            $scope.m.listCrime = JSON.st" +
-"ringify($scope.listCrime);\r\n\t\t            $scope.m.controlDetention = $scope.m.c" +
-"trlDet;\r\n\t\t            $scope.m.impForm = $scope.m.formImp;\r\n\t\t            var l" +
-"istaContactos = $scope.m.lstContactData;\r\n\t\t            $scope.m.lstContactData " +
-"= JSON.stringify($scope.m.lstContactData);\r\n\t\t            $scope.m.lstArrangemen" +
-"t = JSON.stringify($scope.m.lstArrangementShow);\r\n\t\t            $scope.m.extensi" +
-"on = $scope.m.ext;\r\n\t\t            $scope.m.extDateStr = $scope.m.extDate;\r\n\t\t   " +
-"         $scope.m.imputationDateStr = $scope.m.impDate;\r\n\r\n\t\t            var res" +
-"ultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));\r\n\t\t  " +
-"          var idformat = TryParseInt(resultado,null);\r\n\t\t            if(resultad" +
-"o!=undefined&&resultado!=null && idformat!=null){\r\n\t\t            \t$scope.MsgSucc" +
-"ess = $sce.trustAsHtml(\"Se ha registrado el formato de audiencia.\");\r\n\t\t        " +
-"    \t$scope.WaitFor = false;\r\n\t\t            \t$scope.m.idFormat = idformat;\r\n\t\t  " +
-"          \tvar mesage = \"Se ha registrado el formato de audiencia.\";\r\n\t\t\t\t \t\tcon" +
-"sole.log(\"regresar del idformat-\"+idformat);\r\n\t\t\t\t \t\tvar casoReferencia =$(\"#idC" +
-"ase\").val();\r\n\t\t\t\t \t\tregresar(casoReferencia);\r\n\t\t            }else{\r\n\t\t        " +
-"    \t$scope.MsgError = $sce.trustAsHtml(resultado);\r\n\t\t            \t$scope.WaitF" +
-"or = false;\r\n\t\t            \t$scope.m.isFinished = false;\r\n\t\t            }\r\n\t\t   " +
-"          $scope.m.lstContactData = listaContactos;\r\n\t\t    }\r\n        };\r\n\r\n    " +
-"    $scope.saveHFClose = function () {\r\n            \t\t$scope.m.isFinished = true" +
-";\r\n\t\t            $scope.WaitFor = true;\r\n\t\t            $scope.m.listCrime = JSON" +
-".stringify($scope.listCrime);\r\n\t\t            $scope.m.controlDetention = $scope." +
-"m.ctrlDet;\r\n\t\t            $scope.m.impForm = $scope.m.formImp;\r\n\t\t            va" +
-"r listaContactos = $scope.m.lstContactData;\r\n\t\t            $scope.m.lstContactDa" +
-"ta = JSON.stringify($scope.m.lstContactData);\r\n\t\t            $scope.m.lstArrange" +
+"e);\r\n                $(\"#divPreviousHearing :input\").attr(\"disabled\", true);\r\n  " +
+"              $(\".arrangBoxSelector\").attr(\"disabled\", true);\r\n                $" +
+"(\".arrangTextDescriptor\").attr(\"disabled\", true);\r\n\r\n                $(\"#crimeAd" +
+"der\").remove();\r\n                $(\".notAviable\").remove();\r\n\r\n            }\r\n  " +
+"          else {\r\n                $(\"#divAudiencia :input\").attr(\"disabled\", fal" +
+"se);\r\n                $(\"#divImputado :input\").attr(\"disabled\", false);\r\n       " +
+"         $(\"#divDelitos :input\").attr(\"disabled\", false);\r\n                $(\"#d" +
+"ivCtrlDet :input\").attr(\"disabled\", false);\r\n\r\n                if ($scope.m.hasP" +
+"revHF == true) {\r\n                    $(\"#idFolder\").attr(\"disabled\", true);\r\n  " +
+"                  $(\"#idJudicial\").attr(\"disabled\", true);\r\n                    " +
+"$(\"#divFormImp :input\").attr(\"disabled\", true);\r\n                }\r\n            " +
+"    else\r\n                    $(\"#divFormImp :input\").attr(\"disabled\", false);\r\n" +
+"\r\n                $(\"#divExt :input\").attr(\"disabled\", false);\r\n                " +
+"$(\"#divVincProc :input\").attr(\"disabled\", false);\r\n                $(\"#divMedida" +
+"s :input\").attr(\"disabled\", false);\r\n                $(\"#divContact :input\").att" +
+"r(\"disabled\", false);\r\n            }\r\n\r\n        };\r\n\r\n        $scope.myFormatDat" +
+"e = function (dateMil) {\r\n\r\n            var strDt = \"\";\r\n            var date;\r\n" +
+"\r\n\r\n            console.log(\"dateMil->\"+dateMil);\r\n            if (dateMil && da" +
+"teMil != \"null\") {\r\n\r\n                date = new Date(dateMil);\r\n\r\n             " +
+"   var dd, mm, yyyy;\r\n\r\n                dd = date.getDate() < 10 ? \'0\' + date.ge" +
+"tDate() : date.getDate();\r\n                mm = date.getMonth() < 9 ? \'0\' + (dat" +
+"e.getMonth() + 1) : (date.getMonth() + 1);\r\n                yyyy = date.getFullY" +
+"ear();\r\n                if(yyyy > 0){\r\n                \tstrDt = yyyy + \"/\" + mm " +
+"+ \"/\" + dd;\r\n                }else{\r\n                \tstrDt = \"\";\r\n             " +
+"   }\r\n            }\r\n            console.log(\"strDt->\"+strDt);\r\n\r\n            re" +
+"turn strDt;\r\n        };\r\n\r\n        $scope.fillFormat = function (data) {\r\n\r\n    " +
+"        $scope.m.canSave = data.canSave;\r\n            $scope.m.canEdit = data.ca" +
+"nEdit;\r\n            $scope.m.disableAll = data.disableAll;\r\n\r\n            //audi" +
+"encia\r\n            $scope.m.idCase = data.idCase;\r\n            $scope.m.idFormat" +
+" = data.idFormat;\r\n            $scope.m.isFinished = data.isFinished;\r\n         " +
+"   $scope.m.hasPrevHF = data.hasPrevHF;\r\n            $scope.m.idFolder = data.id" +
+"Folder;\r\n            $scope.m.idJudicial = data.idJudicial;\r\n            $scope." +
+"m.room = data.room;\r\n            $scope.m.appointmentDate = $scope.myFormatDate(" +
+"data.appointmentDate);\r\n            if ($scope.m.appointmentDate === \"\") {\r\n    " +
+"            $scope.m.appointmentDate = $scope.myFormatDate(new Date());\r\n       " +
+"     }\r\n            $scope.m.initTime = data.initTime;\r\n            $scope.m.end" +
+"Time = data.endTime;\r\n            $scope.m.judgeName = data.judgeName;\r\n        " +
+"    $scope.m.mpName = data.mpName;\r\n            $scope.m.defenderName = data.def" +
+"enderName;\r\n\r\n            //imputado\r\n            $scope.m.imputedName = data.im" +
+"putedName;\r\n            $scope.m.imputedFLastName = data.imputedFLastName;\r\n    " +
+"        $scope.m.imputedSLastName = data.imputedSLastName;\r\n            $scope.m" +
+".impBthDay = $scope.myFormatDate(data.imputedBirthDate);\r\n            $scope.cal" +
+"cAge();\r\n            $scope.m.imputedTel = data.imputedTel;\r\n\r\n            $scop" +
+"e.m.crimes = data.crimes;\r\n            $scope.m.additionalData = data.additional" +
+"Data;\r\n            $scope.m.isView = data.isView;\r\n\r\n            //radios\r\n     " +
+"       $scope.m.ctrlDet = data.controlDetention;\r\n\r\n                $scope.m.ext" +
+" = data.extension;\r\n            if (data.extDateStr != undefined && data.extDate" +
+"Str != null && data.extDateStr != \"\" ) {\r\n                $scope.m.extDate = $sc" +
+"ope.myFormatDate(data.extDateStr);\r\n            } else {\r\n                $scope" +
+".m.extDate = \"\";\r\n            }\r\n\r\n            $scope.m.formImp = data.impForm;\r" +
+"\n\r\n            if ($scope.m.formImp == 1)\r\n                $scope.m.labelImpForm" +
+" = $sce.trustAsHtml(\"Fecha de imputaci&oacute;n\");\r\n            else if ($scope." +
+"m.formImp == 2)\r\n                $scope.m.labelImpForm = $sce.trustAsHtml(\"Nueva" +
+" fecha de audiencia\");\r\n\r\n            $scope.m.impDate = $scope.myFormatDate(dat" +
+"a.imputationDate);\r\n\r\n            $scope.m.vincProcess = data.vincProcess;\r\n    " +
+"        $scope.m.linkageRoom = data.linkageRoom;\r\n            $scope.m.linkageDa" +
+"te = $scope.myFormatDate(data.linkageDate);\r\n            $scope.m.linkageTime = " +
+"data.linkageTime;\r\n            $scope.m.arrType = data.arrangementType;\r\n       " +
+"     $scope.m.nationalArrangement = data.nationalArrangement;\r\n            $scop" +
+"e.m.terms = data.terms;\r\n            $scope.m.comments = data.comments;\r\n\r\n     " +
+"       $scope.m.userName = data.userName;\r\n\r\n            $scope.m.hearingTypeId " +
+"= data.hearingTypeId;\r\n            console.log(\"htype\"+$scope.m.hearingTypeId);\r" +
+"\n            $scope.m.imputedPresence = data.imputedPresence;\r\n            $scop" +
+"e.m.hearingTypeSpecification = data.hearingTypeSpecification;\r\n            $scop" +
+"e.m.hearingResult = data.hearingResult;\r\n\r\n            $scope.m.umecaDate = $sco" +
+"pe.myFormatDate(data.umecaDate);\r\n            $scope.m.umecaTime = data.umecaTim" +
+"e;\r\n            $scope.m.umecaSupervisorId = data.umecaSupervisorId;\r\n\r\n        " +
+"    if (data.lstArrangement != undefined)\r\n                $scope.m.lstArrangeme" +
+"ntShow = $.parseJSON(data.lstArrangement);\r\n\r\n            if (data.lstContactDat" +
+"a != undefined){\r\n                $scope.m.lstContactData = $.parseJSON(data.lst" +
+"ContactData);\r\n                console.log(\"lstContactData+\"+$scope.m.lstContact" +
+"Data);\r\n            }else\r\n                $scope.m.lstContactData = [];\r\n\r\n    " +
+"        $scope.m.previousHearing = data.previousHearing;\r\n\r\n            $scope.c" +
+"hgLblTerms();\r\n\r\n            $scope.$apply();\r\n        };\r\n\r\n\r\n        $scope.sa" +
+"veHF = function () {\r\n        askVerificationTerminate.hide();\r\n        \tvar a =" +
+" $scope.validateSave();\r\n            var b = $scope.valAddedCrime();\r\n          " +
+"  if ($(\"#FormFormatId\").valid() == false || a == false || b == false) {\r\n      " +
+"          $scope.Invalid = true;\r\n                $scope.MsgError = $sce.trustAs" +
+"Html(\"No es posible terminar. Debe proporcionar toda la informaci&oacute;n reque" +
+"rida.\");\r\n                return false;\r\n            }\r\n\r\n            if ($scope" +
+".m.vincProcess == 2){\r\n                askCloseCredentials.show();\r\n            " +
+"}else{\r\n            \t\t$scope.m.isFinished = true;\r\n\r\n\t\t            $scope.WaitFo" +
+"r = true;\r\n\t\t            $scope.m.listCrime = JSON.stringify($scope.listCrime);\r" +
+"\n\t\t            $scope.m.controlDetention = $scope.m.ctrlDet;\r\n\t\t            $sco" +
+"pe.m.impForm = $scope.m.formImp;\r\n\t\t            var listaContactos = $scope.m.ls" +
+"tContactData;\r\n\t\t            $scope.m.lstContactData = JSON.stringify($scope.m.l" +
+"stContactData);\r\n\t\t            $scope.m.lstArrangement = JSON.stringify($scope.m" +
+".lstArrangementShow);\r\n\t\t            $scope.m.extension = $scope.m.ext;\r\n\t\t     " +
+"       $scope.m.extDateStr = $scope.m.extDate;\r\n\t\t            $scope.m.imputatio" +
+"nDateStr = $scope.m.impDate;\r\n\r\n\t\t            var resultado = SupervisionService" +
+".upsertHearingFormat(JSON.stringify($scope.m));\r\n\t\t            var idformat = Tr" +
+"yParseInt(resultado,null);\r\n\t\t            if(resultado!=undefined&&resultado!=nu" +
+"ll && idformat!=null){\r\n\t\t            \t$scope.MsgSuccess = $sce.trustAsHtml(\"Se " +
+"ha registrado el formato de audiencia.\");\r\n\t\t            \t$scope.WaitFor = false" +
+";\r\n\t\t            \t$scope.m.idFormat = idformat;\r\n\t\t            \tvar mesage = \"Se" +
+" ha registrado el formato de audiencia.\";\r\n\t\t\t\t \t\tconsole.log(\"regresar del idfo" +
+"rmat-\"+idformat);\r\n\t\t\t\t \t\tvar casoReferencia =$(\"#idCase\").val();\r\n\t\t\t\t \t\tregres" +
+"ar(casoReferencia);\r\n\t\t            }else{\r\n\t\t            \t$scope.MsgError = $sce" +
+".trustAsHtml(resultado);\r\n\t\t            \t$scope.WaitFor = false;\r\n\t\t            " +
+"\t$scope.m.isFinished = false;\r\n\t\t            }\r\n\t\t             $scope.m.lstConta" +
+"ctData = listaContactos;\r\n\t\t    }\r\n        };\r\n\r\n        $scope.saveHFClose = fu" +
+"nction () {\r\n            \t\t$scope.m.isFinished = true;\r\n\t\t            $scope.Wai" +
+"tFor = true;\r\n\t\t            $scope.m.listCrime = JSON.stringify($scope.listCrime" +
+");\r\n\t\t            $scope.m.controlDetention = $scope.m.ctrlDet;\r\n\t\t            $" +
+"scope.m.impForm = $scope.m.formImp;\r\n\t\t            var listaContactos = $scope.m" +
+".lstContactData;\r\n\t\t            $scope.m.lstContactData = JSON.stringify($scope." +
+"m.lstContactData);\r\n\t\t            $scope.m.lstArrangement = JSON.stringify($scop" +
+"e.m.lstArrangementShow);\r\n\t\t            $scope.m.extension = $scope.m.ext;\r\n\t\t  " +
+"          $scope.m.extDateStr = $scope.m.extDate;\r\n\t\t            $scope.m.imputa" +
+"tionDateStr = $scope.m.impDate;\r\n\r\n\t\t            var resultado = SupervisionServ" +
+"ice.upsertHearingFormat(JSON.stringify($scope.m));\r\n\t\t            var idformat =" +
+" TryParseInt(resultado,null);\r\n\t\t            if(resultado!=undefined&&resultado!" +
+"=null && idformat!=null){\r\n\t\t            \t$scope.MsgSuccess = $sce.trustAsHtml(\"" +
+"Se ha registrado el formato de audiencia.\");\r\n\t\t            \t$scope.WaitFor = fa" +
+"lse;\r\n\t\t            \t$scope.m.idFormat = idformat;\r\n\t\t            \tvar mesage = " +
+"\"Se ha registrado el formato de audiencia.\";\r\n\t\t\t\t \t\tconsole.log(\"regresar del i" +
+"dformat-\"+idformat);\r\n\t\t\t\t\t\twindow.location.replace(\'hybrid:Supervision/HearingF" +
+"ormatList?idCase=\'+$scope.m.idCase);\r\n\t\t            }else{\r\n\t\t            \t$scop" +
+"e.MsgError = $sce.trustAsHtml(resultado);\r\n\t\t            \t$scope.WaitFor = false" +
+";\r\n\t\t            \t$scope.m.isFinished = false;\r\n\t\t            \taskCloseCredentia" +
+"ls.hide();\r\n\t\t            }\r\n\t\t             $scope.m.lstContactData = listaConta" +
+"ctos;\r\n\t\t             $scope.$apply();\r\n        };\r\n\r\n        $scope.submitReloa" +
+"dHF = function (formId, urlToPost, validate) {\r\n\r\n            var stVal = true;\r" +
+"\n\r\n            if (validate != undefined)\r\n                stVal = validate();\r\n" +
+"\r\n            if (stVal == false) {\r\n                $scope.Invalid = true;\r\n   " +
+"             return false;\r\n            }\r\n\r\n            $scope.WaitFor = true;\r" +
+"\n            $scope.m.isFinished = true;\r\n\r\n            $scope.WaitFor = true;\r\n" +
+"            $scope.m.isFinished = true;\r\n\r\n            $timeout(function () {\r\n " +
+"               $.post(urlToPost, $(formId).serialize())\r\n                    .su" +
+"ccess(function (resp) {\r\n                        if (resp.hasError === undefined" +
+") {\r\n                            resp = resp.responseMessage;\r\n                 " +
+"       }\r\n\r\n                        if (resp.hasError == false) {\r\n             " +
+"               window.goToUrlMvcUrl(resp.urlToGo);\r\n                        }\r\n\r" +
+"\n                        if (resp.hasError == true) {\r\n                         " +
+"   $scope.m.isFinished = false;\r\n                            $scope.MsgError = $" +
+"sce.trustAsHtml(resp.message);\r\n                            $scope.$apply();\r\n  " +
+"                      }\r\n                    })\r\n                    .error(func" +
+"tion () {\r\n                        $scope.WaitFor = false;\r\n                    " +
+"    $scope.MsgError = $sce.trustAsHtml(\"Error de red. Por favor intente más tard" +
+"e.\");\r\n                        $scope.$apply();\r\n                    });\r\n      " +
+"      }, 1);\r\n\r\n        };\r\n\r\n        /**/\r\n\r\n        $scope.submitPartiaSaveHF " +
+"= function () {\r\n            $scope.WaitFor = true;\r\n            $scope.m.listCr" +
+"ime = JSON.stringify($scope.listCrime);\r\n            $scope.m.controlDetention =" +
+" $scope.m.ctrlDet;\r\n            $scope.m.impForm = $scope.m.formImp;\r\n          " +
+"  var listaContactos = $scope.m.lstContactData;\r\n            $scope.m.lstContact" +
+"Data = JSON.stringify($scope.m.lstContactData);\r\n            $scope.m.lstArrange" +
 "ment = JSON.stringify($scope.m.lstArrangementShow);\r\n\t\t            $scope.m.exte" +
 "nsion = $scope.m.ext;\r\n\t\t            $scope.m.extDateStr = $scope.m.extDate;\r\n\t\t" +
-"            $scope.m.imputationDateStr = $scope.m.impDate;\r\n\r\n\t\t            var " +
-"resultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));\r\n\t" +
-"\t            var idformat = TryParseInt(resultado,null);\r\n\t\t            if(resul" +
-"tado!=undefined&&resultado!=null && idformat!=null){\r\n\t\t            \t$scope.MsgS" +
-"uccess = $sce.trustAsHtml(\"Se ha registrado el formato de audiencia.\");\r\n\t\t     " +
-"       \t$scope.WaitFor = false;\r\n\t\t            \t$scope.m.idFormat = idformat;\r\n\t" +
-"\t            \tvar mesage = \"Se ha registrado el formato de audiencia.\";\r\n\t\t\t\t \t\t" +
-"console.log(\"regresar del idformat-\"+idformat);\r\n\t\t\t\t\t\twindow.location.replace(\'" +
-"hybrid:Supervision/HearingFormatList?idCase=\'+$scope.m.idCase);\r\n\t\t            }" +
-"else{\r\n\t\t            \t$scope.MsgError = $sce.trustAsHtml(resultado);\r\n\t\t        " +
-"    \t$scope.WaitFor = false;\r\n\t\t            \t$scope.m.isFinished = false;\r\n\t\t   " +
-"         \taskCloseCredentials.hide();\r\n\t\t            }\r\n\t\t             $scope.m." +
-"lstContactData = listaContactos;\r\n\t\t             $scope.$apply();\r\n        };\r\n\r" +
-"\n        $scope.submitReloadHF = function (formId, urlToPost, validate) {\r\n\r\n   " +
-"         var stVal = true;\r\n\r\n            if (validate != undefined)\r\n          " +
-"      stVal = validate();\r\n\r\n            if (stVal == false) {\r\n                " +
-"$scope.Invalid = true;\r\n                return false;\r\n            }\r\n\r\n        " +
-"    $scope.WaitFor = true;\r\n            $scope.m.isFinished = true;\r\n\r\n         " +
-"   $scope.WaitFor = true;\r\n            $scope.m.isFinished = true;\r\n\r\n          " +
-"  $timeout(function () {\r\n                $.post(urlToPost, $(formId).serialize(" +
-"))\r\n                    .success(function (resp) {\r\n                        if (" +
-"resp.hasError === undefined) {\r\n                            resp = resp.response" +
-"Message;\r\n                        }\r\n\r\n                        if (resp.hasError" +
-" == false) {\r\n                            window.goToUrlMvcUrl(resp.urlToGo);\r\n " +
-"                       }\r\n\r\n                        if (resp.hasError == true) {" +
-"\r\n                            $scope.m.isFinished = false;\r\n                    " +
-"        $scope.MsgError = $sce.trustAsHtml(resp.message);\r\n                     " +
-"       $scope.$apply();\r\n                        }\r\n                    })\r\n    " +
-"                .error(function () {\r\n                        $scope.WaitFor = f" +
-"alse;\r\n                        $scope.MsgError = $sce.trustAsHtml(\"Error de red." +
-" Por favor intente más tarde.\");\r\n                        $scope.$apply();\r\n    " +
-"                });\r\n            }, 1);\r\n\r\n        };\r\n\r\n        /**/\r\n\r\n       " +
-" $scope.submitPartiaSaveHF = function () {\r\n            $scope.WaitFor = true;\r\n" +
-"            $scope.m.listCrime = JSON.stringify($scope.listCrime);\r\n            " +
-"$scope.m.controlDetention = $scope.m.ctrlDet;\r\n            $scope.m.impForm = $s" +
-"cope.m.formImp;\r\n            var listaContactos = $scope.m.lstContactData;\r\n    " +
-"        $scope.m.lstContactData = JSON.stringify($scope.m.lstContactData);\r\n    " +
-"        $scope.m.lstArrangement = JSON.stringify($scope.m.lstArrangementShow);\r\n" +
-"\t\t            $scope.m.extension = $scope.m.ext;\r\n\t\t            $scope.m.extDate" +
-"Str = $scope.m.extDate;\r\n\t\t            $scope.m.imputationDateStr = $scope.m.imp" +
-"Date;\r\n\r\n            var resultado = SupervisionService.upsertHearingFormat(JSON" +
-".stringify($scope.m));\r\n            var idformat = TryParseInt(resultado,null);\r" +
-"\n            if(resultado!=undefined&&resultado!=null && idformat!=null){\r\n     " +
-"       \t$scope.MsgSuccess = $sce.trustAsHtml(\"Se ha registrado el formato de aud" +
-"iencia.\");\r\n            \t$scope.WaitFor = false;\r\n            \t$scope.m.idFormat" +
-" = idformat;\r\n            \tvar mesage = \"Se ha registrado el formato de audienci" +
-"a.\";\r\n\t\t \t\tconsole.log(\"regresar del idformat-\"+idformat);\r\n\t\t\t\r\n            }el" +
-"se{\r\n            \t$scope.MsgError = $sce.trustAsHtml(resultado);\r\n            \t$" +
-"scope.WaitFor = false;\r\n            }\r\n             $scope.m.lstContactData = li" +
-"staContactos;\r\n             //$scope.$apply();\r\n        };\r\n\r\n        /**/\r\n\r\n  " +
-"      $scope.loadArrangements = function () {\r\n\r\n            if ($scope.m.arrTyp" +
-"e == undefined || $scope.m.arrType === \'\' || $scope.m.disableAll == true) {\r\n   " +
-"             return;\r\n            }\r\n            if ($scope.m.nationalArrangemen" +
-"t == undefined || ($scope.m.nationalArrangement === \'\') || $scope.m.disableAll =" +
-"= true) {\r\n                return;\r\n            }\r\n            $scope.m.arrangem" +
-"entType = $scope.m.arrType;\r\n            $scope.chgLblTerms();\r\n\r\n            va" +
-"r data = SupervisionService.getArrangmentLst($scope.m.nationalArrangement, $scop" +
-"e.m.arrType);\r\n            if(data!=undefined&&data!=\"\"){\r\n            \t$scope.m" +
-".lstArrangementShow = $.parseJSON(data);\r\n            }\r\n        };\r\n\r\n        $" +
-"scope.calcAge = function () {\r\n\r\n            //yyyy/mm/dd o en milisegundos\r\n   " +
-"         if ($scope.m.impBthDay != null && $scope.m.impBthDay != \"\") {\r\n\r\n      " +
-"          var arrBth = [];\r\n                arrBth = $scope.m.impBthDay.split(\'/" +
-"\');\r\n\r\n                var dtBthObj;\r\n\r\n                if (arrBth.length > 0)\r\n" +
-"                    dtBthObj = new Date(parseInt(arrBth[0]), parseInt(arrBth[1])" +
-" - 1, parseInt(arrBth[2]));\r\n                else\r\n                    dtBthObj " +
-"= new Date($scope.m.impBthDay);\r\n\r\n                var ageDifMs = Date.now() - d" +
-"tBthObj.getTime();\r\n                var ageDate = new Date(ageDifMs);\r\n         " +
-"       $scope.m.impAge = Math.abs(ageDate.getUTCFullYear() - 1970);\r\n\r\n         " +
-"       if ($scope.m.impAge < 18) {\r\n                    $scope.hasError = true;\r" +
-"\n                    $scope.m.errAge = \"No puede registrar a un menor de edad\";\r" +
-"\n                }\r\n                else{\r\n                    $scope.m.errAge =" +
-" \"\";\r\n                    $scope.m.imputedBirthDateStr = $scope.m.impBthDay;\r\n  " +
-"                  }\r\n                $scope.m.errBth = \"\";\r\n            }\r\n     " +
-"   };\r\n\r\n        $scope.exclusiveSelected = function (idArr) {\r\n            for " +
-"(var i = 0; i < $scope.m.lstArrangementShow.length; i++) {\r\n                if (" +
-"$scope.m.lstArrangementShow[i].id != idArr && $scope.m.lstArrangementShow[i].sel" +
-"Val == true && $scope.m.lstArrangementShow[i].isExclusive == true) {\r\n          " +
-"          return $scope.m.lstArrangementShow[i].id\r\n                }\r\n         " +
-"   }\r\n\r\n            return -1;\r\n        };\r\n\r\n        $scope.clearOthers = funct" +
-"ion (idExclusive) {\r\n            for (var i = 0; i < $scope.m.lstArrangementShow" +
-".length; i++) {\r\n                if ($scope.m.lstArrangementShow[i].id == idExcl" +
-"usive);\r\n                else {\r\n                    $scope.m.lstArrangementShow" +
-"[i].selVal = false;\r\n                    $scope.m.lstArrangementShow[i].descript" +
-"ion = \"\";\r\n                }\r\n            }\r\n        };\r\n\r\n        $scope.select" +
-"Defaults = function () {\r\n            for (var i = 0; i < $scope.m.lstArrangemen" +
-"tShow.length; i++) {\r\n                if ($scope.m.lstArrangementShow[i].isDefau" +
-"lt == true) {\r\n                    $scope.m.lstArrangementShow[i].selVal = true;" +
-"\r\n                    $scope.m.lstArrangementShow[i].description = \"\";\r\n        " +
-"        }\r\n            }\r\n        };\r\n\r\n        $scope.validateArrangementSel = " +
-"function (idx, idArr) {\r\n\r\n            var noSel = 0;\r\n            var noDesc = " +
-"0;\r\n\r\n            var idExclusive = -1;\r\n\r\n            if ($scope.m.vincProcess " +
-"!= 2) {\r\n\r\n                if (!$scope.m.lstArrangementShow || $scope.m.disableA" +
-"ll == true)\r\n                    return;\r\n\r\n                if (idArr != undefin" +
-"ed)\r\n                    idExclusive = $scope.exclusiveSelected(idArr);\r\n\r\n     " +
-"           if (idExclusive > 0) {\r\n                    $scope.clearOthers(idExcl" +
-"usive);\r\n                    $scope.m.errArrmntSel = $sce.trustAsHtml(\"No puede " +
-"seleccionar otra medida cautelar. Debe deseleccionar la medida cautelar exclusiv" +
-"a.\");\r\n                    return;\r\n                }\r\n\r\n                if (idA" +
-"rr != undefined && idx != undefined)\r\n                    if ($scope.m.lstArrang" +
-"ementShow[idx].isExclusive == true) {\r\n                        $scope.clearOther" +
-"s(idArr);\r\n                    }\r\n\r\n                if (idArr != undefined && id" +
-"x != undefined)\r\n                    if ($scope.m.lstArrangementShow[idx].isExcl" +
-"usive == true && $scope.m.lstArrangementShow[idx].selVal == false) {\r\n          " +
-"              $scope.selectDefaults();\r\n                    }\r\n\r\n               " +
-" for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {\r\n\r\n             " +
-"       if ($scope.m.lstArrangementShow[i].selVal == true) {\r\n                   " +
-"     noSel++;\r\n                        if ($scope.m.lstArrangementShow[i].descri" +
-"ption != \"\" && $scope.m.lstArrangementShow[i].description != undefined) {\r\n     " +
-"                       noDesc++;\r\n                        }\r\n                   " +
-" } else {\r\n                        $scope.m.lstArrangementShow[i].description = " +
-"\"\";\r\n                    }\r\n\r\n                }\r\n\r\n                if (noSel < 1" +
-") {\r\n                    $scope.hasError = true;\r\n                    $scope.m.e" +
-"rrArrmntSel = $sce.trustAsHtml(\"Debe seleccionar al menos una obligaci&oacute;n " +
-"procesal\");\r\n                    return;\r\n                } else if (noSel > noD" +
-"esc) {\r\n                    $scope.hasError = true;\r\n                    $scope." +
-"m.errArrmntSel = $sce.trustAsHtml(\"Debe indicar una descripci&oacute;n para cada" +
-" obligaci&oacute;n procesal seleccionada\");\r\n                    return;\r\n      " +
-"          } else {\r\n                    $scope.m.errArrmntSel = $sce.trustAsHtml" +
-"(\"\");\r\n                }\r\n            }\r\n        };\r\n\r\n        $scope.hasContact" +
-"s = function (id) {\r\n\r\n            if (id == 2) {\r\n                $scope.m.cont" +
-"actName = \"NO TIENE\";\r\n                $scope.m.contactPhone = \"00000000\";\r\n    " +
-"            $scope.m.contactAddress = \"NO TIENE\";\r\n            } else {\r\n       " +
-"         $scope.m.contactName = \"\";\r\n                $scope.m.contactPhone = \"\";" +
-"\r\n                $scope.m.contactAddress = \"\";\r\n            }\r\n        };\r\n\r\n  " +
-"      $scope.chngVincProcess = function (id) {\r\n            if (id == 1 && $scop" +
-"e.m.ext == 3) {\r\n                $scope.m.linkageRoom = $scope.m.room;\r\n        " +
-"        $scope.m.linkageDate = $scope.m.appointmentDate;\r\n                $scope" +
-".m.linkageTime = $scope.m.initTime;\r\n            } else {\r\n                $scop" +
-"e.m.linkageRoom = \"\";\r\n                $scope.m.linkageDate = \"\";\r\n             " +
-"   $scope.m.linkageTime = \"\";\r\n            }\r\n        };\r\n\r\n        $scope.fillS" +
-"elSupervisor = function () {\r\n\r\n            if ($scope.lstSupervisor === undefin" +
-"ed || $scope.lstSupervisor.length <= 0)\r\n                return;\r\n\r\n            " +
-"if ($scope.m.umecaSupervisorId === undefined) {\r\n                $scope.m.umecaS" +
-"upervisor = $scope.lstSupervisor[0];\r\n                $scope.m.umecaSupervisorId" +
-" = $scope.m.umecaSupervisor.id;\r\n            }\r\n            else {\r\n            " +
-"    for (var i = 0; i < $scope.lstSupervisor.length; i++) {\r\n                   " +
-" var rel = $scope.lstSupervisor[i];\r\n\r\n                    if (rel.id === $scope" +
-".m.umecaSupervisorId) {\r\n                        $scope.m.umecaSupervisor = rel;" +
-"\r\n                        break;\r\n                    }\r\n                }\r\n    " +
-"        }\r\n        };\r\n\r\n        $scope.fillSelHearingType = function () {\r\n\r\n  " +
-"              if ($scope.lstHearingType === undefined || $scope.lstHearingType.l" +
-"ength <= 0)\r\n                    return;\r\n\r\n                if ($scope.m.hearing" +
-"TypeId === undefined) {\r\n                    $scope.m.hearingType = $scope.lstHe" +
-"aringType[0];\r\n                    $scope.m.hearingTypeId = $scope.m.hearingType" +
-".id;\r\n                }\r\n                else {\r\n                    for (var i " +
-"= 0; i < $scope.lstHearingType.length; i++) {\r\n                        var rel =" +
-" $scope.lstHearingType[i];\r\n\r\n                        if (rel.id === $scope.m.he" +
-"aringTypeId) {\r\n                            $scope.m.hearingType = rel;\r\n       " +
-"                     break;\r\n                        }\r\n                    }\r\n " +
-"               }\r\n        };\r\n\r\n        $scope.lockArrangements = function () {\r" +
-"\n            if ($scope.m.hearingType && $scope.m.hearingType.lock == true || $s" +
-"cope.m.isView == true) {\r\n                $(\"#divMedidas :input\").attr(\"disabled" +
-"\", true);\r\n                $(\"#divMedidasHidden :input\").attr(\"disabled\", false)" +
-";\r\n            }\r\n            else {\r\n                $(\"#divMedidas :input\").at" +
-"tr(\"disabled\", false);\r\n                $(\"#divMedidasHidden :input\").attr(\"disa" +
-"bled\", true);\r\n            }\r\n            $scope.lockDefaultArrangements();\r\n   " +
-"     };\r\n\r\n        $scope.lockDefaultArrangements = function () {\r\n\r\n           " +
-" if ($scope.m.lstArrangementShow != undefined) {\r\n                for (var i = 0" +
-"; i < $scope.m.lstArrangementShow.length; i++) {\r\n                    if ($scope" +
-".m.lstArrangementShow[i].isDefault == true)\r\n                        $(\"#arrange" +
-"ment\" + $scope.m.lstArrangementShow[i].id).attr(\"disabled\", true);\r\n            " +
-"    }\r\n            }\r\n        };\r\n\r\n        $scope.init = function () {\r\n  \r\n   " +
-"     \tvar js = JSON.parse($(\"#hdnJsonMtng\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t " +
-"   $scope.lstHearingType = JSON.parse( $(\"#hdnJsonHearing\").val());\r\n\t\t\t    $sco" +
-"pe.readonlyBand =$(\"#hdnreadonlyBand\").val();\r\n\r\n            $scope.fillFormat($" +
-"scope.m);\r\n            $scope.fillSelSupervisor();\r\n            $scope.fillSelHe" +
-"aringType();\r\n            $scope.disableView($scope.m.disableAll);\r\n            " +
-"$scope.lockArrangements();\r\n            $scope.init2();\r\n\r\n            $scope.lo" +
-"cationInit();\r\n\r\n        };\r\n\r\n        $scope.chgLblTerms = function () {\r\n     " +
-"       if ($scope.m.arrType == 2)\r\n                $scope.lblTerms = $sce.trustA" +
-"sHtml(\"Plazo\");\r\n            else if ($scope.m.arrType == 1)\r\n                $s" +
-"cope.lblTerms = $sce.trustAsHtml(\"Plazo de investigaci&oacute;n\");\r\n        };\r\n" +
-"\r\n        $timeout(function () {\r\n            $scope.init();\r\n        }, 0);\r\n\r\n" +
-"        $scope.returnUrlId = function () {\r\n            var urlRet = $(\'#urlRet\'" +
-").attr(\"value\");\r\n            window.goToUrlMvcUrl(urlRet);\r\n        };\r\n\r\n\r\n\r\n " +
-"       //////////\r\n        $scope.c = {};\r\n        $scope.listElection = [];\r\n  " +
-"      $scope.c.federal = 0;\r\n        $scope.listCrime = [];\r\n        $scope.opti" +
-"onsCrime = [];\r\n        $scope.listMsgError = [];\r\n\r\n\r\n        $scope.init2 = fu" +
-"nction () {\r\n            //$(\".chosen-select\").chosen();\r\n            //$(\".chos" +
-"en-single span:nth-child(1)\").text(\"Seleccione una opción\");\r\n            consol" +
-"e.log(\"before\");\r\n\r\n            console.log(\"$scope.m.listCrime\"+$(\"#hdnJsonlist" +
-"Crime\").val());\r\n            $scope.listCrime = JSON.parse($(\"#hdnJsonlistCrime\"" +
-").val());\r\n            console.log(\"$scope.m.optionsCrime\"+$(\"#hdnJsonOptionsCri" +
-"me\").val());\r\n            $scope.optionsCrime = JSON.parse($(\"#hdnJsonOptionsCri" +
-"me\").val());\r\n            console.log(\"$scope.m.listElection\"+$(\"#hdnJsonlistEle" +
-"ction\").val());\r\n            $scope.listElection = JSON.parse($(\"#hdnJsonlistEle" +
-"ction\").val());\r\n\r\n            if ($scope.listCrime == undefined) {\r\n           " +
-"     $scope.listCrime = [];\r\n            }\r\n            if ($scope.listElection " +
-"=== undefined || $scope.listElection.length <= 0)\r\n                return;\r\n\r\n  " +
-"          if ($scope.c.federalId === undefined) {\r\n                $scope.c.fede" +
-"ral = $scope.listElection[0];\r\n                $scope.c.federalId = $scope.c.fed" +
-"eral.id;\r\n            }\r\n            $scope.cleanArray();\r\n\r\n        };\r\n\r\n\r\n   " +
-"     ");
+"            $scope.m.imputationDateStr = $scope.m.impDate;\r\n\r\n            var re" +
+"sultado = SupervisionService.upsertHearingFormat(JSON.stringify($scope.m));\r\n   " +
+"         var idformat = TryParseInt(resultado,null);\r\n            if(resultado!=" +
+"undefined&&resultado!=null && idformat!=null){\r\n            \t$scope.MsgSuccess =" +
+" $sce.trustAsHtml(\"Se ha registrado el formato de audiencia.\");\r\n            \t$s" +
+"cope.WaitFor = false;\r\n            \t$scope.m.idFormat = idformat;\r\n            \t" +
+"var mesage = \"Se ha registrado el formato de audiencia.\";\r\n\t\t \t\tconsole.log(\"reg" +
+"resar del idformat-\"+idformat);\r\n\t\t\t\r\n            }else{\r\n            \t$scope.Ms" +
+"gError = $sce.trustAsHtml(resultado);\r\n            \t$scope.WaitFor = false;\r\n   " +
+"         }\r\n             $scope.m.lstContactData = listaContactos;\r\n            " +
+" //$scope.$apply();\r\n        };\r\n\r\n        /**/\r\n\r\n        $scope.loadArrangemen" +
+"ts = function () {\r\n\r\n            if ($scope.m.arrType == undefined || $scope.m." +
+"arrType === \'\' || $scope.m.disableAll == true) {\r\n                return;\r\n     " +
+"       }\r\n            if ($scope.m.nationalArrangement == undefined || ($scope.m" +
+".nationalArrangement === \'\') || $scope.m.disableAll == true) {\r\n                " +
+"return;\r\n            }\r\n            $scope.m.arrangementType = $scope.m.arrType;" +
+"\r\n            $scope.chgLblTerms();\r\n\r\n            var data = SupervisionService" +
+".getArrangmentLst($scope.m.nationalArrangement, $scope.m.arrType);\r\n            " +
+"if(data!=undefined&&data!=\"\"){\r\n            \t$scope.m.lstArrangementShow = $.par" +
+"seJSON(data);\r\n            }\r\n        };\r\n\r\n        $scope.calcAge = function ()" +
+" {\r\n\r\n            //yyyy/mm/dd o en milisegundos\r\n            if ($scope.m.impBt" +
+"hDay != null && $scope.m.impBthDay != \"\") {\r\n\r\n                var arrBth = [];\r" +
+"\n                arrBth = $scope.m.impBthDay.split(\'/\');\r\n\r\n                var " +
+"dtBthObj;\r\n\r\n                if (arrBth.length > 0)\r\n                    dtBthOb" +
+"j = new Date(parseInt(arrBth[0]), parseInt(arrBth[1]) - 1, parseInt(arrBth[2]));" +
+"\r\n                else\r\n                    dtBthObj = new Date($scope.m.impBthD" +
+"ay);\r\n\r\n                var ageDifMs = Date.now() - dtBthObj.getTime();\r\n       " +
+"         var ageDate = new Date(ageDifMs);\r\n                $scope.m.impAge = Ma" +
+"th.abs(ageDate.getUTCFullYear() - 1970);\r\n\r\n                if ($scope.m.impAge " +
+"< 18) {\r\n                    $scope.hasError = true;\r\n                    $scope" +
+".m.errAge = \"No puede registrar a un menor de edad\";\r\n                }\r\n       " +
+"         else{\r\n                    $scope.m.errAge = \"\";\r\n                    $" +
+"scope.m.imputedBirthDateStr = $scope.m.impBthDay;\r\n                    }\r\n      " +
+"          $scope.m.errBth = \"\";\r\n            }\r\n        };\r\n\r\n        $scope.exc" +
+"lusiveSelected = function (idArr) {\r\n            for (var i = 0; i < $scope.m.ls" +
+"tArrangementShow.length; i++) {\r\n                if ($scope.m.lstArrangementShow" +
+"[i].id != idArr && $scope.m.lstArrangementShow[i].selVal == true && $scope.m.lst" +
+"ArrangementShow[i].isExclusive == true) {\r\n                    return $scope.m.l" +
+"stArrangementShow[i].id\r\n                }\r\n            }\r\n\r\n            return " +
+"-1;\r\n        };\r\n\r\n        $scope.clearOthers = function (idExclusive) {\r\n      " +
+"      for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {\r\n          " +
+"      if ($scope.m.lstArrangementShow[i].id == idExclusive);\r\n                el" +
+"se {\r\n                    $scope.m.lstArrangementShow[i].selVal = false;\r\n      " +
+"              $scope.m.lstArrangementShow[i].description = \"\";\r\n                " +
+"}\r\n            }\r\n        };\r\n\r\n        $scope.selectDefaults = function () {\r\n " +
+"           for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {\r\n     " +
+"           if ($scope.m.lstArrangementShow[i].isDefault == true) {\r\n            " +
+"        $scope.m.lstArrangementShow[i].selVal = true;\r\n                    $scop" +
+"e.m.lstArrangementShow[i].description = \"\";\r\n                }\r\n            }\r\n " +
+"       };\r\n\r\n        $scope.validateArrangementSel = function (idx, idArr) {\r\n\r\n" +
+"            var noSel = 0;\r\n            var noDesc = 0;\r\n\r\n            var idExc" +
+"lusive = -1;\r\n\r\n            if ($scope.m.vincProcess != 2) {\r\n\r\n                " +
+"if (!$scope.m.lstArrangementShow || $scope.m.disableAll == true)\r\n              " +
+"      return;\r\n\r\n                if (idArr != undefined)\r\n                    id" +
+"Exclusive = $scope.exclusiveSelected(idArr);\r\n\r\n                if (idExclusive " +
+"> 0) {\r\n                    $scope.clearOthers(idExclusive);\r\n                  " +
+"  $scope.m.errArrmntSel = $sce.trustAsHtml(\"No puede seleccionar otra medida cau" +
+"telar. Debe deseleccionar la medida cautelar exclusiva.\");\r\n                    " +
+"return;\r\n                }\r\n\r\n                if (idArr != undefined && idx != u" +
+"ndefined)\r\n                    if ($scope.m.lstArrangementShow[idx].isExclusive " +
+"== true) {\r\n                        $scope.clearOthers(idArr);\r\n                " +
+"    }\r\n\r\n                if (idArr != undefined && idx != undefined)\r\n          " +
+"          if ($scope.m.lstArrangementShow[idx].isExclusive == true && $scope.m.l" +
+"stArrangementShow[idx].selVal == false) {\r\n                        $scope.select" +
+"Defaults();\r\n                    }\r\n\r\n                for (var i = 0; i < $scope" +
+".m.lstArrangementShow.length; i++) {\r\n\r\n                    if ($scope.m.lstArra" +
+"ngementShow[i].selVal == true) {\r\n                        noSel++;\r\n            " +
+"            if ($scope.m.lstArrangementShow[i].description != \"\" && $scope.m.lst" +
+"ArrangementShow[i].description != undefined) {\r\n                            noDe" +
+"sc++;\r\n                        }\r\n                    } else {\r\n                " +
+"        $scope.m.lstArrangementShow[i].description = \"\";\r\n                    }\r" +
+"\n\r\n                }\r\n\r\n                if (noSel < 1) {\r\n                    $s" +
+"cope.hasError = true;\r\n                    $scope.m.errArrmntSel = $sce.trustAsH" +
+"tml(\"Debe seleccionar al menos una obligaci&oacute;n procesal\");\r\n              " +
+"      return;\r\n                } else if (noSel > noDesc) {\r\n                   " +
+" $scope.hasError = true;\r\n                    $scope.m.errArrmntSel = $sce.trust" +
+"AsHtml(\"Debe indicar una descripci&oacute;n para cada obligaci&oacute;n procesal" +
+" seleccionada\");\r\n                    return;\r\n                } else {\r\n       " +
+"             $scope.m.errArrmntSel = $sce.trustAsHtml(\"\");\r\n                }\r\n " +
+"           }\r\n        };\r\n\r\n        $scope.hasContacts = function (id) {\r\n\r\n    " +
+"        if (id == 2) {\r\n                $scope.m.contactName = \"NO TIENE\";\r\n    " +
+"            $scope.m.contactPhone = \"00000000\";\r\n                $scope.m.contac" +
+"tAddress = \"NO TIENE\";\r\n            } else {\r\n                $scope.m.contactNa" +
+"me = \"\";\r\n                $scope.m.contactPhone = \"\";\r\n                $scope.m." +
+"contactAddress = \"\";\r\n            }\r\n        };\r\n\r\n        $scope.chngVincProces" +
+"s = function (id) {\r\n            if (id == 1 && $scope.m.ext == 3) {\r\n          " +
+"      $scope.m.linkageRoom = $scope.m.room;\r\n                $scope.m.linkageDat" +
+"e = $scope.m.appointmentDate;\r\n                $scope.m.linkageTime = $scope.m.i" +
+"nitTime;\r\n            } else {\r\n                $scope.m.linkageRoom = \"\";\r\n    " +
+"            $scope.m.linkageDate = \"\";\r\n                $scope.m.linkageTime = \"" +
+"\";\r\n            }\r\n        };\r\n\r\n        $scope.fillSelSupervisor = function () " +
+"{\r\n\r\n            if ($scope.lstSupervisor === undefined || $scope.lstSupervisor." +
+"length <= 0)\r\n                return;\r\n\r\n            if ($scope.m.umecaSuperviso" +
+"rId === undefined) {\r\n                $scope.m.umecaSupervisor = $scope.lstSuper" +
+"visor[0];\r\n                $scope.m.umecaSupervisorId = $scope.m.umecaSupervisor" +
+".id;\r\n            }\r\n            else {\r\n                for (var i = 0; i < $sc" +
+"ope.lstSupervisor.length; i++) {\r\n                    var rel = $scope.lstSuperv" +
+"isor[i];\r\n\r\n                    if (rel.id === $scope.m.umecaSupervisorId) {\r\n  " +
+"                      $scope.m.umecaSupervisor = rel;\r\n                        b" +
+"reak;\r\n                    }\r\n                }\r\n            }\r\n        };\r\n\r\n  " +
+"      $scope.fillSelHearingType = function () {\r\n\r\n                if ($scope.ls" +
+"tHearingType === undefined || $scope.lstHearingType.length <= 0)\r\n              " +
+"      return;\r\n\r\n                if ($scope.m.hearingTypeId === undefined) {\r\n  " +
+"                  $scope.m.hearingType = $scope.lstHearingType[0];\r\n            " +
+"        $scope.m.hearingTypeId = $scope.m.hearingType.id;\r\n                }\r\n  " +
+"              else {\r\n                    for (var i = 0; i < $scope.lstHearingT" +
+"ype.length; i++) {\r\n                        var rel = $scope.lstHearingType[i];\r" +
+"\n\r\n                        if (rel.id === $scope.m.hearingTypeId) {\r\n           " +
+"                 $scope.m.hearingType = rel;\r\n                            break;" +
+"\r\n                        }\r\n                    }\r\n                }\r\n        }" +
+";\r\n\r\n        $scope.lockArrangements = function () {\r\n            if ($scope.m.h" +
+"earingType && $scope.m.hearingType.lock == true || $scope.m.isView == true) {\r\n " +
+"               $(\"#divMedidas :input\").attr(\"disabled\", true);\r\n                " +
+"$(\"#divMedidasHidden :input\").attr(\"disabled\", false);\r\n            }\r\n         " +
+"   else {\r\n                $(\"#divMedidas :input\").attr(\"disabled\", false);\r\n   " +
+"             $(\"#divMedidasHidden :input\").attr(\"disabled\", true);\r\n            " +
+"}\r\n            $scope.lockDefaultArrangements();\r\n        };\r\n\r\n        $scope.l" +
+"ockDefaultArrangements = function () {\r\n\r\n            if ($scope.m.lstArrangemen" +
+"tShow != undefined) {\r\n                for (var i = 0; i < $scope.m.lstArrangeme" +
+"ntShow.length; i++) {\r\n                    if ($scope.m.lstArrangementShow[i].is" +
+"Default == true)\r\n                        $(\"#arrangement\" + $scope.m.lstArrange" +
+"mentShow[i].id).attr(\"disabled\", true);\r\n                }\r\n            }\r\n     " +
+"   };\r\n\r\n        $scope.init = function () {\r\n  \r\n        \tvar js = JSON.parse($" +
+"(\"#hdnJsonMtng\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    $scope.lstHearingType = " +
+"JSON.parse( $(\"#hdnJsonHearing\").val());\r\n\t\t\t    $scope.readonlyBand =$(\"#hdnrea" +
+"donlyBand\").val();\r\n\r\n            $scope.fillFormat($scope.m);\r\n            $sco" +
+"pe.fillSelSupervisor();\r\n            $scope.fillSelHearingType();\r\n            $" +
+"scope.lockArrangements();\r\n            $scope.disableView($scope.m.disableAll);\r" +
+"\n            $scope.init2();\r\n\r\n            $scope.locationInit();\r\n\r\n        };" +
+"\r\n\r\n        $scope.chgLblTerms = function () {\r\n            if ($scope.m.arrType" +
+" == 2)\r\n                $scope.lblTerms = $sce.trustAsHtml(\"Plazo\");\r\n          " +
+"  else if ($scope.m.arrType == 1)\r\n                $scope.lblTerms = $sce.trustA" +
+"sHtml(\"Plazo de investigaci&oacute;n\");\r\n        };\r\n\r\n        $timeout(function" +
+" () {\r\n            $scope.init();\r\n        }, 0);\r\n\r\n        $scope.returnUrlId " +
+"= function () {\r\n            var urlRet = $(\'#urlRet\').attr(\"value\");\r\n         " +
+"   window.goToUrlMvcUrl(urlRet);\r\n        };\r\n\r\n\r\n\r\n        //////////\r\n        " +
+"$scope.c = {};\r\n        $scope.listElection = [];\r\n        $scope.c.federal = 0;" +
+"\r\n        $scope.listCrime = [];\r\n        $scope.optionsCrime = [];\r\n        $sc" +
+"ope.listMsgError = [];\r\n\r\n\r\n        $scope.init2 = function () {\r\n            //" +
+"$(\".chosen-select\").chosen();\r\n            //$(\".chosen-single span:nth-child(1)" +
+"\").text(\"Seleccione una opción\");\r\n            console.log(\"before\");\r\n\r\n       " +
+"     console.log(\"$scope.m.listCrime\"+$(\"#hdnJsonlistCrime\").val());\r\n          " +
+"  $scope.listCrime = JSON.parse($(\"#hdnJsonlistCrime\").val());\r\n            cons" +
+"ole.log(\"$scope.m.optionsCrime\"+$(\"#hdnJsonOptionsCrime\").val());\r\n            $" +
+"scope.optionsCrime = JSON.parse($(\"#hdnJsonOptionsCrime\").val());\r\n            c" +
+"onsole.log(\"$scope.m.listElection\"+$(\"#hdnJsonlistElection\").val());\r\n          " +
+"  $scope.listElection = JSON.parse($(\"#hdnJsonlistElection\").val());\r\n\r\n        " +
+"    if ($scope.listCrime == undefined) {\r\n                $scope.listCrime = [];" +
+"\r\n            }\r\n            if ($scope.listElection === undefined || $scope.lis" +
+"tElection.length <= 0)\r\n                return;\r\n\r\n            if ($scope.c.fede" +
+"ralId === undefined) {\r\n                $scope.c.federal = $scope.listElection[0" +
+"];\r\n                $scope.c.federalId = $scope.c.federal.id;\r\n            }\r\n  " +
+"          $scope.cleanArray();\r\n\r\n        };\r\n\r\n\r\n        ");
 
 WriteLiteral("\r\n\r\n        $scope.validateCrime = function () {\r\n            valid = true;\r\n    " +
 "        var strArticle = $scope.c.article + \"\";\r\n            if ($scope.c.crime " +
@@ -609,7 +610,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1129 "HearingFormatEdit.cshtml"
+#line 1131 "HearingFormatEdit.cshtml"
                , Tuple.Create<string,object,bool> ("", Model.model
 
 #line default
@@ -626,7 +627,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1130 "HearingFormatEdit.cshtml"
+#line 1132 "HearingFormatEdit.cshtml"
                   , Tuple.Create<string,object,bool> ("", Model.lstHearingType
 
 #line default
@@ -641,7 +642,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1131 "HearingFormatEdit.cshtml"
+#line 1133 "HearingFormatEdit.cshtml"
                     , Tuple.Create<string,object,bool> ("", Model.listCrime
 
 #line default
@@ -656,7 +657,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1132 "HearingFormatEdit.cshtml"
+#line 1134 "HearingFormatEdit.cshtml"
                        , Tuple.Create<string,object,bool> ("", Model.optionsCrime
 
 #line default
@@ -671,7 +672,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1133 "HearingFormatEdit.cshtml"
+#line 1135 "HearingFormatEdit.cshtml"
                        , Tuple.Create<string,object,bool> ("", Model.listElection
 
 #line default
@@ -686,7 +687,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1134 "HearingFormatEdit.cshtml"
+#line 1136 "HearingFormatEdit.cshtml"
                    , Tuple.Create<string,object,bool> ("", Model.readonlyBand
 
 #line default
@@ -701,7 +702,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1135 "HearingFormatEdit.cshtml"
+#line 1137 "HearingFormatEdit.cshtml"
                 , Tuple.Create<string,object,bool> ("", Model.hasPrevHF
 
 #line default
@@ -716,7 +717,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1136 "HearingFormatEdit.cshtml"
+#line 1138 "HearingFormatEdit.cshtml"
                   , Tuple.Create<string,object,bool> ("", Model.address
 
 #line default
@@ -922,7 +923,7 @@ WriteLiteral(" name=\"idCase\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 1216 "HearingFormatEdit.cshtml"
+#line 1218 "HearingFormatEdit.cshtml"
                        , Tuple.Create<string,object,bool> ("", Model.IdCase
 
 #line default
@@ -989,7 +990,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "regresar(", true)
 
-#line 1235 "HearingFormatEdit.cshtml"
+#line 1237 "HearingFormatEdit.cshtml"
                                             , Tuple.Create<string,object,bool> ("", Model.IdCase
 
 #line default
@@ -1346,10 +1347,10 @@ WriteLiteral("\r\n                                                           ng-
 "it==false\"");
 
 WriteLiteral("\r\n                                                           data-val-length-max=" +
-"\"25\"");
+"\"30\"");
 
 WriteLiteral("\r\n                                                           data-val-length=\"Deb" +
-"e tener m&aacute;ximo 25 caracteres\"");
+"e tener m&aacute;ximo 30 caracteres\"");
 
 WriteLiteral("\r\n                                                           data-val-required=\"C" +
 "arpeta de investigaci&oacute;n es un campo requerido\"");
@@ -1423,7 +1424,7 @@ WriteLiteral(">Distrito judicial</label>\r\n                                    
 
 WriteLiteral(" id=\"room\"");
 
-WriteLiteral(" ng-model=\"m.room\"");
+WriteLiteral(" ng-model=\"m.district\"");
 
 WriteLiteral(" name=\"room\"");
 
@@ -3848,13 +3849,13 @@ WriteLiteral(" ng-click=\"validateArrangementSel($index,arrangment.id);\"");
 
 WriteLiteral(">\r\n                                                            <input");
 
-WriteLiteral(" class=\"ace\"");
+WriteLiteral(" class=\"ace arrangBoxSelector\"");
 
 WriteLiteral(" id=\"arrangement{{arrangment.id}}\"");
 
 WriteLiteral("\r\n                                                                   ng-disabled=" +
-"\" (m.disableAll==true) || (arrangment.isDefault==true && arrangment.selVal==true" +
-") \"");
+"\" m.disableAll==true || (arrangment.isDefault==true && arrangment.selVal==true) " +
+"\"");
 
 WriteLiteral("\r\n                                                                   type=\"checkb" +
 "ox\"");
@@ -3877,7 +3878,7 @@ WriteLiteral(" class=\"col-xs-offset-1\"");
 
 WriteLiteral(">\r\n                                                <textarea");
 
-WriteLiteral(" class=\"form-control limited\"");
+WriteLiteral(" class=\"form-control limited arrangTextDescriptor\"");
 
 WriteLiteral(" ng-disabled=\"m.disableAll==true\"");
 
@@ -4305,7 +4306,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("onclick", "  onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "regresar(", true)
 
-#line 2536 "HearingFormatEdit.cshtml"
+#line 2538 "HearingFormatEdit.cshtml"
                                              , Tuple.Create<string,object,bool> ("", Model.IdCase
 
 #line default

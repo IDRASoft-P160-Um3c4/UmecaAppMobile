@@ -9,6 +9,13 @@ namespace UmecaApp
 	{
 		public Schedule ()
 		{
+			this.FramingActivityId = null;
+			this.FramingAddressId = null;
+			this.ImputedHomeId = null;
+			this.ImputedHomeId = null;
+			this.JobId = null;
+			this.SchoolId = null;
+			this.webId = null;
 		}
 
 		[PrimaryKey, AutoIncrement, Column("id_schedule")]

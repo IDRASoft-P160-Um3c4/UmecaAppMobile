@@ -207,9 +207,8 @@ WriteLiteral(@" />
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
-	var dlgMsgBox = $('#blokedPleaseWaitBoxDlgId');
-	dlgMsgBox.show();
-	setTimeout(signarse(), 1000);
+	$("".initloaderImage"").show();
+	signarse();
 };
 
 blokedPleaseWait.hide = function (){
@@ -219,7 +218,7 @@ blokedPleaseWait.hide = function (){
 </script>
 <div");
 
-WriteLiteral(" class=\"modal-dialog\"");
+WriteLiteral(" class=\"modal-dialog initloaderImage\"");
 
 WriteLiteral(" style=\"display:none; width:100%; position: relative;top: 0%;left: 0%;margin: 0 0" +
 " 0 0;\"");
@@ -265,6 +264,7 @@ WriteLiteral(@"/>
     $(""#divMsgError"").hide();
 
     var signarse = function (){
+    $("".initloaderImage"").show();
     	$(""#divMsgError"").hide();
     	if($(""#lgnForm"").valid() == false){
     		blokedPleaseWait.hide();

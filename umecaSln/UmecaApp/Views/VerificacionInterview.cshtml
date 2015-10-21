@@ -993,8 +993,7 @@ ImputedBirthPlaceVerify.save = function (){
         	if($('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
         	$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("La localidad/colonia es un campo requerido").show();
         	return false;
-        	}
-        }else{
+.        }else{
         var errors=false;
 	        if($('#txtVerifyBirthState',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthState',"#divImputedBirthPlaceVerify").val()==""){
 	    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("El estado es un campo requerido").show();
@@ -1004,7 +1003,7 @@ ImputedBirthPlaceVerify.save = function (){
 	    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html($("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html()+"<br />El municipio es un campo requerido").show();
 	    		errors=true;
 	    	}
-	    	if($('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
+	    	if($('#txtVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
 	    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html($("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html()+"<br />La Localidad/Colonia es un campo requerido").show();
 	    		errors=true;
 	    	}

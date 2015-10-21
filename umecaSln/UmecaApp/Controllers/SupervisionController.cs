@@ -81,7 +81,7 @@ namespace UmecaApp
 					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
 					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 					            + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status "
-//				+" WHERE me.id_status in (?,?,?,?,?,?,?) "
+//				+" WHERE me.id_status in (?,?,?,?,?,?,?) "3
 					            + " Where cs.id_status in (?,?,?,?,?,?,?) "
 					            + " and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
 					            statusCaseSupervition3.Id, statusCaseSupervition4.Id,
@@ -240,6 +240,15 @@ namespace UmecaApp
 				db.CreateTable< HearingFormatSpecs> ();
 				db.CreateTable<HearingFormatImputed> ();
 				db.CreateTable<HearingType> ();
+
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null) {
+					revId = reviewer.Id;
+				}
+
 				var caso = db.Table<Case> ().Where (cs => cs.Id == idCase).FirstOrDefault ();
 				var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
 				var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
@@ -252,7 +261,16 @@ namespace UmecaApp
 					foreach (HearingFormat au in formatosAudiencia) {
 						var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp => hfimp.Id == au.hearingImputed).FirstOrDefault ();
 						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault ();
-						var parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, specs.ArrangementType, specs.Extension, specs.LinkageProcess, au.RegisterTime.GetValueOrDefault (), "TODO: supervisor", idCase);
+						var parsing = new HearingFormatGrid ();
+						var registertime = DateTime.Now;
+						if(au.RegisterTime != null){
+							registertime = au.RegisterTime??DateTime.Now;
+						}
+						if (specs == null) {
+							parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, null, null, null, registertime, reviewer.fullname, idCase);
+						} else {
+							parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, specs.ArrangementType, specs.Extension, specs.LinkageProcess, registertime, reviewer.fullname, idCase);
+						}
 						result.rows.Add (parsing);
 					}
 				}
@@ -278,6 +296,15 @@ namespace UmecaApp
 				db.CreateTable< HearingFormatSpecs> ();
 				db.CreateTable<HearingFormatImputed> ();
 				db.CreateTable<HearingType> ();
+
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null) {
+					revId = reviewer.Id;
+				}
+
 				var caso = db.Table<Case> ().Where (cs => cs.Id == idCase).FirstOrDefault ();
 				var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
 				var imputado = db.Table<Imputed> ().Where (im => im.MeetingId == meeting.Id).FirstOrDefault ();
@@ -290,10 +317,20 @@ namespace UmecaApp
 					foreach (HearingFormat au in formatosAudiencia) {
 						var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp => hfimp.Id == au.hearingImputed).FirstOrDefault ();
 						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault ();
-						var parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, specs.ArrangementType, specs.Extension, specs.LinkageProcess, au.RegisterTime.GetValueOrDefault (), "TODO: supervisor", idCase);
+						var parsing = new HearingFormatGrid ();
+						var registertime = DateTime.Now;
+						if(au.RegisterTime != null){
+							registertime = au.RegisterTime??DateTime.Now;
+						}
+						if (specs == null) {
+							parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, null, null, null, registertime, reviewer.fullname, idCase);
+						} else {
+							parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, specs.ArrangementType, specs.Extension, specs.LinkageProcess, registertime, reviewer.fullname, idCase);
+						}
 						result.rows.Add (parsing);
 					}
 				}
+
 				result.message = mesage;
 				var temp = new HearingFormatList{ Model = result };
 				var pagestring = "nada que ver";  
@@ -431,12 +468,16 @@ namespace UmecaApp
 					hearingFormatData.imputedFLastName = imputado.LastNameP;
 					hearingFormatData.imputedSLastName = imputado.LastNameM;
 					hearingFormatData.imputedBirthDate = imputado.BirthDate;
-					var usuario = db.Table<User> ().ToList ();
-					if (usuario.Count > 0) {
-						hearingFormatData.userName = usuario.FirstOrDefault ().fullname ?? "";
-					} else {
-						hearingFormatData.userName = "";
+
+					db.CreateTable<User> ();
+					var usrList = db.Table<User> ().ToList ();
+					User reviewer = usrList.FirstOrDefault ();
+					int revId = 0;
+					if (reviewer != null && reviewer.Id > 0) {
+						revId = reviewer.Id;
 					}
+					hearingFormatData.userName = reviewer.fullname;
+
 
 				}
 				hearingFormatData.canSave = true;
@@ -451,6 +492,15 @@ namespace UmecaApp
 		public HearingFormatView fillHearingFormaData(int idFormato){
 			var result = new HearingFormatView ();
 			using (var db = FactoryConn.GetConn ()) {
+
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null && reviewer.Id > 0) {
+					revId = reviewer.Id;
+				}
+
 				result.canSave = true;
 				result.canEdit = true;
 				result.disableAll = false;
@@ -481,9 +531,8 @@ namespace UmecaApp
 
 				result.umecaDate = formatosFuente.UmecaDate ?? DateTime.Now;
 				result.umecaTime = formatosFuente.UmecaTime ?? DateTime.Now;
-
-//			var usuario = db.Table<User> ().ToList ();
-//			result.userName =  usuario.First ().fullname; 
+ 
+				result.userName = reviewer.fullname;
 
 				if (formatosFuente.HearingType > 0) {
 					result.hearingTypeId = formatosFuente.HearingType;
@@ -507,7 +556,7 @@ namespace UmecaApp
 					result.imputationDate = specs.ImputationDate ?? DateTime.Now;
 					result.vincProcess = specs.LinkageProcess;
 					result.linkageRoom = specs.LinkageRoom;
-					result.imputationDate = specs.LinkageDate ?? DateTime.Now;
+					result.linkageDate = specs.LinkageDate ?? DateTime.Now;
 					result.linkageTime = specs.LinkageTime ?? DateTime.Now;
 				}
 
@@ -585,6 +634,7 @@ namespace UmecaApp
 					                && asar.Arrangement == arrV.id).FirstOrDefault ();
 					if (intermedia != null && intermedia.Description != "") {
 						arrV.description = intermedia.Description;
+						arrV.selVal = true;
 					} else {
 						arrV.description = "";
 					}
@@ -607,14 +657,23 @@ namespace UmecaApp
 					revId = reviewer.Id;
 				}
 
-				var result = db.Query<CaseHearingFormatTblDto> (
-					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-					            + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', scs.description as 'Description' , me.id_reviewer as 'ReviewerId' "
-					            + " FROM meeting as me "
-					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-					            + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status " +
-					            " where me.id_reviewer = ? ", revId);	
+				var result2 = db.Query<CaseHearingFormatTblDto> (
+					             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					             + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', \tscs.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+					             + " FROM meeting as me "
+					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status " +
+					             " where me.id_reviewer = ? ", revId);
+
+				var result = new List<CaseHearingFormatTblDto> ();
+				foreach(CaseHearingFormatTblDto metingformat in result2){
+					var formatosAudiencia = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == metingformat.CaseId).ToList ();
+					if(formatosAudiencia != null && formatosAudiencia.Count > 0 ){
+						result.Add (metingformat);
+					}
+				}
+
 			
 				var temp = new CaseLogList{ Model = result };
 				var pagestring = "nada que ver";

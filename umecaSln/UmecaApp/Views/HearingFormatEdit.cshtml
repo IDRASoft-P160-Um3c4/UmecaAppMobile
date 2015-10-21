@@ -225,6 +225,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 $("#divContact :input").attr("disabled", true);
                 $("#divCitaUmeca :input").attr("disabled", true);
                 $("#divPreviousHearing :input").attr("disabled", true);
+                $(".arrangBoxSelector").attr("disabled", true);
+                $(".arrangTextDescriptor").attr("disabled", true);
 
                 $("#crimeAdder").remove();
                 $(".notAviable").remove();
@@ -760,8 +762,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.fillFormat($scope.m);
             $scope.fillSelSupervisor();
             $scope.fillSelHearingType();
-            $scope.disableView($scope.m.disableAll);
             $scope.lockArrangements();
+            $scope.disableView($scope.m.disableAll);
             $scope.init2();
 
             $scope.locationInit();
@@ -1357,8 +1359,8 @@ askCloseCredentials.hide = function (){
                                                     <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                                            type="text" class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
-                                                           data-val-length-max="25"
-                                                           data-val-length="Debe tener m&aacute;ximo 25 caracteres"
+                                                           data-val-length-max="30"
+                                                           data-val-length="Debe tener m&aacute;ximo 30 caracteres"
                                                            data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
                                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
@@ -1383,7 +1385,7 @@ askCloseCredentials.hide = function (){
                                                 <div class="col-xs-4">
                                                     <label for="room">Distrito judicial</label>
                                                     <br/>
-                                                    <input id="room" ng-model="m.room" name="room" type="text"
+                                                    <input id="room" ng-model="m.district" name="room" type="text"
                                                            class="input-xxlarge" data-val="true"
                                                            data-val-required="Distrito judicial es un campo requerido"/>
                                                     <br/>
@@ -2327,8 +2329,8 @@ askCloseCredentials.hide = function (){
                                                 <div class="row" ng-repeat="arrangment in m.lstArrangementShow">
                                                     <div class="checkbox">
                                                         <label ng-click="validateArrangementSel($index,arrangment.id);">
-                                                            <input class="ace" id="arrangement{{arrangment.id}}"
-                                                                   ng-disabled=" (m.disableAll==true) || (arrangment.isDefault==true && arrangment.selVal==true) "
+                                                            <input class="ace arrangBoxSelector" id="arrangement{{arrangment.id}}"
+                                                                   ng-disabled=" m.disableAll==true || (arrangment.isDefault==true && arrangment.selVal==true) "
                                                                    type="checkbox"
                                                                    ng-model="m.lstArrangementShow[$index].selVal">
                                                             <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}}</span>
@@ -2337,7 +2339,7 @@ askCloseCredentials.hide = function (){
                                                     <br/>
 
                                                     <div class="col-xs-offset-1">
-                                                <textarea class="form-control limited" ng-disabled="m.disableAll==true"
+                                                <textarea class="form-control limited arrangTextDescriptor" ng-disabled="m.disableAll==true"
                                                           ng-blur="validateArrangementSel()"
                                                           maxlength="980"
                                                           ng-model="m.lstArrangementShow[$index].description"

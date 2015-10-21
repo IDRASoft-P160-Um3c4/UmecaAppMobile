@@ -182,11 +182,55 @@ WriteLiteral(">\r\n                    <p");
 
 WriteLiteral(" id=\"Resp1Value\"");
 
+WriteLiteral("></p>\r\n                </div> \r\n            </div>\r\n        </div>\r\n\r\n        <di" +
+"v");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:$(this).hide();\"");
+
+WriteLiteral(" id=\"mesageResp2\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"umeca-toast-error element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"Resp2Value\"");
+
+WriteLiteral("></p>\r\n                </div> \r\n            </div>\r\n       </div>\r\n       <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" onclick=\"javascript:window.location.replace(\'hybrid:Supervision/Index\');\"");
+
+WriteLiteral(" id=\"mesageSuccessDownload\"");
+
+WriteLiteral(" style=\"display:none\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-xs-12\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"umeca-toast-success element-center\"");
+
+WriteLiteral(">\r\n                    <p");
+
+WriteLiteral(" id=\"RespSuccessDownload\"");
+
 WriteLiteral(@"></p>
                 </div> 
             </div>
         </div>
-
 
 <script>
 var blokedPleaseWait  = {};
@@ -453,7 +497,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 199 "HeadSupervition.cshtml"
+#line 213 "HeadSupervition.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Login")
 
 #line default
@@ -484,7 +528,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 204 "HeadSupervition.cshtml"
+#line 218 "HeadSupervition.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Index","Supervision")
 
 #line default
@@ -502,7 +546,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 206 "HeadSupervition.cshtml"
+#line 220 "HeadSupervition.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("Visita","Supervision")
 
 #line default
@@ -529,7 +573,7 @@ WriteLiteral("><a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 211 "HeadSupervition.cshtml"
+#line 225 "HeadSupervition.cshtml"
       , Tuple.Create<string,object,bool> ("", Url.Action("IndexSuperv","Sync")
 
 #line default
@@ -545,7 +589,7 @@ WriteLiteral(" ><i\r\n                    class=\"icon-exchange\"></i>&nbsp;&nbs
 WriteLiteral("\t\t");
 
 
-#line 236 "HeadSupervition.cshtml"
+#line 250 "HeadSupervition.cshtml"
    Write(RenderBody());
 
 
