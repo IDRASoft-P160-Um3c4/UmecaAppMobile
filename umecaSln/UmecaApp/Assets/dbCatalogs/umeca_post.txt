@@ -1,0 +1,5 @@
+id|name|obsolete|specification
+1|puestoA|0|0
+2|puestoB|0|0
+3|puestoC|0|0
+4|puestoD|0|1

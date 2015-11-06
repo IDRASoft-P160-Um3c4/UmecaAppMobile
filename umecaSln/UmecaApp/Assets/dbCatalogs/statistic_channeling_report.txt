@@ -1,0 +1,10 @@
+id|name|description|obsolete
+1|STCHR_1|Estadística de canalizados a la totalidad de los servicios|1
+2|STCHR_2|Estadística de canalizados a la totalidad de los servicios por tipo de institución|1
+3|STCHR_3|Estadística de canalizados por c/u de los servicios|1
+4|STCHR_4|Estadistica de primer cita|1
+5|STCHR_5|Estadistica de altas|1
+6|STCHR_6|Estadistica de inasistencias|1
+7|STCHR_7|Estadistica de bajas de servicio|1
+8|STCHR_8|Tipo de servicio de canalización|0
+9|STCHR_9|Tipo de institución|0

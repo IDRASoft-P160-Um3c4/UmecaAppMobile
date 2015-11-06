@@ -1,2 +1,14 @@
 id|username|password|email|fullname|enabled|code role
-1|administrador|$2a$10$q58ILIuvtXBsVt713zXAmumZJCILiOKdF7RU8q3XVEI981OSd3YNO|mail@umeca.gob.mx|Administrador sistema|true|ROLE_ADMIN
+1|administrador|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|admin@idrasoft.com.mx|Administrador sistema|true|ROLE_ADMIN
+2|reviewer|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|reviewer@idrasoft.com.mx|Evaluador|true|ROLE_REVIEWER
+3|managereval|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managereval@idrasoft.com.mx|Coordinador evaluador|true|ROLE_EVALUATION_MANAGER
+4|supervisor|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|Supervisor|true|ROLE_SUPERVISOR
+5|managersup|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managersup@idrasoft.com.mx|Coordinador supervisor|true|ROLE_SUPERVISOR_MANAGER
+6|director|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managersup@idrasoft.com.mx|Director|true|ROLE_DIRECTOR
+7|supervisorA|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperA|true|ROLE_SUPERVISOR
+8|supervisorB|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperB|true|ROLE_SUPERVISOR
+9|supervisorC|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperC|true|ROLE_SUPERVISOR
+10|supervisorD|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperD|true|ROLE_SUPERVISOR
+11|recursos|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|RecursosH|true|ROLE_HUMAN_RESOURCES
+12|canalizaciones|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|canalizaciones@idrasoft.com.mx|Mr. Canalización|true|ROLE_CHANNELING_MANAGER
+13|procuraduria|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|procuraduria@idrasoft.com.mx|Registro Procuraduría|true|ROLE_DETENTION_RECORD

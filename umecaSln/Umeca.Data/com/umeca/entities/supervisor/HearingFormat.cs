@@ -100,6 +100,19 @@ namespace Umeca.Data
 		[Column("show_notification")]
 		public Boolean ShowNotification{ get; set; }
 
+		[Column("is_homeless")]
+		public Boolean IsHomeless{ get; set; }
+
+		[Column("id_district")]
+		public int? District{ get; set; }
+
+		[Column("time_ago")]
+		public String TimeAgo{ get; set; }
+
+		[Column("location_place")]
+		public String LocationPlace{ get; set; }
+
+
 		//		@OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 		//		private List<AssignedArrangement> assignedArrangements;
 		//		@OneToMany(mappedBy = "hearingFormat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

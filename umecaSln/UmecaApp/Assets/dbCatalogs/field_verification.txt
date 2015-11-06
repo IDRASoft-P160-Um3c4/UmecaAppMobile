@@ -1,4 +1,4 @@
-id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
+﻿id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 1|imputed.name|Datos personales y entorno social|1|Nombre|1|0|1|String
 2|imputed.lastNameP|Datos personales y entorno social|1|Apellido Paterno|2|0|2|String
 3|imputed.lastNameM|Datos personales y entorno social|1|Apellido Materno|3|0|3|String
@@ -14,9 +14,9 @@ id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 13|imputed.birthState|Datos personales y entorno social|1|Estado de nacimiento|13|0|9|String
 14|imputed.birthMunicipality|Datos personales y entorno social|1|Municipio de nacimiento|14|0|9|String
 15|imputed.birthLocation|Datos personales y entorno social|1|Ciudad de nacimiento|15|0|9|String
-16|imputed.location.id|Datos personales y entorno social|1||16|0|9|Location
+16|imputed.location.id|Datos personales y entorno social|1|Localidad de nacimiento|16|0|9|Location
 17|socialEnvironment.physicalCondition|Datos personales y entorno social|1|Enfermedades o condiciones físicas|17|0|10|String
-18|socialEnvironment.comment|Datos personales y entorno social|8|Comentarios|18|0|11|String
+18|socialEnvironment.comment|Datos personales y entorno social|1|Comentarios|18|0|11|String
 19|socialEnvironment.activities|Datos personales y entorno social|1|Actividades que realiza el imputado|19|0|46|Activity
 20|imputedHomes.address|Domicilios|2|Dirección|1|0|12|Address
 21|imputedHomes.homeType.id|Domicilios|2|Propiedad|2|0|13|HomeType
@@ -71,7 +71,7 @@ id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 70|school.degree.id|Historia escolar|6|Nivel escolar|5|0|36|Degree
 71|school.specification|Historia escolar|6|Especificación|6|0|36|String
 72|school.schedule|Historia escolar|6|Disponibilidad|7|0|37|Schedule
-73|drugs.block|Sustancias|7|Consume sustancias acutalmente|1|0|56|Boolean
+73|drugs.block|Sustancias|7|Consume sustancias actualmente|1|0|56|Boolean
 74|drugs.drugType.id|Sustancias|7|Tipo de sustancia|2|0|38|DrugType
 75|drugs.specificationType|Sustancias|7|Especificación de la sustancia|3|0|38|String
 76|drugs.periodicity.id|Sustancias|7|Periodicidad|4|0|39|Periodicity
@@ -94,3 +94,4 @@ id|code|sectionName|sectionCode|fieldName|index|is_obsolete|idSubsection|type
 93|leaveCountry.relationship.id|Facilidad de abandonar el país|8|Relación|13|0|44|Relationship
 94|leaveCountry.specificationRelationship|Facilidad de abandonar el país|8|Especificación de relación|14|0|44|String
 95|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|15|0|44|String
+96|imputed.birthInfo.id|Datos personales y entorno social|1|Información de nacimiento|20|0|9|InformationAvailability

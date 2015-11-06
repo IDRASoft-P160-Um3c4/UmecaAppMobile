@@ -66,6 +66,12 @@ namespace UmecaApp
 
 		[Column("date_terminate")]
 		public DateTime? DateTerminate{ get; set; }
+
+		[Column("decline_reason"),MaxLength(500)]
+		public String DeclineReason{ get; set; }
+
+		[Column("id_district")]
+		public int District{ get; set; }
 	}
 }
 

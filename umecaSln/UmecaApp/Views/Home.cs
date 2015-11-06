@@ -207,7 +207,7 @@ WriteLiteral(@" />
 <script>
 var blokedPleaseWait  = {};
 blokedPleaseWait.show = function (caso){
-	$("".initloaderImage"").show();
+	$(""#blokedPleaseWaitBoxDlgId"").show();
 	signarse();
 };
 

@@ -1,0 +1,4 @@
+﻿id|name|description|obsolete
+1|Psicoterapia|Psicoterapia|0
+2|Internamiento|Internamiento|0
+3|Psiquiatría|Psiquiatría|0

@@ -1,0 +1,3 @@
+id|name|description|isObsolete
+1|Baja por inasistencia|Baja por inasistencia|0
+2|Baja voluntaria|Baja voluntaria|0

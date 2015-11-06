@@ -870,10 +870,51 @@ WriteLiteral("></i></a>\r\n");
 
 #line default
 #line hidden
-WriteLiteral("        </td>\r\n    </tr>\r\n");
+WriteLiteral("        ");
+
+
+#line 321 "SyncCaseList.cshtml"
+         if(Meeting.Action=="negacion") {
+
+
+#line default
+#line hidden
+WriteLiteral("         \t<a");
+
+WriteAttribute ("href", " href=\"", "\""
+, Tuple.Create<string,object,bool> ("", "javascript:askSyncMeeting.show(", true)
+
+#line 322 "SyncCaseList.cshtml"
+             , Tuple.Create<string,object,bool> ("", Meeting.CaseId
+
+#line default
+#line hidden
+, false)
+, Tuple.Create<string,object,bool> ("", ");", true)
+);
+WriteLiteral(" style=\"display:inline-block;\"");
+
+WriteLiteral(" title=\"Sincronizar Caso\"");
+
+WriteLiteral(" onclick=\"\"");
+
+WriteLiteral("><i");
+
+WriteLiteral(" class=\"icon-exchange\"");
+
+WriteLiteral("></i></a>\r\n");
 
 
 #line 323 "SyncCaseList.cshtml"
+        }
+
+
+#line default
+#line hidden
+WriteLiteral("        </td>\r\n    </tr>\r\n");
+
+
+#line 326 "SyncCaseList.cshtml"
 }
 
 

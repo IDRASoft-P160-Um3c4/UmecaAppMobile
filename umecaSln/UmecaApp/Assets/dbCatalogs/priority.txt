@@ -1,0 +1,7 @@
+﻿id|name|color|description|obsolete
+1|Muy Baja|#858585|Prioridad muy baja|0
+2|Baja|#00AD28|Prioridad baja|0
+3|Media|#009DFF|Prioridad media|0
+4|Alta|#FFD000|Prioridad alta|0
+5|Muy alta|#FF6600|Prioridad muy alta|0
+6|Crítica|#FF0000|Prioridad crítica|0

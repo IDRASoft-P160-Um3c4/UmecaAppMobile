@@ -337,6 +337,11 @@ namespace UmecaApp
 										Formato.ConfirmComment = hfDto.confirmComment;
 										Formato.DefenderName = hfDto.defenderName;
 
+										Formato.District = hfDto.district;
+										Formato.IsHomeless = hfDto.isHomeless;
+										Formato.LocationPlace = hfDto.locationPlace;
+										Formato.TimeAgo = hfDto.timeAgo;
+
 										if (!string.IsNullOrEmpty (hfDto.endTime)) {
 											Formato.EndTime = DateTime.ParseExact (hfDto.endTime, "HH:mm:ss",
 												System.Globalization.CultureInfo.InvariantCulture);
@@ -396,6 +401,7 @@ namespace UmecaApp
 												cnt.NameTxt = contc.nameTxt;
 												cnt.PhoneTxt = contc.phoneTxt;
 												cnt.HearingFormat = Formato.Id;
+												cnt.liveWith = contc.liveWith;
 												db.Insert (cnt);
 											}
 										}
@@ -509,6 +515,7 @@ namespace UmecaApp
 											ih.TimeLive = thome.timeLive;
 											ih.webId = thome.webId;
 											ih.MeetingId = me.Id;
+											ih.IsHomeless = thome.isHomeless;
 											db.Insert (ih);
 											if (thome.schedule != null && thome.schedule.Count > 0) {
 												foreach (TabletScheduleDto sh in thome.schedule) {
@@ -888,6 +895,12 @@ namespace UmecaApp
 							caseSync.idMP = cs.IdMP;
 							caseSync.recidivist = cs.Recidivist;
 							caseSync.webId = cs.webId;
+							caseSync.hasNegation = cs.HasNegation;
+							caseSync.isSubstracted = cs.IsSubstracted;
+							 
+							if (cs.DateSubstracted != null) {
+								caseSync.dateSubstracted = String.Format ("{0:yyyy/MM/dd}", cs.DateSubstracted);
+							}
 
 							var stCase = db.Table<StatusCase> ().Where (stcase => stcase.Id == cs.StatusCaseId).FirstOrDefault ();
 							if (stCase != null) {
@@ -1040,6 +1053,8 @@ namespace UmecaApp
 								}
 								dtoMeeting.id = me.Id;
 								dtoMeeting.meetingType = me.MeetingType;
+								dtoMeeting.District = me.District;
+								dtoMeeting.declineReason = me.DeclineReason;
 								dtoMeeting.webId = me.WebId;
 
 								if (me.StatusMeetingId != null && me.StatusMeetingId != 0) {
@@ -1080,6 +1095,8 @@ namespace UmecaApp
 									dtoImp.id = input.Id;
 									dtoImp.lastNameM = input.LastNameM;
 									dtoImp.lastNameP = input.LastNameP;
+									dtoImp.birthInfoId = input.BirthInfo;
+
 
 									if (input.LocationId != null && input.LocationId != 0) {
 										var iloc = db.Table<Location> ().Where (tl => tl.Id == input.LocationId).FirstOrDefault ();
@@ -1134,7 +1151,7 @@ namespace UmecaApp
 											dtoImp.maritalStatus = nmar;
 										}
 									}
-
+									dtoImp.birthInfoId = input.BirthInfo;
 									dtoImp.name = input.Name;
 									dtoImp.nickname = input.Nickname;
 									dtoImp.webId = input.WebId;
@@ -1254,6 +1271,8 @@ namespace UmecaApp
 										nhome.specification = imh.Specification;
 										nhome.timeLive = imh.TimeLive;
 										nhome.webId = imh.webId;
+
+										nhome.isHomeless = imh.IsHomeless;
 
 										meHomes.Add (nhome);
 									}//end foreach
@@ -1684,6 +1703,10 @@ namespace UmecaApp
 									}
 									thf.room = hf.Room;
 
+									thf.district = hf.District;
+									thf.isHomeless = hf.IsHomeless;
+									thf.locationPlace = hf.LocationPlace;
+									thf.timeAgo = hf.TimeAgo;
 
 									var reviuer = new TabletUserDto ();
 									var rlcode = db.Table<Role> ().Where (rlc => rlc.Id == revisor.roles).FirstOrDefault ();
@@ -1713,10 +1736,18 @@ namespace UmecaApp
 										var nSpecs = new TabletHearingFormatSpecsDto ();
 										nSpecs.arrangementType = spcs.ArrangementType;
 										nSpecs.controlDetention = spcs.ControlDetention;
-										nSpecs.extDate = String.Format ("{0:yyyy/MM/dd HH:mm:ss}", spcs.ExtDate);
+										if (spcs.ExtDate != null) {
+											nSpecs.extDate = String.Format ("{0:yyyy/MM/dd HH:mm:ss}", spcs.ExtDate);
+										} else {
+											nSpecs.extDate = null;
+										}
 										nSpecs.extension = spcs.Extension;
 										nSpecs.id = spcs.Id;
-										nSpecs.imputationDate = String.Format ("{0:yyyy/MM/dd HH:mm:ss}", spcs.ImputationDate);
+										if (spcs.ImputationDate != null) {
+											nSpecs.imputationDate = String.Format ("{0:yyyy/MM/dd HH:mm:ss}", spcs.ImputationDate);
+										} else {
+											nSpecs.imputationDate = null;
+										}
 										nSpecs.imputationFormulation = spcs.ImputationFormulation;
 										if (spcs.LinkageDate != null) {
 											nSpecs.linkageDate = String.Format ("{0:yyyy/MM/dd}", spcs.LinkageDate);
@@ -1837,6 +1868,7 @@ namespace UmecaApp
 											ncontct.id = ctc.Id;
 											ncontct.nameTxt = ctc.NameTxt;
 											ncontct.phoneTxt = ctc.PhoneTxt;
+											ncontct.liveWith = ctc.liveWith;
 											contactosFormato.Add (ncontct);
 										}
 										thf.contacts = contactosFormato;
@@ -1896,7 +1928,7 @@ namespace UmecaApp
 									caseLog.userName = lc.userName;
 									actEspontaneas.Add (caseLog);
 								}
-								caseSync.logCase = actEspontaneas;
+								caseSync.logsCase = actEspontaneas;
 							}
 
 							var strngEncode = JsonConvert.SerializeObject (caseSync);
@@ -1966,7 +1998,7 @@ namespace UmecaApp
 
 					var verify = db.Table<Verification> ().Where (verf => verf.CaseDetentionId == cs.Id && verf.ReviewerId == revisor).FirstOrDefault ();
 					if (verify != null) {
-						var fuentes = db.Table<SourceVerification> ().Where (svr => svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id && svr.DateComplete != null && svr.Visible == true).ToList ();
+						var fuentes = db.Table<SourceVerification> ().Where (svr => svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id).ToList ();
 						if (fuentes != null && fuentes.Count > 0) {
 							foreach (SourceVerification svt in fuentes) {
 								var efemeses = db.Table<FieldMeetingSource> ().Where (efem => efem.SourceVerificationId == svt.Id).ToList ();
@@ -1976,8 +2008,9 @@ namespace UmecaApp
 										db.Delete (ef);
 									}
 								}//end de lista de fms no vacia
+							db.Delete (svt);
 							}//end de foreach sourceverification
-							db.Delete (fuentes);
+//							db.Delete (fuentes);
 						}//end validacion de lista de fuentes no vacia 
 						db.Delete (verify);
 					}// end of verification
@@ -2001,15 +2034,20 @@ namespace UmecaApp
 								}
 								var horario = db.Table<Schedule> ().Where (hr => hr.ImputedHomeId == imh.Id).ToList ();
 								if (horario != null && horario.Count > 0) {
-									db.Delete (horario);
+									foreach (Schedule horari in horario) {
+										db.Delete (horari);
+									}
 								}
+							db.Delete (imh);
 							}//end foreach
-							db.Delete (casas);
+//							db.Delete (casas);
 						}//end casas
 
 						var drogas = db.Table<Drug> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
 						if (drogas != null && drogas.Count > 0) {
-							db.Delete (drogas);
+							foreach(Drug droga in drogas){
+								db.Delete (droga);
+							}
 						}//end drugs
 
 
@@ -2018,10 +2056,13 @@ namespace UmecaApp
 							foreach (Job j in trabajos) {
 								var horario = db.Table<Schedule> ().Where (hr => hr.JobId == j.Id).ToList ();
 								if (horario != null && horario.Count > 0) {
-									db.Delete (horario);	
+									foreach (Schedule horari in horario) {
+										db.Delete (horari);
+									}	
 								}
+							db.Delete (j);
 							}//end foreach
-							db.Delete (trabajos);
+//							db.Delete (trabajos);
 						}//end Jobs
 
 						var dejarElPais = db.Table<LeaveCountry> ().Where (lc => lc.MeetingId == me.Id).FirstOrDefault ();
@@ -2031,14 +2072,18 @@ namespace UmecaApp
 
 						var referencias = db.Table<Reference> ().Where (rfs => rfs.MeetingId == me.Id).ToList ();
 						if (referencias != null && referencias.Count > 0) {
-							db.Delete (referencias);
+							foreach(Reference referencia in referencias){
+								db.Delete (referencias);
+							}
 						}//end Jobs
 
 						var escuela = db.Table<School> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
 						if (escuela != null) {
 							var horario = db.Table<Schedule> ().Where (hr => hr.SchoolId == escuela.Id).ToList ();
 							if (horario != null && horario.Count > 0) {
-								db.Delete (horario);
+								foreach (Schedule horari in horario) {
+									db.Delete (horari);
+								}
 							}
 							db.Delete (escuela);
 						}// end of school
@@ -2047,7 +2092,9 @@ namespace UmecaApp
 						if (environment != null) {
 							var relactivities = db.Table<RelActivity> ().Where (ractiv => ractiv.SocialEnvironmentId == environment.Id).ToList ();
 							if (relactivities != null && relactivities.Count > 0) {
-								db.Delete (relactivities);
+								foreach(RelActivity relactivitie in relactivities){
+									db.Delete (relactivitie);
+								}
 							}//end de rel activities
 							db.Delete (environment);
 						}// end of environment
@@ -2056,7 +2103,9 @@ namespace UmecaApp
 						if (social != null) {
 							var personsNetwork = db.Table<PersonSocialNetwork> ().Where (psn => psn.SocialNetworkId == social.Id).ToList ();
 							if (personsNetwork != null && personsNetwork.Count > 0) {
-								db.Delete (personsNetwork);
+								foreach (PersonSocialNetwork personsNetwor in personsNetwork) {
+									db.Delete (personsNetwor);
+								}
 							}//end de rel activities
 							db.Delete (social);
 						}// end of social
@@ -2065,7 +2114,7 @@ namespace UmecaApp
 
 
 
-					var formats = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == cs.Id && hf.IsFinished == true).ToList ();
+					var formats = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == cs.Id).ToList ();
 					if (formats != null && formats.Count > 0) {
 						var formatList = new List<TabletHearingFormatDto> ();
 						foreach (HearingFormat hf in formats) {
@@ -2086,28 +2135,37 @@ namespace UmecaApp
 							//asigned arrangments del case
 							var arrangmentsAsigned = db.Table<AssignedArrangement> ().Where (asar => asar.HearingFormat == hf.Id).ToList ();
 							if (arrangmentsAsigned != null && arrangmentsAsigned.Count > 0) {
-								db.Delete (arrangmentsAsigned);
+								foreach (AssignedArrangement arrangmentsAsigne in arrangmentsAsigned) {
+									db.Delete (arrangmentsAsigne);
+								}
 							}
 
 							//contactos
 							var contcts = db.Table<ContactData> ().Where (cntac => cntac.HearingFormat == hf.Id).ToList ();
 							if (contcts != null && contcts.Count > 0) {
-								db.Delete (contcts);
+								foreach(ContactData contct in contcts){
+									db.Delete (contct);
+								}
 							}
 
 							//crimes
 							var crms = db.Table<Crime> ().Where (cry => cry.HearingFormat == hf.Id).ToList ();
 							if (crms != null && crms.Count > 0) {
-								db.Delete (crms);
+								foreach (Crime crm in crms) {
+									db.Delete (crm);
+								}
 							}
+						db.Delete (hf);
 						}
-						db.Delete (formats);
+//						db.Delete (formats);
 					}//end of hearing formats not null
 
 					db.CreateTable<LogCase> ();
 					var espontaneas = db.Table<LogCase> ().Where (espo => espo.caseDetentionId == cs.Id).ToList ();
 					if (espontaneas != null && espontaneas.Count > 0) {
-						db.Delete (espontaneas);
+						foreach(LogCase espontanea in espontaneas){
+							db.Delete (espontanea);
+						}
 					}
 					db.Delete (cs);
 					db.Close ();
@@ -2117,9 +2175,6 @@ namespace UmecaApp
 				Console.WriteLine (e.Message);
 			}
 		}
-
-
-
 
 
 	}//class end

@@ -1,0 +1,17 @@
+id|code|name|is_obsolete|visible
+1|CAUSE_FORGIVENESS|Se otorgó el perdón|0|1
+2|CAUSE_AGREEMENT|Acuerdo reparatorio|0|1
+3|CAUSE_DESIST|Desistimieno del Ministerio Público|0|1
+4|CAUSE_OTHER|Otro|0|1
+5|CAUSE_NO_ENTAILMENT|No existe vinculación a proceso|0|0
+6|CAUSE_OBSOLETE_EVALUATION|Eliminado en evaluación|0|0
+7|CAUSE_OBSOLETE_SUPERVISION|Eliminado en supervisión|0|0
+8|CAUSE_PROMISE_PRISION|Prisión preventiva / promesa del imputado|0|0
+9|CAUSE_DISMISSAL|Sobreseimiento|0|0
+10|CAUSE_NOT_ENTAILMENT|No se vincula a proceso al imputado|0|0
+11|CAUSE_PROTECTION|Resolución de amparo|0|0
+12|CAUSE_DEATH|Fallecimiento del imputado|0|0
+13|CAUSE_SUMMARY_PROCEDURE|Procedimiento abreviado|0|0
+14|CAUSE_FINAL_JUDGMENT|Sentencia firme|0|0
+15|CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION|Conclusión del plazo de suspensión condicional|0|0
+16|CAUSE_PRISON_MULTIPLE_FOLDER|Supensión preventiva en una carpeta diversa|0|1

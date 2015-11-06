@@ -111,6 +111,8 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="connection\FactoryConn.cs" />
+    <Compile Include="com\umeca\entities\catalog\InformationAviability.cs" />
+    <Compile Include="com\umeca\entities\catalog\District.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

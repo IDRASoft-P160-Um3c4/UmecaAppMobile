@@ -11,3 +11,5 @@
 10|SCHEDULE_HEARING|GoalActivityIdReminder|2|Identificador del objetivo de la actividad para el recordatorio
 11|SCHEDULE_HEARING|DaysBeforeForReminder|2|Número de día(s) anterior(es) para añadir el recordatorio de la audiencia
 12|FINGER_VAL|ValidateFingerPrint|false|Validar el enrolamiento en la entrevista de encuadre
+13|ARCHIVE|EmployeePhotoPathToSave|imgs/photo_employee|Ruta para almacenar las fotos de los empleados
+14|ARCHIVE|TemporalImgPathToSave|imgs/photo_tmp|Ruta para almacenar imágenes temporales

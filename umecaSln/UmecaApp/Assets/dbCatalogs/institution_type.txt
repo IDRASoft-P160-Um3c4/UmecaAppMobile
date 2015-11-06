@@ -1,0 +1,5 @@
+﻿id|name|description|hasSpec|obsolete
+1|Asociación civil|Asociación civil|0|0
+2|Insititución privada|Insititución privada|0|0
+3|Insititución pública|Insititución pública|0|0
+4|Otro(a)|Otro(a)|1|0

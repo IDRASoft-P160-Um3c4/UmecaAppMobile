@@ -113,6 +113,30 @@ namespace UmecaApp
 			
 				result.AddRange (result2);
 
+				/////
+				StatusMeeting statusMeetingNeg = services.statusMeetingfindByCode (Constants.S_MEETING_DECLINE);
+				StatusCase sc2 = services.statusCasefindByCode (Constants.CASE_STATUS_NOT_PROSECUTE);
+				var result3 = db.Query<MeetingTblDto> (
+					"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					+ " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+					+ " FROM meeting as me "
+					+ " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					+ " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					+ " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+					+ " WHERE me.id_status =? "
+					+ " and me.id_reviewer = ? "
+					+ " AND cs.id_status = ?; ", statusMeetingNeg.Id, revId, sc2.Id);
+				var c3 = 0;
+				if (result != null) {
+					for (c3 = 0; c3 < result3.Count; c3++) {
+						result3 [c3].Action = "negacion";
+					}
+				}
+				result.AddRange (result3);
+				/////
+
+
+
 				var temp = new SyncCaseList{ Model = result };
 				var pagestring = "nada que ver";
 				pagestring = temp.GenerateString ();

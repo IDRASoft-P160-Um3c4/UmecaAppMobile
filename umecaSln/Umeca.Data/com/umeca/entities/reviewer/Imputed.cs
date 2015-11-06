@@ -38,7 +38,7 @@ namespace UmecaApp
 		public String CelPhone{ get; set; }
 
 		[Column("years_marital_status")]
-		public int? YearsMaritalStatus{ get; set; }
+		public String YearsMaritalStatus{ get; set; }
 
 		[Column("id_marital_status")]
 		public int? MaritalStatusId { get; set; }
@@ -51,6 +51,9 @@ namespace UmecaApp
 
 		[Column("dependent_boys"),MaxLength(25)]
 		public int? DependentBoys{ get; set; }
+
+		[Column("id_birth_info_availability")]
+		public int? BirthInfo{ get; set; }
 
 		[Column("id_country")]
 		public int? BirthCountry{ get; set; }

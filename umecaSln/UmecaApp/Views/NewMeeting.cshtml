@@ -3,12 +3,28 @@
 @{
 	Layout = "UmecaApp.headUm";
 }
+
       <script>
     		 
-    	app.controller('newMeettingController', function($scope, $http){
+    	app.controller('newMeettingController', function($scope, $http, $timeout){
 			$scope.m = {};
 			$scope.Wait = false;
 			$scope.isAccepted = {};
+
+			$scope.lstDistrict=[];
+			$scope.district={};
+
+			$timeout(function () {
+    			$scope.Iniciate();
+			}, 0);
+
+			$scope.Iniciate = function(){
+				$scope.lstDistrict = JSON.parse(MeetingService.findAllDistrict());
+				if($scope.m.District == undefined || $scope.m.District == null){
+					$scope.m.District = $scope.lstDistrict[0].Id;
+					$scope.district = $scope.lstDistrict[0];
+				}
+			};
 
 			$scope.save = function(){
 				$scope.Wait = true;
@@ -28,160 +44,254 @@
 				window.location.replace('hybrid:Meeting/Index');
 			};
 
+			//seccion de terminate con negacion
+
+			$scope.askNegationTerminateshow = function(){
+				var dlgMsgBox = $('#MessageBoxDlgId');
+				dlgMsgBox.show();
+			};
+
+			$scope.askNegationTerminatehide = function (){
+				var dlgMsgBox = $('#MessageBoxDlgId');
+				dlgMsgBox.hide();
+			};
+
+			$scope.askNegationTerminateYes = function (){
+				$("#declineValidnone","#declineValid").hide();
+				if($("#declineValid").valid()==false){
+					$("#declineValidnone","#declineValid").show();
+					return false;
+				}
+				var jsonData = JSON.stringify($scope.m);
+				window.location.replace('hybrid:Meeting/AddMeetingNegation?model=' + encodeURIComponent(jsonData));
+			};
+
+			$scope.submitNegation = function(){
+				$scope.Wait = true;
+				if($("#frmSubmitValuesMeeting").valid()==false){
+					$scope.Wait = false;
+					return false;
+				}
+				$scope.Wait = false;
+				var dlgMsgBox = $('#MessageBoxDlgId');
+				$("#declineValidnone","#declineValid").hide();
+				dlgMsgBox.show();
+			};
+
+
+
+
+
 		});
 
     </script>
-<form id="frmSubmitValuesMeeting" ng-app="umecaMobile" ng-controller="newMeettingController">
-@if(Model.ResponseMessage!=null){
-	<div class="row">
-	    <div class="col-xs-12">
-	        <div class="alert alert-danger element-center error-font">
-	            <span>@Model.ResponseMessage
-	            </span>
-	        </div>
-	    </div>
-	</div>
-}
-    <div class="row">
-        <div class="col-xs-12">
-            <label>Ingrese la información requerida para poder generar un nuevo número de expediente:</label>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-xs-5 element-left">
-            Nombre:
-        </div>
-        <div id="nombreA" class="col-xs-7">
-            <!--<input class="form-control ng-pristine n2g-valid" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres" data-val-required="El nombre es un campo requerido" data-val-length-max="50" data-val-length-min="3" id="name" name="name" type="text">-->
-            @Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"})
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-xs-5 element-left">
-            Apellido paterno:
-        </div>
-        <div class="col-xs-7">
-            <!--<input class="form-control ng-pristine ng-valid" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres" data-val-length-max="50" data-val-length-min="3" data-val-required="El apellido paterno es un campo requerido" id="lastNameP" name="lastNameP" type="text">-->
-            @Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"})
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastNameP" data-valmsg-replace="true"></span>
-        </div>
-    </div>
 
-    <br>
-    <div class="row">
-        <div class="col-xs-5 element-left">
-            Apellido materno:
-        </div> 
-        <div class="col-xs-7">
-            <!--<input class="form-control ng-pristine ng-valid" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres" data-val-length-max="50" data-val-length-min="3" data-val-required="El apellido materno es un campo requerido" id="lastNameM" name="lastNameM" type="text">-->
-            @Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"})
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="lastNameM" data-valmsg-replace="true"></span>
-        </div>
-    </div>
-    <br>
-                        <div class="row">
-                            <div class="col-xs-5 element-left">
-                                Fecha de nacimiento:
-                            </div>
-                            <div class="col-xs-7">
-                                <div class="input-group">
-                                    <!--<input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"
-                                            data-val="true" data-val-required="La fecha de nacimiento es un campo requerido" ng-init="birthDate=''"
-                                            id="birthDate" name="birthDate" ng-model="birthDate"/>
-                                            <span class="input-group-addon">
-                                                        <i class="icon-calendar bigger-110" ></i>
-                                            </span>-->
-                                    @Html.TextBox("DateBirth", @Model.DateBirth,
-                                     new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
-                                      @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
-                                       @class="form-control date-picker", @readonly="readonly"})
-                                            <span class="input-group-addon">
-                                                        <i class="icon-calendar bigger-110" ></i>
-                                            </span>
-                                </div>
-                            </div>
-                            <div class="col-xs-9 col-xs-offset-3">
-                                <span class="field-validation-valid" data-valmsg-for="DateBirth" data-valmsg-replace="true"></span>
-                            </div>
-                        </div>aaa
-    <br>
-    <div class="row">
-        <div class="col-xs-5 element-left">
-            Género:
-        </div>
-        <div class="col-xs-7">
-            <div class="row" ng-init="m.Gender=false">
-                <div class="col-xs-6">
-                    <div class="radio">
-                        <label>
-                            <!--<input class="ace" type="radio" ng-checked="gen==true" name="gender"
-                                                       data-val-required="El g?nero es un campo requerido" id="genero" value="true"
-                                                       ng-model="gen">-->
-                            @Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"})
-                            <span class="lbl">Femenino</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="radio">
-                        <label>
-                            <!--<input class="ace ng-pristine ng-valid" type="radio" value="false" ng-model="gen" ng-checked="gen==false" name="gender" checked="checked">-->
-                            @Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"})
-                            <span class="lbl">Masculino</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-xs-5 element-left">
-           Carpeta de investigación:
-        </div>
-        <div class="col-xs-7">
-                <!--<input class="form-control ng-pristine ng-valid" type="text" data-val-length="Debe tener al menos 1 y máximo 35 caracteres" data-val-length-max="35" data-val-length-min="1" data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''" id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder">-->
-                @Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"})
-        </div>
-        <div class="col-xs-9 col-xs-offset-3">
-            <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder" data-valmsg-replace="true"></span>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-xs-12 text-danger">
-                <i class="icon-warning-sign icon-animated-wrench bigger-120"></i>&nbsp;
-               La carpeta de investigación no podrá ser modificada durante la entrevista.
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-xs-12 element-center">
-            <input type="checkbox" id="isAccepted" ng-model="isAccepted" ng-init="isAccepted=false" class="ng-pristine ng-valid">
-            <label class="info-note" for="isAccepted">¿El imputado acepta que se realice la entrevista de riesgos procesales?</label>
-        </div>
-    </div>
 
-<br>
-                <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" ng-click="cancel()">
-                        Cancelar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="Wait==true || isAccepted == false"
-                          ng-click="save();">
-                          Continuar
-                    </span>
+
+<div id="divControllerApp" ng-app="umecaMobile" ng-controller="newMeettingController">
+
+		<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0 0 -30%;" id="MessageBoxDlgId" >
+	        <div class="modal-content" style="z-index: 1000;">
+	            <div class="modal-header">
+	                <div class="panel-heading element-center">
+	                    <button id="MessageBoxDlgXclose" type="button" class="close" ng-click="askNegationTerminatehide();">×</button>
+	                    <h4 class="panel-title">Negaci&oacute;n de entrevista</h4>
+	                </div>
+	            </div>
+	            <form id="declineValid">
+		            <div class="modal-body">
+		                <div class="element-center">¿Está seguro que desea terminar la entrevista de riesgos procesales?</div>
+		                <br />
+		                <p>Razón de negación</p>
+		                <textarea data-val="true" data-val-length="Debe tener al menos 3 y máximo 500 caracteres" data-val-required="Es necesario escribir la razón" 
+		                data-val-length-max="500" data-val-length-min="3" 
+		                ng-init="m.Reason=''" id="reason" name="meeting.declineReason" ng-model="m.Reason">
+		                </textarea>
+		            </div>
+	            <div class="col-xs-11 col-xs-offset-1">
+                    <span id="declineValidnone" class="field-validation-valid" style="displat:none" data-valmsg-for="meeting.declineReason" data-valmsg-replace="true">Es necesario escribir la razón, debe tener al menos 3 y máximo 500 caracteres.</span>
                 </div>
                 </form>
+	            <div class="modal-footer">
+	                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-danger" ng-click="askNegationTerminateYes();" >Si</button>
+	                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" ng-click="askNegationTerminatehide();" >No</button>
+	            </div>
+	        </div>
+	        <div class="blocker" style="z-index:999;">
+			    <div>
+			        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+			    </div>
+			</div>
+	    </div>
+
+
+	<form id="frmSubmitValuesMeeting">
+		@if(Model.ResponseMessage!=null){
+			<div class="row">
+			    <div class="col-xs-12">
+			        <div class="alert alert-danger element-center error-font">
+			            <span>@Model.ResponseMessage
+			            </span>
+			        </div>
+			    </div>
+			</div>
+		}
+	    <div class="row">
+	        <div class="col-xs-12">
+	            <label>Ingrese la información requerida para poder generar un nuevo número de expediente:</label>
+	        </div>
+	    </div>
+	    <br>
+	    <div class="row">
+	        <div class="col-xs-5 element-left">
+	            Nombre:
+	        </div>
+	        <div id="nombreA" class="col-xs-7">
+	            <!--<input class="form-control ng-pristine n2g-valid" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres" data-val-required="El nombre es un campo requerido" data-val-length-max="50" data-val-length-min="3" id="name" name="name" type="text">-->
+	            @Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"})
+	        </div>
+	        <div class="col-xs-9 col-xs-offset-3">
+	            <span class="field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
+	        </div>
+	    </div>
+	    <br>
+	    <div class="row">
+	        <div class="col-xs-5 element-left">
+	            Apellido paterno:
+	        </div>
+	        <div class="col-xs-7">
+	            <!--<input class="form-control ng-pristine ng-valid" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres" data-val-length-max="50" data-val-length-min="3" data-val-required="El apellido paterno es un campo requerido" id="lastNameP" name="lastNameP" type="text">-->
+	            @Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"})
+	        </div>
+	        <div class="col-xs-9 col-xs-offset-3">
+	            <span class="field-validation-valid" data-valmsg-for="lastNameP" data-valmsg-replace="true"></span>
+	        </div>
+	    </div>
+
+	    <br>
+	    <div class="row">
+	        <div class="col-xs-5 element-left">
+	            Apellido materno:
+	        </div> 
+	        <div class="col-xs-7">
+	            <!--<input class="form-control ng-pristine ng-valid" data-val="true" data-val-length="Debe tener al menos 3 y máximo 50 caracteres" data-val-length-max="50" data-val-length-min="3" data-val-required="El apellido materno es un campo requerido" id="lastNameM" name="lastNameM" type="text">-->
+	            @Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"})
+	        </div>
+	        <div class="col-xs-9 col-xs-offset-3">
+	            <span class="field-validation-valid" data-valmsg-for="lastNameM" data-valmsg-replace="true"></span>
+	        </div>
+	    </div>
+	    <br>
+	                        <div class="row">
+	                            <div class="col-xs-5 element-left">
+	                                Fecha de nacimiento:
+	                            </div>
+	                            <div class="col-xs-7">
+	                                <div class="input-group">
+	                                    <!--<input class="form-control date-picker" readonly="readonly" type="text" data-date-format="yyyy/mm/dd"
+	                                            data-val="true" data-val-required="La fecha de nacimiento es un campo requerido" ng-init="birthDate=''"
+	                                            id="birthDate" name="birthDate" ng-model="birthDate"/>
+	                                            <span class="input-group-addon">
+	                                                        <i class="icon-calendar bigger-110" ></i>
+	                                            </span>-->
+	                                    @Html.TextBox("DateBirth", @Model.DateBirth,
+	                                     new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
+	                                      @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
+	                                       @class="form-control date-picker", @readonly="readonly"})
+	                                            <span class="input-group-addon">
+	                                                        <i class="icon-calendar bigger-110" ></i>
+	                                            </span>
+	                                </div>
+	                            </div>
+	                            <div class="col-xs-9 col-xs-offset-3">
+	                                <span class="field-validation-valid" data-valmsg-for="DateBirth" data-valmsg-replace="true"></span>
+	                            </div>
+	                        </div>aaa
+	    <br>
+	    <div class="row">
+	        <div class="col-xs-5 element-left">
+	            Género:
+	        </div>
+	        <div class="col-xs-7">
+	            <div class="row" ng-init="m.Gender=false">
+	                <div class="col-xs-6">
+	                    <div class="radio">
+	                        <label>
+	                            <!--<input class="ace" type="radio" ng-checked="gen==true" name="gender"
+	                                                       data-val-required="El g?nero es un campo requerido" id="genero" value="true"
+	                                                       ng-model="gen">-->
+	                            @Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"})
+	                            <span class="lbl">Femenino</span>
+	                        </label>
+	                    </div>
+	                </div>
+	                <div class="col-xs-6">
+	                    <div class="radio">
+	                        <label>
+	                            <!--<input class="ace ng-pristine ng-valid" type="radio" value="false" ng-model="gen" ng-checked="gen==false" name="gender" checked="checked">-->
+	                            @Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"})
+	                            <span class="lbl">Masculino</span>
+	                        </label>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <br>
+	    <div class="row">
+	        <div class="col-xs-5 element-left">
+	           Carpeta de investigación:
+	        </div>
+	        <div class="col-xs-7">
+	                <!--<input class="form-control ng-pristine ng-valid" type="text" data-val-length="Debe tener al menos 1 y máximo 35 caracteres" data-val-length-max="35" data-val-length-min="1" data-val="true" data-val-required="La carpeta de investigación es un campo requerido" ng-init="m.idFolder=''" id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder">-->
+	                @Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"})
+	        </div>
+	        <div class="col-xs-9 col-xs-offset-3">
+	            <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder" data-valmsg-replace="true"></span>
+	        </div>
+	    </div>
+	    <br>
+	    <div ng-init="lstDistrict = [{&quot;id&quot;:1,&quot;name&quot;:&quot;Cuautla&quot;,&quot;value&quot;:0},{&quot;id&quot;:2,&quot;name&quot;:&quot;Cuernavaca&quot;,&quot;value&quot;:0},{&quot;id&quot;:3,&quot;name&quot;:&quot;Jojutla&quot;,&quot;value&quot;:0}]; init();">
+	        <div class="col-xs-5 element-left">
+	            Distrito judicial
+	        </div>
+	        <div class="col-xs-7">
+	            <select id="district" ng-change="m.District = district.Id;" ng-model="district" ng-options="e.Name for e in lstDistrict" ></select>
+	            <input type="hidden" name="meeting.district.id" ng-model="m.District" value="{{district.Id}}" >
+	        </div>
+	    </div>
+	    <br>
+	    <div class="row">
+	        <div class="col-xs-12 text-danger">
+	                <i class="icon-warning-sign icon-animated-wrench bigger-120"></i>&nbsp;
+	               La carpeta de investigación no podrá ser modificada durante la entrevista.
+	        </div>
+	    </div>
+	    <br />
+	    <div class="row">
+	        <div class="col-xs-12 element-center">
+	            <input type="checkbox" id="isAccepted" ng-model="isAccepted" ng-init="isAccepted=false" class="ng-pristine ng-valid">
+	            <label class="info-note" for="isAccepted">¿El imputado acepta que se realice la entrevista de riesgos procesales?</label>
+	        </div>
+	    </div>
+
+		<br>
+	                <div class="modal-footer">
+
+	                <span class="btn btn-danger btn-sm" ng-disabled="isAccepted==true" ng-click="submitNegation();">
+	                          El imputado niega la entrevista
+	                    </span>
+
+	                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+	                        Cancelar
+	                    </span>
+	                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="Wait==true || isAccepted == false"
+	                          ng-click="save();">
+	                          Continuar
+	                    </span>
+	                </div>
+	</form>
+</div>
     <script>
         var date=new Date();
         date.setFullYear(date.getFullYear()-18);

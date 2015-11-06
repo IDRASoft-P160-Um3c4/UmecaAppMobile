@@ -24,7 +24,7 @@ namespace UmecaApp
 		public int? RelationshipId{ get; set; }
 
 		[Column("age")]
-		public int? Age{ get; set; }
+		public String Age{ get; set; }
 
 		[Column("phone"),MaxLength(200)]
 		public String Phone{ get; set; }

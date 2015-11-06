@@ -532,7 +532,7 @@ WriteLiteral("></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"m.DocumentTypeId[\'Specification\'] == true\"");
+WriteLiteral(" ng-show=\"doc[\'Specification\'] == true\"");
 
 WriteLiteral(">\r\n        <div");
 

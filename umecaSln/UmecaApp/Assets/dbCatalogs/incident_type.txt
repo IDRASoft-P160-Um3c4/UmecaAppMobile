@@ -1,0 +1,5 @@
+id|name|obsolete|specification
+1|incidenciaA|0|0
+2|incidenciaB|0|0
+3|incidenciaC|0|0
+4|incidenciaD|0|1

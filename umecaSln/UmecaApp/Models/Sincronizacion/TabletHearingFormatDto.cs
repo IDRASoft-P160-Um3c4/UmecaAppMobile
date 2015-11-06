@@ -1,4 +1,4 @@
-﻿using System;
+﻿	using System;
 using System.Collections.Generic;
 
 namespace UmecaApp
@@ -99,6 +99,16 @@ namespace UmecaApp
 		public List<TabletCrimeDto> crimeList{ get; set; }
 		public TabletUserDto umecaSupervisor{ get; set; }
 		public TabletUserDto supervisor{ get; set; }
+
+
+		public Boolean isHomeless{ get; set; }
+
+		public int? district{ get; set; }
+
+		public String timeAgo{ get; set; }
+
+		public String locationPlace{ get; set; }
+
 
 	}
 }

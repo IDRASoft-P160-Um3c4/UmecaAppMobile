@@ -8,7 +8,7 @@ namespace UmecaApp
 		{
 		}
 
-		public TabletImputedDto(int id, String name, String lastNameP, String lastNameM, String foneticString, Boolean gender, DateTime? birthDate, String celPhone, int yearsMaritalStatus, int boys, int dependentBoys, String birthMunicipality, String birthState, String birthLocation, String nickname) {
+		public TabletImputedDto(int id, String name, String lastNameP, String lastNameM, String foneticString, Boolean gender, DateTime? birthDate, String celPhone, String yearsMaritalStatus, int boys, int dependentBoys, String birthMunicipality, String birthState, String birthLocation, String nickname) {
 			this.id = id;
 			this.webId = id;
 			this.name = name;
@@ -58,6 +58,7 @@ namespace UmecaApp
 			imp.Nickname = this.nickname;
 			imp.WebId = this.webId;
 			imp.YearsMaritalStatus = this.yearsMaritalStatus;
+			imp.BirthInfo = this.birthInfoId;
 			return imp;
 		}
 
@@ -70,13 +71,14 @@ namespace UmecaApp
 		public Boolean? gender{ get; set; }
 		public String birthDate{ get; set; }
 		public String celPhone{ get; set; }
-		public int? yearsMaritalStatus{ get; set; }
+		public String yearsMaritalStatus{ get; set; }
 		public int? boys{ get; set; }
 		public int? dependentBoys{ get; set; }
 		public String birthMunicipality{ get; set; }
 		public String birthState{ get; set; }
 		public String birthLocation{ get; set; }
 		public String nickname{ get; set; }
+		public int? birthInfoId{ get; set; }
 		public TabletMaritalStatusDto maritalStatus{ get; set; }
 		public TabletCountryDto birthCountry{ get; set; }
 		public TabletLocationDto location{ get; set; }

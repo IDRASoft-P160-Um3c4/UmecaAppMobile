@@ -97,7 +97,7 @@ namespace UmecaApp
 
 		public void  CaseConditionalReprieveEditNew()
 		{
-			var temp = new NewConditionalReprieve{Model = new NewMeetingDto() };
+			var temp = new NewConditionalReprieve2{Model = new NewMeetingDto() };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
@@ -108,7 +108,7 @@ namespace UmecaApp
 			String validateCreateMsg = validateCaseConditionalReprieve(model);
 			if (validateCreateMsg != null) {
 				model.ResponseMessage = validateCreateMsg;
-				var temp = new NewConditionalReprieve{ Model = model };
+				var temp = new NewConditionalReprieve2{ Model = model };
 				var pagestring = "nada que ver";
 				pagestring = temp.GenerateString ();
 				webView.LoadHtmlString (pagestring);
@@ -255,12 +255,12 @@ namespace UmecaApp
 				var result = new HearingFormatTblDto ();
 				result.rows = new List<HearingFormatGrid> ();
 				result.CaseId = caso.Id;
-
+				var imputedAualll = db.Table<HearingFormatImputed> ().ToList ();
 				var formatosAudiencia = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == idCase).ToList ();
 				if (formatosAudiencia != null && formatosAudiencia.Count > 0) {
 					foreach (HearingFormat au in formatosAudiencia) {
-						var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp => hfimp.Id == au.hearingImputed).FirstOrDefault ();
-						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault ();
+						var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp => hfimp.Id == au.hearingImputed).FirstOrDefault();
+						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault();
 						var parsing = new HearingFormatGrid ();
 						var registertime = DateTime.Now;
 						if(au.RegisterTime != null){
@@ -345,9 +345,9 @@ namespace UmecaApp
 			using (var db = FactoryConn.GetConn ()) {
 				var view = new HearingFormatEditDto ();
 				var hearingFormatData = new HearingFormatView ();
-				var statusPreClosed = db.Table<StatusCase> ().Where (stc1 => stc1.Name == Constants.CASE_STATUS_PRE_CLOSED).FirstOrDefault ();
+//				var statusPreClosed = db.Table<StatusCase> ().Where (stc1 => stc1.Name == Constants.CASE_STATUS_PRE_CLOSED).FirstOrDefault ();
 				var statusClosed = db.Table<StatusCase> ().Where (stc2 => stc2.Name == Constants.CASE_STATUS_CLOSED).FirstOrDefault ();
-				var casoverStatus = db.Table<Case> ().Where (cs => cs.Id == idCase && (cs.StatusCaseId == statusPreClosed.Id || cs.StatusCaseId == statusClosed.Id)).ToList ();
+				var casoverStatus = db.Table<Case> ().Where (cs => cs.Id == idCase && cs.StatusCaseId == statusClosed.Id).ToList ();
 			
 				if (casoverStatus != null && casoverStatus.Count > 0) {
 					HearingFormatList (idCase, "No es posible agregar mas formatos, el caso se encuentra cerrado.");
@@ -356,6 +356,8 @@ namespace UmecaApp
 
 				if (idFormato > 0) {
 					hearingFormatData = fillHearingFormaData (idFormato);
+					Case ActualCase = db.Table<Case> ().Where (actul=>actul.Id==idCase).FirstOrDefault ();
+					hearingFormatData.IsSubstracted = ActualCase.IsSubstracted;
 				} else { //si es nuevo 
 					var last = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == idCase && hf.IsFinished == false).ToList ();
 					if (last != null && last.Count > 0) {
@@ -455,6 +457,8 @@ namespace UmecaApp
 				if (formatosAnteriores != null && formatosAnteriores.Count > 0) {
 					var ultimo = formatosAnteriores.FirstOrDefault ();
 					hearingFormatData = fillHearingFormaData (ultimo.Id);
+					Case ActualCase = db.Table<Case> ().Where (actul=>actul.Id==idCase).FirstOrDefault ();
+					hearingFormatData.IsSubstracted = ActualCase.IsSubstracted;
 				} else {
 					var caso = db.Table<Case> ().Where (cs => cs.Id == idCase).FirstOrDefault ();
 					var meeting = db.Table<Meeting> ().Where (me => me.CaseDetentionId == idCase).FirstOrDefault ();
@@ -519,6 +523,14 @@ namespace UmecaApp
 				result.mpName = formatosFuente.MpName;
 				result.defenderName = formatosFuente.DefenderName;
 				result.isFinished = formatosFuente.IsFinished;
+
+				result.IsHomeless = formatosFuente.IsHomeless;
+				result.District = formatosFuente.District;
+				result.TimeAgo = formatosFuente.TimeAgo;
+				result.LocationPlace = formatosFuente.LocationPlace;
+
+
+
 				db.CreateTable<HearingFormatImputed> ();
 				var imputado = db.Table<HearingFormatImputed> ().Where (imp => imp.Id == formatosFuente.hearingImputed).FirstOrDefault ();
 				if (imputado != null && imputado.Id > 0) {
@@ -751,9 +763,8 @@ namespace UmecaApp
 			using (var db = FactoryConn.GetConn ()) {
 				var view = new HearingFormatEditDto ();
 				var hearingFormatData = new HearingFormatView ();
-				var statusPreClosed = db.Table<StatusCase> ().Where (stc1 => stc1.Name == Constants.CASE_STATUS_PRE_CLOSED).FirstOrDefault ();
 				var statusClosed = db.Table<StatusCase> ().Where (stc2 => stc2.Name == Constants.CASE_STATUS_CLOSED).FirstOrDefault ();
-				var casoverStatus = db.Table<Case> ().Where (cs => cs.Id == idCase && (cs.StatusCaseId == statusPreClosed.Id || cs.StatusCaseId == statusClosed.Id)).ToList ();
+				var casoverStatus = db.Table<Case> ().Where (cs => cs.Id == idCase && cs.StatusCaseId == statusClosed.Id).ToList ();
 
 				if (casoverStatus != null && casoverStatus.Count > 0) {
 					HearingFormatList (idCase, "No es posible agregar mas formatos, el caso se encuentra cerrado.");
@@ -762,6 +773,8 @@ namespace UmecaApp
 
 				if (idFormato > 0) {
 					hearingFormatData = fillHearingFormaData (idFormato);
+					Case ActualCase = db.Table<Case> ().Where (actul=>actul.Id==idCase).FirstOrDefault ();
+					hearingFormatData.IsSubstracted = ActualCase.IsSubstracted;
 				} else { //si es nuevo 
 					var last = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == idCase && hf.IsFinished == false).ToList ();
 					if (last != null && last.Count > 0) {

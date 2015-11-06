@@ -43,7 +43,7 @@ namespace UmecaApp
 
 		public DateTime? Start{ get; set; }
 
-		public float? SalaryWeek{ get; set; }
+		public String SalaryWeek{ get; set; }
 
 		public DateTime? End{ get; set; }
 

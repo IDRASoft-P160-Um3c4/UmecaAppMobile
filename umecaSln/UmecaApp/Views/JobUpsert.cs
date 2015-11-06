@@ -567,9 +567,7 @@ WriteLiteral("\r\n                                       data-date-format=\"yyyy
 
 WriteLiteral(" ng-model=\"m.StartPrev\"");
 
-WriteLiteral(" readonly=\"readonly\"");
-
-WriteLiteral("\r\n                                       data-val=\"true\"");
+WriteLiteral(" \r\n                                       data-val=\"true\"");
 
 WriteLiteral(" data-val-required=\"La fecha de inicio es un campo requerido\"");
 
@@ -626,9 +624,7 @@ WriteLiteral("\r\n                                       data-date-format=\"yyyy
 
 WriteLiteral(" ng-model=\"m.End\"");
 
-WriteLiteral(" readonly=\"readonly\"");
-
-WriteLiteral("\r\n                                       data-val=\"true\"");
+WriteLiteral(" \r\n                                       data-val=\"true\"");
 
 WriteLiteral(" data-val-required=\"La fecha de fin es un campo requerido\"");
 
@@ -763,9 +759,7 @@ WriteLiteral("\r\n                                       data-date-format=\"yyyy
 
 WriteLiteral(" ng-model=\"m.Start\"");
 
-WriteLiteral(" readonly=\"readonly\"");
-
-WriteLiteral("\r\n                                       data-val=\"true\"");
+WriteLiteral(" \r\n                                       data-val=\"true\"");
 
 WriteLiteral(" data-val-required=\"La fecha de inicio es un campo requerido\"");
 
@@ -812,22 +806,17 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral("\r\n                                   data-val-length=\"Debe tener m&aacute;ximo 7 " +
-"caracteres\"");
+WriteLiteral("\r\n                                   data-val-length=\"Debe tener m&iacute;nimo 1 " +
+"caracter\"");
 
 WriteLiteral(" name=\"salaryWeek\"");
 
-WriteLiteral("\r\n                                   data-val-length-max=\"7\"");
+WriteLiteral("\r\n                                   data-val-length-max=\"100\"");
 
 WriteLiteral(" data-val-length-min=\"1\"");
 
 WriteLiteral("\r\n                                   data-val-required=\"El salario semanal es un " +
 "campo requerido\"");
-
-WriteLiteral("\r\n                                   data-val-regex-pattern=\"([0-9]+(.[0-9])?)\"");
-
-WriteLiteral("\r\n                                   data-val-regex=\"El salario s&oacute;lo puede" +
-" contener n&uacute;meros y un punto\"");
 
 WriteLiteral("\r\n                                   type=\"text\"");
 
@@ -1189,7 +1178,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", "  ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "cancel(\'", true)
 
-#line 542 "JobUpsert.cshtml"
+#line 540 "JobUpsert.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

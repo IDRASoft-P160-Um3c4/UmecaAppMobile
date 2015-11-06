@@ -633,6 +633,7 @@ namespace UmecaApp
 					nCntr.Add (new Country (882, "Samoa", "WS", "WSM", -13.5833, -172.3333));
 					nCntr.Add (new Country (887, "Yeme", "YE", "YEM", 15, 48));
 					nCntr.Add (new Country (894, "Zambia", "ZM", "ZMB", -15, 30));
+					nCntr.Add (new Country (895, "No proporcionado", "NA", "NA", 23, -102));
 					foreach (Country a in nCntr) {
 						db.Insert (a);
 					}
@@ -685,6 +686,7 @@ namespace UmecaApp
 					nStt.Add (new State (30, 1, "Veracruz de Ignacio de la Llave", "Veracruz de Ignacio de la Llave", "Veracruz de Ignacio de la Llave"));
 					nStt.Add (new State (31, 1, "Yucatán", "Yucatán", "Yucatán"));
 					nStt.Add (new State (32, 1, "Zacatecas", "Zacatecas", "Zacatecas"));
+					nStt.Add (new State (33,1,"No proporcionado","No proporcionado","No proporcionado"));
 					foreach (State a in nStt) {
 						db.Insert (a);
 					}
@@ -3152,6 +3154,7 @@ namespace UmecaApp
 					nMncplt.Add (new Municipality (2446, 32, "Apozol", "Apozol", "Apozol"));
 					nMncplt.Add (new Municipality (2447, 32, "Juchipila", "Juchipila", "Juchipila"));
 					nMncplt.Add (new Municipality (2448, 32, "Moyahua de Estrada", "Moyahua de Estrada", "Moyahua de Estrada"));
+					nMncplt.Add (new Municipality (2449, 33, "No proporcionado", "No proporcionado", "No proporcionado"));
 					foreach (Municipality a in nMncplt) {
 						db.Insert (a);
 					}

@@ -9,3 +9,5 @@
 8|MONPLAN_AUTH|Solicitar autorización plan seguimiento|0
 9|UPDATE_MONPLAN_AUTH|Solicitar autorización plan seguimiento modificado|0
 10|CASE_OBSOLETE_SUPERVISION|Eliminar caso en supervisión|0
+11|CLOSE_CASE_SUPERVISION|Cerrar caso en supervisión|0
+12|GET_FREEDOM|El imputado alcanzó su libertad|0

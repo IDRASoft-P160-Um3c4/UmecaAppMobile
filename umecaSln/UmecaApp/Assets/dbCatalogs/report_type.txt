@@ -1,0 +1,6 @@
+id|name|description|obsolete
+1|GENERAL|General|0
+2|BY_OPERATOR|Por operador|0
+3|DISTRICT|Por distrito|0
+4|SINGLE_OPERATOR|Por operador individual|1
+5|SINGLE_CHANNELING_TYPE|Por tipo de canalización|1

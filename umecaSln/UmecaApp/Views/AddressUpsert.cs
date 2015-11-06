@@ -104,18 +104,39 @@ WriteLiteral(">\r\n    app.controller(\'AddressUpsertControler\', function($scop
 "  \t$scope.HomeType = $scope.listHomeType[0];\r\n\t\t    \t$scope.m.HomeTypeId = $scop" +
 "e.HomeType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t    console.log(\"$scope.listState\"+typeof $scope" +
 ".listState);\r\n\t\t    if( js!=undefined && js!=null && js.LocationId!=undefined)\r\n" +
-"\t\t    \t$scope.LocationInit();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t    \talert(\"error c" +
-"atched Iniciate angular function erro==>\"+err.message);\r\n\t\t    }\r\n\t\t};\r\n\r\n\t\t$sco" +
-"pe.itemListById = function(idObj, list){\r\n    console.log(\"idObj=\"+idObj);\r\n    " +
-"\tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.length;x++){\r\n\t\t    \ti" +
-"f(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    " +
-"}\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t$scope.save = function(idcase){\r\n\tif($(\"#Fo" +
-"rmAddressId\").valid() == false){\r\n         return false;\r\n         }else{\r\n\t   \t" +
-"\t$scope.m.Schedule = $(\"#hdnJsonScheduleHome\").val();\r\n\t   \t\tvar jsonData = JSON" +
-".stringify($scope.m);\r\n\t\t\t$scope.msgError = MeetingService.upsertImputedHome(JSO" +
-"N.stringify($scope.m));\r\n\t\t\tif($scope.msgError==undefined||$scope.msgError==null" +
-"||$scope.msgError==\"\"){\r\n\t\t\t\t$scope.editMeeting($(\"#hdnAddrssImptdReference\").va" +
-"l());\r\n\t\t\t}\r\n\t\t}\r\n\t   };\r\n\r\n\r\n});\r\n\r\n</script>\r\n\r\n<div");
+"\t\t    \t$scope.LocationInit();\r\n\r\n\t\t    \tif($scope.m.IsHomeless == null||$scope.m" +
+".IsHomeless == undefined){\r\n\t\t\t    \t$scope.m.IsHomeless = false;\r\n\t\t\t    }\r\n\t\t  " +
+"  }\r\n\t\t    catch(err){\r\n\t\t    \tconsole.log(\"error catched Iniciate angular funct" +
+"ion erro==>\"+err.message);\r\n\t\t    }\r\n\t\t};\r\n\r\n\t\t$scope.itemListById = function(id" +
+"Obj, list){\r\n    console.log(\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=" +
+"null){\r\n\t\t    for(x=0;x<list.length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    " +
+"\t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n" +
+"\t};\r\n\r\n\t$scope.save = function(idcase){\r\n\tif($(\"#FormAddressId\").valid() == fals" +
+"e){\r\n         return false;\r\n         }else{\r\n\t   \t\t$scope.m.Schedule = $(\"#hdnJ" +
+"sonScheduleHome\").val();\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$sc" +
+"ope.msgError = MeetingService.upsertImputedHome(JSON.stringify($scope.m));\r\n\t\t\ti" +
+"f($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==\"\"){\r\n\t\t\t\t" +
+"$scope.editMeeting($(\"#hdnAddrssImptdReference\").val());\r\n\t\t\t}\r\n\t\t}\r\n\t   };\r\n\r\n\r" +
+"\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\t   //cuando se elije un estado se filtran los municipios\r\n\t\t$sco" +
+"pe.MunByEdo = function(){\r\n\t\t\t$scope.listMunicipality = [];\r\n\t        $scope.mun" +
+"icipality = {};\r\n\t        $scope.location = {};\r\n\t        $scope.listLocation = " +
+"[];\r\n\t\t\t    var municipios = MeetingService.findMunicipalityByState($scope.state" +
+"[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedE" +
+"state) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=undefined&" +
+"&municipios!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listMunicipal" +
+"ity = JSON.parse(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"excep" +
+"tion caugth at MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunicipali" +
+"ty = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scop" +
+"e.zipCode = $scope.location[\'ZipCode\'];\r\n\t\t}\r\n\r\n\t\t//cuando se elije un municipio" +
+" se filtran las localidades\r\n\t\t$scope.LocByMun = function(){\r\n        \t$scope.lo" +
+"cation = {};\r\n\t\t\t$scope.listLocation = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locatio" +
+"ns = MeetingService.findLocationByMunicipality($scope.municipality[\'Id\']);\r\n\t\t\t " +
+"   //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\"   an" +
+"d \\n municipios _>\"+municipios);\r\n\t\t\t    if(locations!=undefined&&locations!=nul" +
+"l&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listLocation = JSON.parse(loca" +
+"tions);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at LocByMu" +
+"n Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listLocation = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    " +
+"}\r\n\t\t};\r\n\r\n\r\n});\r\n\r\n</script>\r\n\r\n<div");
 
 WriteLiteral(" ng-app=\"umecaMobile\"");
 
@@ -129,8 +150,8 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 157 "AddressUpsert.cshtml"
-                  , Tuple.Create<string,object,bool> ("", Model.JsonModel
+#line 208 "AddressUpsert.cshtml"
+                     , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
 #line hidden
@@ -146,8 +167,8 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 158 "AddressUpsert.cshtml"
-                       , Tuple.Create<string,object,bool> ("", Model.Reference
+#line 209 "AddressUpsert.cshtml"
+                          , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
 #line hidden
@@ -186,7 +207,63 @@ WriteLiteral("><i");
 WriteLiteral(" class=\"glyphicon glyphicon-home \"");
 
 WriteLiteral("></i>&nbsp;&nbsp;Domicilio</h4>\r\n                    </div>\r\n                </di" +
-"v>\r\n\r\n                <form");
+"v>\r\n\r\n\r\n                <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-12 element-center\"");
+
+WriteLiteral(">\r\n\t            &iquest;El imputado se encuentra en situaci&oacute;n de calle?\r\n\t" +
+"            <br/>\r\n\t            <div");
+
+WriteLiteral(" class=\"radio\"");
+
+WriteLiteral(">\r\n\t                <label>\r\n\t                    <input");
+
+WriteLiteral(" name=\"isHomeless\"");
+
+WriteLiteral(" class=\"ace\"");
+
+WriteLiteral(" type=\"radio\"");
+
+WriteLiteral("\r\n\t                           ng-value=\"true\"");
+
+WriteLiteral("\r\n\t                           ng-model=\"m.IsHomeless\"");
+
+WriteLiteral("\r\n\t                           ng-checked=\"m.IsHomeless==true\"");
+
+WriteLiteral(">\r\n\t                    <span");
+
+WriteLiteral(" class=\"lbl\"");
+
+WriteLiteral(">&nbsp;&nbsp;S&iacute;</span>\r\n\t                </label>\r\n\t                &nbsp;" +
+"&nbsp;&nbsp;&nbsp;\r\n\t                &nbsp;&nbsp;&nbsp;&nbsp;\r\n\t                " +
+"<label>\r\n\t                    <input");
+
+WriteLiteral(" name=\"isHomeless\"");
+
+WriteLiteral(" class=\"ace\"");
+
+WriteLiteral(" type=\"radio\"");
+
+WriteLiteral("\r\n\t                           ng-value=\"false\"");
+
+WriteLiteral("\r\n\t                           ng-model=\"m.IsHomeless\"");
+
+WriteLiteral("\r\n\t                           ng-checked=\"m.IsHomeless==false\"");
+
+WriteLiteral("\r\n\t                           data-val=\"true\"");
+
+WriteLiteral("\r\n\t                           data-val-required=\"Debe seleccionar un valor\"");
+
+WriteLiteral(">\r\n\t                    <span");
+
+WriteLiteral(" class=\"lbl\"");
+
+WriteLiteral(">&nbsp;&nbsp;No</span>\r\n\t                </label>\r\n\t            </div>\r\n\r\n\t      " +
+"  </div>\r\n\t\t</div>\r\n\r\n\r\n                <form");
 
 WriteLiteral(" id=\"FormAddressId\"");
 
@@ -195,6 +272,8 @@ WriteLiteral(" name=\"FormAddressId\"");
 WriteLiteral("  >\r\n\r\n                <!--componente adress by cp-->\r\n                <div");
 
 WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"m.IsHomeless==false\"");
 
 WriteLiteral(">\r\n\t\t\t\t  <div");
 
@@ -253,6 +332,8 @@ WriteLiteral(">\r\n\t\t\t\t      {{msgZipCode}}\r\n\t\t\t\t    </div>\r\n\t\t\t\
 
 WriteLiteral(" class=\"row\"");
 
+WriteLiteral("  ng-show=\"m.IsHomeless==false\"");
+
 WriteLiteral(">\r\n\t\t\t\t  <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
@@ -263,7 +344,9 @@ WriteLiteral(" class=\"form-control element-center\"");
 
 WriteLiteral(" ng-model=\"state\"");
 
-WriteLiteral(" \r\n\t\t\t\t    ng-options=\"e.Name for e in listState\"");
+WriteLiteral("   ng-change=\"MunByEdo();\"");
+
+WriteLiteral("\r\n\t\t\t\t    ng-options=\"e.Name for e in listState\"");
 
 WriteLiteral(" ></select><br/>\r\n\t\t\t\t  </div>\r\n\t\t\t\t  <div");
 
@@ -279,11 +362,13 @@ WriteLiteral("\r\n\t\t\t\t    ng-options=\"e.Name for e in listMunicipality\"");
 
 WriteLiteral(" ng-init=\'listMunicipaliti = \"\"\'");
 
-WriteLiteral("\r\n\t\t\t\t    ng-change=\"municipalityId = municipality.id;\"");
+WriteLiteral("\r\n\t\t\t\t    ng-change=\"municipalityId = municipality.id;LocByMun();\"");
 
 WriteLiteral("></select><br/>\r\n\t\t\t\t  </div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div");
 
 WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"m.IsHomeless==false\"");
 
 WriteLiteral(">\r\n\t\t\t\t  <div");
 
@@ -295,11 +380,11 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" ng-model=\"location\"");
 
-WriteLiteral("\r\n\t\t\t\t    ng-options=\"e.Name for e in listLocation\"");
+WriteLiteral(" \r\n\t\t\t\t    ng-options=\"e.Name for e in listLocation\"");
 
 WriteLiteral(" ng-init=\'listLocation = \"\"\'");
 
-WriteLiteral("\r\n\t\t\t\t    ng-change=\"m.LocationId = location[\'Id\'];\"");
+WriteLiteral("\r\n\t\t\t\t    ng-change=\"m.LocationId = location[\'Id\'];locationDp();\"");
 
 WriteLiteral("></select>\r\n\t\t\t\t  </div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<br/>\r\n\t\t\t\t<div");
 
@@ -415,6 +500,8 @@ WriteLiteral("></span>\r\n\t\t\t\t\t\t  </div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<br/
 
 WriteLiteral(" class=\"row\"");
 
+WriteLiteral(" ng-show=\"m.IsHomeless==false\"");
+
 WriteLiteral(">\r\n  <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left col-xs-offset-1\"");
@@ -457,6 +544,8 @@ WriteLiteral("></span>\r\n  </div>\r\n</div>\r\n<br/>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
+WriteLiteral(" ng-show=\"m.IsHomeless==false\"");
+
 WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
@@ -498,9 +587,9 @@ WriteLiteral(" ></select>\r\n    </div>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"HomeType[\'Specification\'] == true\"");
+WriteLiteral(" ng-show=\"HomeType[\'Specification\'] == true && m.IsHomeless==false\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(" >\r\n    <div");
 
 WriteLiteral(" class=\"col-xs-3 element-right\"");
 
@@ -545,9 +634,9 @@ WriteLiteral("></span>\r\n    </div>\r\n</div>\r\n\r\n\r\n\r\n    <!--Seccion de
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"m.RegisterTypeId==3\"");
+WriteLiteral(" ng-show=\"m.RegisterTypeId==3 && m.IsHomeless==false \"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral("  >\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -686,9 +775,9 @@ WriteLiteral("></div>\r\n                            </div>\r\n                 
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(" ng-show=\"m.RegisterTypeId ==1 || m.RegisterTypeId ==2\"");
+WriteLiteral(" ng-show=\"(m.RegisterTypeId ==1 || m.RegisterTypeId ==2) && m.IsHomeless==false\"");
 
-WriteLiteral(">\r\n  <div");
+WriteLiteral(" >\r\n  <div");
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
@@ -1154,6 +1243,163 @@ WriteLiteral(@"></i>
 
     <!--END Seccion dependiente del tipo de domicilio-->
 
+
+
+
+
+    <!--SECCION HOMELESS-->
+    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" ng-show=\"m.IsHomeless==true\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"widget-box\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"widget-header\"");
+
+WriteLiteral(">\r\n                    <h4>Situaci&oacute;n de calle</h4>\r\n                </div>" +
+"\r\n                <div");
+
+WriteLiteral(" class=\"widget-body\"");
+
+WriteLiteral(">\r\n                    <br/>\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                        <div");
+
+WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                                <div");
+
+WriteLiteral(" class=\"col-xs-5 element-left\"");
+
+WriteLiteral(">\r\n                                    Tiempo en situaci&oacute;n de calle:\r\n    " +
+"                            </div>\r\n                                <div");
+
+WriteLiteral(" class=\"col-xs-7\"");
+
+WriteLiteral(">\r\n                                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral("\r\n                                           data-val-length=\"Debe tener al menos" +
+" 1 y m&aacute;ximo 30 caracteres\"");
+
+WriteLiteral("\r\n                                           data-val-length-max=\"30\"");
+
+WriteLiteral(" data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n                                           data-val-required=\"El tiempo de resi" +
+"dencia es un campo requerido\"");
+
+WriteLiteral("\r\n                                           id=\"timeLiveD\"");
+
+WriteLiteral("\r\n                                           ng-model=\"m.TimeLive\"");
+
+WriteLiteral("\r\n                                           name=\"timeLiveD\"");
+
+WriteLiteral("\r\n                                           type=\"text\"");
+
+WriteLiteral(">\r\n                                </div>\r\n                            </div>\r\n  " +
+"                          <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                                <div");
+
+WriteLiteral(" class=\"col-xs-8 col-xs-offset-4\"");
+
+WriteLiteral(">\r\n                                    <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"timeLiveD\"");
+
+WriteLiteral("\r\n                                          data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                                </div>\r\n                            </d" +
+"iv>\r\n                            <br/>\r\n\r\n                            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t              <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t                Lugar de localizaci&oacute;n:<br/>\r\n\t\t\t\t\t                " +
+"<label");
+
+WriteLiteral(" class=\"info-example\"");
+
+WriteLiteral(">(color de casa, ruta, etc.)</label>\r\n\t\t\t\t\t              </div>\r\n\t\t\t\t\t           " +
+"   <div");
+
+WriteLiteral(" class=\"col-xs-9\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t                <textarea");
+
+WriteLiteral(" id=\"description\"");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" name=\"description\"");
+
+WriteLiteral("\r\n\t\t\t\t\t                ng-model=\"m.Description\"");
+
+WriteLiteral("\r\n\t\t\t\t\t                data-val=\"true\"");
+
+WriteLiteral("\r\n\t\t\t\t\t                data-val-length=\"Debe tener al menos 1 y m&aacute;ximo 500" +
+" caracteres\"");
+
+WriteLiteral("\r\n\t\t\t\t\t                data-val-length-max=\"500\"");
+
+WriteLiteral(" data-val-length-min=\"1\"");
+
+WriteLiteral("\r\n\t\t\t\t\t                data-val-required=\"La descripci&oacute;n es un campo reque" +
+"rido\"");
+
+WriteLiteral("></textarea>\r\n\t\t\t\t\t                <br/>\r\n\t\t\t\t\t                <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"description\"");
+
+WriteLiteral("\r\n\t\t\t\t\t                data-valmsg-replace=\"true\"");
+
+WriteLiteral(">{{m.Description}}</span>\r\n\t\t\t\t\t              </div>\r\n\t\t\t\t            </div>\r\n   " +
+"                         <br/>\r\n\r\n                            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                                <div");
+
+WriteLiteral(" class=\"hr hr-8\"");
+
+WriteLiteral(@"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECCION HOMELESS END-->
     </form>
 
 
@@ -1192,7 +1438,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "editMeeting(\'", true)
 
-#line 574 "AddressUpsert.cshtml"
+#line 723 "AddressUpsert.cshtml"
                                          , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -1210,7 +1456,7 @@ WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 WriteAttribute ("ng-click", "\r\n                          ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "save(\'", true)
 
-#line 578 "AddressUpsert.cshtml"
+#line 727 "AddressUpsert.cshtml"
    , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

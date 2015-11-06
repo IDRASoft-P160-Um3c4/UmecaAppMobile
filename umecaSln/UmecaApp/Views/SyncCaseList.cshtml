@@ -318,6 +318,9 @@ askSyncHearingFormat .idCase = 0;
         @if(Meeting.Action=="hearing") {
          	<a href="javascript:askSyncHearingFormat.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
         }
+        @if(Meeting.Action=="negacion") {
+         	<a href="javascript:askSyncMeeting.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+        }
         </td>
     </tr>
 }

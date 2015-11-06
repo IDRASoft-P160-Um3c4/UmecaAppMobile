@@ -7,3 +7,4 @@
 6|Una vez al año|0|0
 7|En reuniones sociales|0|0
 8|No consume|0|0
+9|Esporádico|0|0

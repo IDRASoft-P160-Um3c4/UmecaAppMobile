@@ -46,7 +46,7 @@ namespace UmecaApp
 
 		public String CelPhone{ get; set; }
 
-		public int? YearsMaritalStatus{ get; set; }
+		public String YearsMaritalStatus{ get; set; }
 
 		public int? MaritalStatusId { get; set; }
 
@@ -65,6 +65,8 @@ namespace UmecaApp
 		public String BirthLocation{ get; set; }
 
 		public String Nickname{ get; set; }
+
+		public int? BirthInfoId{ get; set; }
 
 		public int? LocationId { get; set; }
 

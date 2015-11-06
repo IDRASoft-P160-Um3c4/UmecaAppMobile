@@ -1,0 +1,5 @@
+id|name|obsolete|specification
+1|Evaluación|0|0
+2|Supervisión|0|0
+3|Dirección|0|0
+4|Otro|0|1

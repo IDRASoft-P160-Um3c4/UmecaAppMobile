@@ -1,0 +1,4 @@
+﻿id|name|isObsolete
+1|Cuautla|0
+2|Cuernavaca|0
+3|Jojutla|0

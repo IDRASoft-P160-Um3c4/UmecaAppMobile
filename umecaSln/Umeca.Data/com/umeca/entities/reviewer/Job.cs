@@ -37,7 +37,7 @@ namespace UmecaApp
 		public DateTime? Start{ get; set; }
 
 		[Column("salary_week")]
-		public float? SalaryWeek{ get; set; }
+		public String SalaryWeek{ get; set; }
 
 		[Column("end")]
 		public DateTime? End{ get; set; }

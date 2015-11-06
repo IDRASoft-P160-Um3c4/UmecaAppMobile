@@ -10,7 +10,7 @@ namespace UmecaApp
 		}
 
 
-		public TabletCaseDto(int id, String idFolder, String idMP, Boolean recidivist, DateTime? dateNotProsecute, DateTime? dateObsolete, DateTime? dateCreate) {
+		public TabletCaseDto(int id, String idFolder, String idMP, Boolean recidivist, DateTime? dateNotProsecute, DateTime? dateObsolete, String dateCreate) {
 			this.id = id;
 			this.webId = id;
 			this.idFolder = idFolder;
@@ -43,6 +43,14 @@ namespace UmecaApp
 			}
 			cs.StatusCaseId = this.status.id;
 			cs.webId = this.webId;
+
+			cs.HasNegation = this.hasNegation;
+			cs.IsSubstracted = this.isSubstracted;
+			if(this.dateSubstracted!=null){
+				cs.DateSubstracted = DateTime.ParseExact(this.dateSubstracted, "yyyy/MM/dd",
+					System.Globalization.CultureInfo.InvariantCulture);
+			}
+
 			return cs;
 		}
 
@@ -58,8 +66,12 @@ namespace UmecaApp
 		public TabletMeetingDto meeting{ get; set; }
 		public TabletVerificationDto verification{ get; set; }
 		public List<TabletHearingFormatDto> hearingFormats{ get; set; }
-		public List<TabletLogCaseDto> logCase{ get; set; }
+		public List<TabletLogCaseDto> logsCase{ get; set; }
 		public String previousStateCode{ get; set; }
+
+		public Boolean hasNegation{ get; set; }
+		public Boolean? isSubstracted{ get; set; }
+		public String dateSubstracted{ get; set; }
 	}
 }
 

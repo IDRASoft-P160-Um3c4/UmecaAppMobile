@@ -1,6 +1,6 @@
-﻿id_file_type|file_type|description|is_obsolete
-1|jpg:jpeg:bmp:png:gif|Imágenes|0
-2|doc:docx|Documento Word|0
-3|xls:xlsx|Documento Excel|0
-4|pdf|PDF|0
-5|zip:rar|Archivo comprimido|0
+﻿id_file_type|file_type|description|code|is_obsolete
+1|jpg:jpeg:bmp:png:gif|Imágenes|IMAGE_FILE|0
+2|doc:docx|Documento Word|WORD_FILE|0
+3|xls:xlsx|Documento Excel|EXCEL_FILE|0
+4|pdf|PDF|PDF_FILE|0
+5|zip:rar|Archivo comprimido|COMPRESSED_FILE|0

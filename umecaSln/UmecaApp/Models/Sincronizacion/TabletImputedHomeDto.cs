@@ -49,6 +49,8 @@ namespace UmecaApp
 		public TabletRegisterTypeDto registerType{ get; set; }
 		public List<TabletScheduleDto> schedule{ get; set; }
 
+		public Boolean? isHomeless{ get; set; }
+
 	}
 }
 

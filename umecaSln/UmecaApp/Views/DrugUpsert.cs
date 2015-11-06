@@ -136,7 +136,7 @@ WriteLiteral(" type=\"hidden\"");
 WriteAttribute ("value", " value=\"", "\""
 
 #line 145 "DrugUpsert.cshtml"
-                      , Tuple.Create<string,object,bool> ("", Model.JsonModel
+                            , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
 #line hidden
@@ -153,7 +153,7 @@ WriteLiteral(" type=\"hidden\"");
 WriteAttribute ("value", " value=\"", "\""
 
 #line 146 "DrugUpsert.cshtml"
-                        , Tuple.Create<string,object,bool> ("", Model.Reference
+                              , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
 #line hidden
@@ -436,9 +436,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-date-format=\"yyyy/mm/dd\"");
 
-WriteLiteral(" readonly=\"readonly\"");
-
-WriteLiteral("\r\n                   name=\"lastUse\"");
+WriteLiteral(" \r\n                   name=\"lastUse\"");
 
 WriteLiteral(" data-val-required=\"La &uacute;ltima fecha de consumo es un campo requerido\"");
 

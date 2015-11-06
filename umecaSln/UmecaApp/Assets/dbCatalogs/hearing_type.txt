@@ -1,11 +1,14 @@
 id|description|isObsolete|lock|specification
-1|Intermedia|0|1|0
-2|Juicio oral|0|1|0
-3|Lectura de sentencia|0|1|0
-4|Audiencia incidental|0|1|0
-5|Revisión de MC|0|0|0
-6|MC|0|0|0
+1|Audiencia intermedia|0|1|0
+2|Audiencia de juicio oral|0|1|0
+3|Audiencia de lectura de sentencia|0|1|0
+4|Control de detención|0|1|0
+5|Revisión de medida cautelar|0|0|0
+6|Imposición de medidas cautelares|0|0|0
 7|Revisión de SCP|0|0|0
-8|SCP|0|0|0
-9|Acuerdo preparatorio|0|1|0
-10|Otra|0|1|1
+8|Audiencia de SCP|0|0|0
+9|Acuerdo reparatorio|0|1|0
+10|Formulación de imputación|0|1|0
+11|Vinculación a proceso|0|1|0
+12|Audiencia diversa|0|1|0
+10|Audiencia de ampliación de cierre de investigación|0|1|0

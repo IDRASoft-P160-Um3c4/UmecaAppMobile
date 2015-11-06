@@ -175,6 +175,7 @@ namespace UmecaApp
 					if(output.ToString()==""){
 						HFDtoSave salve = new HFDtoSave();
 						salve = fillHearingFormatWithView(model);
+						salve.IsSubstracted = model.IsSubstracted;
 						output = new Java.Lang.String (hearingFormatServiceSave(salve));
 					}
 				}catch(Exception e){
@@ -211,6 +212,8 @@ namespace UmecaApp
 			hearingFormat.ImputedPresence = viewFormat.imputedPresence??0;
 			hearingFormat.HearingResult = viewFormat.hearingResult;
 
+				hearingFormat.TimeAgo = viewFormat.TimeAgo;
+				hearingFormat.LocationPlace = viewFormat.LocationPlace;
 
 			bool hasFirstFH = false;
 			HearingFormat lastHF = null;
@@ -242,6 +245,11 @@ namespace UmecaApp
 			}
 
 			hearingFormat.Room = viewFormat.room;
+			hearingFormat.District = viewFormat.District;
+			hearingFormat.IsHomeless = viewFormat.IsHomeless;
+
+				hearingFormat.TimeAgo = viewFormat.TimeAgo;
+				hearingFormat.LocationPlace = viewFormat.LocationPlace;
 
 			try {
 
@@ -331,7 +339,22 @@ namespace UmecaApp
 					hearingImputed.Address = address.Id;//TODO: asignar el id al guardar el address
 					result.addressImputado = address;
 
-				}
+					}
+					if(hearingFormat.IsHomeless){
+						Address address = db.Table<Address>().Where(ad=>ad.Id==hearingImputed.Address).FirstOrDefault();
+						if (address == null)
+							address = new Address();
+						address.Street = viewFormat.street;
+						address.OutNum = viewFormat.outNum;
+						address.InnNum = viewFormat.innNum;
+						Location homeles = db.Table<Location>().Where(homeLess=>homeLess.Name == Constants.HOMELESS_LOC).FirstOrDefault();
+						if(homeles!=null && homeles.Id>0){
+							address.LocationId = homeles.Id;
+						}
+						address.addressString = address.ToString();
+						hearingImputed.Address = address.Id;//TODO: asignar el id al guardar el address
+						result.addressImputado = address;
+					}
 
 				hearingFormat.hearingImputed =hearingImputed.Id;//TODO: asignar el id al guardar el imputed
 				result.hearingFormatImputed = hearingImputed;
@@ -359,21 +382,18 @@ namespace UmecaApp
 				else
 					hearingSpecs.ImputationDate = null;
 
-				if (viewFormat.extDateStr != null && viewFormat.extDateStr.Trim() != "")
-					hearingSpecs.ExtDate = DateTime.ParseExact(viewFormat.extDateStr, "yyyy/MM/dd",
-						System.Globalization.CultureInfo.InvariantCulture);
+				if (viewFormat.extDate != null)
+						hearingSpecs.ExtDate = viewFormat.extDate;
 				else
 					hearingSpecs.ExtDate = null;
 
-				if (viewFormat.linkageDateStr != null && viewFormat.linkageDateStr.Trim() != "")
-					hearingSpecs.LinkageDate = DateTime.ParseExact(viewFormat.linkageDateStr, "yyyy/MM/dd",
-						System.Globalization.CultureInfo.InvariantCulture);
+				if (viewFormat.linkageDate != null)
+						hearingSpecs.LinkageDate = viewFormat.linkageDate;
 				else
 					hearingSpecs.LinkageDate = null;
 
-				if (viewFormat.linkageTimeStr != null && viewFormat.linkageTimeStr.Trim() != "")
-					hearingSpecs.LinkageTime = DateTime.ParseExact(viewFormat.linkageTimeStr, "HH:mm:ss",
-						System.Globalization.CultureInfo.InvariantCulture);
+				if (viewFormat.linkageTime != null)
+						hearingSpecs.LinkageTime = viewFormat.linkageTime;
 
 			} catch (Exception e) {
 				Console.WriteLine("Ha ocurrido un error fillHearingFormat times");
@@ -459,6 +479,7 @@ namespace UmecaApp
 							contact.PhoneTxt = conV.PhoneTxt;
 							contact.AddressTxt = conV.AddressTxt;
 							contact.HearingFormat = hearingFormat.Id;
+							contact.liveWith = conV.liveWith;
 							lstNewContactData.Add(contact);
 						}
 
@@ -541,7 +562,13 @@ namespace UmecaApp
 				String idFolder = caso.IdFolder;
 				String idJudicial = caso.IdMP;
 				int idCase = caso.Id;
-
+				if (model.IsSubstracted != null && model.IsSubstracted == true) {
+					caso.IsSubstracted = true;
+					caso.DateSubstracted = DateTime.Now;
+				} else {
+					caso.IsSubstracted = null;
+					caso.DateSubstracted = null;
+				}
 				if (model.hearingFormat != null && model.hearingFormat.IsFinished == true) {
 					model.hearingFormat.EndTime = DateTime.Now;
 					if (idJudicial == null || idJudicial.Trim () == "") {
@@ -561,7 +588,7 @@ namespace UmecaApp
 				    || model.newHearingFormatSpecs.LinkageProcess == Constants.PROCESS_VINC_NO_REGISTER)) {
 					model.hearingFormat.ShowNotification = true;
 				}
-
+				db.Update (caso);
 				//			hearingFormatRepository.save(hearingFormat);//TODO save todo lo que esta en el hearing format
 				try {
 					var imputedAddres = model.addressImputado;

@@ -1,0 +1,4 @@
+﻿id|name|obsolete|specification
+1|Cuenta con la información|0|1
+2|No recuerda|0|0
+3|No proporcionada|0|0

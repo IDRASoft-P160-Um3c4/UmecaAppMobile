@@ -5,3 +5,6 @@
 4|ROLE_SUPERVISOR|Supervisor
 5|ROLE_SUPERVISOR_MANAGER|Coordinador de Supervisores
 6|ROLE_DIRECTOR|Director
+7|ROLE_HUMAN_RESOURCES|Recursos Humanos
+8|ROLE_CHANNELING_MANAGER|Coordinador de Canalizaciones
+9|ROLE_DETENTION_RECORD|Registro Procuraduría

@@ -49,6 +49,9 @@ namespace UmecaApp
 					InsertGroupCrime (act);
 					InsertCrimeCatalog (act);
 
+					InsertInformationAviability(act);
+					InsertDistrict(act);
+
 					CreateTablesToConsult ();
 
 					InsertVerMethod (act);
@@ -246,10 +249,10 @@ namespace UmecaApp
 					foreach (String[] line in data) {
 						try {
 							DocumentType model = new DocumentType ();
-							//model.Id = int.Parse (line [0]);
+							model.Id = int.Parse (line [0]);
 							model.Name = line [1];
-							model.IsObsolete = line [2].Equals ("1");
-							model.Specification = line [3].Equals ("1");
+							model.IsObsolete = line [3].Equals ("1");
+							model.Specification = line [2].Equals ("1");
 							entities.Add (model);
 							//db.Insert(model);
 						} catch (Exception e) {
@@ -415,12 +418,12 @@ namespace UmecaApp
 							model.IsExclusive = line [7].Equals ("1");
 							entities.Add (model);
 						} catch (Exception e) {
-							Console.WriteLine ("HearingType error " + e.Message);
+							Console.WriteLine ("arrangement error " + e.Message);
 						}
 					}
 					db.InsertAll (entities);
 					var content = db.Table<HearingType> ().ToList ();
-					Console.WriteLine ("Se inserto en tabla HearingType:");
+					Console.WriteLine ("Se inserto en tabla arrangement:");
 					foreach (HearingType m in content) {
 						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Description);
 					}
@@ -445,12 +448,12 @@ namespace UmecaApp
 							model.IsObsolete = line [3].Equals ("1");
 							entities.Add (model);
 						} catch (Exception e) {
-							Console.WriteLine ("HearingType error " + e.Message);
+							Console.WriteLine ("group_crime error " + e.Message);
 						}
 					}
 					db.InsertAll (entities);
 					var content = db.Table<HearingType> ().ToList ();
-					Console.WriteLine ("Se inserto en tabla HearingType:");
+					Console.WriteLine ("Se inserto en tabla group_crime:");
 					foreach (HearingType m in content) {
 						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Description);
 					}
@@ -475,12 +478,12 @@ namespace UmecaApp
 							model.GroupCrimeId = int.Parse (line [4]);
 							entities.Add (model);
 						} catch (Exception e) {
-							Console.WriteLine ("HearingType error " + e.Message);
+							Console.WriteLine ("crime error " + e.Message);
 						}
 					}
 					db.InsertAll (entities);
 					var content = db.Table<HearingType> ().ToList ();
-					Console.WriteLine ("Se inserto en tabla HearingType:");
+					Console.WriteLine ("Se inserto en tabla crime:");
 					foreach (HearingType m in content) {
 						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Description);
 					}
@@ -565,7 +568,7 @@ namespace UmecaApp
 					}
 					db.InsertAll (entities);
 					var content = db.Table<MaritalStatus> ().ToList ();
-					Console.WriteLine ("Se inserto en tabla ImmigrationDocument:");
+					Console.WriteLine ("Se inserto en tabla MaritalStatus:");
 					foreach (MaritalStatus m in content) {
 						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Name);
 					}
@@ -590,7 +593,7 @@ namespace UmecaApp
 							model.IsObsolete = line [3].Equals ("1");
 							entities.Add (model);
 						} catch (Exception e) {
-							Console.WriteLine ("error " + e.Message);
+							Console.WriteLine ("Periodicity error " + e.Message);
 						}
 					}
 					db.InsertAll (entities);
@@ -675,7 +678,7 @@ namespace UmecaApp
 							model.Description = line [2];
 							entities.Add (model);
 						} catch (Exception e) {
-							Console.WriteLine ("error " + e.Message);
+							Console.WriteLine ("StatusCase error " + e.Message);
 						}
 					}
 					db.InsertAll (entities);
@@ -795,7 +798,7 @@ namespace UmecaApp
 					}
 					db.InsertAll (entities);
 					var content = db.Table<VerificationMethod> ().ToList ();
-					Console.WriteLine ("Se inserto en tabla StatusCase:");
+					Console.WriteLine ("Se inserto en tabla verification_method:");
 					foreach (VerificationMethod m in content) {
 						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Name);
 					}
@@ -822,19 +825,82 @@ namespace UmecaApp
 							model.ZipCode = line [5];
 							entities.Add (model);
 						} catch (Exception e) {
-							Console.WriteLine ("Location error " + e.Message);
+							Console.WriteLine ("Location error ***" + e.Message);
 						}
 					}
 					db.InsertAll (entities);
-//				var content = db.Table<Location> ();
-					Console.WriteLine ("Se inserto en tabla Location:" + entities.Count);
-//				foreach (StatusVerification m in content) {
-//					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
-//				}
+//					var content = db.Table<Location> ().ToList();
+//					Console.WriteLine ("Se inserto en tabla Location:" + content.Count);
+//					foreach (Location m in content) {
+//						Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
+//					}
 				}
 				db.Close ();
 			}
 		}
+
+
+		public void InsertInformationAviability(Activity act){
+			using (var db = FactoryConn.GetConn ()) {
+				db.CreateTable<InformationAviability> ();
+				if (db.Table<InformationAviability> ().Count () == 0) {
+					IEnumerable<String[]> data = GetDataOfFile (ConstantsDb.CONTENT_FOLDER_CATALOG + "/informationAvailability.txt", act);
+					List<InformationAviability> entities = new List<InformationAviability> (); 
+					foreach (String[] line in data) {
+						try {
+							InformationAviability model = new InformationAviability ();
+							model.Id = int.Parse (line [0]);
+							model.Name = line [1];
+							model.IsObsolete = line [2].Equals ("1");
+							model.Specification = line [3].Equals ("1");
+							entities.Add (model);
+						} catch (Exception e) {
+							Console.WriteLine ("informationAvailability error " + e.Message);
+						}
+					}
+					db.InsertAll (entities);
+					var content = db.Table<InformationAviability> ().ToList ();
+					Console.WriteLine ("Se inserto en tabla InformationAviability:");
+					foreach (InformationAviability m in content) {
+						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Name);
+					}
+				}
+				db.Close ();
+			}
+		}
+
+
+		public void InsertDistrict(Activity act){
+			using (var db = FactoryConn.GetConn ()) {
+				db.CreateTable<District> ();
+				if (db.Table<District> ().Count () == 0) {
+					IEnumerable<String[]> data = GetDataOfFile (ConstantsDb.CONTENT_FOLDER_CATALOG + "/district.txt", act);
+					List<District> entities = new List<District> (); 
+					foreach (String[] line in data) {
+						try {
+							District model = new District ();
+							model.Id = int.Parse (line [0]);
+							model.Name = line [1];
+							model.IsObsolete = line [2].Equals ("1");
+							entities.Add (model);
+						} catch (Exception e) {
+							Console.WriteLine ("error " + e.Message);
+						}
+					}
+					db.InsertAll (entities);
+					var content = db.Table<District> ().ToList ();
+					Console.WriteLine ("Se inserto en tabla District:");
+					foreach (District m in content) {
+						Console.WriteLine ("Id: " + m.Id + " Name:" + m.Name);
+					}
+				}
+				db.Close ();
+			}
+		}
+
+
+
+
 
 		//file loader
 		private List<String[]> GetDataOfFile(string fileName, Activity act){

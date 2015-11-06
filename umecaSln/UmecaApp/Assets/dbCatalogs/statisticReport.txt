@@ -1,0 +1,9 @@
+﻿id|name|description|obsolete
+1|STR_1|Número de personas a las que se les realiza la entrevista de evaluación de riesgos procesales.|0
+2|STR_2|Número de mujeres, número de hombres entrevistados.|0
+3|STR_3|Número de personas entrevistadas que consumen sustancias.|0
+4|STR_4|Número de personas entrevistadas que consumen sustancias, cuantas son mujeres y cuantas son hombres.|0
+5|STR_5|Número de personas entrevistadas que consumen sustancias agrupadas por tipo de sustancia.|0
+6|STR_6|Número de personas con opinión técnica, el número de fuentes de verificación.|0
+7|STR_7|Comparativo entrevistas por año.|0
+8|STR_8|Comparativo entrevistas por distrito judicial|0

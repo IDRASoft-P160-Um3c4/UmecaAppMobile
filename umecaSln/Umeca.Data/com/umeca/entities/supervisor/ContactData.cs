@@ -23,6 +23,9 @@ namespace Umeca.Data
 		[Column("address")]
 		public String AddressTxt{ get; set; }
 
+		[Column("live_with")]
+		public Boolean liveWith{ get; set; }
+
 		[Column("id_hearing_format")]
 		public int HearingFormat{ get; set; }
 

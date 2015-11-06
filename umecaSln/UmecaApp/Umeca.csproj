@@ -17,6 +17,7 @@
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -252,6 +253,9 @@
     <Compile Include="Views\Shared\headUmGrid.cs">
       <DependentUpon>headUmGrid.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NewConditionalReprieve2.cs">
+      <DependentUpon>NewConditionalReprieve2.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -366,6 +370,10 @@
     <None Include="Views\Shared\headUmGrid.cshtml">
       <Generator>RazorTemplatePreprocessor</Generator>
       <LastGenOutput>headUmGrid.cs</LastGenOutput>
+    </None>
+    <None Include="Views\NewConditionalReprieve2.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>NewConditionalReprieve2.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1328,6 +1336,37 @@
     <AndroidAsset Include="Assets\dbCatalogs\test_address\41MySQLCatLocation.sql" />
     <AndroidAsset Include="Assets\dbCatalogs\test_address\42MySQLCatLocation.sql" />
     <AndroidAsset Include="Assets\dbCatalogs\test_address\country.sql" />
+    <AndroidAsset Include="Assets\content\multiple-select.css" />
+    <AndroidAsset Include="Assets\content\selectize.bootstrap3.css" />
+    <AndroidAsset Include="Assets\scripts\jquery.multiple.select.js" />
+    <AndroidAsset Include="Assets\scripts\selectize.js" />
+    <AndroidAsset Include="Assets\scripts\app\reviewer\scheduleCtrl2.js" />
+    <AndroidAsset Include="Assets\dbCatalogs\area.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\channeling_drop_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\channeling_institution_name.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\channeling_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\close_cause.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\course_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\district.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\economic_support.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\education_level.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\evaluationActivity.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\event.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\framing_safety_factor.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\incident_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\informationAvailability.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\institution_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\post_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\prevention_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\priority.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\report_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\school_document_type.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\statistic_channeling_report.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\statistic_supervisor_manager_report.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\statisticOperatorReport.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\statisticReport.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\umeca_post.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\week_day.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\academic_level.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\activity.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\activity_goals.txt" />
@@ -1337,7 +1376,6 @@
     <AndroidAsset Include="Assets\dbCatalogs\crime.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\day_week.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\degree.txt" />
-    <AndroidAsset Include="Assets\dbCatalogs\document_type - Copy.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\document_type.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\drug_type.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\election.txt" />
@@ -1353,7 +1391,6 @@
     <AndroidAsset Include="Assets\dbCatalogs\hearing_type.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\home_type.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\immigrationDocument.txt" />
-    <AndroidAsset Include="Assets\dbCatalogs\location.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\marital_status.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\periodicity.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\physical_condition.txt" />
@@ -1376,11 +1413,8 @@
     <AndroidAsset Include="Assets\dbCatalogs\type_file_name.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\user.txt" />
     <AndroidAsset Include="Assets\dbCatalogs\verification_method.txt" />
-    <AndroidAsset Include="Assets\content\multiple-select.css" />
-    <AndroidAsset Include="Assets\content\selectize.bootstrap3.css" />
-    <AndroidAsset Include="Assets\scripts\jquery.multiple.select.js" />
-    <AndroidAsset Include="Assets\scripts\selectize.js" />
-    <AndroidAsset Include="Assets\scripts\app\reviewer\scheduleCtrl2.js" />
+    <AndroidAsset Include="Assets\dbCatalogs\document_type - Copy.txt" />
+    <AndroidAsset Include="Assets\dbCatalogs\location.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Umeca.Data\Umeca.Data.csproj">

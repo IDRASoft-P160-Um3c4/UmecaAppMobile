@@ -1,0 +1,5 @@
+id|name|obsolete|specification
+1|TipoA|0|0
+2|TipoB|0|0
+3|TipoC|0|0
+4|TipoD|0|1

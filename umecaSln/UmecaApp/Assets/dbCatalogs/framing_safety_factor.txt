@@ -1,0 +1,27 @@
+﻿id_framing_safety_factor|description|safety_factor_index|is_obsolete
+1|Dependientes económicos|1|0
+2|Arraigo en el estado|2|0
+3|Cuenta con vínculos familiares|3|0
+4|Empleo|4|0
+5|No consume sustancias adictivas|5|0
+6|No sale comúnmente del estado|6|0
+7|Disponibilidad para cumplir|7|0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

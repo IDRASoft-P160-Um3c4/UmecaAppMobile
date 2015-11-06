@@ -1,4 +1,4 @@
-﻿@model UmecaApp.VerificationMeetingSourceDto
+@model UmecaApp.VerificationMeetingSourceDto
 @inherits WebViewTemplate
 @{
 Layout = "UmecaApp.headUm";
@@ -6,12 +6,25 @@ Layout = "UmecaApp.headUm";
 <input id="hdnVerificationCaseId" type="hidden" value="@Model.CaseId" name="jsonString" />
 <input id="hdnVerificationSourceId" type="hidden" value="@Model.SourceId" name="jsonString" />
 
+<style>
+.verified > i{
+    background-color: rgba(255, 228, 0, 0.59) !important;
+}
+</style>
+
 <script>
 function genderBend(bol){
 	 $("#divElementVerif #verHdnGennder").val(bol);
 }
-</script>
 
+function refreshVerifiedIcons(){
+//angular.element($('#generalDivForAngular')).scope().drawAllVerifiedFields().$apply();
+var scope = angular.element(document.getElementById("generalDivForAngular")).scope();
+    scope.drawAllVerifiedFields();
+console.log("refreshing???????????");
+}
+</script>
+  <label id="hdnListVerifiedTrigger">0</label>
 
 <script>
 var SingleVerify  = {};
@@ -102,6 +115,7 @@ SingleVerify.save = function (){
 	SingleVerify.code = "";
 	$("#SingleVerifyBoxDlgIderrorMsg").text("");
 SingleVerify.listid = 0;
+refreshVerifiedIcons();
 };
 </script>
 
@@ -278,6 +292,7 @@ ImputedHomeVerify.save = function (){
           return 0;
     }
   ImputedHomeVerify.hide();
+  refreshVerifiedIcons();
 };
 
 ImputedHomeVerify.munByEdo = function (estado){
@@ -546,6 +561,7 @@ var fuente = $("#hdnVerificationSourceId").val();
 	}
 	dlgMsgBox.hide();
 $("#divElementMaritalStatusVerify input").val("");
+refreshVerifiedIcons();
 }
 </script>
 <div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="MaritalStatusVerifyBoxDlgId" >
@@ -800,6 +816,7 @@ ImputedActivitiesVerify.save = function (){
 		return 0;
 	}	
     ImputedActivitiesVerify.hide();
+    refreshVerifiedIcons();
 };
 
 ImputedActivitiesVerify.drawActivityEspecifications = function (){
@@ -936,17 +953,25 @@ console.log("not in array");
     ImputedBirthPlaceVerify.modelList = [];
     ImputedBirthPlaceVerify.specificationHtml = "";
 
+    ImputedBirthPlaceVerify.aviabilitys = [];
 
     ImputedBirthPlaceVerify.show = function (element){
         $("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("").hide();
         var caso = $("#hdnVerificationCaseId").val();
         var fuente = $("#hdnVerificationSourceId").val();
+
         ImputedBirthPlaceVerify.paises = $.parseJSON(MeetingService.findAllCountry());
         ImputedBirthPlaceVerify.estados = $.parseJSON(MeetingService.findAllStates());
+        ImputedBirthPlaceVerify.aviabilitys = $.parseJSON(MeetingService.findAllAviabilityCountry());
         console.log("stringify paises>"+JSON.stringify(ImputedBirthPlaceVerify.paises));
         console.log("stringify estados>"+JSON.stringify(ImputedBirthPlaceVerify.estados));
         $('#slcVerifyBirthState',"#divImputedBirthPlaceVerify").empty();
         $('#slcVerifyBirthCountry',"#divImputedBirthPlaceVerify").empty();
+        $('#birthInfo',"#divImputedBirthPlaceVerify").empty();
+
+        for(var indx=0;indx<ImputedBirthPlaceVerify.aviabilitys.length;indx++){
+               $('#birthInfo',"#divImputedBirthPlaceVerify").append("<option value='"+ImputedBirthPlaceVerify.aviabilitys[indx].Id+"' >"+ImputedBirthPlaceVerify.aviabilitys[indx].Name+"</option>");
+        }
         for(var indx=0;indx<ImputedBirthPlaceVerify.paises.length;indx++){
                 console.log("id pais val->"+ImputedBirthPlaceVerify.paises[indx].Id);
                 console.log("name pais text->"+ImputedBirthPlaceVerify.paises[indx].Name);
@@ -984,33 +1009,43 @@ ImputedBirthPlaceVerify.hide = function (){
     $("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("").hide();
 };
 
-ImputedBirthPlaceVerify.save = function (){     
+ImputedBirthPlaceVerify.save = function (){
         var caso = $("#hdnVerificationCaseId").val();
         var fuente = $("#hdnVerificationSourceId").val();
-        var selectedPais = $('#slcVerifyBirthCountry',"#divImputedBirthPlaceVerify").val();
+        var selectedInfo = $('#birthInfo',"#divImputedBirthPlaceVerify").val();	
+        var selectedPais = $('#slcVerifyBirthCountry',"#divImputedBirthPlaceVerify").val();	
         $("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("").hide();
-        if(selectedPais==1||selectedPais=="1"){
-        	if($('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
-        	$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("La localidad/colonia es un campo requerido").show();
-        	return false;
-.        }else{
-        var errors=false;
-	        if($('#txtVerifyBirthState',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthState',"#divImputedBirthPlaceVerify").val()==""){
-	    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("El estado es un campo requerido").show();
-	    		errors=true;
+
+        if(selectedInfo==1||selectedInfo=="1"){
+
+	        if(selectedPais==1||selectedPais=="1"){
+	        	if($('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
+	        		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("La localidad/colonia es un campo requerido").show();
+	        		return false;
+	        	}
+	        }else{
+	        var errors=false;
+		        if($('#txtVerifyBirthState',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthState',"#divImputedBirthPlaceVerify").val()==""){
+		    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html("El estado es un campo requerido").show();
+		    		errors=true;
+		    	}
+		    	if($('#txtVerifyBirthMunicipality',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthMunicipality',"#divImputedBirthPlaceVerify").val()==""){
+		    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html($("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html()+"<br />El municipio es un campo requerido").show();
+		    		errors=true;
+		    	}
+		    	if($('#txtVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
+		    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html($("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html()+"<br />La Localidad/Colonia es un campo requerido").show();
+		    		errors=true;
+		    	}
+		    	if(errors){
+		    	return !errors;
+		    	}
 	    	}
-	    	if($('#txtVerifyBirthMunicipality',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthMunicipality',"#divImputedBirthPlaceVerify").val()==""){
-	    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html($("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html()+"<br />El municipio es un campo requerido").show();
-	    		errors=true;
-	    	}
-	    	if($('#txtVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==undefined||$('#txtVerifyBirthLocation',"#divImputedBirthPlaceVerify").val()==""){
-	    		$("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html($("#ImputedBirthPlaceVerifyBoxDlgIderrorMsg").html()+"<br />La Localidad/Colonia es un campo requerido").show();
-	    		errors=true;
-	    	}
-	    	if(errors){
-	    	return !errors;
-	    	}
+
+    	}else{
+    	$('#slcVerifyBirthCountry',"#divImputedBirthPlaceVerify").val("");	
     	}
+
 
     var data = $("#FormImputedBirthPlaceVerify").serialize();
     var encoded = [];
@@ -1041,6 +1076,7 @@ ImputedBirthPlaceVerify.save = function (){
           return 0;
     }
   ImputedBirthPlaceVerify.hide();
+  refreshVerifiedIcons();
 };
 
 ImputedBirthPlaceVerify.showInnerAddress = function (pais){
@@ -1089,6 +1125,18 @@ console.log("$(municipio).val()="+$(municipio).val());
 			    			console.log("exception caugth at MunByEdo Message >>"+e.Message);
 						}
 			    }
+};
+
+
+ImputedBirthPlaceVerify.showHomeles = function (aviability){
+    var idInfo = $(aviability).val();
+    if(idInfo==1||idInfo=="1"){
+		$(".is-hom").show();	
+    }else{
+		$(".is-hom").hide();
+		$("#divImputedBirthPlaceVerify input").prop("disabled",false).attr('readonly', false).val("");
+		$('#slcVerifyBirthLocation',"#divImputedBirthPlaceVerify").val("");
+    }
 };
 </script>
 
@@ -1139,7 +1187,17 @@ console.log("$(municipio).val()="+$(municipio).val());
                                             <div class="widget-body">
                                                 <br/>
 
-                                                <div class="row" >
+                                                <div class="row">
+                                                	<div class="col-xs-2 element-left col-xs-offset-1">
+							                            Seleccione una opci&oacute;n:
+							                        </div>
+							                        <div class="col-xs-3">
+							                            <select id="birthInfo" class="form-control element-center" name="imputed.birthInfo.id"
+							                            onchange="ImputedBirthPlaceVerify.showHomeles(this);" ></select>
+							                        </div>
+                                                </div>
+
+                                                <div class="row is-hom" >
                                                     <div class="col-xs-2 element-left col-xs-offset-1">
                                                         Pa&iacute;s:
                                                     </div>
@@ -1165,7 +1223,7 @@ console.log("$(municipio).val()="+$(municipio).val());
                                                     </div>
                                                 </div>
                                                 <br/>
-                                                <div class="row">
+                                                <div class="row is-hom">
                                                     <div class="col-xs-2 element-left col-xs-offset-1 outer-mex">
                                                         Municipio:
                                                     </div>
@@ -1343,6 +1401,7 @@ DisponibilidadVerify.save = function (){
 		console.log("json>>"+JSON.stringify(json));
 	}
 	DisponibilidadVerify.hide();
+	refreshVerifiedIcons();
 };
 
 
@@ -1569,12 +1628,6 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
         $scope.listMsgError['drug'] = false;
         $scope.listMsgError['leavingCountry'] = true;*/
 
-        $scope.putasHarry=function(){
-        $timeout(function(){
-        	$("#axelMulti").chosen();
-        	},0);
-        };
-
 ////////////////DATOS PERSONALES CONTROLLER
 
         ////////////////VARIABLES///////////////
@@ -1605,8 +1658,6 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 		    for(x=0;x<$scope.listCountry.length;x++){
 		    	if($scope.listCountry[x].Id==$scope.m.BirthCountry){
 		    		$scope.SeceltedCountry = $scope.listCountry[x];
-		    		//alert("$scope.listCountry[x]"+JSON.stringify($scope.listCountry[x]));
-		    		//alert("$scope.SeceltedCountry"+JSON.stringify($scope.SeceltedCountry));
 		    		$scope.InitMunicipalityDP();
 		    		break;
 		    	}
@@ -1931,6 +1982,7 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 		    try{
 			    var js = JSON.parse($("#hdnJsonMtng").val());
 			    $scope.m = js;
+			    $scope.lstActivity = JSON.parse(VerificationService.actividadesImputado());
 			    //alert("js valu>>"+$("#hdnJsonMtng").val());
 			    //Birthplace iniciation
 			    $scope.InitCountryPD();
@@ -1941,6 +1993,7 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 			    $scope.InitLeaveCountry();
 			     disponibilityHtml();
 			     $scope.$apply();
+			     $scope.drawAllVerifiedFields();
 		    }
 		    catch(err){
 		    	alert("error catched Iniciate angular function erro==>"+err.message);
@@ -2037,6 +2090,28 @@ window.location.replace('hybrid:Verification/IndexFuentes?idCase='+idCaso);
 		var dlgMsgBox = $('#MessageBoxDlgTerminateId');
 		dlgMsgBox.hide();
 	};
+
+
+
+
+
+	//resaltVerified
+	$scope.VerifiedSourceListClass = {};
+
+	$scope.drawAllVerifiedFields = function(){
+		var caso = $("#hdnVerificationCaseId").val();
+		var fuente = $("#hdnVerificationSourceId").val();
+		var cosas = JSON.parse(VerificationService.searchAllFieldVerification(caso,fuente));
+		$scope.VerifiedSourceListClass = {};
+		for(var e=0;e<cosas.length;e++){
+			$scope.VerifiedSourceListClass[cosas[e]]=true;
+			console.log("cosas[e]"+cosas[e]);
+		}
+		//$scope.VerifiedSourceListClass = cosas;
+		console.log("$scope.VerifiedSourceListClass"+JSON.stringify($scope.VerifiedSourceListClass));
+		$scope.$apply();
+	};
+
 
 });
 
@@ -2444,7 +2519,7 @@ console.log("here5");
                                         <br/>
                                         <div class="row">
                                             <div class="col-xs-4">
-                                                <div class="col-xs-5  element-left">
+                                                <div class="col-xs-5  element-left" ng-class="VerifiedSourceListClass['imputed.name'+'.0']==true?'verified':'';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.name')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2466,7 +2541,7 @@ console.log("here5");
                                                 </div>
                                             </div>
                                             <div class="col-xs-4">
-                                                <div class="col-xs-5  element-left">
+                                                <div class="col-xs-5  element-left" ng-class="VerifiedSourceListClass['imputed.lastNameP'+'.0']===true?'verified':'';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.lastNameP')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2488,7 +2563,7 @@ console.log("here5");
                                                 </div>
                                             </div>
                                             <div class="col-xs-4">
-                                                <div class="col-xs-5  element-left">
+                                                <div class="col-xs-5  element-left" ng-class="VerifiedSourceListClass['imputed.lastNameM'+'.0']===undefined?'':'verified';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.lastNameM')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2513,7 +2588,7 @@ console.log("here5");
                                         <br/>
                                         <div class="col-xs-6">
                                             <div class="row">
-                                                <div class="col-xs-3 element-left">
+                                                <div class="col-xs-3 element-left" ng-class="VerifiedSourceListClass['imputed.gender'+'.0']==undefined?'':'verified';">
                                                     <br/> <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.gender')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2551,7 +2626,7 @@ console.log("here5");
                                             </div>
                                             <br/>
                                             <div class="row">
-                                                <div class="col-xs-3 element-left">
+                                                <div class="col-xs-3 element-left" ng-class="VerifiedSourceListClass['imputed.nickname'+'.0']==undefined?'':'verified';">
                                                     <br/> <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.nickname')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2582,7 +2657,7 @@ console.log("here5");
                                                 </div>
                                             </div>
                                             <div class="row" ng-show="verification == true || selectSource==true">
-                                                <div class="col-xs-5 element-left">
+                                                <div class="col-xs-5 element-left" ng-class="VerifiedSourceListClass['imputed.birthDate'+'.0']==undefined?'':'verified';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.birthDate')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2609,7 +2684,7 @@ console.log("here5");
                                             <br/>
 
                                             <div class="row">
-                                                <div class="col-xs-5 element-left">
+                                                <div class="col-xs-5 element-left" ng-class="VerifiedSourceListClass['imputed.celPhone'+'.0']==undefined?'':'verified';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.celPhone')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -2634,19 +2709,18 @@ console.log("here5");
                                         </div>
                                         <div class="col-xs-6">
                                             <div class="widget-box">
-                                                <div class="widget-header row"
+                                                <div class="widget-header"
                                                 ng-init="maritalStatus = (m.imputed.maritalStatus.id == null ? 1: m.imputed.maritalStatus.id)">
-                                                <div class="col-xs-3">
+                                                <div class="col-xs-6" ng-class="VerifiedSourceListClass['imputed.maritalStatus.id'+'.0']==undefined?'':'verified';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220"  ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.maritalStatus.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="4" ng-show="verification"
                                                     code="imputed.maritalStatus.id"  onclick="MaritalStatusVerify.show(this);" ></i>
-                                                    <i class="icon-ban-circle inverse icon-only bigger-1 220"  ng-show="verification"
+                                                    <i class="icon-ban-circle gray icon-only bigger-220"  ng-show="verification"
                                                     onclick="askDontKnow.show('imputed.maritalStatus.id')"></i>
                                                     <i class="purple icon-list icon-only bigger-220"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
                                                 </div>
-
-                                                <div class="col-xs-9 element-left">
+                                                <div class="col-xs-6 element-left">
                                                     <h5>Estado civil</h5>
                                                 </div>
 
@@ -2725,7 +2799,7 @@ console.log("here5");
                                 <div class="col-xs-12">
                                     <div class="widget-box">
                                         <div class="widget-header">
-                                            <div class="col-xs-3">
+                                            <div class="col-xs-3" ng-class="VerifiedSourceListClass['imputed.boys'+'.0']==undefined?'':'verified';">
                                                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                 onclick="askEqualsImp.show('imputed.boys')"></i>
                                                 <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="3" ng-show="verification"
@@ -2792,14 +2866,14 @@ console.log("here5");
                                     <div class="col-xs-12">
                                         <div class="widget-box">
                                             <div class="widget-header">
-                                                <div class="col-xs-3" >
+                                                <div class="col-xs-3"  ng-class="VerifiedSourceListClass['imputed.birthCountry.id'+'.0']==undefined?'':'verified';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.birthCountry.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="5" ng-show="verification"
                                                     code="imputed.birthCountry.id" onclick="ImputedBirthPlaceVerify.show(this)"></i>
                                                     <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"
                                                     onclick="askDontKnow.show('imputed.birthCountry.id')"></i>
-                                                    <i class="purple icon-list icon-only bigger-220"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
+                                                    <i class="icon-list purple icon-only bigger-220"   ng-show="selectSource" ng-click="showChoices('imputed.birthCountry.id')"></i>
                                                 </div>
                                                 <div class="col-xs-9 element-left">
                                                     <h4>Lugar de nacimiento</h4>
@@ -2809,11 +2883,24 @@ console.log("here5");
                                             <div class="widget-body">
                                                 <br/>
 
+                                                <div class="row">
+                                                	<div class="col-xs-2 element-left col-xs-offset-1">
+							                            Seleccione una opci&oacute;n:
+							                        </div>
+							                        <div class="col-xs-3">
+							                            <input type="hidden" ng-model="m.BirthInfoId" name="imputed.birthInfo.id"
+							                                   id="birthInfo" >
+							                            <select class="form-control element-center" ng-model="birthInfo"
+							                                    ng-change="selviability(this);"
+							                                    ng-options="e.Name for e in lstInfoAvail"></select>
+							                        </div>
+                                                </div>
+
                                                 <div class="row" >
-                                                    <div class="col-xs-2 element-left col-xs-offset-1">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthInfoId == 1">
                                                         Pa&iacute;s:
                                                     </div>
-                                                    <div class="col-xs-3">
+                                                    <div class="col-xs-3"  ng-show="m.BirthInfoId == 1">
                                                         <input type="hidden" ng-update-hiddenname="imputed.birthCountry.id"
                                                         id="country"
                                                         value="${m.BirthCountry == null ? '': m.BirthCountry}"
@@ -2822,10 +2909,10 @@ console.log("here5");
                                                         ng-options="e.Name for e in listCountry" value="{{SeceltedCountry['ID']}}"
                                                         ng-change="m.BirthCountry = SeceltedCountry['Id'];" ng-init='listCountry = @Model.JsonCountrys;'></select>
                                                    </div>
-                                                    <div class="col-xs-2 element-right" ng-show="m.BirthCountry != 1">
+                                                    <div class="col-xs-2 element-right" ng-show="m.BirthCountry != 1 && m.BirthInfoId == 1">
                                                         Estado:
                                                     </div>
-                                                    <div class="col-xs-3" ng-show="m.BirthCountry != 1">
+                                                    <div class="col-xs-3" ng-show="m.BirthCountry != 1 && m.BirthInfoId == 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthState" id="imputed.birthState"   data-val="true"
                                                         name="" data-val-required="El estado es un campo requerido" value="{{m.BirthState}}"
@@ -2833,10 +2920,10 @@ console.log("here5");
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthState"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="col-xs-2 element-right" ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-2 element-right" ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         Estado:
                                                     </div>
-                                                    <div class="col-xs-3" ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-3" ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         <select class="form-control element-center" ng-model="SeceltedEstate" value=""
                                                         ng-options="e.Name for e in listState" ng-init='listState = @Model.JsonStates'
                                                         ng-change="MunByEdo();"></select><br/>
@@ -2846,10 +2933,10 @@ console.log("here5");
                                                 <br/>
 
                                                 <div class="row">
-                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry != 1">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry != 1 && m.BirthInfoId == 1">
                                                         Municipio:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry != 1 && m.BirthInfoId == 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthMunicipality" id="imputed.birthMunicipality"    data-val="true"
                                                         name="" data-val-required="El municipio es un campo requerido"
@@ -2857,10 +2944,10 @@ console.log("here5");
                                                         <span class="field-validation-valid" data-valmsg-for="m.BirthMunicipality"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-2 element-left col-xs-offset-1"  ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         Municipio:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         <input type="hidden" ng-model="urlMunicipality"
                                                         ng-init=''>
                                                         <select class="form-control element-center" ng-model="SeceltedMuni" 
@@ -2868,10 +2955,10 @@ console.log("here5");
                                                         ng-change="LocByMun();"></select><br/>
 
                                                     </div>
-                                                    <div class="col-xs-2 element-right"  ng-show="m.BirthCountry != 1">
+                                                    <div class="col-xs-2 element-right"  ng-show="m.BirthCountry != 1 && m.BirthInfoId == 1">
                                                         Localidad/Colonia:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.BirthCountry != 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry != 1 && m.BirthInfoId == 1">
                                                         <input class="form-control"
                                                         type="text" ng-model="m.BirthLocation" id="imputed.birthLocation"
                                                         name="" data-val-required="La localidad es un campo requerido"   data-val="true"
@@ -2879,15 +2966,15 @@ console.log("here5");
                                                         <span class="field-validation-valid" data-valmsg-for="imputed.birthLocation"
                                                         data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="col-xs-2 element-right"  ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-2 element-right"  ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         Localidad/Colonia:
                                                     </div>
-                                                    <div class="col-xs-3"  ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-3"  ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         <select class="form-control" ng-model="SeceltedLocation" change-cp 
                                                         ng-options="e.Name for e in listLocalidades" ng-init="listLocalidades = [];"
                                                         ng-change="locationDp();"></select>
                                                     </div>
-                                                    <div class="col-xs-10 col-xs-offset-1" ng-show="m.BirthCountry == 1">
+                                                    <div class="col-xs-10 col-xs-offset-1" ng-show="m.BirthCountry == 1 && m.BirthInfoId == 1">
                                                         <input type="hidden" ng-model="m.LocationId" ng-update-hidden name="imputed.location.id"
                                                         data-val-required="La localidad es un campo requerido. Elija Estado y Municipio para desplegar la lista de localidades.">
                                                         <span class="field-validation-valid" data-valmsg-for="mputed.location.id"
@@ -2902,7 +2989,7 @@ console.log("here5");
                                 <br/>
 
                                 <div class="row">
-                                    <div class="col-xs-3 element-left">
+                                    <div class="col-xs-3 element-left" ng-class="VerifiedSourceListClass['socialEnvironment.physicalCondition'+'.0']==undefined?'':'verified';">
                                         <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                         onclick="askEqualsImp.show('socialEnvironment.physicalCondition')"></i>
                                         <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2" ng-show="verification"
@@ -2925,7 +3012,7 @@ console.log("here5");
 
                                 <div id="showId">
                                     <div class="row">
-								        <div class="col-xs-3 element-left">
+								        <div class="col-xs-3 element-left" ng-class="VerifiedSourceListClass['socialEnvironment.activities'+'.0']==undefined?'':'verified';">
 								            <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
 								               onclick="askEqualsImp.show('socialEnvironment.activities')"></i>
 								            <i class="icon-remove-circle red  icon-only bigger-220" onclick="ImputedActivitiesVerify.show();" ng-show="verification"
@@ -2939,7 +3026,7 @@ console.log("here5");
 								        <div class="col-xs-9 element-left">
 								            <input name="activities" ng-model="activities" type="hidden" ng-update-hidden >
 								            <select ng-model="activityModel" data-placeholder="..." id="ms"
-								                    ng-init='lstActivity = @Model.JsonActivities;' ng-change="matchActivities();"
+								                     ng-change="matchActivities();"
 								                    id="slctActivity" style="width:450px;heigth: 100%;"
 								                    ng-options="ac.name for ac in lstActivity" multiple >
 								            </select>
@@ -3015,9 +3102,9 @@ console.log("here5");
         </h4>
     </div>
     <div class="row">
-	    <div class="col-xs-2 col-xs-offset-1 element-right">
+	    <div class="col-xs-2 col-xs-offset-1 element-right"  ng-class="VerifiedSourceListClass['imputedHomes.address'+'.'+@Dmcl.Id]==undefined?'':'verified';">
 	        <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
-	           onclick="askEqualsImp.show('imputedHomes.address',@Dmcl.Id);"></i>
+	           onclick="askEqualsImp.show('imputedHomes.address',+@Dmcl.Id);"></i>
 	        <i class="icon-remove-circle red  icon-only bigger-220" level-child="6" ng-show="verification" onclick="ImputedHomeVerify.show(this);"
 	           id-code="imputedHomes.address" id-element="@Dmcl.Id" id-element="@Dmcl.Id"></i>
 	        <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"
@@ -3032,7 +3119,7 @@ console.log("here5");
 	</div>
 	<br />
 	<div class="row" >
-	    <div class="col-xs-3 element-right">
+	    <div class="col-xs-3 element-right"  ng-class="VerifiedSourceListClass['imputedHomes.phone'+'.'+@Dmcl.Id]==undefined?'':'verified';">
 	        <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
 	           onclick="askEqualsImp.show('imputedHomes.phone',@Dmcl.Id);"></i>
 	        <i class="icon-remove-circle red  icon-only bigger-220"  onclick="SingleVerify.show(this);" level-child="2"  ng-show="verification"
@@ -3058,7 +3145,7 @@ console.log("here5");
 
 	<div>
 	    <div class="row">
-	        <div class="col-xs-3 element-right">
+	        <div class="col-xs-3 element-right"  ng-class="VerifiedSourceListClass['imputedHomes.homeType.id'+'.'+@Dmcl.Id]==undefined?'':'verified';">
 	            <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
 	               onclick="askEqualsImp.show('imputedHomes.homeType.id',@Dmcl.Id);"></i>
 	            <i class="icon-remove-circle red  icon-only bigger-220"  onclick="SingleVerify.show(this);" level-child="3" ng-show="verification"
@@ -3132,7 +3219,7 @@ console.log("here5");
 
 <div>
     <div class="row">
-        <div class="col-xs-3 element-right">
+        <div class="col-xs-3 element-right"  ng-class="VerifiedSourceListClass['imputedHomes.registerType.id'+'.'+@Dmcl.Id]==undefined?'':'verified';">
             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                onclick="askEqualsImp.show('imputedHomes.registerType.id',@Dmcl.Id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-220" level-child="3" ng-show="verification"
@@ -3240,7 +3327,7 @@ e="hide";
                         <br/>
                         <div class="row registerDisponibilidad">
                             <div class="col-xs-12" >
-                                <div class="widget-header header-color-blue">
+                                <div class="widget-header header-color-blue"  ng-class="VerifiedSourceListClass['imputedHomes.schedule'+'.'+@Dmcl.Id]==undefined?'':'verified';">
                                     <h5 class="bigger lighter">
                                         <h6> &nbsp;
                                             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
@@ -3423,7 +3510,7 @@ e="hide";
     <input type="hidden" ng-model="p" ng-init="p=listSocialNetwork[$index]">
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.name'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.name',@Jpsn.Id)" ></i>
                 <i class="icon-remove-circle red icon-only bigger-220" level-child="3" ng-show="verification" code="socialNetwork.name" id-element="@Jpsn.Id" onclick="SingleVerify.show(this);"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.name',@Jpsn.Id);"></i>
@@ -3442,7 +3529,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.relationship.id'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.relationship.id',@Jpsn.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="3" ng-show="verification" code="socialNetwork.relationship.id" id-element="@Jpsn.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.relationship.id',@Jpsn.Id);"></i>
@@ -3490,7 +3577,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.phone'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.phone',@Jpsn.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="socialNetwork.phone" id-element="@Jpsn.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.phone',@Jpsn.Id);"></i>
@@ -3509,7 +3596,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.documentType.id'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.documentType.id',@Jpsn.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="socialNetwork.documentType.id" id-element="@Jpsn.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.documentType.id',@Jpsn.Id);"></i>
@@ -3545,7 +3632,7 @@ e="hide";
                     </div>
         </div>
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.age'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.age',@Jpsn.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="socialNetwork.age" id-element="@Jpsn.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.age',@Jpsn.Id);"></i>
@@ -3565,7 +3652,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.livingWith.id'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.livingWith.id',@Jpsn.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="socialNetwork.livingWith.id" id-element="@Jpsn.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.livingWith.id',@Jpsn.Id);"></i>
@@ -3601,7 +3688,7 @@ e="hide";
                     </div>
         </div>
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['socialNetwork.dependent.id'+'.'+@Jpsn.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('socialNetwork.dependent.id',@Jpsn.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="socialNetwork.dependent.id" id-element="@Jpsn.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('socialNetwork.dependent.id',@Jpsn.Id);"></i>
@@ -3678,7 +3765,7 @@ e="hide";
     <input type="hidden" ng-model="p" ng-init="p=listSocialNetwork[$index]">
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['references.fullName'+'.'+@Jrfr.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('references.fullName',@Jrfr.Id)" ></i>
                 <i class="icon-remove-circle red icon-only bigger-220" level-child="3" ng-show="verification" code="references.fullName" id-element="@Jrfr.Id" onclick="SingleVerify.show(this);"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('references.fullName',@Jrfr.Id);"></i>
@@ -3697,7 +3784,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['references.relationship.id'+'.'+@Jrfr.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('references.relationship.id',@Jrfr.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="3" ng-show="verification" code="references.relationship.id" id-element="@Jrfr.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('references.relationship.id',@Jrfr.Id);"></i>
@@ -3746,7 +3833,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['references.phone'+'.'+@Jrfr.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('references.phone',@Jrfr.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="references.phone" id-element="@Jrfr.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('references.phone',@Jrfr.Id);"></i>
@@ -3765,7 +3852,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['references.documentType.id'+'.'+@Jrfr.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('references.documentType.id',@Jrfr.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="references.documentType.id" id-element="@Jrfr.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('references.documentType.id',@Jrfr.Id);"></i>
@@ -3801,7 +3888,7 @@ e="hide";
                     </div>
         </div>
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left" ng-class="VerifiedSourceListClass['references.age'+'.'+@Jrfr.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('references.age',@Jrfr.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="references.age" id-element="@Jrfr.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('references.age',@Jrfr.Id);"></i>
@@ -3821,7 +3908,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-12"> 
-                    <div class="viviendoCon col-xs-4 element-left" >
+                    <div class="viviendoCon col-xs-4 element-left"  ng-class="VerifiedSourceListClass['references.address'+'.'+@Jrfr.Id]==undefined?'':'verified';">
                         <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('references.address',@Jrfr.Id);"></i>
                         <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="references.address" id-element="@Jrfr.Id"></i>
                         <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('references.address',@Jrfr.Id);"></i>
@@ -3899,7 +3986,7 @@ e="hide";
     <input type="hidden" ng-model="p" ng-init="p=listSocialNetwork[$index]">
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['jobs.company'+'.'+@Jjob.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('jobs.company',@Jjob.Id)" ></i>
                 <i class="icon-remove-circle red icon-only bigger-220" level-child="3" ng-show="verification" code="jobs.company" id-element="@Jjob.Id" onclick="SingleVerify.show(this);"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('jobs.company',@Jjob.Id);"></i>
@@ -3917,7 +4004,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['jobs.post'+'.'+@Jjob.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('jobs.post',@Jjob.Id)" ></i>
                 <i class="icon-remove-circle red icon-only bigger-220" level-child="3" ng-show="verification" code="jobs.post" id-element="@Jjob.Id" onclick="SingleVerify.show(this);"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('jobs.post',@Jjob.Id);"></i>
@@ -3935,7 +4022,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['jobs.phone'+'.'+@Jjob.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('jobs.phone',@Jjob.Id)" ></i>
                 <i class="icon-remove-circle red icon-only bigger-220" level-child="3" ng-show="verification" code="jobs.phone" id-element="@Jjob.Id" onclick="SingleVerify.show(this);"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('jobs.phone',@Jjob.Id);"></i>
@@ -3953,7 +4040,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['jobs.nameHead'+'.'+@Jjob.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('jobs.nameHead',@Jjob.Id)" ></i>
                 <i class="icon-remove-circle red icon-only bigger-220" level-child="3" ng-show="verification" code="jobs.nameHead" id-element="@Jjob.Id" onclick="SingleVerify.show(this);"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('jobs.nameHead',@Jjob.Id);"></i>
@@ -3972,7 +4059,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-12">
-            <div class="col-xs-2 element-left">
+            <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['jobs.address'+'.'+@Jjob.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('jobs.address',@Jjob.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="jobs.address" id-element="@Jjob.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('jobs.address',@Jjob.Id);"></i>
@@ -3995,7 +4082,7 @@ e="hide";
 
     <div>
     <div class="row">
-        <div class="col-xs-3 element-right">
+        <div class="col-xs-3 element-right"  ng-class="VerifiedSourceListClass['jobs.registerType.id'+'.'+@Jjob.Id]==undefined?'':'verified';">
             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                onclick="askEqualsImp.show('jobs.registerType.id',@Jjob.Id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-220" level-child="3" ng-show="verification"
@@ -4121,7 +4208,7 @@ e="hide";
 
                         <div class="hidenStart row registerDisponibilidad">
                             <div class="col-xs-12" >
-                                <div class="widget-header header-color-blue">
+                                <div class="widget-header header-color-blue"  ng-class="VerifiedSourceListClass['jobs.schedule'+'.'+@Jjob.Id]==undefined?'':'verified';">
                                     <h5 class="bigger lighter">
                                         <h6> &nbsp;
                                             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
@@ -4234,7 +4321,7 @@ e="hide";
 	</div>
     <br/>
     <div class="row">
-        <div class="col-xs-2 element-left">
+        <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['school.name'+'.0']==undefined?'':'verified';">
             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
             onclick="askEqualsImp.show('school.name')"></i>
             <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -4258,7 +4345,7 @@ e="hide";
      <br/>
 
      <div class="row">
-        <div class="col-xs-2 element-left">
+        <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['school.phone'+'.0']==undefined?'':'verified';">
             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
             onclick="askEqualsImp.show('school.phone')"></i>
             <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -4283,7 +4370,7 @@ e="hide";
  <br/>
 
  <div class="row">
-    <div class="col-xs-2 element-left">
+    <div class="col-xs-2 element-left"  ng-class="VerifiedSourceListClass['school.address'+'.0']==undefined?'':'verified';">
         <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
         onclick="askEqualsImp.show('school.address')"></i>
         <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2"
@@ -4312,7 +4399,7 @@ e="hide";
 <div class="row">
     <div class="widget-box">
         <div class="widget-header">
-            <div class="col-xs-10 element-left">
+            <div class="col-xs-10 element-left"  ng-class="VerifiedSourceListClass['school.degree.id'+'.0']==undefined?'':'verified';">
             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
             onclick="askEqualsImp.show('school.degree.id')"></i>
             <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="3"
@@ -4352,7 +4439,7 @@ e="hide";
             <div class="row" ng-show="school.level['Id'] == 7" id="otherDegreBox">
                 <br/>
 
-                <div class="col-xs-2  element-left col-xs-offset-1">
+                <div class="col-xs-2  element-left col-xs-offset-1"  ng-class="VerifiedSourceListClass['school.degree'+'.0']==undefined?'':'verified';">
                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                     onclick="askEqualsImp.show('school.degree')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="3"
@@ -4386,7 +4473,7 @@ e="hide";
 <div class="row">
     <div class="col-xs-12">
         <div class="widget-header header-color-blue">
-            <div class="row">
+            <div class="row"  ng-class="VerifiedSourceListClass['school.schedule'+'.0']==undefined?'':'verified';">
                 <h6> &nbsp;
                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                        onclick="askEqualsImp.show('school.schedule')"></i>
@@ -4503,7 +4590,7 @@ e="hide";
     <input type="hidden" ng-model="p" ng-init="p=listSocialNetwork[$index]">
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['drugs.drugType.id'+'.'+@Jdrg.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('drugs.drugType.id',@Jdrg.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="3" ng-show="verification" code="drugs.drugType.id" id-element="@Jdrg.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('drugs.drugType.id',@Jdrg.Id);"></i>
@@ -4551,7 +4638,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['drugs.periodicity.id'+'.'+@Jdrg.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('drugs.periodicity.id',@Jdrg.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="3" ng-show="verification" code="drugs.periodicity.id" id-element="@Jdrg.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('drugs.periodicity.id',@Jdrg.Id);"></i>
@@ -4600,7 +4687,7 @@ e="hide";
     <br/>
     <div class="row" >
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['drugs.quantity'+'.'+@Jdrg.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('drugs.quantity',@Jdrg.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="drugs.quantity" id-element="@Jdrg.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('drugs.quantity',@Jdrg.Id);"></i>
@@ -4615,7 +4702,7 @@ e="hide";
             </div>
         </div>
         <div class="col-xs-6">
-            <div class="col-xs-4 element-left">
+            <div class="col-xs-4 element-left"  ng-class="VerifiedSourceListClass['drugs.lastUse'+'.'+@Jdrg.Id]==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('drugs.lastUse',@Jdrg.Id);"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="drugs.lastUse" id-element="@Jdrg.Id"></i>
                 <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('drugs.lastUse',@Jdrg.Id);"></i>
@@ -4637,7 +4724,7 @@ e="hide";
     <br/>
     <div class="row">
         <div class="col-xs-6"> 
-                    <div class="viviendoCon col-xs-4 element-left" >
+                    <div class="viviendoCon col-xs-4 element-left"  ng-class="VerifiedSourceListClass['drugs.onsetAge'+'.'+@Jdrg.Id]==undefined?'':'verified';">
                         <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification" onclick="askEqualsImp.show('drugs.onsetAge',@Jdrg.Id);"></i>
                         <i class="icon-remove-circle red  icon-only bigger-220" onclick="SingleVerify.show(this);" level-child="2" ng-show="verification" code="drugs.onsetAge" id-element="@Jdrg.Id"></i>
                         <i class="icon-ban-circle gray icon-only bigger-220" ng-show="verification"  onclick="askDontKnow.show('drugs.onsetAge',@Jdrg.Id);"></i>
@@ -4731,7 +4818,7 @@ e="hide";
     <div>
         <div class="row">
             <div class="col-xs-12">
-                <div class="col-xs-9 element-left">
+                <div class="col-xs-9 element-left"  ng-class="VerifiedSourceListClass['leaveCountry.officialDocumentation.id'+'.0']==undefined?'':'verified';">
                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                        onclick="askEqualsImp.show('leaveCountry.officialDocumentation.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="4" onclick="SingleVerify.show(this);"
@@ -4783,7 +4870,7 @@ e="hide";
 <div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="col-xs-9 element-left">
+            <div class="col-xs-9 element-left"  ng-class="VerifiedSourceListClass['leaveCountry.livedCountry.id'+'.0']==undefined?'':'verified';">
                 <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                    onclick="askEqualsImp.show('leaveCountry.livedCountry.id');imputedLivedOtherCountryFillIn();"></i>
                 <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="4" onclick="SingleVerify.show(this);"
@@ -4907,7 +4994,7 @@ e="hide";
     <div class="row">
         <br/>
 
-        <div class="col-xs-9 element-left">
+        <div class="col-xs-9 element-left"  ng-class="VerifiedSourceListClass['leaveCountry.familyAnotherCountry.id'+'.0']==undefined?'':'verified';">
             <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                onclick="askEqualsImp.show('leaveCountry.familyAnotherCountry.id')"></i>
             <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="3" onclick="SingleVerify.show(this);"
@@ -5007,7 +5094,7 @@ e="hide";
     </div>
 </div>
 <div class="row" ng-show="verification || selectSource">
-    <div class="col-xs-3 element-left">
+    <div class="col-xs-3 element-left"  ng-class="VerifiedSourceListClass['socialEnvironment.comment'+'.0']==undefined?'':'verified';">
         <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
            onclick="askEqualsImp.show('socialEnvironment.comment')"></i>
         <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="2" ng-show="verification"
@@ -5492,6 +5579,7 @@ askDontKnow.yes = function (code,idlist){
 	}else{
 	alert(respuesta);
 	}
+	refreshVerifiedIcons();
 };
     	</script>
 <div class="modal-dialog" style="display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askDontKnowBoxDlgId" >
@@ -5499,7 +5587,7 @@ askDontKnow.yes = function (code,idlist){
             <div class="modal-header">
                 <div class="alert alert-inverse">
                     <button id="askDontKnowBoxDlgXclose" type="button" class="close" onclick="javascript:askDontKnow.hide();">×</button>
-                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Confirmación de verificación</h4>
+                    <h4 class="modal-title element-center">Confirmaci&oacute;n de verificaci&oacute;n</h4>
                 </div>
             </div>
             <div class="modal-body">
@@ -5566,6 +5654,7 @@ askEqualsImp.yes = function (code,idlist){
 	}else{
 	alert(respuesta);
 	}
+	refreshVerifiedIcons();
 };
     	</script>
 <div class="modal-dialog" style="display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askEqualsImpBoxDlgId" >

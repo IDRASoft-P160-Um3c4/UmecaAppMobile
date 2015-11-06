@@ -61,15 +61,7 @@ askSyncIncomplete.idCase = 0;
 		    </div>
 		</div>
     </div>
-
-     <div class="row" onclick="javascript:$(this).hide();" id="mesageResp1" style="display:none">
-            <div class="col-xs-12">
-                <div msg="MsgError"
-                     class="umeca-toast-error element-center">
-                    <p id="Resp1Value"></p>
-                </div> 
-            </div>
-        </div>
+   
 
      <script>
 var askSyncMeeting  = {};
@@ -293,7 +285,7 @@ askSyncHearingFormat .idCase = 0;
         	@(Meeting.Name+" "+Meeting.LastNameP+" "+Meeting.LastNameM)
         </td>
         <td>
-       		@Meeting.StatusCode
+       		@Meeting.Description
         </td>
         <!--<td>
         	@Meeting.Action

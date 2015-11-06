@@ -54,27 +54,39 @@ namespace UmecaApp
 					imputado.DependentBoys = model.DependentBoys;
 					imputado.Nickname = model.Nickname;
 					imputado.LocationId = model.LocationId;
-					if (model.BirthCountry != null) {
-						Country country = db.Get<Country> (model.BirthCountry);
-						imputado.BirthCountry = model.BirthCountry;
-						if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
-							imputado.BirthState = null;
-							imputado.BirthLocation = null;
-							imputado.BirthMunicipality = null;
-							if (model.LocationId != null) {
-								imputado.LocationId = model.LocationId;
+					imputado.BirthInfo = model.BirthInfoId;
+					if(model.BirthInfoId == 1){
+						if (model.BirthCountry != null) {
+							Country country = db.Get<Country> (model.BirthCountry);
+							imputado.BirthCountry = model.BirthCountry;
+							if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
+								imputado.BirthState = null;
+								imputado.BirthLocation = null;
+								imputado.BirthMunicipality = null;
+								if (model.LocationId != null) {
+									imputado.LocationId = model.LocationId;
+								}
+							} else {
+								imputado.LocationId = null;
+								imputado.BirthMunicipality = model.BirthMunicipality;
+								imputado.BirthState = model.BirthState;
+								imputado.BirthLocation = model.BirthLocation;
 							}
 						} else {
-							imputado.LocationId = null;
+							imputado.BirthCountry = model.BirthCountry;
 							imputado.BirthMunicipality = model.BirthMunicipality;
 							imputado.BirthState = model.BirthState;
 							imputado.BirthLocation = model.BirthLocation;
 						}
-					} else {
-						imputado.BirthCountry = model.BirthCountry;
-						imputado.BirthMunicipality = model.BirthMunicipality;
-						imputado.BirthState = model.BirthState;
-						imputado.BirthLocation = model.BirthLocation;
+					}else{
+						var notprop = db.Table<Country>().Where(noproblem => noproblem.Name=="No proporcionado").FirstOrDefault();
+						if(notprop!=null){
+							imputado.BirthCountry = notprop.Id;
+						}
+						imputado.LocationId = null;
+						imputado.BirthMunicipality = "";
+						imputado.BirthState = "";
+						imputado.BirthLocation = "";
 					}
 					db.CreateTable<SocialEnvironment> ();
 					SocialEnvironment seCase = db.Table<SocialEnvironment> ().Where (s => s.MeetingId == model.MeetingId).FirstOrDefault ();
@@ -129,6 +141,14 @@ namespace UmecaApp
 			return new Java.Lang.String(services.findAddressByCp (Cp.ToString()));
 		}
 
+		[Export("findAllAviabilityCountry")]
+		public Java.Lang.String findAllAviabilityCountry(){
+			using (var db = FactoryConn.GetConn ()) {
+				var avail = db.Table<InformationAviability> ().OrderBy (c => c.Name).ToList () ?? new List<InformationAviability> ();
+				db.Close ();
+				return new Java.Lang.String (JsonConvert.SerializeObject (avail));
+			}
+		}
 
 		[Export("findAllCountry")]
 		public Java.Lang.String findAllCountry(){
@@ -197,6 +217,15 @@ namespace UmecaApp
 		public Java.Lang.String findAllPeriodicity(){
 			using (var db = FactoryConn.GetConn ()) {
 				var periodicidad = db.Table<Periodicity> ().OrderBy (c => c.Name).ToList () ?? new List<Periodicity> ();
+				db.Close ();
+				return new Java.Lang.String (JsonConvert.SerializeObject (periodicidad));
+			}
+		}
+
+		[Export("findAllDistrict")]
+		public Java.Lang.String findAllDistrict(){
+			using (var db = FactoryConn.GetConn ()) {
+				var periodicidad = db.Table<District> ().OrderBy (c => c.Name).ToList () ?? new List<District> ();
 				db.Close ();
 				return new Java.Lang.String (JsonConvert.SerializeObject (periodicidad));
 			}
@@ -289,6 +318,15 @@ namespace UmecaApp
 						me.Lat = model.Lat;
 						me.Lat = model.Lat;
 						me.MeetingId = model.MeetingId ?? 0;
+						me.IsHomeless = model.IsHomeless??false;
+						if(model.IsHomeless??false){
+							var upserthmtyp = db.Table<HomeType>().Where(hmttp => hmttp.Name == Constants.HOMELESS_HOME_TYPE).FirstOrDefault();
+							var upsertregtyp = db.Table<RegisterType>().Where( regttp => regttp.Name == Constants.HOMELESS_REG_TYPE ).FirstOrDefault();
+							var upsertlctn = db.Table<Location>().Where(loctnmet => loctnmet.Name == Constants.HOMELESS_LOC).FirstOrDefault();
+							me.HomeTypeId = upserthmtyp.Id;
+							me.LocationId = upsertlctn.Id;
+							me.RegisterTypeId = upsertregtyp.Id;
+						}
 						me.addressString = ImputedHomeAddressString (me);
 						db.Insert (me);
 					} else {
@@ -310,6 +348,15 @@ namespace UmecaApp
 						me.Lat = model.Lat;
 						me.Lat = model.Lat;
 						me.MeetingId = model.MeetingId ?? 0;
+						me.IsHomeless = model.IsHomeless;
+						if(model.IsHomeless??false){
+							var upserthmtyp = db.Table<HomeType>().Where(hmttp => hmttp.Name == Constants.HOMELESS_HOME_TYPE).FirstOrDefault();
+							var upsertregtyp = db.Table<RegisterType>().Where( regttp => regttp.Name == Constants.HOMELESS_REG_TYPE ).FirstOrDefault();
+							var upsertlctn = db.Table<Location>().Where(loctnmet => loctnmet.Name == Constants.HOMELESS_LOC).FirstOrDefault();
+							me.HomeTypeId = upserthmtyp.Id;
+							me.LocationId = upsertlctn.Id;
+							me.RegisterTypeId = upsertregtyp.Id;
+						}
 						me.addressString = ImputedHomeAddressString (me);
 						db.Update (me);
 					}
@@ -883,27 +930,39 @@ namespace UmecaApp
 					imputado.DependentBoys = model.DependentBoys;
 					imputado.Nickname = model.Nickname;
 					imputado.LocationId = model.LocationId;
-					if (model.BirthCountry != null) {
-						Country country = db.Get<Country> (model.BirthCountry);
-						imputado.BirthCountry = model.BirthCountry;
-						if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
-							imputado.BirthState = null;
-							imputado.BirthLocation = null;
-							imputado.BirthMunicipality = null;
-							if (model.LocationId != null) {
-								imputado.LocationId = model.LocationId;
+					imputado.BirthInfo = model.BirthInfoId;
+					if(model.BirthInfoId == 1){
+						if (model.BirthCountry != null) {
+							Country country = db.Get<Country> (model.BirthCountry);
+							imputado.BirthCountry = model.BirthCountry;
+							if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
+								imputado.BirthState = null;
+								imputado.BirthLocation = null;
+								imputado.BirthMunicipality = null;
+								if (model.LocationId != null) {
+									imputado.LocationId = model.LocationId;
+								}
+							} else {
+								imputado.LocationId = null;
+								imputado.BirthMunicipality = model.BirthMunicipality;
+								imputado.BirthState = model.BirthState;
+								imputado.BirthLocation = model.BirthLocation;
 							}
 						} else {
-							imputado.LocationId = null;
+							imputado.BirthCountry = model.BirthCountry;
 							imputado.BirthMunicipality = model.BirthMunicipality;
 							imputado.BirthState = model.BirthState;
 							imputado.BirthLocation = model.BirthLocation;
 						}
-					} else {
-						imputado.BirthCountry = model.BirthCountry;
-						imputado.BirthMunicipality = model.BirthMunicipality;
-						imputado.BirthState = model.BirthState;
-						imputado.BirthLocation = model.BirthLocation;
+					}else{
+						var notprop = db.Table<Country>().Where(noproblem => noproblem.Name=="No proporcionado").FirstOrDefault();
+						if(notprop!=null){
+							imputado.BirthCountry = notprop.Id;
+						}
+						imputado.LocationId = null;
+						imputado.BirthMunicipality = "";
+						imputado.BirthState = "";
+						imputado.BirthLocation = "";
 					}
 					db.CreateTable<SocialEnvironment> ();
 					SocialEnvironment seCase = db.Table<SocialEnvironment> ().Where (s => s.MeetingId == model.MeetingId).FirstOrDefault ();
@@ -1119,6 +1178,7 @@ namespace UmecaApp
 						output = new Java.Lang.String ("");
 						var casoMeeting = db.Table<Case> ().Where (cm => cm.Id == me.CaseDetentionId).FirstOrDefault ();
 						casoMeeting.StatusCaseId = stcc.Id;
+						casoMeeting.HasNegation = false;
 //						casoMeeting.Status = stcc;
 						me.StatusMeetingId = statusMeeting2.Id;
 //						me.StatusMeeting = statusMeeting2;
@@ -1277,28 +1337,30 @@ namespace UmecaApp
 			if (imp.DependentBoys == null) {
 				result.Add(t.template.Replace(e, "El n&uacute;mero de dependientes econ&oacute;micos"));
 			}
-			if(imp.BirthCountry!=null){
-				using (var db = FactoryConn.GetConn ()) {
-					Country country = db.Get<Country> (imp.BirthCountry);
-					if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
-						if (imp.LocationId == null) {
-							result.Add (t.template.Replace (e, "La localidad"));
+			if (imp.BirthInfo == 1) {
+				if (imp.BirthCountry != null) {
+					using (var db = FactoryConn.GetConn ()) {
+						Country country = db.Get<Country> (imp.BirthCountry);
+						if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
+							if (imp.LocationId == null) {
+								result.Add (t.template.Replace (e, "La localidad"));
+							}
+						} else {
+							if (imp.BirthMunicipality == null || imp.BirthMunicipality.Trim ().Equals ("")) {
+								result.Add (t.template.Replace (e, "El municipio de nacimiento"));
+							}
+							if (imp.BirthState == null || imp.BirthState.Trim ().Equals ("")) {
+								result.Add (t.template.Replace (e, "El estado de naciemiento"));
+							}
+							if (imp.BirthLocation == null || imp.BirthLocation.Trim ().Equals ("")) {
+								result.Add (t.template.Replace (e, "La ciudad o localidad de nacimiento"));
+							}
 						}
-					} else {
-						if (imp.BirthMunicipality == null || imp.BirthMunicipality.Trim ().Equals ("")) {
-							result.Add (t.template.Replace (e, "El municipio de nacimiento"));
-						}
-						if (imp.BirthState == null || imp.BirthState.Trim ().Equals ("")) {
-							result.Add (t.template.Replace (e, "El estado de naciemiento"));
-						}
-						if (imp.BirthLocation == null || imp.BirthLocation.Trim ().Equals ("")) {
-							result.Add (t.template.Replace (e, "La ciudad o localidad de nacimiento"));
-						}
+						db.Close ();
 					}
-					db.Close ();
+				} else {
+					result.Add (t.template.Replace (e, "El pa&iacute;s de nacimiento"));
 				}
-			}else{
-				result.Add(t.template.Replace(e, "El pa&iacute;s de nacimiento"));
 			}
 			if (result != null && result.Count > 0) {
 				t.groupMessage.Add (new GroupMessageMeetingDto ("personalData", result));
@@ -1448,6 +1510,261 @@ namespace UmecaApp
 			}
 			return result;
 		}
+
+
+
+
+
+		//terminate de Meeting
+		[Export("TerminateMeetingNegotiation")]
+		public Java.Lang.String TerminateMeetingNegotiation(Java.Lang.String modelJson){
+			var output = new Java.Lang.String("");
+			Console.WriteLine ("TerminateMeetingNegotiation json model-->"+modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+			using (var db = FactoryConn.GetConn ()) {
+				db.BeginTransaction ();
+				db.CreateTable<User> ();
+				var usrList = db.Table<User> ().ToList ();
+				User reviewer = usrList.FirstOrDefault ();
+				int revId = 0;
+				if (reviewer != null && reviewer.Id > 0) {
+					revId = reviewer.Id;
+				}
+				StatusMeeting statusMeeting2 = services.statusMeetingfindByCode (Constants.S_MEETING_DECLINE);
+				StatusCase stcc = services.statusCasefindByCode (Constants.CASE_STATUS_NOT_PROSECUTE);
+				try {
+
+					/*save de imputado sin validacion*/
+					var imputado = db.Get<Imputed> (model.ImputedId); 
+					imputado.Name = model.Name;
+					imputado.LastNameP = model.LastNameP;
+					imputado.LastNameM = model.LastNameM;
+					imputado.FoneticString = services.getFoneticByName (model.Name, model.LastNameP, model.LastNameM);
+					imputado.Gender = model.Gender;
+					imputado.CelPhone = model.CelPhone;
+					imputado.YearsMaritalStatus = model.YearsMaritalStatus;
+					imputado.MaritalStatusId = model.MaritalStatusId;
+					imputado.Boys = model.Boys;
+					imputado.DependentBoys = model.DependentBoys;
+					imputado.Nickname = model.Nickname;
+					imputado.LocationId = model.LocationId;
+					imputado.BirthInfo = model.BirthInfoId;
+					if(model.BirthInfoId == 1){
+						if (model.BirthCountry != null) {
+							Country country = db.Get<Country> (model.BirthCountry);
+							imputado.BirthCountry = model.BirthCountry;
+							if (country.Alpha2.Equals (Constants.ALPHA2_MEXICO)) {
+								imputado.BirthState = null;
+								imputado.BirthLocation = null;
+								imputado.BirthMunicipality = null;
+								if (model.LocationId != null) {
+									imputado.LocationId = model.LocationId;
+								}
+							} else {
+								imputado.LocationId = null;
+								imputado.BirthMunicipality = model.BirthMunicipality;
+								imputado.BirthState = model.BirthState;
+								imputado.BirthLocation = model.BirthLocation;
+							}
+						} else {
+							imputado.BirthCountry = model.BirthCountry;
+							imputado.BirthMunicipality = model.BirthMunicipality;
+							imputado.BirthState = model.BirthState;
+							imputado.BirthLocation = model.BirthLocation;
+						}
+					}else{
+						var notprop = db.Table<Country>().Where(noproblem => noproblem.Name=="No proporcionado").FirstOrDefault();
+						if(notprop!=null){
+							imputado.BirthCountry = notprop.Id;
+						}
+						imputado.LocationId = null;
+						imputado.BirthMunicipality = "";
+						imputado.BirthState = "";
+						imputado.BirthLocation = "";
+					}
+					db.CreateTable<SocialEnvironment> ();
+					SocialEnvironment seCase = db.Table<SocialEnvironment> ().Where (s => s.MeetingId == model.MeetingId).FirstOrDefault ();
+					if (seCase != null) {
+						seCase.MeetingId = model.MeetingId.GetValueOrDefault ();
+						seCase.physicalCondition = model.PhysicalCondition ?? "";
+						db.Update (seCase);
+					} else {
+						seCase = new SocialEnvironment ();
+						seCase.MeetingId = model.MeetingId.GetValueOrDefault ();
+						seCase.physicalCondition = model.PhysicalCondition ?? "";
+						seCase.comment = "";
+						db.Insert (seCase);
+					}
+					db.CreateTable<RelActivity> ();
+					if (seCase != null) {
+						List<RelActivity> relAux = db.Table<RelActivity> ().Where (s => s.SocialEnvironmentId == seCase.Id).ToList ();
+						foreach (RelActivity act in relAux) {
+							db.Delete<RelActivity> (act.Id);
+						}
+					}
+					if (model.Activities != null) {
+						List<RelActivity> nuevasActivities = JsonConvert.DeserializeObject<List<RelActivity>> (model.Activities);
+						foreach (RelActivity act in nuevasActivities) {
+							act.SocialEnvironmentId = seCase.Id;
+							db.Insert (act);
+						}
+					}
+					db.Update (imputado);
+					/*end save datos personales*/
+
+					/* saving comments */
+					Meeting me = db.Table<Meeting> ().Where (mee => mee.Id == model.MeetingId).FirstOrDefault ();
+					/*domicilio*/
+					me.CommentHome = model.CommentHome;
+					/*referencias*/
+					me.CommentReference = model.CommentReference;
+					/*laboral*/
+					me.CommentJob = model.CommentJob;
+					/*historial escolar*/
+					me.CommentSchool = model.CommentSchool;
+					/*Drogas negocio redondo*/
+					me.CommentDrug = model.CommentDrug;
+					/*Leave Country*/
+					me.CommentCountry = model.CommentCountry;
+					db.Update (me);
+					/* end saving comments */
+
+					/* comentario de social network */
+					db.CreateTable<SocialNetwork> ();
+					SocialNetwork socnet = db.Table<SocialNetwork> ().Where (mee => mee.MeetingId == model.MeetingId).FirstOrDefault ();
+					if (socnet == null) {
+						socnet = new SocialNetwork ();
+						socnet.Comment = model.CommentSocialNetwork;
+						socnet.MeetingId = model.MeetingId ?? 0;
+						db.Insert (socnet);
+					} else {
+						socnet.Comment = model.CommentSocialNetwork;
+						socnet.MeetingId = model.MeetingId ?? 0;
+						db.Update (socnet);
+					}
+					/* end comentario de social network */
+
+					/* historial escolar */
+					db.CreateTable<School> ();
+					School meSchool = db.Table<School> ().Where (mee => mee.MeetingId == model.MeetingId).FirstOrDefault ();
+					if (meSchool == null) {
+						meSchool = new School ();
+						meSchool.Address = model.SchoolAddress;
+						meSchool.block = model.SchoolBlock;
+						meSchool.DegreeId = model.SchoolDegreeId;
+						meSchool.Name = model.SchoolName;
+						meSchool.Phone = model.SchoolPhone;
+						meSchool.Specification = model.SchoolSpecification;
+						meSchool.MeetingId = model.MeetingId ?? 0;
+						db.Insert (meSchool);
+					} else {
+						meSchool.Address = model.SchoolAddress;
+						meSchool.block = model.SchoolBlock;
+						meSchool.DegreeId = model.SchoolDegreeId;
+						meSchool.Name = model.SchoolName;
+						meSchool.Phone = model.SchoolPhone;
+						meSchool.Specification = model.SchoolSpecification;
+						meSchool.MeetingId = model.MeetingId ?? 0;
+						db.Update (meSchool);
+					}
+					db.CreateTable<Schedule> ();
+					var schedule = db.Table<Schedule> ().Where (sc => sc.SchoolId == me.Id).ToList ();
+					foreach (Schedule sch in schedule) {
+						db.Delete (sch);
+					}
+					if (model.ScheduleSchool != null) {
+						var newSchedules = JsonConvert.DeserializeObject<List<Schedule>> (model.ScheduleSchool);
+						foreach (Schedule sch in newSchedules) {
+							sch.SchoolId = meSchool.Id;
+							db.Insert (sch);
+						}
+					}
+					/* end historial escolar */
+
+					/* Leave Country */
+					db.CreateTable<LeaveCountry> ();
+					LeaveCountry meLeaveCountry = db.Table<LeaveCountry> ().Where (mee => mee.MeetingId == model.MeetingId).FirstOrDefault ();
+					if (meLeaveCountry == null) {
+						meLeaveCountry = new LeaveCountry ();
+						meLeaveCountry.Address = model.Address;
+						meLeaveCountry.CommunicationFamilyId = model.CommunicationFamilyId;
+						meLeaveCountry.CountryId = model.CountryId;
+						meLeaveCountry.FamilyAnotherCountryId = model.FamilyAnotherCountryId;
+						meLeaveCountry.ImmigrationDocumentId = model.ImmigrationDocumentId;
+						meLeaveCountry.LivedCountryId = model.LivedCountryId;
+						meLeaveCountry.Media = model.Media;
+						meLeaveCountry.MeetingId = model.MeetingId ?? 0;
+						meLeaveCountry.OfficialDocumentationId = model.OfficialDocumentationId;
+						meLeaveCountry.Reason = model.Reason;
+						meLeaveCountry.RelationshipId = model.RelationshipId;
+						meLeaveCountry.SpecficationImmigranDoc = model.SpecficationImmigranDoc;
+						meLeaveCountry.SpecificationRelationship = model.SpecificationRelationship;
+						meLeaveCountry.State = model.State;
+						meLeaveCountry.timeAgo = model.timeAgo;
+						meLeaveCountry.TimeResidence = model.TimeResidence;
+						db.Insert (meLeaveCountry);
+					} else {
+						meLeaveCountry.Address = model.Address;
+						meLeaveCountry.CommunicationFamilyId = model.CommunicationFamilyId;
+						meLeaveCountry.CountryId = model.CountryId;
+						meLeaveCountry.FamilyAnotherCountryId = model.FamilyAnotherCountryId;
+						meLeaveCountry.ImmigrationDocumentId = model.ImmigrationDocumentId;
+						meLeaveCountry.LivedCountryId = model.LivedCountryId;
+						meLeaveCountry.Media = model.Media;
+						meLeaveCountry.MeetingId = model.MeetingId ?? 0;
+						meLeaveCountry.OfficialDocumentationId = model.OfficialDocumentationId;
+						meLeaveCountry.Reason = model.Reason;
+						meLeaveCountry.RelationshipId = model.RelationshipId;
+						meLeaveCountry.SpecficationImmigranDoc = model.SpecficationImmigranDoc;
+						meLeaveCountry.SpecificationRelationship = model.SpecificationRelationship;
+						meLeaveCountry.State = model.State;
+						meLeaveCountry.timeAgo = model.timeAgo;
+						meLeaveCountry.TimeResidence = model.TimeResidence;
+						db.Update (meLeaveCountry);
+					}
+					/* endLeave Country */
+
+					db.CreateTable<SocialEnvironment> ();
+					var social = db.Table<SocialEnvironment> ().Where (s => s.Id == model.MeetingId).FirstOrDefault ();
+					if (seCase == null) {
+						seCase = new SocialEnvironment ();
+						seCase.MeetingId = model.MeetingId.GetValueOrDefault ();
+						seCase.comment = model.comment;
+						db.Insert (seCase);
+					} else {
+						seCase.MeetingId = model.MeetingId.GetValueOrDefault ();
+						seCase.comment = model.comment;
+						db.Update (seCase);
+					}
+
+
+						output = new Java.Lang.String ("");
+						var casoMeeting = db.Table<Case> ().Where (cm => cm.Id == me.CaseDetentionId).FirstOrDefault ();
+						casoMeeting.StatusCaseId = stcc.Id;
+						casoMeeting.HasNegation = true;
+						me.DeclineReason = model.DeclineReason;	
+						me.StatusMeetingId = statusMeeting2.Id;
+						me.DateTerminate = DateTime.Today;
+						if (me.ReviewerId == null || me.ReviewerId == 0) {
+							me.ReviewerId = revId;
+						}
+						db.Update (casoMeeting);
+						db.Update (me);
+				} catch (Exception e) {
+					db.Rollback ();
+					Console.WriteLine ("catched exception in MeetingService method TerminateMeetingNegotiation invoked javascript calling -> MeetingService.TerminateMeetingNegotiation()");
+					Console.WriteLine ("Exception message :::>" + e.Message);
+					output = new Java.Lang.String (Constants.MSG_ERROR_UPSERT);
+				} finally {
+					db.Commit ();
+				}
+				db.Close ();
+			}
+			return output;
+		}
+
+
+
 
 	}//class end
 }

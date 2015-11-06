@@ -7,4 +7,7 @@
 6|Para registro en bitácora|Para registro en bitácora|0|0|1
 7|Otro|Otro|0|1|1
 8|Actividad espontanea|Actividad espontanea|0|0|2
-
+9|Primer cita canalización|Primer cita canalización|0|0|3
+10|Seguimiento a la canalización|Seguimiento a la canalización|0|0|3
+11|Conclusión de la canalización|Conclusión de la canalización|0|0|3
+12|Baja de la canalización|Baja de la canalización|0|0|3

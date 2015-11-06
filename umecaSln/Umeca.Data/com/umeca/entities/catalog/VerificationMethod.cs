@@ -18,7 +18,7 @@ namespace UmecaApp
 		[Column("name"),MaxLength(255)]
 		public String Name{ get; set;}
 
-		[Column("description"),MaxLength(255)]
+		[Column("is_obsolete")]
 		public bool IsObsolete{ get; set;}
 	}
 }

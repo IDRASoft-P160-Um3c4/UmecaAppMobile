@@ -33,6 +33,7 @@ namespace UmecaApp
 		public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
 		public static String ST_CASE_TABLET_ASSIGNED = "ST_CASE_TABLET_ASSIGNED";
 		public static String S_MEETING_COMPLETE = "COMPLETE";
+		public static String S_MEETING_DECLINE = "DECLINE";
 		public static String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
 		public static Boolean GENDER_FEMALE = true;
 		public static Boolean GENDER_MALE = false;
@@ -227,6 +228,15 @@ namespace UmecaApp
 		/// ////////
 		/// </summary>
 		public static int TABLET_MINIMAL_ID = 1073741824;
+
+
+
+		///HOMELESS 
+		/// 
+		/// 
+		public static String HOMELESS_LOC = "No proporcionado";
+		public static String HOMELESS_HOME_TYPE = "Propia";
+		public static String HOMELESS_REG_TYPE = "Actual";
 	}
 }
 

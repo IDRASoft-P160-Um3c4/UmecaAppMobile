@@ -36,7 +36,6 @@ C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umec
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\Umeca.Data.pdb
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\Umeca.Data.apk
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\Umeca.Data-Signed.apk
-C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.csprojResolveAssemblyReference.cache
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.dll
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.pdb
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\android\bin\Umeca.Data.apk

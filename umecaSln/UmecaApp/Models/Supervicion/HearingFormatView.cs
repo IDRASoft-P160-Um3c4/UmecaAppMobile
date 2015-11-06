@@ -25,6 +25,7 @@ namespace UmecaApp
 		public String idJudicial{ get; set; }
 
 		public DateTime? appointmentDate{ get; set; }
+
 		public String appointmentDateStr{ get; set; }
 
 		public String room{ get; set; }
@@ -144,6 +145,18 @@ namespace UmecaApp
 		public String hearingResult{ get; set; }
 
 		public int? previousHearing{ get; set; }
+
+
+		public String TimeAgo{ get; set; }
+
+
+		public String LocationPlace{ get; set; }
+
+		public Boolean IsHomeless{ get; set; }
+
+		public int? District{ get; set; }
+
+		public Boolean? IsSubstracted{ get; set; }
 
 	}
 }

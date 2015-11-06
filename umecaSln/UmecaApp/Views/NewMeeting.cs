@@ -40,123 +40,257 @@ public override void Execute()
 
 #line default
 #line hidden
-WriteLiteral(@"
-      <script>
-    		 
-    	app.controller('newMeettingController', function($scope, $http){
-			$scope.m = {};
-			$scope.Wait = false;
-			$scope.isAccepted = {};
+WriteLiteral("\r\n\r\n      <script>\r\n    \t\t \r\n    \tapp.controller(\'newMeettingController\', functio" +
+"n($scope, $http, $timeout){\r\n\t\t\t$scope.m = {};\r\n\t\t\t$scope.Wait = false;\r\n\t\t\t$sco" +
+"pe.isAccepted = {};\r\n\r\n\t\t\t$scope.lstDistrict=[];\r\n\t\t\t$scope.district={};\r\n\r\n\t\t\t$" +
+"timeout(function () {\r\n    \t\t\t$scope.Iniciate();\r\n\t\t\t}, 0);\r\n\r\n\t\t\t$scope.Iniciat" +
+"e = function(){\r\n\t\t\t\t$scope.lstDistrict = JSON.parse(MeetingService.findAllDistr" +
+"ict());\r\n\t\t\t\tif($scope.m.District == undefined || $scope.m.District == null){\r\n\t" +
+"\t\t\t\t$scope.m.District = $scope.lstDistrict[0].Id;\r\n\t\t\t\t\t$scope.district = $scope" +
+".lstDistrict[0];\r\n\t\t\t\t}\r\n\t\t\t};\r\n\r\n\t\t\t$scope.save = function(){\r\n\t\t\t\t$scope.Wait " +
+"= true;\r\n\t\t\t\t//todos los key del json deben ser igual al modelo cs\r\n\t\t\t\tif($(\"#f" +
+"rmSubmitValuesMeeting\").valid()==false){\r\n\t\t\t\t\t$scope.Wait = false;\r\n\t\t\t\t\treturn" +
+" false;\r\n\t\t\t\t}\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\twindow.locatio" +
+"n.replace(\'hybrid:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n\t" +
+"\t\t\t$scope.Wait = false;\r\n\t\t\t};\r\n\r\n\t\t\t$scope.cancel = function(){\r\n\t\t\t\t$scope.sav" +
+"ing = false;\r\n\t\t\t\t//todos los key del json deben ser igual al modelo cs\r\n\t\t\t\twin" +
+"dow.location.replace(\'hybrid:Meeting/Index\');\r\n\t\t\t};\r\n\r\n\t\t\t//seccion de terminat" +
+"e con negacion\r\n\r\n\t\t\t$scope.askNegationTerminateshow = function(){\r\n\t\t\t\tvar dlgM" +
+"sgBox = $(\'#MessageBoxDlgId\');\r\n\t\t\t\tdlgMsgBox.show();\r\n\t\t\t};\r\n\r\n\t\t\t$scope.askNeg" +
+"ationTerminatehide = function (){\r\n\t\t\t\tvar dlgMsgBox = $(\'#MessageBoxDlgId\');\r\n\t" +
+"\t\t\tdlgMsgBox.hide();\r\n\t\t\t};\r\n\r\n\t\t\t$scope.askNegationTerminateYes = function (){\r" +
+"\n\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").hide();\r\n\t\t\t\tif($(\"#declineValid\").v" +
+"alid()==false){\r\n\t\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").show();\r\n\t\t\t\t\tretur" +
+"n false;\r\n\t\t\t\t}\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\twindow.locati" +
+"on.replace(\'hybrid:Meeting/AddMeetingNegation?model=\' + encodeURIComponent(jsonD" +
+"ata));\r\n\t\t\t};\r\n\r\n\t\t\t$scope.submitNegation = function(){\r\n\t\t\t\t$scope.Wait = true;" +
+"\r\n\t\t\t\tif($(\"#frmSubmitValuesMeeting\").valid()==false){\r\n\t\t\t\t\t$scope.Wait = false" +
+";\r\n\t\t\t\t\treturn false;\r\n\t\t\t\t}\r\n\t\t\t\t$scope.Wait = false;\r\n\t\t\t\tvar dlgMsgBox = $(\'#" +
+"MessageBoxDlgId\');\r\n\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").hide();\r\n\t\t\t\tdlgM" +
+"sgBox.show();\r\n\t\t\t};\r\n\r\n\r\n\r\n\r\n\r\n\t\t});\r\n\r\n    </script>\r\n\r\n\r\n\r\n<div");
 
-			$scope.save = function(){
-				$scope.Wait = true;
-				//todos los key del json deben ser igual al modelo cs
-				if($(""#frmSubmitValuesMeeting"").valid()==false){
-					$scope.Wait = false;
-					return false;
-				}
-				var jsonData = JSON.stringify($scope.m);
-				window.location.replace('hybrid:Meeting/AddMeeting?model=' + encodeURIComponent(jsonData));
-				$scope.Wait = false;
-			};
-
-			$scope.cancel = function(){
-				$scope.saving = false;
-				//todos los key del json deben ser igual al modelo cs
-				window.location.replace('hybrid:Meeting/Index');
-			};
-
-		});
-
-    </script>
-<form");
-
-WriteLiteral(" id=\"frmSubmitValuesMeeting\"");
+WriteLiteral(" id=\"divControllerApp\"");
 
 WriteLiteral(" ng-app=\"umecaMobile\"");
 
 WriteLiteral(" ng-controller=\"newMeettingController\"");
 
+WriteLiteral(">\r\n\r\n\t\t<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0" +
+" 0 -30%;\"");
+
+WriteLiteral(" id=\"MessageBoxDlgId\"");
+
+WriteLiteral(" >\r\n\t        <div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(" style=\"z-index: 1000;\"");
+
+WriteLiteral(">\r\n\t            <div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n\t                <div");
+
+WriteLiteral(" class=\"panel-heading element-center\"");
+
+WriteLiteral(">\r\n\t                    <button");
+
+WriteLiteral(" id=\"MessageBoxDlgXclose\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" ng-click=\"askNegationTerminatehide();\"");
+
+WriteLiteral(">×</button>\r\n\t                    <h4");
+
+WriteLiteral(" class=\"panel-title\"");
+
+WriteLiteral(">Negaci&oacute;n de entrevista</h4>\r\n\t                </div>\r\n\t            </div>" +
+"\r\n\t            <form");
+
+WriteLiteral(" id=\"declineValid\"");
+
+WriteLiteral(">\r\n\t\t            <div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n\t\t                <div");
+
+WriteLiteral(" class=\"element-center\"");
+
+WriteLiteral(">¿Está seguro que desea terminar la entrevista de riesgos procesales?</div>\r\n\t\t  " +
+"              <br />\r\n\t\t                <p>Razón de negación</p>\r\n\t\t            " +
+"    <textarea");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral(" data-val-length=\"Debe tener al menos 3 y máximo 500 caracteres\"");
+
+WriteLiteral(" data-val-required=\"Es necesario escribir la razón\"");
+
+WriteLiteral(" \r\n\t\t                data-val-length-max=\"500\"");
+
+WriteLiteral(" data-val-length-min=\"3\"");
+
+WriteLiteral(" \r\n\t\t                ng-init=\"m.Reason=\'\'\"");
+
+WriteLiteral(" id=\"reason\"");
+
+WriteLiteral(" name=\"meeting.declineReason\"");
+
+WriteLiteral(" ng-model=\"m.Reason\"");
+
+WriteLiteral(">\r\n\t\t                </textarea>\r\n\t\t            </div>\r\n\t            <div");
+
+WriteLiteral(" class=\"col-xs-11 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" id=\"declineValidnone\"");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" style=\"displat:none\"");
+
+WriteLiteral(" data-valmsg-for=\"meeting.declineReason\"");
+
+WriteLiteral(" data-valmsg-replace=\"true\"");
+
+WriteLiteral(">Es necesario escribir la razón, debe tener al menos 3 y máximo 500 caracteres.</" +
+"span>\r\n                </div>\r\n                </form>\r\n\t            <div");
+
+WriteLiteral(" class=\"modal-footer\"");
+
+WriteLiteral(">\r\n\t                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgYes\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-danger\"");
+
+WriteLiteral(" ng-click=\"askNegationTerminateYes();\"");
+
+WriteLiteral(" >Si</button>\r\n\t                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNo\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" ng-click=\"askNegationTerminatehide();\"");
+
+WriteLiteral(" >No</button>\r\n\t            </div>\r\n\t        </div>\r\n\t        <div");
+
+WriteLiteral(" class=\"blocker\"");
+
+WriteLiteral(" style=\"z-index:999;\"");
+
+WriteLiteral(">\r\n\t\t\t    <div>\r\n\t\t\t        Cargando...<img");
+
+WriteLiteral(" src=\"content/images/ajax_loader.gif\"");
+
+WriteLiteral(" alt=\"no content detected\"");
+
+WriteLiteral(" />\r\n\t\t\t    </div>\r\n\t\t\t</div>\r\n\t    </div>\r\n\r\n\r\n\t<form");
+
+WriteLiteral(" id=\"frmSubmitValuesMeeting\"");
+
 WriteLiteral(">\r\n");
 
 
-#line 35 "NewMeeting.cshtml"
- if(Model.ResponseMessage!=null){
+#line 129 "NewMeeting.cshtml"
+		
+
+#line default
+#line hidden
+
+#line 129 "NewMeeting.cshtml"
+         if(Model.ResponseMessage!=null){
 
 
 #line default
 #line hidden
-WriteLiteral("\t<div");
+WriteLiteral("\t\t\t<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n\t    <div");
+WriteLiteral(">\r\n\t\t\t    <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n\t        <div");
+WriteLiteral(">\r\n\t\t\t        <div");
 
 WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
 
-WriteLiteral(">\r\n\t            <span>");
+WriteLiteral(">\r\n\t\t\t            <span>");
 
 
-#line 39 "NewMeeting.cshtml"
-                 Write(Model.ResponseMessage);
-
-
-#line default
-#line hidden
-WriteLiteral("\r\n\t            </span>\r\n\t        </div>\r\n\t    </div>\r\n\t</div>\r\n");
-
-
-#line 44 "NewMeeting.cshtml"
-}
+#line 133 "NewMeeting.cshtml"
+                         Write(Model.ResponseMessage);
 
 
 #line default
 #line hidden
-WriteLiteral("    <div");
+WriteLiteral("\r\n\t\t\t            </span>\r\n\t\t\t        </div>\r\n\t\t\t    </div>\r\n\t\t\t</div>\r\n");
+
+
+#line 138 "NewMeeting.cshtml"
+		}
+
+
+#line default
+#line hidden
+WriteLiteral("\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-12\"");
 
-WriteLiteral(">\r\n            <label>Ingrese la información requerida para poder generar un nuev" +
-"o número de expediente:</label>\r\n        </div>\r\n    </div>\r\n    <br>\r\n    <div");
+WriteLiteral(">\r\n\t            <label>Ingrese la información requerida para poder generar un nue" +
+"vo número de expediente:</label>\r\n\t        </div>\r\n\t    </div>\r\n\t    <br>\r\n\t    " +
+"<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n            Nombre:\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n\t            Nombre:\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" id=\"nombreA\"");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
 WriteLiteral(@">
-            <!--<input class=""form-control ng-pristine n2g-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-required=""El nombre es un campo requerido"" data-val-length-max=""50"" data-val-length-min=""3"" id=""name"" name=""name"" type=""text"">-->
+	            <!--<input class=""form-control ng-pristine n2g-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-required=""El nombre es un campo requerido"" data-val-length-max=""50"" data-val-length-min=""3"" id=""name"" name=""name"" type=""text"">-->
 ");
 
-WriteLiteral("            ");
+WriteLiteral("\t            ");
 
 
-#line 57 "NewMeeting.cshtml"
-       Write(Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"}));
+#line 151 "NewMeeting.cshtml"
+           Write(Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </div>\r\n        <div");
+WriteLiteral("\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-9 col-xs-offset-3\"");
 
-WriteLiteral(">\r\n            <span");
+WriteLiteral(">\r\n\t            <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -164,36 +298,36 @@ WriteLiteral(" data-valmsg-for=\"name\"");
 
 WriteLiteral(" data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <br>\r\n    <div");
+WriteLiteral("></span>\r\n\t        </div>\r\n\t    </div>\r\n\t    <br>\r\n\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n            Apellido paterno:\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n\t            Apellido paterno:\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
 WriteLiteral(@">
-            <!--<input class=""form-control ng-pristine ng-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-length-max=""50"" data-val-length-min=""3"" data-val-required=""El apellido paterno es un campo requerido"" id=""lastNameP"" name=""lastNameP"" type=""text"">-->
+	            <!--<input class=""form-control ng-pristine ng-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-length-max=""50"" data-val-length-min=""3"" data-val-required=""El apellido paterno es un campo requerido"" id=""lastNameP"" name=""lastNameP"" type=""text"">-->
 ");
 
-WriteLiteral("            ");
+WriteLiteral("\t            ");
 
 
-#line 70 "NewMeeting.cshtml"
-       Write(Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"}));
+#line 164 "NewMeeting.cshtml"
+           Write(Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </div>\r\n        <div");
+WriteLiteral("\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-9 col-xs-offset-3\"");
 
-WriteLiteral(">\r\n            <span");
+WriteLiteral(">\r\n\t            <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -201,36 +335,36 @@ WriteLiteral(" data-valmsg-for=\"lastNameP\"");
 
 WriteLiteral(" data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n\r\n    <br>\r\n    <div");
+WriteLiteral("></span>\r\n\t        </div>\r\n\t    </div>\r\n\r\n\t    <br>\r\n\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n            Apellido materno:\r\n        </div> \r\n        <div");
+WriteLiteral(">\r\n\t            Apellido materno:\r\n\t        </div> \r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
 WriteLiteral(@">
-            <!--<input class=""form-control ng-pristine ng-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-length-max=""50"" data-val-length-min=""3"" data-val-required=""El apellido materno es un campo requerido"" id=""lastNameM"" name=""lastNameM"" type=""text"">-->
+	            <!--<input class=""form-control ng-pristine ng-valid"" data-val=""true"" data-val-length=""Debe tener al menos 3 y máximo 50 caracteres"" data-val-length-max=""50"" data-val-length-min=""3"" data-val-required=""El apellido materno es un campo requerido"" id=""lastNameM"" name=""lastNameM"" type=""text"">-->
 ");
 
-WriteLiteral("            ");
+WriteLiteral("\t            ");
 
 
-#line 84 "NewMeeting.cshtml"
-       Write(Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"}));
+#line 178 "NewMeeting.cshtml"
+           Write(Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </div>\r\n        <div");
+WriteLiteral("\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-9 col-xs-offset-3\"");
 
-WriteLiteral(">\r\n            <span");
+WriteLiteral(">\r\n\t            <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -238,59 +372,59 @@ WriteLiteral(" data-valmsg-for=\"lastNameM\"");
 
 WriteLiteral(" data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <br>\r\n                        <div");
+WriteLiteral("></span>\r\n\t        </div>\r\n\t    </div>\r\n\t    <br>\r\n\t                        <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n                            <div");
+WriteLiteral(">\r\n\t                            <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n                                Fecha de nacimiento:\r\n                        " +
-"    </div>\r\n                            <div");
+WriteLiteral(">\r\n\t                                Fecha de nacimiento:\r\n\t                      " +
+"      </div>\r\n\t                            <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n                                <div");
+WriteLiteral(">\r\n\t                                <div");
 
 WriteLiteral(" class=\"input-group\"");
 
 WriteLiteral(@">
-                                    <!--<input class=""form-control date-picker"" readonly=""readonly"" type=""text"" data-date-format=""yyyy/mm/dd""
-                                            data-val=""true"" data-val-required=""La fecha de nacimiento es un campo requerido"" ng-init=""birthDate=''""
-                                            id=""birthDate"" name=""birthDate"" ng-model=""birthDate""/>
-                                            <span class=""input-group-addon"">
-                                                        <i class=""icon-calendar bigger-110"" ></i>
-                                            </span>-->
+	                                    <!--<input class=""form-control date-picker"" readonly=""readonly"" type=""text"" data-date-format=""yyyy/mm/dd""
+	                                            data-val=""true"" data-val-required=""La fecha de nacimiento es un campo requerido"" ng-init=""birthDate=''""
+	                                            id=""birthDate"" name=""birthDate"" ng-model=""birthDate""/>
+	                                            <span class=""input-group-addon"">
+	                                                        <i class=""icon-calendar bigger-110"" ></i>
+	                                            </span>-->
 ");
 
-WriteLiteral("                                    ");
+WriteLiteral("\t                                    ");
 
 
-#line 103 "NewMeeting.cshtml"
-                               Write(Html.TextBox("DateBirth", @Model.DateBirth,
-                                     new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
-                                      @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
-                                       @class="form-control date-picker", @readonly="readonly"}));
+#line 197 "NewMeeting.cshtml"
+                                   Write(Html.TextBox("DateBirth", @Model.DateBirth,
+	                                     new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
+	                                      @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
+	                                       @class="form-control date-picker", @readonly="readonly"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n                                            <span");
+WriteLiteral("\r\n\t                                            <span");
 
 WriteLiteral(" class=\"input-group-addon\"");
 
-WriteLiteral(">\r\n                                                        <i");
+WriteLiteral(">\r\n\t                                                        <i");
 
 WriteLiteral(" class=\"icon-calendar bigger-110\"");
 
-WriteLiteral(" ></i>\r\n                                            </span>\r\n                    " +
-"            </div>\r\n                            </div>\r\n                        " +
-"    <div");
+WriteLiteral(" ></i>\r\n\t                                            </span>\r\n\t                  " +
+"              </div>\r\n\t                            </div>\r\n\t                    " +
+"        <div");
 
 WriteLiteral(" class=\"col-xs-9 col-xs-offset-3\"");
 
-WriteLiteral(">\r\n                                <span");
+WriteLiteral(">\r\n\t                                <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -298,111 +432,111 @@ WriteLiteral(" data-valmsg-for=\"DateBirth\"");
 
 WriteLiteral(" data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n                            </div>\r\n                        </div>aaa\r\n" +
-"    <br>\r\n    <div");
+WriteLiteral("></span>\r\n\t                            </div>\r\n\t                        </div>aaa" +
+"\r\n\t    <br>\r\n\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n            Género:\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n\t            Género:\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n\t            <div");
 
 WriteLiteral(" class=\"row\"");
 
 WriteLiteral(" ng-init=\"m.Gender=false\"");
 
-WriteLiteral(">\r\n                <div");
+WriteLiteral(">\r\n\t                <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n\t                    <div");
 
 WriteLiteral(" class=\"radio\"");
 
 WriteLiteral(@">
-                        <label>
-                            <!--<input class=""ace"" type=""radio"" ng-checked=""gen==true"" name=""gender""
-                                                       data-val-required=""El g?nero es un campo requerido"" id=""genero"" value=""true""
-                                                       ng-model=""gen"">-->
+	                        <label>
+	                            <!--<input class=""ace"" type=""radio"" ng-checked=""gen==true"" name=""gender""
+	                                                       data-val-required=""El g?nero es un campo requerido"" id=""genero"" value=""true""
+	                                                       ng-model=""gen"">-->
 ");
 
-WriteLiteral("                            ");
+WriteLiteral("\t                            ");
 
 
-#line 129 "NewMeeting.cshtml"
-                       Write(Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"}));
+#line 223 "NewMeeting.cshtml"
+                           Write(Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n                            <span");
+WriteLiteral("\r\n\t                            <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Femenino</span>\r\n                        </label>\r\n                    </div>\r\n " +
-"               </div>\r\n                <div");
+WriteLiteral(">Femenino</span>\r\n\t                        </label>\r\n\t                    </div>\r" +
+"\n\t                </div>\r\n\t                <div");
 
 WriteLiteral(" class=\"col-xs-6\"");
 
-WriteLiteral(">\r\n                    <div");
+WriteLiteral(">\r\n\t                    <div");
 
 WriteLiteral(" class=\"radio\"");
 
-WriteLiteral(">\r\n                        <label>\r\n                            <!--<input class=" +
-"\"ace ng-pristine ng-valid\" type=\"radio\" value=\"false\" ng-model=\"gen\" ng-checked=" +
-"\"gen==false\" name=\"gender\" checked=\"checked\">-->\r\n");
+WriteLiteral(">\r\n\t                        <label>\r\n\t                            <!--<input clas" +
+"s=\"ace ng-pristine ng-valid\" type=\"radio\" value=\"false\" ng-model=\"gen\" ng-checke" +
+"d=\"gen==false\" name=\"gender\" checked=\"checked\">-->\r\n");
 
-WriteLiteral("                            ");
+WriteLiteral("\t                            ");
 
 
-#line 138 "NewMeeting.cshtml"
-                       Write(Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"}));
+#line 232 "NewMeeting.cshtml"
+                           Write(Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n                            <span");
+WriteLiteral("\r\n\t                            <span");
 
 WriteLiteral(" class=\"lbl\"");
 
-WriteLiteral(">Masculino</span>\r\n                        </label>\r\n                    </div>\r\n" +
-"                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <br>" +
-"\r\n    <div");
+WriteLiteral(">Masculino</span>\r\n\t                        </label>\r\n\t                    </div>" +
+"\r\n\t                </div>\r\n\t            </div>\r\n\t        </div>\r\n\t    </div>\r\n\t " +
+"   <br>\r\n\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-5 element-left\"");
 
-WriteLiteral(">\r\n           Carpeta de investigación:\r\n        </div>\r\n        <div");
+WriteLiteral(">\r\n\t           Carpeta de investigación:\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-7\"");
 
 WriteLiteral(@">
-                <!--<input class=""form-control ng-pristine ng-valid"" type=""text"" data-val-length=""Debe tener al menos 1 y máximo 35 caracteres"" data-val-length-max=""35"" data-val-length-min=""1"" data-val=""true"" data-val-required=""La carpeta de investigación es un campo requerido"" ng-init=""m.idFolder=''"" id=""meeting.caseDetention.idFolder"" name=""meeting.caseDetention.idFolder"" ng-model=""m.idFolder"">-->
+	                <!--<input class=""form-control ng-pristine ng-valid"" type=""text"" data-val-length=""Debe tener al menos 1 y máximo 35 caracteres"" data-val-length-max=""35"" data-val-length-min=""1"" data-val=""true"" data-val-required=""La carpeta de investigación es un campo requerido"" ng-init=""m.idFolder=''"" id=""meeting.caseDetention.idFolder"" name=""meeting.caseDetention.idFolder"" ng-model=""m.idFolder"">-->
 ");
 
-WriteLiteral("                ");
+WriteLiteral("\t                ");
 
 
-#line 153 "NewMeeting.cshtml"
-           Write(Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
+#line 247 "NewMeeting.cshtml"
+               Write(Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
 
 
 #line default
 #line hidden
-WriteLiteral("\r\n        </div>\r\n        <div");
+WriteLiteral("\r\n\t        </div>\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-9 col-xs-offset-3\"");
 
-WriteLiteral(">\r\n            <span");
+WriteLiteral(">\r\n\t            <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -410,28 +544,60 @@ WriteLiteral(" data-valmsg-for=\"meeting.caseDetention.idFolder\"");
 
 WriteLiteral(" data-valmsg-replace=\"true\"");
 
-WriteLiteral("></span>\r\n        </div>\r\n    </div>\r\n    <br>\r\n    <div");
+WriteLiteral("></span>\r\n\t        </div>\r\n\t    </div>\r\n\t    <br>\r\n\t    <div");
+
+WriteLiteral(@" ng-init=""lstDistrict = [{&quot;id&quot;:1,&quot;name&quot;:&quot;Cuautla&quot;,&quot;value&quot;:0},{&quot;id&quot;:2,&quot;name&quot;:&quot;Cuernavaca&quot;,&quot;value&quot;:0},{&quot;id&quot;:3,&quot;name&quot;:&quot;Jojutla&quot;,&quot;value&quot;:0}]; init();""");
+
+WriteLiteral(">\r\n\t        <div");
+
+WriteLiteral(" class=\"col-xs-5 element-left\"");
+
+WriteLiteral(">\r\n\t            Distrito judicial\r\n\t        </div>\r\n\t        <div");
+
+WriteLiteral(" class=\"col-xs-7\"");
+
+WriteLiteral(">\r\n\t            <select");
+
+WriteLiteral(" id=\"district\"");
+
+WriteLiteral(" ng-change=\"m.District = district.Id;\"");
+
+WriteLiteral(" ng-model=\"district\"");
+
+WriteLiteral(" ng-options=\"e.Name for e in lstDistrict\"");
+
+WriteLiteral(" ></select>\r\n\t            <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" name=\"meeting.district.id\"");
+
+WriteLiteral(" ng-model=\"m.District\"");
+
+WriteLiteral(" value=\"{{district.Id}}\"");
+
+WriteLiteral(" >\r\n\t        </div>\r\n\t    </div>\r\n\t    <br>\r\n\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-12 text-danger\"");
 
-WriteLiteral(">\r\n                <i");
+WriteLiteral(">\r\n\t                <i");
 
 WriteLiteral(" class=\"icon-warning-sign icon-animated-wrench bigger-120\"");
 
-WriteLiteral("></i>&nbsp;\r\n               La carpeta de investigación no podrá ser modificada d" +
-"urante la entrevista.\r\n        </div>\r\n    </div>\r\n    <br>\r\n    <div");
+WriteLiteral("></i>&nbsp;\r\n\t               La carpeta de investigación no podrá ser modificada " +
+"durante la entrevista.\r\n\t        </div>\r\n\t    </div>\r\n\t    <br />\r\n\t    <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n        <div");
+WriteLiteral(">\r\n\t        <div");
 
 WriteLiteral(" class=\"col-xs-12 element-center\"");
 
-WriteLiteral(">\r\n            <input");
+WriteLiteral(">\r\n\t            <input");
 
 WriteLiteral(" type=\"checkbox\"");
 
@@ -443,37 +609,47 @@ WriteLiteral(" ng-init=\"isAccepted=false\"");
 
 WriteLiteral(" class=\"ng-pristine ng-valid\"");
 
-WriteLiteral(">\r\n            <label");
+WriteLiteral(">\r\n\t            <label");
 
 WriteLiteral(" class=\"info-note\"");
 
 WriteLiteral(" for=\"isAccepted\"");
 
 WriteLiteral(">¿El imputado acepta que se realice la entrevista de riesgos procesales?</label>\r" +
-"\n        </div>\r\n    </div>\r\n\r\n<br>\r\n                <div");
+"\n\t        </div>\r\n\t    </div>\r\n\r\n\t\t<br>\r\n\t                <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
-WriteLiteral(">\r\n                    <span");
+WriteLiteral(">\r\n\r\n\t                <span");
+
+WriteLiteral(" class=\"btn btn-danger btn-sm\"");
+
+WriteLiteral(" ng-disabled=\"isAccepted==true\"");
+
+WriteLiteral(" ng-click=\"submitNegation();\"");
+
+WriteLiteral(">\r\n\t                          El imputado niega la entrevista\r\n\t                 " +
+"   </span>\r\n\r\n\t                    <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
 WriteLiteral(" ng-click=\"cancel()\"");
 
-WriteLiteral(">\r\n                        Cancelar\r\n                    </span>\r\n               " +
-"     <span");
+WriteLiteral(">\r\n\t                        Cancelar\r\n\t                    </span>\r\n\t            " +
+"        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 
 WriteLiteral(" ng-disabled=\"Wait==true || isAccepted == false\"");
 
-WriteLiteral("\r\n                          ng-click=\"save();\"");
+WriteLiteral("\r\n\t                          ng-click=\"save();\"");
 
 WriteLiteral(@">
-                          Continuar
-                    </span>
-                </div>
-                </form>
+	                          Continuar
+	                    </span>
+	                </div>
+	</form>
+</div>
     <script>
         var date=new Date();
         date.setFullYear(date.getFullYear()-18);

@@ -1,0 +1,19 @@
+﻿id|name|description|channeling_type_id|obsolete
+1|Instituto I Apoyo económico|Apoyo económico|1|0
+2|Instituto II Apoyo económico|Apoyo económico|1|0
+3|Instituto III Apoyo económico|Apoyo económico|1|0
+4|Instituto I Examen toxicológico|Examen toxicológico|2|0
+5|Instituto II Examen toxicológico|Examen toxicológico|2|0
+6|Instituto III Examen toxicológico|Examen toxicológico|2|0
+7|Instituto I Prevención y tratamiento de adicciones|Prevención y tratamiento de adicciones|3|0
+8|Instituto II Prevención y tratamiento de adicciones|Prevención y tratamiento de adicciones|3|0
+9|Instituto III Prevención y tratamiento de adicciones|Prevención y tratamiento de adicciones|3|0
+10|Instituto I Escolaridad|Escolaridad|4|0
+11|Instituto II Escolaridad|Escolaridad|4|0
+12|Instituto III Escolaridad|Escolaridad|4|0
+13|Instituto I Tratamiento médico psicológico|Tratamiento médico psicológico|5|0
+14|Instituto II Tratamiento médico psicológico|Tratamiento médico psicológico|5|0
+15|Instituto III Tratamiento médico psicológico|Tratamiento médico psicológico|5|0
+16|Instituto I Empleo|Empleo|6|0
+17|Instituto II Empleo|Empleo|6|0
+18|Instituto III Empleo|Empleo|6|0

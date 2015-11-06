@@ -51,8 +51,7 @@ namespace UmecaApp
 			this.jsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
 			this.jsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
 			this.jsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
-			this.jsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
-
+	
 		}
 
 
@@ -71,34 +70,6 @@ namespace UmecaApp
 				if (reviewer != null && reviewer.Id != 0) {
 					revId = reviewer.Id;
 				}
-
-//			var result = new List<MeetingTblDto> ();
-//			var resAux = db.Table<Meeting> ().Where (meAux => meAux.ReviewerId == revId && (meAux.StatusMeetingId == statusMeeting1.Id || meAux.StatusMeetingId == statusMeeting2.Id) ).ToList ();
-//			foreach (Meeting ent in resAux) {
-//				var casoRev = db.Table<Case> ().Where (revCase => revCase.Id == ent.CaseDetentionId).FirstOrDefault ();
-//				if (casoRev != null && (casoRev.StatusCaseId == sc.Id || casoRev.StatusCaseId == sc1.Id)) {
-//					var imputado = db.Table<Imputed> ().Where (datosimp => datosimp.MeetingId == ent.Id).FirstOrDefault ();
-//					MeetingTblDto found = new MeetingTblDto ();
-//					found.CaseId = casoRev.Id;
-//					found.DateBirth = imputado.BirthDate;
-//					found.Description = casoRev.StatusCaseId == sc.Id ? sc.Description : sc1.Description;
-//					found.Gender = imputado.Gender;
-//					found.IdFolder = casoRev.IdFolder;
-//					found.LastNameM = imputado.LastNameM;
-//					found.LastNameP = imputado.LastNameP;
-//					found.Name = imputado.Name;
-//					found.StatusCode = ent.StatusMeetingId == statusMeeting1.Id ? statusMeeting1.Status : statusMeeting2.Status;
-//					result.Add (found);
-//				}
-//			}
-
-
-				//////////////////////////
-				var content = db.Table<DocumentType> ().ToList ();
-				foreach (DocumentType m in content) {
-					Console.WriteLine ("Id: " + m.Id + " Name:" + m.Name);
-				}
-				/////////////////////////
 
 				var result = db.Query<MeetingTblDto> (
 					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
@@ -137,10 +108,30 @@ namespace UmecaApp
 				pagestring = temp.GenerateString ();
 				webView.LoadHtmlString (pagestring);
 			} else {
+				model.HasNegation = false;
 				int? idCase = createMeeting(model);
 				int az = idCase.GetValueOrDefault ();
 				//String Response = "Se ha guardado exitosamente";
 				MeetingDatosPersonales (az);
+			}
+		}
+
+		public void AddMeetingNegation([Bind]NewMeetingDto model) {
+			//			Console.WriteLine ("AddMeeting");
+			String validateCreateMsg = validateCreateMeeting(model);
+			if (validateCreateMsg != null) {
+				model.ResponseMessage = validateCreateMsg;
+				var temp = new NewMeeting{ Model = model };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+			} else {
+				model.HasNegation = true;
+				model.Terminate = DateTime.Today;
+				int? idCase = createMeeting(model);
+				int az = idCase.GetValueOrDefault ();
+				//String Response = "Se ha guardado exitosamente";
+				Index();
 			}
 		}
 
@@ -216,7 +207,15 @@ namespace UmecaApp
 					}
 
 //					caseDetention.Status = services.statusCasefindByCode (Constants.CASE_STATUS_MEETING);
-					caseDetention.StatusCaseId = services.statusCasefindByCode (Constants.CASE_STATUS_MEETING).Id;
+
+					caseDetention.HasNegation = imputed.HasNegation??false;
+					if(caseDetention.HasNegation == true){
+						caseDetention.StatusCaseId = services.statusCasefindByCode (Constants.CASE_STATUS_NOT_PROSECUTE).Id;
+						caseDetention.DateNotProsecute = DateTime.Now;
+					}
+					else{
+						caseDetention.StatusCaseId = services.statusCasefindByCode (Constants.CASE_STATUS_MEETING).Id;
+					}
 					caseDetention.IdFolder = imputed.IdFolder;
 					caseDetention.DateCreate = DateTime.Today;
 					//caseDetention.setChangeArrangementType(false);
@@ -226,9 +225,18 @@ namespace UmecaApp
 					Meeting meeting = new Meeting ();
 					meeting.MeetingType = Constants.MEETING_PROCEDURAL_RISK;
 					meeting.CaseDetentionId = caseDetention.Id;
+					meeting.District = imputed.District??1;
 //					meeting.CaseDetention = caseDetention;
-					StatusMeeting statusMeeting = services.statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE);
-					meeting.StatusMeetingId = statusMeeting.Id;
+					if(caseDetention.HasNegation == true){
+						StatusMeeting statusMeeting = services.statusMeetingfindByCode (Constants.S_MEETING_DECLINE);
+						meeting.StatusMeetingId = statusMeeting.Id;
+						meeting.DeclineReason = imputed.Reason;
+						meeting.DateTerminate = imputed.Terminate;
+					}
+					else{
+						StatusMeeting statusMeeting = services.statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE);
+						meeting.StatusMeetingId = statusMeeting.Id;
+					}
 //					meeting.StatusMeeting = statusMeeting;
 					meeting.ReviewerId = revId;
 //					meeting.Reviewer = reviewer;
@@ -309,6 +317,7 @@ namespace UmecaApp
 					            + " ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
 					            + " ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
 					            + " ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
+					+ " ,im.id_birth_info_availability as 'BirthInfoId'"
 					            + " ,me.id_meeting as 'MeetingId'"
 					            + " ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
 					            + " ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
@@ -321,7 +330,7 @@ namespace UmecaApp
 					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
 				//				+" and me.id_reviewer = 2 "
-					            + " where cs.id_case = ?; ", idCase).FirstOrDefault ();
+								+ " where cs.id_case = ? and cs.has_negation = 0; ", idCase).FirstOrDefault ();
 				result.CaseId = idCase;
 
 				result.ageString = services.calculateAge (result.BirthDate);
@@ -434,7 +443,7 @@ namespace UmecaApp
 				result.JsonStates = this.jsonStates;
 				result.JsonMunycipality = this.jsonMunycipality;
 				result.JsonElection = this.jsonElection;
-				result.JsonActivities = this.jsonActivities;
+				result.JsonActivities = JsonConvert.SerializeObject(db.Table<ActivityCatalog>().ToList());
 
 				var temp = new MeetingDatosPersonales{ Model = result };
 				//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
@@ -465,7 +474,7 @@ namespace UmecaApp
 				imputado.BirthLocation = model.BirthLocation;
 				imputado.Nickname = model.Nickname;
 				imputado.LocationId = model.LocationId;
-
+				imputado.BirthInfo = model.BirthInfoId;
 				db.Update (imputado);
 				string output = JsonConvert.SerializeObject (model);
 				model.JsonMeeting = output;

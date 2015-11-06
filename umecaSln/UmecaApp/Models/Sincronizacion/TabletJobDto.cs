@@ -9,7 +9,7 @@ namespace UmecaApp
 		{
 		}
 
-		public TabletJobDto(int id, String post, String nameHead, String company, String phone,DateTime?startPrev,DateTime?start, float salaryWeek,DateTime?end, String reasonChange, String address, Boolean? block,
+		public TabletJobDto(int id, String post, String nameHead, String company, String phone,DateTime?startPrev,DateTime?start, String salaryWeek,DateTime?end, String reasonChange, String address, Boolean? block,
 			int idRT, String nameRT) {
 
 //			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -41,7 +41,7 @@ namespace UmecaApp
 		public String phone{ get; set; }
 		public String startPrev{ get; set; }
 		public String start{ get; set; }
-		public float? salaryWeek{ get; set; }
+		public String salaryWeek{ get; set; }
 		public String end{ get; set; }
 		public String reasonChange{ get; set; }
 		public String address{ get; set; }

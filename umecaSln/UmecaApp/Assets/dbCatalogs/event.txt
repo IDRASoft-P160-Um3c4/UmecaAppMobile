@@ -1,0 +1,16 @@
+id|name|description|obsolete
+1|DECLINED|Entrevista negada|0
+2|REPORT|Caso con informe|0
+3|OPINION|Caso con opinión técnica|0
+4|INTERVIEW|Caso con solo entrevista|0
+5|FORMULATION|Caso que viene de formulación|0	
+6|PROSECUTED|Caso judicializado|0
+7|MC_NON_FULFILLMENT|MC con incumplimento total|0
+8|MC_PARTIAL_NON_FULFILLMENT|MC con incumplimento parcial|0
+9|SCP_NON_FULFILLMENT|SCP con incumplimiento total|0
+10|SCP_PARTIAL_NON_FULFILLMENT|SCP con incumplimiento parcial|0
+11|SUPERVISOR_PRE_ASSIGNMENT|Preasignación supervisor|0
+12|SUPERVISOR_ASSIGNMENT|Asignación supervisor|0
+13|SUPERVISOR_REASSIGNMENT|Reasignación supervisor|0
+14|CHANGE_SCPP_TO_MC|Cambio de SCPP a MC|0
+15|CHANGE_MC_TO_SCPP|Cambio de MC a SCCP|0

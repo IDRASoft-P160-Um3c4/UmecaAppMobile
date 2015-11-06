@@ -1,0 +1,5 @@
+id|name|obsolete|specification
+1|Ir al tribunal|0|0
+2|Ir a la fiscalía|0|0
+3|Integración|0|0
+4|Verificación|0|0

@@ -39,7 +39,7 @@ namespace UmecaApp
 		public int? RelationshipId{ get; set; }
 
 
-		public int? Age{ get; set; }
+		public String Age{ get; set; }
 
 
 		public String Phone{ get; set; }

@@ -47,6 +47,17 @@ namespace UmecaApp
 		[Column("date_create")]
 		public DateTime? DateCreate{ get; set; }
 
+
+
+		[Column("has_negation")]
+		public Boolean HasNegation{ get; set; }
+
+		[Column("is_substracted")]
+		public Boolean? IsSubstracted{ get; set; }
+
+		[Column("date_substracted")]
+		public DateTime? DateSubstracted{ get; set; }
+
 	}
 }
 

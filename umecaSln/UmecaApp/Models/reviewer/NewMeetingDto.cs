@@ -39,6 +39,14 @@ namespace UmecaApp
 		public String StatusCode{ get; set; }
 
 		public String ResponseMessage{ get; set; }
+
+		public int? District{ get; set; }
+
+		public bool? HasNegation{ get; set; }
+
+		public String Reason{ get; set; }
+
+		public DateTime Terminate{ get; set; }
 	}
 }
 

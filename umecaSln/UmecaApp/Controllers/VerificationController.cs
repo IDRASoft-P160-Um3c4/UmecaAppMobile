@@ -45,7 +45,7 @@ namespace UmecaApp
 			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
 			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
 			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
-			this.JsonActivities = "[{'id':1,'name':'Laborales','specification':true},{'id':2,'name':'Escolares','specification':true},{'id':3,'name':'Religiosas','specification':true},{'id':4,'name':'Deportivas','specification':true},{'id':5,'name':'Reuniones sociales','specification':true},{'id':6,'name':'Reuniones familiares','specification':true},{'id':7,'name':'Otras','specification':true},{'id':8,'name':'Ninguna','specification':false}]";
+
 
 		}
 
@@ -66,30 +66,30 @@ namespace UmecaApp
 					revId = reviewer.Id;
 				}
 
-//			var result = new List<MeetingTblDto> ();
-//			var resAux = db.Table<Verification> ().Where (meAux => meAux.ReviewerId == revId && (meAux.StatusVerificationId == statusVerification1.Id || meAux.StatusVerificationId == statusVerification2.Id) ).ToList ();
-//			foreach (Verification ent in resAux) {
-//				var casoRev = db.Table<Case> ().Where (revCase => revCase.Id == ent.CaseDetentionId).FirstOrDefault ();
-//				if (casoRev != null && (casoRev.StatusCaseId == sc.Id || casoRev.StatusCaseId == sc1.Id)) {
-//					MeetingTblDto found = new MeetingTblDto ();
-//					found.CaseId = casoRev.Id;
-//					found.IdFolder = casoRev.IdFolder;
-//					found.StatusCode = ent.StatusVerificationId == statusVerification1.Id ? statusVerification1.Description : statusVerification2.Description;
-//					found.Description = casoRev.StatusCaseId == sc.Id ? sc.Description : sc1.Description;
-//					found.ReviewerId = revId;
-//					result.Add (found);
-//				}
-//			}
+			var result = new List<MeetingTblDto> ();
+			var resAux = db.Table<Verification> ().Where (meAux => meAux.ReviewerId == revId && (meAux.StatusVerificationId == statusVerification1.Id || meAux.StatusVerificationId == statusVerification2.Id) ).ToList ();
+			foreach (Verification ent in resAux) {
+				var casoRev = db.Table<Case> ().Where (revCase => revCase.Id == ent.CaseDetentionId).FirstOrDefault ();
+				if (casoRev != null && (casoRev.StatusCaseId == sc.Id || casoRev.StatusCaseId == sc1.Id)) {
+					MeetingTblDto found = new MeetingTblDto ();
+					found.CaseId = casoRev.Id;
+					found.IdFolder = casoRev.IdFolder;
+					found.StatusCode = ent.StatusVerificationId == statusVerification1.Id ? statusVerification1.Description : statusVerification2.Description;
+					found.Description = casoRev.StatusCaseId == sc.Id ? sc.Description : sc1.Description;
+					found.ReviewerId = revId;
+					result.Add (found);
+				}
+			}
 
-				var result = db.Query<MeetingTblDto> (
-					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',"
-					            + " csm.description as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
-					            + " FROM verification as me "
-					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					            + "  left JOIN cat_status_verification as csm ON csm.id_status = me.id_status_verification "
-								+ " WHERE me.id_status_verification in (?,?) "
-					            + " and me.id_reviewer = ? "
-					            + " AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId, sc.Id, sc1.Id);
+//				var result = db.Query<MeetingTblDto> (
+//					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',"
+//					            + " csm.description as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+//					            + " FROM verification as me "
+//					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+//					            + "  left JOIN cat_status_verification as csm ON csm.id_status = me.id_status_verification "
+//								+ " WHERE me.id_status_verification in (?,?) "
+//					            + " and me.id_reviewer = ? "
+//					            + " AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId, sc.Id, sc1.Id);
 
 				var counter = 0;
 				for (counter = 0; counter < result.Count; counter++) {
@@ -160,9 +160,6 @@ namespace UmecaApp
 		{
 
 			using (var db = FactoryConn.GetConn ()) {
-				////////////////////////////////
-				Console.WriteLine ("entro a validation meeting by source con idSource =>" + idSource);
-				/////////////////////////////////
 				var source = db.Table<SourceVerification> ().Where (sv => sv.Id == idSource).FirstOrDefault ();
 				int idCase = (int)source.CaseRequestId;
 				User Reviewer = db.Table<User> ().First ();
@@ -191,6 +188,8 @@ namespace UmecaApp
 				result.BirthState = baseImp.BirthState;
 				result.BirthMunicipality = baseImp.BirthMunicipality;
 				result.Nickname = baseImp.Nickname;
+				result.BirthInfoId = baseImp.BirthInfo;
+
 				result.MeetingId = baseMe.Id;
 				result.ReviewerId = Reviewer.Id;
 				result.StatusMeetingId = baseMe.StatusMeetingId;
@@ -202,6 +201,7 @@ namespace UmecaApp
 				result.CommentSchool = baseMe.CommentSchool;
 				result.DateCreate = baseMe.DateCreate;
 				result.DateTerminate = baseMe.DateTerminate;
+
 
 				result.CaseId = idCase;
 

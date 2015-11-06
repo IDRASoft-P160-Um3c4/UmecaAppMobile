@@ -8,16 +8,14 @@
 7|ST_CASE_FRAMING_MEETING_COMPLETE|Entrevista de encuadre completa.
 8|ST_CASE_CONDITIONAL_REPRIEVE|Nuevo caso.
 9|ST_CASE_VERIFICATION|En verificación
-10|ST_CASE_PRE_CLOSED|Pre-cerrado por vinculación a proceso NO.
-11|ST_CASE_CLOSED|Cerrado.
-12|ST_CASE_REQUEST|En solicitud pendiente
-13|ST_CASE_EDIT_TEC_REV|Edición de instrumento de evaluación autorizada
-14|ST_CASE_OBSOLETE_EVALUATION|Caso eliminado en evaluación
-15|ST_CASE_HEARING_FORMAT_INCOMPLETE|Formato de audiencia incompleto.
-16|ST_CASE_TECHNICAL_REVIEW_INCOMPLETE|Instrumento de evaluación incompleto.
-17|ST_CASE_NOT_PROSECUTE|No judializado.
-18|ST_CASE_NOT_PROSECUTE_OPEN|No judicializado abierto.
-19|ST_CASE_PRISON_CLOSED|Cerrado por prisión preventiva / promesa del imputado.
-20|ST_CASE_OBSOLETE_SUPERVISION|Caso eliminado en supervisión
-21|ST_CASE_REQUEST_SUPERVISION|En solicitud pendiente
-22|ST_CASE_TABLET_ASSIGNED|Asignado a tableta.
+10|ST_CASE_CLOSED|Cerrado.
+11|ST_CASE_REQUEST|En solicitud pendiente
+12|ST_CASE_EDIT_TEC_REV|Edición de instrumento de evaluación autorizada
+13|ST_CASE_HEARING_FORMAT_INCOMPLETE|Formato de audiencia incompleto.
+14|ST_CASE_TECHNICAL_REVIEW_INCOMPLETE|Instrumento de evaluación incompleto.
+15|ST_CASE_NOT_PROSECUTE|No judializado.
+16|ST_CASE_NOT_PROSECUTE_OPEN|No judicializado abierto.
+17|ST_CASE_REQUEST_SUPERVISION|En solicitud pendiente
+18|ST_CASE_CLOSE_REQUEST|En solicitud de cierre pendiente
+19|ST_CASE_GOT_FREEDOM|Alcanzó libertad
+20|ST_CASE_TABLET_ASSIGNED|Asignado a tableta.

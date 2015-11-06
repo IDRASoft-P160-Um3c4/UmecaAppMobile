@@ -71,8 +71,14 @@ namespace UmecaApp
 		[Column("reasonSecondary"),MaxLength(500)]
 			public String ReasonSecondary{ get; set; }
 
+		[Column("is_homeless")]
+		public Boolean? IsHomeless{ get; set; }
+
 //		public List<InnerModelDto> Schedule{ get; set; }
 		public String Schedule{ get; set; }
+
+
+
 	}
 }
 

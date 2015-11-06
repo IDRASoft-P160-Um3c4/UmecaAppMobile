@@ -25,6 +25,8 @@ namespace UmecaApp
 		public List<ContactData> lstContactDataView{ get; set; }
 
 		public List<Crime> crimeList{ get; set; }
+
+		public Boolean? IsSubstracted{ get; set; }
 	}
 }
 

@@ -23,6 +23,9 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.m.labelImpForm = "";
 
+
+        $scope.m.contactLiveWith = false;
+
         $scope.chnLblFormImp = function (id) {
             if ($scope.m.hasPrevHF == false) {
                 if (id == 1) {
@@ -137,7 +140,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             var jsonRow = {
                 "NameTxt": $scope.m.contactName,
                 "PhoneTxt": $scope.m.contactPhone,
-                "AddressTxt": $scope.m.contactAddress
+                "AddressTxt": $scope.m.contactAddress,
+                "liveWith": $scope.m.contactLiveWith == true
             };
 
             $scope.m.lstContactData.push(jsonRow);
@@ -145,6 +149,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.contactName = "";
             $scope.m.contactPhone = "";
             $scope.m.contactAddress = "";
+            $scope.m.contactLiveWith = false;
             $scope.MsgErrorContact = "";
 
         };
@@ -759,6 +764,20 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 			    $scope.lstHearingType = JSON.parse( $("#hdnJsonHearing").val());
 			    $scope.readonlyBand =$("#hdnreadonlyBand").val();
 
+			    console.log 
+			     $scope.lstDistrict = JSON.parse(MeetingService.findAllDistrict());
+				if($scope.m.District == undefined || $scope.m.District == null){
+					$scope.m.District = $scope.lstDistrict[0].Id;
+					$scope.district = $scope.lstDistrict[0];
+				}else{
+					for(x in $scope.lstDistrict){
+						if($scope.lstDistrict[x].Id==$scope.m.District){
+							$scope.district = $scope.lstDistrict[x];
+							break;
+						}
+					}
+				}
+
             $scope.fillFormat($scope.m);
             $scope.fillSelSupervisor();
             $scope.fillSelHearingType();
@@ -961,7 +980,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 	        $("#street").val($scope.m.street);
 	        $("#outNum").val($scope.m.outNum);
 
-
+	       
 
 	        console.log("scope.idAddres"+$scope.m.idAddres);
 	        console.log("scope.innNum"+$scope.m.innNum);
@@ -983,11 +1002,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 					var domicilioData = JSON.parse(jsonStrngData);
 					$scope.state = $scope.itemListById(domicilioData.StateId ,  $scope.listState);
 					$scope.listMunicipality = domicilioData.Municipios;
-					console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
+					//console.log("listMunicipality name "+ $scope.listMunicipality[1].Name+"    $scope.listMunicipality[1]--"+$scope.listMunicipality[1].Id);
 					$scope.municipality = $scope.itemListById(domicilioData.MunicipalityId , $scope.listMunicipality);
 					$scope.listLocation = domicilioData.Locaciones;
 					$scope.location = $scope.itemListById($scope.m.location.id , $scope.listLocation);
-					console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
+					//console.log("Locaciones name "+ $scope.listLocation[1].Name+"    id--"+$scope.listLocation[1].Id);
 					$scope.zipCode = domicilioData.zipCode;
 				}
 			}
@@ -1012,6 +1031,51 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         /////Address End
 
 
+        ///district control
+        $scope.lstDistrict=[];
+			$scope.district={};
+
+
+		///correccion de lugar de nacimiento del imputado
+
+		//cuando se elije un estado se filtran los municipios
+		$scope.MunByEdo = function(){
+			$scope.listMunicipality = [];
+	        $scope.municipality = {};
+	        $scope.location = {};
+	        $scope.listLocation = [];
+			    var municipios = MeetingService.findMunicipalityByState($scope.state['Id']);
+			    //alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate) +"   and \n municipios _>"+municipios);
+			    if(municipios!=undefined&&municipios!=null&&municipios!=""){
+				    try{
+				    	$scope.listMunicipality = JSON.parse(municipios);
+				    	}catch(e){
+			    			console.log("exception caugth at MunByEdo Message >>"+e.Message);
+			    			$scope.listMunicipality = [];
+						}
+			    }
+		};
+
+		$scope.locationDp = function(){
+			$scope.zipCode = $scope.location['ZipCode'];
+		}
+
+		//cuando se elije un municipio se filtran las localidades
+		$scope.LocByMun = function(){
+        	$scope.location = {};
+			$scope.listLocation = [];
+			    var em=0;
+			    var locations = MeetingService.findLocationByMunicipality($scope.municipality['Id']);
+			    //alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate) +"   and \n municipios _>"+municipios);
+			    if(locations!=undefined&&locations!=null&&locations!=""){
+				    try{
+				    	$scope.listLocation = JSON.parse(locations);
+				    	}catch(e){
+			    			console.log("exception caugth at LocByMun Message >>"+e.Message);
+			    			$scope.listLocation = [];
+						}
+			    }
+		};
 
 
     }
@@ -1336,6 +1400,35 @@ askCloseCredentials.hide = function (){
                                                     </div>
                                                 </div>
 
+                                                <div class="row">
+                                                	<div class="col-xs-4" ng-show="m.imputedPresence==2">
+                                                        <label>&iquest;Declarar sustra&iacute;do al imputado?</label>
+									                     <span class="field-validation-valid" data-valmsg-for="imputedPresence"
+									                           data-valmsg-replace="true"></span>
+
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input name="isSubstracted" class="ace" type="radio"
+                                                                       value="true"
+                                                                       ng-model="m.IsSubstracted"
+                                                                       ng-checked="m.IsSubstracted==true" data-val="true"
+                                                                       data-val-required="Debe seleccionar un valor">
+                                                                <span class="lbl">&nbsp;&nbsp;Si</span>
+                                                            </label>
+                                                            <br/>
+                                                            <label>
+                                                                <input name="isSubstracted" class="ace" type="radio"
+                                                                       value="false"
+                                                                       ng-model="m.IsSubstracted"
+                                                                       ng-checked="m.IsSubstracted==false">
+                                                                <span class="lbl">&nbsp;&nbsp;No</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                                 <div class="row" ng-show="m.hearingType.specification==true">
                                                     <div class="col-xs-4">
                                                         <label>Especifique tipo de audiencia</label>
@@ -1385,9 +1478,13 @@ askCloseCredentials.hide = function (){
                                                 <div class="col-xs-4">
                                                     <label for="room">Distrito judicial</label>
                                                     <br/>
-                                                    <input id="room" ng-model="m.district" name="room" type="text"
+											        <div class="col-xs-7">
+											            <select id="district" ng-change="m.District = district.Id;" ng-model="district" ng-options="e.Name for e in lstDistrict" ></select>
+											            <input type="hidden" name="meeting.district.id" ng-model="m.District" value="{{district.Id}}" >
+											        </div>
+                                                    <!--<input id="room" ng-model="m.district" name="room" type="text"
                                                            class="input-xxlarge" data-val="true"
-                                                           data-val-required="Distrito judicial es un campo requerido"/>
+                                                           data-val-required="Distrito judicial es un campo requerido"/>-->
                                                     <br/>
                                         <span class="field-validation-valid" data-valmsg-for="room"
                                               data-valmsg-replace="true"></span>
@@ -1628,7 +1725,37 @@ askCloseCredentials.hide = function (){
 
 
 
+
+								<div class="row">
+							        <div class="col-xs-12 element-center">
+							            &iquest;El imputado se encuentra en situaci&oacute;n de calle?
+							            <br/>
+							            <div class="radio">
+							                <label>
+							                    <input name="isHomeless" class="ace" type="radio"
+							                           ng-value="true"
+							                           ng-model="m.IsHomeless"
+							                           ng-checked="m.IsHomeless==true">
+							                    <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+							                </label>
+							                &nbsp;&nbsp;&nbsp;&nbsp;
+							                &nbsp;&nbsp;&nbsp;&nbsp;
+							                <label>
+							                    <input name="isHomeless" class="ace" type="radio"
+							                           ng-value="false"
+							                           ng-model="m.IsHomeless"
+							                           ng-checked="m.IsHomeless==false"
+							                           data-val="true"
+							                           data-val-required="Debe seleccionar un valor">
+							                    <span class="lbl">&nbsp;&nbsp;No</span>
+							                </label>
+							            </div>
+
+							        </div>
+								</div>
+
                                                 <!--componente adress by cp-->
+<div ng-show="m.IsHomeless==false">
                 <div class="row">
 				  <div class="col-xs-5">
 				    <label for="zipCode">C&oacute;digo postal:</label>
@@ -1653,14 +1780,14 @@ askCloseCredentials.hide = function (){
 				<div class="row">
 				  <div class="col-xs-6">
 				    <label>Estado:</label>
-				    <select class="form-control element-center" ng-model="state" 	
+				    <select class="form-control element-center" ng-model="state" ng-change="MunByEdo();"	
 				    ng-options="e.Name for e in listState" ></select><br/>
 				  </div>
 				  <div class="col-xs-6">
 				    <label>Municipio:</label>
 				    <select class="form-control element-center" ng-model="municipality"
 				    ng-options="e.Name for e in listMunicipality" ng-init='listMunicipaliti = ""'
-				    ng-change="municipalityId = municipality.id;"></select><br/>
+				    ng-change="municipalityId = municipality.id;LocByMun();"></select><br/>
 				  </div>
 				</div>
 				<div class="row">
@@ -1669,9 +1796,10 @@ askCloseCredentials.hide = function (){
 				    <br/>
 				    <select class="form-control" ng-model="location"
 				    ng-options="e.Name for e in listLocation" ng-init='listLocation = ""'
-				    ng-change="m.LocationId = location['Id'];m.location.id = location['Id'];"></select>
+				    ng-change="m.LocationId = location['Id'];m.location.id = location['Id'];locationDp();"></select>
 				  </div>
 				</div>
+</div>
 				<br/>
 				<div class="row">
 					  	<div class="col-xs-6">
@@ -1715,9 +1843,70 @@ askCloseCredentials.hide = function (){
 
                                             <br/>
 
-                                            <div class="row">
-                                             <!--   <% include file="/WEB-INF/jsp/address/index.jsp" %> -->
-                                            </div>
+    <!--SECCION HOMELESS-->
+    <div class="row" ng-show="m.IsHomeless==true">
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4>Situaci&oacute;n de calle</h4>
+                </div>
+                <div class="widget-body">
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="row">
+                                <div class="col-xs-5 element-left">
+                                    Tiempo en situaci&oacute;n de calle:
+                                </div>
+                                <div class="col-xs-7">
+                                    <input class="form-control" data-val="true"
+                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 980 caracteres"
+                                           data-val-length-max="980" data-val-length-min="1"
+                                           data-val-required="El tiempo de residencia es un campo requerido"
+                                           id="TimeAgoD"
+                                           ng-model="m.TimeAgo"
+                                           name="TimeAgoD"
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-4">
+                                    <span class="field-validation-valid" data-valmsg-for="TimeAgoD"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+					              <div class="col-xs-3">
+					                Lugar de localizaci&oacute;n:<br/>
+					                <label class="info-example">(color de casa, ruta, etc.)</label>
+					              </div>
+					              <div class="col-xs-9">
+					                <textarea id="description" class="form-control" name="LocationPlace"
+					                ng-model="m.LocationPlace"
+					                data-val="true"
+					                data-val-length="Debe tener al menos 1 y m&aacute;ximo 980 caracteres"
+					                data-val-length-max="980" data-val-length-min="1"
+					                data-val-required="La descripci&oacute;n es un campo requerido"></textarea>
+					                <br/>
+					                <span class="field-validation-valid" data-valmsg-for="LocationPlace"
+					                data-valmsg-replace="true">{{m.Description}}</span>
+					              </div>
+				            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="hr hr-8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECCION HOMELESS END-->
 
                                             <br/>
                                         </div>
@@ -2406,7 +2595,7 @@ askCloseCredentials.hide = function (){
                                 <br/>
                             </div>
 
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <label for="contactPhone">Tel&eacute;fono:</label>
                                 <br/>
                                 <input id="contactPhone" type="text"
@@ -2415,12 +2604,23 @@ askCloseCredentials.hide = function (){
                             </div>
 
 
-                            <div class="col-xs-4">
+                            <div class="col-xs-3">
                                 <label>Direcci&oacute;n</label>
                                 <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
                         </textarea>
+                            </div>
+
+                            <div class="col-xs-2">
+                                <label>
+                                    <input class="ace" id="contactLiveWith"
+                                           ng-disabled=" (m.disableAll==true) || (arrangment.isDefault==true && arrangment.selVal==true) "
+                                           type="checkbox"
+                                           ng-model="m.contactLiveWith">
+                                    <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;Vive con el imputado?</span>
+                                </label>
+                                <br/>
                             </div>
 
                             <div class="col-xs-2 element-right">
@@ -2459,6 +2659,7 @@ askCloseCredentials.hide = function (){
                                                 <th class="element-center">Nombre</th>
                                                 <th class="element-center">Tel&eacute;fono</th>
                                                 <th class="element-center">Direcci&oacute;n</th>
+                                                <th class="element-center">&iquest;Vive con <br/> el imputado?</th>
                                                 <th class="element-center">Quitar</th>
                                             </tr>
                                             </thead>
@@ -2469,6 +2670,7 @@ askCloseCredentials.hide = function (){
                                                     <td class="element-center">{{contact.NameTxt}}</td>
                                                     <td class="element-center">{{contact.PhoneTxt}}</td>
                                                     <td class="element-center">{{contact.AddressTxt}}</td>
+                                                    <td class="element-center">{{contact.liveWith==true?"Si":"No"}}</td>
                                                     <td class="element-center"><a href="javascript:;"
                                                                                   style="display:inline-block;"
                                                                                   title="Quitar de la lista"

@@ -8,7 +8,7 @@ namespace UmecaApp
 		{
 		}
 
-		public TabletPersonSocialNetworkDto(int id, String name, int age, String phone, String address, String specification, Boolean? isAccompaniment, String specificationRelationship, Boolean? block) {
+		public TabletPersonSocialNetworkDto(int id, String name, String age, String phone, String address, String specification, Boolean? isAccompaniment, String specificationRelationship, Boolean? block) {
 			this.id = id;
 			this.webId = id;
 			this.name = name;
@@ -24,7 +24,7 @@ namespace UmecaApp
 		public long? webId{ get; set; }
 		public int id{ get; set; }
 		public String name{ get; set; }
-		public int? age{ get; set; }
+		public String age{ get; set; }
 		public String phone{ get; set; }
 		public String address{ get; set; }
 		public String specification{ get; set; }

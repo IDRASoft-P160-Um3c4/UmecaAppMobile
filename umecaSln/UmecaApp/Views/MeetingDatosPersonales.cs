@@ -150,213 +150,229 @@ WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\
 "$scope.listMsgError[\'socialNetwork\'] = false;\r\n        $scope.listMsgError[\'refe" +
 "rence\'] = false;\r\n        $scope.listMsgError[\'job\'] = false;\r\n        $scope.li" +
 "stMsgError[\'school\'] = true;\r\n        $scope.listMsgError[\'drug\'] = false;\r\n    " +
-"    $scope.listMsgError[\'leavingCountry\'] = true;*/\r\n\r\n        $scope.putasHarry" +
-"=function(){\r\n        $timeout(function(){\r\n        \t$(\"#axelMulti\").chosen();\r\n" +
-"        \t},0);\r\n        };\r\n\r\n////////////////DATOS PERSONALES CONTROLLER\r\n\r\n   " +
-"     ////////////////VARIABLES///////////////\r\n    \t//genero\r\n        $scope.gen" +
-" = {};\r\n\r\n        //pais nacimiento\r\n        $scope.listCountry = [];\r\n        $" +
-"scope.listState = [];\r\n        $scope.listMuni = [];\r\n        $scope.listLocalid" +
-"ades = [];\r\n        $scope.listMunByEdo = [];\r\n        $scope.SeceltedCountry = " +
-"{};\r\n        $scope.SeceltedEstate = {};\r\n        $scope.SeceltedMuni = {};\r\n   " +
-"     $scope.SeceltedLocation = {};\r\n\r\n        //actividades que realiza\r\n\t$scope" +
-".specification = {};\r\n    $scope.lstActivity = [];\r\n    $scope.activityModel = [" +
-"];\r\n    $scope.activityList = [];\r\n\r\n    ///////////////////METHODS/////////////" +
-"/////\r\n    //Init de country \r\n    $scope.InitCountryPD = function(){\r\n\t\t    if(" +
-"$scope.m.BirthCountry!=undefined&&$scope.m.BirthCountry!=null){\r\n\t\t\t    for(x=0;" +
-"x<$scope.listCountry.length;x++){\r\n\t\t\t    \tif($scope.listCountry[x].Id==$scope.m" +
-".BirthCountry){\r\n\t\t\t    \t\t$scope.SeceltedCountry = $scope.listCountry[x];\r\n\t\t\t  " +
-"  \t\t//alert(\"$scope.listCountry[x]\"+JSON.stringify($scope.listCountry[x]));\r\n\t\t\t" +
-"    \t\t//alert(\"$scope.SeceltedCountry\"+JSON.stringify($scope.SeceltedCountry));\r" +
-"\n\t\t\t    \t\t$scope.InitMunicipalityDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t" +
-"\t}\r\n\t\t\telse{\r\n\t    \t\t\r\n\t    \t\tfor(x=0;x<$scope.listCountry.length;x++){\r\n\t\t\t    " +
-"\tif($scope.listCountry[x].Id==1){\r\n\t\t\t    \t\t$scope.SeceltedCountry = $scope.list" +
-"Country[x];\r\n\t\t\t    \t\t$scope.m.BirthCountry = $scope.SeceltedCountry[\'Id\'];\r\n\t\t\t" +
-"    \t\t$scope.InitMunicipalityDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n" +
-"\t\t};\r\n\r\n    $scope.InitMunicipalityDP = function(){\r\n    //alert(\"InitMunicipali" +
-"tyDP -> $scope.m.LocationId>>\"+$scope.m.LocationId);\r\n\t    if($scope.m.LocationI" +
-"d!=undefined&&$scope.m.LocationId!=null){\r\n\t    \tvar data = JSON.parse(MeetingSe" +
-"rvice.findAllByLocation($scope.m.LocationId));\r\n\t    \t//alert(\"InitMunicipalityD" +
-"P -> data>>\"+JSON.stringify(data));\r\n\t    \t//alert(\"InitMunicipalityDP -> data.S" +
-"tateId=\"+data.StateId+\"    data.MunicipalityId=\"+data.MunicipalityId);\r\n\t\t    fo" +
-"r(x=0;x<$scope.listState.length;x++){\r\n\t\t    \tif($scope.listState[x].Id==data.St" +
-"ateId){\r\n\t\t    \t\t$scope.SeceltedEstate = $scope.listState[x];\r\n\t\t    \t\t//alert(\"" +
-"$scope.SeceltedEstate[x]\"+JSON.stringify($scope.SeceltedEstate));\r\n\t\t    \t\t$scop" +
-"e.MunByEdo();\r\n\t\t    \t\t\tfor(y=0;y<$scope.listMunByEdo.length;y++){\r\n\t\t\t    \t\t\tif" +
-"($scope.listMunByEdo[y].Id==data.MunicipalityId){\r\n\t\t\t    \t\t\t\t$scope.SeceltedMun" +
-"i = $scope.listMunByEdo[y];\r\n\t\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t    \t\t\t\tfor(z=0;" +
-"z<$scope.listLocalidades.length;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.listLocalidades[z]" +
-".Id==$scope.m.LocationId){\r\n\t\t\t\t    \t\t\t\t\t\t$scope.SeceltedLocation = $scope.listL" +
-"ocalidades[z];\r\n\t\t\t\t    \t\t\t\t\t\tbreak;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t}\r\n\t\t\t\t    \t\t\t" +
-"break;\r\n\t\t\t    \t\t\t}\r\n\t\t    \t\t\t}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t};\r\n\r\n" +
-"\t\t//cuando se elije un estado se filtran los municipios\r\n\t\t$scope.MunByEdo = fun" +
-"ction(){\r\n\t\t\t$scope.listMunByEdo = [];\r\n\t        $scope.SeceltedMuni = {};\r\n\t   " +
-"     $scope.SeceltedLocation = {};\r\n\t        $scope.listLocalidades = [];\r\n\t\t\t  " +
-"  var em=0;\r\n\t\t\t    var municipios = MeetingService.findMunicipalityByState($sco" +
-"pe.SeceltedEstate[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JSON.stringify" +
-"($scope.SeceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t    if(munic" +
-"ipios!=undefined&&municipios!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$sc" +
-"ope.listMunByEdo = JSON.parse(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconso" +
-"le.log(\"exception caugth at MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.l" +
-"istMunByEdo = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t$scope.selectedActivities = fu" +
-"nction (lstActivity, lstActivitySelect) {\r\n        for (var i = 0; i < lstActivi" +
-"tySelect.length; i++) {\r\n            for (var j = 0; j < lstActivity.length; j++" +
-") {\r\n                if (lstActivity[j].id === lstActivitySelect[i].id) {\r\n     " +
-"               $scope.activityModel.push(lstActivity[j]);\r\n                    i" +
-"f (lstActivity[j].specification) {\r\n                        $scope.specification" +
-"[lstActivity[j].name] = lstActivitySelect[i].specification;\r\n                   " +
-" }\r\n                }\r\n            }\r\n        }\r\n        $scope.matchActivities(" +
-");\r\n    };\r\n\r\n    $scope.matchActivities = function () {\r\n        $scope.relActi" +
-"vities = [];\r\n        for (var i = 0; i < $scope.activityModel.length; i++) {\r\n " +
-"           var model = {};\r\n            model.ActivityId = $scope.activityModel[" +
-"i].id;\r\n            if ($scope.specification[$scope.activityModel[i].name] != un" +
-"defined) {\r\n                model.specification = $scope.specification[$scope.ac" +
-"tivityModel[i].name];\r\n            } else {\r\n                model.specification" +
-" = \"\";\r\n            }\r\n            $scope.relActivities.push(model);\r\n        }\r" +
-"\n        $scope.m.Activities = JSON.stringify($scope.relActivities);\r\n        re" +
-"turn true;\r\n    };\r\n\r\n\r\n\t\t//cuando se elije un municipio se filtran las localida" +
-"des\r\n\t\t$scope.LocByMun = function(){\r\n        $scope.SeceltedLocation = {};\r\n\t\t\t" +
-"    $scope.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locations = Meeti" +
-"ngService.findLocationByMunicipality($scope.SeceltedMuni[\'Id\']);\r\n\t\t\t    //alert" +
-"(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\"   and \\n munic" +
-"ipios _>\"+municipios);\r\n\t\t\t    if(locations!=undefined&&locations!=null&&locatio" +
-"ns!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listLocalidades = JSON.parse(locations);" +
-"\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at LocByMun Messa" +
-"ge >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listLocalidades = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t" +
-"\t};\r\n\r\n\r\n\t\t//cuando se elije un estado se filtran los municipios \r\n\t\t//TODO: se " +
-"cambiara a una peticion a methodo\r\n\t\t$scope.InitActivities = function(){\r\n\t\t\tif(" +
-"$scope.m.Activities!=undefined&&$scope.m.Activities!=null){\r\n\t\t\t    var activida" +
-"des = JSON.parse($scope.m.Activities);\r\n\t\t\t    var ids = [];\r\n\t\t\t    //alert(\"st" +
-"ring de actividades>\"+JSON.stringify(actividades));\r\n\t\t\t    //iterates activitie" +
-"s\r\n\t\t\t    for(a in actividades){\r\n\t\t\t\t    for(e in $scope.lstActivity){\r\n\t\t\t\t\t  " +
-"  if($scope.lstActivity[e].id==actividades[a].ActivityId){\r\n\t\t\t    \t\t\tconsole.lo" +
-"g(\"coincidence >>>\"+actividades[a].ActivityId);\r\n\t\t\t    \t\t\tids.push(e);\r\n\t\t\t\t\t  " +
-"  \t$scope.activityModel.push($scope.lstActivity[e]);\r\n\t\t                    if (" +
-"$scope.lstActivity[e].specification) {\r\n\t\t                        $scope.specifi" +
-"cation[$scope.lstActivity[e].name] = actividades[a].specification; \r\n\t\t         " +
-"           } \r\n\t\t\t\t\t    }\r\n\t\t\t\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').multipleSelect(\"" +
-"setSelects\",ids);\r\n\t\t\t}\r\n\t\t};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scope.m." +
-"LocationId = $scope.SeceltedLocation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda los cambios rea" +
-"lizados a la seccion de datos personales\r\n         $scope.savePersonalData = fun" +
-"ction () {\r\n         if($(\"#FormPersonalData\").valid() == false){\r\n         retu" +
-"rn false;\r\n         }else{\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t" +
-"\t\t$scope.msgExito = MeetingService.upsertPersonalData(JSON.stringify($scope.m));" +
-"\r\n\t\t\t}\r\n\t    };\r\n        //END DATOS PERSONALES\r\n\r\n\r\n        ////////////Domicil" +
-"ios///////////\r\n \t\t$scope.saveDomicilios = function () {\r\n\t        var jsonData " +
-"= JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessDom = MeetingService.upsertDomi" +
-"cilioComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end domicil" +
-"ios///////////\r\n\r\n        ////////////SocialNetwork///////////\r\n \t\t$scope.saveSo" +
-"cialNetwork = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n" +
-"\t\t\t$scope.msgSuccessSocNet = MeetingService.upsertRedSocialComment(JSON.stringif" +
-"y($scope.m));\r\n\t    };\r\n        ///////////end SocialNetwork///////////\r\n\r\n     " +
-"   ////////////Referencias///////////\r\n \t\t$scope.saveReferences = function () {\r" +
-"\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessReferenc" +
-"es = MeetingService.upsertReferenciasComment(JSON.stringify($scope.m));\r\n\t    };" +
-"\r\n        ///////////end Referencias///////////\r\n\r\n        ////////////Laboral//" +
-"/////////\r\n \t\t$scope.saveLaboral = function () {\r\n\t        var jsonData = JSON.s" +
-"tringify($scope.m);\r\n\t\t\t$scope.msgSuccessLaboral = MeetingService.upsertLaboralC" +
-"omment(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Laboral//////" +
-"/////\r\n\r\n        ////////////Drugs///////////\r\n \t\t$scope.saveDrugs = function ()" +
-" {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessDrugs" +
-" = MeetingService.upsertDrugComment(JSON.stringify($scope.m));\r\n\t    };\r\n       " +
-" ///////////end Drugs///////////\r\n\r\n/////////////para historia escolar\r\n        " +
-"$scope.block = true;\r\n        $scope.school = {};\r\n        $scope.school.level={" +
-"};\r\n        $scope.school.degree={};\r\n\r\n\t   \t$scope.gradeByNivel = function(){\r\n" +
-"\t   \t//alert(\"$scope.school.level==\"+JSON.stringify($scope.school.level));\r\n    " +
-"    $scope.lstDegree=JSON.parse(MeetingService.gradeByNivel( $scope.school.level" +
-"[\'Id\']));\r\n\t   \t}\r\n\r\n        $scope.fillModel = function(){\r\n\t       var templat" +
-"e =\"NO ESTUDIA\";\r\n\t       if($scope.m.SchoolBlock == false){\r\n\t            $scop" +
-"e.m.SchoolName=template;\r\n\t           $scope.m.SchoolPhone = template;\r\n\t       " +
-"    $scope.m.SchoolAddress = template;\r\n\t       }else{\r\n\t            $scope.m.Sc" +
-"hoolName=\"\";\r\n\t           $scope.m.SchoolPhone = \"\";\r\n\t           $scope.m.Schoo" +
-"lAddress = \"\";\r\n\t       }\r\n\t   };\r\n\r\n\t   $scope.saveEscolarship = function(){\r\n\t" +
-"\t   if($(\"#FormSchool\").valid() == false){\r\n\t         return false;\r\n\t       }el" +
-"se{\r\n\t\t   \t\t$scope.m.ScheduleSchool = $(\"#hdnJsonScheduleSchool\").val();\r\n\t\t   \t" +
-"\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\t$scope.msgSuccessEscolar = Meetin" +
-"gService.upsertSchoolarship(JSON.stringify($scope.m));\r\n\t\t\t}\r\n\t   }\r\n\r\n\t   $scop" +
-"e.InitSchool = function(){\r\n\t   if($scope.m.ScheduleSchool!=undefined&&$scope.m." +
-"ScheduleSchool!=null){\r\n\t   \t$(\"#hdnJsonScheduleSchool\").val($scope.m.ScheduleSc" +
-"hool);\r\n\t   \tconsole.log(\"hdnJsonScheduleSchool-->\"+$(\"#hdnJsonScheduleSchool\")." +
-"val());\r\n\t   }\r\n\t   \tif($scope.m.SchoolBlock!=true){\r\n\t   \t\t$scope.fillModel();\r" +
-"\n\t   \t}\r\n\t   \t\t\r\n\t   \t\t$scope.lstLevel=JSON.parse(MeetingService.allAcademicLeve" +
-"ls());\r\n\t   \t\tif($scope.m.SchoolDegreeId!=undefined&&$scope.m.SchoolDegreeId!=nu" +
-"ll){\r\n\t   \t\t\t$scope.lstDegree=JSON.parse(MeetingService.gradesBySelectedDegree($" +
-"scope.m.SchoolDegreeId));\r\n\t   \t\t\tfor(a in $scope.lstDegree){\r\n\t   \t\t\t\tif($scope" +
-".lstDegree[a].Id==$scope.m.SchoolDegreeId){\r\n\t   \t\t\t\t\t$scope.school.degree = $sc" +
-"ope.lstDegree[a];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t\tfor(b in $scope." +
-"lstLevel){\r\n\t   \t\t\t\tif($scope.lstLevel[b].Id==$scope.school.degree.AcademicLevel" +
-"Id){\r\n\t   \t\t\t\t\t$scope.school.level=$scope.lstLevel[b];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t" +
-"\t}\r\n\t   \t\t\t}\r\n\t   \t\t}\r\n\t   \t\t//alert(\"model \"+ JSON.stringify($scope.m));\r\n\t   }" +
-";\r\n////////////////END historia escolar\r\n\r\n////////para Leave country \r\n        " +
-"$scope.Edocumento = {};\r\n        $scope.ImmigrationDoc = {};\r\n        $scope.Imm" +
-"igrationDocId = {};\r\n\r\n        $scope.specficationImmigranDoc = \"\";\r\n\r\n        $" +
-"scope.listImmigrationDoc = [];\r\n\r\n\t   \t$scope.l={};\r\n\t   \t$scope.l.oc={};\r\n\t   \t" +
-"\t\r\n\t   \t$scope.l.fac={};\r\n\r\n\t   \t$scope.l.rel={};\r\n\r\n\t   \t$scope.l.cf={};\r\n\r\n\t  " +
-" \t$scope.documentosMigratoriosFill = function(){\r\n\t   \t//alert(\"$scope.school.le" +
-"vel==\"+JSON.stringify($scope.school.level));\r\n        $scope.listImmigrationDoc=" +
-"JSON.parse(MeetingService.documentosMigratorios());\r\n\t   \t};\r\n\r\n\t   \t$scope.rela" +
-"cionPersonalAll = function(){\r\n        $scope.listRel=JSON.parse(MeetingService." +
-"relacionPersonal());\r\n\t   \t};\r\n\r\n\r\n\t   \t$scope.saveLeaveCountry = function () {\r" +
-"\n\t\t   \tif($(\"#FormLeaveCountry\").valid() == false){\r\n\t\t         return false;\r\n\t" +
-"\t    }else{\r\n\t        \tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\t$scope.msgS" +
-"uccessLeaveCountry = MeetingService.upsertLeaveCountry(JSON.stringify($scope.m))" +
-";\r\n\t\t\t}\r\n\t    };\r\n\r\n\t    $scope.InitLeaveCountry = function () {\r\n\t    console.l" +
-"og(\"InitLeaveCountry\");\r\n\t    if($scope.m.OfficialDocumentationId==undefined){\r\n" +
-"\t    \t$scope.m.OfficialDocumentationId=2;\r\n\t    }\r\n\t    $scope.Edocumento = $sco" +
-"pe.itemListById($scope.m.OfficialDocumentationId, $scope.listElection);\r\n\t    $s" +
-"cope.ImmigrationDoc = $scope.itemListById($scope.m.ImmigrationDocumentId, $scope" +
-".listImmigrationDoc);\r\n\t    if($scope.m.LivedCountryId==undefined){\r\n\t    \t$scop" +
-"e.m.LivedCountryId=2;\r\n\t    }\r\n\t    $scope.l.oc = $scope.itemListById($scope.m.L" +
-"ivedCountryId, $scope.listElection);\r\n\t    $scope.l.country = $scope.itemListByI" +
-"d($scope.m.CountryId, $scope.listCountry);\r\n\t    if($scope.m.FamilyAnotherCountr" +
-"yId==undefined){\r\n\t    \t$scope.m.FamilyAnotherCountryId=2;\r\n\t    }\r\n\t    $scope." +
-"l.fac = $scope.itemListById($scope.m.FamilyAnotherCountryId, $scope.listElection" +
-");\r\n\t    if($scope.m.CommunicationFamilyId==undefined){\r\n\t    \t$scope.m.Communic" +
-"ationFamilyId=2;\r\n\t    }\r\n\t    $scope.l.cf = $scope.itemListById($scope.m.Commun" +
-"icationFamilyId, $scope.listElection);\r\n\t    $scope.l.rel = $scope.itemListById(" +
-"$scope.m.RelationshipId, $scope.listRel);\r\n\t    };\r\n\r\n///////////end Leave count" +
-"ry\r\n\r\n        $timeout(function () {\r\n    \t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n\r\n\t\t" +
-"$scope.Iniciate = function(){\r\n\t\t    try{\r\n\t\t\t    var js = JSON.parse($(\"#hdnJso" +
-"nMtng\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    //alert(\"m valu>>\"+JSON.stringify" +
-"($scope.m));\r\n\t\t\t    //Birthplace iniciation\r\n\t\t\t    $scope.InitCountryPD();\r\n\t\t" +
-"\t    //activities iniciation\r\n\t\t\t    $scope.InitActivities();\r\n\t\t\t    $scope.Ini" +
-"tSchool();\r\n\r\n\t\t\t    $scope.InitLeaveCountry();\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t " +
-"   \talert(\"error catched Iniciate angular function erro==>\"+err.message);\r\n\t\t   " +
-" }\r\n\t\t    $(\"#blocker\").remove();\r\n\t\t};\r\n\r\n    \r\n    \t\r\n        $scope.save = fu" +
-"nction(){\r\n\t\t            $scope.Wait = true;\r\n\t\t//todos los key del json deben s" +
-"er igual al modelo c\r\n\t\t//window.location.replace(\'hybrid:Meeting/AddMeeting?mod" +
-"el=\' + encodeURIComponent(jsonData));\r\n\t\tconsole.log(\"save meeting\");\r\n\t\tvar res" +
-"lt = MeetingService.TerminateMeeting(JSON.stringify($scope.m));\r\n\t\tif(reslt != u" +
-"ndefined && reslt != \"\"){\r\n\t\t\tvar obj = JSON.parse(reslt);\r\n            if(obj.g" +
-"roupMessage != undefined){\r\n                for(var i=0; i < obj.groupMessage.le" +
-"ngth; i++){\r\n                    var g1= obj.groupMessage[i];\r\n                 " +
-"   $scope.listMsgError[g1.section]= $sce.trustAsHtml( g1.messages);\r\n           " +
-"     }\r\n            }\r\n\t\t}else{\r\n\t\t\t$scope.msgSuccessTotally = \"total successs\";" +
-"\r\n\t\t\t$scope.cancel();\r\n\t\t}\r\n\t\t//TerminateMeeting\r\n\t\t$scope.Wait = false;\r\n\t\t$sco" +
-"pe.askTerminatehide();\r\n\t\t};\r\n\r\n\r\n//regresa la pantalla de seleccion de meeting\r" +
-"\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//todos los key del js" +
-"on deben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Meeting/Index\')" +
-";\r\n};\r\n\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    console.log(\"id" +
-"Obj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list.len" +
-"gth;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbreak" +
-";\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t$scope.showMessageError " +
-"= function(elementClick){\r\n        $(\"#divErrorMessage\").show();\r\n        var po" +
-"sition = $(\".tab-content\").position();\r\n        $(\"#divErrorMessage\").css(\"left\"" +
-",position.left+5);\r\n        $(\"#divErrorMessage\").addClass(\"errorMessageClass\");" +
-"\r\n        $scope.entityError=elementClick;\r\n    };\r\n\r\n    $scope.hideMessageErro" +
-"r = function(){\r\n        $(\"#divErrorMessage\").hide();\r\n    };\r\n\r\n    $scope.add" +
-"ImputedHome = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/MeetingD" +
-"omicilio?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addPersonSocialN" +
-"etwork = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/PersonSocialN" +
-"etwork?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addReference = fun" +
-"ction(){\r\n    \twindow.location.replace(\'hybrid:Meeting/ReferenceMeeting?idMeetin" +
-"g=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addJob = function(){\r\n    \twindow" +
-".location.replace(\'hybrid:Meeting/JobMeeting?idMeeting=\'+$scope.m.MeetingId);\r\n " +
-"   };\r\n\r\n    $scope.addDrug = function(){\r\n    \twindow.location.replace(\'hybrid:" +
-"Meeting/DrugMeeting?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.askTe" +
-"rminateshow = function (){\r\n\t\tvar dlgMsgBox = $(\'#MessageBoxDlgTerminateId\');\r\n\t" +
-"\tdlgMsgBox.show();\r\n\t};\r\n\r\n\t$scope.askTerminatehide = function (){\r\n\t\tvar dlgMsg" +
-"Box = $(\'#MessageBoxDlgTerminateId\');\r\n\t\tdlgMsgBox.hide();\r\n\t};\r\n\r\n});\r\n\r\n\r\n</sc" +
-"ript>\r\n<div");
+"    $scope.listMsgError[\'leavingCountry\'] = true;*/\r\n\r\n////////////////DATOS PER" +
+"SONALES CONTROLLER\r\n\r\n        ////////////////VARIABLES///////////////\r\n    \t//g" +
+"enero\r\n        $scope.gen = {};\r\n\r\n        $scope.lstInfoAvail = [];\r\n\t\t$scope.b" +
+"irthInfo = {};\r\n\r\n        //pais nacimiento\r\n        $scope.listCountry = [];\r\n " +
+"       $scope.listState = [];\r\n        $scope.listMuni = [];\r\n        $scope.lis" +
+"tLocalidades = [];\r\n        $scope.listMunByEdo = [];\r\n        $scope.SeceltedCo" +
+"untry = {};\r\n        $scope.SeceltedEstate = {};\r\n        $scope.SeceltedMuni = " +
+"{};\r\n        $scope.SeceltedLocation = {};\r\n\r\n        //actividades que realiza\r" +
+"\n\t$scope.specification = {};\r\n    $scope.lstActivity = [];\r\n    $scope.activityM" +
+"odel = [];\r\n    $scope.activityList = [];\r\n\r\n    //terminate negacion\r\n    $scop" +
+"e.cancelMeeting = false;\r\n\r\n    ///////////////////METHODS//////////////////\r\n  " +
+"  //Init de country \r\n    $scope.InitCountryPD = function(){\r\n\t\t    if($scope.m." +
+"BirthCountry!=undefined&&$scope.m.BirthCountry!=null){\r\n\t\t\t    for(x=0;x<$scope." +
+"listCountry.length;x++){\r\n\t\t\t    \tif($scope.listCountry[x].Id==$scope.m.BirthCou" +
+"ntry){\r\n\t\t\t    \t\t$scope.SeceltedCountry = $scope.listCountry[x];\r\n\t\t\t    \t\t//ale" +
+"rt(\"$scope.listCountry[x]\"+JSON.stringify($scope.listCountry[x]));\r\n\t\t\t    \t\t//a" +
+"lert(\"$scope.SeceltedCountry\"+JSON.stringify($scope.SeceltedCountry));\r\n\t\t\t    \t" +
+"\t$scope.InitMunicipalityDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t\tel" +
+"se{\r\n\t    \t\t\r\n\t    \t\tfor(x=0;x<$scope.listCountry.length;x++){\r\n\t\t\t    \tif($scop" +
+"e.listCountry[x].Id==1){\r\n\t\t\t    \t\t$scope.SeceltedCountry = $scope.listCountry[x" +
+"];\r\n\t\t\t    \t\t$scope.m.BirthCountry = $scope.SeceltedCountry[\'Id\'];\r\n\t\t\t    \t\t$sc" +
+"ope.InitMunicipalityDP();\r\n\t\t\t    \t\tbreak;\r\n\t\t\t    \t}\r\n\t\t\t    }\r\n\t\t\t}\r\n\t\t};\r\n\r\n " +
+"   $scope.InitMunicipalityDP = function(){\r\n    //alert(\"InitMunicipalityDP -> $" +
+"scope.m.LocationId>>\"+$scope.m.LocationId);\r\n\t    if($scope.m.LocationId!=undefi" +
+"ned&&$scope.m.LocationId!=null){\r\n\t    \tvar data = JSON.parse(MeetingService.fin" +
+"dAllByLocation($scope.m.LocationId));\r\n\t    \t//alert(\"InitMunicipalityDP -> data" +
+">>\"+JSON.stringify(data));\r\n\t    \t//alert(\"InitMunicipalityDP -> data.StateId=\"+" +
+"data.StateId+\"    data.MunicipalityId=\"+data.MunicipalityId);\r\n\t\t    for(x=0;x<$" +
+"scope.listState.length;x++){\r\n\t\t    \tif($scope.listState[x].Id==data.StateId){\r\n" +
+"\t\t    \t\t$scope.SeceltedEstate = $scope.listState[x];\r\n\t\t    \t\t//alert(\"$scope.Se" +
+"celtedEstate[x]\"+JSON.stringify($scope.SeceltedEstate));\r\n\t\t    \t\t$scope.MunByEd" +
+"o();\r\n\t\t    \t\t\tfor(y=0;y<$scope.listMunByEdo.length;y++){\r\n\t\t\t    \t\t\tif($scope.l" +
+"istMunByEdo[y].Id==data.MunicipalityId){\r\n\t\t\t    \t\t\t\t$scope.SeceltedMuni = $scop" +
+"e.listMunByEdo[y];\r\n\t\t\t    \t\t\t\t$scope.LocByMun();\r\n\t\t\t\t    \t\t\t\tfor(z=0;z<$scope." +
+"listLocalidades.length;z++){\r\n\t\t\t\t    \t\t\t\t\tif($scope.listLocalidades[z].Id==$sco" +
+"pe.m.LocationId){\r\n\t\t\t\t    \t\t\t\t\t\t$scope.SeceltedLocation = $scope.listLocalidade" +
+"s[z];\r\n\t\t\t\t    \t\t\t\t\t\tbreak;\r\n\t\t\t\t    \t\t\t\t\t}\r\n\t\t\t\t    \t\t\t\t}\r\n\t\t\t\t    \t\t\tbreak;\r\n\t" +
+"\t\t    \t\t\t}\r\n\t\t    \t\t\t}\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t};\r\n\r\n\t\t//cuand" +
+"o se elije un estado se filtran los municipios\r\n\t\t$scope.MunByEdo = function(){\r" +
+"\n\t\t\t$scope.listMunByEdo = [];\r\n\t        $scope.SeceltedMuni = {};\r\n\t        $sco" +
+"pe.SeceltedLocation = {};\r\n\t        $scope.listLocalidades = [];\r\n\t\t\t    var em=" +
+"0;\r\n\t\t\t    var municipios = MeetingService.findMunicipalityByState($scope.Secelt" +
+"edEstate[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope.S" +
+"eceltedEstate) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=un" +
+"defined&&municipios!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listM" +
+"unByEdo = JSON.parse(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"e" +
+"xception caugth at MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunByE" +
+"do = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n\t\t$scope.selectedActivities = function (l" +
+"stActivity, lstActivitySelect) {\r\n        for (var i = 0; i < lstActivitySelect." +
+"length; i++) {\r\n            for (var j = 0; j < lstActivity.length; j++) {\r\n    " +
+"            if (lstActivity[j].Id === lstActivitySelect[i].Id) {\r\n              " +
+"      $scope.activityModel.push(lstActivity[j]);\r\n                    if (lstAct" +
+"ivity[j].Specification) {\r\n                        $scope.specification[lstActiv" +
+"ity[j].Name] = lstActivitySelect[i].Specification;\r\n                    }\r\n     " +
+"           }\r\n            }\r\n        }\r\n        $scope.matchActivities();\r\n    }" +
+";\r\n\r\n    $scope.matchActivities = function () {\r\n        $scope.relActivities = " +
+"[];\r\n        for (var i = 0; i < $scope.activityModel.length; i++) {\r\n          " +
+"  var model = {};\r\n            model.ActivityId = $scope.activityModel[i].Id;\r\n " +
+"           if ($scope.specification[$scope.activityModel[i].Name] != undefined) " +
+"{\r\n                model.specification = $scope.specification[$scope.activityMod" +
+"el[i].Name];\r\n            } else {\r\n                model.specification = \"\";\r\n " +
+"           }\r\n            $scope.relActivities.push(model);\r\n        }\r\n        " +
+"$scope.m.Activities = JSON.stringify($scope.relActivities);\r\n        return true" +
+";\r\n    };\r\n\r\n\r\n\t\t//cuando se elije un municipio se filtran las localidades\r\n\t\t$s" +
+"cope.LocByMun = function(){\r\n        $scope.SeceltedLocation = {};\r\n\t\t\t    $scop" +
+"e.listLocalidades = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locations = MeetingService" +
+".findLocationByMunicipality($scope.SeceltedMuni[\'Id\']);\r\n\t\t\t    //alert(\"string " +
+"de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\"   and \\n municipios _>\"" +
+"+municipios);\r\n\t\t\t    if(locations!=undefined&&locations!=null&&locations!=\"\"){\r" +
+"\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listLocalidades = JSON.parse(locations);\r\n\t\t\t\t   " +
+" \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at LocByMun Message >>\"+e." +
+"Message);\r\n\t\t\t    \t\t\t$scope.listLocalidades = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\r\n" +
+"\t\t//cuando se elije un estado se filtran los municipios \r\n\t\t//TODO: se cambiara " +
+"a una peticion a methodo\r\n\t\t$scope.InitActivities = function(){\r\n\t\t\tif($scope.m." +
+"Activities!=undefined&&$scope.m.Activities!=null){\r\n\t\t\t    var actividades = JSO" +
+"N.parse($scope.m.Activities);\r\n\t\t\t    var ids = [];\r\n\t\t\t    //alert(\"string de a" +
+"ctividades>\"+JSON.stringify(actividades));\r\n\t\t\t    //iterates activities\r\n\t\t\t   " +
+" for(a in actividades){\r\n\t\t\t\t    for(e in $scope.lstActivity){\r\n\t\t\t\t\t    if($sco" +
+"pe.lstActivity[e].Id==actividades[a].ActivityId){\r\n\t\t\t    \t\t\tconsole.log(\"coinci" +
+"dence >>>\"+actividades[a].ActivityId);\r\n\t\t\t    \t\t\tids.push(e);\r\n\t\t\t\t\t    \t$scope" +
+".activityModel.push($scope.lstActivity[e]);\r\n\t\t                    if ($scope.ls" +
+"tActivity[e].Specification) {\r\n\t\t                        $scope.specification[$s" +
+"cope.lstActivity[e].Name] = actividades[a].specification; \r\n\t\t                  " +
+"  } \r\n\t\t\t\t\t    }\r\n\t\t\t\t    }\r\n\t\t\t    }\r\n\t\t\t    $(\'#ms\').multipleSelect(\"setSelect" +
+"s\",ids);\r\n\t\t\t}\r\n\t\t};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scope.m.LocationI" +
+"d = $scope.SeceltedLocation[\'Id\'];\r\n\t\t}\r\n\r\n\r\n\t\t//guarda los cambios realizados a" +
+" la seccion de datos personales\r\n         $scope.savePersonalData = function () " +
+"{\r\n         if($(\"#FormPersonalData\").valid() == false){\r\n         return false;" +
+"\r\n         }else{\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope." +
+"msgExito = MeetingService.upsertPersonalData(JSON.stringify($scope.m));\r\n\t\t\t}\r\n\t" +
+"    };\r\n        //END DATOS PERSONALES\r\n\r\n\r\n        ////////////Domicilios//////" +
+"/////\r\n \t\t$scope.saveDomicilios = function () {\r\n\t        var jsonData = JSON.st" +
+"ringify($scope.m);\r\n\t\t\t$scope.msgSuccessDom = MeetingService.upsertDomicilioComm" +
+"ent(JSON.stringify($scope.m));\r\n\t    };\r\n        ///////////end domicilios//////" +
+"/////\r\n\r\n        ////////////SocialNetwork///////////\r\n \t\t$scope.saveSocialNetwo" +
+"rk = function () {\r\n\t        var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope" +
+".msgSuccessSocNet = MeetingService.upsertRedSocialComment(JSON.stringify($scope." +
+"m));\r\n\t    };\r\n        ///////////end SocialNetwork///////////\r\n\r\n        //////" +
+"//////Referencias///////////\r\n \t\t$scope.saveReferences = function () {\r\n\t       " +
+" var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessReferences = Meet" +
+"ingService.upsertReferenciasComment(JSON.stringify($scope.m));\r\n\t    };\r\n       " +
+" ///////////end Referencias///////////\r\n\r\n        ////////////Laboral///////////" +
+"\r\n \t\t$scope.saveLaboral = function () {\r\n\t        var jsonData = JSON.stringify(" +
+"$scope.m);\r\n\t\t\t$scope.msgSuccessLaboral = MeetingService.upsertLaboralComment(JS" +
+"ON.stringify($scope.m));\r\n\t    };\r\n        ///////////end Laboral///////////\r\n\r\n" +
+"        ////////////Drugs///////////\r\n \t\t$scope.saveDrugs = function () {\r\n\t    " +
+"    var jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgSuccessDrugs = Meetin" +
+"gService.upsertDrugComment(JSON.stringify($scope.m));\r\n\t    };\r\n        ////////" +
+"///end Drugs///////////\r\n\r\n/////////////para historia escolar\r\n        $scope.bl" +
+"ock = true;\r\n        $scope.school = {};\r\n        $scope.school.level={};\r\n     " +
+"   $scope.school.degree={};\r\n\r\n\t   \t$scope.gradeByNivel = function(){\r\n\t   \t//al" +
+"ert(\"$scope.school.level==\"+JSON.stringify($scope.school.level));\r\n        $scop" +
+"e.lstDegree=JSON.parse(MeetingService.gradeByNivel( $scope.school.level[\'Id\']));" +
+"\r\n\t   \t}\r\n\r\n        $scope.fillModel = function(){\r\n\t       var template =\"NO ES" +
+"TUDIA\";\r\n\t       if($scope.m.SchoolBlock == false){\r\n\t            $scope.m.Schoo" +
+"lName=template;\r\n\t           $scope.m.SchoolPhone = template;\r\n\t           $scop" +
+"e.m.SchoolAddress = template;\r\n\t       }else{\r\n\t            $scope.m.SchoolName=" +
+"\"\";\r\n\t           $scope.m.SchoolPhone = \"\";\r\n\t           $scope.m.SchoolAddress " +
+"= \"\";\r\n\t       }\r\n\t   };\r\n\r\n\t   $scope.saveEscolarship = function(){\r\n\t\t   if($(" +
+"\"#FormSchool\").valid() == false){\r\n\t         return false;\r\n\t       }else{\r\n\t\t  " +
+" \t\t$scope.m.ScheduleSchool = $(\"#hdnJsonScheduleSchool\").val();\r\n\t\t   \t\tvar json" +
+"Data = JSON.stringify($scope.m);\r\n\t\t\t\t$scope.msgSuccessEscolar = MeetingService." +
+"upsertSchoolarship(JSON.stringify($scope.m));\r\n\t\t\t}\r\n\t   }\r\n\r\n\t   $scope.InitSch" +
+"ool = function(){\r\n\t   if($scope.m.ScheduleSchool!=undefined&&$scope.m.ScheduleS" +
+"chool!=null){\r\n\t   \t$(\"#hdnJsonScheduleSchool\").val($scope.m.ScheduleSchool);\r\n\t" +
+"   \tconsole.log(\"hdnJsonScheduleSchool-->\"+$(\"#hdnJsonScheduleSchool\").val());\r\n" +
+"\t   }\r\n\t   \tif($scope.m.SchoolBlock!=true){\r\n\t   \t\t$scope.fillModel();\r\n\t   \t}\r\n" +
+"\t   \t\t\r\n\t   \t\t$scope.lstLevel=JSON.parse(MeetingService.allAcademicLevels());\r\n\t" +
+"   \t\tif($scope.m.SchoolDegreeId!=undefined&&$scope.m.SchoolDegreeId!=null){\r\n\t  " +
+" \t\t\t$scope.lstDegree=JSON.parse(MeetingService.gradesBySelectedDegree($scope.m.S" +
+"choolDegreeId));\r\n\t   \t\t\tfor(a in $scope.lstDegree){\r\n\t   \t\t\t\tif($scope.lstDegre" +
+"e[a].Id==$scope.m.SchoolDegreeId){\r\n\t   \t\t\t\t\t$scope.school.degree = $scope.lstDe" +
+"gree[a];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t\t\t}\r\n\t   \t\t\tfor(b in $scope.lstLevel)" +
+"{\r\n\t   \t\t\t\tif($scope.lstLevel[b].Id==$scope.school.degree.AcademicLevelId){\r\n\t  " +
+" \t\t\t\t\t$scope.school.level=$scope.lstLevel[b];\r\n\t   \t\t\t\t\tbreak;\r\n\t   \t\t\t\t}\r\n\t   \t" +
+"\t\t}\r\n\t   \t\t}\r\n\t   \t\t//alert(\"model \"+ JSON.stringify($scope.m));\r\n\t   };\r\n//////" +
+"//////////END historia escolar\r\n\r\n////////para Leave country \r\n        $scope.Ed" +
+"ocumento = {};\r\n        $scope.ImmigrationDoc = {};\r\n        $scope.ImmigrationD" +
+"ocId = {};\r\n\r\n        $scope.specficationImmigranDoc = \"\";\r\n\r\n        $scope.lis" +
+"tImmigrationDoc = [];\r\n\r\n\t   \t$scope.l={};\r\n\t   \t$scope.l.oc={};\r\n\t   \t\t\r\n\t   \t$" +
+"scope.l.fac={};\r\n\r\n\t   \t$scope.l.rel={};\r\n\r\n\t   \t$scope.l.cf={};\r\n\r\n\t   \t$scope." +
+"documentosMigratoriosFill = function(){\r\n\t   \t//alert(\"$scope.school.level==\"+JS" +
+"ON.stringify($scope.school.level));\r\n        $scope.listImmigrationDoc=JSON.pars" +
+"e(MeetingService.documentosMigratorios());\r\n\t   \t};\r\n\r\n\t   \t$scope.relacionPerso" +
+"nalAll = function(){\r\n        $scope.listRel=JSON.parse(MeetingService.relacionP" +
+"ersonal());\r\n\t   \t};\r\n\r\n\r\n\t   \t$scope.saveLeaveCountry = function () {\r\n\t\t   \tif" +
+"($(\"#FormLeaveCountry\").valid() == false){\r\n\t\t         return false;\r\n\t\t    }els" +
+"e{\r\n\t        \tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\t$scope.msgSuccessLea" +
+"veCountry = MeetingService.upsertLeaveCountry(JSON.stringify($scope.m));\r\n\t\t\t}\r\n" +
+"\t    };\r\n\r\n\t    $scope.InitLeaveCountry = function () {\r\n\t    console.log(\"InitL" +
+"eaveCountry\");\r\n\t    if($scope.m.OfficialDocumentationId==undefined){\r\n\t    \t$sc" +
+"ope.m.OfficialDocumentationId=2;\r\n\t    }\r\n\t    $scope.Edocumento = $scope.itemLi" +
+"stById($scope.m.OfficialDocumentationId, $scope.listElection);\r\n\t    $scope.Immi" +
+"grationDoc = $scope.itemListById($scope.m.ImmigrationDocumentId, $scope.listImmi" +
+"grationDoc);\r\n\t    if($scope.m.LivedCountryId==undefined){\r\n\t    \t$scope.m.Lived" +
+"CountryId=2;\r\n\t    }\r\n\t    $scope.l.oc = $scope.itemListById($scope.m.LivedCount" +
+"ryId, $scope.listElection);\r\n\t    $scope.l.country = $scope.itemListById($scope." +
+"m.CountryId, $scope.listCountry);\r\n\t    if($scope.m.FamilyAnotherCountryId==unde" +
+"fined){\r\n\t    \t$scope.m.FamilyAnotherCountryId=2;\r\n\t    }\r\n\t    $scope.l.fac = $" +
+"scope.itemListById($scope.m.FamilyAnotherCountryId, $scope.listElection);\r\n\t    " +
+"if($scope.m.CommunicationFamilyId==undefined){\r\n\t    \t$scope.m.CommunicationFami" +
+"lyId=2;\r\n\t    }\r\n\t    $scope.l.cf = $scope.itemListById($scope.m.CommunicationFa" +
+"milyId, $scope.listElection);\r\n\t    $scope.l.rel = $scope.itemListById($scope.m." +
+"RelationshipId, $scope.listRel);\r\n\t    };\r\n\r\n///////////end Leave country\r\n\r\n   " +
+"     $timeout(function () {\r\n    \t\t$scope.Iniciate();\r\n\t\t}, 0);\r\n\r\n\r\n\t\t$scope.In" +
+"iciate = function(){\r\n\t\t    try{\r\n\t\t\t    var js = JSON.parse($(\"#hdnJsonMtng\").v" +
+"al());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    if($scope.m.BirthInfoId == undefined){\r\n\t\t" +
+"\t    $scope.m.BirthInfoId = 1;\r\n\t\t\t    }\r\n\t\t\t    $scope.lstInfoAvail = JSON.pars" +
+"e(MeetingService.findAllAviabilityCountry());\r\n\t\t\t    $scope.birthInfo = $scope." +
+"itemListById($scope.m.BirthInfoId, $scope.lstInfoAvail);\r\n\t\t\t    //alert(\"m valu" +
+">>\"+JSON.stringify($scope.m));\r\n\t\t\t    //Birthplace iniciation\r\n\t\t\t    $scope.In" +
+"itCountryPD();\r\n\t\t\t    //activities iniciation\r\n\t\t\t    $scope.InitActivities();\r" +
+"\n\t\t\t    $scope.InitSchool();\r\n\r\n\t\t\t    $scope.InitLeaveCountry();\r\n\t\t    }\r\n\t\t  " +
+"  catch(err){\r\n\t\t    \talert(\"error catched Iniciate angular function erro==>\"+er" +
+"r.message);\r\n\t\t    }\r\n\t\t    $(\"#blocker\").remove();\r\n\t\t};\r\n\r\n    \t$scope.selviab" +
+"ility = function(){\r\n    \t\tconsole.log(\"$scope.birthInfo\"+JSON.stringify($scope." +
+"birthInfo));\r\n    \t\t$scope.m.BirthInfoId = $scope.birthInfo[\'Id\'];\r\n    \t\tconsol" +
+"e.log(\"$scope.BirthInfoId\"+$scope.m.BirthInfoId);\r\n    \t};\r\n    \t\r\n        $scop" +
+"e.save = function(){\r\n\t\t            $scope.Wait = true;\r\n\t\t//todos los key del j" +
+"son deben ser igual al modelo c\r\n\t\t//window.location.replace(\'hybrid:Meeting/Add" +
+"Meeting?model=\' + encodeURIComponent(jsonData));\r\n\t\tconsole.log(\"save meeting\");" +
+"\r\n\t\tvar reslt = MeetingService.TerminateMeeting(JSON.stringify($scope.m));\r\n\t\tif" +
+"(reslt != undefined && reslt != \"\"){\r\n\t\t\tvar obj = JSON.parse(reslt);\r\n         " +
+"   if(obj.groupMessage != undefined){\r\n                for(var i=0; i < obj.grou" +
+"pMessage.length; i++){\r\n                    var g1= obj.groupMessage[i];\r\n      " +
+"              $scope.listMsgError[g1.section]= $sce.trustAsHtml( g1.messages);\r\n" +
+"                }\r\n            }\r\n\t\t}else{\r\n\t\t\t$scope.msgSuccessTotally = \"total" +
+" successs\";\r\n\t\t\t$scope.cancel();\r\n\t\t}\r\n\t\t//TerminateMeeting\r\n\t\t$scope.Wait = fal" +
+"se;\r\n\t\t$scope.askTerminatehide();\r\n\t\t};\r\n\r\n\r\n\t\t$scope.saveNegation = function(){" +
+"\r\n\t\t\tif($(\"#furtherValidateNegation\").valid()==false){\r\n\t\t\t\treturn false;\r\n\t\t\t}\r" +
+"\n\t\t\telse{\r\n\t\t\tconsole.log(\"save meeting\");\r\n\t\t\tvar reslt = MeetingService.Termin" +
+"ateMeetingNegotiation(JSON.stringify($scope.m));\r\n\t\t\tif(reslt != undefined && re" +
+"slt != \"\"){\r\n\t\t\t\tvar obj = JSON.parse(reslt);\r\n\t            if(obj.groupMessage " +
+"!= undefined){\r\n\t                for(var i=0; i < obj.groupMessage.length; i++){" +
+"\r\n\t                    var g1= obj.groupMessage[i];\r\n\t                    $scope" +
+".listMsgError[g1.section]= $sce.trustAsHtml( g1.messages);\r\n\t                }\r\n" +
+"\t            }\r\n\t\t\t}else{\r\n\t\t\t\t$scope.msgSuccessTotally = \"total successs\";\r\n\t\t\t" +
+"\t$scope.cancel();\r\n\t\t\t}\r\n\t\t\t//TerminateMeeting\r\n\t\t\t$scope.Wait = false;\r\n\t\t\t$sco" +
+"pe.askTerminatehide();\r\n\t\t\t}\r\n\t\t};\r\n\r\n\r\n//regresa la pantalla de seleccion de me" +
+"eting\r\n$scope.cancel = function(){\r\n    $scope.saving = false;\r\n//todos los key " +
+"del json deben ser igual al modelo cs\r\nwindow.location.replace(\'hybrid:Meeting/I" +
+"ndex\');\r\n};\r\n\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    console.l" +
+"og(\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<li" +
+"st.length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t" +
+"\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t$scope.showMessage" +
+"Error = function(elementClick){\r\n        $(\"#divErrorMessage\").show();\r\n        " +
+"var position = $(\".tab-content\").position();\r\n        $(\"#divErrorMessage\").css(" +
+"\"left\",position.left+5);\r\n        $(\"#divErrorMessage\").addClass(\"errorMessageCl" +
+"ass\");\r\n        $scope.entityError=elementClick;\r\n    };\r\n\r\n    $scope.hideMessa" +
+"geError = function(){\r\n        $(\"#divErrorMessage\").hide();\r\n    };\r\n\r\n    $sco" +
+"pe.addImputedHome = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/Me" +
+"etingDomicilio?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addPersonS" +
+"ocialNetwork = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/PersonS" +
+"ocialNetwork?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addReference" +
+" = function(){\r\n    \twindow.location.replace(\'hybrid:Meeting/ReferenceMeeting?id" +
+"Meeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope.addJob = function(){\r\n    \t" +
+"window.location.replace(\'hybrid:Meeting/JobMeeting?idMeeting=\'+$scope.m.MeetingI" +
+"d);\r\n    };\r\n\r\n    $scope.addDrug = function(){\r\n    \twindow.location.replace(\'h" +
+"ybrid:Meeting/DrugMeeting?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope" +
+".askTerminateshow = function (){\r\n\t\tvar dlgMsgBox = $(\'#MessageBoxDlgTerminateId" +
+"\');\r\n\t\tdlgMsgBox.show();\r\n\t};\r\n\r\n\t$scope.askTerminatehide = function (){\r\n\t\tvar " +
+"dlgMsgBox = $(\'#MessageBoxDlgTerminateId\');\r\n\t\tdlgMsgBox.hide();\r\n\t};\r\n\r\n});\r\n\r\n" +
+"\r\n</script>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -372,7 +388,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 537 "MeetingDatosPersonales.cshtml"
+#line 572 "MeetingDatosPersonales.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -421,8 +437,8 @@ WriteLiteral("></span>\r\n        <br/>\r\n    </div>\r\n\r\n\r\n    <!--Termina
 
 WriteLiteral(" class=\"modal-dialog\"");
 
-WriteLiteral(" style=\"display:none; width:60%; position: fixed;top: 15%;left: 50%;margin: 0 0 0" +
-" -30%;\"");
+WriteLiteral(" style=\"display:none; width:60%; position: relative;top: 5%;left: 50%;margin: 0 0" +
+" 0 -30%;\"");
 
 WriteLiteral(" id=\"MessageBoxDlgTerminateId\"");
 
@@ -464,7 +480,92 @@ WriteLiteral(">\r\n                <div");
 WriteLiteral(" class=\"element-center\"");
 
 WriteLiteral(">¿Está seguro que desea terminar la entrevista de riesgos procesales?</div>\r\n    " +
-"        </div>\r\n            <div");
+"        </div>\r\n\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-12 element-left\"");
+
+WriteLiteral(">\r\n\r\n                    <div");
+
+WriteLiteral(" class=\"checkbox\"");
+
+WriteLiteral(">\r\n                        <label>\r\n                            <input");
+
+WriteLiteral(" class=\"ace\"");
+
+WriteLiteral("\r\n                                   type=\"checkbox\"");
+
+WriteLiteral("\r\n                                   id=\"cancelMeeting\"");
+
+WriteLiteral("\r\n                                   ng-model=\"cancelMeeting\"");
+
+WriteLiteral("\r\n                                   name=\"cancelMeeting\"");
+
+WriteLiteral(">\r\n                            <span");
+
+WriteLiteral(" class=\"lbl col-xs-10\"");
+
+WriteLiteral(">&nbsp;&iquest;El imputado se niega a terminar la entrevista?</span>\r\n           " +
+"             </label>\r\n                    </div>\r\n                </div>\r\n     " +
+"       </div>\r\n\r\n            <form");
+
+WriteLiteral(" id=\"furtherValidateNegation\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral("  ng-if=\"cancelMeeting==true\"");
+
+WriteLiteral(">\r\n                <div");
+
+WriteLiteral(" class=\"col-xs-12 element-center\"");
+
+WriteLiteral(">\r\n                    <br/>\r\n                    <p>Raz&oacute;n de negaci&oacut" +
+"e;n</p>\r\n                            <textarea");
+
+WriteLiteral(" rows=\"4\"");
+
+WriteLiteral(" cols=\"50\"");
+
+WriteLiteral(" data-val=\"true\"");
+
+WriteLiteral("\r\n                                      data-val-length=\"Debe tener al menos 3 y " +
+"m&aacute;ximo 500 caracteres\"");
+
+WriteLiteral("\r\n                                      data-val-required=\"Es necesario escribir " +
+"la raz&oacute;n\"");
+
+WriteLiteral("\r\n                                      data-val-length-max=\"500\"");
+
+WriteLiteral(" data-val-length-min=\"3\"");
+
+WriteLiteral(" ng-init=\"reason=\'\'\"");
+
+WriteLiteral("\r\n                                      id=\"reason\"");
+
+WriteLiteral(" name=\"declineReason\"");
+
+WriteLiteral(" ng-model=\"m.DeclineReason\"");
+
+WriteLiteral(">\r\n                            </textarea>\r\n                </div>\r\n             " +
+"   <div");
+
+WriteLiteral(" class=\"col-xs-11 col-xs-offset-1\"");
+
+WriteLiteral(">\r\n                    <span");
+
+WriteLiteral(" class=\"field-validation-valid\"");
+
+WriteLiteral(" data-valmsg-for=\"declineReason\"");
+
+WriteLiteral(" data-valmsg-replace=\"true\"");
+
+WriteLiteral("></span>\r\n                </div>\r\n            </div>\r\n            </form>\r\n\r\n    " +
+"        <div");
 
 WriteLiteral(" class=\"modal-footer\"");
 
@@ -478,7 +579,21 @@ WriteLiteral(" class=\"btn btn-default btn-info\"");
 
 WriteLiteral(" ng-click=\"save();\"");
 
+WriteLiteral(" ng-show=\"cancelMeeting == false\"");
+
 WriteLiteral(" >Si</button>\r\n                <button");
+
+WriteLiteral(" id=\"MessageBoxDlgNegation\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"btn btn-default btn-info\"");
+
+WriteLiteral(" ng-click=\"saveNegation();\"");
+
+WriteLiteral("  ng-show=\"cancelMeeting == true\"");
+
+WriteLiteral(" >Terminar entrevista incompleta</button>\r\n                <button");
 
 WriteLiteral(" id=\"MessageBoxDlgNo\"");
 
@@ -582,7 +697,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 627 "MeetingDatosPersonales.cshtml"
+#line 698 "MeetingDatosPersonales.cshtml"
                Write(Model.DateCreate);
 
 
@@ -602,7 +717,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 634 "MeetingDatosPersonales.cshtml"
+#line 705 "MeetingDatosPersonales.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -1164,7 +1279,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 847 "MeetingDatosPersonales.cshtml"
+#line 918 "MeetingDatosPersonales.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -2181,27 +2296,23 @@ WriteLiteral(" id=\"imputed.yearsMaritalStatus\"");
 
 WriteLiteral(" data-val=\"true\"");
 
-WriteLiteral("\r\n                                                            data-val-regex-patt" +
-"ern=\"([0-9]+)\"");
-
-WriteLiteral(" ng-model=\"m.YearsMaritalStatus\"");
+WriteLiteral("\r\n                                                            ng-model=\"m.YearsMa" +
+"ritalStatus\"");
 
 WriteLiteral("\r\n                                                            data-val-length=\"De" +
-"be tener m&iacute;nimo 1 y m&aacute;ximo 3 caracteres\"");
+"be tener m&iacute;nimo 1 caracter\"");
 
 WriteLiteral("\r\n                                                            data-val-length-max" +
-"=\"3\"");
+"=\"100\"");
 
 WriteLiteral(" data-val-length-min=\"1\"");
 
 WriteLiteral("\r\n                                                            data-val-required=\"" +
 "El n&uacute;mero de a&ntilde;os es un campo requerido\"");
 
-WriteLiteral("\r\n                                                            data-val-regex=\"La " +
-"cantidad de a&ntilde;os s&oacute;lo pueden ser n&uacute;meros\"");
-
-WriteLiteral("/> A&ntilde;os\r\n                                                            <br/>" +
-"\r\n                                                            <span");
+WriteLiteral("\r\n                                                            /> A&ntilde;os\r\n   " +
+"                                                         <br/>\r\n                " +
+"                                            <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
@@ -2494,15 +2605,55 @@ WriteLiteral(">\r\n                                                <br/>\r\n\r\n
 
 WriteLiteral(" class=\"row\"");
 
+WriteLiteral(">\r\n                                                \t<div");
+
+WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t\t\t                            Seleccione una opci&oacute;n:\r\n\t\t\t\t\t\t\t     " +
+"                   </div>\r\n\t\t\t\t\t\t\t                        <div");
+
+WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(">\r\n\t\t\t\t\t\t\t                            <input");
+
+WriteLiteral(" type=\"hidden\"");
+
+WriteLiteral(" ng-model=\"m.BirthInfoId\"");
+
+WriteLiteral(" name=\"imputed.birthInfo.id\"");
+
+WriteLiteral("\r\n\t\t\t\t\t\t\t                                   id=\"birthInfo\"");
+
+WriteLiteral(" >\r\n\t\t\t\t\t\t\t                            <select");
+
+WriteLiteral(" class=\"form-control element-center\"");
+
+WriteLiteral(" ng-model=\"birthInfo\"");
+
+WriteLiteral("\r\n\t\t\t\t\t\t\t                                    ng-change=\"selviability(this);\"");
+
+WriteLiteral("\r\n\t\t\t\t\t\t\t                                    ng-options=\"e.Name for e in lstInfoA" +
+"vail\"");
+
+WriteLiteral("></select>\r\n\t\t\t\t\t\t\t                        </div>\r\n                              " +
+"                  </div>\r\n\r\n\r\n                                                <d" +
+"iv");
+
+WriteLiteral(" class=\"row\"");
+
 WriteLiteral(" >\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
+
+WriteLiteral(" ng-show=\"m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Pa&iacute;s:\r\n        " +
 "                                            </div>\r\n                            " +
 "                        <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
+
+WriteLiteral(" ng-show=\"m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2529,7 +2680,7 @@ WriteLiteral("  id=\"AdresBirth\"");
 WriteLiteral("\r\n                                                        ng-options=\"e.Name for " +
 "e in listCountry\"");
 
-WriteLiteral(" value=\"{{SeceltedCountry[\'ID\']}}\"");
+WriteLiteral(" value=\"{{SeceltedCountry[\'Id\']}}\"");
 
 WriteLiteral("\r\n                                                        ng-change=\"m.BirthCount" +
 "ry = SeceltedCountry[\'Id\'];\"");
@@ -2538,7 +2689,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1251 "MeetingDatosPersonales.cshtml"
+#line 1336 "MeetingDatosPersonales.cshtml"
                                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
@@ -2551,7 +2702,7 @@ WriteLiteral("></select>\r\n                                                   <
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral(" ng-show=\"m.BirthCountry != 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry != 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Estado:\r\n             " +
 "                                       </div>\r\n                                 " +
@@ -2559,7 +2710,7 @@ WriteLiteral(">\r\n                                                        Estad
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(" ng-show=\"m.BirthCountry != 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry != 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2596,7 +2747,7 @@ WriteLiteral("></span>\r\n                                                    </
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral(" ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Estado:\r\n             " +
 "                                       </div>\r\n                                 " +
@@ -2604,7 +2755,7 @@ WriteLiteral(">\r\n                                                        Estad
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(" ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <select");
 
@@ -2621,7 +2772,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1269 "MeetingDatosPersonales.cshtml"
+#line 1354 "MeetingDatosPersonales.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
@@ -2631,13 +2782,10 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 WriteLiteral("\r\n                                                        ng-change=\"MunByEdo();\"" +
 "");
 
-WriteLiteral(@"></select><br/>
-                                                        <!--ng-options=""e.name for e in listState"" ng-init=''-->
-                                                    </div>
-                                                </div>
-                                                <br/>
-
-                                                <div");
+WriteLiteral("></select><br/>\r\n                                                    </div>\r\n    " +
+"                                            </div>\r\n                            " +
+"                    <br/>\r\n\r\n                                                <di" +
+"v");
 
 WriteLiteral(" class=\"row\"");
 
@@ -2645,7 +2793,7 @@ WriteLiteral(">\r\n                                                    <div");
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Municipio:\r\n          " +
 "                                          </div>\r\n                              " +
@@ -2653,7 +2801,7 @@ WriteLiteral(">\r\n                                                        Munic
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2687,7 +2835,7 @@ WriteLiteral("></span>\r\n                                                    </
 
 WriteLiteral(" class=\"col-xs-2 element-left col-xs-offset-1\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Municipio:\r\n          " +
 "                                          </div>\r\n                              " +
@@ -2695,7 +2843,7 @@ WriteLiteral(">\r\n                                                        Munic
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2722,7 +2870,7 @@ WriteLiteral("></select><br/>\r\n\r\n                                           
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Localidad/Colonia:\r\n  " +
 "                                                  </div>\r\n                      " +
@@ -2730,7 +2878,7 @@ WriteLiteral(">\r\n                                                        Local
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry != 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry != 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
@@ -2765,7 +2913,7 @@ WriteLiteral("></span>\r\n                                                    </
 
 WriteLiteral(" class=\"col-xs-2 element-right\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        Localidad/Colonia:\r\n  " +
 "                                                  </div>\r\n                      " +
@@ -2773,7 +2921,7 @@ WriteLiteral(">\r\n                                                        Local
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral("  ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral("  ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <select");
 
@@ -2796,15 +2944,13 @@ WriteLiteral("></select>\r\n                                                    
 
 WriteLiteral(" class=\"col-xs-10 col-xs-offset-1\"");
 
-WriteLiteral(" ng-show=\"m.BirthCountry == 1\"");
+WriteLiteral(" ng-show=\"m.BirthCountry == 1 && m.BirthInfoId == 1\"");
 
 WriteLiteral(">\r\n                                                        <input");
 
 WriteLiteral(" type=\"hidden\"");
 
 WriteLiteral(" ng-model=\"m.LocationId\"");
-
-WriteLiteral(" ng-update-hidden");
 
 WriteLiteral(" name=\"imputed.location.id\"");
 
@@ -2816,7 +2962,7 @@ WriteLiteral(">\r\n                                                        <span
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"mputed.location.id\"");
+WriteLiteral(" data-valmsg-for=\"imputed.location.id\"");
 
 WriteLiteral("\r\n                                                        data-valmsg-replace=\"tr" +
 "ue\"");
@@ -2991,7 +3137,7 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1370 "MeetingDatosPersonales.cshtml"
+#line 1454 "MeetingDatosPersonales.cshtml"
                                    , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
@@ -3005,7 +3151,7 @@ WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    id=\"slctActivity\"");
 
 WriteLiteral(" style=\"width:450px;heigth: 100%;\"");
 
-WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    ng-options=\"ac.name for ac in lstActivity\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t\t                    ng-options=\"ac.Name for ac in lstActivity\"");
 
 WriteLiteral(" multiple >\r\n\t\t\t\t\t\t\t\t            </select>\r\n\t\t\t\t\t\t\t\t        </div>\r\n\t\t\t\t\t\t\t\t    <" +
 "/div>\r\n                                <br/>\r\n\r\n                                " +
@@ -3019,13 +3165,13 @@ WriteLiteral(" ng-repeat=\"activity in activityModel\"");
 
 WriteLiteral(">\r\n\t\t\t\t\t\t\t            <div");
 
-WriteLiteral(" ng-show=\"activity.specification==true\"");
+WriteLiteral(" ng-show=\"activity.Specification==true\"");
 
 WriteLiteral(">\r\n\t\t\t\t\t\t\t                <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
-WriteLiteral(">\r\n\t\t\t\t\t\t\t                    Especif&iacute;que actividades {{activity.name}}:\r\n" +
+WriteLiteral(">\r\n\t\t\t\t\t\t\t                    Especif&iacute;que actividades {{activity.Name}}:\r\n" +
 "\t\t\t\t\t\t\t                </div>\r\n\t\t\t\t\t\t\t                <div");
 
 WriteLiteral(" class=\"col-xs-9\"");
@@ -3044,17 +3190,17 @@ WriteLiteral("\r\n\t\t\t\t\t\t\t                           data-val-length-max=\
 WriteLiteral(" data-val-length-min=\"3\"");
 
 WriteLiteral("\r\n\t\t\t\t\t\t\t                           data-val-required=\"La especificaci&oacute;n d" +
-"e actividades {{activity.name}} es un campo requerido\"");
+"e actividades {{activity.Name}} es un campo requerido\"");
 
 WriteLiteral("\r\n\t\t\t\t\t\t\t                           type=\"text\"");
 
 WriteLiteral(" value=\"\"");
 
-WriteLiteral(" ng-model=\"specification[activity.name]\"");
+WriteLiteral(" ng-model=\"specification[activity.Name]\"");
 
-WriteLiteral("\r\n\t\t\t\t\t\t\t                           id=\"specification{{activity.name}}\"");
+WriteLiteral("\r\n\t\t\t\t\t\t\t                           id=\"specification{{activity.Name}}\"");
 
-WriteLiteral(" name=\"specification{{activity.name}}\"");
+WriteLiteral(" name=\"specification{{activity.Name}}\"");
 
 WriteLiteral("\r\n\t\t\t\t\t\t\t                           ng-change=\"matchActivities()\"");
 
@@ -3062,7 +3208,7 @@ WriteLiteral("><br/>\r\n\t\t\t\t\t\t\t                <span");
 
 WriteLiteral(" class=\"field-validation-valid\"");
 
-WriteLiteral(" data-valmsg-for=\"specification{{activity.name}}\"");
+WriteLiteral(" data-valmsg-for=\"specification{{activity.Name}}\"");
 
 WriteLiteral("\r\n\t\t\t\t\t\t\t                      data-valmsg-replace=\"true\"");
 
@@ -3194,13 +3340,13 @@ WriteLiteral(" id=\"meetingImputedHomeTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 1499 "MeetingDatosPersonales.cshtml"
+#line 1583 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1499 "MeetingDatosPersonales.cshtml"
+#line 1583 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -3214,7 +3360,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-IH-", true)
 
-#line 1503 "MeetingDatosPersonales.cshtml"
+#line 1587 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -3234,7 +3380,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1505 "MeetingDatosPersonales.cshtml"
+#line 1589 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.addressString);
 
 
@@ -3245,7 +3391,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1508 "MeetingDatosPersonales.cshtml"
+#line 1592 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Phone);
 
 
@@ -3254,13 +3400,13 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1511 "MeetingDatosPersonales.cshtml"
+#line 1595 "MeetingDatosPersonales.cshtml"
         
 
 #line default
 #line hidden
 
-#line 1511 "MeetingDatosPersonales.cshtml"
+#line 1595 "MeetingDatosPersonales.cshtml"
           switch(@Dmcl.RegisterTypeId)
     {
         case 1:
@@ -3272,7 +3418,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Actual</label>\r\n");
 
 
-#line 1516 "MeetingDatosPersonales.cshtml"
+#line 1600 "MeetingDatosPersonales.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -3282,7 +3428,7 @@ WriteLiteral("                <label>Actual</label>\r\n");
 WriteLiteral("            <label>Secundario</label>\r\n");
 
 
-#line 1519 "MeetingDatosPersonales.cshtml"
+#line 1603 "MeetingDatosPersonales.cshtml"
             break;
         case 3:
 
@@ -3292,7 +3438,7 @@ WriteLiteral("            <label>Secundario</label>\r\n");
 WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 
 
-#line 1522 "MeetingDatosPersonales.cshtml"
+#line 1606 "MeetingDatosPersonales.cshtml"
         	break;
         default:
 
@@ -3302,7 +3448,7 @@ WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1525 "MeetingDatosPersonales.cshtml"
+#line 1609 "MeetingDatosPersonales.cshtml"
             break;                   
     }
     
@@ -3312,13 +3458,13 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1530 "MeetingDatosPersonales.cshtml"
+#line 1614 "MeetingDatosPersonales.cshtml"
          
 
 #line default
 #line hidden
 
-#line 1530 "MeetingDatosPersonales.cshtml"
+#line 1614 "MeetingDatosPersonales.cshtml"
            switch(@Dmcl.HomeTypeId)
     {
         case 1:
@@ -3330,7 +3476,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Propia</label>\r\n");
 
 
-#line 1535 "MeetingDatosPersonales.cshtml"
+#line 1619 "MeetingDatosPersonales.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -3340,7 +3486,7 @@ WriteLiteral("                <label>Propia</label>\r\n");
 WriteLiteral("            <label>Rentada</label>\r\n");
 
 
-#line 1538 "MeetingDatosPersonales.cshtml"
+#line 1622 "MeetingDatosPersonales.cshtml"
             break;
         case 3:
 
@@ -3350,7 +3496,7 @@ WriteLiteral("            <label>Rentada</label>\r\n");
 WriteLiteral("       \t\t<label>Prestada</label>\r\n");
 
 
-#line 1541 "MeetingDatosPersonales.cshtml"
+#line 1625 "MeetingDatosPersonales.cshtml"
         	break;
         case 4:
 
@@ -3360,7 +3506,7 @@ WriteLiteral("       \t\t<label>Prestada</label>\r\n");
 WriteLiteral("       \t\t<label>Otro</label>\r\n");
 
 
-#line 1544 "MeetingDatosPersonales.cshtml"
+#line 1628 "MeetingDatosPersonales.cshtml"
         	break;
         default:
 
@@ -3370,7 +3516,7 @@ WriteLiteral("       \t\t<label>Otro</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1547 "MeetingDatosPersonales.cshtml"
+#line 1631 "MeetingDatosPersonales.cshtml"
             break;                   
     }
     
@@ -3388,7 +3534,7 @@ WriteLiteral(" title=\"Eliminar domicilio\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDomicilio(\'", true)
 
-#line 1552 "MeetingDatosPersonales.cshtml"
+#line 1636 "MeetingDatosPersonales.cshtml"
                                                                               , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -3411,7 +3557,7 @@ WriteLiteral(" title=\"Editar Domicilio\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDomicilio(\'", true)
 
-#line 1553 "MeetingDatosPersonales.cshtml"
+#line 1637 "MeetingDatosPersonales.cshtml"
                                                                           , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -3426,7 +3572,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1556 "MeetingDatosPersonales.cshtml"
+#line 1640 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -3624,13 +3770,13 @@ WriteLiteral(" id=\"meetingPersonSNTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 1669 "MeetingDatosPersonales.cshtml"
+#line 1753 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1669 "MeetingDatosPersonales.cshtml"
+#line 1753 "MeetingDatosPersonales.cshtml"
      if(Model.JsonPersonSN==null){
     }
     else{
@@ -3644,7 +3790,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-PSN-", true)
 
-#line 1673 "MeetingDatosPersonales.cshtml"
+#line 1757 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -3664,7 +3810,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1675 "MeetingDatosPersonales.cshtml"
+#line 1759 "MeetingDatosPersonales.cshtml"
        Write(Jpsn.Name);
 
 
@@ -3673,7 +3819,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1678 "MeetingDatosPersonales.cshtml"
+#line 1762 "MeetingDatosPersonales.cshtml"
   switch(@Jpsn.RelationshipId)
     {
         	case 18:   
@@ -3684,7 +3830,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 
 
-#line 1682 "MeetingDatosPersonales.cshtml"
+#line 1766 "MeetingDatosPersonales.cshtml"
             break;  
             case 6:  
 
@@ -3694,7 +3840,7 @@ WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 WriteLiteral("            <label>Amigo</label>\r\n");
 
 
-#line 1685 "MeetingDatosPersonales.cshtml"
+#line 1769 "MeetingDatosPersonales.cshtml"
             break;  
             case 10:
 
@@ -3704,7 +3850,7 @@ WriteLiteral("            <label>Amigo</label>\r\n");
 WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 
 
-#line 1688 "MeetingDatosPersonales.cshtml"
+#line 1772 "MeetingDatosPersonales.cshtml"
             break;  
             case 12:  
 
@@ -3714,7 +3860,7 @@ WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 WriteLiteral("            <label>Empleado</label>\r\n");
 
 
-#line 1691 "MeetingDatosPersonales.cshtml"
+#line 1775 "MeetingDatosPersonales.cshtml"
             break;  
             case 14:  
 
@@ -3724,7 +3870,7 @@ WriteLiteral("            <label>Empleado</label>\r\n");
 WriteLiteral("            <label>Esposa</label>\r\n");
 
 
-#line 1694 "MeetingDatosPersonales.cshtml"
+#line 1778 "MeetingDatosPersonales.cshtml"
             break;  
             case 16:  
 
@@ -3734,7 +3880,7 @@ WriteLiteral("            <label>Esposa</label>\r\n");
 WriteLiteral("            <label>Familiar Político</label>\r\n");
 
 
-#line 1697 "MeetingDatosPersonales.cshtml"
+#line 1781 "MeetingDatosPersonales.cshtml"
             break;  
             case 1:  
 
@@ -3744,7 +3890,7 @@ WriteLiteral("            <label>Familiar Político</label>\r\n");
 WriteLiteral("            <label>Hermano</label>\r\n");
 
 
-#line 1700 "MeetingDatosPersonales.cshtml"
+#line 1784 "MeetingDatosPersonales.cshtml"
             break;  
             case 3: 
 
@@ -3754,7 +3900,7 @@ WriteLiteral("            <label>Hermano</label>\r\n");
 WriteLiteral("            <label>Hijo(a)</label>\r\n");
 
 
-#line 1703 "MeetingDatosPersonales.cshtml"
+#line 1787 "MeetingDatosPersonales.cshtml"
             break;  
             case 20:
 
@@ -3764,7 +3910,7 @@ WriteLiteral("            <label>Hijo(a)</label>\r\n");
 WriteLiteral("            <label>Imputado</label>\r\n");
 
 
-#line 1706 "MeetingDatosPersonales.cshtml"
+#line 1790 "MeetingDatosPersonales.cshtml"
             break;  
             case 2:  
 
@@ -3774,7 +3920,7 @@ WriteLiteral("            <label>Imputado</label>\r\n");
 WriteLiteral("            <label>Madre</label>\r\n");
 
 
-#line 1709 "MeetingDatosPersonales.cshtml"
+#line 1793 "MeetingDatosPersonales.cshtml"
             break;  
             case 8:  
 
@@ -3784,7 +3930,7 @@ WriteLiteral("            <label>Madre</label>\r\n");
 WriteLiteral("            <label>Ninguno</label>\r\n");
 
 
-#line 1712 "MeetingDatosPersonales.cshtml"
+#line 1796 "MeetingDatosPersonales.cshtml"
             break;  
             case 19:  
 
@@ -3794,7 +3940,7 @@ WriteLiteral("            <label>Ninguno</label>\r\n");
 WriteLiteral("            <label>Otro</label>\r\n");
 
 
-#line 1715 "MeetingDatosPersonales.cshtml"
+#line 1799 "MeetingDatosPersonales.cshtml"
             break;  
             case 17:  
 
@@ -3804,7 +3950,7 @@ WriteLiteral("            <label>Otro</label>\r\n");
 WriteLiteral("            <label>Padre</label>\r\n");
 
 
-#line 1718 "MeetingDatosPersonales.cshtml"
+#line 1802 "MeetingDatosPersonales.cshtml"
             break;  
             case 11:  
 
@@ -3814,7 +3960,7 @@ WriteLiteral("            <label>Padre</label>\r\n");
 WriteLiteral("            <label>Padrino</label>\r\n");
 
 
-#line 1721 "MeetingDatosPersonales.cshtml"
+#line 1805 "MeetingDatosPersonales.cshtml"
             break;  
             case 13:  
 
@@ -3824,7 +3970,7 @@ WriteLiteral("            <label>Padrino</label>\r\n");
 WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 
 
-#line 1724 "MeetingDatosPersonales.cshtml"
+#line 1808 "MeetingDatosPersonales.cshtml"
             break;  
             case 9:  
 
@@ -3834,7 +3980,7 @@ WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 WriteLiteral("            <label>Patrón</label>\r\n");
 
 
-#line 1727 "MeetingDatosPersonales.cshtml"
+#line 1811 "MeetingDatosPersonales.cshtml"
             break;  
             case 4:  
 
@@ -3844,7 +3990,7 @@ WriteLiteral("            <label>Patrón</label>\r\n");
 WriteLiteral("            <label>Primo(a)</label>\r\n");
 
 
-#line 1730 "MeetingDatosPersonales.cshtml"
+#line 1814 "MeetingDatosPersonales.cshtml"
             break;  
             case 15:  
 
@@ -3854,7 +4000,7 @@ WriteLiteral("            <label>Primo(a)</label>\r\n");
 WriteLiteral("            <label>Suegra</label>\r\n");
 
 
-#line 1733 "MeetingDatosPersonales.cshtml"
+#line 1817 "MeetingDatosPersonales.cshtml"
             break;  
             case 5:  
 
@@ -3864,7 +4010,7 @@ WriteLiteral("            <label>Suegra</label>\r\n");
 WriteLiteral("            <label>Tío(a)</label>\r\n");
 
 
-#line 1736 "MeetingDatosPersonales.cshtml"
+#line 1820 "MeetingDatosPersonales.cshtml"
             break;  
             case 7:  
 
@@ -3874,7 +4020,7 @@ WriteLiteral("            <label>Tío(a)</label>\r\n");
 WriteLiteral("            <label>Vecino</label>\r\n");
 
 
-#line 1739 "MeetingDatosPersonales.cshtml"
+#line 1823 "MeetingDatosPersonales.cshtml"
             break;  
             default:
 
@@ -3884,7 +4030,7 @@ WriteLiteral("            <label>Vecino</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1742 "MeetingDatosPersonales.cshtml"
+#line 1826 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -3896,7 +4042,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1747 "MeetingDatosPersonales.cshtml"
+#line 1831 "MeetingDatosPersonales.cshtml"
        Write(Jpsn.Age);
 
 
@@ -3907,7 +4053,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1750 "MeetingDatosPersonales.cshtml"
+#line 1834 "MeetingDatosPersonales.cshtml"
        Write(Jpsn.Phone);
 
 
@@ -3916,7 +4062,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1753 "MeetingDatosPersonales.cshtml"
+#line 1837 "MeetingDatosPersonales.cshtml"
   switch(@Jpsn.isAccompaniment)
     {
         case true:
@@ -3927,7 +4073,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 1757 "MeetingDatosPersonales.cshtml"
+#line 1841 "MeetingDatosPersonales.cshtml"
             break;
         case false:
 
@@ -3937,7 +4083,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 1760 "MeetingDatosPersonales.cshtml"
+#line 1844 "MeetingDatosPersonales.cshtml"
             break;
         default:
 
@@ -3947,7 +4093,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1763 "MeetingDatosPersonales.cshtml"
+#line 1847 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -3957,7 +4103,7 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
 
 
-#line 1768 "MeetingDatosPersonales.cshtml"
+#line 1852 "MeetingDatosPersonales.cshtml"
   switch(@Jpsn.DependentId)
     {
         case 1:
@@ -3968,7 +4114,7 @@ WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 1772 "MeetingDatosPersonales.cshtml"
+#line 1856 "MeetingDatosPersonales.cshtml"
             break;
         case 2:
 
@@ -3978,7 +4124,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 1775 "MeetingDatosPersonales.cshtml"
+#line 1859 "MeetingDatosPersonales.cshtml"
             break;
         default:
 
@@ -3988,7 +4134,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1778 "MeetingDatosPersonales.cshtml"
+#line 1862 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4006,7 +4152,7 @@ WriteLiteral(" title=\"Eliminar Persona\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeletePersonSn(\'", true)
 
-#line 1783 "MeetingDatosPersonales.cshtml"
+#line 1867 "MeetingDatosPersonales.cshtml"
                                                                            , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4029,7 +4175,7 @@ WriteLiteral(" title=\"Editar Persona\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditPersonSn(\'", true)
 
-#line 1784 "MeetingDatosPersonales.cshtml"
+#line 1868 "MeetingDatosPersonales.cshtml"
                                                                        , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4044,7 +4190,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1787 "MeetingDatosPersonales.cshtml"
+#line 1871 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -4245,13 +4391,13 @@ WriteLiteral(" id=\"meetingReferenceTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 1901 "MeetingDatosPersonales.cshtml"
+#line 1985 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1901 "MeetingDatosPersonales.cshtml"
+#line 1985 "MeetingDatosPersonales.cshtml"
      if(Model.JsonReferences==null){	
     }
     else{
@@ -4265,7 +4411,7 @@ WriteLiteral("   <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MRF-", true)
 
-#line 1905 "MeetingDatosPersonales.cshtml"
+#line 1989 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -4285,7 +4431,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1907 "MeetingDatosPersonales.cshtml"
+#line 1991 "MeetingDatosPersonales.cshtml"
        Write(Jrfnc.FullName);
 
 
@@ -4294,7 +4440,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1910 "MeetingDatosPersonales.cshtml"
+#line 1994 "MeetingDatosPersonales.cshtml"
   switch(@Jrfnc.RelationshipId)
     {
         	case 18:   
@@ -4305,7 +4451,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 
 
-#line 1914 "MeetingDatosPersonales.cshtml"
+#line 1998 "MeetingDatosPersonales.cshtml"
             break;  
             case 6:  
 
@@ -4315,7 +4461,7 @@ WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 WriteLiteral("            <label>Amigo</label>\r\n");
 
 
-#line 1917 "MeetingDatosPersonales.cshtml"
+#line 2001 "MeetingDatosPersonales.cshtml"
             break;  
             case 10:
 
@@ -4325,7 +4471,7 @@ WriteLiteral("            <label>Amigo</label>\r\n");
 WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 
 
-#line 1920 "MeetingDatosPersonales.cshtml"
+#line 2004 "MeetingDatosPersonales.cshtml"
             break;  
             case 12:  
 
@@ -4335,7 +4481,7 @@ WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 WriteLiteral("            <label>Empleado</label>\r\n");
 
 
-#line 1923 "MeetingDatosPersonales.cshtml"
+#line 2007 "MeetingDatosPersonales.cshtml"
             break;  
             case 14:  
 
@@ -4345,7 +4491,7 @@ WriteLiteral("            <label>Empleado</label>\r\n");
 WriteLiteral("            <label>Esposa</label>\r\n");
 
 
-#line 1926 "MeetingDatosPersonales.cshtml"
+#line 2010 "MeetingDatosPersonales.cshtml"
             break;  
             case 16:  
 
@@ -4355,7 +4501,7 @@ WriteLiteral("            <label>Esposa</label>\r\n");
 WriteLiteral("            <label>Familiar Político</label>\r\n");
 
 
-#line 1929 "MeetingDatosPersonales.cshtml"
+#line 2013 "MeetingDatosPersonales.cshtml"
             break;  
             case 1:  
 
@@ -4365,7 +4511,7 @@ WriteLiteral("            <label>Familiar Político</label>\r\n");
 WriteLiteral("            <label>Hermano</label>\r\n");
 
 
-#line 1932 "MeetingDatosPersonales.cshtml"
+#line 2016 "MeetingDatosPersonales.cshtml"
             break;  
             case 3: 
 
@@ -4375,7 +4521,7 @@ WriteLiteral("            <label>Hermano</label>\r\n");
 WriteLiteral("            <label>Hijo(a)</label>\r\n");
 
 
-#line 1935 "MeetingDatosPersonales.cshtml"
+#line 2019 "MeetingDatosPersonales.cshtml"
             break;  
             case 20:
 
@@ -4385,7 +4531,7 @@ WriteLiteral("            <label>Hijo(a)</label>\r\n");
 WriteLiteral("            <label>Imputado</label>\r\n");
 
 
-#line 1938 "MeetingDatosPersonales.cshtml"
+#line 2022 "MeetingDatosPersonales.cshtml"
             break;  
             case 2:  
 
@@ -4395,7 +4541,7 @@ WriteLiteral("            <label>Imputado</label>\r\n");
 WriteLiteral("            <label>Madre</label>\r\n");
 
 
-#line 1941 "MeetingDatosPersonales.cshtml"
+#line 2025 "MeetingDatosPersonales.cshtml"
             break;  
             case 8:  
 
@@ -4405,7 +4551,7 @@ WriteLiteral("            <label>Madre</label>\r\n");
 WriteLiteral("            <label>Ninguno</label>\r\n");
 
 
-#line 1944 "MeetingDatosPersonales.cshtml"
+#line 2028 "MeetingDatosPersonales.cshtml"
             break;  
             case 19:  
 
@@ -4415,7 +4561,7 @@ WriteLiteral("            <label>Ninguno</label>\r\n");
 WriteLiteral("            <label>Otro</label>\r\n");
 
 
-#line 1947 "MeetingDatosPersonales.cshtml"
+#line 2031 "MeetingDatosPersonales.cshtml"
             break;  
             case 17:  
 
@@ -4425,7 +4571,7 @@ WriteLiteral("            <label>Otro</label>\r\n");
 WriteLiteral("            <label>Padre</label>\r\n");
 
 
-#line 1950 "MeetingDatosPersonales.cshtml"
+#line 2034 "MeetingDatosPersonales.cshtml"
             break;  
             case 11:  
 
@@ -4435,7 +4581,7 @@ WriteLiteral("            <label>Padre</label>\r\n");
 WriteLiteral("            <label>Padrino</label>\r\n");
 
 
-#line 1953 "MeetingDatosPersonales.cshtml"
+#line 2037 "MeetingDatosPersonales.cshtml"
             break;  
             case 13:  
 
@@ -4445,7 +4591,7 @@ WriteLiteral("            <label>Padrino</label>\r\n");
 WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 
 
-#line 1956 "MeetingDatosPersonales.cshtml"
+#line 2040 "MeetingDatosPersonales.cshtml"
             break;  
             case 9:  
 
@@ -4455,7 +4601,7 @@ WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 WriteLiteral("            <label>Patrón</label>\r\n");
 
 
-#line 1959 "MeetingDatosPersonales.cshtml"
+#line 2043 "MeetingDatosPersonales.cshtml"
             break;  
             case 4:  
 
@@ -4465,7 +4611,7 @@ WriteLiteral("            <label>Patrón</label>\r\n");
 WriteLiteral("            <label>Primo(a)</label>\r\n");
 
 
-#line 1962 "MeetingDatosPersonales.cshtml"
+#line 2046 "MeetingDatosPersonales.cshtml"
             break;  
             case 15:  
 
@@ -4475,7 +4621,7 @@ WriteLiteral("            <label>Primo(a)</label>\r\n");
 WriteLiteral("            <label>Suegra</label>\r\n");
 
 
-#line 1965 "MeetingDatosPersonales.cshtml"
+#line 2049 "MeetingDatosPersonales.cshtml"
             break;  
             case 5:  
 
@@ -4485,7 +4631,7 @@ WriteLiteral("            <label>Suegra</label>\r\n");
 WriteLiteral("            <label>Tío(a)</label>\r\n");
 
 
-#line 1968 "MeetingDatosPersonales.cshtml"
+#line 2052 "MeetingDatosPersonales.cshtml"
             break;  
             case 7:  
 
@@ -4495,7 +4641,7 @@ WriteLiteral("            <label>Tío(a)</label>\r\n");
 WriteLiteral("            <label>Vecino</label>\r\n");
 
 
-#line 1971 "MeetingDatosPersonales.cshtml"
+#line 2055 "MeetingDatosPersonales.cshtml"
             break;  
             default:
 
@@ -4505,7 +4651,7 @@ WriteLiteral("            <label>Vecino</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1974 "MeetingDatosPersonales.cshtml"
+#line 2058 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4517,7 +4663,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1979 "MeetingDatosPersonales.cshtml"
+#line 2063 "MeetingDatosPersonales.cshtml"
        Write(Jrfnc.Age);
 
 
@@ -4528,7 +4674,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1982 "MeetingDatosPersonales.cshtml"
+#line 2066 "MeetingDatosPersonales.cshtml"
        Write(Jrfnc.Phone);
 
 
@@ -4537,7 +4683,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1985 "MeetingDatosPersonales.cshtml"
+#line 2069 "MeetingDatosPersonales.cshtml"
   switch(@Jrfnc.IsAccompaniment)
     {
         case true:
@@ -4548,7 +4694,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 1989 "MeetingDatosPersonales.cshtml"
+#line 2073 "MeetingDatosPersonales.cshtml"
             break;
         case false:
 
@@ -4558,7 +4704,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 1992 "MeetingDatosPersonales.cshtml"
+#line 2076 "MeetingDatosPersonales.cshtml"
             break;
         default:
 
@@ -4568,7 +4714,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1995 "MeetingDatosPersonales.cshtml"
+#line 2079 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4586,7 +4732,7 @@ WriteLiteral(" title=\"Eliminar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteReference(\'", true)
 
-#line 2000 "MeetingDatosPersonales.cshtml"
+#line 2084 "MeetingDatosPersonales.cshtml"
                                                                              , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -4609,7 +4755,7 @@ WriteLiteral(" title=\"Editar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditReference(\'", true)
 
-#line 2001 "MeetingDatosPersonales.cshtml"
+#line 2085 "MeetingDatosPersonales.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -4624,7 +4770,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2004 "MeetingDatosPersonales.cshtml"
+#line 2088 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -4825,13 +4971,13 @@ WriteLiteral(" id=\"meetingJobTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2123 "MeetingDatosPersonales.cshtml"
+#line 2207 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2123 "MeetingDatosPersonales.cshtml"
+#line 2207 "MeetingDatosPersonales.cshtml"
      if(Model.JsonJobs==null){	
     }
     else{
@@ -4845,7 +4991,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MJB-", true)
 
-#line 2127 "MeetingDatosPersonales.cshtml"
+#line 2211 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -4865,7 +5011,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2129 "MeetingDatosPersonales.cshtml"
+#line 2213 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.Company);
 
 
@@ -4876,7 +5022,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2132 "MeetingDatosPersonales.cshtml"
+#line 2216 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.Post);
 
 
@@ -4887,7 +5033,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2135 "MeetingDatosPersonales.cshtml"
+#line 2219 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.NameHead);
 
 
@@ -4898,7 +5044,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2138 "MeetingDatosPersonales.cshtml"
+#line 2222 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.Phone);
 
 
@@ -4907,7 +5053,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2141 "MeetingDatosPersonales.cshtml"
+#line 2225 "MeetingDatosPersonales.cshtml"
   switch(@Jjbs.RegisterTypeId)
     {
         case 1:
@@ -4919,7 +5065,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Actual</label>\r\n");
 
 
-#line 2146 "MeetingDatosPersonales.cshtml"
+#line 2230 "MeetingDatosPersonales.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -4929,7 +5075,7 @@ WriteLiteral("                <label>Actual</label>\r\n");
 WriteLiteral("            <label>Secundario</label>\r\n");
 
 
-#line 2149 "MeetingDatosPersonales.cshtml"
+#line 2233 "MeetingDatosPersonales.cshtml"
             break;
         case 3:
 
@@ -4939,7 +5085,7 @@ WriteLiteral("            <label>Secundario</label>\r\n");
 WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 
 
-#line 2152 "MeetingDatosPersonales.cshtml"
+#line 2236 "MeetingDatosPersonales.cshtml"
         	break;
         default:
 
@@ -4949,7 +5095,7 @@ WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2155 "MeetingDatosPersonales.cshtml"
+#line 2239 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4967,7 +5113,7 @@ WriteLiteral(" title=\"Eliminar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteJob(\'", true)
 
-#line 2160 "MeetingDatosPersonales.cshtml"
+#line 2244 "MeetingDatosPersonales.cshtml"
                                                                        , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -4990,7 +5136,7 @@ WriteLiteral(" title=\"Editar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditJob(\'", true)
 
-#line 2161 "MeetingDatosPersonales.cshtml"
+#line 2245 "MeetingDatosPersonales.cshtml"
                                                                    , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5005,7 +5151,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2164 "MeetingDatosPersonales.cshtml"
+#line 2248 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -6078,13 +6224,13 @@ WriteLiteral(" id=\"meetingDrugTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2613 "MeetingDatosPersonales.cshtml"
+#line 2697 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2613 "MeetingDatosPersonales.cshtml"
+#line 2697 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDrugs==null){	
     }
     else{
@@ -6098,7 +6244,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MDRG-", true)
 
-#line 2617 "MeetingDatosPersonales.cshtml"
+#line 2701 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6116,7 +6262,7 @@ WriteLiteral(" class=\"td-class-1\"");
 WriteLiteral(">\r\n            \r\n");
 
 
-#line 2620 "MeetingDatosPersonales.cshtml"
+#line 2704 "MeetingDatosPersonales.cshtml"
   switch(@Jdrg.DrugTypeId)
     {
     		case 1:
@@ -6127,7 +6273,7 @@ WriteLiteral(">\r\n            \r\n");
 WriteLiteral("\t<label>Alcohol</label>\r\n");
 
 
-#line 2624 "MeetingDatosPersonales.cshtml"
+#line 2708 "MeetingDatosPersonales.cshtml"
             break;
             case 10:
 
@@ -6137,7 +6283,7 @@ WriteLiteral("\t<label>Alcohol</label>\r\n");
 WriteLiteral("\t<label>Anfetaminas</label>\r\n");
 
 
-#line 2627 "MeetingDatosPersonales.cshtml"
+#line 2711 "MeetingDatosPersonales.cshtml"
             break;
             case 8:
 
@@ -6147,7 +6293,7 @@ WriteLiteral("\t<label>Anfetaminas</label>\r\n");
 WriteLiteral("\t<label>Cemento</label>\r\n");
 
 
-#line 2630 "MeetingDatosPersonales.cshtml"
+#line 2714 "MeetingDatosPersonales.cshtml"
             break;
             case 3:
 
@@ -6157,7 +6303,7 @@ WriteLiteral("\t<label>Cemento</label>\r\n");
 WriteLiteral("\t<label>Cocacaína</label>\r\n");
 
 
-#line 2633 "MeetingDatosPersonales.cshtml"
+#line 2717 "MeetingDatosPersonales.cshtml"
             break;
             case 12:
 
@@ -6167,7 +6313,7 @@ WriteLiteral("\t<label>Cocacaína</label>\r\n");
 WriteLiteral("\t<label>Extasis</label>\r\n");
 
 
-#line 2636 "MeetingDatosPersonales.cshtml"
+#line 2720 "MeetingDatosPersonales.cshtml"
             break;
             case 4:
 
@@ -6177,7 +6323,7 @@ WriteLiteral("\t<label>Extasis</label>\r\n");
 WriteLiteral("\t<label>Heroína</label>\r\n");
 
 
-#line 2639 "MeetingDatosPersonales.cshtml"
+#line 2723 "MeetingDatosPersonales.cshtml"
             break;
             case 13:
 
@@ -6187,7 +6333,7 @@ WriteLiteral("\t<label>Heroína</label>\r\n");
 WriteLiteral("\t<label>Hongos</label>\r\n");
 
 
-#line 2642 "MeetingDatosPersonales.cshtml"
+#line 2726 "MeetingDatosPersonales.cshtml"
             break;
             case 9:
 
@@ -6197,7 +6343,7 @@ WriteLiteral("\t<label>Hongos</label>\r\n");
 WriteLiteral("\t<label>LSD</label>\r\n");
 
 
-#line 2645 "MeetingDatosPersonales.cshtml"
+#line 2729 "MeetingDatosPersonales.cshtml"
             break;
             case 2:
 
@@ -6207,7 +6353,7 @@ WriteLiteral("\t<label>LSD</label>\r\n");
 WriteLiteral("\t<label>Marihuana</label>\r\n");
 
 
-#line 2648 "MeetingDatosPersonales.cshtml"
+#line 2732 "MeetingDatosPersonales.cshtml"
             break;
             case 11:
 
@@ -6217,7 +6363,7 @@ WriteLiteral("\t<label>Marihuana</label>\r\n");
 WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
 
 
-#line 2651 "MeetingDatosPersonales.cshtml"
+#line 2735 "MeetingDatosPersonales.cshtml"
             break;
             case 15:
 
@@ -6227,7 +6373,7 @@ WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
 WriteLiteral("\t<label>No consume</label>\r\n");
 
 
-#line 2654 "MeetingDatosPersonales.cshtml"
+#line 2738 "MeetingDatosPersonales.cshtml"
             break;
             case 5:
 
@@ -6237,7 +6383,7 @@ WriteLiteral("\t<label>No consume</label>\r\n");
 WriteLiteral("\t<label>Opiáceos</label>\r\n");
 
 
-#line 2657 "MeetingDatosPersonales.cshtml"
+#line 2741 "MeetingDatosPersonales.cshtml"
             break;
             case 14:
 
@@ -6247,7 +6393,7 @@ WriteLiteral("\t<label>Opiáceos</label>\r\n");
 WriteLiteral("\t<label>Otro</label>\r\n");
 
 
-#line 2660 "MeetingDatosPersonales.cshtml"
+#line 2744 "MeetingDatosPersonales.cshtml"
             break;
             case 6:
 
@@ -6257,7 +6403,7 @@ WriteLiteral("\t<label>Otro</label>\r\n");
 WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
 
 
-#line 2663 "MeetingDatosPersonales.cshtml"
+#line 2747 "MeetingDatosPersonales.cshtml"
             break;
             case 7:
 
@@ -6267,7 +6413,7 @@ WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
 WriteLiteral("\t<label>Solventes</label>\r\n");
 
 
-#line 2666 "MeetingDatosPersonales.cshtml"
+#line 2750 "MeetingDatosPersonales.cshtml"
             break;
         	default:
 
@@ -6277,7 +6423,7 @@ WriteLiteral("\t<label>Solventes</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2669 "MeetingDatosPersonales.cshtml"
+#line 2753 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -6287,7 +6433,7 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2674 "MeetingDatosPersonales.cshtml"
+#line 2758 "MeetingDatosPersonales.cshtml"
   switch(@Jdrg.PeriodicityId)
     {
 case 3:
@@ -6298,7 +6444,7 @@ case 3:
 WriteLiteral("<label>Cada fin de semana</label>\r\n");
 
 
-#line 2678 "MeetingDatosPersonales.cshtml"
+#line 2762 "MeetingDatosPersonales.cshtml"
 break;
 case 4:
 
@@ -6308,7 +6454,7 @@ case 4:
 WriteLiteral("<label>Cada quince días</label>\r\n");
 
 
-#line 2681 "MeetingDatosPersonales.cshtml"
+#line 2765 "MeetingDatosPersonales.cshtml"
 break;
 case 2:
 
@@ -6318,7 +6464,7 @@ case 2:
 WriteLiteral("<label>Cada tercer día</label>\r\n");
 
 
-#line 2684 "MeetingDatosPersonales.cshtml"
+#line 2768 "MeetingDatosPersonales.cshtml"
 break;
 case 1:
 
@@ -6328,7 +6474,7 @@ case 1:
 WriteLiteral("<label>Diariamente</label>\r\n");
 
 
-#line 2687 "MeetingDatosPersonales.cshtml"
+#line 2771 "MeetingDatosPersonales.cshtml"
 break;
 case 7:
 
@@ -6338,7 +6484,7 @@ case 7:
 WriteLiteral("<label>En reuniones sociales</label>\r\n");
 
 
-#line 2690 "MeetingDatosPersonales.cshtml"
+#line 2774 "MeetingDatosPersonales.cshtml"
 break;
 case 8:
 
@@ -6348,7 +6494,7 @@ case 8:
 WriteLiteral("<label>No consume</label>\r\n");
 
 
-#line 2693 "MeetingDatosPersonales.cshtml"
+#line 2777 "MeetingDatosPersonales.cshtml"
 break;
 case 6:
 
@@ -6358,7 +6504,7 @@ case 6:
 WriteLiteral("<label>Una vez al año</label>\r\n");
 
 
-#line 2696 "MeetingDatosPersonales.cshtml"
+#line 2780 "MeetingDatosPersonales.cshtml"
 break;
 case 5:
 
@@ -6368,7 +6514,7 @@ case 5:
 WriteLiteral("<label>Una vez al mes</label>\r\n");
 
 
-#line 2699 "MeetingDatosPersonales.cshtml"
+#line 2783 "MeetingDatosPersonales.cshtml"
 break;
         default:
 
@@ -6378,7 +6524,7 @@ break;
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2702 "MeetingDatosPersonales.cshtml"
+#line 2786 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -6390,7 +6536,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2707 "MeetingDatosPersonales.cshtml"
+#line 2791 "MeetingDatosPersonales.cshtml"
        Write(Jdrg.Quantity);
 
 
@@ -6401,7 +6547,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2710 "MeetingDatosPersonales.cshtml"
+#line 2794 "MeetingDatosPersonales.cshtml"
        Write(Jdrg.LastUse);
 
 
@@ -6418,7 +6564,7 @@ WriteLiteral(" title=\"Eliminar sustancia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDrug(\'", true)
 
-#line 2713 "MeetingDatosPersonales.cshtml"
+#line 2797 "MeetingDatosPersonales.cshtml"
                                                                              , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6441,7 +6587,7 @@ WriteLiteral(" title=\"Editar sustancia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDrug(\'", true)
 
-#line 2714 "MeetingDatosPersonales.cshtml"
+#line 2798 "MeetingDatosPersonales.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6456,7 +6602,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2717 "MeetingDatosPersonales.cshtml"
+#line 2801 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -6751,7 +6897,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2856 "MeetingDatosPersonales.cshtml"
+#line 2940 "MeetingDatosPersonales.cshtml"
                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -7354,17 +7500,21 @@ WriteLiteral("></select>\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-3 element-left\"");
 
+WriteLiteral(" ng-show=\"l.cf[\'Id\'] == 1\"");
+
 WriteLiteral(">\r\n            &iquest;Por qu&eacute; medio?:\r\n        </div>\r\n        <div");
 
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral(" ng-show=\"m.FamilyAnotherCountryId == 1\"");
 
+WriteLiteral("  ng-show=\"l.cf[\'Id\'] == 1\"");
+
 WriteLiteral(">\r\n            <input");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral("   ng-show=\"m.FamilyAnotherCountryId == 1\"");
+WriteLiteral("   ng-show=\"m.FamilyAnotherCountryId == 1 && l.cf[\'Id\'] == 1\"");
 
 WriteLiteral("\r\n                   data-val-length=\"Debe tener al menos 2 y m&aacute;ximo 50 ca" +
 "racteres\"");
@@ -7700,7 +7850,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 3198 "MeetingDatosPersonales.cshtml"
+#line 3282 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default
@@ -7711,17 +7861,7 @@ WriteLiteral(">\r\n        <span");
 
 WriteLiteral(" class=\"btn btn-default btn-sm\"");
 
-WriteLiteral(@" >
-            Regresar
-        </span>
-</a>
-        <!--<span class=""btn btn-default btn-primary btn-sm"" ng-disabled=""WaitFor==true"" ng-confirm-actionconfirm-message=""&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?""
-        confirm-title=""Terminar entrevista"" confirm-type=""info""
-        confirmed-click-action=""save();"">
-        Terminar
-    	</span>-->
-
-    	<span");
+WriteLiteral(" >\r\n            Regresar\r\n        </span>\r\n</a>\r\n    \t<span");
 
 WriteLiteral(" class=\"btn btn-default btn-primary btn-sm\"");
 

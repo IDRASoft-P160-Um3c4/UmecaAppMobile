@@ -222,6 +222,13 @@ namespace UmecaApp
 
 			using (var db = FactoryConn.GetConn ()) {
 				switch (fv.Type) {
+				case "InformationAvailability":
+					InformationAviability infav = db.Table<InformationAviability> ().Where (dis => dis.Id == idCat).FirstOrDefault ();
+					ca.id = infav.Id;
+					ca.name = infav.Name;
+					fms.Value = infav.Name;
+					fms.JsonValue = JsonConvert.SerializeObject (ca);
+					break;
 				case "Country":
 					Country c = db.Table<Country> ().Where (dis => dis.Id == idCat).FirstOrDefault ();
 					ca.id = c.Id;
@@ -900,6 +907,52 @@ namespace UmecaApp
 			}
 			return output;
 		}
+
+
+
+
+
+
+
+		[Export("searchAllFieldVerification")]
+		public Java.Lang.String searchAllFieldVerification(Java.Lang.String idCase, Java.Lang.String idSource){
+			var caseId = int.Parse (idCase.ToString ());
+			var sourceId = int.Parse (idSource.ToString ());
+			var output = new Java.Lang.String("");
+			using (var db = FactoryConn.GetConn ()) {
+				try {
+					var fmsList = new List<String> (); 
+					var foundFMS = db.Table<FieldMeetingSource> ().Where (fms =>
+						fms.SourceVerificationId == sourceId).ToList ();
+					if (foundFMS != null && foundFMS.Count > 0) {
+						foreach(FieldMeetingSource guardado in foundFMS){
+							FieldVerified fv = new FieldVerified();
+							if(guardado.FieldVerificationId!=null&&guardado.FieldVerificationId!=0){
+								fv.idList = (guardado.IdFieldList==null)?"0":guardado.IdFieldList.ToString();
+								fv.name = db.Table<FieldVerification>().Where(pars=>pars.Id==guardado.FieldVerificationId).FirstOrDefault().Code;
+								fv.value = guardado.StatusFieldVerificationId.ToString();
+								fmsList.Add(fv.name+"."+fv.idList);
+							}
+						}
+					}
+					else{
+						fmsList.Add("Error");
+					}
+					output = new Java.Lang.String (JsonConvert.SerializeObject(fmsList));
+				} catch (Exception e) {
+					Console.WriteLine ("catched exception in VerificationService method Example invoked javascript calling -> VerificationService.searchFieldVerification()");
+					Console.WriteLine ("Exception message :::>" + e.Message);
+					output = new Java.Lang.String ("[]");
+				}
+				db.Close ();
+			}
+			return output;
+		}
+
+
+
+
+
 
 
 	}//class end

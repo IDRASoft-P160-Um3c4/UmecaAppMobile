@@ -19,6 +19,7 @@ namespace UmecaApp
 		public String nameTxt{ get; set; }
 		public String phoneTxt{ get; set; }
 		public String addressTxt{ get; set; }
+		public Boolean liveWith{ get; set; }
 
 	}
 }

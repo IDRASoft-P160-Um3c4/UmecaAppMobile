@@ -4,3 +4,4 @@
 3|COMPLETE|Finalizado
 4|COMPLETE_VERIFICATION|Verificación finalizada
 5|OBSOLETE|Caso eliminado
+6|DECLINE|Entrevista negada

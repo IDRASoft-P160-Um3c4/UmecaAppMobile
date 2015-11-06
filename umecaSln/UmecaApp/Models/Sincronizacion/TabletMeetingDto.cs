@@ -45,6 +45,7 @@ namespace UmecaApp
 			}
 			me.StatusMeetingId = this.status.id;
 			me.WebId = this.webId;
+			me.District = this.District;
 			return me;
 		}
 
@@ -71,6 +72,9 @@ namespace UmecaApp
 		public List<TabletImputedHomeDto> imputedHomes{ get; set; }
 		public List<TabletJobDto> jobs{ get; set; }
 		public List<TabletDrugDto> drugs{ get; set; }
+
+		public int District{ get; set; }
+		public String declineReason{ get; set; }
 	}
 }
 

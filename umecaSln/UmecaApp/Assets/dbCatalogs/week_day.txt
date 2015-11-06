@@ -1,0 +1,8 @@
+﻿id|name|obsolete
+1|Lunes|0
+2|Martes|0
+3|Miércoles|0
+4|Jueves|0
+5|Viernes|0
+6|Sábado|0
+7|Domingo|0

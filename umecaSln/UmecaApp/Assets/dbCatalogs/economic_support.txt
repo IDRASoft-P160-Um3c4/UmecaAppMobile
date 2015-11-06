@@ -1,0 +1,3 @@
+﻿id|name|description|obsolete
+1|Garantía económica|Garantía económica|0
+2|Reparación del daño|Reparación del daño|0

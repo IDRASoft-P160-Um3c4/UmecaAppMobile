@@ -1,0 +1,6 @@
+﻿id|name|description|obsolete
+1|Primaria|Primaria|0
+2|Secundaria|Secundaria|0
+3|Preparatoria|Preparatoria|0
+4|Licenciatura|Licenciatura|0
+5|Posgrado|Posgrado|0

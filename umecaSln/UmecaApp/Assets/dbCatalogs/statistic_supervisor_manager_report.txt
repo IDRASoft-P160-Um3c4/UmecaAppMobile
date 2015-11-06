@@ -1,0 +1,24 @@
+id|name|description|obsolete
+1|STMSR_1|Número de entrevistas realizadas el número de casos que se judicializan (que pasan a supervisión)|0
+2|STMSR_2|Número de casos judicializados, a cuantos se les emitió opinión, a cuantos se les omitio informe y cuántos negaron la entrevista|0
+3|STMSR_3|Número de imposiciones por obligación procesal que se impone por excelencia|0
+4|STMSR_4|Número de personas que consumen substancias total general|0
+5|STMSR_5|Número de personas que consumen substancias total por substancias|0
+6|STMSR_6|Número de canalizaciones a organizaciones de la sociedad civil total|0
+7|STMSR_7|Número de canalizaciones a organizaciones de la sociedad civil por tipo de institución|0
+8|STMSR_8|Número de personas con empleo|0
+9|STMSR_9|Número de casos cerrados|0
+10|STMSR_10|Número de casos cerrados por tipo|0
+11|STMSR_11|Número de casos en medida cautelar|0
+12|STMSR_12|Número de casos en medida cautelar con incumplimiento|0
+13|STMSR_13|Número de casos en suspención condicional de proceso a prueba|0
+14|STMSR_14|Número de casos en suspención condicional de proceso a prueba con incumplimiento|0
+15|STMSR_15|Reporte estadístico por género|0
+16|STMSR_16|Reporte estadístico por edad|0
+17|STMSR_17|Reporte estadístico por delito|0
+18|STMSR_18|Reporte estadístico personas que estudian actualmente|0
+19|STMSR_19|Reporte estadístico escolaridad|0
+20|STMSR_20|Reporte estadístico casos que cambian de medida cautelar a suspensión condicional o viceversa|0
+21|STMSR_21|Reporte estadístico imputados declarados sustraidos|0
+22|STMSR_22|Reporte estadístico suspensión de supervisión por prisión preventiva en una carpeta diversa|0
+23|STMSR_23|Reporte número de visitas a domicilios para la supervisión|0

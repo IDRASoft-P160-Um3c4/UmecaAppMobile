@@ -1,15 +1,24 @@
-﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.MZUKFAMJSCN7VOJZ" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Service\SyncService.cs">
+﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Views\MeetingList.cshtml">
     <Files>
-      <File FileName="UmecaApp\Service\SyncService.cs" Line="1900" Column="50" />
-      <File FileName="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Web References\UmecaWebService\Reference.cs" Line="141" Column="9" />
-      <File FileName="UmecaApp\Service\VerificationService.cs" Line="77" Column="53" />
+      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="458" Column="46" />
+      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="84" Column="1" />
+      <File FileName="UmecaApp\Service\MeetingService.cs" Line="1751" Column="31" />
+      <File FileName="UmecaApp\Views\HearingFormatEdit.cshtml" Line="1799" Column="94" />
+      <File FileName="UmecaApp\Views\AddressUpsert.cshtml" Line="294" Column="63" />
+      <File FileName="UmecaApp\Service\SyncService.cs" Line="1935" Column="50" />
+      <File FileName="UmecaApp\Views\MeetingList.cshtml" Line="63" Column="49" />
+      <File FileName="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Views\MeetingList.cs" Line="1" Column="1" />
+      <File FileName="UmecaApp\Models\reviewer\MeetingTblDto.cs" Line="5" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="1900" column="48" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SupervisionService.cs" line="400" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="1935" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Controllers\MeetingController.cs" line="84" column="1" />
+      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="798" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

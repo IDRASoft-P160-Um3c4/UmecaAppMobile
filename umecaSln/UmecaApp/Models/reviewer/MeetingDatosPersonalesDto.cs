@@ -32,7 +32,7 @@ namespace UmecaApp
 
 		public String CelPhone{ get; set; }
 
-		public int? YearsMaritalStatus{ get; set; }
+		public String YearsMaritalStatus{ get; set; }
 
 		public int? MaritalStatusId { get; set; }
 
@@ -41,6 +41,10 @@ namespace UmecaApp
 		public int? Boys{ get; set; }
 
 		public int? DependentBoys{ get; set; }
+
+		public String BirthInfo{ get; set; }
+
+		public int? BirthInfoId{ get; set; }
 
 		public int? BirthCountry{ get; set; }
 
@@ -188,6 +192,11 @@ namespace UmecaApp
 		public List<Drug> JsonDrugs { get; set; }
 
 		public String JsonElection { get; set; }
+
+		//REASON negation
+		public String DeclineReason{ get; set; }
+
+
 	}
 }
 

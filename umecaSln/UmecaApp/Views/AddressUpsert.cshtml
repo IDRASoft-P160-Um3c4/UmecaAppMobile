@@ -115,9 +115,13 @@ Layout = "UmecaApp.headUm";
 		    console.log("$scope.listState"+typeof $scope.listState);
 		    if( js!=undefined && js!=null && js.LocationId!=undefined)
 		    	$scope.LocationInit();
+
+		    	if($scope.m.IsHomeless == null||$scope.m.IsHomeless == undefined){
+			    	$scope.m.IsHomeless = false;
+			    }
 		    }
 		    catch(err){
-		    	alert("error catched Iniciate angular function erro==>"+err.message);
+		    	console.log("error catched Iniciate angular function erro==>"+err.message);
 		    }
 		};
 
@@ -148,6 +152,53 @@ Layout = "UmecaApp.headUm";
 	   };
 
 
+
+
+
+
+
+
+
+	   //cuando se elije un estado se filtran los municipios
+		$scope.MunByEdo = function(){
+			$scope.listMunicipality = [];
+	        $scope.municipality = {};
+	        $scope.location = {};
+	        $scope.listLocation = [];
+			    var municipios = MeetingService.findMunicipalityByState($scope.state['Id']);
+			    //alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate) +"   and \n municipios _>"+municipios);
+			    if(municipios!=undefined&&municipios!=null&&municipios!=""){
+				    try{
+				    	$scope.listMunicipality = JSON.parse(municipios);
+				    	}catch(e){
+			    			console.log("exception caugth at MunByEdo Message >>"+e.Message);
+			    			$scope.listMunicipality = [];
+						}
+			    }
+		};
+
+		$scope.locationDp = function(){
+			$scope.zipCode = $scope.location['ZipCode'];
+		}
+
+		//cuando se elije un municipio se filtran las localidades
+		$scope.LocByMun = function(){
+        	$scope.location = {};
+			$scope.listLocation = [];
+			    var em=0;
+			    var locations = MeetingService.findLocationByMunicipality($scope.municipality['Id']);
+			    //alert("string de selected__>"+JSON.stringify($scope.SeceltedEstate) +"   and \n municipios _>"+municipios);
+			    if(locations!=undefined&&locations!=null&&locations!=""){
+				    try{
+				    	$scope.listLocation = JSON.parse(locations);
+				    	}catch(e){
+			    			console.log("exception caugth at LocByMun Message >>"+e.Message);
+			    			$scope.listLocation = [];
+						}
+			    }
+		};
+
+
 });
 
 </script>
@@ -167,10 +218,40 @@ Layout = "UmecaApp.headUm";
                     </div>
                 </div>
 
+
+                <div class="row">
+        <div class="col-xs-12 element-center">
+	            &iquest;El imputado se encuentra en situaci&oacute;n de calle?
+	            <br/>
+	            <div class="radio">
+	                <label>
+	                    <input name="isHomeless" class="ace" type="radio"
+	                           ng-value="true"
+	                           ng-model="m.IsHomeless"
+	                           ng-checked="m.IsHomeless==true">
+	                    <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+	                </label>
+	                &nbsp;&nbsp;&nbsp;&nbsp;
+	                &nbsp;&nbsp;&nbsp;&nbsp;
+	                <label>
+	                    <input name="isHomeless" class="ace" type="radio"
+	                           ng-value="false"
+	                           ng-model="m.IsHomeless"
+	                           ng-checked="m.IsHomeless==false"
+	                           data-val="true"
+	                           data-val-required="Debe seleccionar un valor">
+	                    <span class="lbl">&nbsp;&nbsp;No</span>
+	                </label>
+	            </div>
+
+	        </div>
+		</div>
+
+
                 <form id="FormAddressId" name="FormAddressId"  >
 
                 <!--componente adress by cp-->
-                <div class="row">
+                <div class="row" ng-show="m.IsHomeless==false">
 				  <div class="col-xs-5">
 				    <label for="zipCode">C&oacute;digo postal:</label>
 				    <input type="text" id="zipCode" name="zipCode" class="input-xxlarge" ng-model="zipCode"
@@ -191,26 +272,26 @@ Layout = "UmecaApp.headUm";
 				  </div>
 				</div>
 
-				<div class="row">
+				<div class="row"  ng-show="m.IsHomeless==false">
 				  <div class="col-xs-6">
 				    <label>Estado:</label>
-				    <select class="form-control element-center" ng-model="state" 
+				    <select class="form-control element-center" ng-model="state"   ng-change="MunByEdo();"
 				    ng-options="e.Name for e in listState" ></select><br/>
 				  </div>
 				  <div class="col-xs-6">
 				    <label>Municipio:</label>
 				    <select class="form-control element-center" ng-model="municipality"
 				    ng-options="e.Name for e in listMunicipality" ng-init='listMunicipaliti = ""'
-				    ng-change="municipalityId = municipality.id;"></select><br/>
+				    ng-change="municipalityId = municipality.id;LocByMun();"></select><br/>
 				  </div>
 				</div>
-				<div class="row">
+				<div class="row" ng-show="m.IsHomeless==false">
 				  <div class="col-xs-12">
 				    <label>Localidad/Colonia:</label>
 				    <br/>
-				    <select class="form-control" ng-model="location"
+				    <select class="form-control" ng-model="location" 
 				    ng-options="e.Name for e in listLocation" ng-init='listLocation = ""'
-				    ng-change="m.LocationId = location['Id'];"></select>
+				    ng-change="m.LocationId = location['Id'];locationDp();"></select>
 				  </div>
 				</div>
 				<br/>
@@ -250,7 +331,7 @@ Layout = "UmecaApp.headUm";
 				</div>
 				<br/>
 				<!--END componente adress by cp-->
-<div class="row">
+<div class="row" ng-show="m.IsHomeless==false">
   <div class="col-xs-3 element-left col-xs-offset-1">
     Tel&eacute;fono:
   </div>
@@ -266,7 +347,7 @@ Layout = "UmecaApp.headUm";
   </div>
 </div>
 <br/>
-<div class="row">
+<div class="row" ng-show="m.IsHomeless==false">
     <div class="col-xs-2 element-left col-xs-offset-1">
         Tipo de propiedad:
     </div>
@@ -285,7 +366,7 @@ Layout = "UmecaApp.headUm";
                 ng-change="m.RegisterTypeId = RegisterType['Id']; domTitle = RegisterType['Name'];" ></select>
     </div>
 </div>
-<div class="row" ng-show="HomeType['Specification'] == true">
+<div class="row" ng-show="HomeType['Specification'] == true && m.IsHomeless==false" >
     <div class="col-xs-3 element-right">
         Especif&iacute;que tipo de propiedad:
     </div>
@@ -304,7 +385,7 @@ Layout = "UmecaApp.headUm";
 
 
     <!--Seccion dependiente del tipo de domicilio-->
-<div class="row" ng-show="m.RegisterTypeId==3">
+<div class="row" ng-show="m.RegisterTypeId==3 && m.IsHomeless==false "  >
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
                 <div class="widget-header">
@@ -367,7 +448,7 @@ Layout = "UmecaApp.headUm";
     </div>
 
 
-<div class="row" ng-show="m.RegisterTypeId ==1 || m.RegisterTypeId ==2">
+<div class="row" ng-show="(m.RegisterTypeId ==1 || m.RegisterTypeId ==2) && m.IsHomeless==false" >
   <div class="col-xs-10 col-xs-offset-1">
     <div class="widget-box">
       <div class="widget-header">
@@ -551,6 +632,74 @@ Layout = "UmecaApp.headUm";
 
     <!--END Seccion dependiente del tipo de domicilio-->
 
+
+
+
+
+    <!--SECCION HOMELESS-->
+    <div class="row" ng-show="m.IsHomeless==true">
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4>Situaci&oacute;n de calle</h4>
+                </div>
+                <div class="widget-body">
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="row">
+                                <div class="col-xs-5 element-left">
+                                    Tiempo en situaci&oacute;n de calle:
+                                </div>
+                                <div class="col-xs-7">
+                                    <input class="form-control" data-val="true"
+                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
+                                           data-val-length-max="30" data-val-length-min="1"
+                                           data-val-required="El tiempo de residencia es un campo requerido"
+                                           id="timeLiveD"
+                                           ng-model="m.TimeLive"
+                                           name="timeLiveD"
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-4">
+                                    <span class="field-validation-valid" data-valmsg-for="timeLiveD"
+                                          data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+					              <div class="col-xs-3">
+					                Lugar de localizaci&oacute;n:<br/>
+					                <label class="info-example">(color de casa, ruta, etc.)</label>
+					              </div>
+					              <div class="col-xs-9">
+					                <textarea id="description" class="form-control" name="description"
+					                ng-model="m.Description"
+					                data-val="true"
+					                data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+					                data-val-length-max="500" data-val-length-min="1"
+					                data-val-required="La descripci&oacute;n es un campo requerido"></textarea>
+					                <br/>
+					                <span class="field-validation-valid" data-valmsg-for="description"
+					                data-valmsg-replace="true">{{m.Description}}</span>
+					              </div>
+				            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="hr hr-8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECCION HOMELESS END-->
     </form>
 
 
