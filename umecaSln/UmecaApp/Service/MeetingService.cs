@@ -372,6 +372,14 @@ namespace UmecaApp
 							db.Insert (sch);
 						}
 					}
+					if(model.IsHomeless??false){
+						Schedule homeless = new Schedule();
+						homeless.Day = "no tiene";
+						homeless.End = "00:00";
+						homeless.Start = "00:00";
+						homeless.ImputedHomeId = me.Id;
+						db.Insert (homeless);
+					}
 					output = new Java.Lang.String ("");
 				} catch (Exception e) {
 					db.Rollback ();

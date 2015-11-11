@@ -684,7 +684,7 @@ WriteLiteral("       \t\t");
 
 
 #line 303 "SyncCaseList.cshtml"
-       Write(Meeting.StatusCode);
+       Write(Meeting.Description);
 
 
 #line default

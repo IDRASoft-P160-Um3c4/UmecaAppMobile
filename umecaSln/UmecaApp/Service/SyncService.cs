@@ -618,12 +618,11 @@ namespace UmecaApp
 											nref.Age = tref.age;
 											nref.block = tref.block;
 											nref.FullName = tref.fullName;
-											nref.IsAccompaniment = tref.isAccompaniment;
+											nref.IsAccompaniment = tref.isAccompaniment??false;
 											nref.MeetingId = me.Id;
 											nref.Phone = tref.phone;
 											nref.SpecificationDocumentType = tref.specification;
 											nref.SpecificationRelationship = tref.specificationRelationship;
-											nref.IsAccompaniment = tref.isAccompaniment;
 											nref.webId = tref.webId;
 											if (tref.documentType != null) {
 												nref.DocumentTypeId = tref.documentType.id ?? 0;
@@ -699,7 +698,7 @@ namespace UmecaApp
 												if (tpsn.documentType != null) {
 													psn.DocumentTypeId = tpsn.documentType.id ?? 0;
 												}
-												psn.isAccompaniment = tpsn.isAccompaniment;
+												psn.isAccompaniment = tpsn.isAccompaniment??false;
 												if (tpsn.livingWith != null) {
 													psn.LivingWithIde = tpsn.livingWith.id ?? 0;
 												}
@@ -912,6 +911,9 @@ namespace UmecaApp
 							}
 
 							if (String.IsNullOrEmpty (caseSync.previousStateCode)) {
+								caseSync.previousStateCode = stCase.Name;
+							}
+							if (String.IsNullOrEmpty (caseSync.previousStateCode)&&stCase!=null) {
 								caseSync.previousStateCode = stCase.Name;
 							}
 
@@ -1490,7 +1492,7 @@ namespace UmecaApp
 										nRef.block = r.block;
 										nRef.fullName = r.FullName;
 										nRef.id = r.Id;
-										nRef.isAccompaniment = r.IsAccompaniment;
+										nRef.isAccompaniment = r.IsAccompaniment??false;
 										nRef.phone = r.Phone;
 										nRef.specification = r.SpecificationDocumentType;
 										nRef.specificationRelationship = r.SpecificationRelationship;
@@ -1596,15 +1598,15 @@ namespace UmecaApp
 										var persons = new List<TabletPersonSocialNetworkDto> ();
 										foreach (PersonSocialNetwork per in personsNetwork) {
 											var nPersn = new TabletPersonSocialNetworkDto ();
-											nPersn.address = per.Address;
+											nPersn.address = per.Address??"";
 											nPersn.age = per.Age;
 											nPersn.block = per.block;
 											nPersn.id = per.Id;
-											nPersn.isAccompaniment = per.isAccompaniment;
+											nPersn.isAccompaniment = per.isAccompaniment??false;
 											nPersn.name = per.Name;
 											nPersn.phone = per.Phone;
 											nPersn.specification = per.SpecificationDocumentType;
-											nPersn.specificationRelationship = per.specificationRelationship;
+											nPersn.specificationRelationship = per.specificationRelationship??"";
 											nPersn.webId = per.webId;
 
 											if (per.DocumentTypeId != null && per.DocumentTypeId != 0) {
@@ -1992,7 +1994,7 @@ namespace UmecaApp
 
 
 		public void caseDeleteCascade(int i,int revisor){
-			try{
+//			try{
 				using (var db = FactoryConn.GetConn ()) {
 					Case cs = db.Table<Case> ().Where (caso => caso.Id == i).FirstOrDefault ();
 
@@ -2073,7 +2075,7 @@ namespace UmecaApp
 						var referencias = db.Table<Reference> ().Where (rfs => rfs.MeetingId == me.Id).ToList ();
 						if (referencias != null && referencias.Count > 0) {
 							foreach(Reference referencia in referencias){
-								db.Delete (referencias);
+								db.Delete (referencia);
 							}
 						}//end Jobs
 
@@ -2170,10 +2172,10 @@ namespace UmecaApp
 					db.Delete (cs);
 					db.Close ();
 				}
-			}catch(Exception e){
-				Console.WriteLine ("excepcion al borrar el objeto :>>>");
-				Console.WriteLine (e.Message);
-			}
+//			}catch(Exception e){
+//				Console.WriteLine ("excepcion al borrar el objeto :>>>");
+//				Console.WriteLine (e.Message);
+//			}
 		}
 
 

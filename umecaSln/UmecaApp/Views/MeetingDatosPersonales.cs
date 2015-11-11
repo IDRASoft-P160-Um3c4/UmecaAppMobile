@@ -370,9 +370,9 @@ WriteLiteral(" />\r\n\t\t    </div>\r\n\t\t</div>\r\n    </div>\r\n\r\n\r\n\r\n\
 "d);\r\n    };\r\n\r\n    $scope.addDrug = function(){\r\n    \twindow.location.replace(\'h" +
 "ybrid:Meeting/DrugMeeting?idMeeting=\'+$scope.m.MeetingId);\r\n    };\r\n\r\n    $scope" +
 ".askTerminateshow = function (){\r\n\t\tvar dlgMsgBox = $(\'#MessageBoxDlgTerminateId" +
-"\');\r\n\t\tdlgMsgBox.show();\r\n\t};\r\n\r\n\t$scope.askTerminatehide = function (){\r\n\t\tvar " +
-"dlgMsgBox = $(\'#MessageBoxDlgTerminateId\');\r\n\t\tdlgMsgBox.hide();\r\n\t};\r\n\r\n});\r\n\r\n" +
-"\r\n</script>\r\n<div");
+"\');\r\n\t\tdlgMsgBox.show();\r\n\t\twindow.scrollTo(0, 0);\r\n\t};\r\n\r\n\t$scope.askTerminateh" +
+"ide = function (){\r\n\t\tvar dlgMsgBox = $(\'#MessageBoxDlgTerminateId\');\r\n\t\tdlgMsgB" +
+"ox.hide();\r\n\t};\r\n\r\n});\r\n\r\n\r\n</script>\r\n<div");
 
 WriteLiteral(" id=\"generalDivForAngular\"");
 
@@ -388,7 +388,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 572 "MeetingDatosPersonales.cshtml"
+#line 573 "MeetingDatosPersonales.cshtml"
           , Tuple.Create<string,object,bool> ("", Model.JsonMeeting
 
 #line default
@@ -697,7 +697,7 @@ WriteLiteral(">\r\n                    <small>Inicio:</small>\r\n               
 WriteLiteral("                    ");
 
 
-#line 698 "MeetingDatosPersonales.cshtml"
+#line 699 "MeetingDatosPersonales.cshtml"
                Write(Model.DateCreate);
 
 
@@ -717,7 +717,7 @@ WriteLiteral(">\r\n                    <small>Fin:</small>\r\n                  
 WriteLiteral("                    ");
 
 
-#line 705 "MeetingDatosPersonales.cshtml"
+#line 706 "MeetingDatosPersonales.cshtml"
                Write(Model.DateTerminate);
 
 
@@ -1279,7 +1279,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 918 "MeetingDatosPersonales.cshtml"
+#line 919 "MeetingDatosPersonales.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.IdFolder
 
 #line default
@@ -2689,7 +2689,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listCountry", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1336 "MeetingDatosPersonales.cshtml"
+#line 1337 "MeetingDatosPersonales.cshtml"
                                                                                            , Tuple.Create<string,object,bool> (" ", Model.JsonCountrys
 
 #line default
@@ -2772,7 +2772,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listState", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1354 "MeetingDatosPersonales.cshtml"
+#line 1355 "MeetingDatosPersonales.cshtml"
                                                                             , Tuple.Create<string,object,bool> (" ", Model.JsonStates
 
 #line default
@@ -3137,7 +3137,7 @@ WriteAttribute ("ng-init", "\r\n\t\t\t\t\t\t\t\t                    ng-init=\'",
 , Tuple.Create<string,object,bool> ("", "lstActivity", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 1454 "MeetingDatosPersonales.cshtml"
+#line 1455 "MeetingDatosPersonales.cshtml"
                                    , Tuple.Create<string,object,bool> (" ", Model.JsonActivities
 
 #line default
@@ -3340,13 +3340,13 @@ WriteLiteral(" id=\"meetingImputedHomeTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 1583 "MeetingDatosPersonales.cshtml"
+#line 1584 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1583 "MeetingDatosPersonales.cshtml"
+#line 1584 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDomicilios==null){
     }
     else{
@@ -3360,7 +3360,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-IH-", true)
 
-#line 1587 "MeetingDatosPersonales.cshtml"
+#line 1588 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -3380,7 +3380,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1589 "MeetingDatosPersonales.cshtml"
+#line 1590 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.addressString);
 
 
@@ -3391,7 +3391,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1592 "MeetingDatosPersonales.cshtml"
+#line 1593 "MeetingDatosPersonales.cshtml"
        Write(Dmcl.Phone);
 
 
@@ -3400,13 +3400,13 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1595 "MeetingDatosPersonales.cshtml"
+#line 1596 "MeetingDatosPersonales.cshtml"
         
 
 #line default
 #line hidden
 
-#line 1595 "MeetingDatosPersonales.cshtml"
+#line 1596 "MeetingDatosPersonales.cshtml"
           switch(@Dmcl.RegisterTypeId)
     {
         case 1:
@@ -3418,7 +3418,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Actual</label>\r\n");
 
 
-#line 1600 "MeetingDatosPersonales.cshtml"
+#line 1601 "MeetingDatosPersonales.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -3428,7 +3428,7 @@ WriteLiteral("                <label>Actual</label>\r\n");
 WriteLiteral("            <label>Secundario</label>\r\n");
 
 
-#line 1603 "MeetingDatosPersonales.cshtml"
+#line 1604 "MeetingDatosPersonales.cshtml"
             break;
         case 3:
 
@@ -3438,7 +3438,7 @@ WriteLiteral("            <label>Secundario</label>\r\n");
 WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 
 
-#line 1606 "MeetingDatosPersonales.cshtml"
+#line 1607 "MeetingDatosPersonales.cshtml"
         	break;
         default:
 
@@ -3448,7 +3448,7 @@ WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1609 "MeetingDatosPersonales.cshtml"
+#line 1610 "MeetingDatosPersonales.cshtml"
             break;                   
     }
     
@@ -3458,13 +3458,13 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1614 "MeetingDatosPersonales.cshtml"
+#line 1615 "MeetingDatosPersonales.cshtml"
          
 
 #line default
 #line hidden
 
-#line 1614 "MeetingDatosPersonales.cshtml"
+#line 1615 "MeetingDatosPersonales.cshtml"
            switch(@Dmcl.HomeTypeId)
     {
         case 1:
@@ -3476,7 +3476,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Propia</label>\r\n");
 
 
-#line 1619 "MeetingDatosPersonales.cshtml"
+#line 1620 "MeetingDatosPersonales.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -3486,7 +3486,7 @@ WriteLiteral("                <label>Propia</label>\r\n");
 WriteLiteral("            <label>Rentada</label>\r\n");
 
 
-#line 1622 "MeetingDatosPersonales.cshtml"
+#line 1623 "MeetingDatosPersonales.cshtml"
             break;
         case 3:
 
@@ -3496,7 +3496,7 @@ WriteLiteral("            <label>Rentada</label>\r\n");
 WriteLiteral("       \t\t<label>Prestada</label>\r\n");
 
 
-#line 1625 "MeetingDatosPersonales.cshtml"
+#line 1626 "MeetingDatosPersonales.cshtml"
         	break;
         case 4:
 
@@ -3506,7 +3506,7 @@ WriteLiteral("       \t\t<label>Prestada</label>\r\n");
 WriteLiteral("       \t\t<label>Otro</label>\r\n");
 
 
-#line 1628 "MeetingDatosPersonales.cshtml"
+#line 1629 "MeetingDatosPersonales.cshtml"
         	break;
         default:
 
@@ -3516,7 +3516,7 @@ WriteLiteral("       \t\t<label>Otro</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1631 "MeetingDatosPersonales.cshtml"
+#line 1632 "MeetingDatosPersonales.cshtml"
             break;                   
     }
     
@@ -3534,7 +3534,7 @@ WriteLiteral(" title=\"Eliminar domicilio\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDomicilio(\'", true)
 
-#line 1636 "MeetingDatosPersonales.cshtml"
+#line 1637 "MeetingDatosPersonales.cshtml"
                                                                               , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -3557,7 +3557,7 @@ WriteLiteral(" title=\"Editar Domicilio\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDomicilio(\'", true)
 
-#line 1637 "MeetingDatosPersonales.cshtml"
+#line 1638 "MeetingDatosPersonales.cshtml"
                                                                           , Tuple.Create<string,object,bool> ("", Dmcl.Id
 
 #line default
@@ -3572,7 +3572,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1640 "MeetingDatosPersonales.cshtml"
+#line 1641 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -3770,13 +3770,13 @@ WriteLiteral(" id=\"meetingPersonSNTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 1753 "MeetingDatosPersonales.cshtml"
+#line 1754 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1753 "MeetingDatosPersonales.cshtml"
+#line 1754 "MeetingDatosPersonales.cshtml"
      if(Model.JsonPersonSN==null){
     }
     else{
@@ -3790,7 +3790,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-PSN-", true)
 
-#line 1757 "MeetingDatosPersonales.cshtml"
+#line 1758 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -3810,7 +3810,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1759 "MeetingDatosPersonales.cshtml"
+#line 1760 "MeetingDatosPersonales.cshtml"
        Write(Jpsn.Name);
 
 
@@ -3819,7 +3819,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1762 "MeetingDatosPersonales.cshtml"
+#line 1763 "MeetingDatosPersonales.cshtml"
   switch(@Jpsn.RelationshipId)
     {
         	case 18:   
@@ -3830,7 +3830,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 
 
-#line 1766 "MeetingDatosPersonales.cshtml"
+#line 1767 "MeetingDatosPersonales.cshtml"
             break;  
             case 6:  
 
@@ -3840,7 +3840,7 @@ WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 WriteLiteral("            <label>Amigo</label>\r\n");
 
 
-#line 1769 "MeetingDatosPersonales.cshtml"
+#line 1770 "MeetingDatosPersonales.cshtml"
             break;  
             case 10:
 
@@ -3850,7 +3850,7 @@ WriteLiteral("            <label>Amigo</label>\r\n");
 WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 
 
-#line 1772 "MeetingDatosPersonales.cshtml"
+#line 1773 "MeetingDatosPersonales.cshtml"
             break;  
             case 12:  
 
@@ -3860,7 +3860,7 @@ WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 WriteLiteral("            <label>Empleado</label>\r\n");
 
 
-#line 1775 "MeetingDatosPersonales.cshtml"
+#line 1776 "MeetingDatosPersonales.cshtml"
             break;  
             case 14:  
 
@@ -3870,7 +3870,7 @@ WriteLiteral("            <label>Empleado</label>\r\n");
 WriteLiteral("            <label>Esposa</label>\r\n");
 
 
-#line 1778 "MeetingDatosPersonales.cshtml"
+#line 1779 "MeetingDatosPersonales.cshtml"
             break;  
             case 16:  
 
@@ -3880,7 +3880,7 @@ WriteLiteral("            <label>Esposa</label>\r\n");
 WriteLiteral("            <label>Familiar Político</label>\r\n");
 
 
-#line 1781 "MeetingDatosPersonales.cshtml"
+#line 1782 "MeetingDatosPersonales.cshtml"
             break;  
             case 1:  
 
@@ -3890,7 +3890,7 @@ WriteLiteral("            <label>Familiar Político</label>\r\n");
 WriteLiteral("            <label>Hermano</label>\r\n");
 
 
-#line 1784 "MeetingDatosPersonales.cshtml"
+#line 1785 "MeetingDatosPersonales.cshtml"
             break;  
             case 3: 
 
@@ -3900,7 +3900,7 @@ WriteLiteral("            <label>Hermano</label>\r\n");
 WriteLiteral("            <label>Hijo(a)</label>\r\n");
 
 
-#line 1787 "MeetingDatosPersonales.cshtml"
+#line 1788 "MeetingDatosPersonales.cshtml"
             break;  
             case 20:
 
@@ -3910,7 +3910,7 @@ WriteLiteral("            <label>Hijo(a)</label>\r\n");
 WriteLiteral("            <label>Imputado</label>\r\n");
 
 
-#line 1790 "MeetingDatosPersonales.cshtml"
+#line 1791 "MeetingDatosPersonales.cshtml"
             break;  
             case 2:  
 
@@ -3920,7 +3920,7 @@ WriteLiteral("            <label>Imputado</label>\r\n");
 WriteLiteral("            <label>Madre</label>\r\n");
 
 
-#line 1793 "MeetingDatosPersonales.cshtml"
+#line 1794 "MeetingDatosPersonales.cshtml"
             break;  
             case 8:  
 
@@ -3930,7 +3930,7 @@ WriteLiteral("            <label>Madre</label>\r\n");
 WriteLiteral("            <label>Ninguno</label>\r\n");
 
 
-#line 1796 "MeetingDatosPersonales.cshtml"
+#line 1797 "MeetingDatosPersonales.cshtml"
             break;  
             case 19:  
 
@@ -3940,7 +3940,7 @@ WriteLiteral("            <label>Ninguno</label>\r\n");
 WriteLiteral("            <label>Otro</label>\r\n");
 
 
-#line 1799 "MeetingDatosPersonales.cshtml"
+#line 1800 "MeetingDatosPersonales.cshtml"
             break;  
             case 17:  
 
@@ -3950,7 +3950,7 @@ WriteLiteral("            <label>Otro</label>\r\n");
 WriteLiteral("            <label>Padre</label>\r\n");
 
 
-#line 1802 "MeetingDatosPersonales.cshtml"
+#line 1803 "MeetingDatosPersonales.cshtml"
             break;  
             case 11:  
 
@@ -3960,7 +3960,7 @@ WriteLiteral("            <label>Padre</label>\r\n");
 WriteLiteral("            <label>Padrino</label>\r\n");
 
 
-#line 1805 "MeetingDatosPersonales.cshtml"
+#line 1806 "MeetingDatosPersonales.cshtml"
             break;  
             case 13:  
 
@@ -3970,7 +3970,7 @@ WriteLiteral("            <label>Padrino</label>\r\n");
 WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 
 
-#line 1808 "MeetingDatosPersonales.cshtml"
+#line 1809 "MeetingDatosPersonales.cshtml"
             break;  
             case 9:  
 
@@ -3980,7 +3980,7 @@ WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 WriteLiteral("            <label>Patrón</label>\r\n");
 
 
-#line 1811 "MeetingDatosPersonales.cshtml"
+#line 1812 "MeetingDatosPersonales.cshtml"
             break;  
             case 4:  
 
@@ -3990,7 +3990,7 @@ WriteLiteral("            <label>Patrón</label>\r\n");
 WriteLiteral("            <label>Primo(a)</label>\r\n");
 
 
-#line 1814 "MeetingDatosPersonales.cshtml"
+#line 1815 "MeetingDatosPersonales.cshtml"
             break;  
             case 15:  
 
@@ -4000,7 +4000,7 @@ WriteLiteral("            <label>Primo(a)</label>\r\n");
 WriteLiteral("            <label>Suegra</label>\r\n");
 
 
-#line 1817 "MeetingDatosPersonales.cshtml"
+#line 1818 "MeetingDatosPersonales.cshtml"
             break;  
             case 5:  
 
@@ -4010,7 +4010,7 @@ WriteLiteral("            <label>Suegra</label>\r\n");
 WriteLiteral("            <label>Tío(a)</label>\r\n");
 
 
-#line 1820 "MeetingDatosPersonales.cshtml"
+#line 1821 "MeetingDatosPersonales.cshtml"
             break;  
             case 7:  
 
@@ -4020,7 +4020,7 @@ WriteLiteral("            <label>Tío(a)</label>\r\n");
 WriteLiteral("            <label>Vecino</label>\r\n");
 
 
-#line 1823 "MeetingDatosPersonales.cshtml"
+#line 1824 "MeetingDatosPersonales.cshtml"
             break;  
             default:
 
@@ -4030,7 +4030,7 @@ WriteLiteral("            <label>Vecino</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1826 "MeetingDatosPersonales.cshtml"
+#line 1827 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4042,7 +4042,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1831 "MeetingDatosPersonales.cshtml"
+#line 1832 "MeetingDatosPersonales.cshtml"
        Write(Jpsn.Age);
 
 
@@ -4053,7 +4053,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 1834 "MeetingDatosPersonales.cshtml"
+#line 1835 "MeetingDatosPersonales.cshtml"
        Write(Jpsn.Phone);
 
 
@@ -4062,7 +4062,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1837 "MeetingDatosPersonales.cshtml"
+#line 1838 "MeetingDatosPersonales.cshtml"
   switch(@Jpsn.isAccompaniment)
     {
         case true:
@@ -4073,7 +4073,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 1841 "MeetingDatosPersonales.cshtml"
+#line 1842 "MeetingDatosPersonales.cshtml"
             break;
         case false:
 
@@ -4083,7 +4083,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 1844 "MeetingDatosPersonales.cshtml"
+#line 1845 "MeetingDatosPersonales.cshtml"
             break;
         default:
 
@@ -4093,7 +4093,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1847 "MeetingDatosPersonales.cshtml"
+#line 1848 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4103,7 +4103,7 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
 
 
-#line 1852 "MeetingDatosPersonales.cshtml"
+#line 1853 "MeetingDatosPersonales.cshtml"
   switch(@Jpsn.DependentId)
     {
         case 1:
@@ -4114,7 +4114,7 @@ WriteLiteral("\r\n        </td>  \r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 1856 "MeetingDatosPersonales.cshtml"
+#line 1857 "MeetingDatosPersonales.cshtml"
             break;
         case 2:
 
@@ -4124,7 +4124,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 1859 "MeetingDatosPersonales.cshtml"
+#line 1860 "MeetingDatosPersonales.cshtml"
             break;
         default:
 
@@ -4134,7 +4134,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 1862 "MeetingDatosPersonales.cshtml"
+#line 1863 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4152,7 +4152,7 @@ WriteLiteral(" title=\"Eliminar Persona\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeletePersonSn(\'", true)
 
-#line 1867 "MeetingDatosPersonales.cshtml"
+#line 1868 "MeetingDatosPersonales.cshtml"
                                                                            , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4175,7 +4175,7 @@ WriteLiteral(" title=\"Editar Persona\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditPersonSn(\'", true)
 
-#line 1868 "MeetingDatosPersonales.cshtml"
+#line 1869 "MeetingDatosPersonales.cshtml"
                                                                        , Tuple.Create<string,object,bool> ("", Jpsn.Id
 
 #line default
@@ -4190,7 +4190,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 1871 "MeetingDatosPersonales.cshtml"
+#line 1872 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -4391,13 +4391,13 @@ WriteLiteral(" id=\"meetingReferenceTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 1985 "MeetingDatosPersonales.cshtml"
+#line 1986 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 1985 "MeetingDatosPersonales.cshtml"
+#line 1986 "MeetingDatosPersonales.cshtml"
      if(Model.JsonReferences==null){	
     }
     else{
@@ -4411,7 +4411,7 @@ WriteLiteral("   <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MRF-", true)
 
-#line 1989 "MeetingDatosPersonales.cshtml"
+#line 1990 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -4431,7 +4431,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 1991 "MeetingDatosPersonales.cshtml"
+#line 1992 "MeetingDatosPersonales.cshtml"
        Write(Jrfnc.FullName);
 
 
@@ -4440,7 +4440,7 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 1994 "MeetingDatosPersonales.cshtml"
+#line 1995 "MeetingDatosPersonales.cshtml"
   switch(@Jrfnc.RelationshipId)
     {
         	case 18:   
@@ -4451,7 +4451,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 
 
-#line 1998 "MeetingDatosPersonales.cshtml"
+#line 1999 "MeetingDatosPersonales.cshtml"
             break;  
             case 6:  
 
@@ -4461,7 +4461,7 @@ WriteLiteral("\t\t\t<label>Abuelo</label>\r\n");
 WriteLiteral("            <label>Amigo</label>\r\n");
 
 
-#line 2001 "MeetingDatosPersonales.cshtml"
+#line 2002 "MeetingDatosPersonales.cshtml"
             break;  
             case 10:
 
@@ -4471,7 +4471,7 @@ WriteLiteral("            <label>Amigo</label>\r\n");
 WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 
 
-#line 2004 "MeetingDatosPersonales.cshtml"
+#line 2005 "MeetingDatosPersonales.cshtml"
             break;  
             case 12:  
 
@@ -4481,7 +4481,7 @@ WriteLiteral("            <label>Compañero de trabajo</label>\r\n");
 WriteLiteral("            <label>Empleado</label>\r\n");
 
 
-#line 2007 "MeetingDatosPersonales.cshtml"
+#line 2008 "MeetingDatosPersonales.cshtml"
             break;  
             case 14:  
 
@@ -4491,7 +4491,7 @@ WriteLiteral("            <label>Empleado</label>\r\n");
 WriteLiteral("            <label>Esposa</label>\r\n");
 
 
-#line 2010 "MeetingDatosPersonales.cshtml"
+#line 2011 "MeetingDatosPersonales.cshtml"
             break;  
             case 16:  
 
@@ -4501,7 +4501,7 @@ WriteLiteral("            <label>Esposa</label>\r\n");
 WriteLiteral("            <label>Familiar Político</label>\r\n");
 
 
-#line 2013 "MeetingDatosPersonales.cshtml"
+#line 2014 "MeetingDatosPersonales.cshtml"
             break;  
             case 1:  
 
@@ -4511,7 +4511,7 @@ WriteLiteral("            <label>Familiar Político</label>\r\n");
 WriteLiteral("            <label>Hermano</label>\r\n");
 
 
-#line 2016 "MeetingDatosPersonales.cshtml"
+#line 2017 "MeetingDatosPersonales.cshtml"
             break;  
             case 3: 
 
@@ -4521,7 +4521,7 @@ WriteLiteral("            <label>Hermano</label>\r\n");
 WriteLiteral("            <label>Hijo(a)</label>\r\n");
 
 
-#line 2019 "MeetingDatosPersonales.cshtml"
+#line 2020 "MeetingDatosPersonales.cshtml"
             break;  
             case 20:
 
@@ -4531,7 +4531,7 @@ WriteLiteral("            <label>Hijo(a)</label>\r\n");
 WriteLiteral("            <label>Imputado</label>\r\n");
 
 
-#line 2022 "MeetingDatosPersonales.cshtml"
+#line 2023 "MeetingDatosPersonales.cshtml"
             break;  
             case 2:  
 
@@ -4541,7 +4541,7 @@ WriteLiteral("            <label>Imputado</label>\r\n");
 WriteLiteral("            <label>Madre</label>\r\n");
 
 
-#line 2025 "MeetingDatosPersonales.cshtml"
+#line 2026 "MeetingDatosPersonales.cshtml"
             break;  
             case 8:  
 
@@ -4551,7 +4551,7 @@ WriteLiteral("            <label>Madre</label>\r\n");
 WriteLiteral("            <label>Ninguno</label>\r\n");
 
 
-#line 2028 "MeetingDatosPersonales.cshtml"
+#line 2029 "MeetingDatosPersonales.cshtml"
             break;  
             case 19:  
 
@@ -4561,7 +4561,7 @@ WriteLiteral("            <label>Ninguno</label>\r\n");
 WriteLiteral("            <label>Otro</label>\r\n");
 
 
-#line 2031 "MeetingDatosPersonales.cshtml"
+#line 2032 "MeetingDatosPersonales.cshtml"
             break;  
             case 17:  
 
@@ -4571,7 +4571,7 @@ WriteLiteral("            <label>Otro</label>\r\n");
 WriteLiteral("            <label>Padre</label>\r\n");
 
 
-#line 2034 "MeetingDatosPersonales.cshtml"
+#line 2035 "MeetingDatosPersonales.cshtml"
             break;  
             case 11:  
 
@@ -4581,7 +4581,7 @@ WriteLiteral("            <label>Padre</label>\r\n");
 WriteLiteral("            <label>Padrino</label>\r\n");
 
 
-#line 2037 "MeetingDatosPersonales.cshtml"
+#line 2038 "MeetingDatosPersonales.cshtml"
             break;  
             case 13:  
 
@@ -4591,7 +4591,7 @@ WriteLiteral("            <label>Padrino</label>\r\n");
 WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 
 
-#line 2040 "MeetingDatosPersonales.cshtml"
+#line 2041 "MeetingDatosPersonales.cshtml"
             break;  
             case 9:  
 
@@ -4601,7 +4601,7 @@ WriteLiteral("            <label>Pareja sentimental</label>\r\n");
 WriteLiteral("            <label>Patrón</label>\r\n");
 
 
-#line 2043 "MeetingDatosPersonales.cshtml"
+#line 2044 "MeetingDatosPersonales.cshtml"
             break;  
             case 4:  
 
@@ -4611,7 +4611,7 @@ WriteLiteral("            <label>Patrón</label>\r\n");
 WriteLiteral("            <label>Primo(a)</label>\r\n");
 
 
-#line 2046 "MeetingDatosPersonales.cshtml"
+#line 2047 "MeetingDatosPersonales.cshtml"
             break;  
             case 15:  
 
@@ -4621,7 +4621,7 @@ WriteLiteral("            <label>Primo(a)</label>\r\n");
 WriteLiteral("            <label>Suegra</label>\r\n");
 
 
-#line 2049 "MeetingDatosPersonales.cshtml"
+#line 2050 "MeetingDatosPersonales.cshtml"
             break;  
             case 5:  
 
@@ -4631,7 +4631,7 @@ WriteLiteral("            <label>Suegra</label>\r\n");
 WriteLiteral("            <label>Tío(a)</label>\r\n");
 
 
-#line 2052 "MeetingDatosPersonales.cshtml"
+#line 2053 "MeetingDatosPersonales.cshtml"
             break;  
             case 7:  
 
@@ -4641,7 +4641,7 @@ WriteLiteral("            <label>Tío(a)</label>\r\n");
 WriteLiteral("            <label>Vecino</label>\r\n");
 
 
-#line 2055 "MeetingDatosPersonales.cshtml"
+#line 2056 "MeetingDatosPersonales.cshtml"
             break;  
             default:
 
@@ -4651,7 +4651,7 @@ WriteLiteral("            <label>Vecino</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2058 "MeetingDatosPersonales.cshtml"
+#line 2059 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4663,7 +4663,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2063 "MeetingDatosPersonales.cshtml"
+#line 2064 "MeetingDatosPersonales.cshtml"
        Write(Jrfnc.Age);
 
 
@@ -4674,7 +4674,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2066 "MeetingDatosPersonales.cshtml"
+#line 2067 "MeetingDatosPersonales.cshtml"
        Write(Jrfnc.Phone);
 
 
@@ -4683,7 +4683,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2069 "MeetingDatosPersonales.cshtml"
+#line 2070 "MeetingDatosPersonales.cshtml"
   switch(@Jrfnc.IsAccompaniment)
     {
         case true:
@@ -4694,7 +4694,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("            <label>Si</label>\r\n");
 
 
-#line 2073 "MeetingDatosPersonales.cshtml"
+#line 2074 "MeetingDatosPersonales.cshtml"
             break;
         case false:
 
@@ -4704,7 +4704,7 @@ WriteLiteral("            <label>Si</label>\r\n");
 WriteLiteral("            <label>No</label>\r\n");
 
 
-#line 2076 "MeetingDatosPersonales.cshtml"
+#line 2077 "MeetingDatosPersonales.cshtml"
             break;
         default:
 
@@ -4714,7 +4714,7 @@ WriteLiteral("            <label>No</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2079 "MeetingDatosPersonales.cshtml"
+#line 2080 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -4732,7 +4732,7 @@ WriteLiteral(" title=\"Eliminar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteReference(\'", true)
 
-#line 2084 "MeetingDatosPersonales.cshtml"
+#line 2085 "MeetingDatosPersonales.cshtml"
                                                                              , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -4755,7 +4755,7 @@ WriteLiteral(" title=\"Editar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditReference(\'", true)
 
-#line 2085 "MeetingDatosPersonales.cshtml"
+#line 2086 "MeetingDatosPersonales.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jrfnc.Id
 
 #line default
@@ -4770,7 +4770,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2088 "MeetingDatosPersonales.cshtml"
+#line 2089 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -4971,13 +4971,13 @@ WriteLiteral(" id=\"meetingJobTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2207 "MeetingDatosPersonales.cshtml"
+#line 2208 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2207 "MeetingDatosPersonales.cshtml"
+#line 2208 "MeetingDatosPersonales.cshtml"
      if(Model.JsonJobs==null){	
     }
     else{
@@ -4991,7 +4991,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MJB-", true)
 
-#line 2211 "MeetingDatosPersonales.cshtml"
+#line 2212 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5011,7 +5011,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
 
-#line 2213 "MeetingDatosPersonales.cshtml"
+#line 2214 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.Company);
 
 
@@ -5022,7 +5022,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2216 "MeetingDatosPersonales.cshtml"
+#line 2217 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.Post);
 
 
@@ -5033,7 +5033,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2219 "MeetingDatosPersonales.cshtml"
+#line 2220 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.NameHead);
 
 
@@ -5044,7 +5044,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2222 "MeetingDatosPersonales.cshtml"
+#line 2223 "MeetingDatosPersonales.cshtml"
        Write(Jjbs.Phone);
 
 
@@ -5053,7 +5053,7 @@ WriteLiteral("        \t");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2225 "MeetingDatosPersonales.cshtml"
+#line 2226 "MeetingDatosPersonales.cshtml"
   switch(@Jjbs.RegisterTypeId)
     {
         case 1:
@@ -5065,7 +5065,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("                <label>Actual</label>\r\n");
 
 
-#line 2230 "MeetingDatosPersonales.cshtml"
+#line 2231 "MeetingDatosPersonales.cshtml"
             break;  // Always break each case
         case 2:
 
@@ -5075,7 +5075,7 @@ WriteLiteral("                <label>Actual</label>\r\n");
 WriteLiteral("            <label>Secundario</label>\r\n");
 
 
-#line 2233 "MeetingDatosPersonales.cshtml"
+#line 2234 "MeetingDatosPersonales.cshtml"
             break;
         case 3:
 
@@ -5085,7 +5085,7 @@ WriteLiteral("            <label>Secundario</label>\r\n");
 WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 
 
-#line 2236 "MeetingDatosPersonales.cshtml"
+#line 2237 "MeetingDatosPersonales.cshtml"
         	break;
         default:
 
@@ -5095,7 +5095,7 @@ WriteLiteral("       \t\t<label>Anterior</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2239 "MeetingDatosPersonales.cshtml"
+#line 2240 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -5113,7 +5113,7 @@ WriteLiteral(" title=\"Eliminar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteJob(\'", true)
 
-#line 2244 "MeetingDatosPersonales.cshtml"
+#line 2245 "MeetingDatosPersonales.cshtml"
                                                                        , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5136,7 +5136,7 @@ WriteLiteral(" title=\"Editar Registro\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditJob(\'", true)
 
-#line 2245 "MeetingDatosPersonales.cshtml"
+#line 2246 "MeetingDatosPersonales.cshtml"
                                                                    , Tuple.Create<string,object,bool> ("", Jjbs.Id
 
 #line default
@@ -5151,7 +5151,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2248 "MeetingDatosPersonales.cshtml"
+#line 2249 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -6224,13 +6224,13 @@ WriteLiteral(" id=\"meetingDrugTbl\"");
 WriteLiteral(">\r\n");
 
 
-#line 2697 "MeetingDatosPersonales.cshtml"
+#line 2698 "MeetingDatosPersonales.cshtml"
     
 
 #line default
 #line hidden
 
-#line 2697 "MeetingDatosPersonales.cshtml"
+#line 2698 "MeetingDatosPersonales.cshtml"
      if(Model.JsonDrugs==null){	
     }
     else{
@@ -6244,7 +6244,7 @@ WriteLiteral("    <tr");
 WriteAttribute ("id", " id=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "tr-MDRG-", true)
 
-#line 2701 "MeetingDatosPersonales.cshtml"
+#line 2702 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6262,7 +6262,7 @@ WriteLiteral(" class=\"td-class-1\"");
 WriteLiteral(">\r\n            \r\n");
 
 
-#line 2704 "MeetingDatosPersonales.cshtml"
+#line 2705 "MeetingDatosPersonales.cshtml"
   switch(@Jdrg.DrugTypeId)
     {
     		case 1:
@@ -6273,7 +6273,7 @@ WriteLiteral(">\r\n            \r\n");
 WriteLiteral("\t<label>Alcohol</label>\r\n");
 
 
-#line 2708 "MeetingDatosPersonales.cshtml"
+#line 2709 "MeetingDatosPersonales.cshtml"
             break;
             case 10:
 
@@ -6283,7 +6283,7 @@ WriteLiteral("\t<label>Alcohol</label>\r\n");
 WriteLiteral("\t<label>Anfetaminas</label>\r\n");
 
 
-#line 2711 "MeetingDatosPersonales.cshtml"
+#line 2712 "MeetingDatosPersonales.cshtml"
             break;
             case 8:
 
@@ -6293,7 +6293,7 @@ WriteLiteral("\t<label>Anfetaminas</label>\r\n");
 WriteLiteral("\t<label>Cemento</label>\r\n");
 
 
-#line 2714 "MeetingDatosPersonales.cshtml"
+#line 2715 "MeetingDatosPersonales.cshtml"
             break;
             case 3:
 
@@ -6303,7 +6303,7 @@ WriteLiteral("\t<label>Cemento</label>\r\n");
 WriteLiteral("\t<label>Cocacaína</label>\r\n");
 
 
-#line 2717 "MeetingDatosPersonales.cshtml"
+#line 2718 "MeetingDatosPersonales.cshtml"
             break;
             case 12:
 
@@ -6313,7 +6313,7 @@ WriteLiteral("\t<label>Cocacaína</label>\r\n");
 WriteLiteral("\t<label>Extasis</label>\r\n");
 
 
-#line 2720 "MeetingDatosPersonales.cshtml"
+#line 2721 "MeetingDatosPersonales.cshtml"
             break;
             case 4:
 
@@ -6323,7 +6323,7 @@ WriteLiteral("\t<label>Extasis</label>\r\n");
 WriteLiteral("\t<label>Heroína</label>\r\n");
 
 
-#line 2723 "MeetingDatosPersonales.cshtml"
+#line 2724 "MeetingDatosPersonales.cshtml"
             break;
             case 13:
 
@@ -6333,7 +6333,7 @@ WriteLiteral("\t<label>Heroína</label>\r\n");
 WriteLiteral("\t<label>Hongos</label>\r\n");
 
 
-#line 2726 "MeetingDatosPersonales.cshtml"
+#line 2727 "MeetingDatosPersonales.cshtml"
             break;
             case 9:
 
@@ -6343,7 +6343,7 @@ WriteLiteral("\t<label>Hongos</label>\r\n");
 WriteLiteral("\t<label>LSD</label>\r\n");
 
 
-#line 2729 "MeetingDatosPersonales.cshtml"
+#line 2730 "MeetingDatosPersonales.cshtml"
             break;
             case 2:
 
@@ -6353,7 +6353,7 @@ WriteLiteral("\t<label>LSD</label>\r\n");
 WriteLiteral("\t<label>Marihuana</label>\r\n");
 
 
-#line 2732 "MeetingDatosPersonales.cshtml"
+#line 2733 "MeetingDatosPersonales.cshtml"
             break;
             case 11:
 
@@ -6363,7 +6363,7 @@ WriteLiteral("\t<label>Marihuana</label>\r\n");
 WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
 
 
-#line 2735 "MeetingDatosPersonales.cshtml"
+#line 2736 "MeetingDatosPersonales.cshtml"
             break;
             case 15:
 
@@ -6373,7 +6373,7 @@ WriteLiteral("\t<label>Metanfetaminas</label>\r\n");
 WriteLiteral("\t<label>No consume</label>\r\n");
 
 
-#line 2738 "MeetingDatosPersonales.cshtml"
+#line 2739 "MeetingDatosPersonales.cshtml"
             break;
             case 5:
 
@@ -6383,7 +6383,7 @@ WriteLiteral("\t<label>No consume</label>\r\n");
 WriteLiteral("\t<label>Opiáceos</label>\r\n");
 
 
-#line 2741 "MeetingDatosPersonales.cshtml"
+#line 2742 "MeetingDatosPersonales.cshtml"
             break;
             case 14:
 
@@ -6393,7 +6393,7 @@ WriteLiteral("\t<label>Opiáceos</label>\r\n");
 WriteLiteral("\t<label>Otro</label>\r\n");
 
 
-#line 2744 "MeetingDatosPersonales.cshtml"
+#line 2745 "MeetingDatosPersonales.cshtml"
             break;
             case 6:
 
@@ -6403,7 +6403,7 @@ WriteLiteral("\t<label>Otro</label>\r\n");
 WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
 
 
-#line 2747 "MeetingDatosPersonales.cshtml"
+#line 2748 "MeetingDatosPersonales.cshtml"
             break;
             case 7:
 
@@ -6413,7 +6413,7 @@ WriteLiteral("\t<label>PBC(Pasta básica de cocaína)</label>\r\n");
 WriteLiteral("\t<label>Solventes</label>\r\n");
 
 
-#line 2750 "MeetingDatosPersonales.cshtml"
+#line 2751 "MeetingDatosPersonales.cshtml"
             break;
         	default:
 
@@ -6423,7 +6423,7 @@ WriteLiteral("\t<label>Solventes</label>\r\n");
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2753 "MeetingDatosPersonales.cshtml"
+#line 2754 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -6433,7 +6433,7 @@ WriteLiteral("            <label></label>\r\n");
 WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 
 
-#line 2758 "MeetingDatosPersonales.cshtml"
+#line 2759 "MeetingDatosPersonales.cshtml"
   switch(@Jdrg.PeriodicityId)
     {
 case 3:
@@ -6444,7 +6444,7 @@ case 3:
 WriteLiteral("<label>Cada fin de semana</label>\r\n");
 
 
-#line 2762 "MeetingDatosPersonales.cshtml"
+#line 2763 "MeetingDatosPersonales.cshtml"
 break;
 case 4:
 
@@ -6454,7 +6454,7 @@ case 4:
 WriteLiteral("<label>Cada quince días</label>\r\n");
 
 
-#line 2765 "MeetingDatosPersonales.cshtml"
+#line 2766 "MeetingDatosPersonales.cshtml"
 break;
 case 2:
 
@@ -6464,7 +6464,7 @@ case 2:
 WriteLiteral("<label>Cada tercer día</label>\r\n");
 
 
-#line 2768 "MeetingDatosPersonales.cshtml"
+#line 2769 "MeetingDatosPersonales.cshtml"
 break;
 case 1:
 
@@ -6474,7 +6474,7 @@ case 1:
 WriteLiteral("<label>Diariamente</label>\r\n");
 
 
-#line 2771 "MeetingDatosPersonales.cshtml"
+#line 2772 "MeetingDatosPersonales.cshtml"
 break;
 case 7:
 
@@ -6484,7 +6484,7 @@ case 7:
 WriteLiteral("<label>En reuniones sociales</label>\r\n");
 
 
-#line 2774 "MeetingDatosPersonales.cshtml"
+#line 2775 "MeetingDatosPersonales.cshtml"
 break;
 case 8:
 
@@ -6494,7 +6494,7 @@ case 8:
 WriteLiteral("<label>No consume</label>\r\n");
 
 
-#line 2777 "MeetingDatosPersonales.cshtml"
+#line 2778 "MeetingDatosPersonales.cshtml"
 break;
 case 6:
 
@@ -6504,7 +6504,7 @@ case 6:
 WriteLiteral("<label>Una vez al año</label>\r\n");
 
 
-#line 2780 "MeetingDatosPersonales.cshtml"
+#line 2781 "MeetingDatosPersonales.cshtml"
 break;
 case 5:
 
@@ -6514,7 +6514,7 @@ case 5:
 WriteLiteral("<label>Una vez al mes</label>\r\n");
 
 
-#line 2783 "MeetingDatosPersonales.cshtml"
+#line 2784 "MeetingDatosPersonales.cshtml"
 break;
         default:
 
@@ -6524,7 +6524,7 @@ break;
 WriteLiteral("            <label></label>\r\n");
 
 
-#line 2786 "MeetingDatosPersonales.cshtml"
+#line 2787 "MeetingDatosPersonales.cshtml"
             break;                   
     }
 
@@ -6536,7 +6536,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2791 "MeetingDatosPersonales.cshtml"
+#line 2792 "MeetingDatosPersonales.cshtml"
        Write(Jdrg.Quantity);
 
 
@@ -6547,7 +6547,7 @@ WriteLiteral("\r\n        </td>\r\n        <td>\r\n");
 WriteLiteral("        \t");
 
 
-#line 2794 "MeetingDatosPersonales.cshtml"
+#line 2795 "MeetingDatosPersonales.cshtml"
        Write(Jdrg.LastUse);
 
 
@@ -6564,7 +6564,7 @@ WriteLiteral(" title=\"Eliminar sustancia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnDeleteDrug(\'", true)
 
-#line 2797 "MeetingDatosPersonales.cshtml"
+#line 2798 "MeetingDatosPersonales.cshtml"
                                                                              , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6587,7 +6587,7 @@ WriteLiteral(" title=\"Editar sustancia\"");
 WriteAttribute ("onclick", " onclick=\"", "\""
 , Tuple.Create<string,object,bool> ("", "btnEditDrug(\'", true)
 
-#line 2798 "MeetingDatosPersonales.cshtml"
+#line 2799 "MeetingDatosPersonales.cshtml"
                                                                          , Tuple.Create<string,object,bool> ("", Jdrg.Id
 
 #line default
@@ -6602,7 +6602,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-pencil\"");
 WriteLiteral("></span></a>\r\n        </td>\r\n    </tr>\r\n");
 
 
-#line 2801 "MeetingDatosPersonales.cshtml"
+#line 2802 "MeetingDatosPersonales.cshtml"
 	}
 }
 
@@ -6897,7 +6897,7 @@ WriteAttribute ("ng-init", " ng-init=\'", "\'"
 , Tuple.Create<string,object,bool> ("", "listElection", true)
 , Tuple.Create<string,object,bool> (" ", "=", true)
 
-#line 2940 "MeetingDatosPersonales.cshtml"
+#line 2941 "MeetingDatosPersonales.cshtml"
                                                                       , Tuple.Create<string,object,bool> (" ", Model.JsonElection
 
 #line default
@@ -7850,7 +7850,7 @@ WriteLiteral(">\r\n    <a");
 
 WriteAttribute ("href", " href=\"", "\""
 
-#line 3282 "MeetingDatosPersonales.cshtml"
+#line 3283 "MeetingDatosPersonales.cshtml"
 , Tuple.Create<string,object,bool> ("", Url.Action("Index","Meeting")
 
 #line default

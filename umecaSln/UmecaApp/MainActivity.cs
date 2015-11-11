@@ -7,7 +7,7 @@ using System;
 
 namespace UmecaApp
 {
-	[Activity (Label = "Umeca", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+	[Activity (Label = "Umeca", MainLauncher = true, ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
