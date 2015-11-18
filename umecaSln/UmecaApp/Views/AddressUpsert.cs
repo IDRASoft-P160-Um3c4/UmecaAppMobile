@@ -86,57 +86,60 @@ WriteLiteral(">\r\n    app.controller(\'AddressUpsertControler\', function($scop
 "\t\t\t\t$scope.zipCode = domicilioData.zipCode;\r\n    \t\t\t}\r\n    \t\t}\r\n    \t};\r\n\r\n\t\t$sc" +
 "ope.init = function(){\r\n\t\t    try{\r\n\t\t    $scope.propiedades=true;\r\n\t\t    consol" +
 "e.log(\"modelContainer\"+$(\"#hdnJsonAddrssImptd\").val());\r\n\t\t    var js = JSON.par" +
-"se($(\"#hdnJsonAddrssImptd\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t    var asx = Meet" +
-"ingService.findAllStates();\r\n\t\t    console.log(\"asx\"+asx);\r\n\t\t    $scope.listSta" +
-"te = JSON.parse(asx);\r\n\t\t    $(\"#hdnJsonScheduleHome\").val($scope.m.Schedule);\r\n" +
-"\t\t    var register = MeetingService.RegisterTypeFindAllOrderByName();\r\n\t\t    con" +
-"sole.log(\"register\"+register);\r\n\t\t    $scope.listRegisterType = JSON.parse(regis" +
-"ter);\r\n\t\t    if($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=n" +
-"ull && $scope.m.RegisterTypeId!=0){\r\n\t\t    \t$scope.RegisterType = $scope.itemLis" +
-"tById($scope.m.RegisterTypeId , $scope.listRegisterType);\r\n\t\t    \t$scope.domTitl" +
-"e = $scope.RegisterType[\'Name\'];\r\n\t\t    }else{\r\n\t\t    \t$scope.RegisterType = $sc" +
-"ope.listRegisterType[0];\r\n\t\t    \t$scope.domTitle = $scope.listRegisterType[0].Na" +
-"me;\r\n\t\t    \t$scope.m.RegisterTypeId = $scope.RegisterType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t " +
-"   var houm = MeetingService.HomeTypeFindAllOrderByName();\r\n\t\t    console.log(\"h" +
-"oum\"+houm);\r\n\t\t    $scope.listHomeType = JSON.parse(houm);\r\n\t\t    if($scope.m.Ho" +
-"meTypeId!=undefined && $scope.m.HomeTypeId!=null){\r\n\t\t    \t$scope.HomeType = $sc" +
-"ope.itemListById($scope.m.HomeTypeId , $scope.listHomeType);\r\n\t\t    }else{\r\n\t\t  " +
-"  \t$scope.HomeType = $scope.listHomeType[0];\r\n\t\t    \t$scope.m.HomeTypeId = $scop" +
-"e.HomeType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t    console.log(\"$scope.listState\"+typeof $scope" +
-".listState);\r\n\t\t    if( js!=undefined && js!=null && js.LocationId!=undefined)\r\n" +
-"\t\t    \t$scope.LocationInit();\r\n\r\n\t\t    \tif($scope.m.IsHomeless == null||$scope.m" +
-".IsHomeless == undefined){\r\n\t\t\t    \t$scope.m.IsHomeless = false;\r\n\t\t\t    }\r\n\t\t  " +
-"  }\r\n\t\t    catch(err){\r\n\t\t    \tconsole.log(\"error catched Iniciate angular funct" +
-"ion erro==>\"+err.message);\r\n\t\t    }\r\n\t\t};\r\n\r\n\t\t$scope.itemListById = function(id" +
-"Obj, list){\r\n    console.log(\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=" +
-"null){\r\n\t\t    for(x=0;x<list.length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    " +
-"\t\treturn list[x];\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n" +
-"\t};\r\n\r\n\t$scope.save = function(idcase){\r\n\tif($(\"#FormAddressId\").valid() == fals" +
-"e){\r\n         return false;\r\n         }else{\r\n\t   \t\t$scope.m.Schedule = $(\"#hdnJ" +
-"sonScheduleHome\").val();\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$sc" +
-"ope.msgError = MeetingService.upsertImputedHome(JSON.stringify($scope.m));\r\n\t\t\ti" +
-"f($scope.msgError==undefined||$scope.msgError==null||$scope.msgError==\"\"){\r\n\t\t\t\t" +
-"$scope.editMeeting($(\"#hdnAddrssImptdReference\").val());\r\n\t\t\t}\r\n\t\t}\r\n\t   };\r\n\r\n\r" +
-"\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\t   //cuando se elije un estado se filtran los municipios\r\n\t\t$sco" +
-"pe.MunByEdo = function(){\r\n\t\t\t$scope.listMunicipality = [];\r\n\t        $scope.mun" +
-"icipality = {};\r\n\t        $scope.location = {};\r\n\t        $scope.listLocation = " +
-"[];\r\n\t\t\t    var municipios = MeetingService.findMunicipalityByState($scope.state" +
-"[\'Id\']);\r\n\t\t\t    //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedE" +
-"state) +\"   and \\n municipios _>\"+municipios);\r\n\t\t\t    if(municipios!=undefined&" +
-"&municipios!=null&&municipios!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listMunicipal" +
-"ity = JSON.parse(municipios);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"excep" +
-"tion caugth at MunByEdo Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunicipali" +
-"ty = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scop" +
-"e.zipCode = $scope.location[\'ZipCode\'];\r\n\t\t}\r\n\r\n\t\t//cuando se elije un municipio" +
-" se filtran las localidades\r\n\t\t$scope.LocByMun = function(){\r\n        \t$scope.lo" +
-"cation = {};\r\n\t\t\t$scope.listLocation = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locatio" +
-"ns = MeetingService.findLocationByMunicipality($scope.municipality[\'Id\']);\r\n\t\t\t " +
-"   //alert(\"string de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\"   an" +
-"d \\n municipios _>\"+municipios);\r\n\t\t\t    if(locations!=undefined&&locations!=nul" +
-"l&&locations!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listLocation = JSON.parse(loca" +
-"tions);\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at LocByMu" +
-"n Message >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listLocation = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    " +
-"}\r\n\t\t};\r\n\r\n\r\n});\r\n\r\n</script>\r\n\r\n<div");
+"se($(\"#hdnJsonAddrssImptd\").val());\r\n\t\t\t    $scope.m = js;\r\n\t\t\t    if($scope.m.P" +
+"hone ==undefined || $scope.m.Phone ==null ||$scope.m.Phone ==\"\"){\r\n\t\t\t\t\t$scope.m" +
+".Phone = \"NO REFIERE\";\r\n\t\t\t\t}\r\n\t\t    var asx = MeetingService.findAllStates();\r\n" +
+"\t\t    console.log(\"asx\"+asx);\r\n\t\t    $scope.listState = JSON.parse(asx);\r\n\t\t    " +
+"$(\"#hdnJsonScheduleHome\").val($scope.m.Schedule);\r\n\t\t    var register = MeetingS" +
+"ervice.RegisterTypeFindAllOrderByName();\r\n\t\t    console.log(\"register\"+register)" +
+";\r\n\t\t    $scope.listRegisterType = JSON.parse(register);\r\n\t\t    if($scope.m.Regi" +
+"sterTypeId!=undefined && $scope.m.RegisterTypeId!=null && $scope.m.RegisterTypeI" +
+"d!=0){\r\n\t\t    \t$scope.RegisterType = $scope.itemListById($scope.m.RegisterTypeId" +
+" , $scope.listRegisterType);\r\n\t\t    \t$scope.domTitle = $scope.RegisterType[\'Name" +
+"\'];\r\n\t\t    }else{\r\n\t\t    \t$scope.RegisterType = $scope.listRegisterType[0];\r\n\t\t " +
+"   \t$scope.domTitle = $scope.listRegisterType[0].Name;\r\n\t\t    \t$scope.m.Register" +
+"TypeId = $scope.RegisterType[\'Id\'];\r\n\t\t    }\r\n\r\n\t\t    var houm = MeetingService." +
+"HomeTypeFindAllOrderByName();\r\n\t\t    console.log(\"houm\"+houm);\r\n\t\t    $scope.lis" +
+"tHomeType = JSON.parse(houm);\r\n\t\t    if($scope.m.HomeTypeId!=undefined && $scope" +
+".m.HomeTypeId!=null){\r\n\t\t    \t$scope.HomeType = $scope.itemListById($scope.m.Hom" +
+"eTypeId , $scope.listHomeType);\r\n\t\t    }else{\r\n\t\t    \t$scope.HomeType = $scope.l" +
+"istHomeType[0];\r\n\t\t    \t$scope.m.HomeTypeId = $scope.HomeType[\'Id\'];\r\n\t\t    }\r\n\r" +
+"\n\t\t    console.log(\"$scope.listState\"+typeof $scope.listState);\r\n\t\t    if( js!=u" +
+"ndefined && js!=null && js.LocationId!=undefined)\r\n\t\t    \t$scope.LocationInit();" +
+"\r\n\r\n\t\t    \tif($scope.m.IsHomeless == null||$scope.m.IsHomeless == undefined){\r\n\t" +
+"\t\t    \t$scope.m.IsHomeless = false;\r\n\t\t\t    }\r\n\t\t    }\r\n\t\t    catch(err){\r\n\t\t   " +
+" \tconsole.log(\"error catched Iniciate angular function erro==>\"+err.message);\r\n\t" +
+"\t    }\r\n\t\t};\r\n\r\n\t\t$scope.itemListById = function(idObj, list){\r\n    console.log(" +
+"\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<list." +
+"length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    \t\tbr" +
+"eak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n\r\n\t$scope.save = functio" +
+"n(idcase){\r\n\tif($(\"#FormAddressId\").valid() == false){\r\n         return false;\r\n" +
+"         }else{\r\n\t   \t\t$scope.m.Schedule = $(\"#hdnJsonScheduleHome\").val();\r\n\t  " +
+" \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.msgError = MeetingService" +
+".upsertImputedHome(JSON.stringify($scope.m));\r\n\t\t\tif($scope.msgError==undefined|" +
+"|$scope.msgError==null||$scope.msgError==\"\"){\r\n\t\t\t\t$scope.editMeeting($(\"#hdnAdd" +
+"rssImptdReference\").val());\r\n\t\t\t}\r\n\t\t}\r\n\t   };\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\t   //cuando s" +
+"e elije un estado se filtran los municipios\r\n\t\t$scope.MunByEdo = function(){\r\n\t\t" +
+"\t$scope.listMunicipality = [];\r\n\t        $scope.municipality = {};\r\n\t        $sc" +
+"ope.location = {};\r\n\t        $scope.listLocation = [];\r\n\t\t\t    var municipios = " +
+"MeetingService.findMunicipalityByState($scope.state[\'Id\']);\r\n\t\t\t    //alert(\"str" +
+"ing de selected__>\"+JSON.stringify($scope.SeceltedEstate) +\"   and \\n municipios" +
+" _>\"+municipios);\r\n\t\t\t    if(municipios!=undefined&&municipios!=null&&municipios" +
+"!=\"\"){\r\n\t\t\t\t    try{\r\n\t\t\t\t    \t$scope.listMunicipality = JSON.parse(municipios);" +
+"\r\n\t\t\t\t    \t}catch(e){\r\n\t\t\t    \t\t\tconsole.log(\"exception caugth at MunByEdo Messa" +
+"ge >>\"+e.Message);\r\n\t\t\t    \t\t\t$scope.listMunicipality = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n" +
+"\t\t};\r\n\r\n\t\t$scope.locationDp = function(){\r\n\t\t\t$scope.zipCode = $scope.location[\'" +
+"ZipCode\'];\r\n\t\t}\r\n\r\n\t\t//cuando se elije un municipio se filtran las localidades\r\n" +
+"\t\t$scope.LocByMun = function(){\r\n        \t$scope.location = {};\r\n\t\t\t$scope.listL" +
+"ocation = [];\r\n\t\t\t    var em=0;\r\n\t\t\t    var locations = MeetingService.findLocat" +
+"ionByMunicipality($scope.municipality[\'Id\']);\r\n\t\t\t    //alert(\"string de selecte" +
+"d__>\"+JSON.stringify($scope.SeceltedEstate) +\"   and \\n municipios _>\"+municipio" +
+"s);\r\n\t\t\t    if(locations!=undefined&&locations!=null&&locations!=\"\"){\r\n\t\t\t\t    t" +
+"ry{\r\n\t\t\t\t    \t$scope.listLocation = JSON.parse(locations);\r\n\t\t\t\t    \t}catch(e){\r" +
+"\n\t\t\t    \t\t\tconsole.log(\"exception caugth at LocByMun Message >>\"+e.Message);\r\n\t\t" +
+"\t    \t\t\t$scope.listLocation = [];\r\n\t\t\t\t\t\t}\r\n\t\t\t    }\r\n\t\t};\r\n\r\n\t\t$scope.llenarSit" +
+"uacion = function(){\r\n\t\t\t$scope.m.Street = \"Situación de calle\";\r\n\t\t\t$scope.m.Ou" +
+"tNum = \"No tiene\";\r\n\t\t};\r\n\r\n});\r\n\r\n</script>\r\n\r\n<div");
 
 WriteLiteral(" ng-app=\"umecaMobile\"");
 
@@ -150,7 +153,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 208 "AddressUpsert.cshtml"
+#line 215 "AddressUpsert.cshtml"
                      , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
@@ -167,7 +170,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 209 "AddressUpsert.cshtml"
+#line 216 "AddressUpsert.cshtml"
                           , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -229,6 +232,8 @@ WriteLiteral(" class=\"ace\"");
 WriteLiteral(" type=\"radio\"");
 
 WriteLiteral("\r\n\t                           ng-value=\"true\"");
+
+WriteLiteral(" ng-click=\"llenarSituacion();\"");
 
 WriteLiteral("\r\n\t                           ng-model=\"m.IsHomeless\"");
 
@@ -1438,7 +1443,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", " ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "editMeeting(\'", true)
 
-#line 723 "AddressUpsert.cshtml"
+#line 730 "AddressUpsert.cshtml"
                                          , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -1456,7 +1461,7 @@ WriteLiteral(" ng-disabled=\"WaitFor==true\"");
 WriteAttribute ("ng-click", "\r\n                          ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "save(\'", true)
 
-#line 727 "AddressUpsert.cshtml"
+#line 734 "AddressUpsert.cshtml"
    , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

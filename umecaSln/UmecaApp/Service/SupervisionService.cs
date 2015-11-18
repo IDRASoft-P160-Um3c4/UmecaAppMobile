@@ -132,10 +132,11 @@ namespace UmecaApp
 			foreach(Arrangement ar in arras){
 				ArrangementView arVnew = new ArrangementView ();
 				arVnew.id = ar.Id;
-				arVnew.name = ar.Description;
+					arVnew.name = ar.Description;
 				arVnew.isDefault = ar.IsDefault;
 				if (arVnew.isDefault == true) {
 					arVnew.selVal = true;
+					arVnew.description = "--";
 				}else {
 					arVnew.selVal = false;
 				}

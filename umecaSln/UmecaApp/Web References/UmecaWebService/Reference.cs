@@ -27,10 +27,12 @@ namespace UmecaApp.UmecaWebService {
         /// <remarks/>
         public UmecaWS() {
 			this.Url = "http://www.umeca.com/context";
+			this.Timeout = 180000;
         }
         
         public UmecaWS(string url) {
             this.Url = url;
+			this.Timeout = 180000;
         }
         
         /// <remarks/>
@@ -249,4 +251,6 @@ namespace UmecaApp.UmecaWebService {
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string urlToGo;
     }
+
+
 }

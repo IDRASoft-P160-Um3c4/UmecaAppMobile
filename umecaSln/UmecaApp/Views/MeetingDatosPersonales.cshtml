@@ -309,8 +309,8 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 	           $scope.m.SchoolAddress = template;
 	       }else{
 	            $scope.m.SchoolName="";
-	           $scope.m.SchoolPhone = "";
-	           $scope.m.SchoolAddress = "";
+	           $scope.m.SchoolPhone = "NO REFIERE";
+	           $scope.m.SchoolAddress = "NO REFIERE";
 	       }
 	   };
 
@@ -441,6 +441,58 @@ app.controller('MeettingDatosPersonalesController', function($scope, $http, $tim
 		    catch(err){
 		    	alert("error catched Iniciate angular function erro==>"+err.message);
 		    }
+		    //bloque de inicializacion xxxxxx
+		    if($scope.m.Nickname ==undefined || $scope.m.Nickname ==null ||$scope.m.Nickname ==""){
+				$scope.m.Nickname = "NO REFIERE";
+			}
+			if($scope.m.CelPhone ==undefined || $scope.m.CelPhone ==null ||$scope.m.CelPhone ==""){
+				$scope.m.CelPhone = "NO REFIERE";
+			}
+			if($scope.m.Boys ==undefined || $scope.m.Boys ==null ||$scope.m.Boys ==""){
+				$scope.m.Boys = "0";
+			}
+			if($scope.m.DependentBoys ==undefined || $scope.m.DependentBoys ==null ||$scope.m.DependentBoys ==""){
+				$scope.m.DependentBoys = "0";
+			}
+			if($scope.m.CommentHome ==undefined || $scope.m.CommentHome ==null ||$scope.m.CommentHome ==""){
+				$scope.m.CommentHome = "SIN OBSERVACIONES";
+			}
+			if($scope.m.CommentSocialNetwork ==undefined || $scope.m.CommentSocialNetwork ==null ||$scope.m.CommentSocialNetwork ==""){
+				$scope.m.CommentSocialNetwork = "SIN OBSERVACIONES";
+			}
+			if($scope.m.CommentReference ==undefined || $scope.m.CommentReference ==null ||$scope.m.CommentReference ==""){
+				$scope.m.CommentReference = "SIN OBSERVACIONES";
+			}
+			if($scope.m.CommentJob ==undefined || $scope.m.CommentJob ==null ||$scope.m.CommentJob ==""){
+				$scope.m.CommentJob = "SIN OBSERVACIONES";
+			}
+			if($scope.m.CommentSchool ==undefined || $scope.m.CommentSchool ==null ||$scope.m.CommentSchool ==""){
+				$scope.m.CommentSchool = "SIN OBSERVACIONES";
+			}
+			if($scope.m.CommentDrug ==undefined || $scope.m.CommentDrug ==null ||$scope.m.CommentDrug ==""){
+				$scope.m.CommentDrug = "SIN OBSERVACIONES";
+			}
+			if($scope.m.State ==undefined || $scope.m.State ==null ||$scope.m.State ==""){
+				$scope.m.State = "NO REFIERE";
+			}
+			if($scope.m.TimeResidence ==undefined || $scope.m.TimeResidence ==null ||$scope.m.TimeResidence ==""){
+				$scope.m.TimeResidence = "NO REFIERE";
+			}
+			if($scope.m.timeAgo ==undefined || $scope.m.timeAgo ==null ||$scope.m.timeAgo ==""){
+				$scope.m.timeAgo = "NO REFIERE";
+			}
+			if($scope.m.Reason ==undefined || $scope.m.Reason ==null ||$scope.m.Reason ==""){
+				$scope.m.Reason = "NO REFIERE";
+			}
+			if($scope.m.Address ==undefined || $scope.m.Address ==null ||$scope.m.Address ==""){
+				$scope.m.Address = "NO REFIERE";
+			}
+			if($scope.m.Media ==undefined || $scope.m.Media ==null ||$scope.m.Media ==""){
+				$scope.m.Media = "NO REFIERE";
+			}
+			if($scope.m.CommentCountry ==undefined || $scope.m.CommentCountry ==null ||$scope.m.CommentCountry ==""){
+				$scope.m.CommentCountry = "SIN OBSERVACIONES";
+			}
 		    $("#blocker").remove();
 		};
 
@@ -1096,7 +1148,7 @@ window.location.replace('hybrid:Meeting/Index');
                                                 <div class="col-xs-7">
                                                     <div class="input-group">
                                                         <input class="form-control date-picker" id="dateBirthV"  type="text"  disabled="disabled"
-                                                        data-date-format="yyyy/mm/dd" value="${m.BirthDate}" readonly="readonly"
+                                                        data-date-format="yyyy/mm/dd" value="${m.BirthDate}"
                                                         name="imputed.birthDate" data-val-required="La fecha de nacimiento es un campo requerido"/>
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>

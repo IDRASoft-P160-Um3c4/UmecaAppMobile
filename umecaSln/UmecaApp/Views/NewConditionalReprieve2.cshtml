@@ -17,6 +17,14 @@
 					$scope.Wait = false;
 					return false;
 				}
+				if ($scope.m.DateBirth == null){
+				  $scope.m.DateBirth = null;
+		        }
+		      	var validatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;
+		        dateValues = $scope.m.DateBirth.match(validatePattern);
+		        if (dateValues == null){
+		        	$scope.m.DateBirth = null;
+		        }
 				var jsonData = JSON.stringify($scope.m);
 				window.location.replace('hybrid:Supervision/AddCaseConditionalReprieve?model=' + encodeURIComponent(jsonData));
 				$scope.Wait = false;
@@ -103,7 +111,7 @@
                                     @Html.TextBox("DateBirth", @Model.DateBirth,
                                      new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
                                       @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
-                                       @class="form-control date-picker", @readonly="readonly"})
+                                       @class="form-control date-picker"})
                                             <span class="input-group-addon">
                                                         <i class="icon-calendar bigger-110" ></i>
                                             </span>

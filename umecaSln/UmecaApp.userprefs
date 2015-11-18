@@ -1,29 +1,12 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.modals" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Service\MeetingService.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.EAOKBC024853" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Web References\UmecaWebService\Reference.cs">
     <Files>
-      <File FileName="UmecaApp\Views\MeetingDatosPersonales.cshtml" Line="567" Column="4" />
-      <File FileName="UmecaApp\Controllers\MeetingController.cs" Line="81" Column="42" />
-      <File FileName="UmecaApp\Service\MeetingService.cs" Line="377" Column="14" />
-      <File FileName="UmecaApp\Views\HearingFormatEdit.cshtml" Line="1799" Column="94" />
-      <File FileName="UmecaApp\Views\AddressUpsert.cshtml" Line="294" Column="63" />
-      <File FileName="UmecaApp\Service\SyncService.cs" Line="897" Column="46" />
-      <File FileName="UmecaApp\Views\MeetingList.cshtml" Line="38" Column="31" />
-      <File FileName="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Views\MeetingList.cs" Line="1" Column="1" />
-      <File FileName="UmecaApp\Models\reviewer\MeetingTblDto.cs" Line="5" Column="2" />
-      <File FileName="Umeca.Data\com\umeca\entities\catalog\InsertCatalogs.cs" Line="138" Column="42" />
-      <File FileName="UmecaApp\Views\VerificacionInterview.cshtml" Line="3341" Column="109" />
-      <File FileName="UmecaApp\Views\SyncCaseList.cshtml" Line="22" Column="50" />
-      <File FileName="UmecaApp\Views\Shared\headUmGrid.cshtml" Line="11" Column="19" />
-      <File FileName="UmecaApp\MainActivity.cs" Line="28" Column="43" />
-      <File FileName="UmecaApp\Umeca.csproj" Line="1" Column="1" />
+      <File FileName="UmecaApp\Web References\UmecaWebService\Reference.cs" Line="257" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SupervisionService.cs" line="400" column="1" />
-      <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="1937" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

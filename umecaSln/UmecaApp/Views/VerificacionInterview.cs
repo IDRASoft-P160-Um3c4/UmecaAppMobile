@@ -4244,7 +4244,7 @@ WriteLiteral(" ng-value=\"true\t\"");
 WriteLiteral("\r\n                                                                    ng-model=\"m" +
 ".Gender\"");
 
-WriteLiteral(" onmouseup=\"genderBend(true);\"");
+WriteLiteral(" onclick=\"genderBend(true);\"");
 
 WriteLiteral(" onselect=\"genderBend(true);\"");
 
@@ -4282,7 +4282,7 @@ WriteLiteral(" ng-checked=\"m.Gender==false\"");
 WriteLiteral("\r\n                                                                    name=\"imput" +
 "ed.gender\"");
 
-WriteLiteral(" onmouseup=\"genderBend(false);\"");
+WriteLiteral(" onclick=\"genderBend(false);\"");
 
 WriteLiteral(" onselect=\"genderBend(false);\"");
 
@@ -5127,7 +5127,8 @@ WriteLiteral(">\r\n                                                <div");
 WriteLiteral(" class=\"col-xs-3\"");
 
 WriteLiteral("  ng-class=\"VerifiedSourceListClass[\'imputed.birthCountry.id\'+\'.0\']==undefined?\'\'" +
-":\'verified\';\"");
+":\'verified\';VerifiedSourceListClass[\'imputed.birthInfo.id\'+\'.0\']==undefined?\'\':\'" +
+"verified\';\"");
 
 WriteLiteral(">\r\n                                                    <i");
 

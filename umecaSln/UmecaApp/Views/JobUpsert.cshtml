@@ -27,6 +27,7 @@ app.controller('JobController', function($scope, $timeout) {
 		    	alert("Init erro==>"+err.message);
 		    }
 		    if($scope.m.block == undefined ||$scope.m.block == false ){
+		    	$scope.m.block = false;
 		    	$scope.fillModel();
 		    }
 		    else{
@@ -112,11 +113,11 @@ app.controller('JobController', function($scope, $timeout) {
            }
        }else{
            $scope.m.Company= "";
-           $scope.m.Post= "";
-           $scope.m.Phone = "";
-           $scope.m.NameHead = "";
+           $scope.m.Post= "NO REFIERE";
+           $scope.m.Phone = "NO REFIERE";
+           $scope.m.NameHead = "NO REFIERE";
            $scope.m.ReasonChange = "";
-           $scope.m.Address = "";
+           $scope.m.Address = "NO REFIERE";
        }
     };
 

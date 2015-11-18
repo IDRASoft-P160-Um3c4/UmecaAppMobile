@@ -50,24 +50,32 @@ WriteLiteral("\r\n\r\n      <script>\r\n    \t\t \r\n    \tapp.controller(\'newM
 ".lstDistrict[0];\r\n\t\t\t\t}\r\n\t\t\t};\r\n\r\n\t\t\t$scope.save = function(){\r\n\t\t\t\t$scope.Wait " +
 "= true;\r\n\t\t\t\t//todos los key del json deben ser igual al modelo cs\r\n\t\t\t\tif($(\"#f" +
 "rmSubmitValuesMeeting\").valid()==false){\r\n\t\t\t\t\t$scope.Wait = false;\r\n\t\t\t\t\treturn" +
-" false;\r\n\t\t\t\t}\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\twindow.locatio" +
-"n.replace(\'hybrid:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n\t" +
-"\t\t\t$scope.Wait = false;\r\n\t\t\t};\r\n\r\n\t\t\t$scope.cancel = function(){\r\n\t\t\t\t$scope.sav" +
-"ing = false;\r\n\t\t\t\t//todos los key del json deben ser igual al modelo cs\r\n\t\t\t\twin" +
-"dow.location.replace(\'hybrid:Meeting/Index\');\r\n\t\t\t};\r\n\r\n\t\t\t//seccion de terminat" +
-"e con negacion\r\n\r\n\t\t\t$scope.askNegationTerminateshow = function(){\r\n\t\t\t\tvar dlgM" +
-"sgBox = $(\'#MessageBoxDlgId\');\r\n\t\t\t\tdlgMsgBox.show();\r\n\t\t\t};\r\n\r\n\t\t\t$scope.askNeg" +
-"ationTerminatehide = function (){\r\n\t\t\t\tvar dlgMsgBox = $(\'#MessageBoxDlgId\');\r\n\t" +
-"\t\t\tdlgMsgBox.hide();\r\n\t\t\t};\r\n\r\n\t\t\t$scope.askNegationTerminateYes = function (){\r" +
-"\n\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").hide();\r\n\t\t\t\tif($(\"#declineValid\").v" +
-"alid()==false){\r\n\t\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").show();\r\n\t\t\t\t\tretur" +
-"n false;\r\n\t\t\t\t}\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\twindow.locati" +
-"on.replace(\'hybrid:Meeting/AddMeetingNegation?model=\' + encodeURIComponent(jsonD" +
-"ata));\r\n\t\t\t};\r\n\r\n\t\t\t$scope.submitNegation = function(){\r\n\t\t\t\t$scope.Wait = true;" +
-"\r\n\t\t\t\tif($(\"#frmSubmitValuesMeeting\").valid()==false){\r\n\t\t\t\t\t$scope.Wait = false" +
-";\r\n\t\t\t\t\treturn false;\r\n\t\t\t\t}\r\n\t\t\t\t$scope.Wait = false;\r\n\t\t\t\tvar dlgMsgBox = $(\'#" +
-"MessageBoxDlgId\');\r\n\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").hide();\r\n\t\t\t\tdlgM" +
-"sgBox.show();\r\n\t\t\t};\r\n\r\n\r\n\r\n\r\n\r\n\t\t});\r\n\r\n    </script>\r\n\r\n\r\n\r\n<div");
+" false;\r\n\t\t\t\t}\r\n\t\t\t\tif ($scope.m.DateBirth == null){\r\n\t\t\t\t  $scope.m.DateBirth =" +
+" null;\r\n\t\t        }\r\n\t\t      \tvar validatePattern = /^(\\d{4})(\\/|-)(\\d{1,2})(\\/|" +
+"-)(\\d{1,2})$/;\r\n\t\t        dateValues = $scope.m.DateBirth.match(validatePattern)" +
+";\r\n\t\t        if (dateValues == null){\r\n\t\t        \t$scope.m.DateBirth = null;\r\n\t\t" +
+"        }\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\twindow.location.rep" +
+"lace(\'hybrid:Meeting/AddMeeting?model=\' + encodeURIComponent(jsonData));\r\n\t\t\t\t$s" +
+"cope.Wait = false;\r\n\t\t\t};\r\n\r\n\t\t\t$scope.cancel = function(){\r\n\t\t\t\t$scope.saving =" +
+" false;\r\n\t\t\t\t//todos los key del json deben ser igual al modelo cs\r\n\t\t\t\twindow.l" +
+"ocation.replace(\'hybrid:Meeting/Index\');\r\n\t\t\t};\r\n\r\n\t\t\t//seccion de terminate con" +
+" negacion\r\n\r\n\t\t\t$scope.askNegationTerminateshow = function(){\r\n\t\t\t\tvar dlgMsgBox" +
+" = $(\'#MessageBoxDlgId\');\r\n\t\t\t\tdlgMsgBox.show();\r\n\t\t\t};\r\n\r\n\t\t\t$scope.askNegation" +
+"Terminatehide = function (){\r\n\t\t\t\tvar dlgMsgBox = $(\'#MessageBoxDlgId\');\r\n\t\t\t\tdl" +
+"gMsgBox.hide();\r\n\t\t\t};\r\n\r\n\t\t\t$scope.askNegationTerminateYes = function (){\r\n\t\t\t\t" +
+"$(\"#declineValidnone\",\"#declineValid\").hide();\r\n\t\t\t\tif($(\"#declineValid\").valid(" +
+")==false){\r\n\t\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").show();\r\n\t\t\t\t\treturn fal" +
+"se;\r\n\t\t\t\t}\r\n\t\t\t\tif ($scope.m.DateBirth == null){\r\n\t\t\t\t  $scope.m.DateBirth = nul" +
+"l;\r\n\t\t        }\r\n\t\t      \tvar validatePattern = /^(\\d{4})(\\/|-)(\\d{1,2})(\\/|-)(\\" +
+"d{1,2})$/;\r\n\t\t        dateValues = $scope.m.DateBirth.match(validatePattern);\r\n\t" +
+"\t        if (dateValues == null){\r\n\t\t        \t$scope.m.DateBirth = null;\r\n\t\t    " +
+"    }\r\n\t\t\t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t\twindow.location.replace" +
+"(\'hybrid:Meeting/AddMeetingNegation?model=\' + encodeURIComponent(jsonData));\r\n\t\t" +
+"\t};\r\n\r\n\t\t\t$scope.submitNegation = function(){\r\n\t\t\t\t$scope.Wait = true;\r\n\t\t\t\tif($" +
+"(\"#frmSubmitValuesMeeting\").valid()==false){\r\n\t\t\t\t\t$scope.Wait = false;\r\n\t\t\t\t\tre" +
+"turn false;\r\n\t\t\t\t}\r\n\t\t\t\t$scope.Wait = false;\r\n\t\t\t\tvar dlgMsgBox = $(\'#MessageBox" +
+"DlgId\');\r\n\t\t\t\t$(\"#declineValidnone\",\"#declineValid\").hide();\r\n\t\t\t\tdlgMsgBox.show" +
+"();\r\n\t\t\t};\r\n\r\n\r\n\r\n\r\n\r\n\t\t});\r\n\r\n    </script>\r\n\r\n\r\n\r\n<div");
 
 WriteLiteral(" id=\"divControllerApp\"");
 
@@ -207,13 +215,13 @@ WriteLiteral(" id=\"frmSubmitValuesMeeting\"");
 WriteLiteral(">\r\n");
 
 
-#line 129 "NewMeeting.cshtml"
+#line 145 "NewMeeting.cshtml"
 		
 
 #line default
 #line hidden
 
-#line 129 "NewMeeting.cshtml"
+#line 145 "NewMeeting.cshtml"
          if(Model.ResponseMessage!=null){
 
 
@@ -234,7 +242,7 @@ WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
 WriteLiteral(">\r\n\t\t\t            <span>");
 
 
-#line 133 "NewMeeting.cshtml"
+#line 149 "NewMeeting.cshtml"
                          Write(Model.ResponseMessage);
 
 
@@ -243,7 +251,7 @@ WriteLiteral(">\r\n\t\t\t            <span>");
 WriteLiteral("\r\n\t\t\t            </span>\r\n\t\t\t        </div>\r\n\t\t\t    </div>\r\n\t\t\t</div>\r\n");
 
 
-#line 138 "NewMeeting.cshtml"
+#line 154 "NewMeeting.cshtml"
 		}
 
 
@@ -280,7 +288,7 @@ WriteLiteral(@">
 WriteLiteral("\t            ");
 
 
-#line 151 "NewMeeting.cshtml"
+#line 167 "NewMeeting.cshtml"
            Write(Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"}));
 
 
@@ -317,7 +325,7 @@ WriteLiteral(@">
 WriteLiteral("\t            ");
 
 
-#line 164 "NewMeeting.cshtml"
+#line 180 "NewMeeting.cshtml"
            Write(Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"}));
 
 
@@ -354,7 +362,7 @@ WriteLiteral(@">
 WriteLiteral("\t            ");
 
 
-#line 178 "NewMeeting.cshtml"
+#line 194 "NewMeeting.cshtml"
            Write(Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"}));
 
 
@@ -390,7 +398,7 @@ WriteLiteral(">\r\n\t                                <div");
 WriteLiteral(" class=\"input-group\"");
 
 WriteLiteral(@">
-	                                    <!--<input class=""form-control date-picker"" readonly=""readonly"" type=""text"" data-date-format=""yyyy/mm/dd""
+	                                    <!--<input class=""form-control date-picker"" type=""text"" data-date-format=""yyyy/mm/dd""
 	                                            data-val=""true"" data-val-required=""La fecha de nacimiento es un campo requerido"" ng-init=""birthDate=''""
 	                                            id=""birthDate"" name=""birthDate"" ng-model=""birthDate""/>
 	                                            <span class=""input-group-addon"">
@@ -401,11 +409,11 @@ WriteLiteral(@">
 WriteLiteral("\t                                    ");
 
 
-#line 197 "NewMeeting.cshtml"
+#line 213 "NewMeeting.cshtml"
                                    Write(Html.TextBox("DateBirth", @Model.DateBirth,
 	                                     new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
 	                                      @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
-	                                       @class="form-control date-picker", @readonly="readonly"}));
+	                                       @class="form-control date-picker"}));
 
 
 #line default
@@ -469,7 +477,7 @@ WriteLiteral(@">
 WriteLiteral("\t                            ");
 
 
-#line 223 "NewMeeting.cshtml"
+#line 239 "NewMeeting.cshtml"
                            Write(Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"}));
 
 
@@ -495,7 +503,7 @@ WriteLiteral(">\r\n\t                        <label>\r\n\t                      
 WriteLiteral("\t                            ");
 
 
-#line 232 "NewMeeting.cshtml"
+#line 248 "NewMeeting.cshtml"
                            Write(Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"}));
 
 
@@ -526,7 +534,7 @@ WriteLiteral(@">
 WriteLiteral("\t                ");
 
 
-#line 247 "NewMeeting.cshtml"
+#line 263 "NewMeeting.cshtml"
                Write(Html.TextBox("meeting.caseDetention.idFolder", @Model.IdFolder, new {@ng_model="m.IdFolder", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 35 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
 
 

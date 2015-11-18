@@ -50,54 +50,55 @@ WriteLiteral("\r\n<script>\r\napp.controller(\'JobController\', function($scope,
 "sterTypeFindAllOrderByName();\r\n\t\t    \tconsole.log(\"register\"+register);\r\n\t\t    \t" +
 "$scope.listRegisterType = JSON.parse(register);\r\n\t\t\t} catch(err){\r\n\t\t    \talert(" +
 "\"Init erro==>\"+err.message);\r\n\t\t    }\r\n\t\t    if($scope.m.block == undefined ||$s" +
-"cope.m.block == false ){\r\n\t\t    \t$scope.fillModel();\r\n\t\t    }\r\n\t\t    else{\r\n\t\t  " +
-"  \t$scope.m.block = true;\r\n\t\t    }\r\n\t\t    //anterior actual secundario\r\n\t\t    if" +
-"($scope.m.RegisterTypeId!=undefined && $scope.m.RegisterTypeId!=null && $scope.m" +
-".RegisterTypeId!=0){\r\n\t\t    \t$scope.RegisterType = $scope.itemListById($scope.m." +
-"RegisterTypeId , $scope.listRegisterType);\r\n\t\t    \t$scope.domTitle = $scope.Regi" +
-"sterType[\'Name\'];\r\n\t\t    }\r\n\r\n\r\n\t\t    //fechas\r\n\t\tvar today  = new Date();\r\n    " +
-"    var year = today.getFullYear();\r\n        var month = today.getMonth();\r\n    " +
-"    var date = today.getDate();\r\n\r\n        if($scope.m.StartPrev == \"\" || $scope" +
-".m.StartPrev == undefined){\r\n            $scope.m.StartPrev = year+\"/\"+(month+1)" +
-"+\"/\"+date;\r\n        }\r\n        $scope.m.StartPrev= $scope.m.StartPrev.replace(/-" +
-"/g,\"/\");\r\n        $scope.m.StartPrev = $scope.m.StartPrev.replace(\"T00:00:00\",\"\"" +
-");\r\n        if($scope.m.Start == \"\" || $scope.m.Start == undefined){\r\n          " +
-"  $scope.m.Start = year+\"/\"+(month+1)+\"/\"+date;\r\n        }\r\n        $scope.m.Sta" +
-"rt= $scope.m.Start.replace(/-/g,\"/\");\r\n        $scope.m.Start = $scope.m.Start.r" +
-"eplace(\"T00:00:00\",\"\");\r\n        if($scope.m.End == \"\" || $scope.m.End == undefi" +
-"ned){\r\n            $scope.m.End = year+\"/\"+(month+1)+\"/\"+date;\r\n        }\r\n     " +
-"   $scope.m.End= $scope.m.End.replace(/-/g,\"/\");\r\n        $scope.m.End = $scope." +
-"m.End.replace(\"T00:00:00\",\"\");\r\n        //init schedule\r\n        if($scope.m.Sch" +
-"edule!=undefined&&$scope.m.Schedule!=null){\r\n\t\t   \t$(\"#hdnJsonScheduleHome\").val" +
-"($scope.m.Schedule);\r\n\t\t   \tconsole.log(\"hdnJsonScheduleHome-->\"+$(\"#hdnJsonSche" +
-"duleHome\").val());\r\n\t    }\r\n\r\n\r\n    };\r\n\r\n    $timeout(function() {\r\n        $sc" +
-"ope.init();\r\n    }, 0);\r\n\r\n    $scope.save = function(){\r\n    if($(\"#FormJobId\")" +
-".valid() == false){\r\n         return false;\r\n    }else{\r\n    \t\t$scope.m.Schedule" +
-" = $(\"#hdnJsonScheduleHome\").val();\r\n    \t\tconsole.log(\"save\"+$(\"#hdnMeetingCase" +
-"Reference\").val());\r\n\t   \t\tvar jsonData = JSON.stringify($scope.m);\r\n\t\t\t$scope.m" +
-"sgError = MeetingService.upsertLaboral(JSON.stringify($scope.m));\r\n\t\t\tif($scope." +
-"msgError==undefined||$scope.msgError==null||$scope.msgError==\"\"){\r\n\t\t\t\t$scope.ca" +
-"ncel($(\"#hdnMeetingCaseReference\").val());\r\n\t\t\t}\r\n\t}\r\n\t   };\r\n\r\n    $scope.cance" +
-"l = function (idCase) {\r\n    console.log(\"cancel\"+idCase);\r\n        window.locat" +
-"ion.replace(\'hybrid:Meeting/MeetingDatosPersonales?idCase=\'+idCase);\r\n    };\r\n\r\n" +
-"    $scope.fillModel = function(){\r\n       var template= \"NO TRABAJA\";\r\n        " +
-"//alert(\"en fill model con blcok \"+$scope.block);\r\n       if($scope.m.block == f" +
-"alse){\r\n           $scope.m.Company= template;\r\n           $scope.m.Post= templa" +
-"te;\r\n           $scope.m.Phone = template;\r\n           $scope.m.NameHead = templ" +
-"ate;\r\n           $scope.m.ReasonChange = template;\r\n           $scope.m.Address=" +
-" template;\r\n           for(var i= 0; i < $scope.listRegisterType.length ; i++){\r" +
-"\n               if($scope.listRegisterType[i].Name == \"Anterior\"){\r\n            " +
-"       $scope.RegisterType = $scope.listRegisterType[i];\r\n                   $sc" +
-"ope.m.RegisterTypeId = $scope.listRegisterType[i].Id;\r\n                   $scope" +
-".domTitle = $scope.RegisterType[\'Name\'];\r\n                   break;\r\n           " +
-"    }\r\n           }\r\n       }else{\r\n           $scope.m.Company= \"\";\r\n          " +
-" $scope.m.Post= \"\";\r\n           $scope.m.Phone = \"\";\r\n           $scope.m.NameHe" +
-"ad = \"\";\r\n           $scope.m.ReasonChange = \"\";\r\n           $scope.m.Address = " +
-"\"\";\r\n       }\r\n    };\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    \t" +
-"console.log(\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for" +
-"(x=0;x<list.length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];" +
-"\r\n\t\t    \t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n});\r\n</scrip" +
-"t>\r\n<div>\r\n    <div");
+"cope.m.block == false ){\r\n\t\t    \t$scope.m.block = false;\r\n\t\t    \t$scope.fillMode" +
+"l();\r\n\t\t    }\r\n\t\t    else{\r\n\t\t    \t$scope.m.block = true;\r\n\t\t    }\r\n\t\t    //ante" +
+"rior actual secundario\r\n\t\t    if($scope.m.RegisterTypeId!=undefined && $scope.m." +
+"RegisterTypeId!=null && $scope.m.RegisterTypeId!=0){\r\n\t\t    \t$scope.RegisterType" +
+" = $scope.itemListById($scope.m.RegisterTypeId , $scope.listRegisterType);\r\n\t\t  " +
+"  \t$scope.domTitle = $scope.RegisterType[\'Name\'];\r\n\t\t    }\r\n\r\n\r\n\t\t    //fechas\r\n" +
+"\t\tvar today  = new Date();\r\n        var year = today.getFullYear();\r\n        var" +
+" month = today.getMonth();\r\n        var date = today.getDate();\r\n\r\n        if($s" +
+"cope.m.StartPrev == \"\" || $scope.m.StartPrev == undefined){\r\n            $scope." +
+"m.StartPrev = year+\"/\"+(month+1)+\"/\"+date;\r\n        }\r\n        $scope.m.StartPre" +
+"v= $scope.m.StartPrev.replace(/-/g,\"/\");\r\n        $scope.m.StartPrev = $scope.m." +
+"StartPrev.replace(\"T00:00:00\",\"\");\r\n        if($scope.m.Start == \"\" || $scope.m." +
+"Start == undefined){\r\n            $scope.m.Start = year+\"/\"+(month+1)+\"/\"+date;\r" +
+"\n        }\r\n        $scope.m.Start= $scope.m.Start.replace(/-/g,\"/\");\r\n        $" +
+"scope.m.Start = $scope.m.Start.replace(\"T00:00:00\",\"\");\r\n        if($scope.m.End" +
+" == \"\" || $scope.m.End == undefined){\r\n            $scope.m.End = year+\"/\"+(mont" +
+"h+1)+\"/\"+date;\r\n        }\r\n        $scope.m.End= $scope.m.End.replace(/-/g,\"/\");" +
+"\r\n        $scope.m.End = $scope.m.End.replace(\"T00:00:00\",\"\");\r\n        //init s" +
+"chedule\r\n        if($scope.m.Schedule!=undefined&&$scope.m.Schedule!=null){\r\n\t\t " +
+"  \t$(\"#hdnJsonScheduleHome\").val($scope.m.Schedule);\r\n\t\t   \tconsole.log(\"hdnJson" +
+"ScheduleHome-->\"+$(\"#hdnJsonScheduleHome\").val());\r\n\t    }\r\n\r\n\r\n    };\r\n\r\n    $t" +
+"imeout(function() {\r\n        $scope.init();\r\n    }, 0);\r\n\r\n    $scope.save = fun" +
+"ction(){\r\n    if($(\"#FormJobId\").valid() == false){\r\n         return false;\r\n   " +
+" }else{\r\n    \t\t$scope.m.Schedule = $(\"#hdnJsonScheduleHome\").val();\r\n    \t\tconso" +
+"le.log(\"save\"+$(\"#hdnMeetingCaseReference\").val());\r\n\t   \t\tvar jsonData = JSON.s" +
+"tringify($scope.m);\r\n\t\t\t$scope.msgError = MeetingService.upsertLaboral(JSON.stri" +
+"ngify($scope.m));\r\n\t\t\tif($scope.msgError==undefined||$scope.msgError==null||$sco" +
+"pe.msgError==\"\"){\r\n\t\t\t\t$scope.cancel($(\"#hdnMeetingCaseReference\").val());\r\n\t\t\t}" +
+"\r\n\t}\r\n\t   };\r\n\r\n    $scope.cancel = function (idCase) {\r\n    console.log(\"cancel" +
+"\"+idCase);\r\n        window.location.replace(\'hybrid:Meeting/MeetingDatosPersonal" +
+"es?idCase=\'+idCase);\r\n    };\r\n\r\n    $scope.fillModel = function(){\r\n       var t" +
+"emplate= \"NO TRABAJA\";\r\n        //alert(\"en fill model con blcok \"+$scope.block)" +
+";\r\n       if($scope.m.block == false){\r\n           $scope.m.Company= template;\r\n" +
+"           $scope.m.Post= template;\r\n           $scope.m.Phone = template;\r\n    " +
+"       $scope.m.NameHead = template;\r\n           $scope.m.ReasonChange = templat" +
+"e;\r\n           $scope.m.Address= template;\r\n           for(var i= 0; i < $scope." +
+"listRegisterType.length ; i++){\r\n               if($scope.listRegisterType[i].Na" +
+"me == \"Anterior\"){\r\n                   $scope.RegisterType = $scope.listRegister" +
+"Type[i];\r\n                   $scope.m.RegisterTypeId = $scope.listRegisterType[i" +
+"].Id;\r\n                   $scope.domTitle = $scope.RegisterType[\'Name\'];\r\n      " +
+"             break;\r\n               }\r\n           }\r\n       }else{\r\n           $" +
+"scope.m.Company= \"\";\r\n           $scope.m.Post= \"NO REFIERE\";\r\n           $scope" +
+".m.Phone = \"NO REFIERE\";\r\n           $scope.m.NameHead = \"NO REFIERE\";\r\n        " +
+"   $scope.m.ReasonChange = \"\";\r\n           $scope.m.Address = \"NO REFIERE\";\r\n   " +
+"    }\r\n    };\r\n\r\n    $scope.itemListById = function(idObj, list){\r\n    \tconsole." +
+"log(\"idObj=\"+idObj);\r\n    \tif(idObj!=undefined&&idObj!=null){\r\n\t\t    for(x=0;x<l" +
+"ist.length;x++){\r\n\t\t    \tif(list[x].Id==idObj){\r\n\t\t    \t\treturn list[x];\r\n\t\t    " +
+"\t\tbreak;\r\n\t\t    \t}\r\n\t\t    }\r\n\t\t}\r\n\t\treturn undefined;\r\n\t};\r\n});\r\n</script>\r\n<div" +
+">\r\n    <div");
 
 WriteLiteral(" id=\"dlgUpModalId\"");
 
@@ -136,7 +137,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 148 "JobUpsert.cshtml"
+#line 149 "JobUpsert.cshtml"
                         , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
@@ -153,7 +154,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 149 "JobUpsert.cshtml"
+#line 150 "JobUpsert.cshtml"
                           , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -1178,7 +1179,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", "  ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "cancel(\'", true)
 
-#line 540 "JobUpsert.cshtml"
+#line 541 "JobUpsert.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

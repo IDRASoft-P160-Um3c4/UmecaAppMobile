@@ -2607,7 +2607,7 @@ console.log("here5");
                                                                 	<input type="text" name="imputed.genero"  id="verHdnGennder" style="display:none" />
                                                                     <input class="ace" type="radio" ng-checked="m.Gender==true" name="imputed.gender"
                                                                     data-val-required="El g?nero es un campo requerido" id="genero" value="true" ng-value="true	"
-                                                                    ng-model="m.Gender" onmouseup="genderBend(true);" onselect="genderBend(true);">
+                                                                    ng-model="m.Gender" onclick="genderBend(true);" onselect="genderBend(true);">
                                                                     <span class="lbl">Femenino</span>
                                                                 </label>
                                                             </div>
@@ -2616,7 +2616,7 @@ console.log("here5");
                                                             <div class="radio">
                                                                 <label>
                                                                     <input class="ace" type="radio" value="false" ng-model="m.Gender" ng-value="false" ng-checked="m.Gender==false"
-                                                                    name="imputed.gender" onmouseup="genderBend(false);" onselect="genderBend(false);">
+                                                                    name="imputed.gender" onclick="genderBend(false);" onselect="genderBend(false);">
                                                                     <span class="lbl">Masculino</span>
                                                                 </label>
                                                             </div>
@@ -2866,7 +2866,7 @@ console.log("here5");
                                     <div class="col-xs-12">
                                         <div class="widget-box">
                                             <div class="widget-header">
-                                                <div class="col-xs-3"  ng-class="VerifiedSourceListClass['imputed.birthCountry.id'+'.0']==undefined?'':'verified';">
+                                                <div class="col-xs-3"  ng-class="VerifiedSourceListClass['imputed.birthCountry.id'+'.0']==undefined?'':'verified';VerifiedSourceListClass['imputed.birthInfo.id'+'.0']==undefined?'':'verified';">
                                                     <i class="icon-ok-circle green  icon-only bigger-220" ng-show="verification"
                                                     onclick="askEqualsImp.show('imputed.birthCountry.id')"></i>
                                                     <i class="icon-remove-circle red  icon-only bigger-220" verif-comp level-child="5" ng-show="verification"

@@ -89,12 +89,12 @@ WriteLiteral("\r\n<script>\r\napp.controller(\'ReferencesController\', function(
 "= $scope.lstLiv[i];\r\n                    $scope.m.LivingWithIde = $scope.lstLiv[" +
 "i].Id;\r\n                    break;\r\n                }\r\n            }\r\n        }e" +
 "lse{\r\n            $scope.m.FullName = \"\";\r\n            $scope.rel = $scope.lstRe" +
-"l[0];\r\n            $scope.m.RelationshipId = $scope.lstRel[0].Id;\r\n            $" +
-"scope.m.Phone = \"\";\r\n            \t\t$scope.doc = $scope.lstDoc[0];\r\n             " +
-"       $scope.m.DocumentTypeId = $scope.lstDoc[0].Id;\r\n            $scope.m.Age " +
-"= \"\";\r\n            $scope.m.Phone = \"\";\r\n            $scope.m.isAccompaniment = " +
-"false;\r\n            $scope.m.Address=\"\";\r\n        }\r\n    };\r\n\r\n});\r\n</script>\r\n<" +
-"div>\r\n    <div");
+"l[0];\r\n            $scope.m.RelationshipId = $scope.lstRel[0].Id;\r\n            \t" +
+"\t$scope.doc = $scope.lstDoc[0];\r\n                    $scope.m.DocumentTypeId = $" +
+"scope.lstDoc[0].Id;\r\n            $scope.m.Age = \"\";\r\n            $scope.m.Phone " +
+"= \"NO REFIERE\";\r\n            $scope.m.isAccompaniment = false;\r\n            $sco" +
+"pe.m.Address=\"NO REFIERE\";\r\n        }\r\n    };\r\n\r\n});\r\n</script>\r\n<div>\r\n    <div" +
+"");
 
 WriteLiteral(" id=\"dlgUpModalId\"");
 
@@ -133,7 +133,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 144 "ReferenciasUpsert.cshtml"
+#line 143 "ReferenciasUpsert.cshtml"
                         , Tuple.Create<string,object,bool> ("", Model.JsonModel
 
 #line default
@@ -150,7 +150,7 @@ WriteLiteral(" type=\"hidden\"");
 
 WriteAttribute ("value", " value=\"", "\""
 
-#line 145 "ReferenciasUpsert.cshtml"
+#line 144 "ReferenciasUpsert.cshtml"
                           , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default
@@ -661,7 +661,7 @@ WriteLiteral(" class=\"btn btn-default btn-sm\"");
 WriteAttribute ("ng-click", "  ng-click=\"", "\""
 , Tuple.Create<string,object,bool> ("", "cancel(\'", true)
 
-#line 324 "ReferenciasUpsert.cshtml"
+#line 323 "ReferenciasUpsert.cshtml"
                                      , Tuple.Create<string,object,bool> ("", Model.Reference
 
 #line default

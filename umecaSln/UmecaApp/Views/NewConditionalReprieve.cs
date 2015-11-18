@@ -55,6 +55,14 @@ WriteLiteral(@"
 					$scope.Wait = false;
 					return false;
 				}
+				if ($scope.m.DateBirth == null){
+				  $scope.m.DateBirth = null;
+		        }
+		      	var validatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;
+		        dateValues = $scope.m.DateBirth.match(validatePattern);
+		        if (dateValues == null){
+		        	$scope.m.DateBirth = null;
+		        }
 				var jsonData = JSON.stringify($scope.m);
 				window.location.replace('hybrid:Supervision/AddCaseConditionalReprieve?model=' + encodeURIComponent(jsonData));
 				$scope.Wait = false;
@@ -80,7 +88,7 @@ WriteLiteral(" ng-controller=\"newConditionalReprieveController\"");
 WriteLiteral(">\r\n");
 
 
-#line 35 "NewConditionalReprieve.cshtml"
+#line 43 "NewConditionalReprieve.cshtml"
  if(Model.ResponseMessage!=null){
 
 
@@ -101,7 +109,7 @@ WriteLiteral(" class=\"alert alert-danger element-center error-font\"");
 WriteLiteral(">\r\n\t            <span>");
 
 
-#line 39 "NewConditionalReprieve.cshtml"
+#line 47 "NewConditionalReprieve.cshtml"
                  Write(Model.ResponseMessage);
 
 
@@ -110,7 +118,7 @@ WriteLiteral(">\r\n\t            <span>");
 WriteLiteral("\r\n\t            </span>\r\n\t        </div>\r\n\t    </div>\r\n\t</div>\r\n");
 
 
-#line 44 "NewConditionalReprieve.cshtml"
+#line 52 "NewConditionalReprieve.cshtml"
 }
 
 
@@ -146,7 +154,7 @@ WriteLiteral(@">
 WriteLiteral("            ");
 
 
-#line 57 "NewConditionalReprieve.cshtml"
+#line 65 "NewConditionalReprieve.cshtml"
        Write(Html.TextBox("name", @Model.Name, new {@ng_model="m.Name", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_required="El nombre es un campo requerido", @data_val_length_max="50", @data_val_length_min="3",  @ng_init="m.Name='"+@Model.Name+"'", @class="form-control"}));
 
 
@@ -183,7 +191,7 @@ WriteLiteral(@">
 WriteLiteral("            ");
 
 
-#line 70 "NewConditionalReprieve.cshtml"
+#line 78 "NewConditionalReprieve.cshtml"
        Write(Html.TextBox("lastNameP", @Model.LastNameP, new {@ng_model="m.LastNameP", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido paterno es un campo requerido", @ng_init="m.LastNameP='"+@Model.LastNameP+"'", @class="form-control"}));
 
 
@@ -220,7 +228,7 @@ WriteLiteral(@">
 WriteLiteral("            ");
 
 
-#line 84 "NewConditionalReprieve.cshtml"
+#line 92 "NewConditionalReprieve.cshtml"
        Write(Html.TextBox("lastNameM", @Model.LastNameM, new {@ng_model="m.LastNameM", @data_val="true", @data_val_length="Debe tener al menos 3 y máximo 50 caracteres", @data_val_length_max="50", @data_val_length_min="3", @data_val_required="El apellido materno es un campo requerido", @ng_init="m.LastNameM='"+@Model.LastNameM+"'",  @class="form-control ng-pristine ng-valid"}));
 
 
@@ -267,11 +275,11 @@ WriteLiteral(@">
 WriteLiteral("                                    ");
 
 
-#line 103 "NewConditionalReprieve.cshtml"
+#line 111 "NewConditionalReprieve.cshtml"
                                Write(Html.TextBox("DateBirth", @Model.DateBirth,
                                      new {@ng_model="m.DateBirth", @data_val="true", @data_date_format="yyyy/mm/dd",
                                       @data_val_required="La fecha de nacimiento es un campo requerido", @ng_init="m.DateBirth='"+@Model.DateBirthString+"'",
-                                       @class="form-control date-picker", @readonly="readonly"}));
+                                       @class="form-control date-picker"}));
 
 
 #line default
@@ -335,7 +343,7 @@ WriteLiteral(@">
 WriteLiteral("                            ");
 
 
-#line 129 "NewConditionalReprieve.cshtml"
+#line 137 "NewConditionalReprieve.cshtml"
                        Write(Html.RadioButton("gender", true, @Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender",  @ng_checked="m.Gender==true", @data_val_required="El g?nero es un campo requerido"	, @class="ace ng-pristine ng-valid"}));
 
 
@@ -361,7 +369,7 @@ WriteLiteral(">\r\n                        <label>\r\n                          
 WriteLiteral("                            ");
 
 
-#line 138 "NewConditionalReprieve.cshtml"
+#line 146 "NewConditionalReprieve.cshtml"
                        Write(Html.RadioButton("gender", false, !@Model.Gender.GetValueOrDefault(), new {@ng_model="m.Gender", @ng_checked="m.Gender==false", @class="ace ng-pristine ng-valid"}));
 
 
@@ -392,7 +400,7 @@ WriteLiteral(@">
 WriteLiteral("                ");
 
 
-#line 153 "NewConditionalReprieve.cshtml"
+#line 161 "NewConditionalReprieve.cshtml"
            Write(Html.TextBox("meeting.caseDetention.IdMP", @Model.IdMP, new {@ng_model="m.IdMP", @data_val="true", @data_val_length="Debe tener al menos 1 y máximo 13 caracteres", @data_val_length_max="35", @data_val_length_min="1", @data_val_required="La carpeta de investigación es un campo requerido", @class="form-control ng-pristine ng-valid"}));
 
 

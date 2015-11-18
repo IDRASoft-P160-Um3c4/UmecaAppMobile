@@ -27,7 +27,6 @@ namespace UmecaApp
 		String jsonStates;
 		String jsonMunycipality;
 		String jsonElection;
-		String jsonActivities;
 
 		public MeetingController(IHybridWebView webView)
 		{
@@ -136,7 +135,7 @@ namespace UmecaApp
 		}
 
 		public String validateCreateMeeting(NewMeetingDto model) {
-			if (model.DateBirth.HasValue) {
+			if (model != null && model.DateBirth.HasValue) {
 				int age = services.calculateAge(model.DateBirth.Value);
 				if (age.CompareTo(18)<0) {
 					return "El imputado debe tener más de 18 años para continuar";
@@ -482,7 +481,6 @@ namespace UmecaApp
 				model.JsonStates = this.jsonStates;
 				model.JsonMunycipality = this.jsonMunycipality;
 				model.JsonElection = this.jsonElection;
-				model.JsonActivities = this.jsonActivities;
 
 				var temp = new MeetingDatosPersonales{ Model = model };
 				var pagestring = "nada que ver";

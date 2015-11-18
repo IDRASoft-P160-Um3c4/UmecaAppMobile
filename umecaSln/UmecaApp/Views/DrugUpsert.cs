@@ -91,12 +91,12 @@ WriteLiteral("\r\n<script>\r\napp.controller(\'DrugController\', function($scope
 "                 $scope.d.per = per;\r\n                    $scope.m.PeriodicityId" +
 " = per.Id;\r\n                    break;\r\n                }\r\n            }\r\n      " +
 "  }else{\r\n            $scope.m.SpecificationPeriodicity = \"\";\r\n            $scop" +
-"e.m.Quantity = \"\";\r\n            $scope.m.OnsetAge =\"\";\r\n\r\n        var today  = n" +
-"ew Date();\r\n        var year = today.getFullYear();\r\n        var month = today.g" +
-"etMonth();\r\n        var date = today.getDate();\r\n        $scope.m.LastUse = year" +
-"+\"/\"+(month+1)+\"/\"+date;\r\n        $scope.m.LastUse= $scope.m.LastUse.replace(/-/" +
-"g,\"/\");\r\n        $scope.m.LastUse = $scope.m.LastUse.replace(\"T00:00:00\",\"\");\r\n " +
-"       }\r\n    };\r\n});\r\n</script>\r\n<div");
+"e.m.Quantity = \"--\";\r\n            $scope.m.OnsetAge =\"--\";\r\n\r\n        var today " +
+" = new Date();\r\n        var year = today.getFullYear();\r\n        var month = tod" +
+"ay.getMonth();\r\n        var date = today.getDate();\r\n        $scope.m.LastUse = " +
+"year+\"/\"+(month+1)+\"/\"+date;\r\n        $scope.m.LastUse= $scope.m.LastUse.replace" +
+"(/-/g,\"/\");\r\n        $scope.m.LastUse = $scope.m.LastUse.replace(\"T00:00:00\",\"\")" +
+";\r\n        }\r\n    };\r\n});\r\n</script>\r\n<div");
 
 WriteLiteral(" id=\"dlgUpModalId\"");
 

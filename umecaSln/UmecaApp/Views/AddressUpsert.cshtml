@@ -86,6 +86,9 @@ Layout = "UmecaApp.headUm";
 		    console.log("modelContainer"+$("#hdnJsonAddrssImptd").val());
 		    var js = JSON.parse($("#hdnJsonAddrssImptd").val());
 			    $scope.m = js;
+			    if($scope.m.Phone ==undefined || $scope.m.Phone ==null ||$scope.m.Phone ==""){
+					$scope.m.Phone = "NO REFIERE";
+				}
 		    var asx = MeetingService.findAllStates();
 		    console.log("asx"+asx);
 		    $scope.listState = JSON.parse(asx);
@@ -198,6 +201,10 @@ Layout = "UmecaApp.headUm";
 			    }
 		};
 
+		$scope.llenarSituacion = function(){
+			$scope.m.Street = "Situación de calle";
+			$scope.m.OutNum = "No tiene";
+		};
 
 });
 
@@ -226,7 +233,7 @@ Layout = "UmecaApp.headUm";
 	            <div class="radio">
 	                <label>
 	                    <input name="isHomeless" class="ace" type="radio"
-	                           ng-value="true"
+	                           ng-value="true" ng-click="llenarSituacion();"
 	                           ng-model="m.IsHomeless"
 	                           ng-checked="m.IsHomeless==true">
 	                    <span class="lbl">&nbsp;&nbsp;S&iacute;</span>

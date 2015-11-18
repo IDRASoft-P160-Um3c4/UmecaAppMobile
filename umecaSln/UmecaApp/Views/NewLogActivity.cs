@@ -216,8 +216,6 @@ WriteLiteral("\r\n\t\t                   data-date-format=\"yyyy/mm/dd\"");
 
 WriteLiteral(" ng-model=\"v.Start\"");
 
-WriteLiteral(" readonly=\"readonly\"");
-
 WriteLiteral("\r\n\t\t                   data-val=\"true\"");
 
 WriteLiteral(" data-val-required=\"La fecha de la visita es un campo requerido\"");

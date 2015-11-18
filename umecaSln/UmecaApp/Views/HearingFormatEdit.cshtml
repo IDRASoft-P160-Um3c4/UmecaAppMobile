@@ -548,6 +548,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             if(data!=undefined&&data!=""){
             	$scope.m.lstArrangementShow = $.parseJSON(data);
             }
+
         };
 
         $scope.calcAge = function () {
@@ -605,7 +606,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             for (var i = 0; i < $scope.m.lstArrangementShow.length; i++) {
                 if ($scope.m.lstArrangementShow[i].isDefault == true) {
                     $scope.m.lstArrangementShow[i].selVal = true;
-                    $scope.m.lstArrangementShow[i].description = "";
+                    $scope.m.lstArrangementShow[i].description = "--";
                 }
             }
         };
@@ -786,7 +787,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.init2();
 
             $scope.locationInit();
-
+            $("#waitForIt").hide();
         };
 
         $scope.chgLblTerms = function () {
@@ -982,12 +983,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
 	       
 
-	        console.log("scope.idAddres"+$scope.m.idAddres);
-	        console.log("scope.innNum"+$scope.m.innNum);
-	        console.log("scope.outNum"+$scope.m.outNum);
-	        console.log("scope.street"+$scope.m.street);
-	        console.log("scope.zipCode"+$scope.zipCode);
-	        console.log("scope.location.id"+$scope.m.location.id);
+	        //console.log("scope.idAddres"+$scope.m.idAddres);
+	        //console.log("scope.innNum"+$scope.m.innNum);
+	        //console.log("scope.outNum"+$scope.m.outNum);
+	        //console.log("scope.street"+$scope.m.street);
+	        //console.log("scope.zipCode"+$scope.zipCode);
+	        //console.log("scope.location.id"+$scope.m.location.id);
 	        }
 
 	   		var asx = MeetingService.findAllStates();
@@ -1010,6 +1011,43 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 					$scope.zipCode = domicilioData.zipCode;
 				}
 			}
+
+			//Inicializar campos con guiones
+			if($scope.m.hearingResult ==undefined || $scope.m.hearingResult ==null ||$scope.m.hearingResult ==""){
+				$scope.m.hearingResult = "--";
+			}
+			if($scope.m.judgeName ==undefined || $scope.m.judgeName ==null ||$scope.m.judgeName ==""){
+				$scope.m.judgeName = "--";
+			}
+			if($scope.m.mpName ==undefined || $scope.m.mpName ==null ||$scope.m.mpName ==""){
+				$scope.m.mpName = "--";
+			}
+			if($scope.m.defenderName ==undefined || $scope.m.defenderName ==null ||$scope.m.defenderName ==""){
+				$scope.m.defenderName = "--";
+			}
+			if($scope.m.imputedTel ==undefined || $scope.m.imputedTel ==null ||$scope.m.imputedTel ==""){
+				$scope.m.imputedTel = "--";
+			}
+			if($scope.m.street ==undefined || $scope.m.street ==null ||$scope.m.street ==""){
+				$scope.m.street = "--";
+			}
+			if($scope.m.outNum ==undefined || $scope.m.outNum ==null ||$scope.m.outNum ==""){
+				$scope.m.outNum = "--";
+			}
+			if($scope.c.article ==undefined || $scope.c.article ==null ||$scope.c.article ==""){
+				$scope.c.article = "--";
+			}
+			if($scope.c.comment ==undefined || $scope.c.comment ==null ||$scope.c.comment ==""){
+				$scope.c.comment = "--";
+			}
+			if($scope.m.terms ==undefined || $scope.m.terms ==null ||$scope.m.terms ==""){
+				$scope.m.terms = "--";
+			}
+			if($scope.m.comments ==undefined || $scope.m.comments ==null ||$scope.m.comments ==""){
+				$scope.m.comments = "--";
+			}
+			
+
     	};
 
 	
@@ -1075,6 +1113,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 			    			$scope.listLocation = [];
 						}
 			    }
+		};
+
+
+		$scope.llenarSituacion = function(){
+			$scope.m.street = "Situación de calle";
+			$scope.m.outNum = "No tiene";
 		};
 
 
@@ -1267,12 +1311,12 @@ askCloseCredentials.hide = function (){
     <!-- TERMINATE CREDENTIALS END -->
 
 
-         <!--
-        <div class="blocker" ng-show="WaitFor==true">
+         
+        <div class="blocker" id="waitForIt">
             <div>
-                Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                Cargando...<img src="content/images/ajax_loader.gif" alt=""/>
             </div>
-        </div>-->
+        </div>
 
         <!--<input type="hidden" id="url3"
                value="<c:url value='/supervisor/hearingFormat/searchArrangementsByType.json'/>"/>
@@ -1504,7 +1548,6 @@ askCloseCredentials.hide = function (){
                                                                        class="form-control date-picker"
                                                                        id="id-date-picker-1" type="text"
                                                                        data-date-format="yyyy/mm/dd" data-val="true"
-                                                                       readonly
                                                                        data-val-required="Fecha de audiencia es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -1680,7 +1723,7 @@ askCloseCredentials.hide = function (){
                                                                        name="imputedBirthDateStr" type="text"
                                                                        data-date-format="yyyy/mm/dd"
                                                                        ng-disabled="m.canEdit==false"
-                                                                       readonly ng-change="calcAge();"
+                                                                       ng-change="calcAge();"
                                                                        ng-model="m.impBthDay" data-val="true"
                                                                        data-val-required="Fecha de nacimiento es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -1733,7 +1776,7 @@ askCloseCredentials.hide = function (){
 							            <div class="radio">
 							                <label>
 							                    <input name="isHomeless" class="ace" type="radio"
-							                           ng-value="true"
+							                           ng-value="true" ng-click="llenarSituacion();"
 							                           ng-model="m.IsHomeless"
 							                           ng-checked="m.IsHomeless==true">
 							                    <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
@@ -2168,7 +2211,7 @@ askCloseCredentials.hide = function (){
                                                             <input class="form-control date-picker"
                                                                    id="imputationDateStr" name="imputationDateStr"
                                                                    ng-model="m.impDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
@@ -2237,7 +2280,7 @@ askCloseCredentials.hide = function (){
                                                             <input class="form-control date-picker"
                                                                    id="extDateStr" name="extDateStr"
                                                                    ng-model="m.extDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
@@ -2313,7 +2356,7 @@ askCloseCredentials.hide = function (){
                                                                 <input class="form-control date-picker"
                                                                        id="linkageDateStr" data-date-format="yyyy/mm/dd"
                                                                        name="linkageDateStr" ng-model="m.linkageDate"
-                                                                       type="text" readonly data-val="true"
+                                                                       type="text"  data-val="true"
                                                                        data-val-required="Fecha es un campo requerido">
                 <span class="input-group-addon">
                     <i class="icon-calendar bigger-110"></i>

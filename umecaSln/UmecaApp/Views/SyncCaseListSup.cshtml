@@ -30,8 +30,8 @@ askSyncIncomplete.yes = function (){
 	var resultado = $.parseJSON(result);
 			if(resultado.error){
 				askSyncIncomplete.hide();
-				$("#Resp1Value").text(resultado.response);
-				$("#mesageResp1").show();
+				$("#SynchMessageToast").text(resultado.response);
+				$("#ContainerSynchMessage").show();
 			}else{
 				window.location.replace('hybrid:Sync/IndexSuperv');
 			}
@@ -83,15 +83,15 @@ askSyncMeeting.yes = function (){
 	var password = $("#askSyncMeetingcontainerPassword").val();
 	$("#askSyncMeetingcontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncMeeting.idCase+"]", password,"hearing");
-	alert(result);
-	if(result.error){
-				askSyncMeeting.hide();
-				$("#Resp1Value").text(result.response);
-				$("#mesageResp1").show();
+	var resultado = $.parseJSON(result);
+			if(resultado.error){
+				askSyncIncomplete.hide();
+				$("#SynchMessageToast").text(resultado.response);
+				$("#ContainerSynchMessage").show();
 			}else{
 				window.location.replace('hybrid:Sync/IndexSuperv');
 			}
-askSyncMeeting .idCase = 0;
+askSyncIncomplete.idCase = 0;
 };
     	</script>
 <div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askSyncMeetingBoxDlgId" >
@@ -186,14 +186,16 @@ askSyncHearingFormat.yes = function (){
 	var password = $("#askSyncHearingFormatcontainerPassword").val();
 	$("#askSyncHearingFormatcontainerPassword").val("");
 	var result = Sync.sincrinozeCase("["+askSyncHearingFormat.idCase+"]", password,"hearing");
-	if(result.error){
-				askSyncMeeting.hide();
-				$("#Resp1Value").text(result.response);
-				$("#mesageResp1").show();
+	var resultado = $.parseJSON(result);
+			if(resultado.error){
+				askSyncIncomplete.hide();
+				$("#SynchMessageToast").text(resultado.response);
+				$("#ContainerSynchMessage").show();
+				askSyncHearingFormat.hide();
 			}else{
 				window.location.replace('hybrid:Sync/IndexSuperv');
 			}
-askSyncHearingFormat .idCase = 0;
+askSyncIncomplete.idCase = 0;
 };
     	</script>
 <div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askSyncHearingFormatBoxDlgId" >
@@ -312,5 +314,12 @@ askSyncHearingFormat .idCase = 0;
         Cancelar
     </span>-->
 
-
+<div class="row" onclick="javascript:$(this).hide();" id="ContainerSynchMessage" style="display:none">
+            <div class="col-xs-12">
+                <div msg="MsgError"
+                     class="umeca-toast-error element-center">
+                    <p id="SynchMessageToast"></p>
+                </div> 
+            </div>
+        </div>
 
