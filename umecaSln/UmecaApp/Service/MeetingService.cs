@@ -4,6 +4,7 @@
 
 //query to list
 using System.Linq;
+
 //listas
 using System.Collections.Generic;
 
@@ -22,7 +23,7 @@ namespace UmecaApp
 
 		Context context;
 
-		public MeetingService(Context context)
+		public MeetingService (Context context)
 		{
 			this.context = context;
 			services = new CatalogServiceController ();
@@ -33,10 +34,11 @@ namespace UmecaApp
 			services = new CatalogServiceController ();
 		}
 
-		[Export("upsertPersonalData")]
-		public Java.Lang.String Example(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertPersonalData")]
+		public Java.Lang.String Example (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -55,7 +57,7 @@ namespace UmecaApp
 					imputado.Nickname = model.Nickname;
 					imputado.LocationId = model.LocationId;
 					imputado.BirthInfo = model.BirthInfoId;
-					if(model.BirthInfoId == 1){
+					if (model.BirthInfoId == 1) {
 						if (model.BirthCountry != null) {
 							Country country = db.Get<Country> (model.BirthCountry);
 							imputado.BirthCountry = model.BirthCountry;
@@ -78,9 +80,9 @@ namespace UmecaApp
 							imputado.BirthState = model.BirthState;
 							imputado.BirthLocation = model.BirthLocation;
 						}
-					}else{
-						var notprop = db.Table<Country>().Where(noproblem => noproblem.Name=="No proporcionado").FirstOrDefault();
-						if(notprop!=null){
+					} else {
+						var notprop = db.Table<Country> ().Where (noproblem => noproblem.Name == "No proporcionado").FirstOrDefault ();
+						if (notprop != null) {
 							imputado.BirthCountry = notprop.Id;
 						}
 						imputado.LocationId = null;
@@ -130,19 +132,22 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAddressByLocation")]
-		public Java.Lang.String findAddressByLocation(Java.Lang.String LocationId){
-			var JsonStates = services.findAddressByLocation (LocationId.ToString());
-			return new Java.Lang.String(JsonStates);
+		[Export ("findAddressByLocation")]
+		public Java.Lang.String findAddressByLocation (Java.Lang.String LocationId)
+		{
+			var JsonStates = services.findAddressByLocation (LocationId.ToString ());
+			return new Java.Lang.String (JsonStates);
 		}
 
-		[Export("findAddressByCp")]
-		public Java.Lang.String findAddressByCp(Java.Lang.String Cp){
-			return new Java.Lang.String(services.findAddressByCp (Cp.ToString()));
+		[Export ("findAddressByCp")]
+		public Java.Lang.String findAddressByCp (Java.Lang.String Cp)
+		{
+			return new Java.Lang.String (services.findAddressByCp (Cp.ToString ()));
 		}
 
-		[Export("findAllAviabilityCountry")]
-		public Java.Lang.String findAllAviabilityCountry(){
+		[Export ("findAllAviabilityCountry")]
+		public Java.Lang.String findAllAviabilityCountry ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var avail = db.Table<InformationAviability> ().OrderBy (c => c.Name).ToList () ?? new List<InformationAviability> ();
 				db.Close ();
@@ -150,8 +155,9 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllCountry")]
-		public Java.Lang.String findAllCountry(){
+		[Export ("findAllCountry")]
+		public Java.Lang.String findAllCountry ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var paises = db.Table<Country> ().OrderBy (c => c.Name).ToList () ?? new List<Country> ();
 				db.Close ();
@@ -159,18 +165,20 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllStates")]
-		public Java.Lang.String findAllStates(){
+		[Export ("findAllStates")]
+		public Java.Lang.String findAllStates ()
+		{
 			var estados = new List<State> ();
 			using (var db = FactoryConn.GetConn ()) {
-				estados = db.Table<State> ().OrderBy (c=>c.Name).ToList ()??new List<State> ();
-				db.Close();
+				estados = db.Table<State> ().OrderBy (c => c.Name).ToList () ?? new List<State> ();
+				db.Close ();
 			}
-			return new Java.Lang.String(JsonConvert.SerializeObject(estados));
+			return new Java.Lang.String (JsonConvert.SerializeObject (estados));
 		}
 
-		[Export("findMunicipalityByState")]
-		public Java.Lang.String findMunicipalityByState(Java.Lang.String idState){
+		[Export ("findMunicipalityByState")]
+		public Java.Lang.String findMunicipalityByState (Java.Lang.String idState)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var n = int.Parse (idState.ToString ());
 				var municipios = db.Table<Municipality> ().Where (muni => muni.StateId == n).OrderBy (c => c.Name).ToList () ?? new List<Municipality> ();
@@ -180,8 +188,9 @@ namespace UmecaApp
 		}
 
 
-		[Export("findLocationByMunicipality")]
-		public Java.Lang.String findLocationByMunicipality(Java.Lang.String idMun){
+		[Export ("findLocationByMunicipality")]
+		public Java.Lang.String findLocationByMunicipality (Java.Lang.String idMun)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var n = int.Parse (idMun.ToString ());
 				var municipios = db.Table<Location> ().Where (muni => muni.MunicipalityId == n).OrderBy (c => c.Name).ToList () ?? new List<Location> ();
@@ -190,8 +199,9 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllByLocation")]
-		public Java.Lang.String findAllByLocation(Java.Lang.String idLocation){
+		[Export ("findAllByLocation")]
+		public Java.Lang.String findAllByLocation (Java.Lang.String idLocation)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var n = int.Parse (idLocation.ToString ());
 				var location = db.Table<Location> ().Where (loc => loc.Id == n).FirstOrDefault ();
@@ -204,8 +214,9 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllDrugType")]
-		public Java.Lang.String findAllDrugType(){
+		[Export ("findAllDrugType")]
+		public Java.Lang.String findAllDrugType ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var drogas = db.Table<DrugType> ().OrderBy (c => c.Name).ToList () ?? new List<DrugType> ();
 				db.Close ();
@@ -213,8 +224,9 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllPeriodicity")]
-		public Java.Lang.String findAllPeriodicity(){
+		[Export ("findAllPeriodicity")]
+		public Java.Lang.String findAllPeriodicity ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var periodicidad = db.Table<Periodicity> ().OrderBy (c => c.Name).ToList () ?? new List<Periodicity> ();
 				db.Close ();
@@ -222,8 +234,9 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllDistrict")]
-		public Java.Lang.String findAllDistrict(){
+		[Export ("findAllDistrict")]
+		public Java.Lang.String findAllDistrict ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var periodicidad = db.Table<District> ().OrderBy (c => c.Name).ToList () ?? new List<District> ();
 				db.Close ();
@@ -232,18 +245,21 @@ namespace UmecaApp
 		}
 
 
-		[Export("HomeTypeFindAllOrderByName")]
-		public Java.Lang.String HomeTypeFindAllOrderByName(){
-			return new Java.Lang.String(JsonConvert.SerializeObject(services.HomeTypeFindAllOrderByName ()));
+		[Export ("HomeTypeFindAllOrderByName")]
+		public Java.Lang.String HomeTypeFindAllOrderByName ()
+		{
+			return new Java.Lang.String (JsonConvert.SerializeObject (services.HomeTypeFindAllOrderByName ()));
 		}
 
-		[Export("RegisterTypeFindAllOrderByName")]
-		public Java.Lang.String RegisterTypeFindAllOrderByName(){
-			return new Java.Lang.String(JsonConvert.SerializeObject(services.RegisterTypeFindAllOrderByName ()));
+		[Export ("RegisterTypeFindAllOrderByName")]
+		public Java.Lang.String RegisterTypeFindAllOrderByName ()
+		{
+			return new Java.Lang.String (JsonConvert.SerializeObject (services.RegisterTypeFindAllOrderByName ()));
 		}
 
-		[Export("findAllRelationship")]
-		public Java.Lang.String findAllRelationship(){
+		[Export ("findAllRelationship")]
+		public Java.Lang.String findAllRelationship ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var relationships = db.Table<Relationship> ().OrderBy (s => s.Name).ToList ();
 				db.Close ();
@@ -251,8 +267,9 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllDocumentType")]
-		public Java.Lang.String findAllDocumentType(){
+		[Export ("findAllDocumentType")]
+		public Java.Lang.String findAllDocumentType ()
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var documents = db.Table<DocumentType> ().OrderBy (s => s.Name).ToList ();
 				db.Close ();
@@ -260,15 +277,17 @@ namespace UmecaApp
 			}
 		}
 
-		[Export("findAllElection")]
-		public Java.Lang.String findAllElection(){
-			return new Java.Lang.String(JsonConvert.SerializeObject (services.ElectionFindAll()));
+		[Export ("findAllElection")]
+		public Java.Lang.String findAllElection ()
+		{
+			return new Java.Lang.String (JsonConvert.SerializeObject (services.ElectionFindAll ()));
 		}
 
-		[Export("upsertDomicilioComment")]
-		public Java.Lang.String upsertDomicilioComment(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertDomicilioComment")]
+		public Java.Lang.String upsertDomicilioComment (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -289,10 +308,11 @@ namespace UmecaApp
 		}
 
 
-		[Export("upsertImputedHome")]
-		public Java.Lang.String upsertImputedHome(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			var model = JsonConvert.DeserializeObject<ImputedHome> (modelJson.ToString());
+		[Export ("upsertImputedHome")]
+		public Java.Lang.String upsertImputedHome (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			var model = JsonConvert.DeserializeObject<ImputedHome> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -318,11 +338,11 @@ namespace UmecaApp
 						me.Lat = model.Lat;
 						me.Lat = model.Lat;
 						me.MeetingId = model.MeetingId ?? 0;
-						me.IsHomeless = model.IsHomeless??false;
-						if(model.IsHomeless??false){
-							var upserthmtyp = db.Table<HomeType>().Where(hmttp => hmttp.Name == Constants.HOMELESS_HOME_TYPE).FirstOrDefault();
-							var upsertregtyp = db.Table<RegisterType>().Where( regttp => regttp.Name == Constants.HOMELESS_REG_TYPE ).FirstOrDefault();
-							var upsertlctn = db.Table<Location>().Where(loctnmet => loctnmet.Name == Constants.HOMELESS_LOC).FirstOrDefault();
+						me.IsHomeless = model.IsHomeless ?? false;
+						if (model.IsHomeless ?? false) {
+							var upserthmtyp = db.Table<HomeType> ().Where (hmttp => hmttp.Name == Constants.HOMELESS_HOME_TYPE).FirstOrDefault ();
+							var upsertregtyp = db.Table<RegisterType> ().Where (regttp => regttp.Name == Constants.HOMELESS_REG_TYPE).FirstOrDefault ();
+							var upsertlctn = db.Table<Location> ().Where (loctnmet => loctnmet.Name == Constants.HOMELESS_LOC).FirstOrDefault ();
 							me.HomeTypeId = upserthmtyp.Id;
 							me.LocationId = upsertlctn.Id;
 							me.RegisterTypeId = upsertregtyp.Id;
@@ -349,10 +369,10 @@ namespace UmecaApp
 						me.Lat = model.Lat;
 						me.MeetingId = model.MeetingId ?? 0;
 						me.IsHomeless = model.IsHomeless;
-						if(model.IsHomeless??false){
-							var upserthmtyp = db.Table<HomeType>().Where(hmttp => hmttp.Name == Constants.HOMELESS_HOME_TYPE).FirstOrDefault();
-							var upsertregtyp = db.Table<RegisterType>().Where( regttp => regttp.Name == Constants.HOMELESS_REG_TYPE ).FirstOrDefault();
-							var upsertlctn = db.Table<Location>().Where(loctnmet => loctnmet.Name == Constants.HOMELESS_LOC).FirstOrDefault();
+						if (model.IsHomeless ?? false) {
+							var upserthmtyp = db.Table<HomeType> ().Where (hmttp => hmttp.Name == Constants.HOMELESS_HOME_TYPE).FirstOrDefault ();
+							var upsertregtyp = db.Table<RegisterType> ().Where (regttp => regttp.Name == Constants.HOMELESS_REG_TYPE).FirstOrDefault ();
+							var upsertlctn = db.Table<Location> ().Where (loctnmet => loctnmet.Name == Constants.HOMELESS_LOC).FirstOrDefault ();
 							me.HomeTypeId = upserthmtyp.Id;
 							me.LocationId = upsertlctn.Id;
 							me.RegisterTypeId = upsertregtyp.Id;
@@ -372,8 +392,8 @@ namespace UmecaApp
 							db.Insert (sch);
 						}
 					}
-					if(model.IsHomeless??false){
-						Schedule homeless = new Schedule();
+					if (model.IsHomeless ?? false) {
+						var homeless = new Schedule ();
 						homeless.Day = "no tiene";
 						homeless.End = "00:00";
 						homeless.Start = "00:00";
@@ -395,9 +415,10 @@ namespace UmecaApp
 		}
 
 
-		[Export("eraseImputedHome")]
-		public Java.Lang.String eraseImputedHome(Java.Lang.String idHome){
-			var output = new Java.Lang.String("");
+		[Export ("eraseImputedHome")]
+		public Java.Lang.String eraseImputedHome (Java.Lang.String idHome)
+		{
+			var output = new Java.Lang.String ("");
 			using (var db = FactoryConn.GetConn ()) {
 				try {
 					var HomeId = int.Parse (idHome.ToString ());
@@ -422,11 +443,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertPersonaRedSocial")]
-		public Java.Lang.String upsertPersonaRedSocial(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertPersonaRedSocial json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<PersonSocialNetwork> (modelJson.ToString());
+		[Export ("upsertPersonaRedSocial")]
+		public Java.Lang.String upsertPersonaRedSocial (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertPersonaRedSocial json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<PersonSocialNetwork> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -452,11 +474,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("erasePersonaRedSocial")]
-		public Java.Lang.String erasePersonaRedSocial(Java.Lang.String PersonId){
-			var prsnId = int.Parse(PersonId.ToString ());
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("erasePersonaRedSocial json PersonId-->"+PersonId);
+		[Export ("erasePersonaRedSocial")]
+		public Java.Lang.String erasePersonaRedSocial (Java.Lang.String PersonId)
+		{
+			var prsnId = int.Parse (PersonId.ToString ());
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("erasePersonaRedSocial json PersonId-->" + PersonId);
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<PersonSocialNetwork> ();
 				var model = db.Table<PersonSocialNetwork> ().Where (s => s.Id == prsnId).FirstOrDefault ();
@@ -476,11 +499,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertRedSocialComment")]
-		public Java.Lang.String upsertRedSocialComment(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertRedSocialComment json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertRedSocialComment")]
+		public Java.Lang.String upsertRedSocialComment (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertRedSocialComment json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -509,11 +533,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertRefrerencia")]
-		public Java.Lang.String upsertRefrerencia(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertRefrerencia json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<Reference> (modelJson.ToString());
+		[Export ("upsertRefrerencia")]
+		public Java.Lang.String upsertRefrerencia (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertRefrerencia json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<Reference> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -539,11 +564,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("eraseReferencia")]
-		public Java.Lang.String eraseReferencia(Java.Lang.String ReferenceId){
-			var referencedId = int.Parse(ReferenceId.ToString ());
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("eraseReferencia json ReferenceId-->"+ReferenceId);
+		[Export ("eraseReferencia")]
+		public Java.Lang.String eraseReferencia (Java.Lang.String ReferenceId)
+		{
+			var referencedId = int.Parse (ReferenceId.ToString ());
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("eraseReferencia json ReferenceId-->" + ReferenceId);
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<Reference> ();
 				var model = db.Table<Reference> ().Where (s => s.Id == referencedId).FirstOrDefault ();
@@ -563,11 +589,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertReferenciasComment")]
-		public Java.Lang.String upsertReferenciasComment(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertReferenciasComment json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertReferenciasComment")]
+		public Java.Lang.String upsertReferenciasComment (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertReferenciasComment json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -587,11 +614,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertLaboral")]
-		public Java.Lang.String upsertLaboral(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertLaboral json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<Job> (modelJson.ToString());
+		[Export ("upsertLaboral")]
+		public Java.Lang.String upsertLaboral (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertLaboral json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<Job> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -629,11 +657,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("eraseLaboral")]
-		public Java.Lang.String eraseLaboral(Java.Lang.String idLaboral){
-			var laboralId = int.Parse(idLaboral.ToString ());
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("eraseLaboral json laboralId-->"+laboralId);
+		[Export ("eraseLaboral")]
+		public Java.Lang.String eraseLaboral (Java.Lang.String idLaboral)
+		{
+			var laboralId = int.Parse (idLaboral.ToString ());
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("eraseLaboral json laboralId-->" + laboralId);
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<Job> ();
 				var model = db.Table<Job> ().Where (s => s.Id == laboralId).FirstOrDefault ();
@@ -662,11 +691,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertLaboralComment")]
-		public Java.Lang.String upsertLaboralComment(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertLaboralComment")]
+		public Java.Lang.String upsertLaboralComment (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertDomicilioComment json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -686,11 +716,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertDrug")]
-		public Java.Lang.String upsertDrug(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDrug json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<Drug> (modelJson.ToString());
+		[Export ("upsertDrug")]
+		public Java.Lang.String upsertDrug (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertDrug json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<Drug> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -716,11 +747,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("eraseDrug")]
-		public Java.Lang.String eraseDrug(Java.Lang.String DrugId){
-			var IdDrug = int.Parse(DrugId.ToString ());
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("eraseDrug json IdDrug-->"+IdDrug);
+		[Export ("eraseDrug")]
+		public Java.Lang.String eraseDrug (Java.Lang.String DrugId)
+		{
+			var IdDrug = int.Parse (DrugId.ToString ());
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("eraseDrug json IdDrug-->" + IdDrug);
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<Drug> ();
 				var model = db.Table<Drug> ().Where (s => s.Id == IdDrug).FirstOrDefault ();
@@ -740,11 +772,12 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("upsertDrugComment")]
-		public Java.Lang.String upsertDrugComment(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertDrugComment")]
+		public Java.Lang.String upsertDrugComment (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertDomicilioComment json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -767,11 +800,12 @@ namespace UmecaApp
 
 
 
-		[Export("upsertSchoolarship")]
-		public Java.Lang.String upsertSchoolarship(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertDomicilioComment json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertSchoolarship")]
+		public Java.Lang.String upsertSchoolarship (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertDomicilioComment json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -827,11 +861,12 @@ namespace UmecaApp
 		}
 
 
-		[Export("upsertLeaveCountry")]
-		public Java.Lang.String upsertLeaveCountry(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("upsertLeaveCountry json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("upsertLeaveCountry")]
+		public Java.Lang.String upsertLeaveCountry (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("upsertLeaveCountry json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				try {
@@ -906,11 +941,12 @@ namespace UmecaApp
 
 
 		//terminate de Meeting
-		[Export("TerminateMeeting")]
-		public Java.Lang.String TerminateMeeting(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("TerminateMeeting json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("TerminateMeeting")]
+		public Java.Lang.String TerminateMeeting (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("TerminateMeeting json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				db.CreateTable<User> ();
@@ -939,7 +975,7 @@ namespace UmecaApp
 					imputado.Nickname = model.Nickname;
 					imputado.LocationId = model.LocationId;
 					imputado.BirthInfo = model.BirthInfoId;
-					if(model.BirthInfoId == 1){
+					if (model.BirthInfoId == 1) {
 						if (model.BirthCountry != null) {
 							Country country = db.Get<Country> (model.BirthCountry);
 							imputado.BirthCountry = model.BirthCountry;
@@ -962,9 +998,9 @@ namespace UmecaApp
 							imputado.BirthState = model.BirthState;
 							imputado.BirthLocation = model.BirthLocation;
 						}
-					}else{
-						var notprop = db.Table<Country>().Where(noproblem => noproblem.Name=="No proporcionado").FirstOrDefault();
-						if(notprop!=null){
+					} else {
+						var notprop = db.Table<Country> ().Where (noproblem => noproblem.Name == "No proporcionado").FirstOrDefault ();
+						if (notprop != null) {
 							imputado.BirthCountry = notprop.Id;
 						}
 						imputado.LocationId = null;
@@ -1218,8 +1254,9 @@ namespace UmecaApp
 		}
 
 
-		[Export("allAcademicLevels")]
-		public Java.Lang.String allAcademicLevels(){
+		[Export ("allAcademicLevels")]
+		public Java.Lang.String allAcademicLevels ()
+		{
 			Java.Lang.String output;
 			using (var db = FactoryConn.GetConn ()) {
 				try {
@@ -1235,8 +1272,9 @@ namespace UmecaApp
 		}
 
 
-		[Export("gradeByNivel")]
-		public Java.Lang.String gradeByNivel(Java.Lang.String Nivel){
+		[Export ("gradeByNivel")]
+		public Java.Lang.String gradeByNivel (Java.Lang.String Nivel)
+		{
 			var di = int.Parse (Nivel.ToString ());
 			Java.Lang.String output;
 			using (var db = FactoryConn.GetConn ()) {
@@ -1252,8 +1290,9 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("gradesBySelectedDegree")]
-		public Java.Lang.String gradesBySelectedDegree(Java.Lang.String Degree){
+		[Export ("gradesBySelectedDegree")]
+		public Java.Lang.String gradesBySelectedDegree (Java.Lang.String Degree)
+		{
 			var degreeId = int.Parse (Degree.ToString ());
 			Java.Lang.String output;
 			using (var db = FactoryConn.GetConn ()) {
@@ -1275,8 +1314,9 @@ namespace UmecaApp
 		}
 
 
-		[Export("documentosMigratorios")]
-		public Java.Lang.String documentosMigratorios(){
+		[Export ("documentosMigratorios")]
+		public Java.Lang.String documentosMigratorios ()
+		{
 			Java.Lang.String output;
 			using (var db = FactoryConn.GetConn ()) {
 				try {
@@ -1291,8 +1331,9 @@ namespace UmecaApp
 			return output;
 		}
 
-		[Export("relacionPersonal")]
-		public Java.Lang.String relacionPersonal(){
+		[Export ("relacionPersonal")]
+		public Java.Lang.String relacionPersonal ()
+		{
 			Java.Lang.String output;
 			using (var db = FactoryConn.GetConn ()) {
 				try {
@@ -1310,40 +1351,41 @@ namespace UmecaApp
 
 
 
-/*VALIDACIONES DE TERMINATE MEETING*/
+		/*VALIDACIONES DE TERMINATE MEETING*/
 
-		public TerminateMeetingMessageDto validateMeetingImputed(TerminateMeetingMessageDto t, Imputed imp){
-			List<String> result = new List<string>();
+		public TerminateMeetingMessageDto validateMeetingImputed (TerminateMeetingMessageDto t, Imputed imp)
+		{
+			List<String> result = new List<string> ();
 			const String e = "entity";
-			if(imp.Name== null || (imp.Name!=null && imp.Name.Trim().Equals(""))){
-				result.Add(t.template.Replace(e, "El nombre"));
+			if (imp.Name == null || (imp.Name != null && imp.Name.Trim ().Equals (""))) {
+				result.Add (t.template.Replace (e, "El nombre"));
 			}
-			if(imp.LastNameP== null || (imp.LastNameP!=null && imp.LastNameP.Trim().Equals(""))){
-				result.Add(t.template.Replace(e, "El apellido paterno"));
+			if (imp.LastNameP == null || (imp.LastNameP != null && imp.LastNameP.Trim ().Equals (""))) {
+				result.Add (t.template.Replace (e, "El apellido paterno"));
 			}
-			if(imp.LastNameM== null || (imp.LastNameM!=null && imp.LastNameM.Trim().Equals(""))){
-				result.Add(t.template.Replace(e, "El apellido materno"));
+			if (imp.LastNameM == null || (imp.LastNameM != null && imp.LastNameM.Trim ().Equals (""))) {
+				result.Add (t.template.Replace (e, "El apellido materno"));
 			}
 			if (imp.Gender == null) {
-				result.Add(t.template.Replace(e, "El g&eacute;nero"));
+				result.Add (t.template.Replace (e, "El g&eacute;nero"));
 			}
-			if (imp.CelPhone == null || (imp.CelPhone != null && imp.CelPhone.Trim().Equals(""))) {
-				result.Add(t.template.Replace(e, "El n&uacute;mero celular"));
+			if (imp.CelPhone == null || (imp.CelPhone != null && imp.CelPhone.Trim ().Equals (""))) {
+				result.Add (t.template.Replace (e, "El n&uacute;mero celular"));
 			}
 			if (imp.MaritalStatusId == null) {
-				result.Add(t.template.Replace(e, "El estado civil"));
-			} else if ((imp.MaritalStatusId.Equals(Constants.MARITAL_MARRIED) || imp.MaritalStatusId.Equals(Constants.MARITAL_UNION_FREE))
-				&& imp.YearsMaritalStatus == null) {
-				result.Add(t.template.Replace(e, "El n&uacute;mero de años en el estado civil"));
+				result.Add (t.template.Replace (e, "El estado civil"));
+			} else if ((imp.MaritalStatusId.Equals (Constants.MARITAL_MARRIED) || imp.MaritalStatusId.Equals (Constants.MARITAL_UNION_FREE))
+			           && imp.YearsMaritalStatus == null) {
+				result.Add (t.template.Replace (e, "El n&uacute;mero de años en el estado civil"));
 			}
 			if (imp.Boys == null) {
-				result.Add(t.template.Replace(e, "El total de hijos"));
+				result.Add (t.template.Replace (e, "El total de hijos"));
 			}
-			if (imp.Nickname == null || imp.Nickname.Equals("")) {
-				result.Add(t.template.Replace(e, "El ap&oacute;do"));
+			if (imp.Nickname == null || imp.Nickname.Equals ("")) {
+				result.Add (t.template.Replace (e, "El ap&oacute;do"));
 			}
 			if (imp.DependentBoys == null) {
-				result.Add(t.template.Replace(e, "El n&uacute;mero de dependientes econ&oacute;micos"));
+				result.Add (t.template.Replace (e, "El n&uacute;mero de dependientes econ&oacute;micos"));
 			}
 			if (imp.BirthInfo == 1) {
 				if (imp.BirthCountry != null) {
@@ -1376,28 +1418,29 @@ namespace UmecaApp
 			return t;
 		}
 
-		public TerminateMeetingMessageDto validateMeetingSocialEnvironment(TerminateMeetingMessageDto t, SocialEnvironment Se){
-			List<String> result = new List<string>();
+		public TerminateMeetingMessageDto validateMeetingSocialEnvironment (TerminateMeetingMessageDto t, SocialEnvironment Se)
+		{
+			List<String> result = new List<string> ();
 			const String e = "entity";
-			if(Se.physicalCondition==null||Se.physicalCondition.Trim().Equals("")){
-				result.Add(t.template.Replace(e,"La condici&oacute;n f&iacute;sica"));
+			if (Se.physicalCondition == null || Se.physicalCondition.Trim ().Equals ("")) {
+				result.Add (t.template.Replace (e, "La condici&oacute;n f&iacute;sica"));
 			}
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<RelActivity> ();
 				if (Se != null) {
 					List<RelActivity> relAux = db.Table<RelActivity> ().Where (s => s.SocialEnvironmentId == Se.Id).ToList ();
 					if (relAux == null || (relAux != null
-					  && relAux.Count == 0)) {
+					    && relAux.Count == 0)) {
 						result.Add (t.template.Replace (e, "Las actividades que realiza el imputado"));
 					}
 				}
 				db.Close ();
 			}
-			if(t.groupMessage!=null){
-				foreach (GroupMessageMeetingDto gmdto in t.groupMessage){
-					if(gmdto.section.Equals("personalData")){
-						foreach(String a in result){
-							gmdto.listString.Add(a);
+			if (t.groupMessage != null) {
+				foreach (GroupMessageMeetingDto gmdto in t.groupMessage) {
+					if (gmdto.section.Equals ("personalData")) {
+						foreach (String a in result) {
+							gmdto.listString.Add (a);
 						}
 					}
 				}
@@ -1405,20 +1448,21 @@ namespace UmecaApp
 			return t;
 		}
 
-		public TerminateMeetingMessageDto validateMeetingSchool(TerminateMeetingMessageDto t, School Sc){
-			List<String> r = new List<string>();
+		public TerminateMeetingMessageDto validateMeetingSchool (TerminateMeetingMessageDto t, School Sc)
+		{
+			List<String> r = new List<string> ();
 			const String e = "entity";
-			if (Sc.Name == null || Sc.Name.Trim().Equals("")) {
-				r.Add(t.template.Replace(e, "La escuela"));
+			if (Sc.Name == null || Sc.Name.Trim ().Equals ("")) {
+				r.Add (t.template.Replace (e, "La escuela"));
 			}
-			if (Sc.Phone == null || Sc.Phone.Trim().Equals("")) {
-				r.Add(t.template.Replace(e, "El tel&eacute;fono"));
+			if (Sc.Phone == null || Sc.Phone.Trim ().Equals ("")) {
+				r.Add (t.template.Replace (e, "El tel&eacute;fono"));
 			}
-			if (Sc.Address == null || Sc.Address.Trim().Equals("")) {
-				r.Add(t.template.Replace(e, "La direcci&oacute;n"));
+			if (Sc.Address == null || Sc.Address.Trim ().Equals ("")) {
+				r.Add (t.template.Replace (e, "La direcci&oacute;n"));
 			}
-			if (Sc.DegreeId == null||Sc.DegreeId.Equals(0)) {
-				r.Add(t.template.Replace(e, "El grado escolar"));
+			if (Sc.DegreeId == null || Sc.DegreeId.Equals (0)) {
+				r.Add (t.template.Replace (e, "El grado escolar"));
 			}
 			if (r != null && r.Count > 0) {
 				t.groupMessage.Add (new GroupMessageMeetingDto ("school", r));
@@ -1427,33 +1471,34 @@ namespace UmecaApp
 		}
 
 
-		public TerminateMeetingMessageDto validateMeetingCountry(TerminateMeetingMessageDto t, LeaveCountry Lc){
-			List<String> r = new List<string>();
+		public TerminateMeetingMessageDto validateMeetingCountry (TerminateMeetingMessageDto t, LeaveCountry Lc)
+		{
+			List<String> r = new List<string> ();
 			const String e = "entity";
-			if(Lc.OfficialDocumentationId==null||Lc.OfficialDocumentationId.Equals(0)){
-				r.Add(t.template.Replace(e,"Si cuenta con documentaci&oacute;n para salir del pa&iacute;s"));
-			}else if(Lc.OfficialDocumentationId!=null && Lc.OfficialDocumentationId.Equals(Constants.ELECTION_YES)){
-				if(Lc.ImmigrationDocumentId== null || Lc.ImmigrationDocumentId.Equals(0)){
-					r.Add(t.template.Replace(e,"El tipo de documentaci&oacute;n"));
+			if (Lc.OfficialDocumentationId == null || Lc.OfficialDocumentationId.Equals (0)) {
+				r.Add (t.template.Replace (e, "Si cuenta con documentaci&oacute;n para salir del pa&iacute;s"));
+			} else if (Lc.OfficialDocumentationId != null && Lc.OfficialDocumentationId.Equals (Constants.ELECTION_YES)) {
+				if (Lc.ImmigrationDocumentId == null || Lc.ImmigrationDocumentId.Equals (0)) {
+					r.Add (t.template.Replace (e, "El tipo de documentaci&oacute;n"));
 				}
 			}
-			if(Lc.LivedCountryId==null||Lc.LivedCountryId.Equals(0)){
-				r.Add(t.template.Replace(e,"Si ha vivido en otro pa&iacute;s"));
-			}else if(Lc.LivedCountryId!=null && Lc.LivedCountryId.Equals(Constants.ELECTION_YES)){
-				if(Lc.TimeResidence==null || Lc.TimeResidence.Trim().Equals("")){
-					r.Add(t.template.Replace(e,"El tiempo que vivi&oacute; en otro pa&iacute;s"));
+			if (Lc.LivedCountryId == null || Lc.LivedCountryId.Equals (0)) {
+				r.Add (t.template.Replace (e, "Si ha vivido en otro pa&iacute;s"));
+			} else if (Lc.LivedCountryId != null && Lc.LivedCountryId.Equals (Constants.ELECTION_YES)) {
+				if (Lc.TimeResidence == null || Lc.TimeResidence.Trim ().Equals ("")) {
+					r.Add (t.template.Replace (e, "El tiempo que vivi&oacute; en otro pa&iacute;s"));
 				}
-				if(Lc.timeAgo==null || Lc.timeAgo.Trim().Equals("")){
-					r.Add(t.template.Replace(e,"Hace cuento tiempo vivi&oacute; en otro pa&iacute;s"));
+				if (Lc.timeAgo == null || Lc.timeAgo.Trim ().Equals ("")) {
+					r.Add (t.template.Replace (e, "Hace cuento tiempo vivi&oacute; en otro pa&iacute;s"));
 				}
-				if(Lc.Reason==null || Lc.Reason.Trim().Equals("")){
-					r.Add(t.template.Replace(e,"La razon por la que dejo de vivir en otro pa&iacute;s"));
+				if (Lc.Reason == null || Lc.Reason.Trim ().Equals ("")) {
+					r.Add (t.template.Replace (e, "La razon por la que dejo de vivir en otro pa&iacute;s"));
 				}
-				if(Lc.CountryId==null){
-					r.Add(t.template.Replace(e,"El pa&iacute;s donde ha vivido"));
+				if (Lc.CountryId == null) {
+					r.Add (t.template.Replace (e, "El pa&iacute;s donde ha vivido"));
 				}
-				if(Lc.State==null || Lc.State.Trim().Equals("")){
-					r.Add(t.template.Replace(e,"El estado donde ha vivido"));
+				if (Lc.State == null || Lc.State.Trim ().Equals ("")) {
+					r.Add (t.template.Replace (e, "El estado donde ha vivido"));
 				}
 			}
 			using (var db = FactoryConn.GetConn ()) {
@@ -1463,17 +1508,17 @@ namespace UmecaApp
 				}
 				db.Close ();
 			}
-			if(Lc.FamilyAnotherCountryId==null||Lc.FamilyAnotherCountryId.Equals(0)){
-				r.Add(t.template.Replace(e,"Si tiene familia en otro pa&iacute;s"));
-			}else if(Lc.FamilyAnotherCountryId!=null && Lc.FamilyAnotherCountryId.Equals(Constants.ELECTION_YES)){
-				if(Lc.RelationshipId==null || Lc.RelationshipId.Equals(0)){
-					r.Add(t.template.Replace(e,"La relaci&oacute;n con el familiar"));
+			if (Lc.FamilyAnotherCountryId == null || Lc.FamilyAnotherCountryId.Equals (0)) {
+				r.Add (t.template.Replace (e, "Si tiene familia en otro pa&iacute;s"));
+			} else if (Lc.FamilyAnotherCountryId != null && Lc.FamilyAnotherCountryId.Equals (Constants.ELECTION_YES)) {
+				if (Lc.RelationshipId == null || Lc.RelationshipId.Equals (0)) {
+					r.Add (t.template.Replace (e, "La relaci&oacute;n con el familiar"));
 				}
-				if(Lc.CommunicationFamilyId== null){
-					r.Add(t.template.Replace(e,"Si tiene comunicaci&oacute;n con su familia"));
-				}else if (Lc.CommunicationFamilyId!=null && Lc.CommunicationFamilyId.Equals(Constants.ELECTION_YES)){
-					if(Lc.Media==null || Lc.Media.Trim().Equals("")){
-						r.Add(t.template.Replace(e,"El medio de comunci&oacute;n con su familia"));
+				if (Lc.CommunicationFamilyId == null) {
+					r.Add (t.template.Replace (e, "Si tiene comunicaci&oacute;n con su familia"));
+				} else if (Lc.CommunicationFamilyId != null && Lc.CommunicationFamilyId.Equals (Constants.ELECTION_YES)) {
+					if (Lc.Media == null || Lc.Media.Trim ().Equals ("")) {
+						r.Add (t.template.Replace (e, "El medio de comunci&oacute;n con su familia"));
 					}
 				}
 			}
@@ -1483,7 +1528,8 @@ namespace UmecaApp
 			return t;
 		}
 
-		public void validateMeeting(TerminateMeetingMessageDto t, Meeting model){
+		public void validateMeeting (TerminateMeetingMessageDto t, Meeting model)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<ImputedHome> ();
 				var imputedHomeList = db.Table<ImputedHome> ().Where (mee => mee.MeetingId == model.Id).ToList ();
@@ -1496,9 +1542,10 @@ namespace UmecaApp
 			}
 		}
 
-		public String ImputedHomeAddressString(ImputedHome im){
+		public String ImputedHomeAddressString (ImputedHome im)
+		{
 			String result = "";
-			if (im.Street != null && !im.Street.Equals("")) {
+			if (im.Street != null && !im.Street.Equals ("")) {
 				result = "Calle: " + im.Street + " No Ext: " + im.OutNum;
 			}
 			if (im.OutNum != null && !im.OutNum.Equals ("")) {
@@ -1524,11 +1571,12 @@ namespace UmecaApp
 
 
 		//terminate de Meeting
-		[Export("TerminateMeetingNegotiation")]
-		public Java.Lang.String TerminateMeetingNegotiation(Java.Lang.String modelJson){
-			var output = new Java.Lang.String("");
-			Console.WriteLine ("TerminateMeetingNegotiation json model-->"+modelJson);
-			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString());
+		[Export ("TerminateMeetingNegotiation")]
+		public Java.Lang.String TerminateMeetingNegotiation (Java.Lang.String modelJson)
+		{
+			var output = new Java.Lang.String ("");
+			Console.WriteLine ("TerminateMeetingNegotiation json model-->" + modelJson);
+			var model = JsonConvert.DeserializeObject<MeetingDatosPersonalesDto> (modelJson.ToString ());
 			using (var db = FactoryConn.GetConn ()) {
 				db.BeginTransaction ();
 				db.CreateTable<User> ();
@@ -1557,7 +1605,7 @@ namespace UmecaApp
 					imputado.Nickname = model.Nickname;
 					imputado.LocationId = model.LocationId;
 					imputado.BirthInfo = model.BirthInfoId;
-					if(model.BirthInfoId == 1){
+					if (model.BirthInfoId == 1) {
 						if (model.BirthCountry != null) {
 							Country country = db.Get<Country> (model.BirthCountry);
 							imputado.BirthCountry = model.BirthCountry;
@@ -1580,9 +1628,9 @@ namespace UmecaApp
 							imputado.BirthState = model.BirthState;
 							imputado.BirthLocation = model.BirthLocation;
 						}
-					}else{
-						var notprop = db.Table<Country>().Where(noproblem => noproblem.Name=="No proporcionado").FirstOrDefault();
-						if(notprop!=null){
+					} else {
+						var notprop = db.Table<Country> ().Where (noproblem => noproblem.Name == "No proporcionado").FirstOrDefault ();
+						if (notprop != null) {
 							imputado.BirthCountry = notprop.Id;
 						}
 						imputado.LocationId = null;
@@ -1746,18 +1794,18 @@ namespace UmecaApp
 					}
 
 
-						output = new Java.Lang.String ("");
-						var casoMeeting = db.Table<Case> ().Where (cm => cm.Id == me.CaseDetentionId).FirstOrDefault ();
-						casoMeeting.StatusCaseId = stcc.Id;
-						casoMeeting.HasNegation = true;
-						me.DeclineReason = model.DeclineReason;	
-						me.StatusMeetingId = statusMeeting2.Id;
-						me.DateTerminate = DateTime.Today;
-						if (me.ReviewerId == null || me.ReviewerId == 0) {
-							me.ReviewerId = revId;
-						}
-						db.Update (casoMeeting);
-						db.Update (me);
+					output = new Java.Lang.String ("");
+					var casoMeeting = db.Table<Case> ().Where (cm => cm.Id == me.CaseDetentionId).FirstOrDefault ();
+					casoMeeting.StatusCaseId = stcc.Id;
+					casoMeeting.HasNegation = true;
+					me.DeclineReason = model.DeclineReason;	
+					me.StatusMeetingId = statusMeeting2.Id;
+					me.DateTerminate = DateTime.Today;
+					if (me.ReviewerId == null || me.ReviewerId == 0) {
+						me.ReviewerId = revId;
+					}
+					db.Update (casoMeeting);
+					db.Update (me);
 				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in MeetingService method TerminateMeetingNegotiation invoked javascript calling -> MeetingService.TerminateMeetingNegotiation()");
@@ -1774,5 +1822,6 @@ namespace UmecaApp
 
 
 
-	}//class end
+	}
+//class end
 }

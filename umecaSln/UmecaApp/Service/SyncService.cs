@@ -4,15 +4,13 @@
 
 //query to list
 using System.Linq;
+
 //listas
 using System.Collections.Generic;
 
 using Java.Interop;
 using Newtonsoft.Json;
 using Android.Content;
-
-//cript
-using BCrypt;
 
 using SQLite;
 using Umeca.Data;
@@ -29,7 +27,7 @@ namespace UmecaApp
 
 		Context context;
 
-		public SyncService(Context context)
+		public SyncService (Context context)
 		{
 			this.context = context;
 			services = new CatalogServiceController ();
@@ -40,66 +38,67 @@ namespace UmecaApp
 			services = new CatalogServiceController ();
 		}
 
-		[Export("userUpsert")]
-		public Java.Lang.String userUpsert(Java.Lang.String user,Java.Lang.String pass){
+		[Export ("userUpsert")]
+		public Java.Lang.String userUpsert (Java.Lang.String user, Java.Lang.String pass)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				UmecaWebService.UmecaWS uwsl;
 
-				var content = db.Table<StatusCase> ().ToList();
+				var content = db.Table<StatusCase> ().ToList ();
 				foreach (StatusCase m in content) {
-					Console.WriteLine ("Id: "+m.Id+" Name:"+m.Name);
+					Console.WriteLine ("Id: " + m.Id + " Name:" + m.Name);
 				}
 
-				var everything = db.Table<Configuracion>().FirstOrDefault();
-				try{
-				if (everything != null && !String.IsNullOrEmpty (everything.url)) {
-					uwsl = new UmecaApp.UmecaWebService.UmecaWS (everything.url);
-				} else {
-					uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
-				}
-				}catch(Exception e){
-					return new Java.Lang.String ("{\"error\":true, \"response\":\""+e.Message+"\"}");
+				var everything = db.Table<Configuracion> ().FirstOrDefault ();
+				try {
+					if (everything != null && !String.IsNullOrEmpty (everything.url)) {
+						uwsl = new UmecaApp.UmecaWebService.UmecaWS (everything.url);
+					} else {
+						uwsl = new UmecaApp.UmecaWebService.UmecaWS ();
+					}
+				} catch (Exception e) {
+					return new Java.Lang.String ("{\"error\":true, \"response\":\"" + e.Message + "\"}");
 				}
 
-				var ecodedPass = Crypto.HashPassword (pass.ToString());
+				var ecodedPass = Crypto.HashPassword (pass.ToString ());
 				var usuario = user.ToString ();
 				var extraCode = "";
-				try{
-					db.BeginTransaction();
+				try {
+					db.BeginTransaction ();
 					db.CreateTable<User> ();
-					var respuesta = uwsl.loginFromTablet (usuario,ecodedPass);
-					if(respuesta.hasError){
-						return new Java.Lang.String ("{\"error\":true, \"response\":\""+respuesta.message+"\"}");
-					}else{
-						var usuarios = db.Table<User>().ToList();
-						foreach(User u in usuarios){
-							db.Delete(u);
+					var respuesta = uwsl.loginFromTablet (usuario, ecodedPass);
+					if (respuesta.hasError) {
+						return new Java.Lang.String ("{\"error\":true, \"response\":\"" + respuesta.message + "\"}");
+					} else {
+						var usuarios = db.Table<User> ().ToList ();
+						foreach (User u in usuarios) {
+							db.Delete (u);
 						}
-						User asociado = new User();
-						var dataString =  (System.Xml.XmlNode[]) respuesta.returnData;
-						var getData = JsonConvert.DeserializeObject<TabletUserDto>(dataString[0].Value.ToString());
-						var roleUsr = db.Table<Role>().Where(rl=>rl.role == getData.roleCode).FirstOrDefault();
+						User asociado = new User ();
+						var dataString = (System.Xml.XmlNode[])respuesta.returnData;
+						var getData = JsonConvert.DeserializeObject<TabletUserDto> (dataString [0].Value.ToString ());
+						var roleUsr = db.Table<Role> ().Where (rl => rl.role == getData.roleCode).FirstOrDefault ();
 						asociado.fullname = getData.fullname;
 						asociado.roles = roleUsr.Id;
-						asociado.Id = getData.id??0;
+						asociado.Id = getData.id ?? 0;
 						asociado.username = usuario;
 						asociado.password = ecodedPass;
-						db.Insert(asociado);
+						db.Insert (asociado);
 						String donde = "";
-						if(asociado.roles==2){
+						if (asociado.roles == 2) {
 							donde = "Meeting";
-						}else{
+						} else {
 							donde = "Supervision";
 						}
-						return new Java.Lang.String ("{\"error\":false, \"response\":\""+donde+"\"}");
+						return new Java.Lang.String ("{\"error\":false, \"response\":\"" + donde + "\"}");
 					}
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("exception in userUpsert()");
-					Console.WriteLine("Exception message :::>"+e.Message);
-					extraCode = "Fallo en la conexion con el servicio: "+e.Message;
-	//				return new Java.Lang.String ("{\"error\":true, \"response\":\"Fallo en la conexion con el servicio revise su conexion e intente nuevamente\"}");
-				}finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+					extraCode = "Fallo en la conexion con el servicio: " + e.Message;
+					//				return new Java.Lang.String ("{\"error\":true, \"response\":\"Fallo en la conexion con el servicio revise su conexion e intente nuevamente\"}");
+				} finally {
 					db.Commit ();
 				}
 				db.CreateTable<User> ();
@@ -108,24 +107,25 @@ namespace UmecaApp
 					var savedUsr = usrList [0];
 					if (savedUsr.password == ecodedPass && savedUsr.username == usuario) {
 						String direct = "";
-						if(savedUsr.roles==2){
+						if (savedUsr.roles == 2) {
 							direct = "Meeting";
-						}else{
+						} else {
 							direct = "Supervision";
 						}
-						return new Java.Lang.String ("{\"error\":false, \"response\":\""+direct+"\"}");
+						return new Java.Lang.String ("{\"error\":false, \"response\":\"" + direct + "\"}");
 					} else {
 						
-						return new Java.Lang.String ("{\"error\":true, \"response\":\"El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente. \\n"+extraCode+"  \"}");
+						return new Java.Lang.String ("{\"error\":true, \"response\":\"El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente. \\n" + extraCode + "  \"}");
 					}
 				} else {
-					return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado. \\n"+extraCode+"  \"}");
+					return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado. \\n" + extraCode + "  \"}");
 				}
 			}
 		}
 
-		[Export("updateAplicationUrl")]
-		public Java.Lang.String updateAplicationUrl(Java.Lang.String newUrl){
+		[Export ("updateAplicationUrl")]
+		public Java.Lang.String updateAplicationUrl (Java.Lang.String newUrl)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var response = "false";
 				try {
@@ -133,7 +133,7 @@ namespace UmecaApp
 					var contexto = newUrl.ToString ();
 					db.CreateTable<Configuracion> ();
 					var everything = db.Table<Configuracion> ().ToList ();
-					foreach(var m in everything){
+					foreach (var m in everything) {
 						db.Delete (m);
 					}
 					var nuevaRuta = Constants.UMECA_SERVICE_PROTOCOL + contexto + Constants.UMECA_SERVICE_END_POINT;
@@ -156,8 +156,9 @@ namespace UmecaApp
 
 
 
-		[Export("downloadVerificacion")]
-		public Java.Lang.String downloadVerificacion(Java.Lang.String pass){
+		[Export ("downloadVerificacion")]
+		public Java.Lang.String downloadVerificacion (Java.Lang.String pass)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				String guid = "";
 				User revisor = new User ();
@@ -365,7 +366,7 @@ namespace UmecaApp
 										if (!string.IsNullOrEmpty (hfDto.registerTime)) {
 											Formato.RegisterTime = DateTime.ParseExact (hfDto.registerTime, "yyyy/MM/dd HH:mm:ss",
 												System.Globalization.CultureInfo.InvariantCulture);
-										}else{
+										} else {
 											Formato.RegisterTime = DateTime.Now;
 										}
 										Formato.Room = hfDto.room;
@@ -397,7 +398,7 @@ namespace UmecaApp
 										if (hfDto.contacts != null && hfDto.contacts.Count > 0) {
 											foreach (TabletContactDataDto contc in hfDto.contacts) {
 												ContactData cnt = new ContactData ();
-												cnt.	AddressTxt = contc.addressTxt;
+												cnt.AddressTxt = contc.addressTxt;
 												cnt.NameTxt = contc.nameTxt;
 												cnt.PhoneTxt = contc.phoneTxt;
 												cnt.HearingFormat = Formato.Id;
@@ -434,7 +435,7 @@ namespace UmecaApp
 									TabletMeetingDto tme = getData1.meeting;
 									me = tme.MeetingToObject ();
 //									if (tme.reviewer != null && tme.reviewer.id != 0) {
-										me.ReviewerId = revisor.Id;
+									me.ReviewerId = revisor.Id;
 //									}
 									me.CaseDetentionId = cs.Id;
 									db.Insert (me);
@@ -484,10 +485,10 @@ namespace UmecaApp
 												if (!String.IsNullOrEmpty (thome.address.innNum)) {
 													result = result + " No Int:" + thome.address.innNum;
 												}
-												if (thome.address.location != null && thome.address.location.id != null ) {
-													var local = db.Table<Location>().Where(loc=>loc.Id == thome.address.location.id).FirstOrDefault();
-													var municipio = db.Table<Municipality>().Where(mun=>mun.Id == local.MunicipalityId).FirstOrDefault();
-													var estad = db.Table<State>().Where(stt=>stt.Id == municipio.StateId).FirstOrDefault();
+												if (thome.address.location != null && thome.address.location.id != null) {
+													var local = db.Table<Location> ().Where (loc => loc.Id == thome.address.location.id).FirstOrDefault ();
+													var municipio = db.Table<Municipality> ().Where (mun => mun.Id == local.MunicipalityId).FirstOrDefault ();
+													var estad = db.Table<State> ().Where (stt => stt.Id == municipio.StateId).FirstOrDefault ();
 													result = result + "," + local.Name + ". CP: " + local.ZipCode + ". " + municipio.Name + ", " + estad.Name + ".";
 												}
 												ih.addressString = result;
@@ -618,7 +619,7 @@ namespace UmecaApp
 											nref.Age = tref.age;
 											nref.block = tref.block;
 											nref.FullName = tref.fullName;
-											nref.IsAccompaniment = tref.isAccompaniment??false;
+											nref.IsAccompaniment = tref.isAccompaniment ?? false;
 											nref.MeetingId = me.Id;
 											nref.Phone = tref.phone;
 											nref.SpecificationDocumentType = tref.specification;
@@ -698,7 +699,7 @@ namespace UmecaApp
 												if (tpsn.documentType != null) {
 													psn.DocumentTypeId = tpsn.documentType.id ?? 0;
 												}
-												psn.isAccompaniment = tpsn.isAccompaniment??false;
+												psn.isAccompaniment = tpsn.isAccompaniment ?? false;
 												if (tpsn.livingWith != null) {
 													psn.LivingWithIde = tpsn.livingWith.id ?? 0;
 												}
@@ -822,8 +823,9 @@ namespace UmecaApp
 			return nhome;
 		}
 
-		[Export("sincrinozeCase")]
-		public Java.Lang.String sincronizeCase(Java.Lang.String listCases, Java.Lang.String pass, Java.Lang.String Method){
+		[Export ("sincrinozeCase")]
+		public Java.Lang.String sincronizeCase (Java.Lang.String listCases, Java.Lang.String pass, Java.Lang.String Method)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				String guid = "";
 				User revisor = new User ();
@@ -913,7 +915,7 @@ namespace UmecaApp
 							if (String.IsNullOrEmpty (caseSync.previousStateCode)) {
 								caseSync.previousStateCode = stCase.Name;
 							}
-							if (String.IsNullOrEmpty (caseSync.previousStateCode)&&stCase!=null) {
+							if (String.IsNullOrEmpty (caseSync.previousStateCode) && stCase != null) {
 								caseSync.previousStateCode = stCase.Name;
 							}
 
@@ -1492,7 +1494,7 @@ namespace UmecaApp
 										nRef.block = r.block;
 										nRef.fullName = r.FullName;
 										nRef.id = r.Id;
-										nRef.isAccompaniment = r.IsAccompaniment??false;
+										nRef.isAccompaniment = r.IsAccompaniment ?? false;
 										nRef.phone = r.Phone;
 										nRef.specification = r.SpecificationDocumentType;
 										nRef.specificationRelationship = r.SpecificationRelationship;
@@ -1598,15 +1600,15 @@ namespace UmecaApp
 										var persons = new List<TabletPersonSocialNetworkDto> ();
 										foreach (PersonSocialNetwork per in personsNetwork) {
 											var nPersn = new TabletPersonSocialNetworkDto ();
-											nPersn.address = per.Address??"";
+											nPersn.address = per.Address ?? "";
 											nPersn.age = per.Age;
 											nPersn.block = per.block;
 											nPersn.id = per.Id;
-											nPersn.isAccompaniment = per.isAccompaniment??false;
+											nPersn.isAccompaniment = per.isAccompaniment ?? false;
 											nPersn.name = per.Name;
 											nPersn.phone = per.Phone;
 											nPersn.specification = per.SpecificationDocumentType;
-											nPersn.specificationRelationship = per.specificationRelationship??"";
+											nPersn.specificationRelationship = per.specificationRelationship ?? "";
 											nPersn.webId = per.webId;
 
 											if (per.DocumentTypeId != null && per.DocumentTypeId != 0) {
@@ -1934,19 +1936,19 @@ namespace UmecaApp
 							}
 
 							var strngEncode = JsonConvert.SerializeObject (caseSync);
-							Console.Write ("strngEncode"+strngEncode);
+							Console.Write ("strngEncode" + strngEncode);
 							//aqui el caso esta lleno y se puede sincronizar
 							try {
 								var sincronizacionError = false;
 								var mensaje = "";
 								if (Method.ToString () == "verificacion") {
-									if( caseSync.verification.sourceVerifications != null && caseSync.verification.sourceVerifications.Count > 0){
+									if (caseSync.verification.sourceVerifications != null && caseSync.verification.sourceVerifications.Count > 0) {
 										var strng = JsonConvert.SerializeObject (caseSync);
 										var sincronizacionMsg = uwsl.synchronizeSourcesVerification (revisor.username, guid, cs.tac ?? null, strng);
 										sincronizacionError = sincronizacionMsg.hasError;
 										mensaje = sincronizacionMsg.message;
 										Console.WriteLine (sincronizacionMsg.message);
-									}else{
+									} else {
 										sincronizacionError = true;
 										mensaje = "Para sincronizar este caso debe terminar al menos una entrevista de verificación, revise la información.";
 									}
@@ -1993,185 +1995,186 @@ namespace UmecaApp
 
 
 
-		public void caseDeleteCascade(int i,int revisor){
+		public void caseDeleteCascade (int i, int revisor)
+		{
 //			try{
-				using (var db = FactoryConn.GetConn ()) {
-					Case cs = db.Table<Case> ().Where (caso => caso.Id == i).FirstOrDefault ();
+			using (var db = FactoryConn.GetConn ()) {
+				Case cs = db.Table<Case> ().Where (caso => caso.Id == i).FirstOrDefault ();
 
-					var verify = db.Table<Verification> ().Where (verf => verf.CaseDetentionId == cs.Id && verf.ReviewerId == revisor).FirstOrDefault ();
-					if (verify != null) {
-						var fuentes = db.Table<SourceVerification> ().Where (svr => svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id).ToList ();
-						if (fuentes != null && fuentes.Count > 0) {
-							foreach (SourceVerification svt in fuentes) {
-								var efemeses = db.Table<FieldMeetingSource> ().Where (efem => efem.SourceVerificationId == svt.Id).ToList ();
-								if (efemeses != null && efemeses.Count > 0) {
-									foreach (FieldMeetingSource ef in efemeses) {
-										Console.WriteLine ("ef-->"+ef.FieldVerificationId+" and svId->"+ef.SourceVerificationId);
-										db.Delete (ef);
-									}
-								}//end de lista de fms no vacia
+				var verify = db.Table<Verification> ().Where (verf => verf.CaseDetentionId == cs.Id && verf.ReviewerId == revisor).FirstOrDefault ();
+				if (verify != null) {
+					var fuentes = db.Table<SourceVerification> ().Where (svr => svr.CaseRequestId == cs.Id && svr.VerificationId == verify.Id).ToList ();
+					if (fuentes != null && fuentes.Count > 0) {
+						foreach (SourceVerification svt in fuentes) {
+							var efemeses = db.Table<FieldMeetingSource> ().Where (efem => efem.SourceVerificationId == svt.Id).ToList ();
+							if (efemeses != null && efemeses.Count > 0) {
+								foreach (FieldMeetingSource ef in efemeses) {
+									Console.WriteLine ("ef-->" + ef.FieldVerificationId + " and svId->" + ef.SourceVerificationId);
+									db.Delete (ef);
+								}
+							}//end de lista de fms no vacia
 							db.Delete (svt);
-							}//end de foreach sourceverification
+						}//end de foreach sourceverification
 //							db.Delete (fuentes);
-						}//end validacion de lista de fuentes no vacia 
-						db.Delete (verify);
-					}// end of verification
+					}//end validacion de lista de fuentes no vacia 
+					db.Delete (verify);
+				}// end of verification
 
 
-					var me = db.Table<Meeting> ().Where (dme => dme.CaseDetentionId == cs.Id).FirstOrDefault ();
-					if (me != null) {
-						var input = db.Table<Imputed> ().Where (inpu => inpu.MeetingId == me.Id).FirstOrDefault ();
-						if (input != null) {
-							db.Delete (input);
-						}//end of imputado para meeting
+				var me = db.Table<Meeting> ().Where (dme => dme.CaseDetentionId == cs.Id).FirstOrDefault ();
+				if (me != null) {
+					var input = db.Table<Imputed> ().Where (inpu => inpu.MeetingId == me.Id).FirstOrDefault ();
+					if (input != null) {
+						db.Delete (input);
+					}//end of imputado para meeting
 
-						var casas = db.Table<ImputedHome> ().Where (imph => imph.MeetingId == me.Id).ToList ();
-						if (casas != null && casas.Count > 0) {
-							foreach (ImputedHome imh in casas) {
-								if (imh.AddressId != null && imh.AddressId != 0) {
-									var adres = db.Table<Address> ().Where (adt => adt.Id == imh.AddressId).FirstOrDefault ();
-									if (adres != null) {
-										db.Delete (adres);
-									}
+					var casas = db.Table<ImputedHome> ().Where (imph => imph.MeetingId == me.Id).ToList ();
+					if (casas != null && casas.Count > 0) {
+						foreach (ImputedHome imh in casas) {
+							if (imh.AddressId != null && imh.AddressId != 0) {
+								var adres = db.Table<Address> ().Where (adt => adt.Id == imh.AddressId).FirstOrDefault ();
+								if (adres != null) {
+									db.Delete (adres);
 								}
-								var horario = db.Table<Schedule> ().Where (hr => hr.ImputedHomeId == imh.Id).ToList ();
-								if (horario != null && horario.Count > 0) {
-									foreach (Schedule horari in horario) {
-										db.Delete (horari);
-									}
-								}
-							db.Delete (imh);
-							}//end foreach
-//							db.Delete (casas);
-						}//end casas
-
-						var drogas = db.Table<Drug> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
-						if (drogas != null && drogas.Count > 0) {
-							foreach(Drug droga in drogas){
-								db.Delete (droga);
 							}
-						}//end drugs
-
-
-						var trabajos = db.Table<Job> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
-						if (trabajos != null && trabajos.Count > 0) {
-							foreach (Job j in trabajos) {
-								var horario = db.Table<Schedule> ().Where (hr => hr.JobId == j.Id).ToList ();
-								if (horario != null && horario.Count > 0) {
-									foreach (Schedule horari in horario) {
-										db.Delete (horari);
-									}	
-								}
-							db.Delete (j);
-							}//end foreach
-//							db.Delete (trabajos);
-						}//end Jobs
-
-						var dejarElPais = db.Table<LeaveCountry> ().Where (lc => lc.MeetingId == me.Id).FirstOrDefault ();
-						if (dejarElPais != null) {
-							db.Delete (dejarElPais);
-						}// end leave country
-
-						var referencias = db.Table<Reference> ().Where (rfs => rfs.MeetingId == me.Id).ToList ();
-						if (referencias != null && referencias.Count > 0) {
-							foreach(Reference referencia in referencias){
-								db.Delete (referencia);
-							}
-						}//end Jobs
-
-						var escuela = db.Table<School> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
-						if (escuela != null) {
-							var horario = db.Table<Schedule> ().Where (hr => hr.SchoolId == escuela.Id).ToList ();
+							var horario = db.Table<Schedule> ().Where (hr => hr.ImputedHomeId == imh.Id).ToList ();
 							if (horario != null && horario.Count > 0) {
 								foreach (Schedule horari in horario) {
 									db.Delete (horari);
 								}
 							}
-							db.Delete (escuela);
-						}// end of school
+							db.Delete (imh);
+						}//end foreach
+//							db.Delete (casas);
+					}//end casas
 
-						var environment = db.Table<SocialEnvironment> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
-						if (environment != null) {
-							var relactivities = db.Table<RelActivity> ().Where (ractiv => ractiv.SocialEnvironmentId == environment.Id).ToList ();
-							if (relactivities != null && relactivities.Count > 0) {
-								foreach(RelActivity relactivitie in relactivities){
-									db.Delete (relactivitie);
-								}
-							}//end de rel activities
-							db.Delete (environment);
-						}// end of environment
-
-						var social = db.Table<SocialNetwork> ().Where (socia => socia.MeetingId == me.Id).FirstOrDefault ();
-						if (social != null) {
-							var personsNetwork = db.Table<PersonSocialNetwork> ().Where (psn => psn.SocialNetworkId == social.Id).ToList ();
-							if (personsNetwork != null && personsNetwork.Count > 0) {
-								foreach (PersonSocialNetwork personsNetwor in personsNetwork) {
-									db.Delete (personsNetwor);
-								}
-							}//end de rel activities
-							db.Delete (social);
-						}// end of social
-						db.Delete (me);
-					}
-
-
-
-					var formats = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == cs.Id).ToList ();
-					if (formats != null && formats.Count > 0) {
-						var formatList = new List<TabletHearingFormatDto> ();
-						foreach (HearingFormat hf in formats) {
-							var spcs = db.Table<HearingFormatSpecs> ().Where (hfsp => hfsp.Id == hf.HearingFormatSpecs).FirstOrDefault ();
-							if (spcs != null) {
-								db.Delete (spcs);
-							}
-
-							var himputed = db.Table<HearingFormatImputed> ().Where (hfsp => hfsp.Id == hf.hearingImputed).FirstOrDefault ();
-							if (himputed != null) {
-								if (himputed != null && himputed.Address > 0) {
-									var adrss = db.Table<Address> ().Where (adrs => adrs.Id == himputed.Address).FirstOrDefault ();
-									db.Delete (adrss);
-								}//end del if adres no es nulo
-								db.Delete (himputed);
-							}
-
-							//asigned arrangments del case
-							var arrangmentsAsigned = db.Table<AssignedArrangement> ().Where (asar => asar.HearingFormat == hf.Id).ToList ();
-							if (arrangmentsAsigned != null && arrangmentsAsigned.Count > 0) {
-								foreach (AssignedArrangement arrangmentsAsigne in arrangmentsAsigned) {
-									db.Delete (arrangmentsAsigne);
-								}
-							}
-
-							//contactos
-							var contcts = db.Table<ContactData> ().Where (cntac => cntac.HearingFormat == hf.Id).ToList ();
-							if (contcts != null && contcts.Count > 0) {
-								foreach(ContactData contct in contcts){
-									db.Delete (contct);
-								}
-							}
-
-							//crimes
-							var crms = db.Table<Crime> ().Where (cry => cry.HearingFormat == hf.Id).ToList ();
-							if (crms != null && crms.Count > 0) {
-								foreach (Crime crm in crms) {
-									db.Delete (crm);
-								}
-							}
-						db.Delete (hf);
+					var drogas = db.Table<Drug> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
+					if (drogas != null && drogas.Count > 0) {
+						foreach (Drug droga in drogas) {
+							db.Delete (droga);
 						}
-//						db.Delete (formats);
-					}//end of hearing formats not null
+					}//end drugs
 
-					db.CreateTable<LogCase> ();
-					var espontaneas = db.Table<LogCase> ().Where (espo => espo.caseDetentionId == cs.Id).ToList ();
-					if (espontaneas != null && espontaneas.Count > 0) {
-						foreach(LogCase espontanea in espontaneas){
-							db.Delete (espontanea);
+
+					var trabajos = db.Table<Job> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
+					if (trabajos != null && trabajos.Count > 0) {
+						foreach (Job j in trabajos) {
+							var horario = db.Table<Schedule> ().Where (hr => hr.JobId == j.Id).ToList ();
+							if (horario != null && horario.Count > 0) {
+								foreach (Schedule horari in horario) {
+									db.Delete (horari);
+								}	
+							}
+							db.Delete (j);
+						}//end foreach
+//							db.Delete (trabajos);
+					}//end Jobs
+
+					var dejarElPais = db.Table<LeaveCountry> ().Where (lc => lc.MeetingId == me.Id).FirstOrDefault ();
+					if (dejarElPais != null) {
+						db.Delete (dejarElPais);
+					}// end leave country
+
+					var referencias = db.Table<Reference> ().Where (rfs => rfs.MeetingId == me.Id).ToList ();
+					if (referencias != null && referencias.Count > 0) {
+						foreach (Reference referencia in referencias) {
+							db.Delete (referencia);
 						}
-					}
-					db.Delete (cs);
-					db.Close ();
+					}//end Jobs
+
+					var escuela = db.Table<School> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
+					if (escuela != null) {
+						var horario = db.Table<Schedule> ().Where (hr => hr.SchoolId == escuela.Id).ToList ();
+						if (horario != null && horario.Count > 0) {
+							foreach (Schedule horari in horario) {
+								db.Delete (horari);
+							}
+						}
+						db.Delete (escuela);
+					}// end of school
+
+					var environment = db.Table<SocialEnvironment> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
+					if (environment != null) {
+						var relactivities = db.Table<RelActivity> ().Where (ractiv => ractiv.SocialEnvironmentId == environment.Id).ToList ();
+						if (relactivities != null && relactivities.Count > 0) {
+							foreach (RelActivity relactivitie in relactivities) {
+								db.Delete (relactivitie);
+							}
+						}//end de rel activities
+						db.Delete (environment);
+					}// end of environment
+
+					var social = db.Table<SocialNetwork> ().Where (socia => socia.MeetingId == me.Id).FirstOrDefault ();
+					if (social != null) {
+						var personsNetwork = db.Table<PersonSocialNetwork> ().Where (psn => psn.SocialNetworkId == social.Id).ToList ();
+						if (personsNetwork != null && personsNetwork.Count > 0) {
+							foreach (PersonSocialNetwork personsNetwor in personsNetwork) {
+								db.Delete (personsNetwor);
+							}
+						}//end de rel activities
+						db.Delete (social);
+					}// end of social
+					db.Delete (me);
 				}
+
+
+
+				var formats = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == cs.Id).ToList ();
+				if (formats != null && formats.Count > 0) {
+					var formatList = new List<TabletHearingFormatDto> ();
+					foreach (HearingFormat hf in formats) {
+						var spcs = db.Table<HearingFormatSpecs> ().Where (hfsp => hfsp.Id == hf.HearingFormatSpecs).FirstOrDefault ();
+						if (spcs != null) {
+							db.Delete (spcs);
+						}
+
+						var himputed = db.Table<HearingFormatImputed> ().Where (hfsp => hfsp.Id == hf.hearingImputed).FirstOrDefault ();
+						if (himputed != null) {
+							if (himputed != null && himputed.Address > 0) {
+								var adrss = db.Table<Address> ().Where (adrs => adrs.Id == himputed.Address).FirstOrDefault ();
+								db.Delete (adrss);
+							}//end del if adres no es nulo
+							db.Delete (himputed);
+						}
+
+						//asigned arrangments del case
+						var arrangmentsAsigned = db.Table<AssignedArrangement> ().Where (asar => asar.HearingFormat == hf.Id).ToList ();
+						if (arrangmentsAsigned != null && arrangmentsAsigned.Count > 0) {
+							foreach (AssignedArrangement arrangmentsAsigne in arrangmentsAsigned) {
+								db.Delete (arrangmentsAsigne);
+							}
+						}
+
+						//contactos
+						var contcts = db.Table<ContactData> ().Where (cntac => cntac.HearingFormat == hf.Id).ToList ();
+						if (contcts != null && contcts.Count > 0) {
+							foreach (ContactData contct in contcts) {
+								db.Delete (contct);
+							}
+						}
+
+						//crimes
+						var crms = db.Table<Crime> ().Where (cry => cry.HearingFormat == hf.Id).ToList ();
+						if (crms != null && crms.Count > 0) {
+							foreach (Crime crm in crms) {
+								db.Delete (crm);
+							}
+						}
+						db.Delete (hf);
+					}
+//						db.Delete (formats);
+				}//end of hearing formats not null
+
+				db.CreateTable<LogCase> ();
+				var espontaneas = db.Table<LogCase> ().Where (espo => espo.caseDetentionId == cs.Id).ToList ();
+				if (espontaneas != null && espontaneas.Count > 0) {
+					foreach (LogCase espontanea in espontaneas) {
+						db.Delete (espontanea);
+					}
+				}
+				db.Delete (cs);
+				db.Close ();
+			}
 //			}catch(Exception e){
 //				Console.WriteLine ("excepcion al borrar el objeto :>>>");
 //				Console.WriteLine (e.Message);
@@ -2179,7 +2182,8 @@ namespace UmecaApp
 		}
 
 
-	}//class end
+	}
+//class end
 
 
 }

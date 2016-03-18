@@ -1,15 +1,15 @@
 ﻿using System;
 using PortableRazor;
-using System.IO;
 
 //query toList()
 using System.Linq;
 
 using Newtonsoft.Json;
+
 //listas
 using System.Collections.Generic;
+
 //cript
-using BCrypt;
 
 using SQLite;
 using Umeca.Data;
@@ -31,7 +31,7 @@ namespace UmecaApp
 		String JsonElection;
 		String JsonActivities;
 
-		public VerificationController(IHybridWebView webView)
+		public VerificationController (IHybridWebView webView)
 		{
 			this.webView = webView;
 			services = new CatalogServiceController ();	
@@ -41,22 +41,22 @@ namespace UmecaApp
 			services.CreateCountryCatalog ();
 			services.CreateStateCatalog ();
 			services.CreateMunicipalityCatalog ();
-			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
-			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
-			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
-			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
+			this.JsonCountrys = JsonConvert.SerializeObject (services.CountryFindAllOrderByName ());
+			this.JsonStates = JsonConvert.SerializeObject (services.StateFindAllOrderByName ());
+			this.JsonMunycipality = JsonConvert.SerializeObject (services.MunicipalityFindAllOrderByName ());
+			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll ());
 
 
 		}
 
 
 
-		public void Index()
+		public void Index ()
 		{	
-			StatusVerification statusVerification1 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_AUTHORIZED);
-			StatusVerification statusVerification2 = services.statusVerificationfindByCode(Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
-			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_VERIFICATION);
-			StatusCase sc1 = services.statusCasefindByCode(Constants.ST_CASE_TABLET_ASSIGNED);
+			StatusVerification statusVerification1 = services.statusVerificationfindByCode (Constants.VERIFICATION_STATUS_AUTHORIZED);
+			StatusVerification statusVerification2 = services.statusVerificationfindByCode (Constants.VERIFICATION_STATUS_MEETING_COMPLETE);
+			StatusCase sc = services.statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION);
+			StatusCase sc1 = services.statusCasefindByCode (Constants.ST_CASE_TABLET_ASSIGNED);
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<User> ();
 				var usrList = db.Table<User> ().ToList ();
@@ -66,20 +66,20 @@ namespace UmecaApp
 					revId = reviewer.Id;
 				}
 
-			var result = new List<MeetingTblDto> ();
-			var resAux = db.Table<Verification> ().Where (meAux => meAux.ReviewerId == revId && (meAux.StatusVerificationId == statusVerification1.Id || meAux.StatusVerificationId == statusVerification2.Id) ).ToList ();
-			foreach (Verification ent in resAux) {
-				var casoRev = db.Table<Case> ().Where (revCase => revCase.Id == ent.CaseDetentionId).FirstOrDefault ();
-				if (casoRev != null && (casoRev.StatusCaseId == sc.Id || casoRev.StatusCaseId == sc1.Id)) {
-					MeetingTblDto found = new MeetingTblDto ();
-					found.CaseId = casoRev.Id;
-					found.IdFolder = casoRev.IdFolder;
-					found.StatusCode = ent.StatusVerificationId == statusVerification1.Id ? statusVerification1.Description : statusVerification2.Description;
-					found.Description = casoRev.StatusCaseId == sc.Id ? sc.Description : sc1.Description;
-					found.ReviewerId = revId;
-					result.Add (found);
+				var result = new List<MeetingTblDto> ();
+				var resAux = db.Table<Verification> ().Where (meAux => meAux.ReviewerId == revId && (meAux.StatusVerificationId == statusVerification1.Id || meAux.StatusVerificationId == statusVerification2.Id)).ToList ();
+				foreach (Verification ent in resAux) {
+					var casoRev = db.Table<Case> ().Where (revCase => revCase.Id == ent.CaseDetentionId).FirstOrDefault ();
+					if (casoRev != null && (casoRev.StatusCaseId == sc.Id || casoRev.StatusCaseId == sc1.Id)) {
+						MeetingTblDto found = new MeetingTblDto ();
+						found.CaseId = casoRev.Id;
+						found.IdFolder = casoRev.IdFolder;
+						found.StatusCode = ent.StatusVerificationId == statusVerification1.Id ? statusVerification1.Description : statusVerification2.Description;
+						found.Description = casoRev.StatusCaseId == sc.Id ? sc.Description : sc1.Description;
+						found.ReviewerId = revId;
+						result.Add (found);
+					}
 				}
-			}
 
 //				var result = db.Query<MeetingTblDto> (
 //					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',"
@@ -114,7 +114,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void IndexFuentes(int idCase)
+		public void IndexFuentes (int idCase)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<User> ();
@@ -131,7 +131,7 @@ namespace UmecaApp
 				var verification = db.Table<Verification> ().Where (ver => ver.CaseDetentionId == idCase && ver.ReviewerId == revId).FirstOrDefault ();
 				var sources = db.Table<SourceVerification> ().Where (sv => (sv.VerificationId == verification.Id && sv.Visible == true
 //				&& sv.IsAuthorized == true 
-				             && sv.CaseRequestId == idCase && sv.DateComplete == null)).ToList ();
+				              && sv.CaseRequestId == idCase && sv.DateComplete == null)).ToList ();
 
 				var alls = db.Table<SourceVerification> ().ToList ();
 				var entrevistador = db.Table<User> ().Where (u => u.Id.Equals (meeting.ReviewerId)).FirstOrDefault ();
@@ -156,7 +156,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void ValidationMeetingBySource(int idSource)
+		public void ValidationMeetingBySource (int idSource)
 		{
 
 			using (var db = FactoryConn.GetConn ()) {
@@ -404,7 +404,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void  AddVerificationSource(int idCase)
+		public void  AddVerificationSource (int idCase)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				try {
@@ -420,7 +420,7 @@ namespace UmecaApp
 					var caso = db.Table<Case> ().Where (cs => cs.Id == casoId).FirstOrDefault ();
 //				var usuario = db.Table<User>().FirstOrDefault();
 					var verificacion = db.Table<Verification> ().Where (s => s.CaseDetentionId == casoId
-					                  && s.ReviewerId == revId).FirstOrDefault ();
+					                   && s.ReviewerId == revId).FirstOrDefault ();
 					var dto = new ModelContainer ();
 					dto.Reference = idCase.ToString ();
 					SourceVerification mdl = new SourceVerification ();

@@ -1,5 +1,4 @@
-﻿using System;
-using PortableRazor;
+﻿using PortableRazor;
 
 namespace UmecaApp
 {
@@ -14,7 +13,7 @@ namespace UmecaApp
 			this.dataAccess = dataAccess;
 		}
 
-		public void Index()
+		public void Index ()
 		{
 			webView.LoadHtmlString ("Index");
 		}

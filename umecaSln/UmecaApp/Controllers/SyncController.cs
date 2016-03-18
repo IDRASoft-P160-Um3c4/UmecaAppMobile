@@ -1,11 +1,11 @@
 ﻿using System;
 using PortableRazor;
-using System.IO;
 
 //query toList()
 using System.Linq;
 
 using Newtonsoft.Json;
+
 //listas
 using System.Collections.Generic;
 
@@ -25,13 +25,13 @@ namespace UmecaApp
 
 
 
-		public SyncController(IHybridWebView webView)
+		public SyncController (IHybridWebView webView)
 		{
 			this.webView = webView;
 			services = new CatalogServiceController ();
 		}
 
-		public void Index()
+		public void Index ()
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<User> ();
@@ -48,15 +48,15 @@ namespace UmecaApp
 				StatusCase sc1 = services.statusCasefindByCode (Constants.ST_CASE_TABLET_ASSIGNED);
 
 				var result = db.Query<MeetingTblDto> (
-					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-					            + " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
-					            + " FROM meeting as me "
-					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-					            + " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-					            + " WHERE me.id_status =? "
-					            + " and me.id_reviewer = ? "
-					            + " AND cs.id_status in (?,?); ", statusMeeting2.Id, revId, sc.Id, sc1.Id);
+					             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					             + " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+					             + " FROM meeting as me "
+					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					             + " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+					             + " WHERE me.id_status =? "
+					             + " and me.id_reviewer = ? "
+					             + " AND cs.id_status in (?,?); ", statusMeeting2.Id, revId, sc.Id, sc1.Id);
 				var c1 = 0;
 				if (result != null) {
 					for (c1 = 0; c1 < result.Count; c1++) {
@@ -70,15 +70,15 @@ namespace UmecaApp
 				StatusCase scv1 = services.statusCasefindByCode (Constants.ST_CASE_TABLET_ASSIGNED);
 
 				var result2 = db.Query<MeetingTblDto> (
-					             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', "
-					             + " csm.description as 'StatusCode', csm.description as 'Description'  , me.id_reviewer as 'ReviewerId' "
-					             + " , me.id_verification as 'MeetingStatusId' "
-					             + " FROM verification as me "
-					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					             + "  left JOIN cat_status_verification as csm ON csm.id_status = me.id_status_verification "
-								 + " WHERE me.id_status_verification  in (?,?) "
-					             + " and me.id_reviewer = ? "
-					             + " AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId, scv.Id, scv1.Id);
+					              "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', "
+					              + " csm.description as 'StatusCode', csm.description as 'Description'  , me.id_reviewer as 'ReviewerId' "
+					              + " , me.id_verification as 'MeetingStatusId' "
+					              + " FROM verification as me "
+					              + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					              + "  left JOIN cat_status_verification as csm ON csm.id_status = me.id_status_verification "
+					              + " WHERE me.id_status_verification  in (?,?) "
+					              + " and me.id_reviewer = ? "
+					              + " AND cs.id_status in (?,?); ", statusVerification1.Id, statusVerification2.Id, revId, scv.Id, scv1.Id);
 				var c2 = 0;
 				try {
 					if (result2 != null) {
@@ -117,15 +117,15 @@ namespace UmecaApp
 				StatusMeeting statusMeetingNeg = services.statusMeetingfindByCode (Constants.S_MEETING_DECLINE);
 				StatusCase sc2 = services.statusCasefindByCode (Constants.CASE_STATUS_NOT_PROSECUTE);
 				var result3 = db.Query<MeetingTblDto> (
-					"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-					+ " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
-					+ " FROM meeting as me "
-					+ " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					+ " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-					+ " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-					+ " WHERE me.id_status =? "
-					+ " and me.id_reviewer = ? "
-					+ " AND cs.id_status = ?; ", statusMeetingNeg.Id, revId, sc2.Id);
+					              "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					              + " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+					              + " FROM meeting as me "
+					              + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					              + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					              + " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+					              + " WHERE me.id_status =? "
+					              + " and me.id_reviewer = ? "
+					              + " AND cs.id_status = ?; ", statusMeetingNeg.Id, revId, sc2.Id);
 				var c3 = 0;
 				if (result != null) {
 					for (c3 = 0; c3 < result3.Count; c3++) {
@@ -146,7 +146,7 @@ namespace UmecaApp
 		}
 
 
-		public void IndexSuperv()
+		public void IndexSuperv ()
 		{
 			
 			using (var db = FactoryConn.GetConn ()) {
@@ -171,16 +171,16 @@ namespace UmecaApp
 				StatusCase sc = services.statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION);
 
 				var result = db.Query<MeetingTblDto> (
-					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-					            + " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
-					            + " FROM meeting as me "
-					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-					            + " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-					            + " Where cs.id_status in (?,?,?,?,?,?,?) "
-					            + " and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
-					            statusCaseSupervition3.Id, statusCaseSupervition4.Id,
-					            statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id, revId);
+					             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					             + " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
+					             + " FROM meeting as me "
+					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					             + " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+					             + " Where cs.id_status in (?,?,?,?,?,?,?) "
+					             + " and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
+					             statusCaseSupervition3.Id, statusCaseSupervition4.Id,
+					             statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id, revId);
 		
 
 				var c1 = 0;
@@ -200,18 +200,19 @@ namespace UmecaApp
 
 
 
-		public void  MeetingEditNew()
+		public void  MeetingEditNew ()
 		{
-			var temp = new NewMeeting{Model = new NewMeetingDto() };
+			var temp = new NewMeeting{ Model = new NewMeetingDto () };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
 
-		public void AddMeeting([Bind]NewMeetingDto model) {
+		public void AddMeeting ([Bind]NewMeetingDto model)
+		{
 		
-			String validateCreateMsg = validateCreateMeeting(model);
+			String validateCreateMsg = validateCreateMeeting (model);
 			if (validateCreateMsg != null) {
 				model.ResponseMessage = validateCreateMsg;
 				var temp = new NewMeeting{ Model = model };
@@ -219,17 +220,18 @@ namespace UmecaApp
 				pagestring = temp.GenerateString ();
 				webView.LoadHtmlString (pagestring);
 			} else {
-				int? idCase = createMeeting(model);
+				int? idCase = createMeeting (model);
 				int az = idCase.GetValueOrDefault ();
 				//String Response = "Se ha guardado exitosamente";
 				MeetingDatosPersonales (az);
 			}
 		}
 
-		public String validateCreateMeeting(NewMeetingDto model) {
+		public String validateCreateMeeting (NewMeetingDto model)
+		{
 			if (model.DateBirth.HasValue) {
-				int age = services.calculateAge(model.DateBirth.Value);
-				if (age.CompareTo(18)<0) {
+				int age = services.calculateAge (model.DateBirth.Value);
+				if (age.CompareTo (18) < 0) {
 					return "El imputado debe tener más de 18 años para continuar";
 				}
 			} else {
@@ -237,7 +239,7 @@ namespace UmecaApp
 			}
 			if (model.IdFolder != null) {
 				var repeated = 0;
-				var fonetic = services.getFoneticByName(model.Name,model.LastNameP,model.LastNameM);
+				var fonetic = services.getFoneticByName (model.Name, model.LastNameP, model.LastNameM);
 				using (var db = FactoryConn.GetConn ()) {
 					var casos = db.Table<Case> ().Where (cs => cs.IdFolder == model.IdFolder).ToList ();
 					if (casos != null && casos.Count > 0) {
@@ -246,8 +248,8 @@ namespace UmecaApp
 							if (entrevistas != null && entrevistas.Count > 0) {
 								foreach (Meeting entrevista in entrevistas) {
 									var imputado = db.Table<Imputed> ().Where (imp => imp.MeetingId == entrevista.Id
-									              && imp.FoneticString == fonetic
-									              && imp.BirthDate == model.DateBirth).ToList ();
+									               && imp.FoneticString == fonetic
+									               && imp.BirthDate == model.DateBirth).ToList ();
 									if (imputado != null && imputado.Count > 0) {
 										repeated++;
 									}
@@ -258,7 +260,7 @@ namespace UmecaApp
 					}
 					db.Close ();
 				}
-				if(repeated>0){
+				if (repeated > 0) {
 					return "El número de carpeta de investigación y el imputado ya se encuentran registrados.";
 				}
 			} else {
@@ -267,7 +269,8 @@ namespace UmecaApp
 			return null;
 		}
 
-		public int? createMeeting(NewMeetingDto imputed) {
+		public int? createMeeting (NewMeetingDto imputed)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				int? result = null;
 				try {
@@ -281,8 +284,8 @@ namespace UmecaApp
 					newImputed.BirthDate = imputed.DateBirth.GetValueOrDefault ();
 
 					var reincident = db.Table<Imputed> ().Where (impu => impu.LastNameM == newImputed.LastNameM
-					                && impu.LastNameP == newImputed.LastNameP && impu.Name == newImputed.Name
-					                && impu.BirthDate == newImputed.BirthDate).ToList ();
+					                 && impu.LastNameP == newImputed.LastNameP && impu.Name == newImputed.Name
+					                 && impu.BirthDate == newImputed.BirthDate).ToList ();
 					if (reincident != null && reincident.Count > 0) {
 						caseDetention.Recidivist = true;
 					} else {
@@ -322,34 +325,34 @@ namespace UmecaApp
 			}
 		}
 
-		public void  MeetingDatosPersonales(int idCase)
+		public void  MeetingDatosPersonales (int idCase)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				if (idCase == 0) {
 					idCase = db.Table<Case> ().FirstOrDefault ().Id;
 				}
 				var result = db.Query<MeetingDatosPersonalesDto> (
-					            "SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
-					            + " ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
-					            + " ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
-					            + " ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
-					            + " ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
-					            + " ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
-					            + " ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
-					            + " ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
-					            + " ,me.id_meeting as 'MeetingId'"
-					            + " ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
-					            + " ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
-					            + " ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
-					            + " ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
-					            + " ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
+					             "SELECT cs.id_folder as 'IdFolder', im.id_imputed as 'ImputedId',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM'"
+					             + " ,im.birth_date as 'BirthDate', im.gender as 'Gender'"
+					             + " ,im.fonetic_string as 'FoneticString', im.cel_phone as 'CelPhone'"
+					             + " ,im.years_marital_status as 'YearsMaritalStatus', im.id_marital_status as 'MaritalStatusId'"
+					             + " ,im.boys as 'Boys', im.dependent_boys as 'DependentBoys'"
+					             + " ,im.id_country as 'BirthCountry', im.birth_municipality as 'BirthMunicipality'"
+					             + " ,im.birth_state as 'BirthState', im.birth_location as 'BirthLocation'"
+					             + " ,im.nickname as 'Nickname', im.id_location as 'LocationId'"
+					             + " ,me.id_meeting as 'MeetingId'"
+					             + " ,me.id_reviewer as 'ReviewerId', me.id_status as 'StatusMeetingId'"
+					             + " ,me.comment_refernce as 'CommentReference', me.comment_job as 'CommentJob'"
+					             + " ,me.comment_school as 'CommentSchool', me.comment_country as 'CommentCountry'"
+					             + " ,me.comment_home as 'CommentHome', me.comment_drug as 'CommentDrug'"
+					             + " ,me.date_create as 'DateCreate', me.date_terminate as 'DateTerminate'"
 				//				+", csm.status as 'StatusCode', csm.description as 'Description'"
-					            + " FROM meeting as me "
-					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					             + " FROM meeting as me "
+					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
 				//				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
 				//				+" and me.id_reviewer = 2 "
-					            + " where cs.id_case = ?; ", idCase).FirstOrDefault ();
+					             + " where cs.id_case = ?; ", idCase).FirstOrDefault ();
 				result.CaseId = idCase;
 
 				result.ageString = services.calculateAge (result.BirthDate);
@@ -469,7 +472,8 @@ namespace UmecaApp
 			}
 		}
 
-		public void SaveMeetingDatosPersonales([Bind]MeetingDatosPersonalesDto model) {
+		public void SaveMeetingDatosPersonales ([Bind]MeetingDatosPersonalesDto model)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var imputado = db.Get<Imputed> (model.ImputedId); 
 				imputado.Name = model.Name;
@@ -503,7 +507,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void  MeetingDomicilio(int idMeeting)
+		public void  MeetingDomicilio (int idMeeting)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				var MeetingId = int.Parse (idMeeting.ToString ());
@@ -520,7 +524,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void  EditMeetingDomicilio(int idHome)
+		public void  EditMeetingDomicilio (int idHome)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				var HomeId = int.Parse (idHome.ToString ());
@@ -550,19 +554,19 @@ namespace UmecaApp
 			}
 		}
 
-		public void  PersonSocialNetwork(int idMeeting)
+		public void  PersonSocialNetwork (int idMeeting)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var MeetingId = int.Parse (idMeeting.ToString ());
 					var dto = new ModelContainer ();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
-					SocialNetwork me = db.Table<SocialNetwork>().Where(mee => mee.MeetingId == idMeeting ).FirstOrDefault();
-					if(me==null){
-						me = new SocialNetwork();
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == idMeeting).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
+					SocialNetwork me = db.Table<SocialNetwork> ().Where (mee => mee.MeetingId == idMeeting).FirstOrDefault ();
+					if (me == null) {
+						me = new SocialNetwork ();
 						me.Comment = "";
 						me.MeetingId = idMeeting;
-						db.Insert(me);
+						db.Insert (me);
 					}
 					PersonSocialNetwork mdl = new PersonSocialNetwork ();
 					mdl.SocialNetworkId = me.Id;
@@ -571,52 +575,50 @@ namespace UmecaApp
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
-		public void  EditPersonSocialNetwork(int idPerson)
+		public void  EditPersonSocialNetwork (int idPerson)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var SNPersonId = int.Parse (idPerson.ToString ());
 					var dto = new ModelContainer ();
-					var mdl = db.Table<PersonSocialNetwork>().Where(mee => mee.Id == SNPersonId ).FirstOrDefault();
-					var sn = db.Table<SocialNetwork>().Where(a=>a.Id == mdl.SocialNetworkId).FirstOrDefault();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == sn.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+					var mdl = db.Table<PersonSocialNetwork> ().Where (mee => mee.Id == SNPersonId).FirstOrDefault ();
+					var sn = db.Table<SocialNetwork> ().Where (a => a.Id == mdl.SocialNetworkId).FirstOrDefault ();
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == sn.MeetingId).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
 					var temp = new PersonSocialNetworkUpsert{ Model = dto };
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
 
-		public void  ReferenceMeeting(int idMeeting)
+		public void  ReferenceMeeting (int idMeeting)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var MeetingId = int.Parse (idMeeting.ToString ());
 					var dto = new ModelContainer ();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == idMeeting).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					Reference mdl = new Reference ();
 					mdl.MeetingId = MeetingId;
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -624,50 +626,48 @@ namespace UmecaApp
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
-		public void  EditReferenceMeeting(int idReference)
+		public void  EditReferenceMeeting (int idReference)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var referenceId = int.Parse (idReference.ToString ());
 					var dto = new ModelContainer ();
-					var mdl = db.Table<Reference>().Where(mee => mee.Id == referenceId ).FirstOrDefault();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+					var mdl = db.Table<Reference> ().Where (mee => mee.Id == referenceId).FirstOrDefault ();
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == mdl.MeetingId).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
 					var temp = new ReferenciasUpsert{ Model = dto };
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
-		public void  JobMeeting(int idMeeting)
+		public void  JobMeeting (int idMeeting)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var MeetingId = int.Parse (idMeeting.ToString ());
 					var dto = new ModelContainer ();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == idMeeting).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					Job mdl = new Job ();
 					mdl.MeetingId = MeetingId;
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -675,50 +675,48 @@ namespace UmecaApp
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
-		public void  EditJobMeeting(int idJob)
+		public void  EditJobMeeting (int idJob)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var jobId = int.Parse (idJob.ToString ());
 					var dto = new ModelContainer ();
-					var mdl = db.Table<Job>().Where(mee => mee.Id == jobId ).FirstOrDefault();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+					var mdl = db.Table<Job> ().Where (mee => mee.Id == jobId).FirstOrDefault ();
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == mdl.MeetingId).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
 					var temp = new JobUpsert{ Model = dto };
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
-		public void  DrugMeeting(int idMeeting)
+		public void  DrugMeeting (int idMeeting)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var MeetingId = int.Parse (idMeeting.ToString ());
 					var dto = new ModelContainer ();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == idMeeting).FirstOrDefault().CaseDetentionId.ToString()??"";
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == idMeeting).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					Drug mdl = new Drug ();
 					mdl.MeetingId = MeetingId;
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
@@ -726,69 +724,67 @@ namespace UmecaApp
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-			db.Close();
+				db.Close ();
 			}
 		}
 
-		public void  EditDrugMeeting(int idDrug)
+		public void  EditDrugMeeting (int idDrug)
 		{
 			using (var db = FactoryConn.GetConn ()) {
-				try{
+				try {
 					var drugId = int.Parse (idDrug.ToString ());
 					var dto = new ModelContainer ();
-					var mdl = db.Table<Drug>().Where(mee => mee.Id == drugId ).FirstOrDefault();
-					dto.Reference = db.Table<Meeting>().Where(s=>s.Id == mdl.MeetingId).FirstOrDefault().CaseDetentionId.ToString()??"";
+					var mdl = db.Table<Drug> ().Where (mee => mee.Id == drugId).FirstOrDefault ();
+					dto.Reference = db.Table<Meeting> ().Where (s => s.Id == mdl.MeetingId).FirstOrDefault ().CaseDetentionId.ToString () ?? "";
 					dto.JsonModel = JsonConvert.SerializeObject (mdl);
 					var temp = new DrugUpsert{ Model = dto };
 					var pagestring = "nada que ver";
 					pagestring = temp.GenerateString ();
 					webView.LoadHtmlString (pagestring);
-				}catch(Exception e){
+				} catch (Exception e) {
 					db.Rollback ();
 					Console.WriteLine ("catched exception in SyncController method PersonSocialNetwork");
-					Console.WriteLine("Exception message :::>"+e.Message);
-				}
-				finally{
+					Console.WriteLine ("Exception message :::>" + e.Message);
+				} finally {
 					db.Commit ();
 				}
-				db.Close();
+				db.Close ();
 			}
 		}
 
 
 
-		public void IndexVerificacion()
+		public void IndexVerificacion ()
 		{
-			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE);
-			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode(Constants.S_MEETING_INCOMPLETE_LEGAL);
-			StatusCase sc = services.statusCasefindByCode(Constants.CASE_STATUS_MEETING);
+			StatusMeeting statusMeeting1 = services.statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE);
+			StatusMeeting statusMeeting2 = services.statusMeetingfindByCode (Constants.S_MEETING_INCOMPLETE_LEGAL);
+			StatusCase sc = services.statusCasefindByCode (Constants.CASE_STATUS_MEETING);
 			using (var db = FactoryConn.GetConn ()) {
-			var result = db.Query<MeetingTblDto> (
-				"SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-				+" im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
-				+" FROM meeting as me "
-				+" left JOIN case_detention as cs ON me.id_case = cs.id_case "
-				+" left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-				+" left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
-				+" WHERE me.id_status in (?,?) "
+				var result = db.Query<MeetingTblDto> (
+					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder',im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					            + " im.birth_date as 'DateBirth', im.gender as 'Gender', csm.status as 'StatusCode', csm.description as 'Description'"
+					            + " FROM meeting as me "
+					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					            + " left JOIN cat_status_meeting as csm ON csm.id_status = me.id_status "
+					            + " WHERE me.id_status in (?,?) "
 				//				+" and me.id_reviewer = 2 "
-				+" AND cs.id_status = ?; ", statusMeeting1.Id,statusMeeting2.Id, sc.Id);
+					            + " AND cs.id_status = ?; ", statusMeeting1.Id, statusMeeting2.Id, sc.Id);
 
 
 
-			var temp = new MeetingList{Model = result};
-			var pagestring = "nada que ver";
-			pagestring = temp.GenerateString ();
-			webView.LoadHtmlString (pagestring);
-				db.Close();
+				var temp = new MeetingList{ Model = result };
+				var pagestring = "nada que ver";
+				pagestring = temp.GenerateString ();
+				webView.LoadHtmlString (pagestring);
+				db.Close ();
 			}
 		}
 

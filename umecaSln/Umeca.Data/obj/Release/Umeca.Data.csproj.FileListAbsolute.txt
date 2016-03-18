@@ -24,3 +24,17 @@ C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umec
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\res\values\strings.xml
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\R.cs.flag
 C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\uploadflags.txt
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.dll
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.pdb
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.apk
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data-Signed.apk
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\Umeca.Data.dll
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\Umeca.Data.pdb
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\android\bin\Umeca.Data.apk
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\res\values\strings.xml
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\R.cs.flag
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\uploadflags.txt
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\Umeca.Data.dll.mdb
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.dll.mdb
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Release\Umeca.Data.dll.mdb
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Release\Umeca.Data.dll.mdb

@@ -1,6 +1,5 @@
-﻿	using System;
+﻿using System;
 using PortableRazor;
-using System.IO;
 
 using System.Linq;
 
@@ -25,18 +24,10 @@ namespace UmecaApp
 		String JsonElection;
 
 
-		public SupervisionController(IHybridWebView webView)
+		public SupervisionController (IHybridWebView webView)
 		{	
 			this.webView = webView;
 			services = new CatalogServiceController ();	
-
-			services.CreateStatusCaseCatalog ();
-			services.CreateStatusMeetingCatalog ();
-			services.CreateElection ();
-
-			services.CreateCountryCatalog ();
-			services.CreateStateCatalog ();
-			services.CreateMunicipalityCatalog ();
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<SocialEnvironment> ();
 				db.CreateTable<RelActivity> ();
@@ -44,16 +35,16 @@ namespace UmecaApp
 				db.Close ();
 			}
 
-			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
-			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
-			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());
-			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll());
+			this.JsonCountrys = JsonConvert.SerializeObject (services.CountryFindAllOrderByName ());
+			this.JsonStates = JsonConvert.SerializeObject (services.StateFindAllOrderByName ());
+			this.JsonMunycipality = JsonConvert.SerializeObject (services.MunicipalityFindAllOrderByName ());
+			this.JsonElection = JsonConvert.SerializeObject (services.ElectionFindAll ());
 
 		}
 
 
 
-		public void Index()
+		public void Index ()
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<User> ();
@@ -75,17 +66,17 @@ namespace UmecaApp
 				StatusCase statusCaseSupervition7 = services.statusCasefindByCode (Constants.CASE_STATUS_NOT_PROSECUTE_OPEN);
 				StatusCase sc = services.statusCasefindByCode (Constants.CASE_STATUS_VERIFICATION);
 				var result = db.Query<CaseHearingFormatTblDto> (
-					            "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-					            + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', scs.description as 'Description'"
-					            + " FROM meeting as me "
-					            + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					            + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-					            + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status "
+					             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					             + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', scs.description as 'Description'"
+					             + " FROM meeting as me "
+					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status "
 //				+" WHERE me.id_status in (?,?,?,?,?,?,?) "3
-					            + " Where cs.id_status in (?,?,?,?,?,?,?) "
-					            + " and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
-					            statusCaseSupervition3.Id, statusCaseSupervition4.Id,
-					            statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id, revId);
+					             + " Where cs.id_status in (?,?,?,?,?,?,?) "
+					             + " and me.id_reviewer = ? ", statusCaseSupervition1.Id, statusCaseSupervition2.Id,
+					             statusCaseSupervition3.Id, statusCaseSupervition4.Id,
+					             statusCaseSupervition5.Id, statusCaseSupervition6.Id, statusCaseSupervition7.Id, revId);
 				Console.WriteLine ("result.count supervition index> {0}", result.Count);
 				var temp = new CaseHearingList{ Model = result };
 				var pagestring = "nada que ver";
@@ -95,17 +86,18 @@ namespace UmecaApp
 			}
 		}
 
-		public void  CaseConditionalReprieveEditNew()
+		public void  CaseConditionalReprieveEditNew ()
 		{
-			var temp = new NewConditionalReprieve2{Model = new NewMeetingDto() };
+			var temp = new NewConditionalReprieve2{ Model = new NewMeetingDto () };
 			//			var temp = new NewMeeting{Model = new EntrevistaTabla{Name="nombre" , DateBirthString=DateTime.Today.ToString("yyyy/mm/dd")} };
 			var pagestring = "nada que ver";
 			pagestring = temp.GenerateString ();
 			webView.LoadHtmlString (pagestring);
 		}
 
-		public void AddCaseConditionalReprieve([Bind]NewMeetingDto model) {
-			String validateCreateMsg = validateCaseConditionalReprieve(model);
+		public void AddCaseConditionalReprieve ([Bind]NewMeetingDto model)
+		{
+			String validateCreateMsg = validateCaseConditionalReprieve (model);
 			if (validateCreateMsg != null) {
 				model.ResponseMessage = validateCreateMsg;
 				var temp = new NewConditionalReprieve2{ Model = model };
@@ -113,16 +105,17 @@ namespace UmecaApp
 				pagestring = temp.GenerateString ();
 				webView.LoadHtmlString (pagestring);
 			} else {
-				int? idCase = createCaseConditionalReprieve(model);
+				int? idCase = createCaseConditionalReprieve (model);
 				int az = idCase.GetValueOrDefault ();
-				Index();
+				Index ();
 			}
 		}
 
-		public String validateCaseConditionalReprieve(NewMeetingDto model) {
+		public String validateCaseConditionalReprieve (NewMeetingDto model)
+		{
 			if (model.DateBirth.HasValue) {
-				int age = services.calculateAge(model.DateBirth.Value);
-				if (age.CompareTo(18)<0) {
+				int age = services.calculateAge (model.DateBirth.Value);
+				if (age.CompareTo (18) < 0) {
 					return "El imputado debe tener más de 18 años para continuar";
 				}
 			} else {
@@ -130,7 +123,7 @@ namespace UmecaApp
 			}
 			if (model.IdMP != null) {
 				var repeated = 0;
-				var fonetic = services.getFoneticByName(model.Name,model.LastNameP,model.LastNameM);
+				var fonetic = services.getFoneticByName (model.Name, model.LastNameP, model.LastNameM);
 				using (var db = FactoryConn.GetConn ()) {
 					var casos = db.Table<Case> ().Where (cs => cs.IdMP == model.IdMP).ToList ();
 					if (casos != null && casos.Count > 0) {
@@ -139,8 +132,8 @@ namespace UmecaApp
 							if (entrevistas != null && entrevistas.Count > 0) {
 								foreach (Meeting entrevista in entrevistas) {
 									var imputado = db.Table<Imputed> ().Where (imp => imp.MeetingId == entrevista.Id
-									              && imp.FoneticString == fonetic
-									              && imp.BirthDate == model.DateBirth).ToList ();
+									               && imp.FoneticString == fonetic
+									               && imp.BirthDate == model.DateBirth).ToList ();
 									if (imputado != null && imputado.Count > 0) {
 										repeated++;
 									}
@@ -151,7 +144,7 @@ namespace UmecaApp
 					}
 					db.Close ();
 				}
-				if(repeated>0){
+				if (repeated > 0) {
 					return "El número de carpeta judicial y el imputado ya se encuentran registrados.";
 				}
 			} else {
@@ -160,7 +153,8 @@ namespace UmecaApp
 			return null;
 		}
 
-		public int? createCaseConditionalReprieve(NewMeetingDto imputed) {
+		public int? createCaseConditionalReprieve (NewMeetingDto imputed)
+		{
 			int? result = null;
 			using (var db = FactoryConn.GetConn ()) {
 				try {
@@ -182,8 +176,8 @@ namespace UmecaApp
 					newImputed.BirthDate = imputed.DateBirth.GetValueOrDefault ();
 
 					var reincident = db.Table<Imputed> ().Where (impu => impu.LastNameM == newImputed.LastNameM
-					                && impu.LastNameP == newImputed.LastNameP && impu.Name == newImputed.Name
-					                && impu.BirthDate == newImputed.BirthDate).ToList ();
+					                 && impu.LastNameP == newImputed.LastNameP && impu.Name == newImputed.Name
+					                 && impu.BirthDate == newImputed.BirthDate).ToList ();
 					if (reincident != null && reincident.Count > 0) {
 						caseDetention.Recidivist = true;
 					} else {
@@ -227,7 +221,7 @@ namespace UmecaApp
 			return result;
 		}
 
-		public void HearingFormatList(int idCase)
+		public void HearingFormatList (int idCase)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<HearingFormat> ();
@@ -259,12 +253,12 @@ namespace UmecaApp
 				var formatosAudiencia = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == idCase).ToList ();
 				if (formatosAudiencia != null && formatosAudiencia.Count > 0) {
 					foreach (HearingFormat au in formatosAudiencia) {
-						var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp => hfimp.Id == au.hearingImputed).FirstOrDefault();
-						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault();
+						var imputedAu = db.Table<HearingFormatImputed> ().Where (hfimp => hfimp.Id == au.hearingImputed).FirstOrDefault ();
+						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault ();
 						var parsing = new HearingFormatGrid ();
 						var registertime = DateTime.Now;
-						if(au.RegisterTime != null){
-							registertime = au.RegisterTime??DateTime.Now;
+						if (au.RegisterTime != null) {
+							registertime = au.RegisterTime ?? DateTime.Now;
 						}
 						if (specs == null) {
 							parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, null, null, null, registertime, reviewer.fullname, idCase);
@@ -283,7 +277,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void HearingFormatList(int idCase,string mesage)
+		public void HearingFormatList (int idCase, string mesage)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<HearingFormat> ();
@@ -319,8 +313,8 @@ namespace UmecaApp
 						var specs = db.Table<HearingFormatSpecs> ().Where (hfspcs => hfspcs.Id == au.HearingFormatSpecs).FirstOrDefault ();
 						var parsing = new HearingFormatGrid ();
 						var registertime = DateTime.Now;
-						if(au.RegisterTime != null){
-							registertime = au.RegisterTime??DateTime.Now;
+						if (au.RegisterTime != null) {
+							registertime = au.RegisterTime ?? DateTime.Now;
 						}
 						if (specs == null) {
 							parsing = new HearingFormatGrid (au.Id, au.IsFinished, au.IdFolder, au.IdJudicial, imputedAu.Name, imputedAu.LastNameP, imputedAu.LastNameM, null, null, null, registertime, reviewer.fullname, idCase);
@@ -340,7 +334,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void  HearingFormatUpsert(int idCase,int idFormato)
+		public void  HearingFormatUpsert (int idCase, int idFormato)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				var view = new HearingFormatEditDto ();
@@ -356,7 +350,7 @@ namespace UmecaApp
 
 				if (idFormato > 0) {
 					hearingFormatData = fillHearingFormaData (idFormato);
-					Case ActualCase = db.Table<Case> ().Where (actul=>actul.Id==idCase).FirstOrDefault ();
+					Case ActualCase = db.Table<Case> ().Where (actul => actul.Id == idCase).FirstOrDefault ();
 					hearingFormatData.IsSubstracted = ActualCase.IsSubstracted;
 				} else { //si es nuevo 
 					var last = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == idCase && hf.IsFinished == false).ToList ();
@@ -373,7 +367,7 @@ namespace UmecaApp
 				}
 
 				var pervF = db.Table<HearingFormat> ().Where (prev => prev.CaseDetention == idCase
-				           && prev.IsFinished == true).ToList ();
+				            && prev.IsFinished == true).ToList ();
 				if (pervF != null && pervF.Count > 0) {
 					hearingFormatData.hasPrevHF = true;
 				} else {
@@ -446,18 +440,19 @@ namespace UmecaApp
 			}
 		}
 
-		public HearingFormatView newHearingFormatByCase(int idCase){
+		public HearingFormatView newHearingFormatByCase (int idCase)
+		{
 			using (var db = FactoryConn.GetConn ()) {
 				var hearingFormatData = new HearingFormatView ();
 
 				var formatosAnteriores = db.Table<HearingFormat> ().Where (prev => prev.CaseDetention == idCase
-				                        && prev.IsFinished == true).OrderByDescending (prev => prev.Id).ToList ();
+				                         && prev.IsFinished == true).OrderByDescending (prev => prev.Id).ToList ();
 
 				//intenta traer los formatos anteriores y con eso llenar el nuevo formato
 				if (formatosAnteriores != null && formatosAnteriores.Count > 0) {
 					var ultimo = formatosAnteriores.FirstOrDefault ();
 					hearingFormatData = fillHearingFormaData (ultimo.Id);
-					Case ActualCase = db.Table<Case> ().Where (actul=>actul.Id==idCase).FirstOrDefault ();
+					Case ActualCase = db.Table<Case> ().Where (actul => actul.Id == idCase).FirstOrDefault ();
 					hearingFormatData.IsSubstracted = ActualCase.IsSubstracted;
 				} else {
 					var caso = db.Table<Case> ().Where (cs => cs.Id == idCase).FirstOrDefault ();
@@ -493,7 +488,8 @@ namespace UmecaApp
 		}
 
 
-		public HearingFormatView fillHearingFormaData(int idFormato){
+		public HearingFormatView fillHearingFormaData (int idFormato)
+		{
 			var result = new HearingFormatView ();
 			using (var db = FactoryConn.GetConn ()) {
 
@@ -573,7 +569,7 @@ namespace UmecaApp
 				}
 
 				if (specs != null && specs.LinkageProcess > 0
-				  && (specs.LinkageProcess == Constants.PROCESS_VINC_YES || specs.LinkageProcess == Constants.PROCESS_VINC_NO_REGISTER)) {
+				    && (specs.LinkageProcess == Constants.PROCESS_VINC_YES || specs.LinkageProcess == Constants.PROCESS_VINC_NO_REGISTER)) {
 					result.arrangementType = specs.ArrangementType;
 					result.nationalArrangement = specs.NationalArrangement;
 					result.terms = formatosFuente.Terms;
@@ -626,8 +622,9 @@ namespace UmecaApp
 
 
 
-		public List<ArrangementView> getArrangmentLst(Boolean? national, int? idTipo, int? idFormato) {
-			List<ArrangementView> lstArrmntView = new List<ArrangementView>();
+		public List<ArrangementView> getArrangmentLst (Boolean? national, int? idTipo, int? idFormato)
+		{
+			List<ArrangementView> lstArrmntView = new List<ArrangementView> ();
 			using (var db = FactoryConn.GetConn ()) {
 				var lstArrmnt = db.Table<Arrangement> ().Where (Arr => Arr.IsNational == national && Arr.Type == idTipo).ToList ();
 
@@ -643,7 +640,7 @@ namespace UmecaApp
 					}
 					arrV.isExclusive = arrmnt.IsExclusive;
 					var intermedia = db.Table<AssignedArrangement> ().Where (asar => asar.HearingFormat == idFormato
-					                && asar.Arrangement == arrV.id).FirstOrDefault ();
+					                 && asar.Arrangement == arrV.id).FirstOrDefault ();
 					if (intermedia != null && intermedia.Description != "") {
 						arrV.description = intermedia.Description;
 						arrV.selVal = true;
@@ -658,7 +655,7 @@ namespace UmecaApp
 		}
 
 
-		public void Visita()
+		public void Visita ()
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<User> ();
@@ -670,18 +667,18 @@ namespace UmecaApp
 				}
 
 				var result2 = db.Query<CaseHearingFormatTblDto> (
-					             "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
-					             + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', \tscs.description as 'Description' , me.id_reviewer as 'ReviewerId' "
-					             + " FROM meeting as me "
-					             + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
-					             + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
-					             + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status " +
-					             " where me.id_reviewer = ? ", revId);
+					              "SELECT cs.id_case as 'CaseId',cs.id_folder as 'IdFolder', cs.id_mp as 'IdMP', im.name as 'Name',im.lastname_p as 'LastNameP',im.lastname_m as 'LastNameM',"
+					              + " im.birth_date as 'DateBirth', im.gender as 'Gender', scs.name as 'StatusCode', \tscs.description as 'Description' , me.id_reviewer as 'ReviewerId' "
+					              + " FROM meeting as me "
+					              + " left JOIN case_detention as cs ON me.id_case = cs.id_case "
+					              + " left JOIN imputed as im ON im.id_meeting = me.id_meeting "
+					              + " left JOIN cat_status_case as scs ON scs.id_status = cs.id_status " +
+					              " where me.id_reviewer = ? ", revId);
 
 				var result = new List<CaseHearingFormatTblDto> ();
-				foreach(CaseHearingFormatTblDto metingformat in result2){
+				foreach (CaseHearingFormatTblDto metingformat in result2) {
 					var formatosAudiencia = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == metingformat.CaseId).ToList ();
-					if(formatosAudiencia != null && formatosAudiencia.Count > 0 ){
+					if (formatosAudiencia != null && formatosAudiencia.Count > 0) {
 						result.Add (metingformat);
 					}
 				}
@@ -695,7 +692,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void LogActivityLst(int idCase)
+		public void LogActivityLst (int idCase)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<LogCase> ();
@@ -717,7 +714,7 @@ namespace UmecaApp
 				}
 				if (superviser != null && superviser.Id > 0) {
 					var logs = db.Table<LogCase> ().Where (lc => lc.caseDetentionId == idCase
-					          && lc.userId == superviser.Id).ToList ();
+					           && lc.userId == superviser.Id).ToList ();
 					model.rows = new List<LogCase> ();
 					foreach (LogCase l in logs) {
 						l.dateString = String.Format ("{0:yyyy/MM/dd HH:mm}", l.date);
@@ -736,7 +733,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void  AddCaseLog(int idCase)
+		public void  AddCaseLog (int idCase)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				var nuevo = new LogCase ();
@@ -758,7 +755,7 @@ namespace UmecaApp
 			}
 		}
 
-		public void  HearingFormatVisualize(int idCase,int idFormato)
+		public void  HearingFormatVisualize (int idCase, int idFormato)
 		{
 			using (var db = FactoryConn.GetConn ()) {
 				var view = new HearingFormatEditDto ();
@@ -773,7 +770,7 @@ namespace UmecaApp
 
 				if (idFormato > 0) {
 					hearingFormatData = fillHearingFormaData (idFormato);
-					Case ActualCase = db.Table<Case> ().Where (actul=>actul.Id==idCase).FirstOrDefault ();
+					Case ActualCase = db.Table<Case> ().Where (actul => actul.Id == idCase).FirstOrDefault ();
 					hearingFormatData.IsSubstracted = ActualCase.IsSubstracted;
 				} else { //si es nuevo 
 					var last = db.Table<HearingFormat> ().Where (hf => hf.CaseDetention == idCase && hf.IsFinished == false).ToList ();
@@ -790,7 +787,7 @@ namespace UmecaApp
 				}
 
 				var pervF = db.Table<HearingFormat> ().Where (prev => prev.CaseDetention == idCase
-				           && prev.IsFinished == true).ToList ();
+				            && prev.IsFinished == true).ToList ();
 				if (pervF != null && pervF.Count > 0) {
 					hearingFormatData.hasPrevHF = true;
 				} else {
