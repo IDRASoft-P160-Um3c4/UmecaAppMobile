@@ -1,15 +1,8 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Service\SyncService.cs">
-    <Files>
-      <File FileName="UmecaApp\Service\SyncService.cs" Line="22" Column="2" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Projects\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="179" column="1" />
-      <Breakpoint file="C:\Projects\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="163" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
