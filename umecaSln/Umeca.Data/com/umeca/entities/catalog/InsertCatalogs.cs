@@ -246,7 +246,7 @@ namespace UmecaApp
 					foreach (String[] line in data) {
 						try {
 							DocumentType model = new DocumentType ();
-							//model.Id = int.Parse (line [0]);
+							////model.Id = int.Parse (line [0]);
 							model.Name = line [1];
 							model.IsObsolete = line [2].Equals ("1");
 							model.Specification = line [3].Equals ("1");
