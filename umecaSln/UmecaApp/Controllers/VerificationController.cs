@@ -35,12 +35,6 @@ namespace UmecaApp
 		{
 			this.webView = webView;
 			services = new CatalogServiceController ();	
-			services.CreateStatusCaseCatalog ();
-			services.CreateStatusMeetingCatalog ();
-			services.CreateElection ();
-			services.CreateCountryCatalog ();
-			services.CreateStateCatalog ();
-			services.CreateMunicipalityCatalog ();
 			this.JsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
 			this.JsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
 			this.JsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());

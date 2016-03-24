@@ -1976,8 +1976,9 @@ namespace UmecaApp
 										db.Delete (ef);
 									}
 								}//end de lista de fms no vacia
+								db.Delete (svt);
 							}//end de foreach sourceverification
-							db.Delete (fuentes);
+							//db.Delete (fuentes);
 						}//end validacion de lista de fuentes no vacia 
 						db.Delete (verify);
 					}// end of verification
@@ -1999,29 +2000,35 @@ namespace UmecaApp
 										db.Delete (adres);
 									}
 								}
-								var horario = db.Table<Schedule> ().Where (hr => hr.ImputedHomeId == imh.Id).ToList ();
-								if (horario != null && horario.Count > 0) {
-									db.Delete (horario);
+								var lstHorario = db.Table<Schedule> ().Where (hr => hr.ImputedHomeId == imh.Id).ToList ();
+								if (lstHorario != null && lstHorario.Count > 0) {
+									foreach(Schedule horario in lstHorario){
+										db.Delete (horario);
+									}
 								}
+								db.Delete (imh);
 							}//end foreach
-							db.Delete (casas);
 						}//end casas
 
 						var drogas = db.Table<Drug> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
 						if (drogas != null && drogas.Count > 0) {
-							db.Delete (drogas);
+							foreach (Drug droga in drogas) {
+								db.Delete (droga);
+							}
 						}//end drugs
 
 
 						var trabajos = db.Table<Job> ().Where (drgs => drgs.MeetingId == me.Id).ToList ();
 						if (trabajos != null && trabajos.Count > 0) {
 							foreach (Job j in trabajos) {
-								var horario = db.Table<Schedule> ().Where (hr => hr.JobId == j.Id).ToList ();
-								if (horario != null && horario.Count > 0) {
-									db.Delete (horario);	
+								var lstHorario = db.Table<Schedule> ().Where (hr => hr.JobId == j.Id).ToList ();
+								if (lstHorario != null && lstHorario.Count > 0) {
+									foreach (Schedule horario in lstHorario) {
+										db.Delete (horario);
+									}
 								}
+								db.Delete (j);
 							}//end foreach
-							db.Delete (trabajos);
 						}//end Jobs
 
 						var dejarElPais = db.Table<LeaveCountry> ().Where (lc => lc.MeetingId == me.Id).FirstOrDefault ();
@@ -2031,32 +2038,40 @@ namespace UmecaApp
 
 						var referencias = db.Table<Reference> ().Where (rfs => rfs.MeetingId == me.Id).ToList ();
 						if (referencias != null && referencias.Count > 0) {
-							db.Delete (referencias);
+							foreach (Reference referencia in referencias) {
+								db.Delete (referencia);
+							}
 						}//end Jobs
 
 						var escuela = db.Table<School> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
 						if (escuela != null) {
-							var horario = db.Table<Schedule> ().Where (hr => hr.SchoolId == escuela.Id).ToList ();
-							if (horario != null && horario.Count > 0) {
-								db.Delete (horario);
+							var lstHorario = db.Table<Schedule> ().Where (hr => hr.SchoolId == escuela.Id).ToList ();
+							if (lstHorario != null && lstHorario.Count > 0) {
+								foreach (Schedule horario in lstHorario) {
+									db.Delete (horario);
+								}
 							}
 							db.Delete (escuela);
 						}// end of school
 
 						var environment = db.Table<SocialEnvironment> ().Where (escul => escul.MeetingId == me.Id).FirstOrDefault ();
 						if (environment != null) {
-							var relactivities = db.Table<RelActivity> ().Where (ractiv => ractiv.SocialEnvironmentId == environment.Id).ToList ();
-							if (relactivities != null && relactivities.Count > 0) {
-								db.Delete (relactivities);
+							var lstRelactivities = db.Table<RelActivity> ().Where (ractiv => ractiv.SocialEnvironmentId == environment.Id).ToList ();
+							if (lstRelactivities != null && lstRelactivities.Count > 0) {
+								foreach (RelActivity relactivities in lstRelactivities) {
+									db.Delete (relactivities);
+								}
 							}//end de rel activities
 							db.Delete (environment);
 						}// end of environment
 
 						var social = db.Table<SocialNetwork> ().Where (socia => socia.MeetingId == me.Id).FirstOrDefault ();
 						if (social != null) {
-							var personsNetwork = db.Table<PersonSocialNetwork> ().Where (psn => psn.SocialNetworkId == social.Id).ToList ();
-							if (personsNetwork != null && personsNetwork.Count > 0) {
-								db.Delete (personsNetwork);
+							var lstPersonsNetwork = db.Table<PersonSocialNetwork> ().Where (psn => psn.SocialNetworkId == social.Id).ToList ();
+							if (lstPersonsNetwork != null && lstPersonsNetwork.Count > 0) {
+								foreach (PersonSocialNetwork personsNetwork in lstPersonsNetwork) {
+									db.Delete (personsNetwork);
+								}
 							}//end de rel activities
 							db.Delete (social);
 						}// end of social
@@ -2084,30 +2099,38 @@ namespace UmecaApp
 							}
 
 							//asigned arrangments del case
-							var arrangmentsAsigned = db.Table<AssignedArrangement> ().Where (asar => asar.HearingFormat == hf.Id).ToList ();
-							if (arrangmentsAsigned != null && arrangmentsAsigned.Count > 0) {
-								db.Delete (arrangmentsAsigned);
+							var lstArrangmentsAsigned = db.Table<AssignedArrangement> ().Where (asar => asar.HearingFormat == hf.Id).ToList ();
+							if (lstArrangmentsAsigned != null && lstArrangmentsAsigned.Count > 0) {
+								foreach (AssignedArrangement arrangmentsAsigned in lstArrangmentsAsigned) {
+									db.Delete (arrangmentsAsigned);
+								}
 							}
 
 							//contactos
-							var contcts = db.Table<ContactData> ().Where (cntac => cntac.HearingFormat == hf.Id).ToList ();
-							if (contcts != null && contcts.Count > 0) {
-								db.Delete (contcts);
+							var lstContacts = db.Table<ContactData> ().Where (cntac => cntac.HearingFormat == hf.Id).ToList ();
+							if (lstContacts != null && lstContacts.Count > 0) {
+								foreach (ContactData contact in lstContacts) {
+									db.Delete (contact);
+								}
 							}
 
 							//crimes
-							var crms = db.Table<Crime> ().Where (cry => cry.HearingFormat == hf.Id).ToList ();
-							if (crms != null && crms.Count > 0) {
-								db.Delete (crms);
+							var lstCrms = db.Table<Crime> ().Where (cry => cry.HearingFormat == hf.Id).ToList ();
+							if (lstCrms != null && lstCrms.Count > 0) {
+								foreach (Crime crm in lstCrms) {
+									db.Delete (crm);
+								}
 							}
+							db.Delete (hf);
 						}
-						db.Delete (formats);
 					}//end of hearing formats not null
 
 					db.CreateTable<LogCase> ();
-					var espontaneas = db.Table<LogCase> ().Where (espo => espo.caseDetentionId == cs.Id).ToList ();
-					if (espontaneas != null && espontaneas.Count > 0) {
-						db.Delete (espontaneas);
+					var lstEspontaneas = db.Table<LogCase> ().Where (espo => espo.caseDetentionId == cs.Id).ToList ();
+					if (lstEspontaneas != null && lstEspontaneas.Count > 0) {
+						foreach (LogCase espontanea in lstEspontaneas) {
+							db.Delete (espontanea);
+						}
 					}
 					db.Delete (cs);
 					db.Close ();

@@ -25,10 +25,10 @@ id|name|idLevel|isObsolete
 24|Cuarto semestre|5|0
 25|Quinto semestre|5|0
 26|Sexto semestre|5|0
-27|Séptimo semestre|5|0
+27|SÃ©ptimo semestre|5|0
 28|Octavo semestre|5|0
 29|Noveno semestre|5|0
-30|Décimo semestre|5|0
+30|DÃ©cimo semestre|5|0
 31|Terminado|5|0
 32|Trunco|6|0
 33|Terminado|6|0

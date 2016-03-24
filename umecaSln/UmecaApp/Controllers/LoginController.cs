@@ -24,7 +24,6 @@ namespace UmecaApp
 
 		public void Index()
 		{
-			services. tablesInit();
 			//TODO:Remove test verification
 			var template = new Home {
 				Model = new PageModel {Title = "Umeca", StatusMsg=null}

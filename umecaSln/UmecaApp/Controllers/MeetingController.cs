@@ -38,15 +38,6 @@ namespace UmecaApp
 
 		public void init ()
 		{
-			
-			services.CreateStatusCaseCatalog ();
-			services.CreateStatusMeetingCatalog ();
-			services.CreateElection ();
-
-			services.CreateCountryCatalog ();
-			services.CreateStateCatalog ();
-			services.CreateMunicipalityCatalog ();
-
 			this.jsonCountrys =JsonConvert.SerializeObject(services.CountryFindAllOrderByName ());
 			this.jsonStates = JsonConvert.SerializeObject(services.StateFindAllOrderByName ());
 			this.jsonMunycipality = JsonConvert.SerializeObject(services.MunicipalityFindAllOrderByName ());

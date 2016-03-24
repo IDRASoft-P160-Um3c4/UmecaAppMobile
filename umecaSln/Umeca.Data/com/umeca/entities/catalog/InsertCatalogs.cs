@@ -842,7 +842,12 @@ namespace UmecaApp
 			using (StreamReader sr = new StreamReader (act.Assets.Open (fileName)))
 			{
 				String line;
+				var count = 0;
 				while ((line = sr.ReadLine ()) != null) {
+					count++;
+					if(count <= 1L)
+						continue;
+
 					String[] lineSplit = line.Split('|');
 					result.Add(lineSplit);
 				}

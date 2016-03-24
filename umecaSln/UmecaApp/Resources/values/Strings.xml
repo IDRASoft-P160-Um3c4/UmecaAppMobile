@@ -2,4 +2,53 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">UmecaApp</string>
+
+
+  <string name="S1">Actualizando catálogo roles</string>
+  <string name="S2">Actualizando catálogo relaciones</string>
+  <string name="S3">Actualizando catálogo grados</string>
+  <string name="S4">Actualizando catálogo actividades</string>
+  <string name="S5">Actualizando catálogo tipos de documentos</string>
+  <string name="S6">Actualizando catálogo tipos de droga</string>
+  <string name="S7">Actualizando catálogo elecciones</string>
+  <string name="S8">Actualizando catálogo campos de verificación</string>
+  <string name="S9">Actualizando catálogo tipos de formato de audiencia</string>
+  <string name="S10">Actualizando catálogo tipos de hogar</string>
+  <string name="S11">Actualizando catálogo documentos de inmigración</string>
+  <string name="S12">Actualizando catálogo estado de pareja</string>
+  <string name="S13">Actualizando catálogo periodicidad</string>
+  <string name="S14">Actualizando catálogo estados de los casos</string>
+  <string name="S15">Actualizando catálogo campos de estado de verificación</string>
+  <string name="S16">Actualizando catálogo estados de entrevista</string>
+  <string name="S17">Actualizando catálogo estados de verificación</string>
+  <string name="S18">Actualizando catálogo localidades</string>
+  <string name="S19">Actualizando catálogo tipos de registro</string>
+  <string name="S20">Actualizando catálogo acuerdos</string>
+  <string name="S21">Actualizando catálogo grupos de crimenes</string>
+  <string name="S22">Actualizando catálogo crimenes</string>
+  <string name="S23">Actualizando catálogo información de disponibilidad</string>
+  <string name="S24">Actualizando catálogo distritos</string>
+  <string name="S25">Actualizando tablas a consultar</string>
+  <string name="S26">Actualizando catálogo métodos de verificación</string>
+  
+  
+  
+  <string name="T1">Creando tablas</string>
+  <string name="T2">Creando catálogo de estados de casos</string>
+  <string name="T3">Creando catálogo de estados de entrevistas</string>
+  <string name="T4">Creando elección</string>
+  <string name="T5">Creando catálogo de países</string>
+  <string name="T6">Creando catálogo de estados</string>
+  <string name="T7">Creando catálogo de municipios</string>
+
+
+
+
+  <string name="SyncEnd">La configuración ha terminado</string>
+  
+  
+  
+  
+  
+  
 </resources>

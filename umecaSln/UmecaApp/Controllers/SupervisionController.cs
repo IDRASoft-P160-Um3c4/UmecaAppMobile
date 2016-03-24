@@ -30,13 +30,6 @@ namespace UmecaApp
 			this.webView = webView;
 			services = new CatalogServiceController ();	
 
-			services.CreateStatusCaseCatalog ();
-			services.CreateStatusMeetingCatalog ();
-			services.CreateElection ();
-
-			services.CreateCountryCatalog ();
-			services.CreateStateCatalog ();
-			services.CreateMunicipalityCatalog ();
 			using (var db = FactoryConn.GetConn ()) {
 				db.CreateTable<SocialEnvironment> ();
 				db.CreateTable<RelActivity> ();
