@@ -1,17 +1,11 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.MZUKFAMJSCN7VOJZ" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UmecaApp\Service\SyncService.cs">
-    <Files>
-      <File FileName="UmecaApp\Service\SyncService.cs" Line="1900" Column="50" />
-      <File FileName="c:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Web References\UmecaWebService\Reference.cs" Line="141" Column="9" />
-      <File FileName="UmecaApp\Service\VerificationService.cs" Line="77" Column="53" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.Nexus5Test" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Israel\Desktop\repoMovilUmecaSandra - Copy\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="1900" column="48" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Umeca MonoForAntroid.PreferredDevice="Android TV (720p)" AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredTheme="Theme" />
+  <MonoDevelop.Ide.ItemProperties.Umeca MonoForAntroid.PreferredDevice="Android TV (720p)" AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredTheme="Theme" AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>
