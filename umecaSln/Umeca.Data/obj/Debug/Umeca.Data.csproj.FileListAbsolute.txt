@@ -52,6 +52,7 @@ C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\android\bin\Umeca.Data.
 C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\res\values\strings.xml
 C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\R.cs.flag
 C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\uploadflags.txt
+C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.csprojResolveAssemblyReference.cache
 C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.dll.mdb
 C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\bin\Debug\Umeca.Data.dll.mdb
 C:\Projects\UmecaAppMobile\umecaSln\Umeca.Data\obj\Debug\Umeca.Data.dll.mdb

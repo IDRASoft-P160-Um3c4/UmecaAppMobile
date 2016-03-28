@@ -15,6 +15,9 @@ using Android.Content;
 using SQLite;
 using Umeca.Data;
 using UmecaApp.UmecaWebService;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 
 namespace UmecaApp
@@ -66,6 +69,7 @@ namespace UmecaApp
 				try {
 					db.BeginTransaction ();
 					db.CreateTable<User> ();
+					ServicePointManager.ServerCertificateValidationCallback = delegate(object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
 					var respuesta = uwsl.loginFromTablet (usuario, ecodedPass);
 					if (respuesta.hasError) {
 						return new Java.Lang.String ("{\"error\":true, \"response\":\"" + respuesta.message + "\"}");
