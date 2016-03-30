@@ -1,7 +1,9 @@
 ﻿id|name|description|institutionsType|code|obsolete
 1|Apoyo económico|Apoyo económico|1,3,4|AE|0
 2|Examen toxicológico|Examen toxicológico|1,3,4|ET|0
-3|Prevención y tratamiento de adicciones|Prevención y tratamiento de adicciones|1,3,4|PTA|0
+3|Tratamiento para adicciones|Tratamiento para adicciones|1,3,4|PTA|0
 4|Escolaridad|Escolaridad|2,3|ES|0
-5|Tratamiento médico psicológico|Tratamiento médico psicológico|1,3,4|TMP|0
+5|Tratamiento psicológico|Tratamiento psicológico|1,3,4|TMP|0
 6|Empleo|Empleo|2,3,4|EM|0
+7|Internamiento para tratamiento de adicciones|Internamiento para tratamiento de adicciones|1,3,4|PTA|0
+8|Garantía económica|Garantía económica|1,2|AE|0

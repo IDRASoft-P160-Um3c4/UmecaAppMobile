@@ -1,4 +1,4 @@
 id|code|description
 1|MONITORING_PLAN|Actividades del plan de monitoreo
 2|SPONTANEOUS|Actividades espontaneas
-3|MONITORING_PLAN|Actividades de canalizaci®Æn del plan de monitoreo
+3|MONITORING_PLAN|Actividades de canalizaci√≥n del plan de monitoreo

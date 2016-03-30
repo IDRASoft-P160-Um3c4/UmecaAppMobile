@@ -1,5 +1,6 @@
 id|name|obsolete|specification
-1|Tipo1|0|0
-2|Tipo2|0|0
-3|Tipo3|0|0
-4|Tipo4|0|1
+1|Institucional|0|0
+2|Académico|0|0
+3|Superación personal|0|0
+4|Otro|0|1
+5|Capacitación interna|0|0

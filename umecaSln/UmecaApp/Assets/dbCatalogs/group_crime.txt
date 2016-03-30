@@ -117,3 +117,4 @@ id|name|description|obsolete
 116|Violación de correspondencia|Violación de correspondencia|0
 117|Violación de la intimidad personal|Violación de la intimidad personal|0
 118|Violencia familiar|Violencia familiar|0
+119|Incumplimiento de las obligaciones alimentarias|Incumplimiento de las obligaciones alimentarias|0

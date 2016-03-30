@@ -1,5 +1,5 @@
 id_hearing_format_type|name|description|is_obsolete
-1|INTERMEDIA|Descripción...|0
-2|JUICIO ORAL|Descripción...|0
-3|LECTURA DE SENTENCIA|Descripción...|0
-4|EJECUCIÓN DE SENTENCIA|Descripción...|0
+1|INTERMEDIA|Descripci贸n...|0
+2|JUICIO ORAL|Descripci贸n...|0
+3|LECTURA DE SENTENCIA|Descripci贸n...|0
+4|EJECUCI聛脫N DE SENTENCIA|Descripci贸n...|0

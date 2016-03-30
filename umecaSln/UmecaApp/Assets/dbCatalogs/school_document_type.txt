@@ -1,5 +1,8 @@
 id|name|obsolete|specification
-1|TipoA|0|0
-2|TipoB|0|0
-3|TipoC|0|0
-4|TipoD|0|1
+1|Constancia|0|0
+2|Certificado|0|0
+3|Título|0|0
+4|Otro|0|1
+5|Diploma|0|0
+6|Carta de participación|0|0
+7|Boleta|0|0
