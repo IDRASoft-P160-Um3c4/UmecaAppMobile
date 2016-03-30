@@ -1,8 +1,16 @@
 ﻿<Properties StartupItem="UmecaApp\Umeca.csproj" GitUserInfo="UsingGIT" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.EAOKBC024853" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Nexus5Test" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Umeca.Data\com\umeca\entities\catalog\InsertCatalogs.cs">
+    <Files>
+      <File FileName="UmecaApp\SplashActivity.cs" Line="103" Column="38" />
+      <File FileName="Umeca.Data\com\umeca\entities\catalog\InsertCatalogs.cs" Line="811" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Projects\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="73" column="1" />
+      <Breakpoint file="C:\Projects\UmecaAppMobile\umecaSln\UmecaApp\Service\SyncService.cs" line="47" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

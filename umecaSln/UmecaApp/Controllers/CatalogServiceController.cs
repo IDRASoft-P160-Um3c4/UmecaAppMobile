@@ -3174,6 +3174,41 @@ namespace UmecaApp
 					nMncplt.Add (new Municipality (2447, 32, "Juchipila", "Juchipila", "Juchipila"));
 					nMncplt.Add (new Municipality (2448, 32, "Moyahua de Estrada", "Moyahua de Estrada", "Moyahua de Estrada"));
 					nMncplt.Add (new Municipality (2449, 33, "No proporcionado", "No proporcionado", "No proporcionado"));
+
+					nMncplt.Add (new Municipality (2450, 1,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2451, 2,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2452, 3,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2453, 4,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2454, 5,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2455, 6,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2456, 7,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2457, 8,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2458, 9,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2459, 10,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2460, 11,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2461, 12,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2462, 13,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2463, 14,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2464, 15,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2465, 16,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2466, 17,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2467, 18,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2468, 19,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2469, 20,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2470, 21,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2471, 22,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2472, 23,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2473, 24,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2474, 25,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2475, 26,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2476, 27,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2477, 28,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2478, 29,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2479, 30,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2480, 31,"No proporcionado","No proporcionado","No proporcionado"));
+					nMncplt.Add (new Municipality (2481, 32,"No proporcionado","No proporcionado","No proporcionado"));
+
+
 					foreach (Municipality a in nMncplt) {
 						db.Insert (a);
 					}
