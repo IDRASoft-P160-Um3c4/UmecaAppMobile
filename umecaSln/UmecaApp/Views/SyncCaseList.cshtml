@@ -48,8 +48,8 @@ askSyncIncomplete.idCase = 0;
                 </div>
             </div>
             <div class="modal-body">
-                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncIncompletecontainerPassword"/>
-                <br><b> Una vez sincronizada se eliminaran del dispositivo las fuentes que no se terminaron y el caso que las contiene.</b></div>
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña:<br><input type="password" name="usrPassword" id="askSyncIncompletecontainerPassword"/>
+                <br><b> Una vez sincronizada se eliminarán del dispositivo las fuentes que no se terminaron y el caso que las contiene.</b></div>
             </div>
             <div class="modal-footer">
                 <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncIncomplete.yes();" >Si</button>
@@ -107,8 +107,8 @@ askSyncMeeting .idCase = 0;
                 </div>
             </div>
             <div class="modal-body">
-                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncMeetingcontainerPassword"/>
-                <br><b> Una vez termine se eliminaran el caso del dispositivo.</b></div>
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña:<br><input type="password" name="usrPassword" id="askSyncMeetingcontainerPassword"/>
+                <br><b> Una vez termine se eliminará el caso del dispositivo.</b></div>
             </div>
             <div class="modal-footer">
                 <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncMeeting.yes();" >Si</button>
@@ -163,8 +163,8 @@ askSyncVerification.yes = function (){
                 </div>
             </div>
             <div class="modal-body">
-                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncVerificationcontainerPassword"/>
-                <br><b> Una vez termine se eliminaran el caso del dispositivo.</b></div>
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña:<br><input type="password" name="usrPassword" id="askSyncVerificationcontainerPassword"/>
+                <br><b> Una vez termine se eliminará el caso del dispositivo.</b></div>
             </div>
             <div class="modal-footer">
                 <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncVerification.yes();" >Si</button>
@@ -220,8 +220,8 @@ askSyncHearingFormat .idCase = 0;
                 </div>
             </div>
             <div class="modal-body">
-                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contrasea:<br><input type="password" name="usrPassword" id="askSyncHearingFormatcontainerPassword"/>
-                <br><b> Una vez termine se eliminaran el caso del dispositivo.</b></div>
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña:<br><input type="password" name="usrPassword" id="askSyncHearingFormatcontainerPassword"/>
+                <br><b> Una vez termine se eliminará el caso del dispositivo.</b></div>
             </div>
             <div class="modal-footer">
                 <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-primary" onclick="javascript:askSyncHearingFormat.yes();" >Si</button>
@@ -236,26 +236,60 @@ askSyncHearingFormat .idCase = 0;
     </div>
 
 
+    <script>
+var askDeleteCase  = {};
+askDeleteCase.idCase = 0;
 
+askDeleteCase.show = function (caso){
+	var dlgMsgBox = $('#askDeleteCaseBoxDlgId');
+	askDeleteCase.idCase = caso;
+	dlgMsgBox.show();
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+askDeleteCase.hide = function (){
+	askDeleteCase.idCase = 0;
+	var dlgMsgBox = $('#askDeleteCaseBoxDlgId');
+	dlgMsgBox.hide();
+};
+  
+askDeleteCase.yes = function (){
+	var password = $("#askDeleteCasecontainerPassword").val();
+	$("#askDeleteCasecontainerPassword").val("");
+	var result = Sync.deleteCase("["+askDeleteCase.idCase+"]", password);
+	var respuesta = $.parseJSON( result );
+	console.log(respuesta.response);
+			if(respuesta.error){
+				askDeleteCase.hide();
+				$("#Resp2Value").text(respuesta.response);
+				$("#mesageResp2").show();
+			}else{
+				window.location.replace('hybrid:Sync/Index');
+			}
+};
+    	</script>
+<div class="modal-dialog" style="display:none; width:60%; position: relative;top: 15%;left: 50%;margin: 0 0 0 -30%;" id="askDeleteCaseBoxDlgId" >
+        <div class="modal-content" style="z-index: 1000;">
+            <div class="modal-header">
+                <div class="alert alert-danger">
+                    <button id="askDeleteCaseBoxDlgXclose" type="button" class="close" onclick="javascript:askDeleteCase.hide();">×</button>
+                    <h4 class="modal-title element-center ng-binding" ng-bind-html="Title">Confirmación para eliminar caso</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="element-center ng-binding" ng-bind-html="Message">Por favor ingrese la contraseña:<br><input type="password" name="usrPassword" id="askDeleteCasecontainerPassword"/>
+                <br><b> Todos los datos seran eliminados. Se tendra que reasignar el caso nuevamente.</b></div>
+            </div>
+            <div class="modal-footer">
+                <button id="MessageBoxDlgYes" type="button" class="btn btn-default btn-danger" onclick="javascript:askDeleteCase.yes();" >Si</button>
+                <button id="MessageBoxDlgNo" type="button" class="btn btn-default" onclick="javascript:askDeleteCase.hide();" >No</button>
+            </div>
+        </div>
+        <div class="blocker" style="z-index:999;">
+		    <div>
+		        Cargando...<img src="content/images/ajax_loader.gif" alt="no content detected" />
+		    </div>
+		</div>
+    </div>
 
 
 
@@ -308,18 +342,28 @@ askSyncHearingFormat .idCase = 0;
         <td>
         @if(Meeting.Action=="verificationIncomplete") {
          	<a href="javascript:askSyncIncomplete.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+         	<br/>
+         	<a href="javascript:askDeleteCase.show(@Meeting.CaseId);" style="display:inline-block;" title="ELiminar caso" onclick=""><i class="icon-trash"></i></a>
         }
         @if(Meeting.Action=="verification") {
          	<a href="javascript:askSyncVerification.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+         	<br/>
+         	<a href="javascript:askDeleteCase.show(@Meeting.CaseId);" style="display:inline-block;" title="ELiminar caso" onclick=""><i class="icon-trash"></i></a>
         }
         @if(Meeting.Action=="meeting") {
          	<a href="javascript:askSyncMeeting.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+         	<br/>
+         	<a href="javascript:askDeleteCase.show(@Meeting.CaseId);" style="display:inline-block;" title="ELiminar caso" onclick=""><i class="icon-trash"></i></a>
         }
         @if(Meeting.Action=="hearing") {
          	<a href="javascript:askSyncHearingFormat.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+         	<br/>
+         	<a href="javascript:askDeleteCase.show(@Meeting.CaseId);" style="display:inline-block;" title="ELiminar caso" onclick=""><i class="icon-trash"></i></a>
         }
         @if(Meeting.Action=="negacion") {
          	<a href="javascript:askSyncMeeting.show(@Meeting.CaseId);" style="display:inline-block;" title="Sincronizar Caso" onclick=""><i class="icon-exchange"></i></a>
+         	<br/>
+         	<a href="javascript:askDeleteCase.show(@Meeting.CaseId);" style="display:inline-block;" title="ELiminar caso" onclick=""><i class="icon-trash"></i></a>
         }
         </td>
     </tr>

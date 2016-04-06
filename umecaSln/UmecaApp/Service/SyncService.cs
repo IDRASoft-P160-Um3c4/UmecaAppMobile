@@ -2186,6 +2186,52 @@ namespace UmecaApp
 		}
 
 
+
+
+
+		[Export("deleteCase")]
+		public Java.Lang.String deleteCase(Java.Lang.String listCases, Java.Lang.String pass)
+		{
+			using (var db = FactoryConn.GetConn())
+			{
+				var ecodedPass = Crypto.HashPassword(pass.ToString());
+				var usrList = db.Table<User> ().ToList ();
+				if (usrList != null && usrList.Count > 0) {
+					var savedUsr = usrList [0];
+					if (savedUsr.password == ecodedPass) {
+						var listSynchro = new List<int> ();
+						try {
+							listSynchro = JsonConvert.DeserializeObject<List<int>> (listCases.ToString ());
+							db.BeginTransaction ();
+							foreach (int i in listSynchro) {
+								//delete
+								caseDeleteCascade (i, savedUsr.Id);
+							}
+
+						} catch (Exception e) {
+							db.Rollback ();
+							Console.WriteLine ("exception in deleteCase()");
+							Console.WriteLine ("Exception message :::>" + e.Message);
+							return new Java.Lang.String ("{\"error\":true, \"response\":\"error al eliminar el caso\"}");
+						}
+						finally {
+							db.Commit ();
+						}
+
+
+						return new Java.Lang.String("{\"hasError\":true, \"message\":\"Se ha eliminado el caso\"}");
+					} else {
+
+						return new Java.Lang.String ("{\"error\":true, \"response\":\"El password es incorrectos. Favor de verificar el dato e intente nuevamente.\"}");
+					}
+				} else {
+					return new Java.Lang.String ("{\"error\":true, \"response\":\"No se encontro ningun usuario asociado.\"}");
+				}
+
+			}
+		}
+
+
 	}
 //class end
 
